@@ -94,7 +94,7 @@ public:
         assert(hashGenesisBlock == uint256(""));
         assert(genesis.hashMerkleRoot == uint256(""));
 
-        vSeeds.push_back(CDNSSeedData("slkseed.darksilk.org", ""));
+        vSeeds.push_back(CDNSSeedData("sc1.darksilk.org", ""));
         vSeeds.push_back(CDNSSeedData("", ""));
 
         base58Prefixes[PUBKEY_ADDRESS] = list_of(63);  // S for Silkcoin

@@ -78,7 +78,7 @@ color: rgb(0, 0, 0);</string>
      <item>
       <widget class="QValidatedLineEdit" name="payTo">
        <property name="toolTip">
-        <string>The address to send the payment to (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</string>
+        <string>The address to send the payment to (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</string>
        </property>
        <property name="styleSheet">
         <string notr="true">background-color: rgb(255, 255, 255);

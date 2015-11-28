@@ -1798,8 +1798,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-174"/>
-        <source>Enter a Silkcoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Bir Silkcoin adresi gir (örn: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Bir Silkcoin adresi gir (örn: SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1931,8 +1931,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+34"/>
-        <source>The address to send the payment to (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Ödemenin gönderileceği adres (örn:  B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>The address to send the payment to (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Ödemenin gönderileceği adres (örn:  SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -1972,8 +1972,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a Silkcoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Bir Silkcoin adresi girin (örn: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Bir Silkcoin adresi girin (örn: SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
 </context>
 <context>
@@ -1996,8 +1996,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+18"/>
-        <source>The address to sign the message with (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Mesajın imzalanacağı adres (örn: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>The address to sign the message with (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Mesajın imzalanacağı adres (örn: SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2060,8 +2060,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+21"/>
-        <source>The address the message was signed with (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Mesajın imzalandığı adres (örn: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>The address the message was signed with (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Mesajın imzalandığı adres (örn: SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -2076,8 +2076,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a Silkcoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Bir Silkcoin adresi girin (örn: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Bir Silkcoin adresi girin (örn: SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="-2"/>

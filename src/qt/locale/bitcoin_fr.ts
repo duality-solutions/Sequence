@@ -1793,8 +1793,8 @@ Cela implique que des frais à hauteur d&apos;au moins %2 seront nécessaires.</
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-174"/>
-        <source>Enter a Silkcoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Entrer une adresse Silkcoin (par ex: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Entrer une adresse Silkcoin (par ex: SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1926,7 +1926,7 @@ Cela implique que des frais à hauteur d&apos;au moins %2 seront nécessaires.</
     </message>
     <message>
         <location line="+34"/>
-        <source>The address to send the payment to (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <source>The address to send the payment to (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1967,8 +1967,8 @@ Cela implique que des frais à hauteur d&apos;au moins %2 seront nécessaires.</
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a Silkcoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Entrer une adresse Silkcoin (par ex: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Entrer une adresse Silkcoin (par ex: SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
 </context>
 <context>
@@ -1991,8 +1991,8 @@ Cela implique que des frais à hauteur d&apos;au moins %2 seront nécessaires.</
     </message>
     <message>
         <location line="+18"/>
-        <source>The address to sign the message with (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Entrer une adresse Silkcoin (par ex: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>The address to sign the message with (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Entrer une adresse Silkcoin (par ex: SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2055,8 +2055,8 @@ Cela implique que des frais à hauteur d&apos;au moins %2 seront nécessaires.</
     </message>
     <message>
         <location line="+21"/>
-        <source>The address the message was signed with (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>L&apos;adresse avec laquelle le message à été signé (ex: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>The address the message was signed with (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>L&apos;adresse avec laquelle le message à été signé (ex: SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -2071,8 +2071,8 @@ Cela implique que des frais à hauteur d&apos;au moins %2 seront nécessaires.</
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a Silkcoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Entrer une adresse Silkcoin (par ex: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Entrer une adresse Silkcoin (par ex: SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="-2"/>
