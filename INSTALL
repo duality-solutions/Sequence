@@ -1,0 +1,9 @@
+Building Silkcoin
+
+See doc/readme-qt.rst for instructions on building Silkcoin QT,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of Silkcoin.
+
+See doc/build-*.txt for instructions on building silkcoind,
+the intended-for-services, no-graphical-interface, reference
+implementation of Silkcoin.

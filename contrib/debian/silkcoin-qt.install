@@ -1,0 +1,5 @@
+silkcoin-qt usr/bin
+share/pixmaps/bitcoin32.xpm usr/share/pixmaps
+share/pixmaps/bitcoin80.xpm usr/share/pixmaps
+debian/silkcoin-qt.desktop usr/share/applications
+debian/silkcoin-qt.protocol usr/share/kde4/services/

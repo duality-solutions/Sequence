@@ -1,0 +1,11 @@
+[Protocol]
+exec=silkcoin-qt '%u'
+protocol=silkcoin
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false
