@@ -24,20 +24,29 @@ struct SeedSpec6 {
 // Main network
 //
 
-// Convert the pnSeeds6 array into usable address objects.
-static void convertSeed6(std::vector<CAddress> &vSeedsOut, const SeedSpec6 *data, unsigned int count)
+ // Convert the pnSeeds array into usable address objects. 
+ static void convertSeeds(std::vector<CAddress> &vSeedsOut, const unsigned int *data, unsigned int count, int port) 
 {
     // It'll only connect to one or two seed nodes because once it connects,
     // it'll get a pile of addresses with newer timestamps.
     // Seed nodes are given a random 'last seen time' of between one and two
     // weeks ago.
     const int64_t nOneWeek = 7*24*60*60;
-    for (unsigned int i = 0; i < count; i++)
+    for (unsigned int k = 0; k < count; ++k)
     {
-        struct in6_addr ip;
-        memcpy(&ip, data[i].addr, sizeof(ip));
-        CAddress addr(CService(ip, data[i].port));
-        addr.nTime = GetTime() - GetRand(nOneWeek) - nOneWeek;
+        struct in_addr ip;
+        unsigned int i = data[k], t;
+        
+        // -- convert to big endian
+        t =   (i & 0x000000ff) << 24u
+            | (i & 0x0000ff00) << 8u
+            | (i & 0x00ff0000) >> 8u
+            | (i & 0xff000000) >> 24u;
+        
+        memcpy(&ip, &t, sizeof(ip));
+        
+        CAddress addr(CService(ip, port));
+        addr.nTime = GetTime()-GetRand(nOneWeek)-nOneWeek;
         vSeedsOut.push_back(addr);
     }
 }
@@ -85,7 +94,7 @@ public:
         assert(hashGenesisBlock == uint256(""));
         assert(genesis.hashMerkleRoot == uint256(""));
 
-        vSeeds.push_back(CDNSSeedData("", ""));
+        vSeeds.push_back(CDNSSeedData("slkseed.darksilk.org", ""));
         vSeeds.push_back(CDNSSeedData("", ""));
 
         base58Prefixes[PUBKEY_ADDRESS] = list_of(63);  // S for Silkcoin
@@ -94,7 +103,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x88)(0xB2)(0x1E);
         base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x88)(0xAD)(0xE4);
 
-        convertSeed6(vFixedSeeds, pnSeed6_main, ARRAYLEN(pnSeed6_main));
+        convertSeeds(vFixedSeeds, pnSeed, ARRAYLEN(pnSeed), nDefaultPort); 
 
         nLastPOWBlock = 10000;
     }
@@ -147,7 +156,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x35)(0x87)(0xCF);
         base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x35)(0x83)(0x94);
 
-        convertSeed6(vFixedSeeds, pnSeed6_test, ARRAYLEN(pnSeed6_test));
+        convertSeeds(vFixedSeeds, pnTestnetSeed, ARRAYLEN(pnTestnetSeed), nDefaultPort); 
 
         nLastPOWBlock = 351;
     }
