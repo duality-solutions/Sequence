@@ -2,7 +2,7 @@
 
 Silkcoin Integration/Staging Tree
 ================================
-![SLK logo](https://avatars3.githubusercontent.com/u/16062819?v=3&s=460)
+![SLK logo]()
 
 **Copyright (c) 2015 The Silkcoin Developers**
 
