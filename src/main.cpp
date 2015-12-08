@@ -22,7 +22,7 @@ using namespace std;
 using namespace boost;
 
 #if defined(NDEBUG)
-# error "Silkcoin cannot be compiled without assertions."
+# error "Silk cannot be compiled without assertions."
 #endif
 
 //
@@ -77,7 +77,7 @@ map<uint256, set<uint256> > mapOrphanTransactionsByPrev;
 // Constant stuff for coinbase transactions we create:
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "Silkcoin Signed Message:\n";
+const string strMessageMagic = "Silk Signed Message:\n";
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -970,7 +970,7 @@ static CBigNum GetProofOfStakeLimit(int nHeight)
 int64_t GetProofOfWorkReward(int64_t nFees)
 {
     if (pindexBest->nHeight == 0) {
-        int64_t nSubsidy = 44000000 * COIN; // SLK for Swap from Silkcoin v1.*
+        int64_t nSubsidy = 44000000 * COIN; // SLK for Swap from Silk v1.*
         LogPrint("creation", "GetProofOfWorkReward() : create=%s nSubsidy=%d\n", FormatMoney(nSubsidy), nSubsidy);
         return nSubsidy + nFees;
     }
@@ -2250,7 +2250,7 @@ bool ProcessBlock(CNode* pfrom, CBlock* pblock)
 }
 
 #ifdef ENABLE_WALLET
-// darksilk: attempt to generate suitable proof-of-stake
+// silk: attempt to generate suitable proof-of-stake
 bool CBlock::SignBlock(CWallet& wallet, int64_t nFees)
 {
     // if we are trying to sign
@@ -2598,7 +2598,7 @@ struct CImportingNow
 
 void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
 {
-    RenameThread("silkcoin-loadblk");
+    RenameThread("silk-loadblk");
 
     CImportingNow imp;
 

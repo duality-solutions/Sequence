@@ -3,22 +3,22 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Silkcoin</source>
-        <translation>Sobre Silkcoin</translation>
+        <source>About Silk</source>
+        <translation>Sobre Silk</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;Silkcoin&lt;/b&gt; version</source>
-        <translation>versió &lt;b&gt;Silkcoin&lt;/b&gt;</translation>
+        <source>&lt;b&gt;Silk&lt;/b&gt; version</source>
+        <translation>versió &lt;b&gt;Silk&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Copyright © 2009-2014 The Bitcoin developers
 Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2014 The Silkcoin developers</source>
+Copyright © 2015 The Silk developers</source>
         <translation>Copyright © 2009-2014 The Bitcoin developers
 Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2014 The Silkcoin developers</translation>
+Copyright © 2015 The Silk developers</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -60,8 +60,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-43"/>
-        <source>These are your Silkcoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
-        <translation>Aquestes són les teves adreces de Silkcoin per rebre els pagaments. És possible que vulgueu donar una diferent a cada remitent per a poder realitzar un seguiment de qui li está pagant.</translation>
+        <source>These are your Silk addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
+        <translation>Aquestes són les teves adreces de Silk per rebre els pagaments. És possible que vulgueu donar una diferent a cada remitent per a poder realitzar un seguiment de qui li está pagant.</translation>
     </message>
     <message>
         <location line="+53"/>
@@ -75,8 +75,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+7"/>
-        <source>Sign a message to prove you own a Silkcoin address</source>
-        <translation>Signar un missatge per demostrar que és propietari d&apos;una adreça Silkcoin</translation>
+        <source>Sign a message to prove you own a Silk address</source>
+        <translation>Signar un missatge per demostrar que és propietari d&apos;una adreça Silk</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -90,8 +90,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-10"/>
-        <source>Verify a message to ensure it was signed with a specified Silkcoin address</source>
-        <translation>Comproveu el missatge per assegurar-se que es va signar amb una adreça Silkcoin especificada.</translation>
+        <source>Verify a message to ensure it was signed with a specified Silk address</source>
+        <translation>Comproveu el missatge per assegurar-se que es va signar amb una adreça Silk especificada.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -258,8 +258,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+82"/>
-        <source>Silkcoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
-        <translation>Silkcoin tancarà ara per acabar el procés de xifrat. Recordeu que l&apos;encriptació del seu moneder no pot protegir completament les seves monedes de ser robades pel malware que pugui infectar al seu equip.</translation>
+        <source>Silk will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
+        <translation>Silk tancarà ara per acabar el procés de xifrat. Recordeu que l&apos;encriptació del seu moneder no pot protegir completament les seves monedes de ser robades pel malware que pugui infectar al seu equip.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -352,8 +352,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+4"/>
-        <source>Show information about Silkcoin</source>
-        <translation>Mostra informació sobre Silkcoin</translation>
+        <source>Show information about Silk</source>
+        <translation>Mostra informació sobre Silk</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -392,13 +392,13 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-55"/>
-        <source>Send coins to a Silkcoin address</source>
-        <translation>Enviar monedes a una adreça Silkcoin</translation>
+        <source>Send coins to a Silk address</source>
+        <translation>Enviar monedes a una adreça Silk</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>Modify configuration options for Silkcoin</source>
-        <translation>Modificar les opcions de configuració per a Silkcoin</translation>
+        <source>Modify configuration options for Silk</source>
+        <translation>Modificar les opcions de configuració per a Silk</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -438,8 +438,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-214"/>
         <location line="+555"/>
-        <source>Silkcoin</source>
-        <translation>Silkcoin</translation>
+        <source>Silk</source>
+        <translation>Silk</translation>
     </message>
     <message>
         <location line="-555"/>
@@ -448,8 +448,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+193"/>
-        <source>&amp;About Silkcoin</source>
-        <translation>&amp;Sobre Silkcoin</translation>
+        <source>&amp;About Silk</source>
+        <translation>&amp;Sobre Silk</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -500,13 +500,13 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+0"/>
         <location line="+58"/>
-        <source>Silkcoin client</source>
-        <translation>Client Silkcoin</translation>
+        <source>Silk client</source>
+        <translation>Client Silk</translation>
     </message>
     <message numerus="yes">
         <location line="+70"/>
-        <source>%n active connection(s) to Silkcoin network</source>
-        <translation><numerusform>%n conexió activa a la xarxa Silkcoin</numerusform><numerusform>%n conexions actives a la xarxa Silkcoin</numerusform></translation>
+        <source>%n active connection(s) to Silk network</source>
+        <translation><numerusform>%n conexió activa a la xarxa Silk</numerusform><numerusform>%n conexions actives a la xarxa Silk</numerusform></translation>
     </message>
     <message>
         <location line="+488"/>
@@ -596,8 +596,8 @@ Address: %4
     <message>
         <location line="-15"/>
         <location line="+15"/>
-        <source>URI can not be parsed! This can be caused by an invalid Silkcoin address or malformed URI parameters.</source>
-        <translation>l&apos;URI no es pot analitzar! Això pot ser causat per una adreça Silkcoin no vàlida o paràmetres URI malformats.</translation>
+        <source>URI can not be parsed! This can be caused by an invalid Silk address or malformed URI parameters.</source>
+        <translation>l&apos;URI no es pot analitzar! Això pot ser causat per una adreça Silk no vàlida o paràmetres URI malformats.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -719,8 +719,8 @@ Address: %4
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+104"/>
-        <source>A fatal error occurred. Silkcoin can no longer continue safely and will quit.</source>
-        <translation>S&apos;ha produït un error fatal. Silkcoin ja no pot continuar de forma segura i es tancarà.</translation>
+        <source>A fatal error occurred. Silk can no longer continue safely and will quit.</source>
+        <translation>S&apos;ha produït un error fatal. Silk ja no pot continuar de forma segura i es tancarà.</translation>
     </message>
 </context>
 <context>
@@ -1053,8 +1053,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>The entered address &quot;%1&quot; is not a valid Silkcoin address.</source>
-        <translation>La direcció introduïda &quot;%1&quot; no és una adreça Silkcoin vàlida.</translation>
+        <source>The entered address &quot;%1&quot; is not a valid Silk address.</source>
+        <translation>La direcció introduïda &quot;%1&quot; no és una adreça Silk vàlida.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1072,8 +1072,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location filename="../guiutil.cpp" line="+426"/>
         <location line="+12"/>
-        <source>Silkcoin-Qt</source>
-        <translation>Silkcoin-Qt</translation>
+        <source>Silk-Qt</source>
+        <translation>Silk-Qt</translation>
     </message>
     <message>
         <location line="-12"/>
@@ -1145,13 +1145,13 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Automatically start Silkcoin after logging in to the system.</source>
-        <translation>Inicia automàticament Silkcoin després d&apos;entrar en el sistema.</translation>
+        <source>Automatically start Silk after logging in to the system.</source>
+        <translation>Inicia automàticament Silk després d&apos;entrar en el sistema.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>&amp;Start Silkcoin on system login</source>
-        <translation>&amp;Iniciar Silkcoin amb l&apos;inici de sessió</translation>
+        <source>&amp;Start Silk on system login</source>
+        <translation>&amp;Iniciar Silk amb l&apos;inici de sessió</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -1160,8 +1160,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Automatically open the Silkcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Obrir automàticament el port de client Silkcoin en el router. Això només funciona quan el router és compatible amb UPnP i està habilitat.</translation>
+        <source>Automatically open the Silk client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Obrir automàticament el port de client Silk en el router. Això només funciona quan el router és compatible amb UPnP i està habilitat.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1190,7 +1190,7 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="-57"/>
-        <source>Connect to the Silkcoin network through a SOCKS5 proxy (e.g. when connecting through Tor).</source>
+        <source>Connect to the Silk network through a SOCKS5 proxy (e.g. when connecting through Tor).</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1235,8 +1235,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>The user interface language can be set here. This setting will take effect after restarting Silkcoin.</source>
-        <translation>L&apos;idioma de la interfície d&apos;usuari es pot configurar aquí. Aquesta configuració s&apos;aplicarà després de reiniciar Silkcoin.</translation>
+        <source>The user interface language can be set here. This setting will take effect after restarting Silk.</source>
+        <translation>L&apos;idioma de la interfície d&apos;usuari es pot configurar aquí. Aquesta configuració s&apos;aplicarà després de reiniciar Silk.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1302,8 +1302,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="-9"/>
         <location line="+9"/>
-        <source>This setting will take effect after restarting Silkcoin.</source>
-        <translation>Aquesta configuració s&apos;aplicarà després de reiniciar Silkcoin.</translation>
+        <source>This setting will take effect after restarting Silk.</source>
+        <translation>Aquesta configuració s&apos;aplicarà després de reiniciar Silk.</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -1321,8 +1321,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="+46"/>
         <location line="+247"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Silkcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>La informació mostrada pot estar fora de data. El seu moneder es sincronitza automàticament amb la xarxa Silkcoin després d&apos;establir una connexió, però aquest procés no s&apos;ha completat encara.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Silk network after a connection is established, but this process has not completed yet.</source>
+        <translation>La informació mostrada pot estar fora de data. El seu moneder es sincronitza automàticament amb la xarxa Silk després d&apos;establir una connexió, però aquest procés no s&apos;ha completat encara.</translation>
     </message>
     <message>
         <location line="-173"/>
@@ -1395,7 +1395,7 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <name>PaymentServer</name>
     <message>
         <location filename="../paymentserver.cpp" line="+107"/>
-        <source>Cannot start silkcoin: click-to-pay handler</source>
+        <source>Cannot start silk: click-to-pay handler</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1563,8 +1563,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Show the Silkcoin-Qt help message to get a list with possible Silkcoin command-line options.</source>
-        <translation>Mostra el missatge d&apos;ajuda de Silkcoin-Qt per obtenir una llista amb les possibles opcions de línia d&apos;ordres Silkcoin.</translation>
+        <source>Show the Silk-Qt help message to get a list with possible Silk command-line options.</source>
+        <translation>Mostra el missatge d&apos;ajuda de Silk-Qt per obtenir una llista amb les possibles opcions de línia d&apos;ordres Silk.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1583,13 +1583,13 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="-104"/>
-        <source>Silkcoin - Debug window</source>
-        <translation>Silkcoin - Finestra Depuració</translation>
+        <source>Silk - Debug window</source>
+        <translation>Silk - Finestra Depuració</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Silkcoin Core</source>
-        <translation>Nucli Silkcoin</translation>
+        <source>Silk Core</source>
+        <translation>Nucli Silk</translation>
     </message>
     <message>
         <location line="+256"/>
@@ -1598,8 +1598,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Open the Silkcoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Obriu el fitxer de registre de depuració Silkcoin des del directori de dades actual. Això pot trigar uns segons en els arxius de registre de grans dimensions.</translation>
+        <source>Open the Silk debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Obriu el fitxer de registre de depuració Silk des del directori de dades actual. Això pot trigar uns segons en els arxius de registre de grans dimensions.</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -1608,8 +1608,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="+325"/>
-        <source>Welcome to the Silkcoin RPC console.</source>
-        <translation>Benvingut a la consola RPC de Silkcoin.</translation>
+        <source>Welcome to the Silk RPC console.</source>
+        <translation>Benvingut a la consola RPC de Silk.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1789,8 +1789,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-174"/>
-        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Introdueix una adreça Silkcoin (p.ex. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Introdueix una adreça Silk (p.ex. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1889,8 +1889,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+247"/>
-        <source>WARNING: Invalid Silkcoin address</source>
-        <translation>ADVERTÈNCIA: Direcció Silkcoin invàlida</translation>
+        <source>WARNING: Invalid Silk address</source>
+        <translation>ADVERTÈNCIA: Direcció Silk invàlida</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1963,8 +1963,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Introdueix una adreça Silkcoin (p.ex. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Introdueix una adreça Silk (p.ex. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
 </context>
 <context>
@@ -2024,8 +2024,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Sign the message to prove you own this Silkcoin address</source>
-        <translation>Signar un missatge per demostrar que és propietari d&apos;aquesta adreça Silkcoin</translation>
+        <source>Sign the message to prove you own this Silk address</source>
+        <translation>Signar un missatge per demostrar que és propietari d&apos;aquesta adreça Silk</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2056,8 +2056,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+40"/>
-        <source>Verify the message to ensure it was signed with the specified Silkcoin address</source>
-        <translation>Comproveu el missatge per assegurar-se que es va signar amb l&apos;adreça Silkcoin especificada.</translation>
+        <source>Verify the message to ensure it was signed with the specified Silk address</source>
+        <translation>Comproveu el missatge per assegurar-se que es va signar amb l&apos;adreça Silk especificada.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2067,8 +2067,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Introdueix una adreça Silkcoin (p.ex. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Introdueix una adreça Silk (p.ex. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -2077,8 +2077,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Enter Silkcoin signature</source>
-        <translation>Introduïu la signatura Silkcoin</translation>
+        <source>Enter Silk signature</source>
+        <translation>Introduïu la signatura Silk</translation>
     </message>
     <message>
         <location line="+85"/>
@@ -2656,8 +2656,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <name>bitcoin-core</name>
     <message>
         <location filename="../bitcoinstrings.cpp" line="+171"/>
-        <source>Silkcoin version</source>
-        <translation>versió Silkcoin</translation>
+        <source>Silk version</source>
+        <translation>versió Silk</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2666,8 +2666,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Send command to -server or silkcoind</source>
-        <translation>Enviar comandes a -server o silkcoind</translation>
+        <source>Send command to -server or silkd</source>
+        <translation>Enviar comandes a -server o silkd</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2686,13 +2686,13 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Specify configuration file (default: silkcoin.conf)</source>
-        <translation>Especifiqueu el fitxer de configuració (per defecte: silkcoin.conf)</translation>
+        <source>Specify configuration file (default: silk.conf)</source>
+        <translation>Especifiqueu el fitxer de configuració (per defecte: silk.conf)</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Specify pid file (default: silkcoind.pid)</source>
-        <translation>Especificar arxiu pid (per defecte: silkcoind.pid)</translation>
+        <source>Specify pid file (default: silkd.pid)</source>
+        <translation>Especificar arxiu pid (per defecte: silkd.pid)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2709,13 +2709,13 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=silkcoinrpc
+rpcuser=silkrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
 If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo.com
+for example: alertnotify=echo %%s | mail -s &quot;Silk Alert&quot; admin@foo.com
 </source>
         <translation type="unfinished"/>
     </message>
@@ -2821,8 +2821,8 @@ for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="-103"/>
-        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Silkcoin will not work properly.</source>
-        <translation>Avís: Comproveu que la data i hora de l&apos;equip siguin correctes! Si el seu rellotge és erroni Silkcoin no funcionarà correctament.</translation>
+        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Silk will not work properly.</source>
+        <translation>Avís: Comproveu que la data i hora de l&apos;equip siguin correctes! Si el seu rellotge és erroni Silk no funcionarà correctament.</translation>
     </message>
     <message>
         <location line="+130"/>
@@ -3117,7 +3117,7 @@ Executar una ordre quan es rep un avís rellevant (%s en cmd es substitueix per 
     </message>
     <message>
         <location line="+8"/>
-        <source>Initialization sanity check failed. Silkcoin is shutting down.</source>
+        <source>Initialization sanity check failed. Silk is shutting down.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3172,13 +3172,13 @@ Executar una ordre quan es rep un avís rellevant (%s en cmd es substitueix per 
     </message>
     <message>
         <location line="+4"/>
-        <source>Error loading wallet.dat: Wallet requires newer version of Silkcoin</source>
-        <translation>Error en carregar wallet.dat: El moneder requereix la versió més recent de Silkcoin</translation>
+        <source>Error loading wallet.dat: Wallet requires newer version of Silk</source>
+        <translation>Error en carregar wallet.dat: El moneder requereix la versió més recent de Silk</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Wallet needed to be rewritten: restart Silkcoin to complete</source>
-        <translation>El moneder necessita ser reescrita: reiniciar Silkcoin per completar</translation>
+        <source>Wallet needed to be rewritten: restart Silk to complete</source>
+        <translation>El moneder necessita ser reescrita: reiniciar Silk per completar</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3237,8 +3237,8 @@ Executar una ordre quan es rep un avís rellevant (%s en cmd es substitueix per 
     </message>
     <message>
         <location line="+124"/>
-        <source>Unable to bind to %s on this computer. Silkcoin is probably already running.</source>
-        <translation>No es pot enllaçar a %s en aquest equip. Silkcoin probablement ja estigui en funcionament.</translation>
+        <source>Unable to bind to %s on this computer. Silk is probably already running.</source>
+        <translation>No es pot enllaçar a %s en aquest equip. Silk probablement ja estigui en funcionament.</translation>
     </message>
     <message>
         <location line="-101"/>
@@ -3272,7 +3272,7 @@ Executar una ordre quan es rep un avís rellevant (%s en cmd es substitueix per 
     </message>
     <message>
         <location line="+3"/>
-        <source>Cannot obtain a lock on data directory %s. Silkcoin is probably already running.</source>
+        <source>Cannot obtain a lock on data directory %s. Silk is probably already running.</source>
         <translation type="unfinished"/>
     </message>
     <message>

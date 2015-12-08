@@ -1,0 +1,2 @@
+debian/bin/silkd usr/bin
+src/silkd usr/lib/silk

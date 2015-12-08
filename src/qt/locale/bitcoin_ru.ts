@@ -3,22 +3,22 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Silkcoin</source>
-        <translation>О Silkcoin</translation>
+        <source>About Silk</source>
+        <translation>О Silk</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;Silkcoin&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;Silkcoin&lt;/b&gt; версия</translation>
+        <source>&lt;b&gt;Silk&lt;/b&gt; version</source>
+        <translation>&lt;b&gt;Silk&lt;/b&gt; версия</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Copyright © 2009-2014 The Bitcoin developers
 Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2014 The Silkcoin developers</source>
+Copyright © 2015 The Silk developers</source>
         <translation>Все права защищены © 2009-2014 Разработчики Bitcoin
 Все права защищены © 2012-2014 Разработчики NovaCoin
-Все права защищены © 2014 Разработчики Silkcoin</translation>
+Все права защищены © 2014 Разработчики Silk</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -60,7 +60,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-43"/>
-        <source>These are your Silkcoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
+        <source>These are your Silk addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
         <translation>Это Ваши адреса для получения платежей. Вы можете дать разные адреса отправителям, чтобы отслеживать, кто именно вам платит.</translation>
     </message>
     <message>
@@ -75,8 +75,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+7"/>
-        <source>Sign a message to prove you own a Silkcoin address</source>
-        <translation>Подписать сообщение, чтобы доказать владение адресом Silkcoin</translation>
+        <source>Sign a message to prove you own a Silk address</source>
+        <translation>Подписать сообщение, чтобы доказать владение адресом Silk</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -90,8 +90,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-10"/>
-        <source>Verify a message to ensure it was signed with a specified Silkcoin address</source>
-        <translation>Проверить сообщение, чтобы убедиться, что оно было подписано указанным адресом Silkcoin</translation>
+        <source>Verify a message to ensure it was signed with a specified Silk address</source>
+        <translation>Проверить сообщение, чтобы убедиться, что оно было подписано указанным адресом Silk</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -258,7 +258,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+82"/>
-        <source>Silkcoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
+        <source>Silk will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
         <translation>Сейчас программа закроется для завершения процесса шифрования. Помните, что шифрование вашего бумажника не может полностью защитить ваши монеты от кражи с помощью инфицирования вашего компьютера вредоносным ПО.</translation>
     </message>
     <message>
@@ -352,8 +352,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+4"/>
-        <source>Show information about Silkcoin</source>
-        <translation>Показать информацию о Silkcoin&apos;е</translation>
+        <source>Show information about Silk</source>
+        <translation>Показать информацию о Silk&apos;е</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -392,13 +392,13 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-55"/>
-        <source>Send coins to a Silkcoin address</source>
-        <translation>Отправить монеты на указанный адрес Silkcoin</translation>
+        <source>Send coins to a Silk address</source>
+        <translation>Отправить монеты на указанный адрес Silk</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>Modify configuration options for Silkcoin</source>
-        <translation>Изменить параметры конфигурации Silkcoin</translation>
+        <source>Modify configuration options for Silk</source>
+        <translation>Изменить параметры конфигурации Silk</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -438,8 +438,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-214"/>
         <location line="+555"/>
-        <source>Silkcoin</source>
-        <translation>Silkcoin</translation>
+        <source>Silk</source>
+        <translation>Silk</translation>
     </message>
     <message>
         <location line="-555"/>
@@ -448,8 +448,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+193"/>
-        <source>&amp;About Silkcoin</source>
-        <translation>&amp;О Silkcoin</translation>
+        <source>&amp;About Silk</source>
+        <translation>&amp;О Silk</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -500,12 +500,12 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+0"/>
         <location line="+58"/>
-        <source>Silkcoin client</source>
-        <translation>Silkcoin клиент</translation>
+        <source>Silk client</source>
+        <translation>Silk клиент</translation>
     </message>
     <message numerus="yes">
         <location line="+70"/>
-        <source>%n active connection(s) to Silkcoin network</source>
+        <source>%n active connection(s) to Silk network</source>
         <translation><numerusform>%n активное соединение с сетью</numerusform><numerusform>%n активных соединений с сетью</numerusform><numerusform>%n активных соединений с сетью</numerusform><numerusform>%n активных соединений с сетью</numerusform></translation>
     </message>
     <message>
@@ -600,8 +600,8 @@ Address: %4
     <message>
         <location line="-15"/>
         <location line="+15"/>
-        <source>URI can not be parsed! This can be caused by an invalid Silkcoin address or malformed URI parameters.</source>
-        <translation>Не удалось обработать URI! Это может быть связано с неверным адресом Silkcoin или неправильными параметрами URI.</translation>
+        <source>URI can not be parsed! This can be caused by an invalid Silk address or malformed URI parameters.</source>
+        <translation>Не удалось обработать URI! Это может быть связано с неверным адресом Silk или неправильными параметрами URI.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -723,8 +723,8 @@ Address: %4
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+104"/>
-        <source>A fatal error occurred. Silkcoin can no longer continue safely and will quit.</source>
-        <translation>Произошла неисправимая ошибка. Silkcoin не может безопасно продолжать работу и будет закрыт.</translation>
+        <source>A fatal error occurred. Silk can no longer continue safely and will quit.</source>
+        <translation>Произошла неисправимая ошибка. Silk не может безопасно продолжать работу и будет закрыт.</translation>
     </message>
 </context>
 <context>
@@ -1043,8 +1043,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="-5"/>
-        <source>The entered address &quot;%1&quot; is not a valid Silkcoin address.</source>
-        <translation>Введённый адрес &quot;%1&quot; не является правильным Silkcoin-адресом.</translation>
+        <source>The entered address &quot;%1&quot; is not a valid Silk address.</source>
+        <translation>Введённый адрес &quot;%1&quot; не является правильным Silk-адресом.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1062,8 +1062,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location filename="../guiutil.cpp" line="+426"/>
         <location line="+12"/>
-        <source>Silkcoin-Qt</source>
-        <translation>Silkcoin-Qt</translation>
+        <source>Silk-Qt</source>
+        <translation>Silk-Qt</translation>
     </message>
     <message>
         <location line="-12"/>
@@ -1135,13 +1135,13 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+31"/>
-        <source>Automatically start Silkcoin after logging in to the system.</source>
-        <translation>Автоматически запускать Silkcoin после входа в систему</translation>
+        <source>Automatically start Silk after logging in to the system.</source>
+        <translation>Автоматически запускать Silk после входа в систему</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>&amp;Start Silkcoin on system login</source>
-        <translation>&amp;Запускать Silkcoin при входе в систему</translation>
+        <source>&amp;Start Silk on system login</source>
+        <translation>&amp;Запускать Silk при входе в систему</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -1150,8 +1150,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+6"/>
-        <source>Automatically open the Silkcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Автоматически открыть порт для Silkcoin-клиента на роутере. Работает только если Ваш роутер поддерживает UPnP, и данная функция включена.</translation>
+        <source>Automatically open the Silk client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Автоматически открыть порт для Silk-клиента на роутере. Работает только если Ваш роутер поддерживает UPnP, и данная функция включена.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1180,7 +1180,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="-57"/>
-        <source>Connect to the Silkcoin network through a SOCKS5 proxy (e.g. when connecting through Tor).</source>
+        <source>Connect to the Silk network through a SOCKS5 proxy (e.g. when connecting through Tor).</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1225,8 +1225,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+13"/>
-        <source>The user interface language can be set here. This setting will take effect after restarting Silkcoin.</source>
-        <translation>Здесь можно выбрать язык интерфейса. Настройки вступят в силу после перезапуска Silkcoin.</translation>
+        <source>The user interface language can be set here. This setting will take effect after restarting Silk.</source>
+        <translation>Здесь можно выбрать язык интерфейса. Настройки вступят в силу после перезапуска Silk.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1292,8 +1292,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="-9"/>
         <location line="+9"/>
-        <source>This setting will take effect after restarting Silkcoin.</source>
-        <translation>Эта настройка вступит в силу после перезапуска Silkcoin</translation>
+        <source>This setting will take effect after restarting Silk.</source>
+        <translation>Эта настройка вступит в силу после перезапуска Silk</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -1311,8 +1311,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+46"/>
         <location line="+247"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Silkcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Отображаемая информация может быть устаревшей. Ваш бумажник автоматически синхронизируется с сетью Silkcoin после подключения, но этот процесс пока не завершён.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Silk network after a connection is established, but this process has not completed yet.</source>
+        <translation>Отображаемая информация может быть устаревшей. Ваш бумажник автоматически синхронизируется с сетью Silk после подключения, но этот процесс пока не завершён.</translation>
     </message>
     <message>
         <location line="-173"/>
@@ -1385,7 +1385,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <name>PaymentServer</name>
     <message>
         <location filename="../paymentserver.cpp" line="+107"/>
-        <source>Cannot start silkcoin: click-to-pay handler</source>
+        <source>Cannot start silk: click-to-pay handler</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1553,8 +1553,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+7"/>
-        <source>Show the Silkcoin-Qt help message to get a list with possible Silkcoin command-line options.</source>
-        <translation>Показать помощь по Silkcoin-Qt, чтобы получить список доступных параметров командной строки.</translation>
+        <source>Show the Silk-Qt help message to get a list with possible Silk command-line options.</source>
+        <translation>Показать помощь по Silk-Qt, чтобы получить список доступных параметров командной строки.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1573,13 +1573,13 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="-104"/>
-        <source>Silkcoin - Debug window</source>
-        <translation>Silkcoin - Окно отладки</translation>
+        <source>Silk - Debug window</source>
+        <translation>Silk - Окно отладки</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Silkcoin Core</source>
-        <translation>Ядро Silkcoin</translation>
+        <source>Silk Core</source>
+        <translation>Ядро Silk</translation>
     </message>
     <message>
         <location line="+256"/>
@@ -1588,8 +1588,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+7"/>
-        <source>Open the Silkcoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Открыть отладочный лог-файл Silkcoin из текущего каталога данных. Это может занять несколько секунд для больших лог-файлов.</translation>
+        <source>Open the Silk debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Открыть отладочный лог-файл Silk из текущего каталога данных. Это может занять несколько секунд для больших лог-файлов.</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -1598,8 +1598,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="+325"/>
-        <source>Welcome to the Silkcoin RPC console.</source>
-        <translation>Добро пожаловать в RPC-консоль Silkcoin.</translation>
+        <source>Welcome to the Silk RPC console.</source>
+        <translation>Добро пожаловать в RPC-консоль Silk.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1779,8 +1779,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-174"/>
-        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Введите Silkcoin-адрес (например SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Введите Silk-адрес (например SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1879,7 +1879,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+247"/>
-        <source>WARNING: Invalid Silkcoin address</source>
+        <source>WARNING: Invalid Silk address</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1953,8 +1953,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Введите Silkcoin-адрес (например SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Введите Silk-адрес (например SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
 </context>
 <context>
@@ -2014,8 +2014,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+21"/>
-        <source>Sign the message to prove you own this Silkcoin address</source>
-        <translation>Подписать сообщение, чтобы доказать владение адресом Silkcoin</translation>
+        <source>Sign the message to prove you own this Silk address</source>
+        <translation>Подписать сообщение, чтобы доказать владение адресом Silk</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2046,8 +2046,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+40"/>
-        <source>Verify the message to ensure it was signed with the specified Silkcoin address</source>
-        <translation>Проверить сообщение, чтобы убедиться, что оно было подписано указанным адресом Silkcoin</translation>
+        <source>Verify the message to ensure it was signed with the specified Silk address</source>
+        <translation>Проверить сообщение, чтобы убедиться, что оно было подписано указанным адресом Silk</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2057,8 +2057,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Введите адрес Silkcoin (напр. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Введите адрес Silk (напр. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -2067,8 +2067,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+3"/>
-        <source>Enter Silkcoin signature</source>
-        <translation>Введите подпись Silkcoin</translation>
+        <source>Enter Silk signature</source>
+        <translation>Введите подпись Silk</translation>
     </message>
     <message>
         <location line="+85"/>
@@ -2646,7 +2646,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <name>bitcoin-core</name>
     <message>
         <location filename="../bitcoinstrings.cpp" line="+171"/>
-        <source>Silkcoin version</source>
+        <source>Silk version</source>
         <translation>Версия</translation>
     </message>
     <message>
@@ -2656,8 +2656,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+1"/>
-        <source>Send command to -server or silkcoind</source>
-        <translation>Отправить команду на -server или silkcoind</translation>
+        <source>Send command to -server or silkd</source>
+        <translation>Отправить команду на -server или silkd</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2677,13 +2677,13 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+2"/>
-        <source>Specify configuration file (default: silkcoin.conf)</source>
-        <translation>Указать конфигурационный файл (по умолчанию: silkcoin.conf)</translation>
+        <source>Specify configuration file (default: silk.conf)</source>
+        <translation>Указать конфигурационный файл (по умолчанию: silk.conf)</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Specify pid file (default: silkcoind.pid)</source>
-        <translation>Указать pid-файл (по умолчанию: silkcoind.pid)</translation>
+        <source>Specify pid file (default: silkd.pid)</source>
+        <translation>Указать pid-файл (по умолчанию: silkd.pid)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2700,13 +2700,13 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=silkcoinrpc
+rpcuser=silkrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
 If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo.com
+for example: alertnotify=echo %%s | mail -s &quot;Silk Alert&quot; admin@foo.com
 </source>
         <translation type="unfinished"/>
     </message>
@@ -2812,8 +2812,8 @@ for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="-103"/>
-        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Silkcoin will not work properly.</source>
-        <translation>Внимание: убедитесь, что дата и время на Вашем компьютере выставлены верно. Если Ваши часы идут неправильно, Silkcoin будет работать некорректно.</translation>
+        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Silk will not work properly.</source>
+        <translation>Внимание: убедитесь, что дата и время на Вашем компьютере выставлены верно. Если Ваши часы идут неправильно, Silk будет работать некорректно.</translation>
     </message>
     <message>
         <location line="+130"/>
@@ -3108,7 +3108,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+8"/>
-        <source>Initialization sanity check failed. Silkcoin is shutting down.</source>
+        <source>Initialization sanity check failed. Silk is shutting down.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3163,13 +3163,13 @@ for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+4"/>
-        <source>Error loading wallet.dat: Wallet requires newer version of Silkcoin</source>
-        <translation>Ошибка загрузки wallet.dat: бумажник требует более новую версию Silkcoin</translation>
+        <source>Error loading wallet.dat: Wallet requires newer version of Silk</source>
+        <translation>Ошибка загрузки wallet.dat: бумажник требует более новую версию Silk</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Wallet needed to be rewritten: restart Silkcoin to complete</source>
-        <translation>Необходимо перезаписать бумажник, перезапустите Silkcoin для завершения операции</translation>
+        <source>Wallet needed to be rewritten: restart Silk to complete</source>
+        <translation>Необходимо перезаписать бумажник, перезапустите Silk для завершения операции</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3228,8 +3228,8 @@ for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+124"/>
-        <source>Unable to bind to %s on this computer. Silkcoin is probably already running.</source>
-        <translation>Невозможно привязаться к %s на этом компьютере.  Возможно, Silkcoin уже работает.</translation>
+        <source>Unable to bind to %s on this computer. Silk is probably already running.</source>
+        <translation>Невозможно привязаться к %s на этом компьютере.  Возможно, Silk уже работает.</translation>
     </message>
     <message>
         <location line="-101"/>
@@ -3263,7 +3263,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+3"/>
-        <source>Cannot obtain a lock on data directory %s. Silkcoin is probably already running.</source>
+        <source>Cannot obtain a lock on data directory %s. Silk is probably already running.</source>
         <translation>Невозможно установить блокировку на рабочую директорию %s.  Возможно, бумажник уже запущен.</translation>
     </message>
     <message>

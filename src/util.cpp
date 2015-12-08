@@ -918,7 +918,7 @@ static std::string FormatException(std::exception* pex, const char* pszThread)
     char pszModule[MAX_PATH] = "";
     GetModuleFileNameA(NULL, pszModule, sizeof(pszModule));
 #else
-    const char* pszModule = "silkcoin";
+    const char* pszModule = "silk";
 #endif
     if (pex)
         return strprintf(
@@ -948,13 +948,13 @@ void PrintExceptionContinue(std::exception* pex, const char* pszThread)
 boost::filesystem::path GetDefaultDataDir()
 {
     namespace fs = boost::filesystem;
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\Silkcoin
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\Silkcoin
-    // Mac: ~/Library/Application Support/Silkcoin
-    // Unix: ~/.silkcoin
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\Silk
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\Silk
+    // Mac: ~/Library/Application Support/Silk
+    // Unix: ~/.silk
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "Silkcoin";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "Silk";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -966,10 +966,10 @@ boost::filesystem::path GetDefaultDataDir()
     // Mac
     pathRet /= "Library/Application Support";
     fs::create_directory(pathRet);
-    return pathRet / "Silkcoin";
+    return pathRet / "Silk";
 #else
     // Unix
-    return pathRet / ".silkcoin";
+    return pathRet / ".silk";
 #endif
 #endif
 }
@@ -1018,7 +1018,7 @@ void ClearDatadirCache()
 
 boost::filesystem::path GetConfigFile()
 {
-    boost::filesystem::path pathConfigFile(GetArg("-conf", "silkcoin.conf"));
+    boost::filesystem::path pathConfigFile(GetArg("-conf", "silk.conf"));
     if (!pathConfigFile.is_complete()) pathConfigFile = GetDataDir(false) / pathConfigFile;
     return pathConfigFile;
 }
@@ -1051,7 +1051,7 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
 
 boost::filesystem::path GetPidFile()
 {
-    boost::filesystem::path pathPidFile(GetArg("-pid", "silkcoind.pid"));
+    boost::filesystem::path pathPidFile(GetArg("-pid", "silkd.pid"));
     if (!pathPidFile.is_complete()) pathPidFile = GetDataDir() / pathPidFile;
     return pathPidFile;
 }

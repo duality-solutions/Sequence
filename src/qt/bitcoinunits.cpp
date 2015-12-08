@@ -45,9 +45,9 @@ QString BitcoinUnits::description(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("Silkcoins");
-    case mBTC: return QString("Milli-Silkcoins (1 / 1,000)");
-    case uBTC: return QString("Micro-Silkcoins (1 / 1,000,000)");
+    case BTC: return QString("Silks");
+    case mBTC: return QString("Milli-Silks (1 / 1,000)");
+    case uBTC: return QString("Micro-Silks (1 / 1,000,000)");
     default: return QString("???");
     }
 }

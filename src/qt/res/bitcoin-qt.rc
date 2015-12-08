@@ -1,4 +1,4 @@
-IDI_ICON1 ICON DISCARDABLE "icons/silkcoin.ico"
+IDI_ICON1 ICON DISCARDABLE "icons/silk.ico"
 
 #include <windows.h>             // needed for VERSIONINFO
 #include "../../clientversion.h" // holds the needed client version information
@@ -18,14 +18,14 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "Silkcoin"
-            VALUE "FileDescription",    "Silkcoin-Qt (OSS GUI client for Silkcoin)"
+            VALUE "CompanyName",        "Silk"
+            VALUE "FileDescription",    "Silk-Qt (OSS GUI client for Silk)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
-            VALUE "InternalName",       "silkcoin-qt"
-            VALUE "LegalCopyright",     "2009-2014 The Bitcoin developers, 2012-2014 The NovaCoin & PPCoin developers, 2014 The Silkcoin developers"
+            VALUE "InternalName",       "silk-qt"
+            VALUE "LegalCopyright",     "2009-2014 The Bitcoin developers, 2012-2014 The NovaCoin & PPCoin developers, 2014 The Silk developers"
             VALUE "LegalTrademarks1",   "Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "silkcoin-qt.exe"
-            VALUE "ProductName",        "Silkcoin-Qt"
+            VALUE "OriginalFilename",   "silk-qt.exe"
+            VALUE "ProductName",        "Silk-Qt"
             VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
         END
     END

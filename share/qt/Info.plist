@@ -7,23 +7,23 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Silkcoin-Qt</string>
+	<string>Silk-Qt</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleExecutable</key>
-	<string>Silkcoin-Qt</string>
+	<string>Silk-Qt</string>
 	<key>CFBundleIdentifier</key>
-	<string>co.silkcoin.Silkcoin-Qt</string>
+	<string>co.silk.Silk-Qt</string>
         <key>CFBundleURLTypes</key>
         <array>
           <dict>
             <key>CFBundleTypeRole</key>
             <string>Editor</string>
             <key>CFBundleURLName</key>
-            <string>co.silkcoin.SilkcoinPayment</string>
+            <string>co.silk.SilkPayment</string>
             <key>CFBundleURLSchemes</key>
             <array>
-              <string>silkcoin</string>
+              <string>silk</string>
             </array>
           </dict>
         </array>

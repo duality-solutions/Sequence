@@ -1,6 +1,6 @@
 [Protocol]
-exec=silkcoin-qt '%u'
-protocol=silkcoin
+exec=silk-qt '%u'
+protocol=silk
 input=none
 output=none
 helper=true

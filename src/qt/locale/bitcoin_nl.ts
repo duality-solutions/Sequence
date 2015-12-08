@@ -3,22 +3,22 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Silkcoin</source>
-        <translation>Over Silkcoin</translation>
+        <source>About Silk</source>
+        <translation>Over Silk</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;Silkcoin&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;Silkcoin&lt;/b&gt; versie</translation>
+        <source>&lt;b&gt;Silk&lt;/b&gt; version</source>
+        <translation>&lt;b&gt;Silk&lt;/b&gt; versie</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Copyright © 2009-2014 The Bitcoin developers
 Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2014 The Silkcoin developers</source>
+Copyright © 2015 The Silk developers</source>
         <translation>Copyright © 2009-2014 De Bitcoin ontwikkelaars
 Copyright © 2012-2014 De NovaCoin ontwikkelaars
-Copyright © 2014 De Silkcoin ontwikkelaars</translation>
+Copyright © 2014 De Silk ontwikkelaars</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -60,8 +60,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-43"/>
-        <source>These are your Silkcoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
-        <translation>Dit zijn al jou Silkcoin adressen om betalingen mee te ontvangen. Je kunt iedere verzender een apart adres geven zodat je kunt volgen wie jou betaald.</translation>
+        <source>These are your Silk addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
+        <translation>Dit zijn al jou Silk adressen om betalingen mee te ontvangen. Je kunt iedere verzender een apart adres geven zodat je kunt volgen wie jou betaald.</translation>
     </message>
     <message>
         <location line="+53"/>
@@ -75,8 +75,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+7"/>
-        <source>Sign a message to prove you own a Silkcoin address</source>
-        <translation>Teken een bericht om te bewijzen dat je een Silkcoin adres bezit.</translation>
+        <source>Sign a message to prove you own a Silk address</source>
+        <translation>Teken een bericht om te bewijzen dat je een Silk adres bezit.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -90,8 +90,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-10"/>
-        <source>Verify a message to ensure it was signed with a specified Silkcoin address</source>
-        <translation>Verifieer een bericht om zeker te zijn dat deze is ondertekend met een specifiek Silkcoin adres</translation>
+        <source>Verify a message to ensure it was signed with a specified Silk address</source>
+        <translation>Verifieer een bericht om zeker te zijn dat deze is ondertekend met een specifiek Silk adres</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -258,8 +258,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+82"/>
-        <source>Silkcoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
-        <translation>Silkcoin zal nu sluiten om het versleutel proces te voltooien. Onthou dat het versleutelen van je portemonnee je niet volledig beschermt tegen diefstal van munten door malware op je computer.</translation>
+        <source>Silk will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
+        <translation>Silk zal nu sluiten om het versleutel proces te voltooien. Onthou dat het versleutelen van je portemonnee je niet volledig beschermt tegen diefstal van munten door malware op je computer.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -352,8 +352,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+4"/>
-        <source>Show information about Silkcoin</source>
-        <translation>Toon informatie over Silkcoin</translation>
+        <source>Show information about Silk</source>
+        <translation>Toon informatie over Silk</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -392,13 +392,13 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-55"/>
-        <source>Send coins to a Silkcoin address</source>
-        <translation>Verstuur munten naar een Silkcoin adres</translation>
+        <source>Send coins to a Silk address</source>
+        <translation>Verstuur munten naar een Silk adres</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>Modify configuration options for Silkcoin</source>
-        <translation>Verander configuratie opties voor Silkcoin</translation>
+        <source>Modify configuration options for Silk</source>
+        <translation>Verander configuratie opties voor Silk</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -438,8 +438,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-214"/>
         <location line="+555"/>
-        <source>Silkcoin</source>
-        <translation>Silkcoin</translation>
+        <source>Silk</source>
+        <translation>Silk</translation>
     </message>
     <message>
         <location line="-555"/>
@@ -448,8 +448,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+193"/>
-        <source>&amp;About Silkcoin</source>
-        <translation>&amp;Over Silkcoin</translation>
+        <source>&amp;About Silk</source>
+        <translation>&amp;Over Silk</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -500,13 +500,13 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+0"/>
         <location line="+58"/>
-        <source>Silkcoin client</source>
-        <translation>Silkcoin client</translation>
+        <source>Silk client</source>
+        <translation>Silk client</translation>
     </message>
     <message numerus="yes">
         <location line="+70"/>
-        <source>%n active connection(s) to Silkcoin network</source>
-        <translation><numerusform>%n actieve verbinding naar Silkcoin netwerk</numerusform><numerusform>%n actieve verbindingen naar Silkcoin netwerk</numerusform></translation>
+        <source>%n active connection(s) to Silk network</source>
+        <translation><numerusform>%n actieve verbinding naar Silk netwerk</numerusform><numerusform>%n actieve verbindingen naar Silk netwerk</numerusform></translation>
     </message>
     <message>
         <location line="+488"/>
@@ -600,8 +600,8 @@ Adres: %4
     <message>
         <location line="-15"/>
         <location line="+15"/>
-        <source>URI can not be parsed! This can be caused by an invalid Silkcoin address or malformed URI parameters.</source>
-        <translation>URI kan niet ontleedt worden! Mogelijke oorzaken zijn een ongeldig Silkcoin adres of incorrecte URI parameters.</translation>
+        <source>URI can not be parsed! This can be caused by an invalid Silk address or malformed URI parameters.</source>
+        <translation>URI kan niet ontleedt worden! Mogelijke oorzaken zijn een ongeldig Silk adres of incorrecte URI parameters.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -723,8 +723,8 @@ Adres: %4
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+104"/>
-        <source>A fatal error occurred. Silkcoin can no longer continue safely and will quit.</source>
-        <translation>Een fatale fout . Silkcoin kan niet langer veilig doorgaan en sluit af.</translation>
+        <source>A fatal error occurred. Silk can no longer continue safely and will quit.</source>
+        <translation>Een fatale fout . Silk kan niet langer veilig doorgaan en sluit af.</translation>
     </message>
 </context>
 <context>
@@ -1057,8 +1057,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>The entered address &quot;%1&quot; is not a valid Silkcoin address.</source>
-        <translation>Het ingevoerde adres &quot;%1&quot; is geen geldig Silkcoin adres.</translation>
+        <source>The entered address &quot;%1&quot; is not a valid Silk address.</source>
+        <translation>Het ingevoerde adres &quot;%1&quot; is geen geldig Silk adres.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1076,8 +1076,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     <message>
         <location filename="../guiutil.cpp" line="+426"/>
         <location line="+12"/>
-        <source>Silkcoin-Qt</source>
-        <translation>Silkcoin-Qt</translation>
+        <source>Silk-Qt</source>
+        <translation>Silk-Qt</translation>
     </message>
     <message>
         <location line="-12"/>
@@ -1149,13 +1149,13 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Automatically start Silkcoin after logging in to the system.</source>
-        <translation>Automatisch starten van Silkcoin na inloggen van het systeem.</translation>
+        <source>Automatically start Silk after logging in to the system.</source>
+        <translation>Automatisch starten van Silk na inloggen van het systeem.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>&amp;Start Silkcoin on system login</source>
-        <translation>&amp;Start Silkcoin bij systeem aanmelding</translation>
+        <source>&amp;Start Silk on system login</source>
+        <translation>&amp;Start Silk bij systeem aanmelding</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -1164,8 +1164,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Automatically open the Silkcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>De Silkcoin client poort automatisch openen op de router. Dit werkt alleen wanneer uw router UPnP ondersteunt en deze is ingeschakeld.</translation>
+        <source>Automatically open the Silk client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>De Silk client poort automatisch openen op de router. Dit werkt alleen wanneer uw router UPnP ondersteunt en deze is ingeschakeld.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1194,7 +1194,7 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="-57"/>
-        <source>Connect to the Silkcoin network through a SOCKS5 proxy (e.g. when connecting through Tor).</source>
+        <source>Connect to the Silk network through a SOCKS5 proxy (e.g. when connecting through Tor).</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1239,8 +1239,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>The user interface language can be set here. This setting will take effect after restarting Silkcoin.</source>
-        <translation>De user interface-taal kan hier ingesteld worden. Deze instelling word toegepast na Silkcoin opnieuw op te starten.</translation>
+        <source>The user interface language can be set here. This setting will take effect after restarting Silk.</source>
+        <translation>De user interface-taal kan hier ingesteld worden. Deze instelling word toegepast na Silk opnieuw op te starten.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1306,8 +1306,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     <message>
         <location line="-9"/>
         <location line="+9"/>
-        <source>This setting will take effect after restarting Silkcoin.</source>
-        <translation>Deze instelling word toegepast na een restart van Silkcoin.</translation>
+        <source>This setting will take effect after restarting Silk.</source>
+        <translation>Deze instelling word toegepast na een restart van Silk.</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -1325,8 +1325,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     <message>
         <location line="+46"/>
         <location line="+247"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Silkcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>De weergegeven informatie kan verouderd zijn, Je portemonnee synchroniseerd automatisch met het Silkcoin netwerk nadat er verbindig is gemaakt, maar dit proces is nog niet voltooid.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Silk network after a connection is established, but this process has not completed yet.</source>
+        <translation>De weergegeven informatie kan verouderd zijn, Je portemonnee synchroniseerd automatisch met het Silk netwerk nadat er verbindig is gemaakt, maar dit proces is nog niet voltooid.</translation>
     </message>
     <message>
         <location line="-173"/>
@@ -1399,7 +1399,7 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     <name>PaymentServer</name>
     <message>
         <location filename="../paymentserver.cpp" line="+107"/>
-        <source>Cannot start silkcoin: click-to-pay handler</source>
+        <source>Cannot start silk: click-to-pay handler</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1567,8 +1567,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Show the Silkcoin-Qt help message to get a list with possible Silkcoin command-line options.</source>
-        <translation>Laat het Silkcoin-QT help bericht zien om een lijst te krijgen met mogelijke Silkcoin command-regel opties.</translation>
+        <source>Show the Silk-Qt help message to get a list with possible Silk command-line options.</source>
+        <translation>Laat het Silk-QT help bericht zien om een lijst te krijgen met mogelijke Silk command-regel opties.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1587,13 +1587,13 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="-104"/>
-        <source>Silkcoin - Debug window</source>
-        <translation>Silkcoin - Debugscherm</translation>
+        <source>Silk - Debug window</source>
+        <translation>Silk - Debugscherm</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Silkcoin Core</source>
-        <translation>Silkcoin Kern</translation>
+        <source>Silk Core</source>
+        <translation>Silk Kern</translation>
     </message>
     <message>
         <location line="+256"/>
@@ -1602,8 +1602,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Open the Silkcoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Open het Silkcoin debug log bestand van de huidige data map. Dit kan een paar seconden duren voor grote log bestanden.</translation>
+        <source>Open the Silk debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Open het Silk debug log bestand van de huidige data map. Dit kan een paar seconden duren voor grote log bestanden.</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -1612,8 +1612,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="+325"/>
-        <source>Welcome to the Silkcoin RPC console.</source>
-        <translation>Welkom bij de Silkcoin RPC console.</translation>
+        <source>Welcome to the Silk RPC console.</source>
+        <translation>Welkom bij de Silk RPC console.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1793,8 +1793,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-174"/>
-        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Voeg een Silkcoin adres in (bijv. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Voeg een Silk adres in (bijv. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1893,8 +1893,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="+247"/>
-        <source>WARNING: Invalid Silkcoin address</source>
-        <translation>WAARSCHUWING: Ongeldig Silkcoin adres</translation>
+        <source>WARNING: Invalid Silk address</source>
+        <translation>WAARSCHUWING: Ongeldig Silk adres</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1967,8 +1967,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Voeg een Silkcoin adres in (bijv. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Voeg een Silk adres in (bijv. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
 </context>
 <context>
@@ -2028,8 +2028,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Sign the message to prove you own this Silkcoin address</source>
-        <translation>Teken een bericht om te bewijzen dat je een Silkcoin adres bezit.</translation>
+        <source>Sign the message to prove you own this Silk address</source>
+        <translation>Teken een bericht om te bewijzen dat je een Silk adres bezit.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2060,8 +2060,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="+40"/>
-        <source>Verify the message to ensure it was signed with the specified Silkcoin address</source>
-        <translation>Verifieer een bericht om zeker te zijn dat deze is ondertekend met een specifiek Silkcoin adres</translation>
+        <source>Verify the message to ensure it was signed with the specified Silk address</source>
+        <translation>Verifieer een bericht om zeker te zijn dat deze is ondertekend met een specifiek Silk adres</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2071,8 +2071,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Voeg een Silkcoin adres in (bijv. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Voeg een Silk adres in (bijv. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -2081,8 +2081,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Enter Silkcoin signature</source>
-        <translation>Voer Silkcoin handtekening in</translation>
+        <source>Enter Silk signature</source>
+        <translation>Voer Silk handtekening in</translation>
     </message>
     <message>
         <location line="+85"/>
@@ -2660,8 +2660,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     <name>bitcoin-core</name>
     <message>
         <location filename="../bitcoinstrings.cpp" line="+171"/>
-        <source>Silkcoin version</source>
-        <translation>Silkcoin versie</translation>
+        <source>Silk version</source>
+        <translation>Silk versie</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2670,8 +2670,8 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Send command to -server or silkcoind</source>
-        <translation>Verstuur commando naar -server of silkcoind</translation>
+        <source>Send command to -server or silkd</source>
+        <translation>Verstuur commando naar -server of silkd</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2690,13 +2690,13 @@ Dit betekend dat een fee van %2 is vereist.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Specify configuration file (default: silkcoin.conf)</source>
-        <translation>Selecteer configuratie bestand (standaard: silkcoin.conf)</translation>
+        <source>Specify configuration file (default: silk.conf)</source>
+        <translation>Selecteer configuratie bestand (standaard: silk.conf)</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Specify pid file (default: silkcoind.pid)</source>
-        <translation>Selecteer pid bestand (standaard: silkcoin.conf)</translation>
+        <source>Specify pid file (default: silkd.pid)</source>
+        <translation>Selecteer pid bestand (standaard: silk.conf)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2713,13 +2713,13 @@ Dit betekend dat een fee van %2 is vereist.</translation>
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=silkcoinrpc
+rpcuser=silkrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
 If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo.com
+for example: alertnotify=echo %%s | mail -s &quot;Silk Alert&quot; admin@foo.com
 </source>
         <translation type="unfinished"/>
     </message>
@@ -2825,8 +2825,8 @@ for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="-103"/>
-        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Silkcoin will not work properly.</source>
-        <translation>Waarschuwing: Controleer of de datum en tijd van de computer juist zijn! Als uw klok verkeerd is Silkcoin zal niet goed werken.</translation>
+        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Silk will not work properly.</source>
+        <translation>Waarschuwing: Controleer of de datum en tijd van de computer juist zijn! Als uw klok verkeerd is Silk zal niet goed werken.</translation>
     </message>
     <message>
         <location line="+130"/>
@@ -3120,7 +3120,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+8"/>
-        <source>Initialization sanity check failed. Silkcoin is shutting down.</source>
+        <source>Initialization sanity check failed. Silk is shutting down.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3175,13 +3175,13 @@ for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+4"/>
-        <source>Error loading wallet.dat: Wallet requires newer version of Silkcoin</source>
-        <translation>Fout bij laden van wallet.dat: Portemonnee vereist een nieuwere versie van Silkcoin</translation>
+        <source>Error loading wallet.dat: Wallet requires newer version of Silk</source>
+        <translation>Fout bij laden van wallet.dat: Portemonnee vereist een nieuwere versie van Silk</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Wallet needed to be rewritten: restart Silkcoin to complete</source>
-        <translation>Portemonnee moet herschreven worden: herstart Silkcoin om te voltooien</translation>
+        <source>Wallet needed to be rewritten: restart Silk to complete</source>
+        <translation>Portemonnee moet herschreven worden: herstart Silk om te voltooien</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3240,8 +3240,8 @@ for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+124"/>
-        <source>Unable to bind to %s on this computer. Silkcoin is probably already running.</source>
-        <translation>Niet mogelijk om %s op deze computer. Silkcoin is waarschijnlijk al geopened.</translation>
+        <source>Unable to bind to %s on this computer. Silk is probably already running.</source>
+        <translation>Niet mogelijk om %s op deze computer. Silk is waarschijnlijk al geopened.</translation>
     </message>
     <message>
         <location line="-101"/>
@@ -3275,7 +3275,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo
     </message>
     <message>
         <location line="+3"/>
-        <source>Cannot obtain a lock on data directory %s. Silkcoin is probably already running.</source>
+        <source>Cannot obtain a lock on data directory %s. Silk is probably already running.</source>
         <translation type="unfinished"/>
     </message>
     <message>

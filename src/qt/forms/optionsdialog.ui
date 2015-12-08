@@ -23,7 +23,7 @@
       <enum>QTabWidget::North</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tabMain">
       <attribute name="title">
@@ -135,10 +135,10 @@ background-color: rgb(255, 255, 255);</string>
        <item>
         <widget class="QCheckBox" name="bitcoinAtStartup">
          <property name="toolTip">
-          <string>Automatically start Silkcoin after logging in to the system.</string>
+          <string>Automatically start Silk after logging in to the system.</string>
          </property>
          <property name="text">
-          <string>&amp;Start Silkcoin on system login</string>
+          <string>&amp;Start Silk on system login</string>
          </property>
         </widget>
        </item>
@@ -165,7 +165,7 @@ background-color: rgb(255, 255, 255);</string>
        <item>
         <widget class="QCheckBox" name="mapPortUpnp">
          <property name="toolTip">
-          <string>Automatically open the Silkcoin client port on the router. This only works when your router supports UPnP and it is enabled.</string>
+          <string>Automatically open the Silk client port on the router. This only works when your router supports UPnP and it is enabled.</string>
          </property>
          <property name="text">
           <string>Map port using &amp;UPnP</string>
@@ -175,7 +175,7 @@ background-color: rgb(255, 255, 255);</string>
        <item>
         <widget class="QCheckBox" name="connectSocks">
          <property name="toolTip">
-          <string>Connect to the Silkcoin network through a SOCKS5 proxy (e.g. when connecting through Tor).</string>
+          <string>Connect to the Silk network through a SOCKS5 proxy (e.g. when connecting through Tor).</string>
          </property>
          <property name="text">
           <string>&amp;Connect through SOCKS5 proxy:</string>
@@ -329,7 +329,7 @@ background-color: rgb(255, 255, 255);</string>
          <item>
           <widget class="QValueComboBox" name="lang">
            <property name="toolTip">
-            <string>The user interface language can be set here. This setting will take effect after restarting Silkcoin.</string>
+            <string>The user interface language can be set here. This setting will take effect after restarting Silk.</string>
            </property>
           </widget>
          </item>
@@ -376,13 +376,6 @@ background-color: rgb(255, 255, 255);</string>
          </property>
          <property name="text">
           <string>Minimize weight consumption (experimental)</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="useBlackTheme">
-         <property name="text">
-          <string>Use black visual theme (requires restart)</string>
          </property>
         </widget>
        </item>

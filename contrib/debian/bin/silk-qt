@@ -4,13 +4,13 @@ set -e
 
 umask 077
 
-basedir=~/.silkcoin
+basedir=~/.silk
 dbfile="$basedir/DB_CONFIG"
-cfgfile="$basedir/silkcoin.conf"
+cfgfile="$basedir/silk.conf"
 
 [ -e "$basedir" ] || mkdir "$basedir"
 
-# Silkcoin does not clean up DB log files by default
+# Silk does not clean up DB log files by default
 [ -e "$dbfile" ] || echo 'set_flags DB_LOG_AUTOREMOVE' > "$dbfile"
 
-exec /usr/lib/silkcoin/silkcoin-qt "$@"
+exec /usr/lib/silk/silk-qt "$@"

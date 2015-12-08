@@ -682,7 +682,7 @@ DBErrors CWalletDB::LoadWallet(CWallet* pwallet)
 void ThreadFlushWalletDB(const string& strFile)
 {
     // Make this thread recognisable as the wallet flushing thread
-    RenameThread("silkcoin-wallet");
+    RenameThread("silk-wallet");
 
     static bool fOneThread;
     if (fOneThread)

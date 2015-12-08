@@ -3,22 +3,22 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Silkcoin</source>
-        <translation>O Silkcoin</translation>
+        <source>About Silk</source>
+        <translation>O Silk</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;Silkcoin&lt;/b&gt; version</source>
-        <translation>Verzia &lt;b&gt;Silkcoin&lt;/b&gt;</translation>
+        <source>&lt;b&gt;Silk&lt;/b&gt; version</source>
+        <translation>Verzia &lt;b&gt;Silk&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Copyright © 2009-2014 The Bitcoin developers
 Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2014 The Silkcoin developers</source>
+Copyright © 2015 The Silk developers</source>
         <translation>Copyright © 2009-2014 The Bitcoin developers
 Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2014 The Silkcoin developers</translation>
+Copyright © 2015 The Silk developers</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -65,8 +65,8 @@ Tento produkt obsahuje softvér vyvinutý projektom OpenSSL Project pre použiti
     </message>
     <message>
         <location line="-43"/>
-        <source>These are your Silkcoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
-        <translation>Toto sú vaše Silkcoin adresy pre príjem platieb. Možno budete chcieť dať inú každému odosielateľovi, aby ste mohli sledovať, kto Vám platí.</translation>
+        <source>These are your Silk addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
+        <translation>Toto sú vaše Silk adresy pre príjem platieb. Možno budete chcieť dať inú každému odosielateľovi, aby ste mohli sledovať, kto Vám platí.</translation>
     </message>
     <message>
         <location line="+53"/>
@@ -80,8 +80,8 @@ Tento produkt obsahuje softvér vyvinutý projektom OpenSSL Project pre použiti
     </message>
     <message>
         <location line="+7"/>
-        <source>Sign a message to prove you own a Silkcoin address</source>
-        <translation>Podpísať správu ako dôkaz, že vlastníte túto Silkcoin adresu</translation>
+        <source>Sign a message to prove you own a Silk address</source>
+        <translation>Podpísať správu ako dôkaz, že vlastníte túto Silk adresu</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -95,8 +95,8 @@ Tento produkt obsahuje softvér vyvinutý projektom OpenSSL Project pre použiti
     </message>
     <message>
         <location line="-10"/>
-        <source>Verify a message to ensure it was signed with a specified Silkcoin address</source>
-        <translation>Overte správu, aby ste zabezpečili, že bola podpísaná s určitou Silkcoin adresou</translation>
+        <source>Verify a message to ensure it was signed with a specified Silk address</source>
+        <translation>Overte správu, aby ste zabezpečili, že bola podpísaná s určitou Silk adresou</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -263,8 +263,8 @@ Tento produkt obsahuje softvér vyvinutý projektom OpenSSL Project pre použiti
     </message>
     <message>
         <location line="+82"/>
-        <source>Silkcoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
-        <translation>Silkcoin sa teraz zavrie aby dokončil proces zašifrovania. Nezabudnite, že zašifrovanie vašej peňaženky nemôže plne chrániť vaše mince pred krádežou malwarom, ktorý napadol váš počítač.</translation>
+        <source>Silk will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
+        <translation>Silk sa teraz zavrie aby dokončil proces zašifrovania. Nezabudnite, že zašifrovanie vašej peňaženky nemôže plne chrániť vaše mince pred krádežou malwarom, ktorý napadol váš počítač.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -357,8 +357,8 @@ Tento produkt obsahuje softvér vyvinutý projektom OpenSSL Project pre použiti
     </message>
     <message>
         <location line="+4"/>
-        <source>Show information about Silkcoin</source>
-        <translation>Zobraziť informácie o Silkcoin</translation>
+        <source>Show information about Silk</source>
+        <translation>Zobraziť informácie o Silk</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -397,13 +397,13 @@ Tento produkt obsahuje softvér vyvinutý projektom OpenSSL Project pre použiti
     </message>
     <message>
         <location line="-55"/>
-        <source>Send coins to a Silkcoin address</source>
-        <translation>Poslať mince na Silkcoin adresu</translation>
+        <source>Send coins to a Silk address</source>
+        <translation>Poslať mince na Silk adresu</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>Modify configuration options for Silkcoin</source>
-        <translation>Upraviť možnosti konfigurácie pre Silkcoin</translation>
+        <source>Modify configuration options for Silk</source>
+        <translation>Upraviť možnosti konfigurácie pre Silk</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -443,8 +443,8 @@ Tento produkt obsahuje softvér vyvinutý projektom OpenSSL Project pre použiti
     <message>
         <location line="-214"/>
         <location line="+555"/>
-        <source>Silkcoin</source>
-        <translation>Silkcoin</translation>
+        <source>Silk</source>
+        <translation>Silk</translation>
     </message>
     <message>
         <location line="-555"/>
@@ -453,8 +453,8 @@ Tento produkt obsahuje softvér vyvinutý projektom OpenSSL Project pre použiti
     </message>
     <message>
         <location line="+193"/>
-        <source>&amp;About Silkcoin</source>
-        <translation>&amp;O Silkcoin</translation>
+        <source>&amp;About Silk</source>
+        <translation>&amp;O Silk</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -505,13 +505,13 @@ Tento produkt obsahuje softvér vyvinutý projektom OpenSSL Project pre použiti
     <message>
         <location line="+0"/>
         <location line="+58"/>
-        <source>Silkcoin client</source>
-        <translation>Silkcoin klient</translation>
+        <source>Silk client</source>
+        <translation>Silk klient</translation>
     </message>
     <message numerus="yes">
         <location line="+70"/>
-        <source>%n active connection(s) to Silkcoin network</source>
-        <translation><numerusform>%n aktívne spojenie s Silkcoin sieťov</numerusform><numerusform>%n aktívnych spojení s Silkcoin sieťov</numerusform><numerusform>%n aktívnych spojení s Silkcoin sieťou</numerusform></translation>
+        <source>%n active connection(s) to Silk network</source>
+        <translation><numerusform>%n aktívne spojenie s Silk sieťov</numerusform><numerusform>%n aktívnych spojení s Silk sieťov</numerusform><numerusform>%n aktívnych spojení s Silk sieťou</numerusform></translation>
     </message>
     <message>
         <location line="+488"/>
@@ -604,8 +604,8 @@ Adresa: %4</translation>
     <message>
         <location line="-15"/>
         <location line="+15"/>
-        <source>URI can not be parsed! This can be caused by an invalid Silkcoin address or malformed URI parameters.</source>
-        <translation>URI nemožno analyzovať! Toto môže byť spôsobené neplatnou Silkcoin adresu alebo chybnými URI parametrami.</translation>
+        <source>URI can not be parsed! This can be caused by an invalid Silk address or malformed URI parameters.</source>
+        <translation>URI nemožno analyzovať! Toto môže byť spôsobené neplatnou Silk adresu alebo chybnými URI parametrami.</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -727,8 +727,8 @@ Adresa: %4</translation>
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+104"/>
-        <source>A fatal error occurred. Silkcoin can no longer continue safely and will quit.</source>
-        <translation>Došlo k závažnej chybe. Silkcoin už nemôže pokračovať bezpečne a bude ukončený.</translation>
+        <source>A fatal error occurred. Silk can no longer continue safely and will quit.</source>
+        <translation>Došlo k závažnej chybe. Silk už nemôže pokračovať bezpečne a bude ukončený.</translation>
     </message>
 </context>
 <context>
@@ -1061,8 +1061,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>The entered address &quot;%1&quot; is not a valid Silkcoin address.</source>
-        <translation>Zadaná adresa &quot;%1&quot; nie je platnou Silkcoin adresou.</translation>
+        <source>The entered address &quot;%1&quot; is not a valid Silk address.</source>
+        <translation>Zadaná adresa &quot;%1&quot; nie je platnou Silk adresou.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1080,8 +1080,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     <message>
         <location filename="../guiutil.cpp" line="+426"/>
         <location line="+12"/>
-        <source>Silkcoin-Qt</source>
-        <translation>Silkcoin-Qt</translation>
+        <source>Silk-Qt</source>
+        <translation>Silk-Qt</translation>
     </message>
     <message>
         <location line="-12"/>
@@ -1153,13 +1153,13 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Automatically start Silkcoin after logging in to the system.</source>
-        <translation>Automaticky spustiť Silkcoin po prihlásení sa do systému.</translation>
+        <source>Automatically start Silk after logging in to the system.</source>
+        <translation>Automaticky spustiť Silk po prihlásení sa do systému.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>&amp;Start Silkcoin on system login</source>
-        <translation>&amp;Spustiť Silkcoin pri prihlásení do systému</translation>
+        <source>&amp;Start Silk on system login</source>
+        <translation>&amp;Spustiť Silk pri prihlásení do systému</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -1168,8 +1168,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Automatically open the Silkcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Automaticky otvoriť port klienta Silkcoin na routeri. To funguje iba vtedy, ak váš router podporuje UPnP a je povolené.</translation>
+        <source>Automatically open the Silk client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Automaticky otvoriť port klienta Silk na routeri. To funguje iba vtedy, ak váš router podporuje UPnP a je povolené.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1198,8 +1198,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="-57"/>
-        <source>Connect to the Silkcoin network through a SOCKS5 proxy (e.g. when connecting through Tor).</source>
-        <translation>Pripojiť k sieti Silkcoin cez SOCKS5 proxy (napr. pri pripojení cez Tor).</translation>
+        <source>Connect to the Silk network through a SOCKS5 proxy (e.g. when connecting through Tor).</source>
+        <translation>Pripojiť k sieti Silk cez SOCKS5 proxy (napr. pri pripojení cez Tor).</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1243,8 +1243,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>The user interface language can be set here. This setting will take effect after restarting Silkcoin.</source>
-        <translation>Tu môžete nastaviť jazyk používateľského rozhrania. Toto nastavenie sa prejaví až po reštartovaní Silkcoin.</translation>
+        <source>The user interface language can be set here. This setting will take effect after restarting Silk.</source>
+        <translation>Tu môžete nastaviť jazyk používateľského rozhrania. Toto nastavenie sa prejaví až po reštartovaní Silk.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1310,8 +1310,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     <message>
         <location line="-9"/>
         <location line="+9"/>
-        <source>This setting will take effect after restarting Silkcoin.</source>
-        <translation>Toto nastavenie sa prejaví až po reštartovaní Silkcoin.</translation>
+        <source>This setting will take effect after restarting Silk.</source>
+        <translation>Toto nastavenie sa prejaví až po reštartovaní Silk.</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -1329,8 +1329,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     <message>
         <location line="+46"/>
         <location line="+247"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Silkcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Zobrazené informácie môžu byť zastaralé. Vaša peňaženka sa automaticky synchronizuje so sieťou Silkcoin po nadviazaní spojenia, ale tento proces nie je ešte dokončený.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Silk network after a connection is established, but this process has not completed yet.</source>
+        <translation>Zobrazené informácie môžu byť zastaralé. Vaša peňaženka sa automaticky synchronizuje so sieťou Silk po nadviazaní spojenia, ale tento proces nie je ešte dokončený.</translation>
     </message>
     <message>
         <location line="-173"/>
@@ -1403,8 +1403,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     <name>PaymentServer</name>
     <message>
         <location filename="../paymentserver.cpp" line="+107"/>
-        <source>Cannot start silkcoin: click-to-pay handler</source>
-        <translation>Silkcoin sa nedá spustiť: click-to-pay handler</translation>
+        <source>Cannot start silk: click-to-pay handler</source>
+        <translation>Silk sa nedá spustiť: click-to-pay handler</translation>
     </message>
 </context>
 <context>
@@ -1571,8 +1571,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Show the Silkcoin-Qt help message to get a list with possible Silkcoin command-line options.</source>
-        <translation>Zobraziť Silkcoin-Qt nápovedu k získaniu zoznamu pre možnosti  príkazového riadku Silkcoin.</translation>
+        <source>Show the Silk-Qt help message to get a list with possible Silk command-line options.</source>
+        <translation>Zobraziť Silk-Qt nápovedu k získaniu zoznamu pre možnosti  príkazového riadku Silk.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1591,13 +1591,13 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="-104"/>
-        <source>Silkcoin - Debug window</source>
-        <translation>Silkcoin - Ladiace okno</translation>
+        <source>Silk - Debug window</source>
+        <translation>Silk - Ladiace okno</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Silkcoin Core</source>
-        <translation>Jadro Silkcoin</translation>
+        <source>Silk Core</source>
+        <translation>Jadro Silk</translation>
     </message>
     <message>
         <location line="+256"/>
@@ -1606,8 +1606,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Open the Silkcoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Otvorte Silkcoin súbor denníku ladenia z aktuálneho adresára dát. To môže trvať niekoľko sekúnd pre veľké súbory denníka.</translation>
+        <source>Open the Silk debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Otvorte Silk súbor denníku ladenia z aktuálneho adresára dát. To môže trvať niekoľko sekúnd pre veľké súbory denníka.</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -1616,8 +1616,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="+325"/>
-        <source>Welcome to the Silkcoin RPC console.</source>
-        <translation>Vitajte v konzole Silkcoin RPC.</translation>
+        <source>Welcome to the Silk RPC console.</source>
+        <translation>Vitajte v konzole Silk RPC.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1797,8 +1797,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-174"/>
-        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Zadajte Silkcoin adresu (napr. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Zadajte Silk adresu (napr. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1897,8 +1897,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="+247"/>
-        <source>WARNING: Invalid Silkcoin address</source>
-        <translation>UPOZORNENIE: Neplatná Silkcoin adresa</translation>
+        <source>WARNING: Invalid Silk address</source>
+        <translation>UPOZORNENIE: Neplatná Silk adresa</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1971,8 +1971,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Zadajte Silkcoin adresu (napr. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Zadajte Silk adresu (napr. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
 </context>
 <context>
@@ -2032,8 +2032,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Sign the message to prove you own this Silkcoin address</source>
-        <translation>Podpísať správu ako dôkaz, že vlastníte túto Silkcoin adresu</translation>
+        <source>Sign the message to prove you own this Silk address</source>
+        <translation>Podpísať správu ako dôkaz, že vlastníte túto Silk adresu</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2064,8 +2064,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="+40"/>
-        <source>Verify the message to ensure it was signed with the specified Silkcoin address</source>
-        <translation>Overte správu, aby ste sa ubezpečili, že bola podpísaná s danou Silkcoin adresou</translation>
+        <source>Verify the message to ensure it was signed with the specified Silk address</source>
+        <translation>Overte správu, aby ste sa ubezpečili, že bola podpísaná s danou Silk adresou</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2075,8 +2075,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a Silkcoin address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Zadajte Silkcoin adresu (napr. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
+        <translation>Zadajte Silk adresu (napr. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -2085,8 +2085,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Enter Silkcoin signature</source>
-        <translation>Zadajte Silkcoin podpis</translation>
+        <source>Enter Silk signature</source>
+        <translation>Zadajte Silk podpis</translation>
     </message>
     <message>
         <location line="+85"/>
@@ -2664,8 +2664,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     <name>bitcoin-core</name>
     <message>
         <location filename="../bitcoinstrings.cpp" line="+171"/>
-        <source>Silkcoin version</source>
-        <translation>Verzia Silkcoin</translation>
+        <source>Silk version</source>
+        <translation>Verzia Silk</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2674,8 +2674,8 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Send command to -server or silkcoind</source>
-        <translation>Pošli príkaz na -server alebo silkcoind</translation>
+        <source>Send command to -server or silkd</source>
+        <translation>Pošli príkaz na -server alebo silkd</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2694,13 +2694,13 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Specify configuration file (default: silkcoin.conf)</source>
-        <translation>Zadajte konfiguračný súbor (predvolené: silkcoin.conf)</translation>
+        <source>Specify configuration file (default: silk.conf)</source>
+        <translation>Zadajte konfiguračný súbor (predvolené: silk.conf)</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Specify pid file (default: silkcoind.pid)</source>
-        <translation>Zadajte pid súbor (predvolené: silkcoind.pid)</translation>
+        <source>Specify pid file (default: silkd.pid)</source>
+        <translation>Zadajte pid súbor (predvolené: silkd.pid)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2717,24 +2717,24 @@ To znamená, že je potrebný poplatok aspoň %2.</translation>
         <source>%s, you must set a rpcpassword in the configuration file:
 %s
 It is recommended you use the following random password:
-rpcuser=silkcoinrpc
+rpcuser=silkrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
 If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;Silkcoin Alert&quot; admin@foo.com
+for example: alertnotify=echo %%s | mail -s &quot;Silk Alert&quot; admin@foo.com
 </source>
         <translation>%s, musíte nastaviť rpcpassword v konfiguračnom súbore:
 %s
 Doporučuje sa použiť nasledovné náhodne heslo:
-rpcuser=silkcoinrpc
+rpcuser=silkrpc
 rpcpassword=%s
 (toto heslo si nemusíte pamätať)
 Užívateľské meno a heslo NESMIE byť rovnaké.
 Ak súbor neexistuje, vytvorte ho s právami &quot;môže čítať iba vlastník&quot;.
 Odporúča sa tiež nastaviť &quot;alertnotify&quot;, takže budete upozornení na problémy,
-napríklad: alertnotify=echo %%s | mail -s &quot;Silkcoin upozornenie&quot; admin@foo.com
+napríklad: alertnotify=echo %%s | mail -s &quot;Silk upozornenie&quot; admin@foo.com
 </translation>
     </message>
     <message>
@@ -2839,8 +2839,8 @@ napríklad: alertnotify=echo %%s | mail -s &quot;Silkcoin upozornenie&quot; admi
     </message>
     <message>
         <location line="-103"/>
-        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Silkcoin will not work properly.</source>
-        <translation>Upozornenie: Skontrolujte, že dátum a čas počítača sú správne! Ak je Váš čas nesprávny Silkcoin nebude pracovať správne.</translation>
+        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Silk will not work properly.</source>
+        <translation>Upozornenie: Skontrolujte, že dátum a čas počítača sú správne! Ak je Váš čas nesprávny Silk nebude pracovať správne.</translation>
     </message>
     <message>
         <location line="+130"/>
@@ -3134,8 +3134,8 @@ napríklad: alertnotify=echo %%s | mail -s &quot;Silkcoin upozornenie&quot; admi
     </message>
     <message>
         <location line="+8"/>
-        <source>Initialization sanity check failed. Silkcoin is shutting down.</source>
-        <translation>Úvodné kontrolné testy zlyhali. Silkcoin sa teraz zatvori.</translation>
+        <source>Initialization sanity check failed. Silk is shutting down.</source>
+        <translation>Úvodné kontrolné testy zlyhali. Silk sa teraz zatvori.</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -3189,13 +3189,13 @@ napríklad: alertnotify=echo %%s | mail -s &quot;Silkcoin upozornenie&quot; admi
     </message>
     <message>
         <location line="+4"/>
-        <source>Error loading wallet.dat: Wallet requires newer version of Silkcoin</source>
-        <translation>Chyba pri načítaní wallet.dat: Peňaženka vyžaduje novšiu verziu Silkcoin</translation>
+        <source>Error loading wallet.dat: Wallet requires newer version of Silk</source>
+        <translation>Chyba pri načítaní wallet.dat: Peňaženka vyžaduje novšiu verziu Silk</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Wallet needed to be rewritten: restart Silkcoin to complete</source>
-        <translation>Peňaženka potrebuje byť prepísaná: reštartujte Silkcoin k dokončeniu</translation>
+        <source>Wallet needed to be rewritten: restart Silk to complete</source>
+        <translation>Peňaženka potrebuje byť prepísaná: reštartujte Silk k dokončeniu</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3254,8 +3254,8 @@ napríklad: alertnotify=echo %%s | mail -s &quot;Silkcoin upozornenie&quot; admi
     </message>
     <message>
         <location line="+124"/>
-        <source>Unable to bind to %s on this computer. Silkcoin is probably already running.</source>
-        <translation>Nemôžem sa pripojiť na %s na tomto počítači. Silkcoin je pravdepodobne už beží.</translation>
+        <source>Unable to bind to %s on this computer. Silk is probably already running.</source>
+        <translation>Nemôžem sa pripojiť na %s na tomto počítači. Silk je pravdepodobne už beží.</translation>
     </message>
     <message>
         <location line="-101"/>
@@ -3289,8 +3289,8 @@ napríklad: alertnotify=echo %%s | mail -s &quot;Silkcoin upozornenie&quot; admi
     </message>
     <message>
         <location line="+3"/>
-        <source>Cannot obtain a lock on data directory %s. Silkcoin is probably already running.</source>
-        <translation>Nedá sa zamknúť dátová zložka %s. Silkcoin je pravdepodobne už spustený</translation>
+        <source>Cannot obtain a lock on data directory %s. Silk is probably already running.</source>
+        <translation>Nedá sa zamknúť dátová zložka %s. Silk je pravdepodobne už spustený</translation>
     </message>
     <message>
         <location line="+4"/>
