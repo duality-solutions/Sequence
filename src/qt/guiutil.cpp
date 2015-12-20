@@ -464,8 +464,9 @@ void SetBlackThemeQSS(QApplication& app)
 {
     app.setStyleSheet("QWidget        { background: rgb(24,26,30); }"
                       "QFrame         { border: none; }"
-                      "QComboBox      { color: rgb(255,255,255); }"
-                      "QComboBox QAbstractItemView::item { color: rgb(255,255,255); }"
+                      "QComboBox      { background: rgb(255,255,255); color: rgb(0,0,0); }"
+                      "QComboBox QAbstractItemView::item { background: rgb(255,255,255); color: rgb(0,0,0); }"
+                      "QComboBox QAbstractItemView::item:hover { background: rgb(24,26,30); color: rgb(255,255,255); }"
                       "QPushButton    { background: rgb(226,189,121); color: rgb(21,21,21); }"
                       "QDoubleSpinBox { background: rgb(63,67,72); color: rgb(255,255,255); border-color: rgb(194,194,194); }"
                       "QLineEdit      { background: rgb(63,67,72); color: rgb(255,255,255); border-color: rgb(194,194,194); }"
