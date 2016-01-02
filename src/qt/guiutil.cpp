@@ -485,7 +485,7 @@ void SetBlackThemeQSS(QApplication& app)
                       "QTabBar::tab:selected  { color: #000000; background: rgb(255,255,255); border: 2px solid rgb(192,192,192); border-bottom: none; }"
                       "QTabBar::tab:!selected { background: rgb(0,0,0); margin-top: 2px; }"
                       "QTabWidget::pane { border: 1px solid rgb(78,79,83); }"
-                      "QToolButton    { background: rgb(0,0,0); color: rgb(67,67,67); border: none; border-left-color: rgb(192,192,192); border-left-style: solid; border-left-width: 6px; margin-top: 8px; margin-bottom: 8px; }"
+                      "QToolButton    { background: rgb(0,0,0); color: rgb(67,67,67); border: none; border-left-color: rgb(67,67,67); border-left-style: solid; border-left-width: 6px; margin-top: 8px; margin-bottom: 8px; }"
                       "QToolButton:checked { color: rgb(192,192,192); border: none; border-left-color: rgb(192,192,192); border-left-style: solid; border-left-width: 6px; }"
                       "QProgressBar   { color: rgb(192,192,192); border-color: rgb(192,192,192); border-width: 3px; border-style: solid; }"
                       "QProgressBar::chunk { background: rgb(255,255,255); }"
