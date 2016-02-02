@@ -2,7 +2,7 @@
 
 Silk Integration/Staging Tree
 ================================
-![SLK logo](https://avatars3.githubusercontent.com/u/16062819?v=3&s=460)
+![SLK logo](https://scontent-lhr3-1.xx.fbcdn.net/hphotos-xtf1/v/t1.0-9/12669495_621650001334502_3517722285731187914_n.png?oh=1065e770b27e92940d7e0268ae53f404&oe=5741CA59)
 
 **Copyright (c) 2015 The Silk Developers**
 
