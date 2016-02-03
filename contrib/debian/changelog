@@ -1,4 +1,4 @@
-silk (2.0.0.0) unstable; urgency=low
+silk (1.0.0.0) unstable; urgency=low
 
   * Update debian package scripts for use by silk.
 

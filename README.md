@@ -1,4 +1,4 @@
-# **Silk (SLK) Version 2.0.0.0**
+# **Silk (SLK) Version 1.0.0.0**
 
 Silk Integration/Staging Tree
 ================================
