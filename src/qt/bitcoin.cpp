@@ -1,5 +1,5 @@
 /*
- * W.J. van der Laan 2011-2012
+ * W.J. van der Laan 2011-2016
  */
 
 #include <QApplication>
@@ -82,7 +82,7 @@ static void InitMessage(const std::string &message)
 {
     if(splashref)
     {
-        splashref->showMessage(QString::fromStdString(message), Qt::AlignBottom|Qt::AlignHCenter, QColor(232,186,63));
+        splashref->showMessage(QString::fromStdString(message), Qt::AlignBottom|Qt::AlignHCenter, QColor(192,192,192));
         QApplication::instance()->processEvents();
     }
     LogPrintf("init message: %s\n", message);

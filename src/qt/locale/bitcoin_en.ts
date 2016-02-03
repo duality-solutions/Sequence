@@ -16,8 +16,8 @@
     <message>
         <location line="+41"/>
         <source>Copyright © 2009-2014 The Bitcoin developers
-Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2015 The Silk developers</source>
+Copyright © 2012-2016 The NovaCoin developers
+Copyright © 2015-2016 Silk Network Developers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

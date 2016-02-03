@@ -22,7 +22,7 @@ BEGIN
             VALUE "FileDescription",    "Silk-Qt (OSS GUI client for Silk)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
             VALUE "InternalName",       "silk-qt"
-            VALUE "LegalCopyright",     "2009-2014 The Bitcoin developers, 2012-2014 The NovaCoin & PPCoin developers, 2014 The Silk developers"
+            VALUE "LegalCopyright",     "2009-2014 The Bitcoin developers, 2012-2016 The NovaCoin & PPCoin developers, 2014 The Silk developers"
             VALUE "LegalTrademarks1",   "Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
             VALUE "OriginalFilename",   "silk-qt.exe"
             VALUE "ProductName",        "Silk-Qt"
