@@ -13,10 +13,10 @@
     </message>
     <message>
         <location line="+41"/>
-        <source>Copyright © 2009-2014 The Bitcoin developers
+        <source>Copyright © 2009-2016 The Bitcoin developers
 Copyright © 2012-2016 The NovaCoin developers
 Copyright © 2015-2016 Silk Network Developers</source>
-        <translation>Все права защищены © 2009-2014 Разработчики Bitcoin
+        <translation>Все права защищены © 2009-2016 Разработчики Bitcoin
 Все права защищены © 2012-2016 Разработчики NovaCoin
 Все права защищены © 2014 Разработчики Silk</translation>
     </message>

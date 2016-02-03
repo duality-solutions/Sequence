@@ -47,9 +47,9 @@ Build Instructions for Qt5 Linux Wallet (Ubuntu)
 
 $ sudo apt-get install make libqt5webkit5-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools qtcreator libprotobuf-dev protobuf-compiler build-essential libboost-dev libboost-all-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-thread-dev libssl-dev libdb++-dev libstdc++6 libminiupnpc-dev libevent-dev libcurl4-openssl-dev git libpng-dev qrencode libqrencode-dev
 
-//In terminal navigate to the Silk-2.0 folder:
+//In terminal navigate to the Silk folder:
 
-$ cd /home/Silk-2.0
+$ cd /home/Silk
 
 //Then:
 
@@ -73,9 +73,9 @@ Build Instructions for Terminal Based Linux Wallet (Ubuntu)
 
 $ sudo apt-get install build-essential libboost-all-dev libssl-dev libcurl4-openssl-dev libminiupnpc-dev libdb++-dev libstdc++6 make 
 
-//In terminal navigate to the Silk-2.0 folder:
+//In terminal navigate to the Silk folder:
 
-$ cd /home/Silk-2.0/src/
+$ cd /home/Silk/src/
 
 //Enter into the terminal:
 
