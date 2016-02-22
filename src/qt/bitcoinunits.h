@@ -4,6 +4,22 @@
 #include <QString>
 #include <QAbstractListModel>
 
+// U+2009 THIN SPACE = UTF-8 E2 80 89
+#define REAL_THIN_SP_CP 0x2009
+#define REAL_THIN_SP_UTF8 "\xE2\x80\x89"
+#define REAL_THIN_SP_HTML "&thinsp;"
+
+// QMessageBox seems to have a bug whereby it doesn't display thin/hair spaces
+// correctly.  Workaround is to display a space in a small font.  If you
+// change this, please test that it doesn't cause the parent span to start
+// wrapping.
+#define HTML_HACK_SP "<span style='white-space: nowrap; font-size: 6pt'> </span>"
+
+// Define THIN_SP_* variables to be our preferred type of thin space
+#define THIN_SP_CP   REAL_THIN_SP_CP
+#define THIN_SP_UTF8 REAL_THIN_SP_UTF8
+#define THIN_SP_HTML HTML_HACK_SP
+
 /** Bitcoin unit definitions. Encapsulates parsing and formatting
    and serves as list model for drop-down selection boxes.
 */
@@ -22,6 +38,13 @@ public:
         BTC,
         mBTC,
         uBTC
+    };
+
+    enum SeparatorStyle
+    {
+        separatorNever,
+        separatorStandard,
+        separatorAlways
     };
 
     //! @name Static API
@@ -46,6 +69,10 @@ public:
     static QString format(int unit, qint64 amount, bool plussign=false);
     //! Format as string (with unit)
     static QString formatWithUnit(int unit, qint64 amount, bool plussign=false);
+    //! Format as string (with unit) but floor value up to "digits" settings
+    static QString floorWithUnit(int unit, qint64 amount, bool plussign=false, SeparatorStyle separators=separatorStandard);
+    static QString floorHtmlWithUnit(int unit, qint64 amount, bool plussign=false, SeparatorStyle separators=separatorStandard);
+    static QString format(int unit, qint64 nIn, bool fPlus, SeparatorStyle separators);
     //! Parse string to coin amount
     static bool parse(int unit, const QString &value, qint64 *val_out);
     ///@}

@@ -4,12 +4,14 @@
 #include <QDialog>
 #include <QString>
 
-namespace Ui {
-    class SendCoinsDialog;
-}
+class ClientModel;
 class WalletModel;
 class SendCoinsEntry;
 class SendCoinsRecipient;
+
+namespace Ui {
+    class SendCoinsDialog;
+}
 
 QT_BEGIN_NAMESPACE
 class QUrl;
@@ -39,8 +41,8 @@ public slots:
     void accept();
     SendCoinsEntry *addEntry();
     void updateRemoveEnabled();
-    void setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBalance, qint64 immatureBalance);
-
+    void setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBalance, qint64 immatureBalance, qint64 watchOnlyBalance, qint64 watchOnlyStake, qint64 watchUnconfBalance, qint64 watchImmatureBalance);
+ 
 private:
     Ui::SendCoinsDialog *ui;
     WalletModel *model;

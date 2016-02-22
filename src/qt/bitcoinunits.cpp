@@ -1,6 +1,7 @@
 #include "bitcoinunits.h"
 
 #include <QStringList>
+#include <QSettings>
 
 BitcoinUnits::BitcoinUnits(QObject *parent):
         QAbstractListModel(parent),
@@ -115,6 +116,52 @@ QString BitcoinUnits::format(int unit, qint64 n, bool fPlus)
 QString BitcoinUnits::formatWithUnit(int unit, qint64 amount, bool plussign)
 {
     return format(unit, amount, plussign) + QString(" ") + name(unit);
+}
+
+QString BitcoinUnits::floorWithUnit(int unit, qint64 amount, bool plussign, SeparatorStyle separators)
+{
+    QSettings settings;
+    int digits = settings.value("digits").toInt();
+
+    QString result = format(unit, amount, plussign, separators);
+    if(decimals(unit) > digits) result.chop(decimals(unit) - digits);
+
+    return result + QString(" ") + name(unit);
+}
+
+QString BitcoinUnits::floorHtmlWithUnit(int unit, qint64 amount, bool plussign, SeparatorStyle separators)
+{
+    QString str(floorWithUnit(unit, amount, plussign, separators));
+    str.replace(QChar(THIN_SP_CP), QString(THIN_SP_HTML));
+    return QString("<span style='white-space: nowrap;'>%1</span>").arg(str);
+}
+
+QString BitcoinUnits::format(int unit, qint64 nIn, bool fPlus, SeparatorStyle separators)
+{
+    // Note: not using straight sprintf here because we do NOT want
+    // localized number formatting.
+    if(!valid(unit))
+        return QString(); // Refuse to format invalid unit
+    qint64 n = (qint64)nIn;
+    qint64 coin = factor(unit);
+    int num_decimals = decimals(unit);
+    qint64 n_abs = (n > 0 ? n : -n);
+    qint64 quotient = n_abs / coin;
+    qint64 remainder = n_abs % coin;
+    QString quotient_str = QString::number(quotient);
+    QString remainder_str = QString::number(remainder).rightJustified(num_decimals, '0');
+
+    // Right-trim excess zeros after the decimal point
+    int nTrim = 0;
+    for (int i = remainder_str.size()-1; i>=2 && (remainder_str.at(i) == '0'); --i)
+        ++nTrim;
+    remainder_str.chop(nTrim);
+
+    if (n < 0)
+        quotient_str.insert(0, '-');
+    else if (fPlus && n > 0)
+        quotient_str.insert(0, '+');
+    return quotient_str + QString(".") + remainder_str;
 }
 
 bool BitcoinUnits::parse(int unit, const QString &value, qint64 *val_out)
