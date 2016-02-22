@@ -13,6 +13,7 @@
 #include "script.h"
 #include "scrypt.h"
 
+#include <limits>
 #include <list>
 
 class CBlock;
