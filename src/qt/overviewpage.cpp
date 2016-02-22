@@ -153,12 +153,38 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
     ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, unconfirmedBalance));
     ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, immatureBalance));
     ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, balance + stake + unconfirmedBalance + immatureBalance));
-
+    ui->labelWatchAvailable->setText(BitcoinUnits::floorWithUnit(nDisplayUnit, watchOnlyBalance));
+    ui->labelWatchPending->setText(BitcoinUnits::floorWithUnit(nDisplayUnit, watchUnconfBalance));
+    ui->labelWatchImmature->setText(BitcoinUnits::floorWithUnit(nDisplayUnit, watchImmatureBalance));
+    ui->labelWatchTotal->setText(BitcoinUnits::floorWithUnit(nDisplayUnit, watchOnlyBalance + watchUnconfBalance + watchImmatureBalance));
     // only show immature (newly mined) balance if it's non-zero, so as not to complicate things
     // for the non-mining users
     bool showImmature = immatureBalance != 0;
     ui->labelImmature->setVisible(showImmature);
     ui->labelImmatureText->setVisible(showImmature);
+}
+
+// show/hide watch-only labels
+void OverviewPage::updateWatchOnlyLabels(bool showWatchOnly)
+{
+    ui->labelSpendable->setVisible(showWatchOnly);      // show spendable label (only when watch-only is active)
+    ui->labelWatchonly->setVisible(showWatchOnly);      // show watch-only label
+    ui->lineWatchBalance->setVisible(showWatchOnly);    // show watch-only balance separator line
+    ui->labelWatchStake->setVisible(showWatchOnly);    // show watch-only balance separator line
+    ui->labelWatchAvailable->setVisible(showWatchOnly); // show watch-only available balance
+    ui->labelWatchPending->setVisible(showWatchOnly);   // show watch-only pending balance
+    ui->labelWatchTotal->setVisible(showWatchOnly);     // show watch-only total balance
+
+    if (!showWatchOnly){
+        ui->labelWatchImmature->hide();
+    }
+    else{
+        ui->labelBalance->setIndent(20);
+        ui->labelStake->setIndent(20);
+        ui->labelUnconfirmed->setIndent(20);
+        ui->labelImmature->setIndent(20);
+        ui->labelTotal->setIndent(20);
+    }
 }
 
 void OverviewPage::setClientModel(ClientModel *model)
@@ -194,6 +220,8 @@ void OverviewPage::setWalletModel(WalletModel *model)
         connect(model, SIGNAL(balanceChanged(qint64, qint64, qint64, qint64)), this, SLOT(setBalance(qint64, qint64, qint64, qint64)));
 
         connect(model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
+    
+        updateWatchOnlyLabels(model->haveWatchOnly());    
     }
 
     // update the display unit, to not use the default ("BTC")

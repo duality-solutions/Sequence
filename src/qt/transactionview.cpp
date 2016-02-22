@@ -43,7 +43,12 @@ TransactionView::TransactionView(QWidget *parent) :
     hlayout->setSpacing(0);
     hlayout->addSpacing(23);
 #endif
-
+    watchOnlyWidget = new QComboBox(this);
+    watchOnlyWidget->setFixedWidth(24);
+    watchOnlyWidget->addItem("", TransactionFilterProxy::WatchOnlyFilter_All);
+    watchOnlyWidget->addItem(QIcon(":/icons/eye_plus"), "", TransactionFilterProxy::WatchOnlyFilter_Yes);
+    watchOnlyWidget->addItem(QIcon(":/icons/eye_minus"), "", TransactionFilterProxy::WatchOnlyFilter_No);
+    hlayout->addWidget(watchOnlyWidget);
     dateWidget = new QComboBox(this);
     dateWidget->setItemDelegate(new QStyledItemDelegate());
 #ifdef Q_OS_MAC
@@ -141,6 +146,7 @@ TransactionView::TransactionView(QWidget *parent) :
     // Connect actions
     connect(dateWidget, SIGNAL(activated(int)), this, SLOT(chooseDate(int)));
     connect(typeWidget, SIGNAL(activated(int)), this, SLOT(chooseType(int)));
+    connect(watchOnlyWidget, SIGNAL(activated(int)), this, SLOT(chooseWatchonly(int)));
     connect(addressWidget, SIGNAL(textChanged(QString)), this, SLOT(changedPrefix(QString)));
     connect(amountWidget, SIGNAL(textChanged(QString)), this, SLOT(changedAmount(QString)));
 
@@ -180,6 +186,9 @@ void TransactionView::setModel(WalletModel *model)
         transactionView->horizontalHeader()->resizeSection(TransactionTableModel::Type, 120);
         transactionView->horizontalHeader()->setResizeMode(TransactionTableModel::ToAddress, QHeaderView::Stretch);
         transactionView->horizontalHeader()->resizeSection(TransactionTableModel::Amount, 100);
+        
+        // show/hide column Watch-only
+        updateWatchOnlyColumn(model->haveWatchOnly());
     }
 }
 
@@ -244,6 +253,14 @@ void TransactionView::changedPrefix(const QString &prefix)
     if(!transactionProxyModel)
         return;
     transactionProxyModel->setAddressPrefix(prefix);
+}
+
+void TransactionView::chooseWatchonly(int idx)
+{
+    if(!transactionProxyModel)
+        return;
+    transactionProxyModel->setWatchOnlyFilter(
+        (TransactionFilterProxy::WatchOnlyFilter)watchOnlyWidget->itemData(idx).toInt());
 }
 
 void TransactionView::changedAmount(const QString &amount)
@@ -430,4 +447,11 @@ void TransactionView::focusTransaction(const QModelIndex &idx)
     transactionView->scrollTo(targetIdx);
     transactionView->setCurrentIndex(targetIdx);
     transactionView->setFocus();
+}
+
+// show/hide column Watch-only
+void TransactionView::updateWatchOnlyColumn(bool fHaveWatchOnly)
+{
+    watchOnlyWidget->setVisible(fHaveWatchOnly);
+    transactionView->setColumnHidden(TransactionTableModel::Watchonly, !fHaveWatchOnly);
 }

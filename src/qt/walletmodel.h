@@ -38,7 +38,8 @@ class WalletModel : public QObject
 public:
     explicit WalletModel(CWallet *wallet, OptionsModel *optionsModel, QObject *parent = 0);
     ~WalletModel();
-
+    bool fHaveWatchOnly;
+    
     enum StatusCode // Returned by sendCoins
     {
         OK,
@@ -67,6 +68,11 @@ public:
     qint64 getStake() const;
     qint64 getUnconfirmedBalance() const;
     qint64 getImmatureBalance() const;
+    bool haveWatchOnly() const;
+    qint64 getWatchBalance() const;
+    qint64 getWatchStake() const;
+    qint64 getWatchUnconfirmedBalance() const;
+    qint64 getWatchImmatureBalance() const;
     EncryptionStatus getEncryptionStatus() const;
 
     // Check address for validity
@@ -158,6 +164,8 @@ public slots:
     void updateTransaction(const QString &hash, int status);
     /* New, updated or removed address book entry */
     void updateAddressBook(const QString &address, const QString &label, bool isMine, int status);
+    /// Watch-only added
+    void updateWatchOnlyFlag(bool fHaveWatchonly);    
     /* Current, immature or unconfirmed balance might have changed - emit 'balanceChanged' if so */
     void pollBalanceChanged();
 
@@ -172,6 +180,9 @@ signals:
     // It is valid behaviour for listeners to keep the wallet locked after this signal;
     // this means that the unlocking failed or was cancelled.
     void requireUnlock();
+
+    // Watch-only address added
+    void notifyWatchonlyChanged(bool fHaveWatchonly);
 
     // Asynchronous message notification
     void message(const QString &title, const QString &message, bool modal, unsigned int style);

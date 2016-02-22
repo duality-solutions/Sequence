@@ -18,8 +18,17 @@ public:
     static const QDateTime MAX_DATE;
     /** Type filter bit field (all types) */
     static const quint32 ALL_TYPES = 0xFFFFFFFF;
-
-    static quint32 TYPE(int type) { return 1<<type; }
+    /** Type filter bit field */
+    static const quint32 COMMON_TYPES = 4223;
+ 
+     static quint32 TYPE(int type) { return 1<<type; }
+ 
+    enum WatchOnlyFilter
+    {
+        WatchOnlyFilter_All,
+        WatchOnlyFilter_Yes,
+        WatchOnlyFilter_No
+    };
 
     void setDateRange(const QDateTime &from, const QDateTime &to);
     void setAddressPrefix(const QString &addrPrefix);
@@ -28,6 +37,7 @@ public:
      */
     void setTypeFilter(quint32 modes);
     void setMinAmount(qint64 minimum);
+    void setWatchOnlyFilter(WatchOnlyFilter filter);
 
     /** Set maximum number of rows returned, -1 if unlimited. */
     void setLimit(int limit);
@@ -45,6 +55,7 @@ private:
     QDateTime dateTo;
     QString addrPrefix;
     quint32 typeFilter;
+    WatchOnlyFilter watchOnlyFilter;
     qint64 minAmount;
     int limitRows;
     bool showInactive;

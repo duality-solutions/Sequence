@@ -47,6 +47,7 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QProgressBar>
+#include <QProgressDialog>
 #include <QStackedWidget>
 #include <QDateTime>
 #include <QMovie>
@@ -432,6 +433,9 @@ void BitcoinGUI::setClientModel(ClientModel *clientModel)
         // Keep up to date with client
         setNumConnections(clientModel->getNumConnections());
         connect(clientModel, SIGNAL(numConnectionsChanged(int)), this, SLOT(setNumConnections(int)));
+
+        // Show progress dialog
+        connect(clientModel, SIGNAL(showProgress(QString,int)), this, SLOT(showProgress(QString,int)));
 
         setNumBlocks(clientModel->getNumBlocks());
         connect(clientModel, SIGNAL(numBlocksChanged(int)), this, SLOT(setNumBlocks(int)));
@@ -1055,6 +1059,29 @@ void BitcoinGUI::updateStakingIcon()
         else
             labelStakingIcon->setToolTip(tr("Not staking"));
     }
+}
+
+void BitcoinGUI::showProgress(const QString &title, int nProgress)
+{
+    if (nProgress == 0)
+    {
+        progressDialog = new QProgressDialog(title, "", 0, 100);
+        progressDialog->setWindowModality(Qt::ApplicationModal);
+        progressDialog->setMinimumDuration(0);
+        progressDialog->setCancelButton(0);
+        progressDialog->setAutoClose(false);
+        progressDialog->setValue(0);
+    }
+    else if (nProgress == 100)
+    {
+        if (progressDialog)
+        {
+            progressDialog->close();
+            progressDialog->deleteLater();
+        }
+    }
+    else if (progressDialog)
+        progressDialog->setValue(nProgress);
 }
 
 void BitcoinGUI::detectShutdown()

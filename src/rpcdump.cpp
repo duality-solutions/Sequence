@@ -164,11 +164,15 @@ Value importaddress(const Array& params, bool fHelp)
             "importaddress <address> [label] [rescan=true]\n"
             "Adds an address that can be watched as if it were in your wallet but cannot be used to spend.");
 
+    CScript script;
+
     CBitcoinAddress address(params[0].get_str());
-    if (!address.IsValid())
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Bitcoin address");
-    CTxDestination dest;
-    dest = address.Get();
+    if (address.IsValid() && IsHex(params[0].get_str())) {
+        std::vector<unsigned char> data(ParseHex(params[0].get_str()));
+        script = CScript(data.begin(), data.end());
+    } else {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Silk address or script");
+    }
 
     string strLabel = "";
     if (params.size() > 1)
@@ -182,14 +186,21 @@ Value importaddress(const Array& params, bool fHelp)
     {
         LOCK2(cs_main, pwalletMain->cs_wallet);
 
+        if (::IsMine(*pwalletMain, script) == MINE_SPENDABLE)
+            throw JSONRPCError(RPC_WALLET_ERROR, "The wallet already contains the private key for this address or script");
+
+        // add to address book or update label
+        if (address.IsValid())
+            pwalletMain->SetAddressBookName(address.Get(), strLabel);
+
         // Don't throw error in case an address is already there
-        if (pwalletMain->HaveWatchOnly(dest))
+        if (pwalletMain->HaveWatchOnly(script))
             return Value::null;
 
         pwalletMain->MarkDirty();
-        pwalletMain->SetAddressBookName(dest, strLabel);
+        pwalletMain->SetAddressBookName(address.Get(), strLabel);
 
-        if (!pwalletMain->AddWatchOnly(dest))
+        if (!pwalletMain->AddWatchOnly(script))
             throw JSONRPCError(RPC_WALLET_ERROR, "Error adding address to wallet");
 
         if (fRescan)
@@ -218,9 +229,12 @@ Value importwallet(const Array& params, bool fHelp)
 
     int64_t nTimeBegin = pindexBest->nTime;
 
+    int64_t nFilesize = std::max((int64_t)1, (int64_t)file.tellg());
     bool fGood = true;
 
+    pwalletMain->ShowProgress(_("Importing..."), 0); // show progress dialog in GUI
     while (file.good()) {
+        pwalletMain->ShowProgress("", std::max(1, std::min(99, (int)(((double)file.tellg() / (double)nFilesize) * 100))));
         std::string line;
         std::getline(file, line);
         if (line.empty() || line[0] == '#')
@@ -266,6 +280,7 @@ Value importwallet(const Array& params, bool fHelp)
         nTimeBegin = std::min(nTimeBegin, nTime);
     }
     file.close();
+    pwalletMain->ShowProgress("", 100); // hide progress dialog in GUI
 
     CBlockIndex *pindex = pindexBest;
     while (pindex && pindex->pprev && pindex->nTime > nTimeBegin - 7200)

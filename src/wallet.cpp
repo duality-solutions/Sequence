@@ -81,6 +81,12 @@ bool CWallet::AddKeyPubKey(const CKey& secret, const CPubKey &pubkey)
     AssertLockHeld(cs_wallet); // mapKeyMetadata
     if (!CCryptoKeyStore::AddKeyPubKey(secret, pubkey))
         return false;
+
+    // check if we need to remove from watch-only
+    CScript script;
+    if (HaveWatchOnly(script))
+        RemoveWatchOnly(script);
+
     if (!fFileBacked)
         return true;
     if (!IsCrypted()) {
@@ -150,7 +156,7 @@ bool CWallet::LoadCScript(const CScript& redeemScript)
     return CCryptoKeyStore::AddCScript(redeemScript);
 }
 
-bool CWallet::AddWatchOnly(const CTxDestination &dest)
+bool CWallet::AddWatchOnly(const CScript &dest)
 {
     if (!CCryptoKeyStore::AddWatchOnly(dest))
         return false;
@@ -160,9 +166,21 @@ bool CWallet::AddWatchOnly(const CTxDestination &dest)
     return CWalletDB(strWalletFile).WriteWatchOnly(dest);
 }
 
-bool CWallet::LoadWatchOnly(const CTxDestination &dest)
+bool CWallet::RemoveWatchOnly(const CScript &dest)
 {
-    LogPrintf("Loaded %s!\n", CBitcoinAddress(dest).ToString().c_str());
+    AssertLockHeld(cs_wallet);
+    if (!CCryptoKeyStore::RemoveWatchOnly(dest))
+        return false;
+    if (!HaveWatchOnly())
+        NotifyWatchonlyChanged(false);
+    if (fFileBacked)
+        if (!CWalletDB(strWalletFile).EraseWatchOnly(dest))
+            return false;
+
+    return true;
+}
+
+bool CWallet::LoadWatchOnly(const CScript &dest){
     return CCryptoKeyStore::AddWatchOnly(dest);
 }
 
@@ -412,7 +430,7 @@ void CWallet::WalletUpdateSpent(const CTransaction &tx, bool fBlock)
                     LogPrintf("WalletUpdateSpent: bad wtx %s\n", wtx.GetHash().ToString());
                 else if (!wtx.IsSpent(txin.prevout.n) && IsMine(wtx.vout[txin.prevout.n]))
                 {
-                    LogPrintf("WalletUpdateSpent found spent coin %s SLK %s\n", FormatMoney(wtx.GetCredit()), wtx.GetHash().ToString());
+                    LogPrintf("WalletUpdateSpent found spent coin %s SLK %s\n", FormatMoney(wtx.GetCredit(MINE_ALL)), wtx.GetHash().ToString());
                     wtx.MarkSpent(txin.prevout.n);
                     wtx.WriteToDisk();
                     NotifyTransactionChanged(this, txin.prevout.hash, CT_UPDATED);
@@ -647,7 +665,7 @@ isminetype CWallet::IsMine(const CTxIn &txin) const
     return MINE_NO;
 }
 
-int64_t CWallet::GetDebit(const CTxIn &txin) const
+int64_t CWallet::GetDebit(const CTxIn &txin, const isminefilter& filter) const
 {
     {
         LOCK(cs_wallet);
@@ -665,8 +683,6 @@ int64_t CWallet::GetDebit(const CTxIn &txin) const
 
 bool CWallet::IsChange(const CTxOut& txout) const
 {
-    CTxDestination address;
-
     // TODO: fix handling of 'change' outputs. The assumption is that any
     // payment to a TX_PUBKEYHASH that is mine but isn't in the address book
     // is change. That assumption is likely to break when we implement multisignature
@@ -674,8 +690,11 @@ bool CWallet::IsChange(const CTxOut& txout) const
     // a better way of identifying which outputs are 'the send' and which are
     // 'the change' will need to be implemented (maybe extend CWalletTx to remember
     // which output, if any, was change).
-    if (ExtractDestination(txout.scriptPubKey, address) && ::IsMine(*this, address))
+    if (::IsMine(*this, txout.scriptPubKey))
     {
+        CTxDestination address;
+        if (!ExtractDestination(txout.scriptPubKey, address))
+            return true;
         LOCK(cs_wallet);
         if (!mapAddressBook.count(address))
             return true;
@@ -729,7 +748,7 @@ int CWalletTx::GetRequestCount() const
 }
 
 void CWalletTx::GetAmounts(list<pair<CTxDestination, int64_t> >& listReceived,
-                           list<pair<CTxDestination, int64_t> >& listSent, int64_t& nFee, string& strSentAccount) const
+                           list<pair<CTxDestination, int64_t> >& listSent, int64_t& nFee, string& strSentAccount, const isminefilter& filter) const
 {
     nFee = 0;
     listReceived.clear();
@@ -737,7 +756,7 @@ void CWalletTx::GetAmounts(list<pair<CTxDestination, int64_t> >& listReceived,
     strSentAccount = strFromAccount;
 
     // Compute fee:
-    int64_t nDebit = GetDebit();
+    int64_t nDebit = GetDebit(filter);
     if (nDebit > 0) // debit>0 means we signed/sent this transaction
     {
         int64_t nValueOut = GetValueOut();
@@ -786,7 +805,7 @@ void CWalletTx::GetAmounts(list<pair<CTxDestination, int64_t> >& listReceived,
 }
 
 void CWalletTx::GetAccountAmounts(const string& strAccount, int64_t& nReceived,
-                                  int64_t& nSent, int64_t& nFee) const
+                                  int64_t& nSent, int64_t& nFee, const isminefilter& filter) const
 {
     nReceived = nSent = nFee = 0;
 
@@ -794,7 +813,7 @@ void CWalletTx::GetAccountAmounts(const string& strAccount, int64_t& nReceived,
     string strSentAccount;
     list<pair<CTxDestination, int64_t> > listReceived;
     list<pair<CTxDestination, int64_t> > listSent;
-    GetAmounts(listReceived, listSent, allFee, strSentAccount);
+    GetAmounts(listReceived, listSent, allFee, strSentAccount, filter);
 
     if (strAccount == strSentAccount)
     {
@@ -955,7 +974,7 @@ void CWallet::ReacceptWalletTransactions()
                 }
                 if (fUpdated)
                 {
-                    LogPrintf("ReacceptWalletTransactions found spent coin %s SLK %s\n", FormatMoney(wtx.GetCredit()), wtx.GetHash().ToString());
+                    LogPrintf("ReacceptWalletTransactions found spent coin %s SLK %s\n", FormatMoney(wtx.GetCredit(MINE_ALL)), wtx.GetHash().ToString());
                     wtx.MarkDirty();
                     wtx.WriteToDisk();
                 }
@@ -1098,11 +1117,68 @@ int64_t CWallet::GetImmatureBalance() const
     int64_t nTotal = 0;
     {
         LOCK2(cs_main, cs_wallet);
+       for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)
+        {
+            const CWalletTx* pcoin = &(*it).second;
+            nTotal += pcoin->GetImmatureCredit();
+        }
+    }
+    return nTotal;
+}
+
+int64_t CWallet::GetWatchOnlyBalance() const
+{
+    int64_t nTotal = 0;
+    {
+        LOCK(cs_wallet);
         for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)
         {
-            const CWalletTx& pcoin = (*it).second;
-            if (pcoin.IsCoinBase() && pcoin.GetBlocksToMaturity() > 0 && pcoin.IsInMainChain())
-                nTotal += GetCredit(pcoin);
+            const CWalletTx* pcoin = &(*it).second;
+            if (pcoin->IsTrusted())
+                nTotal += pcoin->GetAvailableWatchOnlyCredit();
+        }
+    }
+
+    return nTotal;
+}
+
+int64_t CWallet::GetWatchOnlyStake() const
+{
+    int64_t nTotal = 0;
+    LOCK2(cs_main, cs_wallet);
+    for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)
+    {
+        const CWalletTx* pcoin = &(*it).second;
+        if (pcoin->IsCoinStake() && pcoin->GetBlocksToMaturity() > 0 && pcoin->GetDepthInMainChain() > 0)
+            nTotal += CWallet::GetCredit(*pcoin, MINE_WATCH_ONLY);
+    }
+    return nTotal;
+}
+
+int64_t CWallet::GetUnconfirmedWatchOnlyBalance() const
+{
+    int64_t nTotal = 0;
+    {
+        LOCK(cs_wallet);
+        for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)
+        {
+            const CWalletTx* pcoin = &(*it).second;
+            if (!IsFinalTx(*pcoin) || (!pcoin->IsTrusted() && pcoin->GetDepthInMainChain() == 0))
+                nTotal += pcoin->GetAvailableWatchOnlyCredit();
+        }
+    }
+    return nTotal;
+}
+
+int64_t CWallet::GetImmatureWatchOnlyBalance() const
+{
+    int64_t nTotal = 0;
+    {
+        LOCK(cs_wallet);
+        for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)
+        {
+            const CWalletTx* pcoin = &(*it).second;
+            nTotal += pcoin->GetImmatureWatchOnlyCredit();
         }
     }
     return nTotal;
@@ -1237,7 +1313,7 @@ int64_t CWallet::GetStake() const
     {
         const CWalletTx* pcoin = &(*it).second;
         if (pcoin->IsCoinStake() && pcoin->GetBlocksToMaturity() > 0 && pcoin->GetDepthInMainChain() > 0)
-            nTotal += CWallet::GetCredit(*pcoin);
+            nTotal += CWallet::GetCredit(*pcoin, MINE_ALL);
     }
     return nTotal;
 }
@@ -1250,7 +1326,7 @@ int64_t CWallet::GetNewMint() const
     {
         const CWalletTx* pcoin = &(*it).second;
         if (pcoin->IsCoinBase() && pcoin->GetBlocksToMaturity() > 0 && pcoin->GetDepthInMainChain() > 0)
-            nTotal += CWallet::GetCredit(*pcoin);
+            nTotal += CWallet::GetCredit(*pcoin, MINE_ALL);
     }
     return nTotal;
 }
@@ -1288,7 +1364,7 @@ bool CWallet::SelectCoinsMinConfByCoinAge(int64_t nTargetValue, unsigned int nSp
     {
         const CWalletTx *pcoin = output.first.tx;
 
-        if (output.first.nDepth < (pcoin->IsFromMe() ? nConfMine : nConfTheirs))
+        if (output.first.nDepth < (pcoin->IsFromMe(MINE_ALL) ? nConfMine : nConfTheirs))
             continue;
 
         int i = output.first.i;
@@ -1524,7 +1600,7 @@ bool CWallet::SelectCoinsMinConf(int64_t nTargetValue, unsigned int nSpendTime, 
 
         const CWalletTx *pcoin = output.tx;
 
-        if (output.nDepth < (pcoin->IsFromMe() ? nConfMine : nConfTheirs))
+        if (output.nDepth < (pcoin->IsFromMe(MINE_ALL) ? nConfMine : nConfTheirs))
             continue;
 
         int i = output.i;
@@ -2188,7 +2264,7 @@ bool CWallet::SetAddressBookName(const CTxDestination& address, const string& st
         fUpdated = mi != mapAddressBook.end();
         mapAddressBook[address] = strName;
     }
-    NotifyAddressBookChanged(this, address, strName, ::IsMine(*this, address),
+    NotifyAddressBookChanged(this, address, strName, ::IsMine(*this, address) != MINE_NO,
                              (fUpdated ? CT_UPDATED : CT_NEW) );
     if (!fFileBacked)
         return false;
@@ -2203,7 +2279,7 @@ bool CWallet::DelAddressBookName(const CTxDestination& address)
         mapAddressBook.erase(address);
     }
 
-    NotifyAddressBookChanged(this, address, "", ::IsMine(*this, address), CT_DELETED);
+    NotifyAddressBookChanged(this, address, "", ::IsMine(*this, address) != MINE_NO, CT_DELETED);
 
     if (!fFileBacked)
         return false;
@@ -2390,7 +2466,7 @@ std::map<CTxDestination, int64_t> CWallet::GetAddressBalances()
                 continue;
 
             int nDepth = pcoin->GetDepthInMainChain();
-            if (nDepth < (pcoin->IsFromMe() ? 0 : 1))
+            if (nDepth < (pcoin->IsFromMe(MINE_ALL) ? 0 : 1))
                 continue;
 
             for (unsigned int i = 0; i < pcoin->vout.size(); i++)

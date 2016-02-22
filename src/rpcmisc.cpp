@@ -99,7 +99,7 @@ public:
     Object operator()(const CScriptID &scriptID) const {
         Object obj;
         obj.push_back(Pair("isscript", true));
-        if (mine == MINE_SPENDABLE) {
+        if (mine != MINE_NO) {
             CScript subscript;
             pwalletMain->GetCScript(scriptID, subscript);
             std::vector<CTxDestination> addresses;
@@ -139,9 +139,9 @@ Value validateaddress(const Array& params, bool fHelp)
         ret.push_back(Pair("address", currentAddress));
 #ifdef ENABLE_WALLET
         isminetype mine = pwalletMain ? IsMine(*pwalletMain, dest) : MINE_NO;
-        ret.push_back(Pair("ismine", mine != MINE_NO));
+        ret.push_back(Pair("ismine", (mine & MINE_SPENDABLE) ? true : false));
         if (mine != MINE_NO) {
-            ret.push_back(Pair("watchonly", mine == MINE_WATCH_ONLY));
+            ret.push_back(Pair("iswatchonly", (mine & MINE_WATCH_ONLY) ? true: false));
             Object detail = boost::apply_visitor(DescribeAddressVisitor(mine), dest);
             ret.insert(ret.end(), detail.begin(), detail.end());
         }
@@ -179,9 +179,9 @@ Value validatepubkey(const Array& params, bool fHelp)
         ret.push_back(Pair("iscompressed", isCompressed));
 #ifdef ENABLE_WALLET
         isminetype mine = pwalletMain ? IsMine(*pwalletMain, dest) : MINE_NO;
-        ret.push_back(Pair("ismine", mine != MINE_NO));
+        ret.push_back(Pair("ismine", (mine & MINE_SPENDABLE) ? true : false));
         if (mine != MINE_NO) {
-            ret.push_back(Pair("watchonly", mine == MINE_WATCH_ONLY));
+            ret.push_back(Pair("iswatchonly", (mine & MINE_WATCH_ONLY) ? true: false));
             Object detail = boost::apply_visitor(DescribeAddressVisitor(mine), dest);
             ret.insert(ret.end(), detail.begin(), detail.end());
         }

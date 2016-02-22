@@ -70,6 +70,31 @@ qint64 WalletModel::getImmatureBalance() const
     return wallet->GetImmatureBalance();
 }
 
+bool WalletModel::haveWatchOnly() const
+{
+    return fHaveWatchOnly;
+}
+
+qint64 WalletModel::getWatchBalance() const
+{
+    return wallet->GetWatchOnlyBalance();
+}
+
+qint64 WalletModel::getWatchStake() const
+{
+    return wallet->GetWatchOnlyStake();
+}
+
+qint64 WalletModel::getWatchUnconfirmedBalance() const
+{
+    return wallet->GetUnconfirmedWatchOnlyBalance();
+}
+
+qint64 WalletModel::getWatchImmatureBalance() const
+{
+    return wallet->GetImmatureWatchOnlyBalance();
+}
+
 void WalletModel::updateStatus()
 {
     EncryptionStatus newEncryptionStatus = getEncryptionStatus();
@@ -139,6 +164,12 @@ bool WalletModel::validateAddress(const QString &address)
 {
     CBitcoinAddress addressParsed(address.toStdString());
     return addressParsed.IsValid();
+}
+
+void WalletModel::updateWatchOnlyFlag(bool fHaveWatchonly)
+{
+    fHaveWatchOnly = fHaveWatchonly;
+    emit notifyWatchonlyChanged(fHaveWatchonly);
 }
 
 WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipient> &recipients, const CCoinControl *coinControl)

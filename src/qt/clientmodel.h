@@ -69,6 +69,9 @@ signals:
     //! Asynchronous message notification
     void message(const QString &title, const QString &message, bool modal, unsigned int style);
 
+    // Show progress dialog e.g. for verifychain
+    void showProgress(const QString &title, int nProgress);
+
 public slots:
     void updateTimer();
     void updateNumConnections(int numConnections);
