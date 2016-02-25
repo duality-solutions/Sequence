@@ -862,9 +862,8 @@ void CWalletTx::GetAmounts(list<pair<CTxDestination, int64_t> >& listReceived,
     }
 
     // Sent/received.
-    for (unsigned int i = 0; i < vout.size(); ++i)
+    BOOST_FOREACH(const CTxOut& txout, vout)
     {
-        const CTxOut& txout = vout[i];
         isminetype fIsMine = pwallet->IsMine(txout);
         // Only need to handle txouts if AT LEAST one of these is true:
         //   1) they debit from us (sent)

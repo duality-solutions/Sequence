@@ -96,7 +96,7 @@ OverviewPage::OverviewPage(QWidget *parent) :
     clientModel(0),
     walletModel(0),
     currentBalance(-1),
-    currentStake(-1),
+    currentStake(0),
     currentUnconfirmedBalance(-1),
     currentImmatureBalance(-1),
     currentWatchOnlyBalance(-1),
