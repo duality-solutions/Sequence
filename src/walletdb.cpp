@@ -3,16 +3,15 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "walletdb.h"
+#include <boost/filesystem.hpp>
+#include <boost/foreach.hpp>
 
+#include "walletdb.h"
 #include "base58.h"
 #include "protocol.h"
 #include "serialize.h"
 #include "sync.h"
 #include "wallet.h"
-
-#include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 
 using namespace std;
 using namespace boost;

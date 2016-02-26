@@ -3,16 +3,6 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <set>
-#include "rpcclient.h"
-
-#include "rpcprotocol.h"
-#include "util.h"
-#include "ui_interface.h"
-#include "chainparams.h" // for Params().RPCPort()
-
-#include <stdint.h>
-
 #include <boost/algorithm/string.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
@@ -23,7 +13,17 @@
 #include <boost/iostreams/stream.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/shared_ptr.hpp>
+
 #include "json/json_spirit_writer_template.h"
+
+#include <set>
+#include <stdint.h>
+
+#include "rpcclient.h"
+#include "rpcprotocol.h"
+#include "util.h"
+#include "ui_interface.h"
+#include "chainparams.h" // for Params().RPCPort()
 
 using namespace std;
 using namespace boost;

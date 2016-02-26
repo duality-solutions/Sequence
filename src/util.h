@@ -6,6 +6,21 @@
 #ifndef BITCOIN_UTIL_H
 #define BITCOIN_UTIL_H
 
+#include <boost/thread.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
+#include <boost/date_time/gregorian/gregorian_types.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+
+#include <map>
+#include <list>
+#include <utility>
+#include <vector>
+#include <string>
+
+
+#include <stdint.h>
+
 #ifndef WIN32
 #include <sys/types.h>
 #include <sys/time.h>
@@ -14,20 +29,6 @@
 
 #include "serialize.h"
 #include "tinyformat.h"
-
-#include <map>
-#include <list>
-#include <utility>
-#include <vector>
-#include <string>
-
-#include <boost/thread.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
-#include <boost/date_time/gregorian/gregorian_types.hpp>
-#include <boost/date_time/posix_time/posix_time_types.hpp>
-
-#include <stdint.h>
 
 class uint256;
 

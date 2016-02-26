@@ -3,23 +3,23 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "chainparams.h"
-#include "db.h"
-#include "net.h"
-#include "main.h"
-#include "addrman.h"
-#include "ui_interface.h"
-
-#ifdef WIN32
-#include <string.h>
-#endif
-
 #ifdef USE_UPNP
 #include <miniupnpc/miniwget.h>
 #include <miniupnpc/miniupnpc.h>
 #include <miniupnpc/upnpcommands.h>
 #include <miniupnpc/upnperrors.h>
 #endif
+
+#ifdef WIN32
+#include <string.h>
+#endif
+
+#include "net.h"
+#include "chainparams.h"
+#include "db.h"
+#include "main.h"
+#include "addrman.h"
+#include "ui_interface.h"
 
 // Dump addresses to peers.dat every 15 minutes (900s)
 #define DUMP_ADDRESSES_INTERVAL 900

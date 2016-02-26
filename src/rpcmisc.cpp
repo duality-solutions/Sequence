@@ -3,6 +3,12 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include <boost/assign/list_of.hpp>
+
+#include "json/json_spirit_utils.h"
+#include "json/json_spirit_value.h"
+
+#include <stdint.h>
 #include "base58.h"
 #include "init.h"
 #include "main.h"
@@ -11,16 +17,11 @@
 #include "rpcserver.h"
 #include "timedata.h"
 #include "util.h"
+
 #ifdef ENABLE_WALLET
 #include "wallet.h"
 #include "walletdb.h"
 #endif
-
-#include <stdint.h>
-
-#include <boost/assign/list_of.hpp>
-#include "json/json_spirit_utils.h"
-#include "json/json_spirit_value.h"
 
 using namespace std;
 using namespace boost;

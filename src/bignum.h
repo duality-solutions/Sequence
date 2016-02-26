@@ -6,16 +6,16 @@
 #ifndef BITCOIN_BIGNUM_H
 #define BITCOIN_BIGNUM_H
 
-#include "serialize.h"
-#include "uint256.h"
-#include "version.h"
-
 #include <openssl/bn.h>
 
 #include <stdexcept>
 #include <vector>
 
 #include <stdint.h>
+
+#include "serialize.h"
+#include "uint256.h"
+#include "version.h"
 
 /** Errors thrown by the bignum class */
 class bignum_error : public std::runtime_error

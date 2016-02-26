@@ -3,19 +3,6 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "rpcserver.h"
-
-#include "base58.h"
-#include "init.h"
-#include "util.h"
-#include "sync.h"
-#include "base58.h"
-#include "db.h"
-#include "ui_interface.h"
-#ifdef ENABLE_WALLET
-#include "wallet.h"
-#endif
-
 #include <boost/algorithm/string.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/ip/v6_only.hpp>
@@ -27,7 +14,21 @@
 #include <boost/iostreams/concepts.hpp>
 #include <boost/iostreams/stream.hpp>
 #include <boost/shared_ptr.hpp>
+
 #include <list>
+
+#include "rpcserver.h"
+#include "base58.h"
+#include "init.h"
+#include "util.h"
+#include "sync.h"
+#include "base58.h"
+#include "db.h"
+#include "ui_interface.h"
+
+#ifdef ENABLE_WALLET
+#include "wallet.h"
+#endif
 
 using namespace std;
 using namespace boost;

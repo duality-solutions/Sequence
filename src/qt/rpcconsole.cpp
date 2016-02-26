@@ -1,11 +1,4 @@
-#include "rpcconsole.h"
-#include "ui_rpcconsole.h"
-
-#include "clientmodel.h"
-#include "guiutil.h"
-
-#include "rpcserver.h"
-#include "rpcclient.h"
+#include <openssl/crypto.h>
 
 #include <QTime>
 #include <QThread>
@@ -13,7 +6,12 @@
 #include <QUrl>
 #include <QScrollBar>
 
-#include <openssl/crypto.h>
+#include "rpcconsole.h"
+#include "ui_rpcconsole.h"
+#include "clientmodel.h"
+#include "guiutil.h"
+#include "rpcserver.h"
+#include "rpcclient.h"
 
 // TODO: add a scrollback limit, as there is currently none
 // TODO: make it possible to filter out categories (esp debug messages when implemented)

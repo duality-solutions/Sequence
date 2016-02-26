@@ -5,13 +5,13 @@
 #ifndef BITCOIN_WALLETDB_H
 #define BITCOIN_WALLETDB_H
 
-#include "db.h"
-#include "keystore.h"
-
 #include <list>
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "db.h"
+#include "keystore.h"
 
 class CAccount;
 class CAccountingEntry;

@@ -6,6 +6,9 @@
 #ifndef BITCOIN_SERIALIZE_H
 #define BITCOIN_SERIALIZE_H
 
+#include <boost/type_traits/is_fundamental.hpp>
+#include <boost/tuple/tuple.hpp>
+
 #include <string>
 #include <vector>
 #include <map>
@@ -15,9 +18,6 @@
 #include <stdint.h>
 #include <cstring>
 #include <cstdio>
-
-#include <boost/type_traits/is_fundamental.hpp>
-#include <boost/tuple/tuple.hpp>
 
 #include "allocators.h"
 #include "version.h"

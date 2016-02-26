@@ -7,6 +7,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
+#include "main.h"
 #include "alert.h"
 #include "chainparams.h"
 #include "checkpoints.h"

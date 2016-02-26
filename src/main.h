@@ -5,6 +5,9 @@
 #ifndef BITCOIN_MAIN_H
 #define BITCOIN_MAIN_H
 
+#include <limits>
+#include <list>
+
 #include "core.h"
 #include "bignum.h"
 #include "sync.h"
@@ -12,9 +15,6 @@
 #include "net.h"
 #include "script.h"
 #include "scrypt.h"
-
-#include <limits>
-#include <list>
 
 class CBlock;
 class CBlockIndex;

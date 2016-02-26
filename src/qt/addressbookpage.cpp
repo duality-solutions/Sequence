@@ -1,6 +1,10 @@
+#include <QSortFilterProxyModel>
+#include <QClipboard>
+#include <QMessageBox>
+#include <QMenu>
+
 #include "addressbookpage.h"
 #include "ui_addressbookpage.h"
-
 #include "addresstablemodel.h"
 #include "optionsmodel.h"
 #include "bitcoingui.h"
@@ -11,11 +15,6 @@
 #ifdef USE_QRCODE
 #include "qrcodedialog.h"
 #endif
-
-#include <QSortFilterProxyModel>
-#include <QClipboard>
-#include <QMessageBox>
-#include <QMenu>
 
 AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
     QDialog(parent),

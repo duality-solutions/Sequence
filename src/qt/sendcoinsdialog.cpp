@@ -1,25 +1,22 @@
+#include <QMessageBox>
+#include <QTextDocument>
+#include <QScrollBar>
+#include <QClipboard>
+
 #include "sendcoinsdialog.h"
 #include "ui_sendcoinsdialog.h"
-
 #include "walletmodel.h"
 #include "addresstablemodel.h"
 #include "addressbookpage.h"
-
 #include "bitcoinunits.h"
 #include "addressbookpage.h"
 #include "optionsmodel.h"
 #include "sendcoinsentry.h"
 #include "guiutil.h"
 #include "askpassphrasedialog.h"
-
 #include "base58.h"
 #include "coincontrol.h"
 #include "coincontroldialog.h"
-
-#include <QMessageBox>
-#include <QTextDocument>
-#include <QScrollBar>
-#include <QClipboard>
 
 SendCoinsDialog::SendCoinsDialog(QWidget *parent) :
     QDialog(parent),

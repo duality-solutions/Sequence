@@ -12,6 +12,7 @@
 #include "main.h"
 #include "net.h"
 #include "keystore.h"
+
 #ifdef ENABLE_WALLET
 #include "wallet.h"
 #endif

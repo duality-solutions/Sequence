@@ -6,13 +6,13 @@
 #ifndef H_BITCOIN_SCRIPT
 #define H_BITCOIN_SCRIPT
 
+#include <boost/foreach.hpp>
+#include <boost/variant.hpp>
+
 #include <string>
 #include <vector>
 
 #include <stdint.h>
-
-#include <boost/foreach.hpp>
-#include <boost/variant.hpp>
 
 #include "key.h"
 #include "bignum.h"

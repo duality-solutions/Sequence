@@ -5,6 +5,7 @@
 #define  BITCOIN_CHECKPOINT_H
 
 #include <map>
+
 #include "net.h"
 #include "util.h"
 

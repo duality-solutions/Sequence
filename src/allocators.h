@@ -5,11 +5,14 @@
 #ifndef BITCOIN_ALLOCATORS_H
 #define BITCOIN_ALLOCATORS_H
 
+#include <boost/thread/mutex.hpp>
+
+#include <openssl/crypto.h> // for OPENSSL_cleanse()
+
 #include <string.h>
 #include <string>
-#include <boost/thread/mutex.hpp>
 #include <map>
-#include <openssl/crypto.h> // for OPENSSL_cleanse()
+
 
 #ifdef WIN32
 #ifdef _WIN32_WINNT

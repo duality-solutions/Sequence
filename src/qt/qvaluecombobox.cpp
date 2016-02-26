@@ -1,6 +1,6 @@
-#include "qvaluecombobox.h"
-
 #include <QStyledItemDelegate>
+
+#include "qvaluecombobox.h"
 
 QValueComboBox::QValueComboBox(QWidget *parent) :
         QComboBox(parent), role(Qt::UserRole)

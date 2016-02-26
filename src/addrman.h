@@ -1,20 +1,19 @@
 // Copyright (c) 2012 Pieter Wuille
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef _BITCOIN_ADDRMAN
-#define _BITCOIN_ADDRMAN 1
+#ifndef BITCOIN_ADDRMAN
+#define BITCOIN_ADDRMAN
+
+#include <openssl/rand.h>
+
+#include <map>
+#include <vector>
 
 #include "netbase.h"
 #include "protocol.h"
 #include "sync.h"
 #include "timedata.h"
 #include "util.h"
-
-#include <map>
-#include <vector>
-
-#include <openssl/rand.h>
-
 
 /** Extended statistics about a CAddress */
 class CAddrInfo : public CAddress

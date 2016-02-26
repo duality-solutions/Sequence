@@ -5,11 +5,12 @@
 #ifndef BITCOIN_KEYSTORE_H
 #define BITCOIN_KEYSTORE_H
 
+#include <boost/signals2/signal.hpp>
+#include <boost/variant.hpp>
+
 #include "key.h"
 #include "sync.h"
 #include "script.h"     // for CNoDestination
-#include <boost/signals2/signal.hpp>
-#include <boost/variant.hpp>
 
 class CScript;
 

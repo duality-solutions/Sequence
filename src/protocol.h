@@ -7,13 +7,14 @@
 # error This header can only be compiled as C++.
 #endif
 
-#ifndef __INCLUDED_PROTOCOL_H__
-#define __INCLUDED_PROTOCOL_H__
+#ifndef INCLUDED_PROTOCOL_H
+#define INCLUDED_PROTOCOL_H
+
+#include <string>
 
 #include "chainparams.h"
 #include "serialize.h"
 #include "netbase.h"
-#include <string>
 #include "uint256.h"
 
 /** Message header.

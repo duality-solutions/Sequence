@@ -3,10 +3,10 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include <string>
+
 #include "ui_interface.h"
 #include "init.h"
-
-#include <string>
 
 static int noui_ThreadSafeMessageBox(const std::string& message, const std::string& caption, unsigned int style)
 {

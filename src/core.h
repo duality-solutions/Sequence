@@ -5,12 +5,12 @@
 #ifndef BITCOIN_CORE_H
 #define BITCOIN_CORE_H
 
+#include <stdio.h>
+
 #include "uint256.h"
 #include "serialize.h"
 #include "util.h"
 #include "script.h"
-
-#include <stdio.h>
 
 class CTransaction;
 

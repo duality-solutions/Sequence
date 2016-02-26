@@ -6,16 +6,16 @@
 #ifndef BITCOIN_DB_H
 #define BITCOIN_DB_H
 
-#include "serialize.h"
-#include "sync.h"
-#include "version.h"
+#include <boost/filesystem/path.hpp>
+#include <db_cxx.h>
 
 #include <map>
 #include <string>
 #include <vector>
 
-#include <boost/filesystem/path.hpp>
-#include <db_cxx.h>
+#include "serialize.h"
+#include "sync.h"
+#include "version.h"
 
 class CAddrMan;
 class CBlockLocator;

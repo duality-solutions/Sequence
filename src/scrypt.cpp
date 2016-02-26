@@ -32,7 +32,6 @@
 
 #include "scrypt.h"
 #include "pbkdf2.h"
-
 #include "util.h"
 #include "net.h"
 

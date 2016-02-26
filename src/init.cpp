@@ -3,19 +3,6 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "init.h"
-#include "main.h"
-#include "chainparams.h"
-#include "txdb.h"
-#include "rpcserver.h"
-#include "net.h"
-#include "util.h"
-#include "ui_interface.h"
-#ifdef ENABLE_WALLET
-#include "wallet.h"
-#include "walletdb.h"
-#endif
-
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/filesystem/convenience.hpp>
@@ -27,6 +14,19 @@
 #include <signal.h>
 #endif
 
+#include "init.h"
+#include "main.h"
+#include "chainparams.h"
+#include "txdb.h"
+#include "rpcserver.h"
+#include "net.h"
+#include "util.h"
+#include "ui_interface.h"
+
+#ifdef ENABLE_WALLET
+#include "wallet.h"
+#include "walletdb.h"
+#endif
 
 using namespace std;
 using namespace boost;

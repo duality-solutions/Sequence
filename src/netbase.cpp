@@ -3,17 +3,17 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "netbase.h"
-#include "util.h"
-#include "sync.h"
-#include "hash.h"
+#include <boost/algorithm/string/case_conv.hpp> // for to_lower()
+#include <boost/algorithm/string/predicate.hpp> // for startswith() and endswith()
 
 #ifndef WIN32
 #include <sys/fcntl.h>
 #endif
 
-#include <boost/algorithm/string/case_conv.hpp> // for to_lower()
-#include <boost/algorithm/string/predicate.hpp> // for startswith() and endswith()
+#include "netbase.h"
+#include "util.h"
+#include "sync.h"
+#include "hash.h"
 
 using namespace std;
 

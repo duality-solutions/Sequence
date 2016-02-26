@@ -6,13 +6,12 @@
 #ifndef BITCOIN_SYNC_H
 #define BITCOIN_SYNC_H
 
-#include "threadsafety.h"
-
 #include <boost/thread/condition_variable.hpp>
 #include <boost/thread/locks.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 
+#include "threadsafety.h"
 
 ////////////////////////////////////////////////
 //                                            //

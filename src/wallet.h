@@ -5,13 +5,12 @@
 #ifndef BITCOIN_WALLET_H
 #define BITCOIN_WALLET_H
 
-#include "walletdb.h"
-
 #include <string>
 #include <vector>
 
 #include <stdlib.h>
 
+#include "walletdb.h"
 #include "crypter.h"
 #include "main.h"
 #include "key.h"

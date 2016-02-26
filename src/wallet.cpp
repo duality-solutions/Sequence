@@ -3,8 +3,11 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "wallet.h"
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/range/algorithm.hpp>
+#include <boost/numeric/ublas/matrix.hpp>
 
+#include "wallet.h"
 #include "base58.h"
 #include "coincontrol.h"
 #include "kernel.h"
@@ -13,10 +16,6 @@
 #include "txdb.h"
 #include "ui_interface.h"
 #include "walletdb.h"
-
-#include <boost/algorithm/string/replace.hpp>
-#include <boost/range/algorithm.hpp>
-#include <boost/numeric/ublas/matrix.hpp>
 
 using namespace std;
 
@@ -1796,6 +1795,10 @@ bool CWallet::SelectCoins(int64_t nTargetValue, unsigned int nSpendTime, set<pai
     }
 
     boost::function<bool (const CWallet*, int64_t, unsigned int, int, int, std::vector<COutput>, std::set<std::pair<const CWalletTx*,unsigned int> >&, int64_t&)> f = fMinimizeCoinAge ? &CWallet::SelectCoinsMinConfByCoinAge : &CWallet::SelectCoinsMinConf;
+    if (pindexBest->nHeight <= 250)
+        f = fMinimizeCoinAge ? &CWallet::SelectCoinsMinConfByCoinAge : &CWallet::SelectCoinsMinConf;
+    else
+        f = &CWallet::SelectCoinsMinConf;
 
     return (f(this, nTargetValue, nSpendTime, 1, 10, vCoins, setCoinsRet, nValueRet) ||
             f(this, nTargetValue, nSpendTime, 1, 1, vCoins, setCoinsRet, nValueRet) ||

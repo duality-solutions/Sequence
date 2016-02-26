@@ -3,10 +3,11 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include <boost/algorithm/string/predicate.hpp>
+
 #include "rpcserver.h"
 #include "rpcclient.h"
 #include "init.h"
-#include <boost/algorithm/string/predicate.hpp>
 
 void WaitForShutdown(boost::thread_group* threadGroup)
 {

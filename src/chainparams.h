@@ -6,11 +6,11 @@
 #ifndef BITCOIN_CHAIN_PARAMS_H
 #define BITCOIN_CHAIN_PARAMS_H
 
+#include <vector>
+
 #include "bignum.h"
 #include "uint256.h"
 #include "util.h"
-
-#include <vector>
 
 using namespace std;
 
