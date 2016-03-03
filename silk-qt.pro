@@ -216,6 +216,9 @@ HEADERS += src/qt/bitcoingui.h \
     src/qt/transactiondesc.h \
     src/qt/transactiondescdialog.h \
     src/qt/bitcoinamountfield.h \
+    src/qt/multisiginputentry.h \
+    src/qt/multisigaddressentry.h \
+    src/qt/multisigdialog.h \
     src/wallet.h \
     src/keystore.h \
     src/qt/transactionfilterproxy.h \
@@ -286,6 +289,9 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/transactiondescdialog.cpp \
     src/qt/bitcoinstrings.cpp \
     src/qt/bitcoinamountfield.cpp \
+    src/qt/multisiginputentry.cpp \
+    src/qt/multisigaddressentry.cpp \
+    src/qt/multisigdialog.cpp \
     src/wallet.cpp \
     src/keystore.cpp \
     src/qt/transactionfilterproxy.cpp \
@@ -331,7 +337,10 @@ FORMS += \
     src/qt/forms/addressbookpage.ui \
     src/qt/forms/signverifymessagedialog.ui \
     src/qt/forms/aboutdialog.ui \
-    src/qt/forms/editaddressdialog.ui \
+    src/qt/forms/editaddressdialog.ui \  
+    src/qt/forms/multisiginputentry.ui \
+    src/qt/forms/multisigaddressentry.ui \
+    src/qt/forms/multisigdialog.ui \
     src/qt/forms/transactiondescdialog.ui \
     src/qt/forms/overviewpage.ui \
     src/qt/forms/sendcoinsentry.ui \

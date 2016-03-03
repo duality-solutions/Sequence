@@ -513,3 +513,8 @@ void WalletModel::listLockedCoins(std::vector<COutPoint>& vOutpts)
 {
     return;
 }
+
+CWallet* WalletModel::getWallet()
+{
+    return wallet;
+}

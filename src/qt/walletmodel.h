@@ -129,6 +129,7 @@ public:
     bool isLockedCoin(uint256 hash, unsigned int n) const;
     void lockCoin(COutPoint& output);
     void unlockCoin(COutPoint& output);
+    CWallet* getWallet();
     void listLockedCoins(std::vector<COutPoint>& vOutpts);
 
 private:
