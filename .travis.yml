@@ -1,0 +1,26 @@
+---
+language: cpp
+compiler: gcc
+os: linux
+sudo: required
+dist: trusty
+install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y qt5-default qt5-qmake qtbase5-dev-tools qttools5-dev-tools build-essential libboost-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-thread-dev libssl-dev libdb++-dev libminiupnpc-dev
+  - sudo apt-get install -y make libqt5webkit5-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools qtcreator zip unzip dh-autoreconf libboost-thread-dev libssl-dev libdb++-dev libstdc++6 libminiupnpc-dev libevent-dev libcurl4-openssl-dev git libpng-dev qrencode libqrencode-dev build-essential libboost-dev libboost-all-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev 
+  - sudo apt-get install -y libevent-dev libgmp-dev liblz-dev libcrypto++-dev
+script:
+  - qmake -qt=qt5 "USE_QRCODE=1" "USE_NATIVE_I2P=1"
+  - make
+  - cd src && make -f makefile.unix USE_NATIVE_I2P=1
+  - strip silkd
+
+deploy:
+  provider: releases
+  file: "silk-qt"
+  skip_cleanup: true
+  on:
+    tags: true
+  api_key:
+    secure: "iHQWfOP4ULGs5iS6D6kbI6l8j1T0ZBzYlENSpUlWHaSC6YpettfIbJDI8UEVJWfK9JrC73UiKPHU77Ug83o2crfrUdTSCQBXNbd5jAKyaO6ObJ3TwB+XYMS5cjcqiMFLTZ0qVBmXX1VzYkJz+UX35W6IleEhyfYLa6NaWVG5O42pJLb3Eo0ewgDuts7P2uPp8LOHIOvJ4aPkkNCD/8wtAFz+qytgtAygxjbH/0MW3zvD7s+iaDzOJ0bVIsEA4T4jK5wH3R8Kkwg0Ima29Y9NxgJNWrnfVHnfB4Ka3J0gnu69/z8lhW38/vdUBpmksKSwKavGvc5FnyXk4125BIaxMCwkIpYRw9BZK1N3ISNSdWyVvk0l3BbRTPbUhzoorYNZ/In7hOPzQZQjrYAT17rFAiIos3Pbxt70sPK9RsaOsEx1Ya/85JiNJBL8/LxKDCv6pcmTq4e41h78P0nIS41Uqtxl24lL7mUBTMorq+IbCrI4jR+rYI7OzH2Ny7UQ2oaQZNZtVC+P7HsrLZn+xh+vpyYLGX5v9wumyJlAXYjH9yPq+RJCEMikcEBWAca/NEX0gBmFYuufimo0XtKUQMpWQ9Ft/M7MzIO3BdhijXsKHUsTlgiFU6S6sAKj5qQ+p9KfijRoF/9IAv2dKk0Xxd18hYwNl7Yj45sWmmP4w4eeQuY="
+
