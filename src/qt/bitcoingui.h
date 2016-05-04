@@ -12,7 +12,6 @@ class WalletModel;
 class TransactionView;
 class OverviewPage;
 class AddressBookPage;
-class MultisigDialog;
 class SendCoinsDialog;
 class SignVerifyMessageDialog;
 class Notificator;
@@ -66,7 +65,6 @@ private:
     QWidget *transactionsPage;
     AddressBookPage *addressBookPage;
     AddressBookPage *receiveCoinsPage;
-    MultisigDialog *multisigPage;
     SendCoinsDialog *sendCoinsPage;
     SignVerifyMessageDialog *signVerifyMessageDialog;
 
@@ -84,7 +82,6 @@ private:
     QAction *quitAction;
     QAction *sendCoinsAction;
     QAction *addressBookAction;
-    QAction *multisigAction;
     QAction *signMessageAction;
     QAction *verifyMessageAction;
     QAction *aboutAction;
@@ -97,6 +94,7 @@ private:
     QAction *changePassphraseAction;
     QAction *unlockWalletAction;
     QAction *lockWalletAction;
+    QAction *openPeersAction;
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
 
@@ -157,8 +155,6 @@ private slots:
     void gotoHistoryPage();
     /** Switch to address book page */
     void gotoAddressBookPage();
-    /** Switch to multi sig page*/
-    void gotoMultiSigPage();
     /** Switch to receive coins page */
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */

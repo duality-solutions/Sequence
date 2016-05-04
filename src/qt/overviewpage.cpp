@@ -166,7 +166,7 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
     ui->labelWatchPending->setText(BitcoinUnits::floorWithUnit( unit, watchUnconfBalance));
     ui->labelWatchImmature->setText(BitcoinUnits::floorWithUnit(unit, watchImmatureBalance));
     ui->labelWatchTotal->setText(BitcoinUnits::floorWithUnit(unit, watchOnlyBalance + watchUnconfBalance + watchImmatureBalance));
- 
+
     // only show immature (newly mined) balance if it's non-zero, so as not to complicate things
     // for the non-mining users
     bool showImmature = immatureBalance != 0;

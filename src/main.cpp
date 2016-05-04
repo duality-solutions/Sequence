@@ -80,6 +80,62 @@ CScript COINBASE_FLAGS;
 
 const string strMessageMagic = "Silk Signed Message:\n";
 
+// Internal stuff
+namespace {
+
+    CBlockIndex *pindexBestInvalid;
+
+    /**
+     * The set of all CBlockIndex entries with BLOCK_VALID_TRANSACTIONS (for itself and all ancestors) and
+     * as good as our current tip or better. Entries may be failed, though.
+     */
+    //set<CBlockIndex*, CBlockIndexWorkComparator> setBlockIndexCandidates;
+    /** Number of nodes with fSyncStarted. */
+    int nSyncStarted = 0;
+    /** All pairs A->B, where A (or one if its ancestors) misses transactions, but B has transactions. */
+    multimap<CBlockIndex*, CBlockIndex*> mapBlocksUnlinked;
+
+    CCriticalSection cs_LastBlockFile;
+    //std::vector<CBlockFileInfo> vinfoBlockFile;
+    int nLastBlockFile = 0;
+
+    /**
+     * Every received block is assigned a unique and increasing identifier, so we
+     * know which one to give priority in case of a fork.
+     */
+    CCriticalSection cs_nBlockSequenceId;
+    /** Blocks loaded from disk are assigned id 0, so start the counter at 1. */
+    uint32_t nBlockSequenceId = 1;
+
+    /**
+     * Sources of received blocks, to be able to send them reject messages or ban
+     * them, if processing happens afterwards. Protected by cs_main.
+     */
+    map<uint256, NodeId> mapBlockSource;
+
+    /** Blocks that are in flight, and that are in the queue to be downloaded. Protected by cs_main. */
+    struct QueuedBlock {
+        uint256 hash;
+        CBlockIndex *pindex;  //! Optional.
+        int64_t nTime;  //! Time of "getdata" request in microseconds.
+        int nValidatedQueuedBefore;  //! Number of blocks queued with validated headers (globally) at the time this one is requested.
+        bool fValidatedHeaders;  //! Whether this block has validated headers at the time of request.
+    };
+    map<uint256, pair<NodeId, list<QueuedBlock>::iterator> > mapBlocksInFlight;
+
+    /** Number of blocks in flight with validated headers. */
+    int nQueuedValidatedHeaders = 0;
+
+    /** Number of preferable block download peers. */
+    int nPreferredDownload = 0;
+
+    /** Dirty block index entries. */
+    set<CBlockIndex*> setDirtyBlockIndex;
+
+    /** Dirty block file entries. */
+    set<int> setDirtyFileInfo;
+} // anon namespace
+
 //////////////////////////////////////////////////////////////////////////////
 //
 // dispatching functions
@@ -144,6 +200,124 @@ void ResendWalletTransactions(bool fForce) {
 //
 // Registration of network node signals.
 //
+
+namespace {
+
+struct CBlockReject {
+    unsigned char chRejectCode;
+    string strRejectReason;
+    uint256 hashBlock;
+};
+
+/**
+ * Maintain validation-specific state about nodes, protected by cs_main, instead
+ * by CNode's own locks. This simplifies asynchronous operation, where
+ * processing of incoming data is done after the ProcessMessage call returns,
+ * and we're no longer holding the node's locks.
+ */
+struct CNodeState {
+    //! The peer's address
+    CService address;
+    //! Whether we have a fully established connection.
+    bool fCurrentlyConnected;
+    //! Accumulated misbehaviour score for this peer.
+    int nMisbehavior;
+    //! Whether this peer should be disconnected and banned (unless whitelisted).
+    bool fShouldBan;
+    //! String name of this peer (debugging/logging purposes).
+    std::string name;
+    //! List of asynchronously-determined block rejections to notify this peer about.
+    std::vector<CBlockReject> rejects;
+    //! The best known block we know this peer has announced.
+    CBlockIndex *pindexBestKnownBlock;
+    //! The hash of the last unknown block this peer has announced.
+    uint256 hashLastUnknownBlock;
+    //! The last full block we both have.
+    CBlockIndex *pindexLastCommonBlock;
+    //! Whether we've started headers synchronization with this peer.
+    bool fSyncStarted;
+    //! Since when we're stalling block download progress (in microseconds), or 0.
+    int64_t nStallingSince;
+    list<QueuedBlock> vBlocksInFlight;
+    int nBlocksInFlight;
+    //! Whether we consider this a preferred download peer.
+    bool fPreferredDownload;
+
+    CNodeState() {
+        fCurrentlyConnected = false;
+        nMisbehavior = 0;
+        fShouldBan = false;
+        pindexBestKnownBlock = NULL;
+        hashLastUnknownBlock = uint256(0);
+        pindexLastCommonBlock = NULL;
+        fSyncStarted = false;
+        nStallingSince = 0;
+        nBlocksInFlight = 0;
+        fPreferredDownload = false;
+    }
+};
+
+/** Map maintaining per-node state. Requires cs_main. */
+map<NodeId, CNodeState> mapNodeState;
+
+// Requires cs_main.
+CNodeState *State(NodeId pnode) {
+    map<NodeId, CNodeState>::iterator it = mapNodeState.find(pnode);
+    if (it == mapNodeState.end())
+        return NULL;
+    return &it->second;
+}
+
+void InitializeNode(NodeId nodeid, const CNode *pnode) {
+    LOCK(cs_main);
+    CNodeState &state = mapNodeState.insert(std::make_pair(nodeid, CNodeState())).first->second;
+    state.name = pnode->addrName;
+    state.address = pnode->addr;
+}
+
+// Requires cs_main.
+void MarkBlockAsReceived(const uint256& hash) {
+    map<uint256, pair<NodeId, list<QueuedBlock>::iterator> >::iterator itInFlight = mapBlocksInFlight.find(hash);
+    if (itInFlight != mapBlocksInFlight.end()) {
+        CNodeState *state = State(itInFlight->second.first);
+        nQueuedValidatedHeaders -= itInFlight->second.second->fValidatedHeaders;
+        state->vBlocksInFlight.erase(itInFlight->second.second);
+        state->nBlocksInFlight--;
+        state->nStallingSince = 0;
+        mapBlocksInFlight.erase(itInFlight);
+    }
+}
+
+// Requires cs_main.
+void MarkBlockAsInFlight(NodeId nodeid, const uint256& hash, CBlockIndex *pindex = NULL) {
+    CNodeState *state = State(nodeid);
+    assert(state != NULL);
+
+    // Make sure it's not listed somewhere already.
+    MarkBlockAsReceived(hash);
+
+    QueuedBlock newentry = {hash, pindex, GetTimeMicros(), nQueuedValidatedHeaders, pindex != NULL};
+    nQueuedValidatedHeaders += newentry.fValidatedHeaders;
+    list<QueuedBlock>::iterator it = state->vBlocksInFlight.insert(state->vBlocksInFlight.end(), newentry);
+    state->nBlocksInFlight++;
+    mapBlocksInFlight[hash] = std::make_pair(nodeid, it);
+}
+} // anon namespace
+
+bool GetNodeStateStats(NodeId nodeid, CNodeStateStats &stats) {
+    LOCK(cs_main);
+    CNodeState *state = State(nodeid);
+    if (state == NULL)
+        return false;
+    stats.nMisbehavior = state->nMisbehavior;
+    stats.nSyncHeight = state->pindexBestKnownBlock ? state->pindexBestKnownBlock->nHeight : -1;
+    stats.nCommonHeight = state->pindexLastCommonBlock ? state->pindexLastCommonBlock->nHeight : -1;
+    BOOST_FOREACH(const QueuedBlock& queue, state->vBlocksInFlight) {
+        if (queue.pindex)
+            stats.vHeightInFlight.push_back(queue.pindex->nHeight);
+    }
+    return true;
+}
 
 void RegisterNodeSignals(CNodeSignals& nodeSignals)
 {
@@ -655,7 +829,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CTransaction &tx, bool fLimitFree,
         MapPrevTx mapInputs;
         map<uint256, CTxIndex> mapUnused;
         bool fInvalid = false;
-        if (!tx.FetchInputs(tx, txdb, mapUnused, false, false, mapInputs, fInvalid))
+        if (!tx.FetchInputs(txdb, mapUnused, false, false, mapInputs, fInvalid))
         {
             if (fInvalid)
                 return error("AcceptToMemoryPool : FetchInputs found invalid tx %s", hash.ToString());
@@ -1148,7 +1322,7 @@ bool CTransaction::DisconnectInputs(CTxDB& txdb)
 }
 
 
-bool CTransaction::FetchInputs(CTransaction& tx, CTxDB& txdb, const map<uint256, CTxIndex>& mapTestPool,
+bool CTransaction::FetchInputs(CTxDB& txdb, const map<uint256, CTxIndex>& mapTestPool,
                                bool fBlock, bool fMiner, MapPrevTx& inputsRet, bool& fInvalid)
 {
     // FetchInputs can return false either because we just haven't seen some inputs
@@ -1457,7 +1631,7 @@ bool CBlock::ConnectBlock(CTxDB& txdb, CBlockIndex* pindex, bool fJustCheck)
         else
         {
             bool fInvalid;
-            if (!tx.FetchInputs(tx, txdb, mapQueuedChanges, true, false, mapInputs, fInvalid))
+            if (!tx.FetchInputs(txdb, mapQueuedChanges, true, false, mapInputs, fInvalid))
                 return false;
 
             // Add in sigops done by pay-to-script-hash inputs;
