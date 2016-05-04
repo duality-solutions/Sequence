@@ -272,7 +272,6 @@ static const CRPCCommand vRPCCommands[] =
     { "sendfrom",               &sendfrom,               false,     false,     true },
     { "sendmany",               &sendmany,               false,     false,     true },
     { "addmultisigaddress",     &addmultisigaddress,     false,     false,     true },
-    { "createmultisig",         &createmultisig,         true,      true,      false },
     { "addredeemscript",        &addredeemscript,        false,     false,     true },
     { "gettransaction",         &gettransaction,         false,     false,     true },
     { "listtransactions",       &listtransactions,       false,     false,     true },
@@ -839,15 +838,6 @@ json_spirit::Value CRPCTable::execute(const std::string &strMethod, const json_s
     {
         throw JSONRPCError(RPC_MISC_ERROR, e.what());
     }
-}
-
-std::string HelpExampleCli(string methodname, string args){
-    return "> silkd " + methodname + " " + args + "\n";
-}
-
-std::string HelpExampleRpc(string methodname, string args){
-    return "> curl --user myusername --data-binary '{\"jsonrpc\": \"1.0\", \"id\":\"curltest\", "
-        "\"method\": \"" + methodname + "\", \"params\": [" + args + "] }' -H 'content-type: text/plain;' http://127.0.0.1:9998/\n";
 }
 
 const CRPCTable tableRPC;
