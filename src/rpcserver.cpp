@@ -136,6 +136,14 @@ vector<unsigned char> ParseHexO(const Object& o, string strKey)
     return ParseHexV(find_value(o, strKey), strKey);
 }
 
+std::string HelpExampleCli(string methodname, string args){
+    return "> silkd " + methodname + " " + args + "\n";
+}
+
+std::string HelpExampleRpc(string methodname, string args){
+    return "> curl --user myusername --data-binary '{\"jsonrpc\": \"1.0\", \"id\":\"curltest\", "
+        "\"method\": \"" + methodname + "\", \"params\": [" + args + "] }' -H 'content-type: text/plain;' http://127.0.0.1:9998/\n";
+}
 
 ///
 /// Note: This interface may still be subject to change.
@@ -272,6 +280,7 @@ static const CRPCCommand vRPCCommands[] =
     { "sendfrom",               &sendfrom,               false,     false,     true },
     { "sendmany",               &sendmany,               false,     false,     true },
     { "addmultisigaddress",     &addmultisigaddress,     false,     false,     true },
+    { "createmultisig",         &createmultisig,         true,      true,      false },
     { "addredeemscript",        &addredeemscript,        false,     false,     true },
     { "gettransaction",         &gettransaction,         false,     false,     true },
     { "listtransactions",       &listtransactions,       false,     false,     true },
