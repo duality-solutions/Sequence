@@ -1,4 +1,5 @@
-// Copyright (c) 2011-2013 The Bitcoin developers
+// Copyright (c) 2011-2016 The Bitcoin developers
+// Copyright (c) 2015-2016 The Silk Network Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -110,19 +111,6 @@ public:
         }
     }
 };
-
-static void CopyNodeStats(std::vector<CNodeStats>& vstats)
-{
-    vstats.clear();
-
-    LOCK(cs_vNodes);
-    vstats.reserve(vNodes.size());
-    BOOST_FOREACH(CNode* pnode, vNodes) {
-        CNodeStats stats;
-        pnode->copyStats(stats);
-        vstats.push_back(stats);
-    }
-}
 
 PeerTableModel::PeerTableModel(ClientModel *parent) :
     QAbstractTableModel(parent),

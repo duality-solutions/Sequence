@@ -3,7 +3,7 @@
 
 #include "clientmodel.h"
 #include "walletmodel.h"
-#include "bitcoinunits.h"
+#include "silkunits.h"
 #include "optionsmodel.h"
 #include "transactiontablemodel.h"
 #include "transactionfilterproxy.h"
@@ -20,7 +20,7 @@ class TxViewDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
 public:
-    TxViewDelegate(): QAbstractItemDelegate(), unit(BitcoinUnits::BTC)
+    TxViewDelegate(): QAbstractItemDelegate(), unit(SilkUnits::BTC)
     {
 
     }
@@ -67,7 +67,7 @@ public:
             foreground = option.palette.color(QPalette::Text);
         }
         painter->setPen(fUseBlackTheme ? QColor(255, 255, 255) : foreground);
-        QString amountText = BitcoinUnits::formatWithUnit(unit, amount, true);
+        QString amountText = SilkUnits::formatWithUnit(unit, amount, true);
         if(!confirmed)
         {
             amountText = QString("[") + amountText + QString("]");
@@ -157,15 +157,15 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
     currentWatchUnconfBalance = watchUnconfBalance;
     currentWatchImmatureBalance = watchImmatureBalance;
     currentWatchOnlyStake = watchOnlyStake;
-    ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, balance));
-    ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, stake));
-    ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, unconfirmedBalance));
-    ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, immatureBalance));
-    ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, balance + stake + unconfirmedBalance + immatureBalance));
-    ui->labelWatchAvailable->setText(BitcoinUnits::floorWithUnit(unit, watchOnlyBalance));
-    ui->labelWatchPending->setText(BitcoinUnits::floorWithUnit( unit, watchUnconfBalance));
-    ui->labelWatchImmature->setText(BitcoinUnits::floorWithUnit(unit, watchImmatureBalance));
-    ui->labelWatchTotal->setText(BitcoinUnits::floorWithUnit(unit, watchOnlyBalance + watchUnconfBalance + watchImmatureBalance));
+    ui->labelBalance->setText(SilkUnits::formatWithUnit(unit, balance));
+    ui->labelStake->setText(SilkUnits::formatWithUnit(unit, stake));
+    ui->labelUnconfirmed->setText(SilkUnits::formatWithUnit(unit, unconfirmedBalance));
+    ui->labelImmature->setText(SilkUnits::formatWithUnit(unit, immatureBalance));
+    ui->labelTotal->setText(SilkUnits::formatWithUnit(unit, balance + stake + unconfirmedBalance + immatureBalance));
+    ui->labelWatchAvailable->setText(SilkUnits::floorWithUnit(unit, watchOnlyBalance));
+    ui->labelWatchPending->setText(SilkUnits::floorWithUnit( unit, watchUnconfBalance));
+    ui->labelWatchImmature->setText(SilkUnits::floorWithUnit(unit, watchImmatureBalance));
+    ui->labelWatchTotal->setText(SilkUnits::floorWithUnit(unit, watchOnlyBalance + watchUnconfBalance + watchImmatureBalance));
 
     // only show immature (newly mined) balance if it's non-zero, so as not to complicate things
     // for the non-mining users

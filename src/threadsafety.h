@@ -1,10 +1,11 @@
 // Copyright (c) 2009-2016 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin developers
+// Copyright (c) 2015-2016 The Silk Network developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_THREADSAFETY_H
-#define BITCOIN_THREADSAFETY_H
+#ifndef SILK_THREADSAFETY_H
+#define SILK_THREADSAFETY_H
 
 #ifdef __clang__
 // TL;DR Add GUARDED_BY(mutex) to member variables. The others are
@@ -51,4 +52,4 @@
 #define SHARED_LOCKS_REQUIRED(...)
 #define NO_THREAD_SAFETY_ANALYSIS
 #endif  // __GNUC__
-#endif  // BITCOIN_THREADSAFETY_H
+#endif  // SILK_THREADSAFETY_H

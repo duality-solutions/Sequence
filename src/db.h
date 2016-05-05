@@ -1,10 +1,11 @@
 // Copyright (c) 2009-2016 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin developers
+// Copyright (c) 2015-2016 The Silk Network developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_DB_H
-#define BITCOIN_DB_H
+#ifndef SILK_DB_H
+#define SILK_DB_H
 
 #include <boost/filesystem/path.hpp>
 #include <db_cxx.h>
@@ -309,4 +310,4 @@ public:
     bool static Rewrite(const std::string& strFile, const char* pszSkip = NULL);
 };
 
-#endif // BITCOIN_DB_H
+#endif // SILK_DB_H

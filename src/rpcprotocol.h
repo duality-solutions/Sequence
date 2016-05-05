@@ -1,10 +1,11 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin developers
+// Copyright (c) 2015-2016 The Silk Network developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOINRPC_PROTOCOL_H
-#define BITCOINRPC_PROTOCOL_H
+#ifndef SILKRPC_PROTOCOL_H
+#define SILKRPC_PROTOCOL_H
 
 #include <boost/iostreams/concepts.hpp>
 #include <boost/iostreams/stream.hpp>
@@ -33,7 +34,7 @@ enum HTTPStatusCode
     HTTP_INTERNAL_SERVER_ERROR = 500,
 };
 
-// Bitcoin RPC error codes
+// Silk RPC error codes
 enum RPCErrorCode
 {
     // Standard JSON-RPC 2.0 errors
@@ -55,7 +56,7 @@ enum RPCErrorCode
     RPC_SERVER_NOT_STARTED          = -18, // RPC server was not started (StartRPCThreads() not called)
 
     // P2P client errors
-    RPC_CLIENT_NOT_CONNECTED        = -9,  // Bitcoin is not connected
+    RPC_CLIENT_NOT_CONNECTED        = -9,  // Silk is not connected
     RPC_CLIENT_IN_INITIAL_DOWNLOAD  = -10, // Still downloading initial blocks
     RPC_CLIENT_NODE_ALREADY_ADDED   = -23, // Node is already added
     RPC_CLIENT_NODE_NOT_ADDED       = -24, // Node has not been added before

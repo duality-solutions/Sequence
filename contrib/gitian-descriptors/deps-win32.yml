@@ -1,5 +1,5 @@
 ---
-name: "bitcoin-deps"
+name: "silk-deps"
 suites:
 - "lucid"
 architectures:

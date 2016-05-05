@@ -1,9 +1,10 @@
 // Copyright (c) 2009-2016 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin developers
+// Copyright (c) 2015-2016 The Silk Network developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_TXMEMPOOL_H
-#define BITCOIN_TXMEMPOOL_H
+#ifndef SILK_TXMEMPOOL_H
+#define SILK_TXMEMPOOL_H
 
 #include "core.h"
 #include "sync.h"
@@ -53,4 +54,4 @@ public:
     bool lookup(uint256 hash, CTransaction& result) const;
 };
 
-#endif /* BITCOIN_TXMEMPOOL_H */
+#endif /* SILK_TXMEMPOOL_H */

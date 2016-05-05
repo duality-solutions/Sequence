@@ -1,8 +1,9 @@
 // Copyright (c) 2009-2016 The Bitcoin developers
+// Copyright (c) 2015-2016 The Silk Network developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_CHECKPOINT_H
-#define  BITCOIN_CHECKPOINT_H
+#ifndef SILK_CHECKPOINT_H
+#define  SILK_CHECKPOINT_H
 
 #include <map>
 

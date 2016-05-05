@@ -1,10 +1,11 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin developers
+// Copyright (c) 2015-2016 The Silk Network developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOINRPC_CLIENT_H
-#define BITCOINRPC_CLIENT_H
+#ifndef SILKRPC_CLIENT_H
+#define SILKRPC_CLIENT_H
 
 #include "json/json_spirit_reader_template.h"
 #include "json/json_spirit_utils.h"

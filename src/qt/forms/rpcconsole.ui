@@ -561,7 +561,7 @@ background-color: rgb(255, 255, 255);</string>
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../bitcoin.qrc">
+            <iconset resource="../silk.qrc">
              <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
            </property>
            <property name="shortcut">
@@ -1760,7 +1760,7 @@ alternate-background-color: rgb(192, 192, 192);</string>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../bitcoin.qrc"/>
+  <include location="../silk.qrc"/>
  </resources>
  <connections/>
 </ui>

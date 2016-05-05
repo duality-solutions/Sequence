@@ -11,8 +11,8 @@ cryptographic software written by Eric Young (eay@cryptsoft.com).
 
 Intro
 -----
-Silk is a free open source project derived from Bitcoin, with
+Silk is a free open source project derived from Silk, with
 the goal of providing a long-term energy-efficient scrypt-based crypto-currency.
-Built on the foundation of Bitcoin, PPCoin and NovaCoin, innovations such as proof-of-stake and scrypt
+Built on the foundation of Silk, PPCoin and NovaCoin, innovations such as proof-of-stake and scrypt
 help further advance the field of crypto-currency.
 

@@ -1,10 +1,11 @@
-// Copyright (c) 2009-2016 The Bitcoin Developers.
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 The Silk Network Developers.
 // Authored by Google, Inc.
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_LEVELDB_H
-#define BITCOIN_LEVELDB_H
+#ifndef SILK_LEVELDB_H
+#define SILK_LEVELDB_H
 
 #include <leveldb/db.h>
 #include <leveldb/write_batch.h>
@@ -208,4 +209,4 @@ private:
 };
 
 
-#endif // BITCOIN_DB_H
+#endif // SILK_DB_H

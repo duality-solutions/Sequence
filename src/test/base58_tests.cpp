@@ -106,8 +106,8 @@ BOOST_AUTO_TEST_CASE(base58_keys_valid_parse)
 {
     Array tests = read_json("base58_keys_valid.json");
     std::vector<unsigned char> result;
-    CBitcoinSecret secret;
-    CBitcoinAddress addr;
+    CSilkSecret secret;
+    CSilkAddress addr;
 
     BOOST_FOREACH(Value& tv, tests)
     {
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE(base58_keys_valid_parse)
         {
             bool isCompressed = find_value(metadata, "isCompressed").get_bool();
             // Must be valid private key
-            // Note: CBitcoinSecret::SetString tests isValid, whereas CBitcoinAddress does not!
+            // Note: CSilkSecret::SetString tests isValid, whereas CSilkAddress does not!
             BOOST_CHECK_MESSAGE(secret.SetString(exp_base58string), "!SetString:"+ strTest);
             BOOST_CHECK_MESSAGE(secret.IsValid(), "!IsValid:" + strTest);
             CKey privkey = secret.GetKey();
@@ -189,7 +189,7 @@ BOOST_AUTO_TEST_CASE(base58_keys_valid_gen)
             CKey key;
             key.Set(exp_payload.begin(), exp_payload.end(), isCompressed);
             assert(key.IsValid());
-            CBitcoinSecret secret;
+            CSilkSecret secret;
             secret.SetKey(key);
             BOOST_CHECK_MESSAGE(secret.ToString() == exp_base58string, "result mismatch: " + strTest);
         }
@@ -214,16 +214,16 @@ BOOST_AUTO_TEST_CASE(base58_keys_valid_gen)
                 BOOST_ERROR("Bad addrtype: " << strTest);
                 continue;
             }
-            CBitcoinAddress addrOut;
-            BOOST_CHECK_MESSAGE(boost::apply_visitor(CBitcoinAddressVisitor(&addrOut), dest), "encode dest: " + strTest);
+            CSilkAddress addrOut;
+            BOOST_CHECK_MESSAGE(boost::apply_visitor(CSilkAddressVisitor(&addrOut), dest), "encode dest: " + strTest);
             BOOST_CHECK_MESSAGE(addrOut.ToString() == exp_base58string, "mismatch: " + strTest);
         }
     }
 
     // Visiting a CNoDestination must fail
-    CBitcoinAddress dummyAddr;
+    CSilkAddress dummyAddr;
     CTxDestination nodest = CNoDestination();
-    BOOST_CHECK(!boost::apply_visitor(CBitcoinAddressVisitor(&dummyAddr), nodest));
+    BOOST_CHECK(!boost::apply_visitor(CSilkAddressVisitor(&dummyAddr), nodest));
 
     SelectParams(CChainParams::MAIN);
 }
@@ -233,8 +233,8 @@ BOOST_AUTO_TEST_CASE(base58_keys_invalid)
 {
     Array tests = read_json("base58_keys_invalid.json"); // Negative testcases
     std::vector<unsigned char> result;
-    CBitcoinSecret secret;
-    CBitcoinAddress addr;
+    CSilkSecret secret;
+    CSilkAddress addr;
 
     BOOST_FOREACH(Value& tv, tests)
     {

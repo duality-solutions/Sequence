@@ -1,5 +1,5 @@
 # -*- mode: Makefile; -*-
-# Copyright (c) 2011 Bitcoin Developers
+# Copyright (c) 2011 Silk Developers
 # Distributed under the MIT/X11 software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -71,7 +71,7 @@ OBJS= \
     obj/crypter.o \
     obj/key.o \
     obj/init.o \
-    obj/bitcoind.o \
+    obj/silkd.o \
     obj/keystore.o \
     obj/core.o \
     obj/main.o \
