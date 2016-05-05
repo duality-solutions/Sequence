@@ -143,6 +143,8 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "sendmany", 2 },
     { "reservebalance", 0 },
     { "reservebalance", 1 },
+    { "createmultisig", 0 },
+    { "createmultisig", 1 },
     { "addmultisigaddress", 0 },
     { "addmultisigaddress", 1 },
     { "listunspent", 0 },
