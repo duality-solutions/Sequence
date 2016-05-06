@@ -173,17 +173,6 @@ std::string FormatMoney(int64_t n, bool fPlus=false);
 bool ParseMoney(const std::string& str, int64_t& nRet);
 bool ParseMoney(const char* pszIn, int64_t& nRet);
 std::string SanitizeString(const std::string& str);
-//TODO (Amir): Remove these lines. code moved to utilstrencodings
-//std::vector<unsigned char> ParseHex(const char* psz);
-//std::vector<unsigned char> ParseHex(const std::string& str);
-//std::vector<unsigned char> DecodeBase64(const char* p, bool* pfInvalid = NULL);
-//std::string DecodeBase64(const std::string& str);
-//std::string EncodeBase64(const unsigned char* pch, size_t len);
-//std::string EncodeBase64(const std::string& str);
-//std::vector<unsigned char> DecodeBase32(const char* p, bool* pfInvalid = NULL);
-//std::string DecodeBase32(const std::string& str);
-//std::string EncodeBase32(const unsigned char* pch, size_t len);
-//std::string EncodeBase32(const std::string& str);
 void ParseParameters(int argc, const char*const argv[]);
 bool WildcardMatch(const char* psz, const char* mask);
 bool WildcardMatch(const std::string& str, const std::string& mask);

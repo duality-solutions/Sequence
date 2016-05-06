@@ -13,7 +13,6 @@
 #include "rpcserver.h"
 #include "ui_interface.h"
 #include "base58.h"
-#include "base58.h"
 #include "utilstrencodings.h"
 
 using namespace json_spirit;
