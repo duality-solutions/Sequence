@@ -12,6 +12,7 @@
 
 #include "uint256.h"
 #include "rpcprotocol.h"
+#include "utilstrencodings.h"
 
 class CBlockIndex;
 

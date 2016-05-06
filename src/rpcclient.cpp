@@ -25,6 +25,7 @@
 #include "util.h"
 #include "ui_interface.h"
 #include "chainparams.h" // for Params().RPCPort()
+#include "utilstrencodings.h"
 
 using namespace std;
 using namespace boost;

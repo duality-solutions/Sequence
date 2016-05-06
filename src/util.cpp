@@ -409,42 +409,6 @@ static const signed char phexdigit[256] =
   -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
   -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, };
 
-bool IsHex(const string& str)
-{
-    BOOST_FOREACH(unsigned char c, str)
-    {
-        if (phexdigit[c] < 0)
-            return false;
-    }
-    return (str.size() > 0) && (str.size()%2 == 0);
-}
-
-vector<unsigned char> ParseHex(const char* psz)
-{
-    // convert hex dump to vector
-    vector<unsigned char> vch;
-    while (true)
-    {
-        while (isspace(*psz))
-            psz++;
-        signed char c = phexdigit[(unsigned char)*psz++];
-        if (c == (signed char)-1)
-            break;
-        unsigned char n = (c << 4);
-        c = phexdigit[(unsigned char)*psz++];
-        if (c == (signed char)-1)
-            break;
-        n |= c;
-        vch.push_back(n);
-    }
-    return vch;
-}
-
-vector<unsigned char> ParseHex(const string& str)
-{
-    return ParseHex(str.c_str());
-}
-
 static void InterpretNegativeSetting(string name, map<string, string>& mapSettingsRet)
 {
     // interpret -nofoo as -foo=0 (and -nofoo=0 as -foo=1) as long as -foo not set
@@ -546,56 +510,32 @@ bool SoftSetBoolArg(const std::string& strArg, bool fValue)
         return SoftSetArg(strArg, std::string("0"));
 }
 
-
-string EncodeBase64(const unsigned char* pch, size_t len)
+//TODO (Amir): Remove these lines. code moved to utilstrencodings
+/*
+vector<unsigned char> ParseHex(const char* psz)
 {
-    static const char *pbase64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-    string strRet="";
-    strRet.reserve((len+2)/3*4);
-
-    int mode=0, left=0;
-    const unsigned char *pchEnd = pch+len;
-
-    while (pch<pchEnd)
+    // convert hex dump to vector
+    vector<unsigned char> vch;
+    while (true)
     {
-        int enc = *(pch++);
-        switch (mode)
-        {
-            case 0: // we have no bits
-                strRet += pbase64[enc >> 2];
-                left = (enc & 3) << 4;
-                mode = 1;
-                break;
-
-            case 1: // we have two bits
-                strRet += pbase64[left | (enc >> 4)];
-                left = (enc & 15) << 2;
-                mode = 2;
-                break;
-
-            case 2: // we have four bits
-                strRet += pbase64[left | (enc >> 6)];
-                strRet += pbase64[enc & 63];
-                mode = 0;
-                break;
-        }
+        while (isspace(*psz))
+            psz++;
+        signed char c = phexdigit[(unsigned char)*psz++];
+        if (c == (signed char)-1)
+            break;
+        unsigned char n = (c << 4);
+        c = phexdigit[(unsigned char)*psz++];
+        if (c == (signed char)-1)
+            break;
+        n |= c;
+        vch.push_back(n);
     }
-
-    if (mode)
-    {
-        strRet += pbase64[left];
-        strRet += '=';
-        if (mode == 1)
-            strRet += '=';
-    }
-
-    return strRet;
+    return vch;
 }
 
-string EncodeBase64(const string& str)
+vector<unsigned char> ParseHex(const string& str)
 {
-    return EncodeBase64((const unsigned char*)str.c_str(), str.size());
+    return ParseHex(str.c_str());
 }
 
 vector<unsigned char> DecodeBase64(const char* p, bool* pfInvalid)
@@ -685,6 +625,57 @@ string DecodeBase64(const string& str)
 {
     vector<unsigned char> vchRet = DecodeBase64(str.c_str());
     return string((const char*)&vchRet[0], vchRet.size());
+}
+
+string EncodeBase64(const unsigned char* pch, size_t len)
+{
+    static const char *pbase64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+    string strRet="";
+    strRet.reserve((len+2)/3*4);
+
+    int mode=0, left=0;
+    const unsigned char *pchEnd = pch+len;
+
+    while (pch<pchEnd)
+    {
+        int enc = *(pch++);
+        switch (mode)
+        {
+            case 0: // we have no bits
+                strRet += pbase64[enc >> 2];
+                left = (enc & 3) << 4;
+                mode = 1;
+                break;
+
+            case 1: // we have two bits
+                strRet += pbase64[left | (enc >> 4)];
+                left = (enc & 15) << 2;
+                mode = 2;
+                break;
+
+            case 2: // we have four bits
+                strRet += pbase64[left | (enc >> 6)];
+                strRet += pbase64[enc & 63];
+                mode = 0;
+                break;
+        }
+    }
+
+    if (mode)
+    {
+        strRet += pbase64[left];
+        strRet += '=';
+        if (mode == 1)
+            strRet += '=';
+    }
+
+    return strRet;
+}
+
+string EncodeBase64(const string& str)
+{
+    return EncodeBase64((const unsigned char*)str.c_str(), str.size());
 }
 
 string EncodeBase32(const unsigned char* pch, size_t len)
@@ -873,7 +864,7 @@ string DecodeBase32(const string& str)
     vector<unsigned char> vchRet = DecodeBase32(str.c_str());
     return string((const char*)&vchRet[0], vchRet.size());
 }
-
+*/
 
 bool WildcardMatch(const char* psz, const char* mask)
 {

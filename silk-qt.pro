@@ -109,6 +109,7 @@ contains(SILK_NEED_QT_PLUGINS, 1) {
 INCLUDEPATH += src/leveldb/include src/leveldb/helpers
 LIBS += $$PWD/src/leveldb/libleveldb.a $$PWD/src/leveldb/libmemenv.a
 SOURCES += src/txdb-leveldb.cpp
+
 !win32 {
     # we use QMAKE_CXXFLAGS_RELEASE even without RELEASE=1 because we use RELEASE to indicate linking preferences not -O preferences
     genleveldb.commands = cd $$PWD/src/leveldb && CC=$$QMAKE_CC CXX=$$QMAKE_CXX $(MAKE) OPT=\"$$QMAKE_CXXFLAGS $$QMAKE_CXXFLAGS_RELEASE\" libleveldb.a libmemenv.a
@@ -244,7 +245,8 @@ HEADERS += src/qt/silkgui.h \
     src/netbase.h \
     src/clientversion.h \
     src/threadsafety.h \
-    src/tinyformat.h
+    src/tinyformat.h \
+    src/utilstrencodings.h
 
 SOURCES += src/qt/silk.cpp src/qt/silkgui.cpp \
     src/qt/transactiontablemodel.cpp \
@@ -322,7 +324,8 @@ SOURCES += src/qt/silk.cpp src/qt/silkgui.cpp \
     src/scrypt-x86.S \
     src/scrypt-x86_64.S \
     src/scrypt.cpp \
-    src/pbkdf2.cpp
+    src/pbkdf2.cpp \
+    src/utilstrencodings.cpp
 
 RESOURCES += \
     src/qt/silk.qrc
@@ -455,3 +458,10 @@ contains(RELEASE, 1) {
 }
 
 system($$QMAKE_LRELEASE -silent $$_PRO_FILE_)
+
+DISTFILES += \
+    src/makefile.bsd \
+    src/makefile.linux-mingw \
+    src/makefile.mingw \
+    src/makefile.osx \
+    src/makefile.unix

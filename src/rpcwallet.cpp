@@ -13,6 +13,7 @@
 #include "util.h"
 #include "wallet.h"
 #include "walletdb.h"
+#include "utilstrencodings.h"
 
 using namespace std;
 using namespace json_spirit;

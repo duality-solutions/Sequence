@@ -14,6 +14,7 @@
 #include "init.h"
 #include "miner.h"
 #include "kernel.h"
+#include "utilstrencodings.h"
 
 using namespace json_spirit;
 using namespace std;
