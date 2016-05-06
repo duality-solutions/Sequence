@@ -12,6 +12,7 @@
 #include "addrman.h"
 #include "hash.h"
 #include "util.h"
+#include "utilstrencodings.h"
 
 #ifndef WIN32
 #include <sys/stat.h>

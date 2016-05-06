@@ -83,6 +83,7 @@ OBJS= \
     obj/script.o \
     obj/sync.o \
     obj/txmempool.o \
+    obj/utilstrencodings.o \
     obj/util.o \
     obj/hash.o \
     obj/noui.o \

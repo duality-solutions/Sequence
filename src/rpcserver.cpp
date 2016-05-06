@@ -22,6 +22,7 @@
 #include "base58.h"
 #include "init.h"
 #include "util.h"
+#include "utilstrencodings.h"
 #include "sync.h"
 #include "base58.h"
 #include "db.h"

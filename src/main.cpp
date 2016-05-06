@@ -18,6 +18,8 @@
 #include "net.h"
 #include "txdb.h"
 #include "txmempool.h"
+#include "utilstrencodings.h"
+#include "serialize.h"
 #include "ui_interface.h"
 
 using namespace std;
@@ -3024,8 +3026,10 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             pfrom->nVersion = 300;
         if (!vRecv.empty())
             vRecv >> addrFrom >> nNonce;
-        if (!vRecv.empty())
-            vRecv >> pfrom->strSubVer;
+        if (!vRecv.empty()) {
+            vRecv >> LIMITED_STRING(pfrom->strSubVer, 256);
+            pfrom->cleanSubVer = SanitizeSubVersionString(pfrom->strSubVer);
+        }
         if (!vRecv.empty())
             vRecv >> pfrom->nStartingHeight;
 

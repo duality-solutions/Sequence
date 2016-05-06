@@ -15,6 +15,7 @@
 #include "util.h"
 #include "sync.h"
 #include "hash.h"
+#include "utilstrencodings.h"
 
 using namespace std;
 

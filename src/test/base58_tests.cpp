@@ -5,6 +5,7 @@
 
 #include "base58.h"
 #include "util.h"
+#include "utilstrencodings.h"
 
 using namespace json_spirit;
 extern Array read_json(const std::string& filename);

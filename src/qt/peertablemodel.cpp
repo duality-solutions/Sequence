@@ -81,8 +81,10 @@ public:
             TRY_LOCK(cs_main, lockMain);
             if (lockMain)
             {
-                BOOST_FOREACH(CNodeCombinedStats &stats, cachedNodeStats)
+                BOOST_FOREACH(CNodeCombinedStats &stats, cachedNodeStats) {
                     stats.fNodeStateStatsAvailable = GetNodeStateStats(stats.nodeStats.nodeid, stats.nodeStateStats);
+                    stats.fNodeStateStatsAvailable = true;
+                }
             }
         }
 

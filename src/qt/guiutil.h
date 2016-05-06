@@ -44,6 +44,7 @@ namespace GUIUtil
     QString formatDurationStr(int secs);
     QString formatPingTime(double dPingTime);
     QString formatServicesStr(quint64 mask);
+    QString formatTimeoffset(int64_t timeOffset);
 
     /** Copy a field of the currently selected entry of a view to the clipboard. Does nothing if nothing
         is selected.

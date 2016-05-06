@@ -547,5 +547,12 @@ QString formatServicesStr(quint64 mask)
         return QObject::tr("None");
 }
 
+QString formatTimeoffset(int64_t timeOffset)
+{
+    std::ostringstream os;
+    os << timeOffset;
+    return QString::fromStdString(os.str());
+}
+
 } // namespace GUIUtil
 

@@ -10,6 +10,7 @@
 #include "assert.h"
 #include "main.h"
 #include "util.h"
+#include "utilstrencodings.h"
 
 using namespace boost::assign;
 

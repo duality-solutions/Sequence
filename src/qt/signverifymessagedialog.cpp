@@ -13,6 +13,7 @@
 #include "optionsmodel.h"
 #include "walletmodel.h"
 #include "wallet.h"
+#include "utilstrencodings.h"
 
 SignVerifyMessageDialog::SignVerifyMessageDialog(QWidget *parent) :
     QDialog(parent),
