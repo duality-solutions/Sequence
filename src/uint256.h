@@ -1,10 +1,11 @@
 // Copyright (c) 2009-2016 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin developers
+// Copyright (c) 2015-2016 Silk Network
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_UINT256_H
-#define BITCOIN_UINT256_H
+#ifndef SILK_UINT256_H
+#define SILK_UINT256_H
 
 #include <string>
 #include <vector>
@@ -783,4 +784,4 @@ inline int Testuint256AdHoc(std::vector<std::string> vArg)
 // Temporary for migration to opaque uint160/256
 inline uint256 uint256S(const std::string &x) { return uint256(x); }
 
-#endif // BITCOIN_UINT256_H
+#endif // SILK_UINT256_H

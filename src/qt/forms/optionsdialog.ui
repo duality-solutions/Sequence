@@ -59,7 +59,7 @@
           </widget>
          </item>
          <item>
-          <widget class="BitcoinAmountField" name="transactionFee">
+          <widget class="SilkAmountField" name="transactionFee">
            <property name="styleSheet">
             <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(255, 255, 255);</string>
@@ -110,7 +110,7 @@ background-color: rgb(255, 255, 255);</string>
           </widget>
          </item>
          <item>
-          <widget class="BitcoinAmountField" name="reserveBalance">
+          <widget class="SilkAmountField" name="reserveBalance">
            <property name="styleSheet">
             <string notr="true">color: rgb(0, 0, 0);
 background-color: rgb(255, 255, 255);</string>
@@ -133,7 +133,7 @@ background-color: rgb(255, 255, 255);</string>
         </layout>
        </item>
        <item>
-        <widget class="QCheckBox" name="bitcoinAtStartup">
+        <widget class="QCheckBox" name="silkAtStartup">
          <property name="toolTip">
           <string>Automatically start Silk after logging in to the system.</string>
          </property>
@@ -476,9 +476,9 @@ background-color: rgb(255, 255, 255);</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>BitcoinAmountField</class>
+   <class>SilkAmountField</class>
    <extends>QSpinBox</extends>
-   <header>bitcoinamountfield.h</header>
+   <header>silkamountfield.h</header>
   </customwidget>
   <customwidget>
    <class>QValueComboBox</class>

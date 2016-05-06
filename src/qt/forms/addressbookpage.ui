@@ -142,7 +142,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../bitcoin.qrc"/>
+  <include location="../silk.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -23,7 +23,7 @@ Silk Integration/Staging Tree
 * PoS Min: 12 Hours
 * PoS Max: Unlimited
 * Total Coins: 2,000,000,000 SLK
-* Block Size: 2MB (2X Bitcoin Core)
+* Block Size: 2MB (2X Silk Core)
 
 
 Silk is a digital currency that enables instant payments to anyone, anywhere in the world. Silk uses peer-to-peer technology over ClearNet to operate with no central authority (centralisation): managing transactions and issuing currency (SLK) are carried out collectively by the Silk network. Silk is the name of open source software which enables the use of the currency SLK.

@@ -6,7 +6,7 @@ they can be picked up by Qt linguist.
 from subprocess import Popen, PIPE
 import glob
 
-OUT_CPP="src/qt/bitcoinstrings.cpp"
+OUT_CPP="src/qt/silkstrings.cpp"
 EMPTY=['""']
 
 def parse_po(text):
@@ -62,9 +62,9 @@ f.write("""#include <QtGlobal>
 #define UNUSED
 #endif
 """)
-f.write('static const char UNUSED *bitcoin_strings[] = {')
+f.write('static const char UNUSED *silk_strings[] = {')
 for (msgid, msgstr) in messages:
     if msgid != EMPTY:
-        f.write('QT_TRANSLATE_NOOP("bitcoin-core", %s),\n' % ('\n'.join(msgid)))
+        f.write('QT_TRANSLATE_NOOP("silk-core", %s),\n' % ('\n'.join(msgid)))
 f.write('};')
 f.close()

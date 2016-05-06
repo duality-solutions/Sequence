@@ -13,7 +13,7 @@ Sanity checks:
 
 Once you've got the right hardware and software:
 
-    git clone git://github.com/rat4/bitcoin.git
+    git clone git://github.com/rat4/silk.git
     git clone git://github.com/devrandom/gitian-builder.git
     mkdir gitian-builder/inputs
     wget 'http://miniupnp.tuxfamily.org/files/download.php?file=miniupnpc-1.6.tar.gz' -O gitian-builder/inputs/miniupnpc-1.6.tar.gz
@@ -28,4 +28,4 @@ Once you've got the right hardware and software:
     git pull
     cd ../gitian-builder
     git pull
-    ./bin/gbuild --commit bitcoin=HEAD ../silk/contrib/gitian-descriptors/gitian.yml
+    ./bin/gbuild --commit silk=HEAD ../silk/contrib/gitian-descriptors/gitian.yml

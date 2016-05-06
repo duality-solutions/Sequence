@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2016 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -12,8 +13,8 @@
 // - E-mail usually won't line-break if there's no punctuation to break at.
 // - Double-clicking selects the whole number as one word if it's all alphanumeric.
 //
-#ifndef BITCOIN_BASE58_H
-#define BITCOIN_BASE58_H
+#ifndef SILK_BASE58_H
+#define SILK_BASE58_H
 
 #include <string>
 #include <vector>
@@ -257,19 +258,19 @@ public:
  * Script-hash-addresses have version 85 (or 196 testnet).
  * The data vector contains RIPEMD160(SHA256(cscript)), where cscript is the serialized redemption script.
  */
-class CBitcoinAddress;
-class CBitcoinAddressVisitor : public boost::static_visitor<bool>
+class CSilkAddress;
+class CSilkAddressVisitor : public boost::static_visitor<bool>
 {
 private:
-    CBitcoinAddress *addr;
+    CSilkAddress *addr;
 public:
-    CBitcoinAddressVisitor(CBitcoinAddress *addrIn) : addr(addrIn) { }
+    CSilkAddressVisitor(CSilkAddress *addrIn) : addr(addrIn) { }
     bool operator()(const CKeyID &id) const;
     bool operator()(const CScriptID &id) const;
     bool operator()(const CNoDestination &no) const;
 };
 
-class CBitcoinAddress : public CBase58Data
+class CSilkAddress : public CBase58Data
 {
 public:
     bool Set(const CKeyID &id) {
@@ -284,7 +285,7 @@ public:
 
     bool Set(const CTxDestination &dest)
     {
-        return boost::apply_visitor(CBitcoinAddressVisitor(this), dest);
+        return boost::apply_visitor(CSilkAddressVisitor(this), dest);
     }
 
     bool IsValid() const
@@ -295,21 +296,21 @@ public:
         return fCorrectSize && fKnownVersion;
     }
 
-    CBitcoinAddress()
+    CSilkAddress()
     {
     }
 
-    CBitcoinAddress(const CTxDestination &dest)
+    CSilkAddress(const CTxDestination &dest)
     {
         Set(dest);
     }
 
-    CBitcoinAddress(const std::string& strAddress)
+    CSilkAddress(const std::string& strAddress)
     {
         SetString(strAddress);
     }
 
-    CBitcoinAddress(const char* pszAddress)
+    CSilkAddress(const char* pszAddress)
     {
         SetString(pszAddress);
     }
@@ -341,12 +342,12 @@ public:
     }
 };
 
-bool inline CBitcoinAddressVisitor::operator()(const CKeyID &id) const         { return addr->Set(id); }
-bool inline CBitcoinAddressVisitor::operator()(const CScriptID &id) const      { return addr->Set(id); }
-bool inline CBitcoinAddressVisitor::operator()(const CNoDestination &id) const { return false; }
+bool inline CSilkAddressVisitor::operator()(const CKeyID &id) const         { return addr->Set(id); }
+bool inline CSilkAddressVisitor::operator()(const CScriptID &id) const      { return addr->Set(id); }
+bool inline CSilkAddressVisitor::operator()(const CNoDestination &id) const { return false; }
 
 /** A base58-encoded secret key */
-class CBitcoinSecret : public CBase58Data
+class CSilkSecret : public CBase58Data
 {
 public:
     void SetKey(const CKey& vchSecret)
@@ -381,18 +382,18 @@ public:
         return SetString(strSecret.c_str());
     }
 
-    CBitcoinSecret(const CKey& vchSecret)
+    CSilkSecret(const CKey& vchSecret)
     {
         SetKey(vchSecret);
     }
 
-    CBitcoinSecret()
+    CSilkSecret()
     {
     }
 };
 
 
-template<typename K, int Size, CChainParams::Base58Type Type> class CBitcoinExtKeyBase : public CBase58Data
+template<typename K, int Size, CChainParams::Base58Type Type> class CSilkExtKeyBase : public CBase58Data
 {
 public:
     void SetKey(const K &key) {
@@ -407,14 +408,14 @@ public:
         return ret;
     }
 
-    CBitcoinExtKeyBase(const K &key) {
+    CSilkExtKeyBase(const K &key) {
         SetKey(key);
     }
 
-    CBitcoinExtKeyBase() {}
+    CSilkExtKeyBase() {}
 };
 
-typedef CBitcoinExtKeyBase<CExtKey, 74, CChainParams::EXT_SECRET_KEY> CBitcoinExtKey;
-typedef CBitcoinExtKeyBase<CExtPubKey, 74, CChainParams::EXT_PUBLIC_KEY> CBitcoinExtPubKey;
+typedef CSilkExtKeyBase<CExtKey, 74, CChainParams::EXT_SECRET_KEY> CSilkExtKey;
+typedef CSilkExtKeyBase<CExtPubKey, 74, CChainParams::EXT_PUBLIC_KEY> CSilkExtPubKey;
 
-#endif // BITCOIN_BASE58_H
+#endif // SILK_BASE58_H

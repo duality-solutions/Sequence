@@ -5,7 +5,7 @@
 
 #include "qrcodedialog.h"
 #include "ui_qrcodedialog.h"
-#include "bitcoinunits.h"
+#include "silkunits.h"
 #include "guiconstants.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
@@ -92,7 +92,7 @@ QString QRCodeDialog::getURI()
         if (ui->lnReqAmount->validate())
         {
             // even if we allow a non BTC unit input in lnReqAmount, we generate the URI with BTC as unit (as defined in BIP21)
-            ret += QString("?amount=%1").arg(BitcoinUnits::format(BitcoinUnits::BTC, ui->lnReqAmount->value()));
+            ret += QString("?amount=%1").arg(SilkUnits::format(SilkUnits::BTC, ui->lnReqAmount->value()));
             paramCount++;
         }
         else

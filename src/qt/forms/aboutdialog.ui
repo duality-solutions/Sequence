@@ -23,7 +23,7 @@
       </sizepolicy>
      </property>
      <property name="pixmap">
-      <pixmap resource="../bitcoin.qrc">:/images/about</pixmap>
+      <pixmap resource="../silk.qrc">:/images/about</pixmap>
      </property>
     </widget>
    </item>
@@ -91,7 +91,7 @@
         <cursorShape>IBeamCursor</cursorShape>
        </property>
        <property name="text">
-        <string>Copyright © 2009-2016 The Bitcoin developers
+        <string>Copyright © 2009-2016 The Silk developers
 Copyright © 2012-2016 The NovaCoin developers
 Copyright © 2015-2016 Silk Network Developers</string>
        </property>
@@ -152,7 +152,7 @@ This product includes software developed by the OpenSSL Project for use in the O
   </layout>
  </widget>
  <resources>
-  <include location="../bitcoin.qrc"/>
+  <include location="../silk.qrc"/>
  </resources>
  <connections>
   <connection>

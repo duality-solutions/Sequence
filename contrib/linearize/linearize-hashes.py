@@ -3,6 +3,7 @@
 # linearize-hashes.py:  List blocks in a linear, no-fork version of the chain.
 #
 # Copyright (c) 2013 The Bitcoin developers
+# Copyright (c) 2015-2016 Silk Network developers
 # Distributed under the MIT/X11 software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 #
@@ -16,7 +17,7 @@ import sys
 
 settings = {}
 
-class BitcoinRPC:
+class SilkRPC:
 	OBJID = 1
 
 	def __init__(self, host, port, username, password):
@@ -59,7 +60,7 @@ class BitcoinRPC:
 		return self.rpc('getblockhash', [index])
 
 def get_block_hashes(settings):
-	rpc = BitcoinRPC(settings['host'], settings['port'],
+	rpc = SilkRPC(settings['host'], settings['port'],
 			 settings['rpcuser'], settings['rpcpassword'])
 
 	for height in xrange(settings['min_height'], settings['max_height']+1):

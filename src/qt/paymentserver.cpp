@@ -1,4 +1,5 @@
 // Copyright (c) 2009-2016 The Bitcoin developers
+// Copyright (c) 2015-2016 Silk Network
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -22,8 +23,8 @@
 
 using namespace boost;
 
-const int BITCOIN_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
-const QString BITCOIN_IPC_PREFIX("silk:");
+const int SILK_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
+const QString SILK_IPC_PREFIX("silk:");
 
 //
 // Create a name that is unique for:
@@ -63,7 +64,7 @@ bool PaymentServer::ipcSendCommandLine()
     const QStringList& args = qApp->arguments();
     for (int i = 1; i < args.size(); i++)
     {
-        if (!args[i].startsWith(BITCOIN_IPC_PREFIX, Qt::CaseInsensitive))
+        if (!args[i].startsWith(SILK_IPC_PREFIX, Qt::CaseInsensitive))
             continue;
         savedPaymentRequests.append(args[i]);
     }
@@ -72,7 +73,7 @@ bool PaymentServer::ipcSendCommandLine()
     {
         QLocalSocket* socket = new QLocalSocket();
         socket->connectToServer(ipcServerName(), QIODevice::WriteOnly);
-        if (!socket->waitForConnected(BITCOIN_IPC_CONNECT_TIMEOUT))
+        if (!socket->waitForConnected(SILK_IPC_CONNECT_TIMEOUT))
             return false;
 
         QByteArray block;
@@ -83,7 +84,7 @@ bool PaymentServer::ipcSendCommandLine()
         socket->write(block);
         socket->flush();
 
-        socket->waitForBytesWritten(BITCOIN_IPC_CONNECT_TIMEOUT);
+        socket->waitForBytesWritten(SILK_IPC_CONNECT_TIMEOUT);
         socket->disconnectFromServer();
         delete socket;
         fResult = true;
@@ -93,7 +94,7 @@ bool PaymentServer::ipcSendCommandLine()
 
 PaymentServer::PaymentServer(QApplication* parent) : QObject(parent), saveURIs(true)
 {
-    // Install global event filter to catch QFileOpenEvents on the mac (sent when you click bitcoin: links)
+    // Install global event filter to catch QFileOpenEvents on the mac (sent when you click silk: links)
     parent->installEventFilter(this);
 
     QString name = ipcServerName();
@@ -111,7 +112,7 @@ PaymentServer::PaymentServer(QApplication* parent) : QObject(parent), saveURIs(t
 
 bool PaymentServer::eventFilter(QObject *object, QEvent *event)
 {
-    // clicking on bitcoin: URLs creates FileOpen events on the Mac:
+    // clicking on silk: URLs creates FileOpen events on the Mac:
     if (event->type() == QEvent::FileOpen)
     {
         QFileOpenEvent* fileEvent = static_cast<QFileOpenEvent*>(event);

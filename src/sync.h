@@ -1,10 +1,11 @@
 // Copyright (c) 2009-2016 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin developers
+// Copyright (c) 2015-2016 Silk Network
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_SYNC_H
-#define BITCOIN_SYNC_H
+#ifndef SILK_SYNC_H
+#define SILK_SYNC_H
 
 #include <boost/thread/condition_variable.hpp>
 #include <boost/thread/locks.hpp>
