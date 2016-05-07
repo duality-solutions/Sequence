@@ -142,6 +142,13 @@ bool parseCommandLine(std::vector<std::string> &args, const std::string &strComm
     }
 }
 
+static QString GetBoostVersion()
+{
+   return "Boost v" + QString::number(BOOST_VERSION / 100000) + "." + //major version
+                        QString::number(BOOST_VERSION / 100 % 1000) + "." + // minor version
+                        QString::number(BOOST_VERSION % 100); // patch level
+}
+
 void RPCExecutor::request(const QString &command)
 {
     std::vector<std::string> args;
@@ -210,6 +217,8 @@ RPCConsole::RPCConsole(QWidget *parent) :
 
     // set OpenSSL version label
     ui->openSSLVersion->setText(SSLeay_version(SSLEAY_VERSION));
+    // sets Boost version label
+    ui->boostVersion->setText(GetBoostVersion());
 #ifdef ENABLE_WALLET
     ui->berkeleyDBVersion->setText(DbEnv::version(0, 0, 0));
 #else

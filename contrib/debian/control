@@ -20,8 +20,8 @@ Build-Depends: debhelper,
  libqrencode-dev
 Standards-Version: 3.9.2
 Homepage: http://www.silk.co/
-Vcs-Git: git://github.com/rat4/silk.git
-Vcs-Browser: http://github.com/rat4/silk
+Vcs-Git: git://github.com/SilkNetwork/Silk-Core.git
+Vcs-Browser: http://github.com/SilkNetwork/Silk-Core
 
 Package: silkd
 Architecture: any
