@@ -447,13 +447,6 @@ void RPCConsole::updateNodeDetail(const CNodeCombinedStats *stats)
         // Ban score is init to 0
         ui->peerBanScore->setText(QString("%1").arg(stats->nodeStateStats.nMisbehavior));
         ui->peerSyncedBlocks->setText(QString("%1").arg((clientModel->getNumBlocks() - stats->nodeStats.nStartingHeight)));
-
-        // Sync height is init to -1
-        if (stats->nodeStateStats.nSyncHeight > -1)
-            ui->peerSyncHeight->setText(QString("%1").arg(stats->nodeStateStats.nSyncHeight));
-        else
-            ui->peerSyncHeight->setText(tr("N/A"));
-
     }
 
     ui->detailWidget->show();
