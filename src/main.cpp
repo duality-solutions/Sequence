@@ -2751,7 +2751,7 @@ bool LoadExternalBlockFile(FILE* fileIn)
         }
         catch (std::exception &e) {
             LogPrintf("%s() : Deserialize or I/O error caught during load\n",
-                   __PRETTY_FUNCTION__);
+                   __func__);
         }
     }
     LogPrintf("Loaded %i blocks from external file in %dms\n", nLoaded, GetTimeMillis() - nStart);
