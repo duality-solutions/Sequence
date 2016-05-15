@@ -16,6 +16,7 @@ WalletModel::WalletModel(CWallet *wallet, OptionsModel *optionsModel, QObject *p
     QObject(parent), wallet(wallet), optionsModel(optionsModel), addressTableModel(0),
     transactionTableModel(0),
     cachedBalance(0), cachedStake(0), cachedUnconfirmedBalance(0), cachedImmatureBalance(0),
+    cachedWatchBalance(0), cachedWatchStake(0), cachedWatchUnconfirmedBalance(0), cachedWatchImmatureBalance(0),
     cachedEncryptionStatus(Unencrypted),
     cachedNumBlocks(0)
 {
@@ -133,14 +134,24 @@ void WalletModel::checkBalanceChanged()
     qint64 newStake = getStake();
     qint64 newUnconfirmedBalance = getUnconfirmedBalance();
     qint64 newImmatureBalance = getImmatureBalance();
+    qint64 newWatchBalance = getWatchBalance();
+    qint64 newWatchStake = getWatchStake();
+    qint64 newWatchUnconfirmedBalance = getWatchUnconfirmedBalance();
+    qint64 newWatchImmatureBalance = getWatchImmatureBalance();
 
-    if(cachedBalance != newBalance || cachedStake != newStake || cachedUnconfirmedBalance != newUnconfirmedBalance || cachedImmatureBalance != newImmatureBalance)
+    if(cachedBalance != newBalance || cachedStake != newStake || cachedUnconfirmedBalance != newUnconfirmedBalance || cachedImmatureBalance != newImmatureBalance
+            || cachedWatchBalance != newWatchBalance || cachedWatchStake != newWatchStake || cachedWatchUnconfirmedBalance != newWatchUnconfirmedBalance || cachedWatchImmatureBalance != newWatchImmatureBalance )
     {
         cachedBalance = newBalance;
         cachedStake = newStake;
         cachedUnconfirmedBalance = newUnconfirmedBalance;
         cachedImmatureBalance = newImmatureBalance;
-        emit balanceChanged(newBalance, newStake, newUnconfirmedBalance, newImmatureBalance);
+        cachedWatchBalance = newWatchBalance;
+        cachedWatchStake = newWatchStake;
+        cachedWatchUnconfirmedBalance = newWatchUnconfirmedBalance;
+        cachedWatchImmatureBalance = newWatchImmatureBalance;
+        emit balanceChanged(newBalance, newStake, newUnconfirmedBalance, newImmatureBalance,
+                                newWatchBalance, newWatchStake, newWatchUnconfirmedBalance, newWatchImmatureBalance);
     }
 }
 
