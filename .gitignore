@@ -1,3 +1,4 @@
+#Windows object files
 *.dll
 *.exe
 *.tar.gz
@@ -25,11 +26,52 @@
 *.sbr
 *.tlb
 *.sdf
+*.opendb
 
 msvc/packages
 msvc/leveldb/Win32
 msvc/libcommon/Win32
 msvc/silkd/Win32
 msvc/silk-qt/Win32
+msvc/Debug
+msvc/x64
+msvc/libcommon/x64
+msvc/libcommon/Debug
+msvc/silk-qt/x64
+msvc/silk-qt/Debug
+msvc/silkd/x64
+msvc/silkd/Debug
 
+#Linux object files
 src/qt/*.moc
+src/obj
+src/
+.deps
+.dirstamp
+.libs
+.*.swp
+*.*~*
+*.bak
+*.rej
+*.orig
+*.pyc
+*.o
+*.o-*
+*.patch
+*.a
+*.pb.cc
+*.pb.h
+
+*.log
+*.trs
+*.dmg
+
+*.json.h
+*.raw.h
+
+#libtool object files
+*.lo
+*.la
+
+# Compilation and Qt preprocessor part
+*.qm
