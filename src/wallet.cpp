@@ -677,8 +677,14 @@ bool CWallet::AddToWallet(const CWalletTx& wtxIn)
                 }
             }
         }
+        //// debug print
+        LogPrintf("AddToWallet %s  %s%s\n", wtxIn.GetHash().ToString(), (fInsertedNew ? "new" : ""), (fUpdated ? "update" : ""));
+
         // since AddToWallet is called directly for self-originating transactions, check for consumption of own coins
         WalletUpdateSpent(wtx, (wtxIn.hashBlock != 0));
+
+        // Break debit/credit balance caches:
+        wtx.MarkDirty();
 
         // Notify UI of new or updated transaction
         NotifyTransactionChanged(this, hash, fInsertedNew ? CT_NEW : CT_UPDATED);
