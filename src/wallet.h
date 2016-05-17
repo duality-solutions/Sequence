@@ -593,6 +593,10 @@ public:
         fAvailableCreditCached = false;
         fDebitCached = false;
         fChangeCached = false;
+        fWatchDebitCached = false;
+        fWatchCreditCached = false;
+        fAvailableWatchCreditCached = false;
+        fImmatureWatchCreditCached = false;
     }
 
     void BindWallet(CWallet *pwalletIn)
@@ -651,6 +655,8 @@ public:
                 debit += nDebitCached;
             }
         }
+        //TODO (Amir): Fix issue with watch-only code below. Currently returns the wrong debit value.
+        /*
         if(filter & MINE_WATCH_ONLY)
         {
             if(fWatchDebitCached)
@@ -662,6 +668,7 @@ public:
                 debit += nWatchDebitCached;
             }
         }
+        */
         return debit;
     }
 
@@ -684,6 +691,8 @@ public:
                 credit += nCreditCached;
             }
         }
+        //TODO (Amir): Fix issue with watch-only code below. Currently returns the wrong credit value.
+        /*
         if (filter & MINE_WATCH_ONLY)
         {
             if (fWatchCreditCached)
@@ -695,6 +704,7 @@ public:
                 credit += nWatchCreditCached;
             }
         }
+        */
         return credit;
     }
 
