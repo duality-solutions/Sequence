@@ -1,5 +1,5 @@
 # **Silk (SLK) Version 1.0.0.0**
-### Waffle Status: [![Stories in Ready](https://badge.waffle.io/SCDeveloper/DarkSilk-Release-Candidate.png?label=ready&title=Ready)](http://waffle.io/SCDeveloper/DarkSilk-Release-Candidate)
+### Project Status: ![Backlog](https://badge.waffle.io/SCDeveloper/DarkSilk-Release-Candidate.png?label=Ready&title=Backlog)
 
 Silk Integration/Staging Tree
 ================================
