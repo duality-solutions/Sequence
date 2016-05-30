@@ -1,4 +1,5 @@
 # **Silk (SLK) Version 1.0.0.0**
+### Project Status: ![Backlog](https://badge.waffle.io/SCDeveloper/DarkSilk-Release-Candidate.png?label=Ready&title=Backlog)
 
 Silk Integration/Staging Tree
 ================================
@@ -40,74 +41,46 @@ P2P Port = 16668
 RPC Port = 16669
 
 
-
-Build Instructions for Qt5 Linux Wallet (Ubuntu)
+Debian/Ubuntu Linux Daemon Build Instructions
 ================================================
-//Install dependencies via Terminal:
 
-$ sudo apt-get install make libqt5webkit5-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools qtcreator libprotobuf-dev protobuf-compiler build-essential libboost-dev libboost-all-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-thread-dev libssl-dev libdb++-dev libstdc++6 libminiupnpc-dev libevent-dev libcurl4-openssl-dev git libpng-dev qrencode libqrencode-dev
+install dependencies:
 
-//In terminal navigate to the Silk folder:
+    $ sudo apt-get update && sudo apt-get upgrade
+    $ sudo apt-get install build-essential libboost-all-dev libssl-dev libcurl4-openssl-dev libminiupnpc-dev libdb++-dev libstdc++6 make
 
-$ cd /home/Silk
+build darksilkd from git:
 
-//Then:
+    $ git clone https://github.com/SilkNetwork/Silk-Core.git silk
+    $ cd darksilk/src && make -f makefile.unix USE_UPNP=1
+   
+install and run darksilkd daemon:
 
-$ qmake -qt=qt5 "USE_QRCODE=1" "USE_UPNP=1"
+    $ sudo strip silkd && sudo cp ~/silk/src/silkd /usr/bin && cd ~/
+    $ silkd
 
-//Then:
+here are a few commands, google for more.
 
-$ make
+    $ ./silkd getinfo
+    $ ./silkd getpeerinfo
+    $ ./silkd getmininginfo
+    $ ./silkd getstakinginfo
+    $ ./silkd getnewaddresss
+	
 
-//This will compile and build the Qt Wallet which takes a little while, please be patient.
+Debian/Ubuntu Linux Qt5 Wallet Build Instructions
+================================================
 
-//When finished you will have a file called Silk - Simply Double Click
+update and install dependencies:
 
-//end of guide
+    $ sudo apt-get update && sudo apt-get upgrade
+    $ sudo apt-get install make libqt5webkit5-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools qtcreator libprotobuf-dev protobuf-compiler build-essential libboost-dev libboost-all-dev libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-thread-dev libssl-dev libdb++-dev libstdc++6 libminiupnpc-dev libevent-dev libcurl4-openssl-dev git libpng-dev qrencode libqrencode-dev
 
+build darksilk-qt from git:
 
+    $ git clone https://github.com/SilkNetwork/Silk-Core.git silk
+    $ cd silk && qmake -qt=qt5 "USE_QRCODE=1" "USE_UPNP=1" && make
+ 
+running the darksilk Qt wallet:
 
-Build Instructions for Terminal Based Linux Wallet (Ubuntu)
-===========================================================
-//Install dependencies via Terminal:
-
-$ sudo apt-get install build-essential libboost-all-dev libssl-dev libcurl4-openssl-dev libminiupnpc-dev libdb++-dev libstdc++6 make 
-
-//In terminal navigate to the Silk folder:
-
-$ cd /home/Silk/src/
-
-//Enter into the terminal:
-
-$ make -f makefile.unix USE_UPNP=1
-
-//This will produce a file named silkd which is the command line instance of Silk
-
-//Now type:
-
-$ strip silkd
-
-//When finished you will have a file called silkd
-
-//To run Silk
-
-$ ./silkd & 
-
-//It will complain about having no silk.conf file, we'll edit the one provided and move it into place
-
-$ cd ..
-$ nano silk.conf
-
-//Edit the Username and Password fields to anything you choose (but remember them) then save the file
-
-$ mv silk.conf /home/.silk/
-$ cd src/
-$ ./silkd &
-
-//The server will start. Here are a few commands, google for more.
-
-$ ./silkd getinfo
-$ ./silkd getmininginfo
-$ ./silkd getnewaddresss
-
-//end of guide
+    $ sudo ./silk
