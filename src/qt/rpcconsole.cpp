@@ -455,7 +455,12 @@ void RPCConsole::updateNodeDetail(const CNodeCombinedStats *stats)
     if (stats->fNodeStateStatsAvailable) {
         // Ban score is init to 0
         ui->peerBanScore->setText(QString("%1").arg(stats->nodeStateStats.nMisbehavior));
-        ui->peerSyncedBlocks->setText(QString("%1").arg((clientModel->getNumBlocks() - stats->nodeStats.nStartingHeight)));
+        if (stats->nodeStats.nStartingHeight <= clientModel->getNumBlocks()) {
+            ui->peerSyncedBlocks->setText(QString("%1").arg((clientModel->getNumBlocks() - stats->nodeStats.nStartingHeight)));
+        }
+        else {
+             ui->peerSyncedBlocks->setText(QString("Chain downloading"));
+        }
     }
 
     ui->detailWidget->show();
