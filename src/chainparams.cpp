@@ -75,25 +75,25 @@ public:
         //    CTxIn(COutPoint(0000000000, 4294967295), coinbase 00012a24323020466562203230313420426974636f696e2041544d7320636f6d6520746f20555341)
         //    CTxOut(empty)
         //  vMerkleTree: 12630d16a9
-        const char* pszTimestamp = "The Silk Phoenix Rises From The Ashes";
+        const char* pszTimestamp = "";
         std::vector<CTxIn> vin;
         vin.resize(1);
         vin[0].scriptSig = CScript() << 0 << CBigNum(42) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
         std::vector<CTxOut> vout;
         vout.resize(1);
         vout[0].SetEmpty();
-        CTransaction txNew(1, 1448911031, vin, vout, 0);
+        CTransaction txNew(1, 0, vin, vout, 0);
         genesis.vtx.push_back(txNew);
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
-        genesis.nTime    = 1448911031;
+        genesis.nTime    = 0;
         genesis.nBits    = bnProofOfWorkLimit.GetCompact();
-        genesis.nNonce   = 1590356;
+        genesis.nNonce   = 0;
 
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0xd13d478bc4b89e6da9009358d02de01fc7d28ea990b6de55cefe679e718ce42b"));
-        assert(genesis.hashMerkleRoot == uint256("0x5895fcf17dd7f1bceb9870211bbcbc6139495c53d14465c5761680253dda0436"));
+        assert(hashGenesisBlock == uint256("0x"));
+        assert(genesis.hashMerkleRoot == uint256("0x"));
 
         vSeeds.push_back(CDNSSeedData("darksilk.org", "sc1.darksilk.org"));
         vSeeds.push_back(CDNSSeedData("", ""));
@@ -144,9 +144,9 @@ public:
 
         // Modify the testnet genesis block so the timestamp is valid for a later start.
         genesis.nBits  = bnProofOfWorkLimit.GetCompact();
-        genesis.nNonce = 1590356;
+        genesis.nNonce = 0;
         hashGenesisBlock = genesis.GetHash();
-        assert(hashGenesisBlock == uint256("0x0451706bf4d7bba73d16726c05c8f7636cfb6a46d405b8f464af78c58ba08cda"));
+        assert(hashGenesisBlock == uint256("0x"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -177,13 +177,13 @@ public:
         pchMessageStart[2] = 0x50;
         pchMessageStart[3] = 0x05;
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 1);
-        genesis.nTime = 1448911036;
+        genesis.nTime = 0;
         genesis.nBits  = bnProofOfWorkLimit.GetCompact();
         genesis.nNonce = 2;
         hashGenesisBlock = genesis.GetHash();
-        nDefaultPort = 16670;
+        nDefaultPort = 0;
         strDataDir = "regtest";
-        assert(hashGenesisBlock == uint256("0xedec71940e233f58ee588ead4a252937461f1876310c9577957a46df20a99ca4"));
+        assert(hashGenesisBlock == uint256("0x"));
 
         vSeeds.clear();  // Regtest mode doesn't have any DNS seeds.
     }
