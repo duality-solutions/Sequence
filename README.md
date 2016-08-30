@@ -1,4 +1,4 @@
-# **Silk (SLK) Release Candidate**
+# **Silk (SLK) Pre-Release Code**
 
 **Copyright (c) 2015-2016 Silk Network**
 
