@@ -8,7 +8,7 @@
 
 
 [![Stories in Ready](https://badge.waffle.io/amirabrams/amirabrams.png?label=ready&title=Ready)](http://waffle.io/SilkNetwork/Silk-Core)
-[![Build Status](https://travis-ci.org/amirabrams/silk.png?branch=master)](https://travis-ci.org/SilkNetwork/Silk-Core)
+[![Build Status](https://travis-ci.org/amirabrams/silk.png?branch=master)](https://travis-ci.org/SilkNetwork/Silk-Core) 
 
 Graph on Pull Request History
 ====================================
