@@ -1,48 +1,42 @@
 // Copyright (c) 2009-2016 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+#include "utilstrencodings.h"
+
+#include "tinyformat.h"
 
 #include <cstdlib>
 #include <cstring>
 #include <errno.h>
 #include <limits>
 
-#include "utilstrencodings.h"
-#include "tinyformat.h"
-
 using namespace std;
 
-/**
-* safeChars chosen to allow simple messages/URLs/email addresses, but avoid anything
-* even possibly remotely dangerous like & or >
-*/
-static const string CHARS_ALPHA_NUM = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-static const string SAFE_CHARS[] =
+string SanitizeString(const string& str)
 {
-    CHARS_ALPHA_NUM + " .,;-_/:?@()", // SAFE_CHARS_DEFAULT
-    CHARS_ALPHA_NUM + " .,;-_?@" // SAFE_CHARS_UA_COMMENT
-};
-
-string SanitizeString(const string& str, int rule)
-{
+    /**
+     * safeChars chosen to allow simple messages/URLs/email addresses, but avoid anything
+     * even possibly remotely dangerous like & or >
+     */
+    static string safeChars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890 .,;_/:?@()");
     string strResult;
     for (std::string::size_type i = 0; i < str.size(); i++)
     {
-        if (SAFE_CHARS[rule].find(str[i]) != std::string::npos)
+        if (safeChars.find(str[i]) != std::string::npos)
             strResult.push_back(str[i]);
     }
     return strResult;
 }
 
-///! Formats the network peer subversion text (User Agent)
-///  by removing the begining and ending chars (/).
-///  example: /DRKSLK:1.0.0/ --> DRKSLK:1.0.0
 string SanitizeSubVersionString(const string& str)
 {
     string strResult = SanitizeString(str);
-    if ((strResult.length() > 3) && (strResult.substr(0,1) == "/") && (strResult.substr((strResult.length()-1),1) == "/"))
+    if ((strResult.length() > 2) && (!strResult.empty()) && (strResult.substr(0,1) == "/") && (strResult.substr((strResult.length()-1),1) == "/"))
         strResult = strResult.substr(1, (strResult.length() - 2));
+
     return strResult;
 }
 
@@ -429,63 +423,7 @@ vector<unsigned char> DecodeBase32(const char* p, bool* pfInvalid)
 string DecodeBase32(const string& str)
 {
     vector<unsigned char> vchRet = DecodeBase32(str.c_str());
-    return string((const char*)&vchRet[0], vchRet.size());
-}
-
-// Base64 encoding with secure memory allocation
-SecureString EncodeBase64Secure(const SecureString& input)
-{
-    // Init openssl BIO with base64 filter and memory output
-    BIO *b64, *mem;
-    b64 = BIO_new(BIO_f_base64());
-    BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL); // No newlines in output
-    mem = BIO_new(BIO_s_mem());
-    BIO_push(b64, mem);
-
-    // Decode the string
-    BIO_write(b64, &input[0], input.size());
-    (void) BIO_flush(b64);
-
-    // Create output variable from buffer mem ptr
-    BUF_MEM *bptr;
-    BIO_get_mem_ptr(b64, &bptr);
-    SecureString output(bptr->data, bptr->length);
-
-    // Cleanse secure data buffer from memory
-    OPENSSL_cleanse((void *) bptr->data, bptr->length);
-
-    // Free memory
-    BIO_free_all(b64);
-    return output;
-}
-
-// Base64 decoding with secure memory allocation
-SecureString DecodeBase64Secure(const SecureString& input)
-{
-    SecureString output;
-
-    // Init openssl BIO with base64 filter and memory input
-    BIO *b64, *mem;
-    b64 = BIO_new(BIO_f_base64());
-    BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL); //Do not use newlines to flush buffer
-    mem = BIO_new_mem_buf((void *) &input[0], input.size());
-    BIO_push(b64, mem);
-
-    // Prepare buffer to receive decoded data
-    if(input.size() % 4 != 0) {
-        throw runtime_error("Input length should be a multiple of 4");
-    }
-    size_t nMaxLen = input.size() / 4 * 3; // upper bound, guaranteed divisible by 4
-    output.resize(nMaxLen);
-
-    // Decode the string
-    size_t nLen;
-    nLen = BIO_read(b64, (void *) &output[0], input.size());
-    output.resize(nLen);
-
-    // Free memory
-    BIO_free_all(b64);
-    return output;
+    return (vchRet.size() == 0) ? string() : string((const char*)&vchRet[0], vchRet.size());
 }
 
 static bool ParsePrechecks(const std::string& str)
@@ -542,7 +480,7 @@ bool ParseDouble(const std::string& str, double *out)
     return text.eof() && !text.fail();
 }
 
-std::string FormatParagraph(const std::string& in, size_t width, size_t indent)
+std::string FormatParagraph(const std::string in, size_t width, size_t indent)
 {
     std::stringstream out;
     size_t col = 0;

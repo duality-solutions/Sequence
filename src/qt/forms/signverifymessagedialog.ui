@@ -19,8 +19,12 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
+     <property name="styleSheet">
+      <string notr="true">QTabWidget:tab-bar { alignment: left }
+QTabBar { alignment: left; }</string>
+     </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabSignMessage">
       <attribute name="title">
@@ -48,17 +52,14 @@
          <item>
           <widget class="QValidatedLineEdit" name="addressIn_SM">
            <property name="toolTip">
-            <string>The address to sign the message with (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</string>
-           </property>
-           <property name="maxLength">
-            <number>34</number>
+            <string>The Silk address to sign the message with</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="addressBookButton_SM">
            <property name="toolTip">
-            <string>Choose an address from the address book</string>
+            <string>Choose previously used address</string>
            </property>
            <property name="text">
             <string/>
@@ -101,6 +102,16 @@
         <widget class="QPlainTextEdit" name="messageIn_SM">
          <property name="toolTip">
           <string>Enter the message you want to sign here</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="signatureLabel_SM">
+         <property name="text">
+          <string>Signature</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
          </property>
         </widget>
        </item>
@@ -148,7 +159,7 @@
             <string>Sign the message to prove you own this Silk address</string>
            </property>
            <property name="text">
-            <string>&amp;Sign Message</string>
+            <string>Sign &amp;Message</string>
            </property>
            <property name="icon">
             <iconset resource="../silk.qrc">
@@ -251,17 +262,14 @@
          <item>
           <widget class="QValidatedLineEdit" name="addressIn_VM">
            <property name="toolTip">
-            <string>The address the message was signed with (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</string>
-           </property>
-           <property name="maxLength">
-            <number>34</number>
+            <string>The Silk address the message was signed with</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="addressBookButton_VM">
            <property name="toolTip">
-            <string>Choose an address from the address book</string>
+            <string>Choose previously used address</string>
            </property>
            <property name="text">
             <string/>
@@ -294,7 +302,7 @@
             <string>Verify the message to ensure it was signed with the specified Silk address</string>
            </property>
            <property name="text">
-            <string>&amp;Verify Message</string>
+            <string>Verify &amp;Message</string>
            </property>
            <property name="icon">
             <iconset resource="../silk.qrc">

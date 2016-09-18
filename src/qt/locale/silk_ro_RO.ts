@@ -1,153 +1,114 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="ro_RO" version="2.1">
-<context>
-    <name>AboutDialog</name>
-    <message>
-        <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Silk</source>
-        <translation>Despre Silk</translation>
-    </message>
-    <message>
-        <location line="+39"/>
-        <source>&lt;b&gt;Silk&lt;/b&gt; version</source>
-        <translation>Versiune &lt;b&gt;Silk&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location line="+41"/>
-        <source>Copyright © 2009-2016 The Silk developers
-Copyright © 2012-2016 The NovaCoin developers
-Copyright © 2015-2016 Silk Network Developers</source>
-        <translation>Copyright © 2009-2016 The Silk developers
-Copyright © 2012-2016 The NovaCoin developers
-Copyright © 2015-2016 Silk Network Developers</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>
-This is experimental software.
-
-Distributed under the MIT/X11 software license, see the accompanying file COPYING or &lt;a href=&quot;http://www.opensource.org/licenses/mit-license.php&quot;&gt;http://www.opensource.org/licenses/mit-license.php&lt;/a&gt;.
-
-This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (&lt;a href=&quot;https://www.openssl.org/&quot;&gt;https://www.openssl.org/&lt;/a&gt;) and cryptographic software written by Eric Young (&lt;a href=&quot;mailto:eay@cryptsoft.com&quot;&gt;eay@cryptsoft.com&lt;/a&gt;) and UPnP software written by Thomas Bernard.</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
+<TS language="ro_RO" version="2.1">
 <context>
     <name>AddressBookPage</name>
     <message>
-        <location filename="../forms/addressbookpage.ui" line="+14"/>
-        <source>Address Book</source>
-        <translation>Agendă</translation>
+        <source>Right-click to edit address or label</source>
+        <translation>Click-dreapta pentru a edita adresa sau eticheta</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <source>Double-click to edit address or label</source>
-        <translation>Dublu-click pentru a edita adresa sau eticheta</translation>
-    </message>
-    <message>
-        <location line="+24"/>
         <source>Create a new address</source>
         <translation>Creează o adresă nouă</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <source>&amp;New</source>
+        <translation>&amp;Nou</translation>
+    </message>
+    <message>
         <source>Copy the currently selected address to the system clipboard</source>
         <translation>Copiază adresa selectată în clipboard</translation>
     </message>
     <message>
-        <location line="-7"/>
-        <source>&amp;New Address</source>
-        <translation>Adresă nouă</translation>
+        <source>&amp;Copy</source>
+        <translation>&amp;Copiază</translation>
     </message>
     <message>
-        <location line="-43"/>
-        <source>These are your Silk addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
-        <translation>Acestea sunt adresele Silk pentru a primi plăți. Poate doriți sa dați o adresa noua fiecarui expeditor pentru a putea ține evidența la cine efectuează plăti.</translation>
+        <source>C&amp;lose</source>
+        <translation>Închide</translation>
     </message>
     <message>
-        <location line="+53"/>
         <source>&amp;Copy Address</source>
         <translation>&amp;Copiază adresa</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Show &amp;QR Code</source>
-        <translation>Arată cod &amp;QR</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Sign a message to prove you own a Silk address</source>
-        <translation>Semnează un mesaj pentru a dovedi că dețineti o adresă Silk</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Sign &amp;Message</source>
-        <translation>Semnează &amp;Mesajul</translation>
-    </message>
-    <message>
-        <location line="+17"/>
         <source>Delete the currently selected address from the list</source>
-        <translation>Sterge adresele curent selectate din lista</translation>
+        <translation>Şterge adresele curent selectate din listă</translation>
     </message>
     <message>
-        <location line="-10"/>
-        <source>Verify a message to ensure it was signed with a specified Silk address</source>
-        <translation>Verifică un mesaj pentru a vă asigura că a fost semnat cu o anumită adresă Silk</translation>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportă datele din tab-ul curent într-un fişier</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>&amp;Verify Message</source>
-        <translation>&amp;Verifică mesajul</translation>
+        <source>&amp;Export</source>
+        <translation>&amp;Exportă</translation>
     </message>
     <message>
-        <location line="+10"/>
         <source>&amp;Delete</source>
-        <translation>Ște&amp;rge</translation>
+        <translation>Şterge</translation>
     </message>
     <message>
-        <location filename="../addressbookpage.cpp" line="+66"/>
+        <source>Choose the address to send coins to</source>
+        <translation>Alegeţi adresa unde vreţi să trimiteţi monezile</translation>
+    </message>
+    <message>
+        <source>Choose the address to receive coins with</source>
+        <translation>Alegeţi adresa unde vreţi să primiţi monezile</translation>
+    </message>
+    <message>
+        <source>C&amp;hoose</source>
+        <translation>&amp;Alegeţi</translation>
+    </message>
+    <message>
+        <source>Sending addresses</source>
+        <translation>Adresa destinatarului</translation>
+    </message>
+    <message>
+        <source>Receiving addresses</source>
+        <translation>Adresa de primire</translation>
+    </message>
+    <message>
+        <source>These are your Silk addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Acestea sînt adresele dumneavoastră Silk pentru efectuarea plăţilor. Verificaţi întotdeauna cantitatea şi adresa de primire înainte de a trimite monezi.</translation>
+    </message>
+    <message>
+        <source>These are your Silk addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>Acestea sînt adresele dumneavoastră Silk folosite pentru a primi plati. Este recomandat să folosiţi o adresă nouă de primire pentru fiecare tranzacţie în parte.</translation>
+    </message>
+    <message>
         <source>Copy &amp;Label</source>
         <translation>Copiază &amp;eticheta</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Editează</translation>
+        <translation>&amp;Editare</translation>
     </message>
     <message>
-        <location line="+248"/>
-        <source>Export Address Book Data</source>
-        <translation>Exportă datele din Agendă</translation>
+        <source>Export Address List</source>
+        <translation>Exportă listă de adrese</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Comma separated file (*.csv)</source>
-        <translation>Valori separate prin virgulă (*.csv)</translation>
+        <translation>Fişier text cu valori separate prin virgulă (*.csv)</translation>
     </message>
     <message>
-        <location line="+13"/>
-        <source>Error exporting</source>
-        <translation>Eroare la exportare</translation>
+        <source>Exporting Failed</source>
+        <translation>Export nereuşit</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source>Could not write to file %1.</source>
-        <translation>Nu s-a putut scrie în fișier %1.</translation>
+        <source>There was an error trying to save the address list to %1. Please try again.</source>
+        <translation>A apărut o eroare la salvarea listei de adrese la %1. Vă rugăm să încercaţi din nou.</translation>
     </message>
 </context>
 <context>
     <name>AddressTableModel</name>
     <message>
-        <location filename="../addresstablemodel.cpp" line="+145"/>
         <source>Label</source>
         <translation>Etichetă</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Address</source>
         <translation>Adresă</translation>
     </message>
     <message>
-        <location line="+36"/>
         <source>(no label)</source>
         <translation>(fără etichetă)</translation>
     </message>
@@ -155,150 +116,106 @@ This product includes software developed by the OpenSSL Project for use in the O
 <context>
     <name>AskPassphraseDialog</name>
     <message>
-        <location filename="../forms/askpassphrasedialog.ui" line="+26"/>
         <source>Passphrase Dialog</source>
         <translation>Dialogul pentru fraza de acces</translation>
     </message>
     <message>
-        <location line="+21"/>
         <source>Enter passphrase</source>
-        <translation>Introdu fraza de acces</translation>
+        <translation>Introduceţi fraza de acces</translation>
     </message>
     <message>
-        <location line="+14"/>
         <source>New passphrase</source>
         <translation>Frază de acces nouă</translation>
     </message>
     <message>
-        <location line="+14"/>
         <source>Repeat new passphrase</source>
-        <translation>Repetă noua frază de acces</translation>
+        <translation>Repetaţi noua frază de acces</translation>
     </message>
     <message>
-        <location line="+33"/>
-        <source>Serves to disable the trivial sendmoney when OS account compromised. Provides no real security.</source>
-        <translation>Servește pentru a dezactiva sendmoneyl atunci când sistemul de operare este compromis. Nu oferă nicio garanție reală.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>For staking only</source>
-        <translation>Doar pentru staking</translation>
-    </message>
-    <message>
-        <location filename="../askpassphrasedialog.cpp" line="+38"/>
         <source>Encrypt wallet</source>
-        <translation>Criptează portofelul</translation>
+        <translation>Criptare portofel</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>This operation needs your wallet passphrase to unlock the wallet.</source>
-        <translation>Această acțiune necesită fraza ta de acces pentru deblocarea portofelului.</translation>
+        <translation>Această acţiune necesită fraza dvs. de acces pentru deblocarea portofelului.</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Unlock wallet</source>
-        <translation>Deblochează portofelul</translation>
+        <translation>Deblocare portofel</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>This operation needs your wallet passphrase to decrypt the wallet.</source>
-        <translation>Această acțiune necesită fraza ta de acces pentru decriptarea portofelului.</translation>
+        <translation>Această acţiune necesită fraza dvs. de acces pentru decriptarea portofelului.</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Decrypt wallet</source>
-        <translation>Decriptează portofelul.</translation>
+        <translation>Decriptare portofel</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Change passphrase</source>
-        <translation>Schimbă fraza de acces</translation>
+        <translation>Schimbare frază de acces</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Enter the old and new passphrase to the wallet.</source>
-        <translation>Introdu vechea și noua parolă pentru portofel.</translation>
+        <translation>Introduceţi vechea şi noua parolă pentru portofel.</translation>
     </message>
     <message>
-        <location line="+45"/>
         <source>Confirm wallet encryption</source>
-        <translation>Confirmă criptarea portofelului</translation>
+        <translation>Confirmaţi criptarea portofelului</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR COINS&lt;/b&gt;!</source>
-        <translation>Atentie: Daca encriptezi portofelul si iti uiti parola, &lt;b&gt;VEI PIERDE TOATA MONEDELE&lt;/b&gt;!</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR SILKS&lt;/b&gt;!</source>
+        <translation>Atenţie: Dacă pierdeţi parola portofelului electronic după criptare, &lt;b&gt;VEŢI PIERDE ÎNTREAGA SUMĂ DE SILK ACUMULATĂ&lt;/b&gt;!</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Are you sure you wish to encrypt your wallet?</source>
-        <translation>Sunteţi sigur că doriţi să criptaţi portofelul electronic?</translation>
+        <translation>Sigur doriţi să criptaţi portofelul dvs.?</translation>
     </message>
     <message>
-        <location line="+15"/>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
-        <translation>IMPORTANT: Orice copie de siguranta facuta in prealabil portofelului dumneavoastra ar trebui inlocuita cu cea generata cel mai recent fisier criptat al portofelului. Pentru siguranta, copiile de siguranta vechi ale portofelului ne-criptat vor deveni inutile de indata ce veti incepe folosirea noului fisier criptat al portofelului.</translation>
+        <translation>IMPORTANT: Orice copie de siguranţă făcută anterior portofelului dumneavoastră ar trebui înlocuită cu cea generată cel mai recent, fişier criptat al portofelului. Pentru siguranţă, copiile de siguranţă vechi ale portofelului ne-criptat vor deveni inutile imediat ce veţi începe folosirea noului fişier criptat al portofelului.</translation>
     </message>
     <message>
-        <location line="+103"/>
-        <location line="+24"/>
         <source>Warning: The Caps Lock key is on!</source>
-        <translation>Atentie! Caps Lock este pornit</translation>
+        <translation>Atenţie! Caps Lock este pornit!</translation>
     </message>
     <message>
-        <location line="-133"/>
-        <location line="+60"/>
         <source>Wallet encrypted</source>
         <translation>Portofel criptat</translation>
     </message>
     <message>
-        <location line="-140"/>
         <source>Enter the new passphrase to the wallet.&lt;br/&gt;Please use a passphrase of &lt;b&gt;ten or more random characters&lt;/b&gt;, or &lt;b&gt;eight or more words&lt;/b&gt;.</source>
-        <translation type="unfinished"/>
+        <translation>Introduceţi noua parolă a portofelului electronic.&lt;br/&gt;Vă rugăm să folosiţi o parolă de&lt;b&gt;minimum 10 caractere aleatoare&lt;/b&gt;, sau &lt;b&gt;minimum 8 cuvinte&lt;/b&gt;.</translation>
     </message>
     <message>
-        <location line="+82"/>
-        <source>Silk will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
-        <translation>Silk se va inchide pentru a termina procesul de encriptie. Amintiți-vă, criptarea portofelul dumneavoastră nu poate proteja pe deplin monedele dvs. de a fi furate de  infectarea cu malware a computerului.</translation>
+        <source>Silk will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your silks from being stolen by malware infecting your computer.</source>
+        <translation>Silk se va închide acum pentru a termina procesul de criptare. Ţineţi minte că criptarea portofelului nu vă poate proteja în totalitate de furtul monedelor de către programe dăunătoare care vă infectează calculatorul.</translation>
     </message>
     <message>
-        <location line="+13"/>
-        <location line="+7"/>
-        <location line="+44"/>
-        <location line="+6"/>
         <source>Wallet encryption failed</source>
-        <translation>Criptarea portofelului a eșuat</translation>
+        <translation>Criptarea portofelului nu a reuşit</translation>
     </message>
     <message>
-        <location line="-56"/>
         <source>Wallet encryption failed due to an internal error. Your wallet was not encrypted.</source>
-        <translation>Criptarea portofelului a eșuat din cauza unei erori interne. Portofelul tău nu a fost criptat.</translation>
+        <translation>Criptarea portofelului nu a reuşit din cauza unei erori interne. Portofelul dvs. nu a fost criptat.</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <location line="+50"/>
         <source>The supplied passphrases do not match.</source>
         <translation>Frazele de acces introduse nu se potrivesc.</translation>
     </message>
     <message>
-        <location line="-38"/>
         <source>Wallet unlock failed</source>
-        <translation>Deblocarea portofelului a eșuat</translation>
+        <translation>Deblocarea portofelului nu a reuşit</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location line="+12"/>
-        <location line="+19"/>
         <source>The passphrase entered for the wallet decryption was incorrect.</source>
         <translation>Fraza de acces introdusă pentru decriptarea portofelului a fost incorectă.</translation>
     </message>
     <message>
-        <location line="-20"/>
         <source>Wallet decryption failed</source>
-        <translation>Decriptarea portofelului a eșuat</translation>
+        <translation>Decriptarea portofelului nu a reuşit</translation>
     </message>
     <message>
-        <location line="+14"/>
         <source>Wallet passphrase was successfully changed.</source>
         <translation>Parola portofelului electronic a fost schimbată.</translation>
     </message>
@@ -306,280 +223,278 @@ This product includes software developed by the OpenSSL Project for use in the O
 <context>
     <name>SilkGUI</name>
     <message>
-        <location filename="../silkgui.cpp" line="+297"/>
         <source>Sign &amp;message...</source>
         <translation>Semnează &amp;mesaj...</translation>
     </message>
     <message>
-        <location line="-64"/>
+        <source>Synchronizing with network...</source>
+        <translation>Se sincronizează cu reţeaua...</translation>
+    </message>
+    <message>
+        <source>&amp;Overview</source>
+        <translation>&amp;Imagine de ansamblu</translation>
+    </message>
+    <message>
+        <source>Node</source>
+        <translation>Nod</translation>
+    </message>
+    <message>
         <source>Show general overview of wallet</source>
         <translation>Arată o stare generală de ansamblu a portofelului</translation>
     </message>
     <message>
-        <location line="+17"/>
         <source>&amp;Transactions</source>
-        <translation>&amp;Tranzacții</translation>
+        <translation>&amp;Tranzacţii</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Browse transaction history</source>
-        <translation>Răsfoiește istoricul tranzacțiilor</translation>
+        <translation>Răsfoire istoric tranzacţii</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>&amp;Address Book</source>
-        <translation>Agendă</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Edit the list of stored addresses and labels</source>
-        <translation>Editează lista de adrese si etichete stocate</translation>
-    </message>
-    <message>
-        <location line="-18"/>
-        <source>Show the list of addresses for receiving payments</source>
-        <translation>Arată lista de adrese pentru primire plăți</translation>
-    </message>
-    <message>
-        <location line="+34"/>
         <source>E&amp;xit</source>
-        <translation>&amp;Ieșire</translation>
+        <translation>Ieşire</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Quit application</source>
-        <translation>Închide aplicația</translation>
+        <translation>Închide aplicaţia</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Show information about Silk</source>
-        <translation>Arată informații despre Silk</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>About &amp;Qt</source>
         <translation>Despre &amp;Qt</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Show information about Qt</source>
-        <translation>Arată informații despre Qt</translation>
+        <translation>Arată informaţii despre Qt</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>&amp;Options...</source>
-        <translation>&amp;Setări...</translation>
+        <translation>&amp;Opţiuni...</translation>
     </message>
     <message>
-        <location line="+4"/>
         <source>&amp;Encrypt Wallet...</source>
-        <translation>Criptează portofelul electronic...</translation>
+        <translation>Cript&amp;ează portofelul...</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>&amp;Backup Wallet...</source>
-        <translation>&amp;Fă o copie de siguranță a  portofelului...</translation>
+        <translation>Face o copie de siguranţă a portofelului...</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>&amp;Change Passphrase...</source>
         <translation>S&amp;chimbă parola...</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>&amp;Export...</source>
-        <translation>&amp;Exportă</translation>
+        <source>&amp;Sending addresses...</source>
+        <translation>Adrese de trimitere...</translation>
     </message>
     <message>
-        <location line="-55"/>
+        <source>&amp;Receiving addresses...</source>
+        <translation>Adrese de p&amp;rimire...</translation>
+    </message>
+    <message>
+        <source>Open &amp;URI...</source>
+        <translation>Deschide &amp;URI...</translation>
+    </message>
+    <message>
+        <source>Silk Core client</source>
+        <translation>Clientul Silk Core</translation>
+    </message>
+    <message>
+        <source>Importing blocks from disk...</source>
+        <translation>Import blocuri de pe disk...</translation>
+    </message>
+    <message>
+        <source>Reindexing blocks on disk...</source>
+        <translation>Se reindexează blocurile pe disc...</translation>
+    </message>
+    <message>
         <source>Send coins to a Silk address</source>
         <translation>Trimite monede către o adresă Silk</translation>
     </message>
     <message>
-        <location line="+39"/>
         <source>Modify configuration options for Silk</source>
-        <translation>Modifică opțiuni de configurare pentru Silk</translation>
+        <translation>Modifică opţiunile de configurare pentru Silk</translation>
     </message>
     <message>
-        <location line="+17"/>
-        <source>Export the data in the current tab to a file</source>
-        <translation>Exportă datele din tab-ul curent într-un fișier</translation>
-    </message>
-    <message>
-        <location line="-13"/>
-        <source>Encrypt or decrypt wallet</source>
-        <translation>Criptează sau decriptează portofelul</translation>
-    </message>
-    <message>
-        <location line="+2"/>
         <source>Backup wallet to another location</source>
-        <translation>Creează o copie de rezervă a portofelului într-o locație diferită</translation>
+        <translation>Creează o copie de rezervă a portofelului într-o locaţie diferită</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Change the passphrase used for wallet encryption</source>
         <translation>Schimbă fraza de acces folosită pentru criptarea portofelului</translation>
     </message>
     <message>
-        <location line="+10"/>
         <source>&amp;Debug window</source>
-        <translation>Fereastră &amp;debug</translation>
+        <translation>Fereastra de &amp;depanare</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Open debugging and diagnostic console</source>
-        <translation>Deschide consola de debug și diagnosticare</translation>
+        <translation>Deschide consola de depanare şi diagnosticare</translation>
     </message>
     <message>
-        <location line="-5"/>
         <source>&amp;Verify message...</source>
-        <translation>&amp;Verifică mesajul...</translation>
+        <translation>&amp;Verifică mesaj...</translation>
     </message>
     <message>
-        <location line="-214"/>
-        <location line="+555"/>
         <source>Silk</source>
         <translation>Silk</translation>
     </message>
     <message>
-        <location line="-555"/>
         <source>Wallet</source>
-        <translation>Portofelul</translation>
+        <translation>Portofel</translation>
     </message>
     <message>
-        <location line="+193"/>
-        <source>&amp;About Silk</source>
-        <translation>Despre Silk</translation>
+        <source>&amp;Send</source>
+        <translation>Trimite</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <source>&amp;Receive</source>
+        <translation>P&amp;rimeşte</translation>
+    </message>
+    <message>
+        <source>Show information about Silk Core</source>
+        <translation>Arată informaţii despre Silk Core</translation>
+    </message>
+    <message>
         <source>&amp;Show / Hide</source>
-        <translation>Arata/Ascunde</translation>
+        <translation>Arată/Ascunde</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <source>Unlock wallet</source>
-        <translation>Deblochează portofelul</translation>
+        <source>Show or hide the main Window</source>
+        <translation>Arată sau ascunde fereastra principală</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>&amp;Lock Wallet</source>
-        <translation>Blochează portofelul</translation>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation>Criptează cheile private ale portofelului dvs.</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Lock wallet</source>
-        <translation>Blochează portofelul</translation>
+        <source>Sign messages with your Silk addresses to prove you own them</source>
+        <translation>Semnaţi mesaje cu adresa dvs. Silk pentru a dovedi că vă aparţin</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <source>Verify messages to ensure they were signed with specified Silk addresses</source>
+        <translation>Verificaţi mesaje pentru a vă asigura că au fost semnate cu adresa Silk specificată</translation>
+    </message>
+    <message>
         <source>&amp;File</source>
-        <translation>&amp;Fișier</translation>
+        <translation>&amp;Fişier</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>&amp;Settings</source>
         <translation>&amp;Setări</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>&amp;Help</source>
         <translation>A&amp;jutor</translation>
     </message>
     <message>
-        <location line="+17"/>
         <source>Tabs toolbar</source>
-        <translation>Bara de file</translation>
+        <translation>Bara de unelte</translation>
     </message>
     <message>
-        <location line="+46"/>
-        <location line="+9"/>
-        <source>[testnet]</source>
-        <translation>[testnet]</translation>
+        <source>Silk Core</source>
+        <translation>Nucleul Silk</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <location line="+58"/>
-        <source>Silk client</source>
-        <translation>Clientul Silk</translation>
+        <source>Request payments (generates QR codes and Silk: URIs)</source>
+        <translation>Cereţi plăţi (generează coduri QR şi silk-uri: URls)</translation>
+    </message>
+    <message>
+        <source>&amp;About Silk Core</source>
+        <translation>&amp;Despre Nucleul Silk</translation>
+    </message>
+    <message>
+        <source>Show the list of used sending addresses and labels</source>
+        <translation>Arată lista de adrese trimise şi etichetele folosite.</translation>
+    </message>
+    <message>
+        <source>Show the list of used receiving addresses and labels</source>
+        <translation>Arată lista de adrese pentru primire şi etichetele</translation>
+    </message>
+    <message>
+        <source>Open a Silk: URI or payment request</source>
+        <translation>Deschidere Silk: o adresa URI sau o cerere de plată</translation>
+    </message>
+    <message>
+        <source>&amp;Command-line options</source>
+        <translation>Opţiuni linie de &amp;comandă</translation>
+    </message>
+    <message>
+        <source>Show the Silk Core help message to get a list with possible Silk command-line options</source>
+        <translation>Arată mesajul de ajutor Silk Core pentru a obţine o listă cu opţiunile posibile de linii de comandă Silk</translation>
     </message>
     <message numerus="yes">
-        <location line="+70"/>
         <source>%n active connection(s) to Silk network</source>
-        <translation><numerusform>%n conexiune activă la reteaua Silk</numerusform><numerusform>%n conexiuni active la reteaua Silk</numerusform><numerusform>%n conexiuni active la reteaua Silk</numerusform></translation>
+        <translation><numerusform>%n conexiune activă către reţeaua Silk</numerusform><numerusform>%n conexiuni active către reţeaua Silk</numerusform><numerusform>%n de conexiuni active către reţeaua Silk</numerusform></translation>
     </message>
     <message>
-        <location line="+488"/>
-        <source>Staking.&lt;br&gt;Your weight is %1&lt;br&gt;Network weight is %2&lt;br&gt;Expected time to earn reward is %3</source>
-        <translation>Staking. &lt;br&gt;Greutatea este %1&lt;br&gt;Greutatea retelei este %2&lt;br&gt;Timp estimat pentru a castiga recompensa este %3</translation>
+        <source>No block source available...</source>
+        <translation>Nici o sursă de bloc disponibilă...</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s)</source>
+        <translation><numerusform>%n oră</numerusform><numerusform>%n ore</numerusform><numerusform>%n ore</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s)</source>
+        <translation><numerusform>%n zi</numerusform><numerusform>%n zile</numerusform><numerusform>%n de zile</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n week(s)</source>
+        <translation><numerusform>%n săptămână</numerusform><numerusform>%n săptămâni</numerusform><numerusform>%n de săptămâni</numerusform></translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Not staking because wallet is locked</source>
-        <translation>Nu este in modul stake deoarece portofelul este blocat</translation>
+        <source>%1 and %2</source>
+        <translation>%1 şi %2</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n year(s)</source>
+        <translation><numerusform>%n an</numerusform><numerusform>%n ani</numerusform><numerusform>%n de ani</numerusform></translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Not staking because wallet is offline</source>
-        <translation>Nu este in modul stake deoarece portofelul este offline</translation>
+        <source>%1 behind</source>
+        <translation>%1 în urmă</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Not staking because wallet is syncing</source>
-        <translation>Nu este in modul stake deoarece portofelul se sincronizeaza</translation>
+        <source>Last received block was generated %1 ago.</source>
+        <translation>Ultimul bloc recepţionat a fost generat acum %1.</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Not staking because you don&apos;t have mature coins</source>
-        <translation>Nu este in modul stake deoarece nu sunt destule monede maturate</translation>
+        <source>Transactions after this will not yet be visible.</source>
+        <translation>Tranzacţiile după aceasta nu vor fi vizibile încă.</translation>
     </message>
     <message>
-        <location line="-812"/>
-        <source>&amp;Dashboard</source>
-        <translation type="unfinished"/>
+        <source>Error</source>
+        <translation>Eroare</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>&amp;Receive</source>
-        <translation type="unfinished"/>
+        <source>Warning</source>
+        <translation>Avertisment</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>&amp;Send</source>
-        <translation type="unfinished"/>
+        <source>Information</source>
+        <translation>Informaţie</translation>
     </message>
     <message>
-        <location line="+49"/>
-        <source>&amp;Unlock Wallet...</source>
-        <translation>&amp;Deblochează portofelul</translation>
-    </message>
-    <message>
-        <location line="+277"/>
         <source>Up to date</source>
         <translation>Actualizat</translation>
     </message>
+    <message numerus="yes">
+        <source>Processed %n blocks of transaction history.</source>
+        <translation><numerusform>S-a procesat %n bloc din istoricul tranzacţiilor.</numerusform><numerusform>S-au procesat %n blocuri din istoricul tranzacţiilor.</numerusform><numerusform>S-au procesat %n de blocuri din istoricul tranzacţiilor.</numerusform></translation>
+    </message>
     <message>
-        <location line="+43"/>
         <source>Catching up...</source>
         <translation>Se actualizează...</translation>
     </message>
     <message>
-        <location line="+113"/>
-        <source>Confirm transaction fee</source>
-        <translation>Confirmă comisinoul tranzacției</translation>
-    </message>
-    <message>
-        <location line="+27"/>
         <source>Sent transaction</source>
-        <translation>Tranzacție expediată</translation>
+        <translation>Tranzacţie expediată</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Incoming transaction</source>
-        <translation>Tranzacție recepționată</translation>
+        <translation>Tranzacţie recepţionată</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Date: %1
 Amount: %2
 Type: %3
@@ -592,1748 +507,1890 @@ Adresa: %4
 </translation>
     </message>
     <message>
-        <location line="+100"/>
-        <location line="+15"/>
-        <source>URI handling</source>
-        <translation>Manipulare URI</translation>
-    </message>
-    <message>
-        <location line="-15"/>
-        <location line="+15"/>
-        <source>URI can not be parsed! This can be caused by an invalid Silk address or malformed URI parameters.</source>
-        <translation>URI nu poate fi parsatt! Cauza poate fi o adresa Silk invalidă sau parametrii URI malformați.</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Wallet is &lt;b&gt;not encrypted&lt;/b&gt;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+8"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Portofelul este &lt;b&gt;criptat&lt;/b&gt; iar în momentul de față este &lt;b&gt;deblocat&lt;/b&gt;</translation>
+        <translation>Portofelul este &lt;b&gt;criptat&lt;/b&gt; iar în momentul de faţă este &lt;b&gt;deblocat&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Portofelul este &lt;b&gt;criptat&lt;/b&gt; iar în momentul de față este &lt;b&gt;blocat&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location line="+24"/>
-        <source>Backup Wallet</source>
-        <translation>Fă o copie de siguranță a portofelului</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Wallet Data (*.dat)</source>
-        <translation>Date portofel(*.dat)</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Backup Failed</source>
-        <translation>Copia de rezerva a esuat</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>There was an error trying to save the wallet data to the new location.</source>
-        <translation>Eroare la încercarea de a salva datele portofelului în noua locaţie.</translation>
-    </message>
-    <message numerus="yes">
-        <location line="+91"/>
-        <source>%n second(s)</source>
-        <translation><numerusform>%n secundă</numerusform><numerusform>%n secunde</numerusform><numerusform>%n secunde</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <location line="+4"/>
-        <source>%n minute(s)</source>
-        <translation><numerusform>%n minut</numerusform><numerusform>%n minute</numerusform><numerusform>%n minute</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <location line="-429"/>
-        <location line="+433"/>
-        <source>%n hour(s)</source>
-        <translation><numerusform>%n oră</numerusform><numerusform>%n ore</numerusform><numerusform>%n ore</numerusform></translation>
-    </message>
-    <message>
-        <location line="-456"/>
-        <source>Processed %1 blocks of transaction history.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message numerus="yes">
-        <location line="+27"/>
-        <location line="+433"/>
-        <source>%n day(s)</source>
-        <translation><numerusform>%n zi</numerusform><numerusform>%n zile</numerusform><numerusform>%n zile</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <location line="-429"/>
-        <location line="+6"/>
-        <source>%n week(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>%1 and %2</source>
-        <translation type="unfinished"/>
-    </message>
-    <message numerus="yes">
-        <location line="+0"/>
-        <source>%n year(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>%1 behind</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Last received block was generated %1 ago.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Transactions after this will not yet be visible.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+23"/>
-        <source>Error</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Warning</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Information</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+69"/>
-        <source>This transaction is over the size limit. You can still send it for a fee of %1, which goes to the nodes that process your transaction and helps to support the network. Do you want to pay the fee?</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+324"/>
-        <source>Not staking</source>
-        <translation>Not staking</translation>
-    </message>
-    <message>
-        <location filename="../silk.cpp" line="+104"/>
-        <source>A fatal error occurred. Silk can no longer continue safely and will quit.</source>
-        <translation>A apărut o eroare fatală. Silk nu mai poate continua în condiții de siguranță și va iesi.</translation>
+        <translation>Portofelul este &lt;b&gt;criptat&lt;/b&gt; iar în momentul de faţă este &lt;b&gt;blocat&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
     <name>ClientModel</name>
     <message>
-        <location filename="../clientmodel.cpp" line="+110"/>
         <source>Network Alert</source>
-        <translation>Alertă rețea</translation>
+        <translation>Alertă reţea</translation>
     </message>
 </context>
 <context>
     <name>CoinControlDialog</name>
     <message>
-        <location filename="../forms/coincontroldialog.ui" line="+14"/>
-        <source>Coin Control</source>
-        <translation>Controlează moneda</translation>
+        <source>Coin Selection</source>
+        <translation>Selectarea monezii</translation>
     </message>
     <message>
-        <location line="+31"/>
         <source>Quantity:</source>
         <translation>Cantitate:</translation>
     </message>
     <message>
-        <location line="+32"/>
         <source>Bytes:</source>
         <translation>Octeţi:</translation>
     </message>
     <message>
-        <location line="+48"/>
         <source>Amount:</source>
         <translation>Sumă:</translation>
     </message>
     <message>
-        <location line="+32"/>
         <source>Priority:</source>
         <translation>Prioritate:</translation>
     </message>
     <message>
-        <location line="+48"/>
         <source>Fee:</source>
-        <translation>Taxa:</translation>
+        <translation>Taxă:</translation>
     </message>
     <message>
-        <location line="+35"/>
-        <source>Low Output:</source>
-        <translation>Ieşire minimă: </translation>
+        <source>Dust:</source>
+        <translation>Praf:</translation>
     </message>
     <message>
-        <location filename="../coincontroldialog.cpp" line="+537"/>
-        <source>no</source>
-        <translation>nu</translation>
-    </message>
-    <message>
-        <location filename="../forms/coincontroldialog.ui" line="+51"/>
         <source>After Fee:</source>
-        <translation>După taxe:</translation>
+        <translation>După taxă:</translation>
     </message>
     <message>
-        <location line="+35"/>
         <source>Change:</source>
         <translation>Schimb:</translation>
     </message>
     <message>
-        <location line="+69"/>
         <source>(un)select all</source>
-        <translation>(de)selectaţi tot</translation>
+        <translation>(de)selectare tot</translation>
     </message>
     <message>
-        <location line="+13"/>
         <source>Tree mode</source>
-        <translation>Modul arborescent</translation>
+        <translation>Mod arbore</translation>
     </message>
     <message>
-        <location line="+16"/>
         <source>List mode</source>
-        <translation>Modul lista</translation>
+        <translation>Mod listă</translation>
     </message>
     <message>
-        <location line="+45"/>
         <source>Amount</source>
         <translation>Sumă</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>Label</source>
-        <translation>Etichetă</translation>
+        <source>Received with label</source>
+        <translation>Primite cu eticheta</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>Address</source>
-        <translation>Adresă</translation>
+        <source>Received with address</source>
+        <translation>Primite cu adresa</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Date</source>
         <translation>Data</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Confirmations</source>
         <translation>Confirmări</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Confirmed</source>
         <translation>Confirmat</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Priority</source>
         <translation>Prioritate</translation>
     </message>
     <message>
-        <location filename="../coincontroldialog.cpp" line="-500"/>
         <source>Copy address</source>
         <translation>Copiază adresa</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Copy label</source>
         <translation>Copiază eticheta</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location line="+26"/>
         <source>Copy amount</source>
         <translation>Copiază suma</translation>
     </message>
     <message>
-        <location line="-25"/>
         <source>Copy transaction ID</source>
-        <translation>Copiază ID tranzacție</translation>
+        <translation>Copiază ID tranzacţie</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <source>Lock unspent</source>
+        <translation>Blocare necheltuiţi</translation>
+    </message>
+    <message>
+        <source>Unlock unspent</source>
+        <translation>Deblocare necheltuiţi</translation>
+    </message>
+    <message>
         <source>Copy quantity</source>
-        <translation>Copiaţi quantitea</translation>
+        <translation>Copiază cantitea</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Copy fee</source>
-        <translation>Copiaţi taxele</translation>
+        <translation>Copiază taxa</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Copy after fee</source>
-        <translation>Copiaţi după taxe</translation>
+        <translation>Copiază după taxă</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Copy bytes</source>
-        <translation>Copiaţi octeţi</translation>
+        <translation>Copiază octeţi</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Copy priority</source>
-        <translation>Copiaţi prioritatea</translation>
+        <translation>Copiază prioritatea</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Copy low output</source>
-        <translation>Copiaţi ieşire minimă:</translation>
+        <source>Copy dust</source>
+        <translation>Copiază praf</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Copy change</source>
-        <translation>Copiaţi schimb</translation>
+        <translation>Copiază rest</translation>
     </message>
     <message>
-        <location line="+317"/>
         <source>highest</source>
-        <translation>cel mai mare</translation>
+        <translation>cea mai mare</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <source>higher</source>
+        <translation>mai mare</translation>
+    </message>
+    <message>
         <source>high</source>
         <translation>mare</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>medium-high</source>
-        <translation>marime medie</translation>
+        <translation>medie-mare</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>medium</source>
-        <translation>mediu</translation>
+        <translation>medie</translation>
     </message>
     <message>
-        <location line="+4"/>
         <source>low-medium</source>
-        <translation>mediu-scazut</translation>
+        <translation>medie-scăzută</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>low</source>
-        <translation>scazut</translation>
+        <translation>scazută</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <source>lower</source>
+        <translation>mai scăzută</translation>
+    </message>
+    <message>
         <source>lowest</source>
-        <translation>cel mai scazut</translation>
+        <translation>cea mai scăzută</translation>
     </message>
     <message>
-        <location line="+140"/>
-        <source>DUST</source>
-        <translation>DUST</translation>
+        <source>none</source>
+        <translation>nimic</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <source>Can vary +/- %1 satoshi(s) per input.</source>
+        <translation>Poate varia +/- %1 satoshi pentru fiecare intrare.</translation>
+    </message>
+    <message>
         <source>yes</source>
         <translation>da</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>This label turns red, if the transaction size is bigger than 10000 bytes.
-
- This means a fee of at least %1 per kb is required.
-
- Can vary +/- 1 Byte per input.</source>
-        <translation>Aceasta eticheta se inroseste daca marimea tranzactiei este mai mare de 10000 bytes.
-
-Acest lucru inseamna ca este nevoie de o taxa de cel putin %1 pe kb
-
-Poate varia +/- 1 Byte pe imput.</translation>
+        <source>no</source>
+        <translation>nu</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Transactions with higher priority get more likely into a block.
-
-This label turns red, if the priority is smaller than &quot;medium&quot;.
-
- This means a fee of at least %1 per kb is required.</source>
-        <translation>Tranzacțiile cu prioritate mai mare ajunge mult mai probabil într-un bloc
-
-Aceasta eticheta se inroseste daca prioritatea este mai mica decat &quot;medium&quot;
-
-Acest lucru inseamna ca este necesar un comision cel putin de %1 pe kB</translation>
+        <source>This label turns red, if the transaction size is greater than 1000 bytes.</source>
+        <translation>Această etichetă devine roşie, în cazul în care dimensiunea tranzacţiei este mai mare de 1000 de octeţi.</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>This label turns red, if any recipient receives an amount smaller than %1.
-
- This means a fee of at least %2 is required. 
-
- Amounts below 0.546 times the minimum relay fee are shown as DUST.</source>
-        <translation>Aceasta eticheta se inroseste daca oricare din contacte primeste o suma mai mica decat %1.
-
-Acest lucru inseamna ca un comision de cel putin %2 este necesar.
-
-Sume mai mici decat 0.546 ori minimul comisionului de relay sunt afisate ca DUST</translation>
+        <source>Can vary +/- 1 byte per input.</source>
+        <translation>Poate varia +/- 1 octet pentru fiecare intrare.</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>This label turns red, if the change is smaller than %1.
-
- This means a fee of at least %2 is required.</source>
-        <translation>Această eticheta se înroseste dacă schimbul este mai mic de %1.
-
-Acest lucru înseamnă că o taxă de cel puțin %2 este necesară</translation>
+        <source>Transactions with higher priority are more likely to get included into a block.</source>
+        <translation>Tranzacţiile cu prioritate mai mare sînt mai susceptibile de fi incluse într-un bloc.</translation>
     </message>
     <message>
-        <location line="+36"/>
-        <location line="+66"/>
+        <source>This label turns red, if the priority is smaller than "medium".</source>
+        <translation>Această etichetă devine roşie dacă prioritatea e mai mică decît "medie".</translation>
+    </message>
+    <message>
         <source>(no label)</source>
         <translation>(fără etichetă)</translation>
     </message>
     <message>
-        <location line="-9"/>
         <source>change from %1 (%2)</source>
-        <translation>schimbă la %1(%2)</translation>
+        <translation>restul de la %1 (%2)</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>(change)</source>
-        <translation>(schimb)</translation>
+        <translation>(rest)</translation>
     </message>
 </context>
 <context>
     <name>EditAddressDialog</name>
     <message>
-        <location filename="../forms/editaddressdialog.ui" line="+14"/>
         <source>Edit Address</source>
         <translation>Editează adresa</translation>
     </message>
     <message>
-        <location line="+11"/>
         <source>&amp;Label</source>
         <translation>&amp;Etichetă</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>The label associated with this address book entry</source>
-        <translation>Eticheta asociată cu această intrare în agendă</translation>
+        <source>The label associated with this address list entry</source>
+        <translation>Eticheta asociată cu această intrare din listă.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <source>The address associated with this address list entry. This can only be modified for sending addresses.</source>
+        <translation>Adresa asociată cu această adresă din listă. Aceasta poate fi modificată doar pentru adresele de trimitere.</translation>
+    </message>
+    <message>
         <source>&amp;Address</source>
         <translation>&amp;Adresă</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>The address associated with this address book entry. This can only be modified for sending addresses.</source>
-        <translation>Adresa asociată cu această intrare în agendă. Acest lucru poate fi modificat numai pentru adresele de trimitere.</translation>
-    </message>
-    <message>
-        <location filename="../editaddressdialog.cpp" line="+21"/>
         <source>New receiving address</source>
         <translation>Noua adresă de primire</translation>
     </message>
     <message>
-        <location line="+4"/>
         <source>New sending address</source>
         <translation>Noua adresă de trimitere</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Edit receiving address</source>
         <translation>Editează adresa de primire</translation>
     </message>
     <message>
-        <location line="+4"/>
         <source>Edit sending address</source>
         <translation>Editează adresa de trimitere</translation>
     </message>
     <message>
-        <location line="+76"/>
-        <source>The entered address &quot;%1&quot; is already in the address book.</source>
-        <translation>Adresa introdusă &quot;%1&quot; se află deja în lista de adrese.</translation>
+        <source>The entered address "%1" is already in the address book.</source>
+        <translation>Adresa introdusă "%1" se află deja în lista de adrese.</translation>
     </message>
     <message>
-        <location line="-5"/>
-        <source>The entered address &quot;%1&quot; is not a valid Silk address.</source>
-        <translation>Adresa introdusă &quot;%1&quot; nu este o adresă Silk validă</translation>
+        <source>The entered address "%1" is not a valid Silk address.</source>
+        <translation>Adresa introdusă "%1" nu este o adresă silk validă.</translation>
     </message>
     <message>
-        <location line="+10"/>
         <source>Could not unlock wallet.</source>
         <translation>Portofelul nu a putut fi deblocat.</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>New key generation failed.</source>
-        <translation>Generarea noii chei a eșuat.</translation>
+        <translation>Generarea noii chei nu a reuşit.</translation>
     </message>
 </context>
 <context>
-    <name>GUIUtil::HelpMessageBox</name>
+    <name>FreespaceChecker</name>
     <message>
-        <location filename="../guiutil.cpp" line="+426"/>
-        <location line="+12"/>
-        <source>Silk-Qt</source>
-        <translation>Silk-Qt</translation>
+        <source>A new data directory will be created.</source>
+        <translation>Va fi creat un nou dosar de date.</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <source>name</source>
+        <translation>nume</translation>
+    </message>
+    <message>
+        <source>Directory already exists. Add %1 if you intend to create a new directory here.</source>
+        <translation>Dosarul deja există. Adaugă %1 dacă intenţionaţi să creaţi un nou dosar aici.</translation>
+    </message>
+    <message>
+        <source>Path already exists, and is not a directory.</source>
+        <translation>Calea deja există şi nu este un dosar.</translation>
+    </message>
+    <message>
+        <source>Cannot create data directory here.</source>
+        <translation>Nu se poate crea un dosar de date aici.</translation>
+    </message>
+</context>
+<context>
+    <name>HelpMessageDialog</name>
+    <message>
+        <source>Silk Core</source>
+        <translation>Nucleul Silk</translation>
+    </message>
+    <message>
         <source>version</source>
-        <translation>versiune</translation>
+        <translation>versiunea</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <source>(%1-bit)</source>
+        <translation>(%1-bit)</translation>
+    </message>
+    <message>
+        <source>About Silk Core</source>
+        <translation>Despre Nucleul Silk</translation>
+    </message>
+    <message>
+        <source>Command-line options</source>
+        <translation>Opţiuni linie de comandă</translation>
+    </message>
+    <message>
         <source>Usage:</source>
-        <translation>Utilizare:</translation>
+        <translation>Uz:</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>command-line options</source>
-        <translation>Optiuni linie de comanda</translation>
+        <translation>Opţiuni linie de comandă</translation>
     </message>
     <message>
-        <location line="+4"/>
         <source>UI options</source>
-        <translation>Setări UI</translation>
+        <translation>Opţiuni UI</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Set language, for example &quot;de_DE&quot; (default: system locale)</source>
-        <translation>Setează limba, de exemplu: &quot;de_DE&quot; (inițial: setare locală)</translation>
+        <source>Set language, for example "de_DE" (default: system locale)</source>
+        <translation>Setează limba, de exemplu: "de_DE" (implicit: sistem local)</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Start minimized</source>
-        <translation>Pornește miniaturizat</translation>
+        <translation>Începe minimizat</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <source>Set SSL root certificates for payment request (default: -system-)</source>
+        <translation>Setare rădăcină certificat SSL pentru cerere de plată (implicit: -sistem- )</translation>
+    </message>
+    <message>
         <source>Show splash screen on startup (default: 1)</source>
-        <translation>Afișează ecran splash la pornire (implicit: 1)</translation>
+        <translation>Afişează pe ecran splash la pornire (implicit: 1)</translation>
+    </message>
+    <message>
+        <source>Choose data directory on startup (default: 0)</source>
+        <translation>Alege dosarul de date la pornire (implicit: 0)</translation>
+    </message>
+</context>
+<context>
+    <name>Intro</name>
+    <message>
+        <source>Welcome</source>
+        <translation>Bun venit</translation>
+    </message>
+    <message>
+        <source>Welcome to Silk Core.</source>
+        <translation>Bine aţi venit la Nucleul Silk.</translation>
+    </message>
+    <message>
+        <source>As this is the first time the program is launched, you can choose where Silk Core will store its data.</source>
+        <translation>Dacă aceasta este prima dată cînd programul este lansat, puteţi alege unde Nucleul Silk va stoca datele.</translation>
+    </message>
+    <message>
+        <source>Use the default data directory</source>
+        <translation>Foloseşte dosarul de date implicit</translation>
+    </message>
+    <message>
+        <source>Use a custom data directory:</source>
+        <translation>Foloseşte un dosar de date personalizat:</translation>
+    </message>
+    <message>
+        <source>Silk Core</source>
+        <translation>Nucleul Silk</translation>
+    </message>
+    <message>
+        <source>Error: Specified data directory "%1" cannot be created.</source>
+        <translation>Eroare: Directorul datelor specificate "%1" nu poate fi creat.</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Eroare</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n GB of free space available</source>
+        <translation><numerusform>%n GB de spaţiu liber disponibil</numerusform><numerusform>%n GB de spaţiu liber disponibil</numerusform><numerusform>%n GB de spaţiu liber disponibil</numerusform></translation>
+    </message>
+    <message numerus="yes">
+        <source>(of %n GB needed)</source>
+        <translation><numerusform>(din %n GB necesar)</numerusform><numerusform>(din %n GB necesari)</numerusform><numerusform>(din %n GB necesari)</numerusform></translation>
+    </message>
+</context>
+<context>
+    <name>OpenURIDialog</name>
+    <message>
+        <source>Open URI</source>
+        <translation>Deschide URI</translation>
+    </message>
+    <message>
+        <source>Open payment request from URI or file</source>
+        <translation>Deschideţi cerere de plată prin intermediul adresei URI sau a fişierului</translation>
+    </message>
+    <message>
+        <source>URI:</source>
+        <translation>URI:</translation>
+    </message>
+    <message>
+        <source>Select payment request file</source>
+        <translation>Selectaţi fişierul cerere de plată</translation>
+    </message>
+    <message>
+        <source>Select payment request file to open</source>
+        <translation>Selectaţi fişierul cerere de plată pentru deschidere</translation>
     </message>
 </context>
 <context>
     <name>OptionsDialog</name>
     <message>
-        <location filename="../forms/optionsdialog.ui" line="+14"/>
         <source>Options</source>
-        <translation>Setări</translation>
+        <translation>Opţiuni</translation>
     </message>
     <message>
-        <location line="+16"/>
         <source>&amp;Main</source>
-        <translation>&amp;Principal</translation>
+        <translation>Principal</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB. Fee 0.01 recommended.</source>
-        <translation>Comision de tranzacție opțional pe kB, care vă ajută ca tranzacțiile sa fie procesate rapid. Majoritatea tranzactiilor sunt de 1 kB. Comision de 0.01 recomandat</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Pay transaction &amp;fee</source>
-        <translation>Plăteşte comision pentru tranzacţie &amp;f</translation>
-    </message>
-    <message>
-        <location line="+31"/>
-        <source>Reserved amount does not participate in staking and is therefore spendable at any time.</source>
-        <translation>Suma rezervată nu participă la maturare și, prin urmare, se poate cheltui  în orice moment.</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Reserve</source>
-        <translation>Rezervă</translation>
-    </message>
-    <message>
-        <location line="+31"/>
         <source>Automatically start Silk after logging in to the system.</source>
-        <translation>Pornește Silk imdiat după logarea în sistem</translation>
+        <translation>Porneşte automat Silk după pornirea calculatorului.</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>&amp;Start Silk on system login</source>
-        <translation>$Pornește Silk la logarea în sistem</translation>
+        <translation>Porneşte Silk la pornirea sistemului</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <source>Size of &amp;database cache</source>
+        <translation>Mărimea bazei de &amp;date cache</translation>
+    </message>
+    <message>
+        <source>MB</source>
+        <translation>MB</translation>
+    </message>
+    <message>
+        <source>Number of script &amp;verification threads</source>
+        <translation>Numărul de thread-uri de &amp;verificare</translation>
+    </message>
+    <message>
+        <source>Accept connections from outside</source>
+        <translation>Acceptă conexiuni din exterior</translation>
+    </message>
+    <message>
+        <source>Allow incoming connections</source>
+        <translation>Permite conexiuni de intrare</translation>
+    </message>
+    <message>
+        <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
+        <translation>Adresa IP a serverului proxy (de exemplu: IPv4: 127.0.0.1 / IPv6: ::1)</translation>
+    </message>
+    <message>
+        <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
+        <translation>URL-uri terţe părţi (de exemplu, un explorator de bloc), care apar în tab-ul tranzacţiilor ca elemente de meniu contextual. %s în URL este înlocuit cu hash de tranzacţie. URL-urile multiple sînt separate prin bară verticală |.</translation>
+    </message>
+    <message>
+        <source>Third party transaction URLs</source>
+        <translation>URL-uri tranzacţii terţe părţi</translation>
+    </message>
+    <message>
+        <source>Active command-line options that override above options:</source>
+        <translation>Opţiuni linie de comandă active care oprimă opţiunile de mai sus:</translation>
+    </message>
+    <message>
+        <source>Reset all client options to default.</source>
+        <translation>Resetează toate setările clientului la valorile implicite.</translation>
+    </message>
+    <message>
+        <source>&amp;Reset Options</source>
+        <translation>&amp;Resetează opţiunile</translation>
+    </message>
+    <message>
         <source>&amp;Network</source>
-        <translation>&amp;Retea</translation>
+        <translation>Reţea</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <source>(0 = auto, &lt;0 = leave that many cores free)</source>
+        <translation>(0 = automat, &lt;0 = lasă atîtea nuclee libere)</translation>
+    </message>
+    <message>
+        <source>W&amp;allet</source>
+        <translation>Portofel</translation>
+    </message>
+    <message>
+        <source>Expert</source>
+        <translation>Expert</translation>
+    </message>
+    <message>
+        <source>Enable coin &amp;control features</source>
+        <translation>Activare caracteristici de control ale monedei</translation>
+    </message>
+    <message>
+        <source>If you disable the spending of unconfirmed change, the change from a transaction cannot be used until that transaction has at least one confirmation. This also affects how your balance is computed.</source>
+        <translation>Dacă dezactivaţi cheltuirea restului neconfirmat, restul dintr-o tranzacţie nu poate fi folosit pînă cînd tranzacţia are cel puţin o confirmare. Aceasta afectează de asemenea calcularea soldului.</translation>
+    </message>
+    <message>
+        <source>&amp;Spend unconfirmed change</source>
+        <translation>Cheltuire rest neconfirmat</translation>
+    </message>
+    <message>
         <source>Automatically open the Silk client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Deschide automat portul pentru cientul Silk pe router. Aces lucru este posibil doara daca routerul suporta UPnP si este activat</translation>
+        <translation>Deschide automat în router portul aferent clientului Silk. Funcţionează doar dacă routerul duportă UPnP şi e activat.</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Map port using &amp;UPnP</source>
-        <translation>Mapeaza portul folosind &amp;UPnP</translation>
+        <translation>Mapare port folosind &amp;UPnP</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <source>Connect to the Silk network through a SOCKS5 proxy.</source>
+        <translation>Conectare la reţeaua Silk printr-un proxy SOCKS.</translation>
+    </message>
+    <message>
+        <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
+        <translation>&amp;Conectare printr-un proxy SOCKS (implicit proxy):</translation>
+    </message>
+    <message>
         <source>Proxy &amp;IP:</source>
         <translation>Proxy &amp;IP:</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>IP address of the proxy (e.g. 127.0.0.1)</source>
-        <translation>Adresa IP a proxy-ului(ex. 127.0.0.1)</translation>
-    </message>
-    <message>
-        <location line="+7"/>
         <source>&amp;Port:</source>
         <translation>&amp;Port:</translation>
     </message>
     <message>
-        <location line="+19"/>
         <source>Port of the proxy (e.g. 9050)</source>
-        <translation>Portul pe care se concetează proxy serverul (de exemplu: 9050)</translation>
+        <translation>Portul proxy (de exemplu: 9050)</translation>
     </message>
     <message>
-        <location line="-57"/>
-        <source>Connect to the Silk network through a SOCKS5 proxy (e.g. when connecting through Tor).</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>&amp;Connect through SOCKS5 proxy:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+90"/>
         <source>&amp;Window</source>
-        <translation>&amp;Fereastra</translation>
+        <translation>&amp;Fereastră</translation>
     </message>
     <message>
-        <location line="+6"/>
         <source>Show only a tray icon after minimizing the window.</source>
-        <translation>Afişează doar un icon in tray la ascunderea ferestrei</translation>
+        <translation>Arată doar un icon în tray la ascunderea ferestrei</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>&amp;Minimize to the tray instead of the taskbar</source>
-        <translation>&amp;M Ascunde în tray în loc de taskbar</translation>
+        <translation>&amp;Minimizare în tray în loc de taskbar</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Quit in the menu.</source>
-        <translation>Ascunde fereastra în locul părăsirii programului în momentul închiderii ferestrei. Când acestă opţiune e activă, aplicaţia se va opri doar în momentul selectării comenzii Quit din menu.</translation>
+        <translation>Ascunde fereastra în locul părăsirii programului în momentul închiderii ferestrei. Cînd acestă opţiune e activă, aplicaţia se va opri doar în momentul selectării comenzii 'Închide aplicaţia' din menu.</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>M&amp;inimize on close</source>
-        <translation>&amp;i Ascunde fereastra în locul închiderii programului</translation>
+        <translation>M&amp;inimizare fereastră în locul închiderii programului</translation>
     </message>
     <message>
-        <location line="+21"/>
         <source>&amp;Display</source>
         <translation>&amp;Afişare</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>User Interface &amp;language:</source>
-        <translation>Interfata &amp; limba userului</translation>
+        <translation>&amp;Limbă interfaţă utilizator</translation>
     </message>
     <message>
-        <location line="+13"/>
         <source>The user interface language can be set here. This setting will take effect after restarting Silk.</source>
-        <translation>Limba interfeței utilizator poate fi setat aici. Această setare va avea efect după repornirea Silk.</translation>
+        <translation>Limba interfeţei utilizatorului poate fi setată aici. Această setare va avea efect după repornirea Silk.</translation>
     </message>
     <message>
-        <location line="+11"/>
         <source>&amp;Unit to show amounts in:</source>
         <translation>&amp;Unitatea de măsură pentru afişarea sumelor:</translation>
     </message>
     <message>
-        <location line="+13"/>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>Alege subdiviziunea folosită la afişarea interfeţei şi la trimiterea de silk.</translation>
+        <translation>Alegeţi subdiviziunea folosită la afişarea interfeţei şi la trimiterea de silk.</translation>
     </message>
     <message>
-        <location line="+9"/>
         <source>Whether to show coin control features or not.</source>
-        <translation>Dacă să se afişeze controlul caracteristicilor monedei sau nu.</translation>
+        <translation>Arată controlul caracteristicilor monedei sau nu.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Display coin &amp;control features (experts only!)</source>
-        <translation>Afiseaza &amp;caracteristiclei de control ale monedei(numai experti!)</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Whether to select the coin outputs randomly or with minimal coin age.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Minimize weight consumption (experimental)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Use black visual theme (requires restart)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+71"/>
         <source>&amp;OK</source>
-        <translation>&amp; OK</translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>&amp;Cancel</source>
-        <translation>&amp; Renunta</translation>
+        <translation>Renunţă</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>&amp;Apply</source>
-        <translation>&amp;Aplica</translation>
-    </message>
-    <message>
-        <location filename="../optionsdialog.cpp" line="+47"/>
         <source>default</source>
-        <translation>Initial</translation>
+        <translation>iniţial</translation>
     </message>
     <message>
-        <location line="+148"/>
-        <location line="+9"/>
-        <source>Warning</source>
-        <translation>Avertizare</translation>
+        <source>none</source>
+        <translation>nimic</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+9"/>
-        <source>This setting will take effect after restarting Silk.</source>
-        <translation>Aceasta setare va avea efect dupa repornirea Silk.</translation>
+        <source>Confirm options reset</source>
+        <translation>Confirmă resetarea opţiunilor</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <source>Client restart required to activate changes.</source>
+        <translation>Este necesară repornirea clientului pentru a activa schimbările.</translation>
+    </message>
+    <message>
+        <source>Client will be shutdown, do you want to proceed?</source>
+        <translation>Clientul va fi închis, doriţi să continuaţi?</translation>
+    </message>
+    <message>
+        <source>This change would require a client restart.</source>
+        <translation>Această schimbare necesită o repornire a clientului.</translation>
+    </message>
+    <message>
         <source>The supplied proxy address is invalid.</source>
-        <translation>Adresa silk pe care a-ti specificat-o este invalida</translation>
+        <translation>Adresa silk pe care aţi specificat-o nu este validă.</translation>
     </message>
 </context>
 <context>
     <name>OverviewPage</name>
     <message>
-        <location filename="../forms/overviewpage.ui" line="+14"/>
         <source>Form</source>
         <translation>Form</translation>
     </message>
     <message>
-        <location line="+46"/>
-        <location line="+247"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Silk network after a connection is established, but this process has not completed yet.</source>
-        <translation>Informatia afisata poate fi depasita.  Portofel se sincronizează automat cu rețeaua Silk după ce se stabilește o conexiune, dar acest proces nu s-a finalizat încă.</translation>
+        <translation>Informaţiile afişate pot fi neactualizate. Portofelul dvs. se sincronizează automat cu reţeaua Silk după ce o conexiune este stabilită, dar acest proces nu a fost finalizat încă.</translation>
     </message>
     <message>
-        <location line="-173"/>
-        <source>Stake:</source>
-        <translation>Stake:</translation>
+        <source>Watch-only:</source>
+        <translation>Doar-supraveghere:</translation>
     </message>
     <message>
-        <location line="+32"/>
-        <source>Unconfirmed:</source>
-        <translation>Neconfirmat:</translation>
+        <source>Available:</source>
+        <translation>Disponibil:</translation>
     </message>
     <message>
-        <location line="-113"/>
-        <source>Wallet</source>
-        <translation>Portofel</translation>
-    </message>
-    <message>
-        <location line="+49"/>
-        <source>Spendable:</source>
-        <translation>Cheltuibil:</translation>
-    </message>
-    <message>
-        <location line="+16"/>
         <source>Your current spendable balance</source>
-        <translation>Balanța ta curentă de cheltuieli</translation>
+        <translation>Balanţa dvs. curentă de cheltuieli</translation>
     </message>
     <message>
-        <location line="+80"/>
+        <source>Pending:</source>
+        <translation>În aşteptare:</translation>
+    </message>
+    <message>
+        <source>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</source>
+        <translation>Totalul tranzacţiilor care nu sunt confirmate încă şi care nu sunt încă adunate la balanţa de cheltuieli</translation>
+    </message>
+    <message>
         <source>Immature:</source>
         <translation>Nematurizat:</translation>
     </message>
     <message>
-        <location line="+13"/>
         <source>Mined balance that has not yet matured</source>
-        <translation>Balanta minata care nu s-a maturizat inca</translation>
+        <translation>Balanţa minertită care nu s-a maturizat încă</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <source>Balances</source>
+        <translation>Balanţă</translation>
+    </message>
+    <message>
         <source>Total:</source>
         <translation>Total:</translation>
     </message>
     <message>
-        <location line="+16"/>
         <source>Your current total balance</source>
-        <translation>Balanța totală curentă</translation>
+        <translation>Balanţa totală curentă</translation>
     </message>
     <message>
-        <location line="+50"/>
-        <source>&lt;b&gt;Recent transactions&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Tranzacții recente&lt;/b&gt;</translation>
+        <source>Your current balance in watch-only addresses</source>
+        <translation>Soldul dvs. curent în adresele doar-supraveghere</translation>
     </message>
     <message>
-        <location line="-118"/>
-        <source>Total of transactions that have yet to be confirmed, and do not yet count toward the current balance</source>
-        <translation>Total al tranzacțiilor care nu au fost confirmate  încă și nu contează față de balanța curentă</translation>
+        <source>Spendable:</source>
+        <translation>Cheltuibil:</translation>
     </message>
     <message>
-        <location line="-32"/>
-        <source>Total of coins that was staked, and do not yet count toward the current balance</source>
-        <translation>Totalul de monede care au fost in stake si nu sunt numarate in balanta curenta</translation>
+        <source>Recent transactions</source>
+        <translation>Tranzacţii recente</translation>
     </message>
     <message>
-        <location filename="../overviewpage.cpp" line="+116"/>
-        <location line="+1"/>
+        <source>Unconfirmed transactions to watch-only addresses</source>
+        <translation>Tranzacţii neconfirmate la adresele doar-supraveghere</translation>
+    </message>
+    <message>
+        <source>Mined balance in watch-only addresses that has not yet matured</source>
+        <translation>Balanţă minată în adresele doar-supraveghere care nu s-a maturizat încă</translation>
+    </message>
+    <message>
+        <source>Current total balance in watch-only addresses</source>
+        <translation>Soldul dvs. total în adresele doar-supraveghere</translation>
+    </message>
+    <message>
         <source>out of sync</source>
-        <translation>Nu este sincronizat</translation>
+        <translation>nesincronizat</translation>
     </message>
 </context>
 <context>
     <name>PaymentServer</name>
     <message>
-        <location filename="../paymentserver.cpp" line="+107"/>
-        <source>Cannot start silk: click-to-pay handler</source>
-        <translation type="unfinished"/>
+        <source>URI handling</source>
+        <translation>Gestionare URI</translation>
+    </message>
+    <message>
+        <source>Invalid payment address %1</source>
+        <translation>Adresă pentru plată nevalidă %1</translation>
+    </message>
+    <message>
+        <source>Payment request rejected</source>
+        <translation>Cerere de plată refuzată</translation>
+    </message>
+    <message>
+        <source>Payment request network doesn't match client network.</source>
+        <translation>Cererea de plată din reţea nu se potriveşte cu clientul din reţea</translation>
+    </message>
+    <message>
+        <source>Payment request has expired.</source>
+        <translation>Cererea de plată a expirat.</translation>
+    </message>
+    <message>
+        <source>Payment request is not initialized.</source>
+        <translation>Cererea de plată nu este iniţializată.</translation>
+    </message>
+    <message>
+        <source>Requested payment amount of %1 is too small (considered dust).</source>
+        <translation>Suma cerută de plată de %1 este prea mică (considerată praf).</translation>
+    </message>
+    <message>
+        <source>Payment request error</source>
+        <translation>Eroare la cererea de plată</translation>
+    </message>
+    <message>
+        <source>Cannot start Silk: click-to-pay handler</source>
+        <translation>Nu poate porni Silk: manipulator clic-pentru-plată</translation>
+    </message>
+    <message>
+        <source>Payment request fetch URL is invalid: %1</source>
+        <translation>URL-ul cererii de plată preluat nu este valid: %1</translation>
+    </message>
+    <message>
+        <source>Payment request file handling</source>
+        <translation>Manipulare fişier cerere de plată</translation>
+    </message>
+    <message>
+        <source>Payment request file cannot be read! This can be caused by an invalid payment request file.</source>
+        <translation>Fişierul cerere de plată nu poate fi citit! Cauza poate fi un fişier cerere de plată nevalid.</translation>
+    </message>
+    <message>
+        <source>Unverified payment requests to custom payment scripts are unsupported.</source>
+        <translation>Cererile de plată neverificate prin script-uri personalizate de plată nu sînt suportate.</translation>
+    </message>
+    <message>
+        <source>Refund from %1</source>
+        <translation>Rambursare de la %1</translation>
+    </message>
+    <message>
+        <source>Payment request %1 is too large (%2 bytes, allowed %3 bytes).</source>
+        <translation>Cererea de plată %1 este prea mare (%2 octeţi, permis %3 octeţi).</translation>
+    </message>
+    <message>
+        <source>Payment request DoS protection</source>
+        <translation>Protecţie DoS cerere de plată</translation>
+    </message>
+    <message>
+        <source>Error communicating with %1: %2</source>
+        <translation>Eroare la comunicarea cu %1: %2</translation>
+    </message>
+    <message>
+        <source>Payment request cannot be parsed!</source>
+        <translation>Cererea de plată nu poate fi analizată!</translation>
+    </message>
+    <message>
+        <source>Bad response from server %1</source>
+        <translation>Răspuns greşit de la server %1</translation>
+    </message>
+    <message>
+        <source>Payment acknowledged</source>
+        <translation>Plată acceptată</translation>
+    </message>
+    <message>
+        <source>Network request error</source>
+        <translation>Eroare în cererea de reţea</translation>
     </message>
 </context>
 <context>
-    <name>QRCodeDialog</name>
+    <name>PeerTableModel</name>
     <message>
-        <location filename="../forms/qrcodedialog.ui" line="+14"/>
-        <source>QR Code Dialog</source>
-        <translation>Dialog cod QR</translation>
+        <source>User Agent</source>
+        <translation>Agent utilizator</translation>
     </message>
     <message>
-        <location line="+59"/>
-        <source>Request Payment</source>
-        <translation>Cerere de plată</translation>
+        <source>Address/Hostname</source>
+        <translation>Adresă/Nume gazdă</translation>
     </message>
     <message>
-        <location line="+56"/>
-        <source>Amount:</source>
-        <translation>Cantitate:</translation>
+        <source>Ping Time</source>
+        <translation>Timp ping</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Amount</source>
+        <translation>Cantitate</translation>
     </message>
     <message>
-        <location line="-44"/>
-        <source>Label:</source>
-        <translation>Etichetă</translation>
+        <source>Enter a Silk address (e.g. %1)</source>
+        <translation>Introduceţi o adresă Silk (de exemplu %1)</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>Message:</source>
-        <translation>Mesaj:</translation>
+        <source>%1 d</source>
+        <translation>%1 z</translation>
     </message>
     <message>
-        <location line="+71"/>
-        <source>&amp;Save As...</source>
-        <translation>&amp;Salvează ca...</translation>
+        <source>%1 h</source>
+        <translation>%1 h</translation>
     </message>
     <message>
-        <location filename="../qrcodedialog.cpp" line="+62"/>
-        <source>Error encoding URI into QR Code.</source>
-        <translation>Eroare la codarea URl-ului în cod QR.</translation>
+        <source>%1 m</source>
+        <translation>%1 m</translation>
     </message>
     <message>
-        <location line="+40"/>
-        <source>The entered amount is invalid, please check.</source>
-        <translation>Suma introdusă nu este validă, vă rugăm să verificați.</translation>
+        <source>%1 s</source>
+        <translation>%1 s</translation>
     </message>
     <message>
-        <location line="+23"/>
-        <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation>URI rezultat este prea lung, încearcă să reduci textul pentru etichetă / mesaj.</translation>
+        <source>NETWORK</source>
+        <translation>REŢEA</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <source>UNKNOWN</source>
+        <translation>NECUNOSCUT</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation>Niciuna</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation>N/A</translation>
+    </message>
+    <message>
+        <source>%1 ms</source>
+        <translation>%1 ms</translation>
+    </message>
+</context>
+<context>
+    <name>QRImageWidget</name>
+    <message>
+        <source>&amp;Save Image...</source>
+        <translation>&amp;Salvează imagine...</translation>
+    </message>
+    <message>
+        <source>&amp;Copy Image</source>
+        <translation>&amp;Copiază imaginea</translation>
+    </message>
+    <message>
         <source>Save QR Code</source>
         <translation>Salvează codul QR</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source>PNG Images (*.png)</source>
-        <translation>Imagini PNG(*png)</translation>
+        <source>PNG Image (*.png)</source>
+        <translation>Imagine de tip PNG (*.png)</translation>
     </message>
 </context>
 <context>
     <name>RPCConsole</name>
     <message>
-        <location filename="../forms/rpcconsole.ui" line="+46"/>
         <source>Client name</source>
         <translation>Nume client</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <location line="+23"/>
-        <location line="+26"/>
-        <location line="+23"/>
-        <location line="+23"/>
-        <location line="+36"/>
-        <location line="+53"/>
-        <location line="+23"/>
         <source>N/A</source>
-        <translation>N/A</translation>
+        <translation>indisponibil</translation>
     </message>
     <message>
-        <location line="-194"/>
         <source>Client version</source>
         <translation>Versiune client</translation>
     </message>
     <message>
-        <location line="-45"/>
         <source>&amp;Information</source>
-        <translation>&amp;Informație</translation>
+        <translation>&amp;Informaţii</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <source>Debug window</source>
+        <translation>Fereastra de depanare</translation>
+    </message>
+    <message>
+        <source>General</source>
+        <translation>General</translation>
+    </message>
+    <message>
         <source>Using OpenSSL version</source>
-        <translation>Foloseste versiunea OpenSSL</translation>
+        <translation>Foloseşte OpenSSL versiunea</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <source>Using BerkeleyDB version</source>
+        <translation>Foloseşte BerkeleyDB versiunea</translation>
+    </message>
+    <message>
         <source>Startup time</source>
         <translation>Durata pornirii</translation>
     </message>
     <message>
-        <location line="+29"/>
         <source>Network</source>
-        <translation>Rețea</translation>
+        <translation>Reţea</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <source>Name</source>
+        <translation>Nume</translation>
+    </message>
+    <message>
         <source>Number of connections</source>
         <translation>Numărul de conexiuni</translation>
     </message>
     <message>
-        <location line="+23"/>
-        <source>On testnet</source>
-        <translation>Pe testnet</translation>
-    </message>
-    <message>
-        <location line="+23"/>
         <source>Block chain</source>
-        <translation>Lanț de blocuri</translation>
+        <translation>Lanţ de blocuri</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Current number of blocks</source>
         <translation>Numărul curent de blocuri</translation>
     </message>
     <message>
-        <location line="+197"/>
-        <source>&amp;Network Traffic</source>
-        <translation type="unfinished"/>
+        <source>Received</source>
+        <translation>Recepţionat</translation>
     </message>
     <message>
-        <location line="+52"/>
-        <source>&amp;Clear</source>
-        <translation type="unfinished"/>
+        <source>Sent</source>
+        <translation>Trimis</translation>
     </message>
     <message>
-        <location line="+13"/>
-        <source>Totals</source>
-        <translation type="unfinished"/>
+        <source>&amp;Peers</source>
+        <translation>&amp;Parteneri</translation>
     </message>
     <message>
-        <location line="+64"/>
-        <source>In:</source>
-        <translation type="unfinished"/>
+        <source>Select a peer to view detailed information.</source>
+        <translation>Selectaţi un partener pentru a vedea informaţiile detaliate.</translation>
     </message>
     <message>
-        <location line="+80"/>
-        <source>Out:</source>
-        <translation type="unfinished"/>
+        <source>Direction</source>
+        <translation>Direcţie</translation>
     </message>
     <message>
-        <location line="-383"/>
+        <source>Version</source>
+        <translation>Versiune</translation>
+    </message>
+    <message>
+        <source>User Agent</source>
+        <translation>Agent utilizator</translation>
+    </message>
+    <message>
+        <source>Services</source>
+        <translation>Servicii</translation>
+    </message>
+    <message>
+        <source>Connection Time</source>
+        <translation>Timp conexiune</translation>
+    </message>
+    <message>
+        <source>Last Send</source>
+        <translation>Ultima trimitere</translation>
+    </message>
+    <message>
+        <source>Last Receive</source>
+        <translation>Ultima primire</translation>
+    </message>
+    <message>
+        <source>Bytes Sent</source>
+        <translation>Octeţi trimişi</translation>
+    </message>
+    <message>
+        <source>Bytes Received</source>
+        <translation>Octeţi primiţi</translation>
+    </message>
+    <message>
+        <source>Ping Time</source>
+        <translation>Timp ping</translation>
+    </message>
+    <message>
         <source>Last block time</source>
         <translation>Data ultimului bloc</translation>
     </message>
     <message>
-        <location line="+52"/>
         <source>&amp;Open</source>
         <translation>&amp;Deschide</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Command-line options</source>
-        <translation>Optiuni linii de comandă</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Show the Silk-Qt help message to get a list with possible Silk command-line options.</source>
-        <translation>Afișa mesajul de ajutor Silk-Qt pentru a obține o listă cu posibile opțiuni de linie de comandă Silk.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>&amp;Show</source>
-        <translation>&amp;Arată</translation>
-    </message>
-    <message>
-        <location line="+24"/>
         <source>&amp;Console</source>
         <translation>&amp;Consolă</translation>
     </message>
     <message>
-        <location line="-237"/>
+        <source>&amp;Network Traffic</source>
+        <translation>Trafic reţea</translation>
+    </message>
+    <message>
+        <source>&amp;Clear</source>
+        <translation>&amp;Curăţă</translation>
+    </message>
+    <message>
+        <source>Totals</source>
+        <translation>Totaluri</translation>
+    </message>
+    <message>
+        <source>In:</source>
+        <translation>Intrare:</translation>
+    </message>
+    <message>
+        <source>Out:</source>
+        <translation>Ieşire:</translation>
+    </message>
+    <message>
         <source>Build date</source>
         <translation>Construit la data</translation>
     </message>
     <message>
-        <location line="-104"/>
-        <source>Silk - Debug window</source>
-        <translation>Silk - fereastră depanare</translation>
-    </message>
-    <message>
-        <location line="+25"/>
-        <source>Silk Core</source>
-        <translation>Silk Core</translation>
-    </message>
-    <message>
-        <location line="+256"/>
         <source>Debug log file</source>
-        <translation>Loguri debug</translation>
+        <translation>Fişier jurnal depanare</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Open the Silk debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Deschideti fisierul de depanare Silk din folderul curent. Acest lucru poate dura cateva secunde pentru fisiere de log mari.</translation>
+        <translation>Deschide fişierul jurnal depanare din directorul curent. Aceasta poate dura cîteva secunde pentru fişierele mai mari.</translation>
     </message>
     <message>
-        <location line="+102"/>
         <source>Clear console</source>
-        <translation>Curăță consola</translation>
+        <translation>Curăţă consola</translation>
     </message>
     <message>
-        <location filename="../rpcconsole.cpp" line="+325"/>
         <source>Welcome to the Silk RPC console.</source>
-        <translation>Bine ati venit la consola Silk RPC.</translation>
+        <translation>Bun venit la consola Silk RPC.</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Use up and down arrows to navigate history, and &lt;b&gt;Ctrl-L&lt;/b&gt; to clear screen.</source>
-        <translation>Foloseste sagetile sus si jos pentru a naviga in istoric si &lt;b&gt;Ctrl-L&lt;/b&gt; pentru a curata.</translation>
+        <translation>Folosiţi săgetile sus şi jos pentru a naviga în istoric şi &lt;b&gt;Ctrl-L&lt;/b&gt; pentru a curăţa.</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Type &lt;b&gt;help&lt;/b&gt; for an overview of available commands.</source>
-        <translation>Scrie &lt;b&gt;help&lt;/b&gt; pentru a vedea comenzile disponibile</translation>
+        <translation>Scrieţi &lt;b&gt;help&lt;/b&gt; pentru a vedea comenzile disponibile.</translation>
     </message>
     <message>
-        <location line="+127"/>
         <source>%1 B</source>
-        <translation type="unfinished"/>
+        <translation>%1 B</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>%1 KB</source>
-        <translation type="unfinished"/>
+        <translation>%1 KB</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>%1 MB</source>
-        <translation type="unfinished"/>
+        <translation>%1 MB</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>%1 GB</source>
-        <translation type="unfinished"/>
+        <translation>%1 GB</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>%1 m</source>
-        <translation type="unfinished"/>
+        <source>via %1</source>
+        <translation>via %1</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>%1 h</source>
-        <translation type="unfinished"/>
+        <source>never</source>
+        <translation>niciodată</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>%1 h %2 m</source>
-        <translation type="unfinished"/>
+        <source>Inbound</source>
+        <translation>Intrare</translation>
+    </message>
+    <message>
+        <source>Outbound</source>
+        <translation>Ieşire</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Necunoscut</translation>
+    </message>
+    <message>
+        <source>Fetching...</source>
+        <translation>Preluare...</translation>
+    </message>
+</context>
+<context>
+    <name>ReceiveCoinsDialog</name>
+    <message>
+        <source>&amp;Amount:</source>
+        <translation>Sum&amp;a:</translation>
+    </message>
+    <message>
+        <source>&amp;Label:</source>
+        <translation>&amp;Etichetă:</translation>
+    </message>
+    <message>
+        <source>&amp;Message:</source>
+        <translation>&amp;Mesaj:</translation>
+    </message>
+    <message>
+        <source>Reuse one of the previously used receiving addresses. Reusing addresses has security and privacy issues. Do not use this unless re-generating a payment request made before.</source>
+        <translation>Refoloseşte una din adresele de primire folosite anterior. Refolosirea adreselor poate crea probleme de securitate şi confidenţialitate. Nu folosiţi această opţiune decît dacă o cerere de regenerare a plăţii a fost făcută anterior.</translation>
+    </message>
+    <message>
+        <source>R&amp;euse an existing receiving address (not recommended)</source>
+        <translation>R&amp;efoloseşte o adresă de primire (nu este recomandat)</translation>
+    </message>
+    <message>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Silk network.</source>
+        <translation>Un mesaj opţional de ataşat la cererea de plată, care va fi afişat cînd cererea este deschisă. Notă: Acest mesaj nu va fi trimis cu plata către reţeaua Silk.</translation>
+    </message>
+    <message>
+        <source>An optional label to associate with the new receiving address.</source>
+        <translation>O etichetă opţională de asociat cu adresa de primire.</translation>
+    </message>
+    <message>
+        <source>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</source>
+        <translation>Foloseşte acest formular pentru a solicita plăţi. Toate cîmpurile sînt &lt;b&gt;opţionale&lt;/b&gt;.</translation>
+    </message>
+    <message>
+        <source>An optional amount to request. Leave this empty or zero to not request a specific amount.</source>
+        <translation>O sumă opţională de cerut. Lăsaţi gol sau zero pentru a nu cere o sumă anume.</translation>
+    </message>
+    <message>
+        <source>Clear all fields of the form.</source>
+        <translation>Curăţă toate cîmpurile formularului.</translation>
+    </message>
+    <message>
+        <source>Clear</source>
+        <translation>Curăţă</translation>
+    </message>
+    <message>
+        <source>Requested payments history</source>
+        <translation>Istoricul plăţilor cerute</translation>
+    </message>
+    <message>
+        <source>&amp;Request payment</source>
+        <translation>&amp;Cerere plată</translation>
+    </message>
+    <message>
+        <source>Show the selected request (does the same as double clicking an entry)</source>
+        <translation>Arată cererea selectată (acelaşi lucru ca şi dublu-clic pe o înregistrare)</translation>
+    </message>
+    <message>
+        <source>Show</source>
+        <translation>Arată</translation>
+    </message>
+    <message>
+        <source>Remove the selected entries from the list</source>
+        <translation>Înlătură intrările selectate din listă</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Înlătură</translation>
+    </message>
+    <message>
+        <source>Copy label</source>
+        <translation>Copiază eticheta</translation>
+    </message>
+    <message>
+        <source>Copy message</source>
+        <translation>Copiază mesajul</translation>
+    </message>
+    <message>
+        <source>Copy amount</source>
+        <translation>Copiază suma</translation>
+    </message>
+</context>
+<context>
+    <name>ReceiveRequestDialog</name>
+    <message>
+        <source>QR Code</source>
+        <translation>Cod QR</translation>
+    </message>
+    <message>
+        <source>Copy &amp;URI</source>
+        <translation>Copiază &amp;URl</translation>
+    </message>
+    <message>
+        <source>Copy &amp;Address</source>
+        <translation>Copiază &amp;adresa</translation>
+    </message>
+    <message>
+        <source>&amp;Save Image...</source>
+        <translation>&amp;Salvează imaginea...</translation>
+    </message>
+    <message>
+        <source>Request payment to %1</source>
+        <translation>Cere plata pentru %1</translation>
+    </message>
+    <message>
+        <source>Payment information</source>
+        <translation>Informaţiile plăţii</translation>
+    </message>
+    <message>
+        <source>URI</source>
+        <translation>URI</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adresă</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Sumă</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etichetă</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Mesaj</translation>
+    </message>
+    <message>
+        <source>Resulting URI too long, try to reduce the text for label / message.</source>
+        <translation>URI rezultat este prea lung, încearcaţi să reduceţi textul pentru etichetă / mesaj.</translation>
+    </message>
+    <message>
+        <source>Error encoding URI into QR Code.</source>
+        <translation>Eroare la codarea URl-ului în cod QR.</translation>
+    </message>
+</context>
+<context>
+    <name>RecentRequestsTableModel</name>
+    <message>
+        <source>Date</source>
+        <translation>Data</translation>
+    </message>
+    <message>
+        <source>Label</source>
+        <translation>Etichetă</translation>
+    </message>
+    <message>
+        <source>Message</source>
+        <translation>Mesaj</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Sumă</translation>
+    </message>
+    <message>
+        <source>(no label)</source>
+        <translation>(fără etichetă)</translation>
+    </message>
+    <message>
+        <source>(no message)</source>
+        <translation>(nici un mesaj)</translation>
+    </message>
+    <message>
+        <source>(no amount)</source>
+        <translation>(sumă nulă)</translation>
     </message>
 </context>
 <context>
     <name>SendCoinsDialog</name>
     <message>
-        <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
-        <location filename="../sendcoinsdialog.cpp" line="+182"/>
-        <location line="+5"/>
-        <location line="+5"/>
-        <location line="+5"/>
-        <location line="+6"/>
-        <location line="+5"/>
-        <location line="+5"/>
         <source>Send Coins</source>
         <translation>Trimite monede</translation>
     </message>
     <message>
-        <location line="+76"/>
         <source>Coin Control Features</source>
-        <translation>Caracteristici control ale monedei</translation>
+        <translation>Caracteristici de control ale monedei</translation>
     </message>
     <message>
-        <location line="+20"/>
         <source>Inputs...</source>
-        <translation>Intrări</translation>
+        <translation>Intrări...</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>automatically selected</source>
-        <translation>Selectie automatică</translation>
+        <translation>selecţie automată</translation>
     </message>
     <message>
-        <location line="+19"/>
         <source>Insufficient funds!</source>
         <translation>Fonduri insuficiente!</translation>
     </message>
     <message>
-        <location line="+77"/>
         <source>Quantity:</source>
         <translation>Cantitate:</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <location line="+35"/>
-        <source>0</source>
-        <translation>0</translation>
-    </message>
-    <message>
-        <location line="-19"/>
         <source>Bytes:</source>
         <translation>Octeţi:</translation>
     </message>
     <message>
-        <location line="+51"/>
         <source>Amount:</source>
         <translation>Sumă:</translation>
     </message>
     <message>
-        <location line="+35"/>
         <source>Priority:</source>
         <translation>Prioritate:</translation>
     </message>
     <message>
-        <location line="+19"/>
-        <source>medium</source>
-        <translation>mediu</translation>
-    </message>
-    <message>
-        <location line="+32"/>
         <source>Fee:</source>
-        <translation>Taxa:</translation>
+        <translation>Taxă:</translation>
     </message>
     <message>
-        <location line="+35"/>
-        <source>Low Output:</source>
-        <translation>Ieşire minimă: </translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>no</source>
-        <translation>nu</translation>
-    </message>
-    <message>
-        <location line="+32"/>
         <source>After Fee:</source>
-        <translation>După taxe:</translation>
+        <translation>După taxă:</translation>
     </message>
     <message>
-        <location line="+35"/>
-        <source>Change</source>
-        <translation>Schimbă:</translation>
+        <source>Change:</source>
+        <translation>Rest:</translation>
     </message>
     <message>
-        <location line="+50"/>
-        <source>custom change address</source>
-        <translation>personalizează schimbarea adresei</translation>
+        <source>If this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</source>
+        <translation>Dacă este activat, dar adresa de rest este goală sau nevalidă, restul va fi trimis la o adresă nou generată.</translation>
     </message>
     <message>
-        <location line="+106"/>
+        <source>Custom change address</source>
+        <translation>Adresă personalizată de rest</translation>
+    </message>
+    <message>
+        <source>Transaction Fee:</source>
+        <translation>Taxă tranzacţie:</translation>
+    </message>
+    <message>
+        <source>Choose...</source>
+        <translation>Alegeţi...</translation>
+    </message>
+    <message>
+        <source>Minimize</source>
+        <translation>Minimizare</translation>
+    </message>
+    <message>
+        <source>per kilobyte</source>
+        <translation>per kilooctet</translation>
+    </message>
+    <message>
+        <source>total at least</source>
+        <translation>total cel puţin</translation>
+    </message>
+    <message>
+        <source>Recommended:</source>
+        <translation>Recomandat:</translation>
+    </message>
+    <message>
+        <source>Custom:</source>
+        <translation>Personalizat:</translation>
+    </message>
+    <message>
+        <source>Confirmation time:</source>
+        <translation>Timp confirmare:</translation>
+    </message>
+    <message>
+        <source>normal</source>
+        <translation>normal</translation>
+    </message>
+    <message>
+        <source>fast</source>
+        <translation>rapid</translation>
+    </message>
+    <message>
+        <source>Send as zero-fee transaction if possible</source>
+        <translation>Trimite ca taxă zero dacă este posibil</translation>
+    </message>
+    <message>
+        <source>(confirmation may take longer)</source>
+        <translation>(confirmarea poate dura mai mult)</translation>
+    </message>
+    <message>
         <source>Send to multiple recipients at once</source>
-        <translation>Trimite simultan către mai mulți destinatari</translation>
+        <translation>Trimite simultan către mai mulţi destinatari</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Add &amp;Recipient</source>
-        <translation>&amp;Adaugă destinatar</translation>
+        <translation>Adaugă destinata&amp;r</translation>
     </message>
     <message>
-        <location line="+16"/>
-        <source>Remove all transaction fields</source>
-        <translation>Scoateți toate câmpuirile de tranzacții</translation>
+        <source>Clear all fields of the form.</source>
+        <translation>Şterge toate cîmpurile formularului.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <source>Dust:</source>
+        <translation>Praf:</translation>
+    </message>
+    <message>
         <source>Clear &amp;All</source>
-        <translation>Șterge &amp;tot</translation>
+        <translation>Curăţă to&amp;ate</translation>
     </message>
     <message>
-        <location line="+24"/>
         <source>Balance:</source>
-        <translation>Balanță:</translation>
+        <translation>Balanţă:</translation>
     </message>
     <message>
-        <location line="+47"/>
         <source>Confirm the send action</source>
-        <translation>Confirmă operațiunea de trimitere</translation>
+        <translation>Confirmă operaţiunea de trimitere</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>S&amp;end</source>
-        <translation>&amp;S Trimite</translation>
+        <translation>Trimit&amp;e</translation>
     </message>
     <message>
-        <location filename="../sendcoinsdialog.cpp" line="-174"/>
-        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Introduceți o adresă Silk(ex:SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <source>Copy quantity</source>
-        <translation>Copiaţi quantitea</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copy amount</source>
-        <translation>Copiază suma</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copy fee</source>
-        <translation>Copiaţi taxele</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copy after fee</source>
-        <translation>Copiaţi după taxe</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copy bytes</source>
-        <translation>Copiaţi octeţi</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copy priority</source>
-        <translation>Copiaţi prioritatea</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copy low output</source>
-        <translation>Copiaţi ieşire minimă:</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copy change</source>
-        <translation>Copiaţi schimb</translation>
-    </message>
-    <message>
-        <location line="+87"/>
-        <source>&lt;b&gt;%1&lt;/b&gt; to %2 (%3)</source>
-        <translation>&lt;b&gt;%1&lt;/b&gt; to %2 (%3)</translation>
-    </message>
-    <message>
-        <location line="+5"/>
         <source>Confirm send coins</source>
         <translation>Confirmă trimiterea de monede</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Are you sure you want to send %1?</source>
-        <translation>Sunteți sigur că doriți să trimiteți %1?</translation>
+        <source>%1 to %2</source>
+        <translation>%1 la %2</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source> and </source>
-        <translation>și</translation>
+        <source>Copy quantity</source>
+        <translation>Copiază cantitea</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <source>Copy amount</source>
+        <translation>Copiază suma</translation>
+    </message>
+    <message>
+        <source>Copy fee</source>
+        <translation>Copiază taxa</translation>
+    </message>
+    <message>
+        <source>Copy after fee</source>
+        <translation>Copiază după taxă</translation>
+    </message>
+    <message>
+        <source>Copy bytes</source>
+        <translation>Copiază octeţi</translation>
+    </message>
+    <message>
+        <source>Copy priority</source>
+        <translation>Copiază prioritatea</translation>
+    </message>
+    <message>
+        <source>Copy change</source>
+        <translation>Copiază rest</translation>
+    </message>
+    <message>
+        <source>Total Amount %1 (= %2)</source>
+        <translation>Suma totală %1 (= %2)</translation>
+    </message>
+    <message>
+        <source>or</source>
+        <translation>sau</translation>
+    </message>
+    <message>
         <source>The recipient address is not valid, please recheck.</source>
         <translation>Adresa destinatarului nu este validă, vă rugăm să o verificaţi.</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>The amount to pay must be larger than 0.</source>
-        <translation>Suma de plată trebuie să fie mai mare decât 0.</translation>
+        <translation>Suma de plată trebuie să fie mai mare decît 0.</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>The amount exceeds your balance.</source>
-        <translation>Suma depășește soldul contului.</translation>
+        <translation>Suma depăşeşte soldul contului.</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>The total exceeds your balance when the %1 transaction fee is included.</source>
-        <translation>Totalul depășește soldul contului dacă se include și plata comisionului de %1.</translation>
+        <translation>Totalul depăşeşte soldul contului dacă se include şi plata taxei de %1.</translation>
     </message>
     <message>
-        <location line="+6"/>
         <source>Duplicate address found, can only send to each address once per send operation.</source>
-        <translation>S-a descoperit o adresă care figurează de două ori. Expedierea se poate realiza către fiecare adresă doar o singură dată pe operațiune.</translation>
+        <translation>S-a descoperit o adresă duplicat.Se poate trimite către fiecare adresă doar o singură dată per operaţiune.</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>Error: Transaction creation failed!</source>
-        <translation type="unfinished"/>
+        <source>Transaction creation failed!</source>
+        <translation>Creare tranzacţie nereuşită!</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>Error: The transaction was rejected. This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Eroare: tranzacția a fost respinsă. Acest lucru s-ar putea întâmpla în cazul în care unele dintre monedele din portofel au fost deja cheltuite, cum si cum ați utilizat o copie a wallet.dat și monedele au fost cheltuite în copie dar nu au fost marcate ca și cheltuite aici.</translation>
+        <source>The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
+        <translation>Tranzacţia a fost respinsă! Acest lucru se poate întîmpla dacă o parte din monedele tale din portofel au fost deja cheltuite, la fel ca şi cum aţi fi folosit o copie a wallet.dat şi monedele au fost cheltuite în copie, dar nu au fost marcate ca şi cheltuite şi aici.</translation>
     </message>
     <message>
-        <location line="+247"/>
-        <source>WARNING: Invalid Silk address</source>
-        <translation>Atenție: Adresă Silk invalidă</translation>
+        <source>Pay only the minimum fee of %1</source>
+        <translation>Plăteşte doar taxa minimă de %1</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <source>Warning: Invalid Silk address</source>
+        <translation>Atenţie: Adresa silk nevalidă!</translation>
+    </message>
+    <message>
         <source>(no label)</source>
         <translation>(fără etichetă)</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>WARNING: unknown change address</source>
-        <translation>ATENTIE: adresa schimb necunoscuta</translation>
+        <source>Warning: Unknown change address</source>
+        <translation>Atenţie: Adresă de rest necunoscută</translation>
+    </message>
+    <message>
+        <source>Copy dust</source>
+        <translation>Copiază praf</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to send?</source>
+        <translation>Sigur doriţi să trimiteţi?</translation>
+    </message>
+    <message>
+        <source>added as transaction fee</source>
+        <translation>adăugat ca taxă de tranzacţie</translation>
     </message>
 </context>
 <context>
     <name>SendCoinsEntry</name>
     <message>
-        <location filename="../forms/sendcoinsentry.ui" line="+14"/>
-        <source>Form</source>
-        <translation>Formular</translation>
-    </message>
-    <message>
-        <location line="+15"/>
         <source>A&amp;mount:</source>
         <translation>Su&amp;mă:</translation>
     </message>
     <message>
-        <location line="+13"/>
         <source>Pay &amp;To:</source>
-        <translation>Plătește că&amp;tre:</translation>
+        <translation>Plăteşte că&amp;tre:</translation>
     </message>
     <message>
-        <location line="+34"/>
-        <source>The address to send the payment to (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+60"/>
-        <location filename="../sendcoinsentry.cpp" line="+26"/>
         <source>Enter a label for this address to add it to your address book</source>
-        <translation>Introdu o etichetă pentru această adresă pentru a fi adăugată în lista ta de adrese</translation>
+        <translation>Introduceţi o etichetă pentru această adresă pentru a fi adăugată în lista dvs. de adrese</translation>
     </message>
     <message>
-        <location line="-78"/>
         <source>&amp;Label:</source>
         <translation>&amp;Etichetă:</translation>
     </message>
     <message>
-        <location line="+28"/>
-        <source>Choose address from address book</source>
-        <translation>Alegeti adresa din agenda</translation>
+        <source>Choose previously used address</source>
+        <translation>Alegeţi adrese folosite anterior</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <source>This is a normal payment.</source>
+        <translation>Aceasta este o tranzacţie normală.</translation>
+    </message>
+    <message>
+        <source>The Silk address to send the payment to</source>
+        <translation>Adresa silk către care se face plata</translation>
+    </message>
+    <message>
         <source>Alt+A</source>
         <translation>Alt+A</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Paste address from clipboard</source>
-        <translation>Lipește adresa din clipboard</translation>
+        <translation>Lipeşte adresa din clipboard</translation>
     </message>
     <message>
-        <location line="+10"/>
         <source>Alt+P</source>
         <translation>Alt+P</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Remove this recipient</source>
-        <translation>Scoateti acest destinatar</translation>
+        <source>Remove this entry</source>
+        <translation>Înlătură această intrare</translation>
     </message>
     <message>
-        <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Introduceți o adresă Silk(ex:SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Message:</source>
+        <translation>Mesaj:</translation>
+    </message>
+    <message>
+        <source>This is a verified payment request.</source>
+        <translation>Aceasta este o cerere de plată verificată.</translation>
+    </message>
+    <message>
+        <source>Enter a label for this address to add it to the list of used addresses</source>
+        <translation>Introduceţi eticheta pentru ca această adresa să fie introdusă în lista de adrese folosite</translation>
+    </message>
+    <message>
+        <source>A message that was attached to the Silk: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Silk network.</source>
+        <translation>un mesaj a fost ataşat la Silk: URI care va fi stocat cu tranzacţia pentru referinţa dvs. Notă: Acest mesaj nu va fi trimis către reţeaua silk.</translation>
+    </message>
+    <message>
+        <source>This is an unverified payment request.</source>
+        <translation>Aceasta este o cerere de plata neverificată.</translation>
+    </message>
+    <message>
+        <source>Pay To:</source>
+        <translation>Plăteşte către:</translation>
+    </message>
+    <message>
+        <source>Memo:</source>
+        <translation>Memo:</translation>
+    </message>
+</context>
+<context>
+    <name>ShutdownWindow</name>
+    <message>
+        <source>Silk Core is shutting down...</source>
+        <translation>Nucleul Silk se închide...</translation>
+    </message>
+    <message>
+        <source>Do not shut down the computer until this window disappears.</source>
+        <translation>Nu închide calculatorul pînă ce această fereastră nu dispare.</translation>
     </message>
 </context>
 <context>
     <name>SignVerifyMessageDialog</name>
     <message>
-        <location filename="../forms/signverifymessagedialog.ui" line="+14"/>
         <source>Signatures - Sign / Verify a Message</source>
-        <translation>Semnatura- Semneaza/verifica un mesaj</translation>
+        <translation>Semnaturi - Semnează/verifică un mesaj</translation>
     </message>
     <message>
-        <location line="+13"/>
-        <location line="+124"/>
         <source>&amp;Sign Message</source>
-        <translation>Semneaza Mesajul</translation>
+        <translation>&amp;Semnează mesaj</translation>
     </message>
     <message>
-        <location line="-118"/>
         <source>You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>Puteti semna mesaje cu adresa dumneavoastra pentru a demostra ca sunteti proprietarul lor. Aveti grija sa nu semnati nimic vag, deoarece atacurile de tip phishing va pot pacali sa le transferati identitatea. Semnati numai declaratiile detaliate cu care sunteti deacord.</translation>
+        <translation>Puteţi semna mesaje cu adresa dvs. pentru a demostra ca sînteti proprietarul lor. Aveţi grijă să nu semnaţi nimic vag, deoarece atacurile de tip phishing vă pot păcăli să le transferaţi identitatea. Semnaţi numai declaraţiile detaliate cu care sînteti de acord.</translation>
     </message>
     <message>
-        <location line="+18"/>
-        <source>The address to sign the message with (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Adresa cu care semnati mesajul(ex. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>The Silk address to sign the message with</source>
+        <translation>Adresa cu care semnaţi mesajul</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <location line="+203"/>
-        <source>Choose an address from the address book</source>
-        <translation>Alegeti o adresa din agenda</translation>
+        <source>Choose previously used address</source>
+        <translation>Alegeţi adrese folosite anterior</translation>
     </message>
     <message>
-        <location line="-193"/>
-        <location line="+203"/>
         <source>Alt+A</source>
         <translation>Alt+A</translation>
     </message>
     <message>
-        <location line="-193"/>
         <source>Paste address from clipboard</source>
-        <translation>Lipiţi adresa copiată in clipboard.</translation>
+        <translation>Lipeşte adresa copiată din clipboard</translation>
     </message>
     <message>
-        <location line="+10"/>
         <source>Alt+P</source>
         <translation>Alt+P</translation>
     </message>
     <message>
-        <location line="+12"/>
         <source>Enter the message you want to sign here</source>
-        <translation>Introduce mesajul pe care vrei sa il semnezi, aici.</translation>
+        <translation>Introduceţi mesajul pe care vreţi să-l semnaţi, aici</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <source>Signature</source>
+        <translation>Semnătură</translation>
+    </message>
+    <message>
         <source>Copy the current signature to the system clipboard</source>
-        <translation>Copiaza semnatura curenta in clipboard-ul sistemului</translation>
+        <translation>Copiază semnatura curentă în clipboard-ul sistemului</translation>
     </message>
     <message>
-        <location line="+21"/>
         <source>Sign the message to prove you own this Silk address</source>
-        <translation>Semnează un mesaj pentru a dovedi că dețineti o adresă Silk</translation>
+        <translation>Semnează mesajul pentru a dovedi ca deţineţi acestă adresă Silk</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <source>Sign &amp;Message</source>
+        <translation>Semnează &amp;mesaj</translation>
+    </message>
+    <message>
         <source>Reset all sign message fields</source>
-        <translation>Reseteaza toate spatiile mesajelor semnate.</translation>
+        <translation>Resetează toate cîmpurile mesajelor semnate</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <location line="+146"/>
         <source>Clear &amp;All</source>
-        <translation>Şterge &amp;tot</translation>
+        <translation>Curăţă to&amp;ate</translation>
     </message>
     <message>
-        <location line="-87"/>
-        <location line="+70"/>
         <source>&amp;Verify Message</source>
-        <translation>Verifica mesajul</translation>
+        <translation>&amp;Verifică mesaj</translation>
     </message>
     <message>
-        <location line="-64"/>
         <source>Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.</source>
-        <translation>Introduceti adresa de semnatura, mesajul (asigurati-va ca ati copiat spatiile, taburile etc. exact) si semnatura dedesubt pentru a verifica mesajul. Aveti grija sa nu cititi mai mult in semnatura decat mesajul in sine, pentru a evita sa fiti pacaliti de un atac de tip man-in-the-middle.</translation>
+        <translation>Introduceţi adresa de semnatură, mesajul (asiguraţi-vă că aţi copiat spaţiile, taburile etc. exact) şi semnatura dedesubt pentru a verifica mesajul. Aveţi grijă să nu citiţi mai mult în semnatură decît mesajul în sine, pentru a evita să fiţi păcăliţi de un atac de tip man-in-the-middle.</translation>
     </message>
     <message>
-        <location line="+21"/>
-        <source>The address the message was signed with (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Adresa cu care a fost semnat mesajul(ex. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>The Silk address the message was signed with</source>
+        <translation>Introduceţi o adresă Silk</translation>
     </message>
     <message>
-        <location line="+40"/>
         <source>Verify the message to ensure it was signed with the specified Silk address</source>
-        <translation>Verifică un mesaj pentru a vă asigura că a fost semnat cu o anumită adresă Silk</translation>
+        <translation>Verificaţi mesajul pentru a vă asigura că a fost semnat cu adresa Silk specificată</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <source>Verify &amp;Message</source>
+        <translation>Verifică &amp;mesaj</translation>
+    </message>
+    <message>
         <source>Reset all verify message fields</source>
-        <translation>Reseteaza toate spatiile mesajelor semnate.</translation>
+        <translation>Resetează toate cîmpurile mesajelor semnate</translation>
     </message>
     <message>
-        <location filename="../signverifymessagedialog.cpp" line="+27"/>
-        <location line="+3"/>
-        <source>Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</source>
-        <translation>Introduceți o adresă Silk(ex:SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)</translation>
+        <source>Click "Sign Message" to generate signature</source>
+        <translation>Faceţi clic pe "Semneaza msaj" pentru a genera semnătura</translation>
     </message>
     <message>
-        <location line="-2"/>
-        <source>Click &quot;Sign Message&quot; to generate signature</source>
-        <translation>Click &quot;Semneaza msajul&quot; pentru a genera semnatura</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Enter Silk signature</source>
-        <translation>Introduceti semnatura Silk</translation>
-    </message>
-    <message>
-        <location line="+85"/>
-        <location line="+81"/>
         <source>The entered address is invalid.</source>
-        <translation>Adresa introdusa nu este valida</translation>
+        <translation>Adresa introdusă nu este validă</translation>
     </message>
     <message>
-        <location line="-81"/>
-        <location line="+8"/>
-        <location line="+73"/>
-        <location line="+8"/>
         <source>Please check the address and try again.</source>
-        <translation>Te rugam verifica adresa si introduce-o din nou</translation>
+        <translation>Vă rugăm verificaţi adresa şi încercaţi din nou.</translation>
     </message>
     <message>
-        <location line="-81"/>
-        <location line="+81"/>
         <source>The entered address does not refer to a key.</source>
-        <translation>Adresa introdusa nu se refera la o cheie.</translation>
+        <translation>Adresa introdusă nu se referă la o cheie.</translation>
     </message>
     <message>
-        <location line="-73"/>
         <source>Wallet unlock was cancelled.</source>
-        <translation>Blocarea portofelului a fost intrerupta</translation>
+        <translation>Blocarea portofelului a fost întreruptă.</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>Private key for the entered address is not available.</source>
-        <translation>Cheia privata pentru adresa introdusa nu este valida.</translation>
+        <translation>Cheia privată pentru adresa introdusă nu este validă.</translation>
     </message>
     <message>
-        <location line="+12"/>
         <source>Message signing failed.</source>
-        <translation>Semnarea mesajului a esuat</translation>
+        <translation>Semnarea mesajului nu a reuşit.</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Message signed.</source>
-        <translation>Mesaj Semnat!</translation>
+        <translation>Mesaj semnat.</translation>
     </message>
     <message>
-        <location line="+59"/>
         <source>The signature could not be decoded.</source>
-        <translation>Aceasta semnatura nu a putut fi decodata</translation>
+        <translation>Această semnatură nu a putut fi decodată.</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <location line="+13"/>
         <source>Please check the signature and try again.</source>
-        <translation>Verifica semnatura si incearca din nou</translation>
+        <translation>Vă rugăm verificaţi semnătura şi încercaţi din nou.</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>The signature did not match the message digest.</source>
-        <translation>Semnatura nu seamana!</translation>
+        <translation>Semnatura nu se potriveşte cu mesajul.</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Message verification failed.</source>
-        <translation>Verificarea mesajului a esuat</translation>
+        <translation>Verificarea mesajului nu a reuşit.</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Message verified.</source>
-        <translation>Mesaj verificat</translation>
+        <translation>Mesaj verificat.</translation>
+    </message>
+</context>
+<context>
+    <name>SplashScreen</name>
+    <message>
+        <source>Silk Core</source>
+        <translation>Nucleul Silk</translation>
+    </message>
+    <message>
+        <source>The Emercoin Developers</source>
+        <translation>Dezvoltatorii Nucleului Silk</translation>
+    </message>
+    <message>
+        <source>[testnet]</source>
+        <translation>[testnet]</translation>
     </message>
 </context>
 <context>
     <name>TrafficGraphWidget</name>
     <message>
-        <location filename="../trafficgraphwidget.cpp" line="+75"/>
         <source>KB/s</source>
-        <translation type="unfinished"/>
+        <translation>KB/s</translation>
     </message>
 </context>
 <context>
     <name>TransactionDesc</name>
     <message>
-        <location filename="../transactiondesc.cpp" line="+25"/>
         <source>Open until %1</source>
-        <translation>Deschis până la %1</translation>
+        <translation>Deschis pînă la %1</translation>
     </message>
     <message>
-        <location line="+6"/>
         <source>conflicted</source>
-        <translation>conflictual</translation>
+        <translation>în conflict</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>%1/offline</source>
         <translation>%1/deconectat</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>%1/unconfirmed</source>
         <translation>%1/neconfirmat</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>%1 confirmations</source>
         <translation>%1 confirmări</translation>
     </message>
     <message>
-        <location line="+17"/>
         <source>Status</source>
         <translation>Stare</translation>
     </message>
     <message numerus="yes">
-        <location line="+7"/>
         <source>, broadcast through %n node(s)</source>
         <translation><numerusform>, distribuit prin %n nod</numerusform><numerusform>, distribuit prin %n noduri</numerusform><numerusform>, distribuit prin %n de noduri</numerusform></translation>
     </message>
     <message>
-        <location line="+4"/>
         <source>Date</source>
         <translation>Data</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Source</source>
         <translation>Sursa</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Generated</source>
         <translation>Generat</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <location line="+13"/>
         <source>From</source>
         <translation>De la</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location line="+19"/>
-        <location line="+58"/>
         <source>To</source>
         <translation>Către</translation>
     </message>
     <message>
-        <location line="-74"/>
-        <location line="+2"/>
         <source>own address</source>
-        <translation>Adresa posedata</translation>
+        <translation>adresa proprie</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <source>watch-only</source>
+        <translation>doar-supraveghere</translation>
+    </message>
+    <message>
         <source>label</source>
         <translation>etichetă</translation>
     </message>
     <message>
-        <location line="+34"/>
-        <location line="+12"/>
-        <location line="+45"/>
-        <location line="+17"/>
-        <location line="+30"/>
         <source>Credit</source>
         <translation>Credit</translation>
     </message>
     <message numerus="yes">
-        <location line="-102"/>
         <source>matures in %n more block(s)</source>
         <translation><numerusform>se maturizează în încă %n bloc</numerusform><numerusform>se maturizează în încă %n blocuri</numerusform><numerusform>se maturizează în încă %n de blocuri</numerusform></translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>not accepted</source>
-        <translation>nu este acceptat</translation>
+        <translation>neacceptat</translation>
     </message>
     <message>
-        <location line="+44"/>
-        <location line="+8"/>
-        <location line="+15"/>
-        <location line="+30"/>
         <source>Debit</source>
         <translation>Debit</translation>
     </message>
     <message>
-        <location line="-39"/>
-        <source>Transaction fee</source>
-        <translation>Comisionul tranzacţiei</translation>
+        <source>Total debit</source>
+        <translation>Total debit</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <source>Total credit</source>
+        <translation>Total credit</translation>
+    </message>
+    <message>
+        <source>Transaction fee</source>
+        <translation>Taxă tranzacţie</translation>
+    </message>
+    <message>
         <source>Net amount</source>
         <translation>Suma netă</translation>
     </message>
     <message>
-        <location line="+6"/>
         <source>Message</source>
         <translation>Mesaj</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Comment</source>
-        <translation>Comentarii</translation>
+        <translation>Comentariu</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Transaction ID</source>
-        <translation>ID-ul tranzactiei</translation>
+        <translation>ID-ul tranzacţie</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Generated coins must mature 350 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Monedele generate trebuie să se maturizeze 350 blocuri înainte de a fi cheltuite. Când ați generat acest bloc,  a fost trimis la rețea pentru a fi adăugat la lanțul de blocuri. În cazul în care nu reușește să intre în lanț, starea sa se ​​va schimba in &quot;nu a fost acceptat&quot;, și nu va putea fi cheltuit. Acest lucru se poate întâmpla din când în când, dacă un alt nod generează un bloc cu câteva secunde inaintea blocului tau.</translation>
+        <source>Merchant</source>
+        <translation>Comerciant</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to "not accepted" and it won't be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation>Monezile generate trebuie să crească %1 blocuri înainte să poată fi cheltuite. Cînd aţi generat acest bloc, a fost transmis reţelei pentru a fi adaugat la lanţul de blocuri. Aceasta  se poate întîmpla ocazional dacă alt nod generează un bloc la numai cîteva secunde de al dvs.</translation>
+    </message>
+    <message>
         <source>Debug information</source>
-        <translation>Informatii pentru debug</translation>
+        <translation>Informaţii pentru depanare</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>Transaction</source>
         <translation>Tranzacţie</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Inputs</source>
-        <translation>Intrari</translation>
+        <translation>Intrări</translation>
     </message>
     <message>
-        <location line="+21"/>
         <source>Amount</source>
         <translation>Sumă</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>true</source>
-        <translation>Adevarat!</translation>
+        <translation>adevărat</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>false</source>
-        <translation>Fals!</translation>
+        <translation>fals</translation>
     </message>
     <message>
-        <location line="-202"/>
         <source>, has not been successfully broadcast yet</source>
         <translation>, nu s-a propagat încă</translation>
     </message>
-    <message numerus="yes">
-        <location line="-36"/>
-        <source>Open for %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
-    </message>
     <message>
-        <location line="+67"/>
         <source>unknown</source>
         <translation>necunoscut</translation>
     </message>
@@ -2341,140 +2398,113 @@ Acest lucru înseamnă că o taxă de cel puțin %2 este necesară</translation>
 <context>
     <name>TransactionDescDialog</name>
     <message>
-        <location filename="../forms/transactiondescdialog.ui" line="+14"/>
         <source>Transaction details</source>
-        <translation>Detaliile tranzacției</translation>
+        <translation>Detaliile tranzacţiei</translation>
     </message>
     <message>
-        <location line="+6"/>
         <source>This pane shows a detailed description of the transaction</source>
-        <translation>Acest panou afișează o descriere detaliată a tranzacției</translation>
+        <translation>Acest panou arată o descriere detaliată a tranzacţiei</translation>
     </message>
 </context>
 <context>
     <name>TransactionTableModel</name>
     <message>
-        <location filename="../transactiontablemodel.cpp" line="+231"/>
         <source>Date</source>
         <translation>Data</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Type</source>
-        <translation>Tipul</translation>
+        <translation>Tip</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Address</source>
-        <translation>Adresa</translation>
+        <translation>Adresă</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source>Amount</source>
-        <translation>Cantitate</translation>
+        <source>Immature (%1 confirmations, will be available after %2)</source>
+        <translation>Imatur (%1 confirmări, va fi disponibil după %2)</translation>
     </message>
     <message>
-        <location line="+52"/>
         <source>Open until %1</source>
         <translation>Deschis până la %1</translation>
     </message>
     <message>
-        <location line="+12"/>
         <source>Confirmed (%1 confirmations)</source>
         <translation>Confirmat (%1 confirmări)</translation>
     </message>
-    <message numerus="yes">
-        <location line="-15"/>
-        <source>Open for %n more block(s)</source>
-        <translation><numerusform>Deschis pentru încă %1 bloc</numerusform><numerusform>Deschis pentru încă %1 blocuri</numerusform><numerusform>Deschis pentru încă %1 de blocuri</numerusform></translation>
-    </message>
     <message>
-        <location line="+6"/>
-        <source>Offline</source>
-        <translation>Deconectat</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Unconfirmed</source>
-        <translation>Neconfirmat</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Confirming (%1 of %2 recommended confirmations)</source>
-        <translation>Confirmare (%1 dintre %2 confirmări recomandate)</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Conflicted</source>
-        <translation>Conflictual</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Immature (%1 confirmations, will be available after %2)</source>
-        <translation>Nematurate(%1 confirmari, vor fi valabile dupa %2)</translation>
-    </message>
-    <message>
-        <location line="+3"/>
         <source>This block was not received by any other nodes and will probably not be accepted!</source>
-        <translation>Acest bloc nu a fost recepționat de niciun alt nod și probabil nu va fi acceptat!</translation>
+        <translation>Acest bloc nu a fost recepţionat de nici un alt nod şi probabil nu va fi acceptat!</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Generated but not accepted</source>
         <translation>Generat dar neacceptat</translation>
     </message>
     <message>
-        <location line="+42"/>
-        <source>Received with</source>
-        <translation>Recepționat cu</translation>
+        <source>Offline</source>
+        <translation>Deconectat</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <source>Unconfirmed</source>
+        <translation>Neconfirmat</translation>
+    </message>
+    <message>
+        <source>Confirming (%1 of %2 recommended confirmations)</source>
+        <translation>Confirmare (%1 din %2 confirmări recomandate)</translation>
+    </message>
+    <message>
+        <source>Conflicted</source>
+        <translation>În conflict</translation>
+    </message>
+    <message>
+        <source>Received with</source>
+        <translation>Recepţionat cu</translation>
+    </message>
+    <message>
         <source>Received from</source>
         <translation>Primit de la</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Sent to</source>
         <translation>Trimis către</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Payment to yourself</source>
-        <translation>Plată către tine</translation>
+        <translation>Plată către dvs.</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Mined</source>
-        <translation>Produs</translation>
+        <translation>Minerit</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <source>watch-only</source>
+        <translation>doar-supraveghere</translation>
+    </message>
+    <message>
         <source>(n/a)</source>
-        <translation>(n/a)</translation>
+        <translation>indisponibil</translation>
     </message>
     <message>
-        <location line="+194"/>
         <source>Transaction status. Hover over this field to show number of confirmations.</source>
-        <translation>Starea tranzacției. Treci cu mausul peste acest câmp pentru afișarea numărului de confirmări.</translation>
+        <translation>Starea tranzacţiei. Treceţi cu mouse-ul peste acest cîmp pentru afişarea numărului de confirmări.</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Date and time that the transaction was received.</source>
-        <translation>Data și ora la care a fost recepționată tranzacția.</translation>
+        <translation>Data şi ora la care a fost recepţionată tranzacţia.</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Type of transaction.</source>
-        <translation>Tipul tranzacției.</translation>
+        <translation>Tipul tranzacţiei.</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <source>Whether or not a watch-only address is involved in this transaction.</source>
+        <translation>Indiferent dacă sau nu o adresă doar-suăpraveghere este implicată în această tranzacţie.</translation>
+    </message>
+    <message>
         <source>Destination address of transaction.</source>
-        <translation>Adresa de destinație a tranzacției.</translation>
+        <translation>Adresa de destinaţie a tranzacţiei.</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Amount removed from or added to balance.</source>
         <translation>Suma extrasă sau adăugată la sold.</translation>
     </message>
@@ -2482,850 +2512,755 @@ Acest lucru înseamnă că o taxă de cel puțin %2 este necesară</translation>
 <context>
     <name>TransactionView</name>
     <message>
-        <location filename="../transactionview.cpp" line="+54"/>
-        <location line="+17"/>
         <source>All</source>
         <translation>Toate</translation>
     </message>
     <message>
-        <location line="-16"/>
         <source>Today</source>
         <translation>Astăzi</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>This week</source>
-        <translation>Săptămâna aceasta</translation>
+        <translation>Săptămîna aceasta</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>This month</source>
         <translation>Luna aceasta</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Last month</source>
         <translation>Luna trecută</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>This year</source>
         <translation>Anul acesta</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Range...</source>
-        <translation>Între...</translation>
+        <translation>Interval...</translation>
     </message>
     <message>
-        <location line="+12"/>
         <source>Received with</source>
-        <translation>Recepționat cu</translation>
+        <translation>Recepţionat cu</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Sent to</source>
         <translation>Trimis către</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>To yourself</source>
-        <translation>Către tine</translation>
+        <translation>Către dvs.</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Mined</source>
-        <translation>Produs</translation>
+        <translation>Minerit</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Other</source>
         <translation>Altele</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Enter address or label to search</source>
-        <translation>Introdu adresa sau eticheta pentru căutare</translation>
+        <translation>Introduceţi adresa sau eticheta pentru căutare</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Min amount</source>
-        <translation>Cantitatea minimă</translation>
+        <translation>Suma minimă</translation>
     </message>
     <message>
-        <location line="+34"/>
         <source>Copy address</source>
         <translation>Copiază adresa</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Copy label</source>
         <translation>Copiază eticheta</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Copy amount</source>
         <translation>Copiază suma</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Copy transaction ID</source>
-        <translation>Copiază ID tranzacție</translation>
+        <translation>Copiază ID tranzacţie</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Edit label</source>
         <translation>Editează eticheta</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Show transaction details</source>
-        <translation>Arată detaliile tranzacției</translation>
+        <translation>Arată detaliile tranzacţiei</translation>
     </message>
     <message>
-        <location line="+138"/>
-        <source>Export Transaction Data</source>
-        <translation>Exporta datele trazactiei</translation>
+        <source>Export Transaction History</source>
+        <translation>Export istoric tranzacţii</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <source>Watch-only</source>
+        <translation>Doar-supraveghere</translation>
+    </message>
+    <message>
+        <source>Exporting Failed</source>
+        <translation>Export nereuşit</translation>
+    </message>
+    <message>
+        <source>There was an error trying to save the transaction history to %1.</source>
+        <translation>S-a produs o eroare la salvarea istoricului tranzacţiilor la %1.</translation>
+    </message>
+    <message>
+        <source>Exporting Successful</source>
+        <translation>Export reuşit</translation>
+    </message>
+    <message>
+        <source>The transaction history was successfully saved to %1.</source>
+        <translation>Istoricul tranzacţiilor a fost salvat cu succes la %1.</translation>
+    </message>
+    <message>
         <source>Comma separated file (*.csv)</source>
-        <translation>Fișier text cu valori separate prin virgulă (*.csv)</translation>
+        <translation>Fişier text cu valori separate prin virgulă (*.csv)</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>Confirmed</source>
         <translation>Confirmat</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Date</source>
         <translation>Data</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Type</source>
-        <translation>Tipul</translation>
+        <translation>Tip</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Label</source>
         <translation>Etichetă</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Address</source>
         <translation>Adresă</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Amount</source>
-        <translation>Sumă</translation>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Error exporting</source>
-        <translation>Eroare la exportare</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Could not write to file %1.</source>
-        <translation>Nu s-a putut scrie în fișier %1.</translation>
-    </message>
-    <message>
-        <location line="+100"/>
         <source>Range:</source>
         <translation>Interval:</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>to</source>
         <translation>către</translation>
     </message>
 </context>
 <context>
+    <name>UnitDisplayStatusBarControl</name>
+    <message>
+        <source>Unit to show amounts in. Click to select another unit.</source>
+        <translation>Unitatea în care sînt arătate sumele. Faceţi clic pentru a selecta o altă unitate.</translation>
+    </message>
+</context>
+<context>
+    <name>WalletFrame</name>
+    <message>
+        <source>No wallet has been loaded.</source>
+        <translation>Nu a fost încărcat nici un portofel.</translation>
+    </message>
+</context>
+<context>
     <name>WalletModel</name>
     <message>
-        <location filename="../walletmodel.cpp" line="+212"/>
-        <source>Sending...</source>
-        <translation>Se trimite...</translation>
+        <source>Send Coins</source>
+        <translation>Trimitere silk</translation>
+    </message>
+</context>
+<context>
+    <name>WalletView</name>
+    <message>
+        <source>&amp;Export</source>
+        <translation>&amp;Export</translation>
+    </message>
+    <message>
+        <source>Export the data in the current tab to a file</source>
+        <translation>Exportă datele din tab-ul curent într-un fişier</translation>
+    </message>
+    <message>
+        <source>Backup Wallet</source>
+        <translation>Copie de siguranţă portofel</translation>
+    </message>
+    <message>
+        <source>Wallet Data (*.dat)</source>
+        <translation>Date portofel (*.dat)</translation>
+    </message>
+    <message>
+        <source>Backup Failed</source>
+        <translation>Copierea de siguranţă nu a reuşit</translation>
+    </message>
+    <message>
+        <source>There was an error trying to save the wallet data to %1.</source>
+        <translation>S-a produs o eroare la salvarea datelor portofelului la %1.</translation>
+    </message>
+    <message>
+        <source>The wallet data was successfully saved to %1.</source>
+        <translation>Datele portofelului s-au salvat cu succes la %1.</translation>
+    </message>
+    <message>
+        <source>Backup Successful</source>
+        <translation>Copie de siguranţă efectuată cu succes</translation>
     </message>
 </context>
 <context>
     <name>silk-core</name>
     <message>
-        <location filename="../silkstrings.cpp" line="+171"/>
-        <source>Silk version</source>
-        <translation>Versiune Silk</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Usage:</source>
-        <translation>Uz:</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Send command to -server or silkd</source>
-        <translation>Trimite comanda catre server sau silkd</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>List commands</source>
-        <translation>Listă de comenzi</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Get help for a command</source>
-        <translation>Ajutor pentru o comandă</translation>
-    </message>
-    <message>
-        <location line="-145"/>
         <source>Options:</source>
-        <translation>Setări:</translation>
+        <translation>Opţiuni:</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Specify configuration file (default: silk.conf)</source>
-        <translation>Specifica fisier de configurare(implicit: silk.conf)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Specify pid file (default: silkd.pid)</source>
-        <translation>Speficica fisier pid(implicit: silk.pid)</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Specify wallet file (within data directory)</source>
-        <translation>Specifică fișierul wallet (în dosarul de date)</translation>
-    </message>
-    <message>
-        <location line="-1"/>
         <source>Specify data directory</source>
-        <translation>Specifică dosarul de date</translation>
+        <translation>Specificaţi dosarul de date</translation>
     </message>
     <message>
-        <location line="-25"/>
-        <source>%s, you must set a rpcpassword in the configuration file:
-%s
-It is recommended you use the following random password:
-rpcuser=silkrpc
-rpcpassword=%s
-(you do not need to remember this password)
-The username and password MUST NOT be the same.
-If the file does not exist, create it with owner-readable-only file permissions.
-It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;Silk Alert&quot; admin@foo.com
-</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+27"/>
-        <source>Set database cache size in megabytes (default: 25)</source>
-        <translation>Setează mărimea cache a bazei de date în megabiți (implicit: 25)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Set database disk log size in megabytes (default: 100)</source>
-        <translation>Setează mărimea cache a bazei de date în megabiți (implicit: 100)</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Listen for connections on &lt;port&gt; (default: 16666 or testnet: 16668)</source>
-        <translation>Ascultă pentru conectări pe &lt;port&gt; (implicit:  16666 sau testnet: 16668) </translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Maintain at most &lt;n&gt; connections to peers (default: 125)</source>
-        <translation>Menține cel mult &lt;n&gt; conexiuni cu partenerii (implicit: 125)</translation>
-    </message>
-    <message>
-        <location line="+3"/>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
-        <translation>Conectează-te la nod pentru a obține adresele partenerilor, și apoi deconectează-te</translation>
+        <translation>Se conectează la un nod pentru a obţine adresele partenerilor, şi apoi se deconectează</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Specify your own public address</source>
-        <translation>Specifică adresa ta publică</translation>
+        <translation>Specificaţi adresa dvs. publică</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Bind to given address. Use [host]:port notation for IPv6</source>
-        <translation>Leaga la o adresa data. Utilizeaza notatie [host]:port pt IPv6</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Query for peer addresses via DNS lookup, if low on addresses (default: 1 unless -connect)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Always query for peer addresses via DNS lookup (default: 0)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Threshold for disconnecting misbehaving peers (default: 100)</source>
-        <translation>Prag pentru deconectarea partenerilor care nu funcționează corect (implicit: 100)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Number of seconds to keep misbehaving peers from reconnecting (default: 86400)</source>
-        <translation>Numărul de secunde pentru a preveni reconectarea partenerilor care nu funcționează corect (implicit: 86400)</translation>
-    </message>
-    <message>
-        <location line="-35"/>
-        <source>An error occurred while setting up the RPC port %u for listening on IPv4: %s</source>
-        <translation>A intervenit o eroare in timp ce se seta portul RPC %u pentru ascultare pe IPv4: %s</translation>
-    </message>
-    <message>
-        <location line="+62"/>
-        <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 16667 or testnet: 16669)</source>
-        <translation>Ascultă pentru conexiuni JSON-RPC pe &lt;port&gt; (implicit:16667 sau testnet: 16669)</translation>
-    </message>
-    <message>
-        <location line="-16"/>
         <source>Accept command line and JSON-RPC commands</source>
-        <translation>Se acceptă comenzi din linia de comandă și comenzi JSON-RPC</translation>
+        <translation>Acceptă comenzi din linia de comandă şi comenzi JSON-RPC</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Run in the background as a daemon and accept commands</source>
-        <translation>Rulează în fundal ca un demon și acceptă comenzi</translation>
+        <translation>Rulează în fundal ca un demon şi acceptă comenzi</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Use the test network</source>
-        <translation>Utilizează rețeaua de test</translation>
+        <translation>Utilizează reţeaua de test</translation>
     </message>
     <message>
-        <location line="-23"/>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
-        <translation>Acceptă conexiuni din afară (implicit: 1  dacă nu se folosește -proxy sau -connect)</translation>
+        <translation>Acceptă conexiuni din afară (implicit: 1 dacă nu se foloseşte -proxy sau -connect)</translation>
     </message>
     <message>
-        <location line="-28"/>
-        <source>An error occurred while setting up the RPC port %u for listening on IPv6, falling back to IPv4: %s</source>
-        <translation>A intervenit o eroare in timp ce se seta portul RPC %u pentru ascultare pe IPv6, reintoarcere la IPv4: %s</translation>
+        <source>Bind to given address and always listen on it. Use [host]:port notation for IPv6</source>
+        <translation>Ataşaţi adresei date şi ascultaţi totdeauna pe ea. Folosiţi notaţia [host]:port pentru IPv6</translation>
     </message>
     <message>
-        <location line="+93"/>
-        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 16669)</source>
-        <translation>Setati valoarea maxima a prioritate mare/taxa scazuta in bytes(implicit: 16669)</translation>
+        <source>Distributed under the MIT software license, see the accompanying file COPYING or &lt;http://www.opensource.org/licenses/mit-license.php&gt;.</source>
+        <translation>Distribuit sub licenţa de programe MIT/X11, vezi fişierul însoţitor COPYING sau &lt;http://www.opensource.org/licenses/mit-license.php&gt;.</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <source>Enter regression test mode, which uses a special chain in which blocks can be solved instantly.</source>
+        <translation>Iniţiază modul de test regresie, care foloseşte un lanţ special în care blocurile pot fi rezolvate instantaneu.</translation>
+    </message>
+    <message>
+        <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
+        <translation>Execută comanda cînd o tranzacţie a portofelului se schimbă (%s în cmd este înlocuit de TxID)</translation>
+    </message>
+    <message>
+        <source>In this mode -genproclimit controls how many blocks are generated immediately.</source>
+        <translation>În acest mod -genproclimit controlează cîte blocuri sînt generate imediat.</translation>
+    </message>
+    <message>
+        <source>Set the number of script verification threads (%u to %d, 0 = auto, &lt;0 = leave that many cores free, default: %d)</source>
+        <translation>Setează numărul de thread-uri de verificare a script-urilor (%u la %d, 0 = auto, &lt;0 = lasă atîtea nuclee libere, implicit: %d)</translation>
+    </message>
+    <message>
+        <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
+        <translation>Aceasta este o versiune de test preliminară - vă asumaţi riscul folosind-o - nu folosiţi pentru minerit sau aplicaţiile comercianţilor</translation>
+    </message>
+    <message>
+        <source>Unable to bind to %s on this computer. Silk Core is probably already running.</source>
+        <translation>Nu se poate lega la %s pe acest calculator. Nucleul Silk probabil deja rulează.</translation>
+    </message>
+    <message>
         <source>Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.</source>
-        <translation>Atentie: setarea -paytxfee este foarte ridicata! Aceasta este taxa tranzactiei pe care o vei plati daca trimiti o tranzactie.</translation>
+        <translation>Atenţie: setarea -paytxfee este foarte mare! Aceasta este taxa tranzacţiei pe care o veţi plăti dacă trimiteţi o tranzacţie.</translation>
     </message>
     <message>
-        <location line="-103"/>
-        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Silk will not work properly.</source>
-        <translation>Atentie: Va rugam verificati ca timpul si data calculatorului sunt corete. Daca timpul este gresit Silk nu va functiona corect.</translation>
+        <source>Warning: The network does not appear to fully agree! Some miners appear to be experiencing issues.</source>
+        <translation>Atenţie: Reţeaua nu pare să fie de acord în totalitate! Aparent nişte mineri au probleme.</translation>
     </message>
     <message>
-        <location line="+130"/>
+        <source>Warning: We do not appear to fully agree with our peers! You may need to upgrade, or other nodes may need to upgrade.</source>
+        <translation>Atenţie: Aparent, nu sîntem de acord cu toţi partenerii noştri! Va trebui să faceţi o actualizare, sau alte noduri necesită actualizare.</translation>
+    </message>
+    <message>
         <source>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
-        <translation>Atentie: eroare la citirea fisierului wallet.dat! Toate cheile sunt citite corect, dar datele tranzactiei sau anumite intrari din agenda sunt incorecte sau lipsesc.</translation>
+        <translation>Atenţie: eroare la citirea fişierului wallet.dat! Toate cheile sînt citite corect, dar datele tranzactiei sau anumite intrări din agenda sînt incorecte sau lipsesc.</translation>
     </message>
     <message>
-        <location line="-16"/>
         <source>Warning: wallet.dat corrupt, data salvaged! Original wallet.dat saved as wallet.{timestamp}.bak in %s; if your balance or transactions are incorrect you should restore from a backup.</source>
-        <translation>Atentie: fisierul wallet.dat este corupt, date salvate! Fisierul original wallet.dat a fost salvat ca wallet.{timestamp}.bak in %s; daca balansul sau tranzactiile sunt incorecte ar trebui sa restaurati dintr-o copie de siguranta. </translation>
+        <translation>Atenţie: fişierul wallet.dat este corupt, date salvate! Fişierul original wallet.dat a fost salvat ca wallet.{timestamp}.bak in %s; dacă balansul sau tranzactiile sînt incorecte ar trebui să restauraţi dintr-o copie de siguranţă.</translation>
     </message>
     <message>
-        <location line="-34"/>
+        <source>(default: 1)</source>
+        <translation>(iniţial: 1)</translation>
+    </message>
+    <message>
+        <source>&lt;category&gt; can be:</source>
+        <translation>&lt;category&gt; poate fi:</translation>
+    </message>
+    <message>
         <source>Attempt to recover private keys from a corrupt wallet.dat</source>
-        <translation>Încearcă recuperarea cheilor private dintr-un wallet.dat corupt</translation>
+        <translation>Încercare de recuperare a cheilor private dintr-un wallet.dat corupt</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Block creation options:</source>
-        <translation>Optiuni creare block</translation>
+        <translation>Opţiuni creare bloc:</translation>
     </message>
     <message>
-        <location line="-67"/>
         <source>Connect only to the specified node(s)</source>
-        <translation>Conecteaza-te doar la nod(urile) specifice</translation>
+        <translation>Conectare doar la nod(urile) specificate</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <source>Connection options:</source>
+        <translation>Opţiuni conexiune:</translation>
+    </message>
+    <message>
+        <source>Corrupted block database detected</source>
+        <translation>Bloc defect din baza de date detectat</translation>
+    </message>
+    <message>
+        <source>Debugging/Testing options:</source>
+        <translation>Opţiuni Depanare/Test:</translation>
+    </message>
+    <message>
         <source>Discover own IP address (default: 1 when listening and no -externalip)</source>
-        <translation>Descopera propria ta adresa IP (intial: 1)</translation>
+        <translation>Descoperă propria adresă IP (inţial: 1)</translation>
     </message>
     <message>
-        <location line="+101"/>
+        <source>Do not load the wallet and disable wallet RPC calls</source>
+        <translation>Nu încarcă portofelul şi dezactivează solicitările portofel RPC</translation>
+    </message>
+    <message>
+        <source>Do you want to rebuild the block database now?</source>
+        <translation>Doriţi să reconstruiţi baza de date blocuri acum?</translation>
+    </message>
+    <message>
+        <source>Error initializing block database</source>
+        <translation>Eroare la iniţializarea bazei de date de blocuri</translation>
+    </message>
+    <message>
+        <source>Error initializing wallet database environment %s!</source>
+        <translation>Eroare la iniţializarea mediului de bază de date a portofelului %s!</translation>
+    </message>
+    <message>
+        <source>Error loading block database</source>
+        <translation>Eroare la încărcarea bazei de date de blocuri</translation>
+    </message>
+    <message>
+        <source>Error opening block database</source>
+        <translation>Eroare la deschiderea bazei de date de blocuri</translation>
+    </message>
+    <message>
+        <source>Error: Disk space is low!</source>
+        <translation>Eroare: Spaţiu pe disc redus!</translation>
+    </message>
+    <message>
         <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
-        <translation>Am esuat ascultarea pe orice port. Folositi -listen=0 daca vreti asta.</translation>
+        <translation>Nu s-a reuşit ascultarea pe orice port. Folosiţi -listen=0 dacă vreţi asta.</translation>
     </message>
     <message>
-        <location line="-2"/>
-        <source>Invalid -tor address: &apos;%s&apos;</source>
-        <translation>Adresa -tor invalida: &apos;%s&apos;</translation>
+        <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
+        <translation>Dacă &lt;category&gt; nu este furnizat, produce toate informaţiile de depanare.</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Invalid amount for -reservebalance=&lt;amount&gt;</source>
-        <translation>Suma invalida pentru -reservebalance=&lt;amount&gt;</translation>
+        <source>Importing...</source>
+        <translation>Import...</translation>
     </message>
     <message>
-        <location line="-89"/>
-        <source>Maximum per-connection receive buffer, &lt;n&gt;*1000 bytes (default: 5000)</source>
-        <translation>Tampon maxim pentru recepție per conexiune, &lt;n&gt;*1000 baiți (implicit: 5000)</translation>
+        <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
+        <translation>Incorect sau nici un bloc de geneza găsit. Directorul de retea greşit?</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Maximum per-connection send buffer, &lt;n&gt;*1000 bytes (default: 1000)</source>
-        <translation>Tampon maxim pentru transmitere per conexiune, &lt;n&gt;*1000 baiți (implicit: 1000)</translation>
+        <source>Invalid -onion address: '%s'</source>
+        <translation>Adresa -onion nevalidă: '%s'</translation>
     </message>
     <message>
-        <location line="-16"/>
-        <source>Only connect to nodes in network &lt;net&gt; (IPv4, IPv6 or Tor)</source>
-        <translation>Efectuează conexiuni doar către nodurile din rețeaua &lt;net&gt; (IPv4, IPv6 sau Tor)</translation>
+        <source>Not enough file descriptors available.</source>
+        <translation>Nu sînt destule descriptoare disponibile.</translation>
     </message>
     <message>
-        <location line="+30"/>
-        <source>Prepend debug output with timestamp</source>
-        <translation>Ataseaza output depanare cu log de timp</translation>
+        <source>Only connect to nodes in network &lt;net&gt; (ipv4, ipv6 or onion)</source>
+        <translation>Se conectează doar la noduri în reţeaua &lt;net&gt; (ipv4, ipv6 sau onion)</translation>
     </message>
     <message>
-        <location line="+40"/>
-        <source>SSL options: (see the Silk Wiki for SSL setup instructions)</source>
-        <translation>Optiuni SSl (vezi Silk wiki pentru intructiunile de instalare)</translation>
+        <source>Rebuild block chain index from current blk000??.dat files</source>
+        <translation>Reconstruirea indexului lanţului de bloc din fişierele actuale blk000???.dat</translation>
     </message>
     <message>
-        <location line="-38"/>
+        <source>Set database cache size in megabytes (%d to %d, default: %d)</source>
+        <translation>Setează mărimea bazei de date cache în megaocteţi (%d la %d, implicit: %d)</translation>
+    </message>
+    <message>
+        <source>Set maximum block size in bytes (default: %d)</source>
+        <translation>Setaţi dimensiunea maximă a unui bloc în bytes (implicit: %d)</translation>
+    </message>
+    <message>
+        <source>Specify wallet file (within data directory)</source>
+        <translation>Specifică fişierul portofel (în dosarul de date)</translation>
+    </message>
+    <message>
+        <source>This is intended for regression testing tools and app development.</source>
+        <translation>Este folosită pentru programe de testare a regresiei în algoritmi şi dezvoltare de alte aplicaţii.</translation>
+    </message>
+    <message>
+        <source>Use UPnP to map the listening port (default: %u)</source>
+        <translation>Foloseşte mapare UPnP pentru asculatere port (implicit: %u)</translation>
+    </message>
+    <message>
+        <source>Verifying blocks...</source>
+        <translation>Se verifică blocurile...</translation>
+    </message>
+    <message>
+        <source>Verifying wallet...</source>
+        <translation>Se verifică portofelul...</translation>
+    </message>
+    <message>
+        <source>Wallet %s resides outside data directory %s</source>
+        <translation>Portofelul %s se află în afara dosarului de date %s</translation>
+    </message>
+    <message>
+        <source>Wallet options:</source>
+        <translation>Opţiuni portofel:</translation>
+    </message>
+    <message>
+        <source>You need to rebuild the database using -reindex to change -txindex</source>
+        <translation>Trebuie să reconstruiţi baza de date folosind -reindex pentru a schimba -txindex</translation>
+    </message>
+    <message>
+        <source>Imports blocks from external blk000??.dat file</source>
+        <translation>Importă blocuri dintr-un fişier extern blk000??.dat</translation>
+    </message>
+    <message>
+        <source>Allow JSON-RPC connections from specified source. Valid for &lt;ip&gt; are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24). This option can be specified multiple times</source>
+        <translation>Permite conexiunile JSON-RPC din sursa specificată. Valid pentru &lt;ip&gt; sînt IP singulare (ex. 1.2.3.4), o reţea/mască-reţea (ex. 1.2.3.4/255.255.255.0) sau o reţea/CIDR (ex. 1.2.3.4/24). Această opţiune poate fi specificată de mai multe ori</translation>
+    </message>
+    <message>
+        <source>An error occurred while setting up the RPC address %s port %u for listening: %s</source>
+        <translation>A apărut o eroare la setarea adresei RPC %s portul %u pentru ascultare: %s</translation>
+    </message>
+    <message>
+        <source>Cannot obtain a lock on data directory %s. Silk Core is probably already running.</source>
+        <translation>Nu se poate obţine blocarea folderului cu date %s. Nucleul Silk probabil deja rulează.</translation>
+    </message>
+    <message>
+        <source>Execute command when a relevant alert is received or we see a really long fork (%s in cmd is replaced by message)</source>
+        <translation>Execută comanda cînd o alertă relevantă este primită sau vedem o bifurcaţie foarte lungă (%s în cmd este înlocuit de mesaj)</translation>
+    </message>
+    <message>
+        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: %d)</source>
+        <translation>Setează mărimea pentru tranzacţiile prioritare/taxe mici în octeţi (implicit: %d)</translation>
+    </message>
+    <message>
+        <source>This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit &lt;https://www.openssl.org/&gt; and cryptographic software written by Eric Young and UPnP software written by Thomas Bernard.</source>
+        <translation>Acest produs include programe dezvoltate de către Proiectul OpenSSL pentru a fi folosite în OpenSSL Toolkit &lt;https://www.openssl.org/&gt; şi programe criptografice scrise de către Eric Young şi programe UPnP scrise de către Thomas Bernard.</translation>
+    </message>
+    <message>
+        <source>Accept public REST requests (default: %u)</source>
+        <translation>Acceptă cererile publice REST (implicit: %u)</translation>
+    </message>
+    <message>
+        <source>Connect through SOCKS5 proxy</source>
+        <translation>Conectare prin proxy SOCKS5</translation>
+    </message>
+    <message>
+        <source>Copyright (C) 2013-%i Silk Network Developers</source>
+        <translation>Copyright (C) 2013-%i Dezvoltatorii Silk</translation>
+    </message>
+    <message>
+        <source>Error reading from database, shutting down.</source>
+        <translation>Eroare la citirea bazei de date. Oprire.</translation>
+    </message>
+    <message>
+        <source>Error: Unsupported argument -tor found, use -onion.</source>
+        <translation>Eroare: Argument nesuportat -tor găsit, folosiţi -onion.</translation>
+    </message>
+    <message>
+        <source>Fee (in SLK/Kb) to add to transactions you send (default: %s)</source>
+        <translation>Taxa (în SLK/Kb) de adăugat la tranzacţiile pe care le trimiteţi(implicit: %s)</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Informaţie</translation>
+    </message>
+    <message>
+        <source>Initialization sanity check failed. Silk Core is shutting down.</source>
+        <translation>Nu s-a reuşit iniţierea verificării sănătăţii. Nucleul Silk se opreşte.</translation>
+    </message>
+    <message>
+        <source>Invalid amount for -maxtxfee=&lt;amount&gt;: '%s'</source>
+        <translation>Sumă nevalidă pentru -maxtxfee=&lt;suma&gt;: '%s'</translation>
+    </message>
+    <message>
+        <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: '%s'</source>
+        <translation>Sumă nevalidă pentru -minrelaytxfee=&lt;suma&gt;:'%s'</translation>
+    </message>
+    <message>
+        <source>Invalid amount for -mintxfee=&lt;amount&gt;: '%s'</source>
+        <translation>Sumă nevalidă pentru -mintxfee=&lt;suma&gt;: '%s'</translation>
+    </message>
+    <message>
+        <source>Invalid amount for -paytxfee=&lt;amount&gt;: '%s' (must be at least %s)</source>
+        <translation>Sumă nevalidă pentru -paytxfee=&lt;suma&gt;: '%s' (trebuie să fie cel puţin %s)</translation>
+    </message>
+    <message>
+        <source>Invalid netmask specified in -whitelist: '%s'</source>
+        <translation>Mască reţea nevalidă specificată în -whitelist: '%s'</translation>
+    </message>
+    <message>
+        <source>Need to specify a port with -whitebind: '%s'</source>
+        <translation>Trebuie să specificaţi un port cu -whitebind: '%s'</translation>
+    </message>
+    <message>
+        <source>RPC SSL options: (see the silk Wiki for SSL setup instructions)</source>
+        <translation>Opţiuni RPC SSL: (vedeţi Wiki Silk pentru intrucţiunile de setare SSL)</translation>
+    </message>
+    <message>
+        <source>RPC server options:</source>
+        <translation>Opţiuni server RPC:</translation>
+    </message>
+    <message>
+        <source>RPC support for HTTP persistent connections (default: %d)</source>
+        <translation>RPC suportă pentru HTTP conexiuni persistente (implicit: %d)</translation>
+    </message>
+    <message>
+        <source>Randomly drop 1 of every &lt;n&gt; network messages</source>
+        <translation>Aleator sccapă 1 din fiecare &lt;n&gt; mesaje ale reţelei</translation>
+    </message>
+    <message>
+        <source>Randomly fuzz 1 of every &lt;n&gt; network messages</source>
+        <translation>Aleator aproximează 1 din fiecare &lt;n&gt; mesaje ale reţelei</translation>
+    </message>
+    <message>
         <source>Send trace/debug info to console instead of debug.log file</source>
-        <translation>Trimite informațiile trace/debug la consolă în locul fișierului debug.log</translation>
+        <translation>Trimite informaţiile trace/debug la consolă în locul fişierului debug.log</translation>
     </message>
     <message>
-        <location line="+34"/>
-        <source>Set maximum block size in bytes (default: 2000000)</source>
-        <translation>Setează mărimea maxima a blocului în bytes (implicit: 2000000)</translation>
+        <source>Send transactions as zero-fee transactions if possible (default: %u)</source>
+        <translation>Trimitere tranzacţii ca tranzacţii taxă-zero dacă este posibil (implicit: %u)</translation>
     </message>
     <message>
-        <location line="-1"/>
-        <source>Set minimum block size in bytes (default: 0)</source>
-        <translation>Setează mărimea minimă a blocului în baiți (implicit: 0)</translation>
+        <source>Show all debugging options (usage: --help -help-debug)</source>
+        <translation>Arată toate opţiunile de depanare (uz: --help -help-debug)</translation>
     </message>
     <message>
-        <location line="-34"/>
         <source>Shrink debug.log file on client startup (default: 1 when no -debug)</source>
-        <translation>Micsorati fisierul debug.log la inceperea clientului (implicit: 1 cand nu -debug)</translation>
+        <translation>Micşorează fişierul debug.log la pornirea clientului (implicit: 1 cînd nu se foloseşte -debug)</translation>
     </message>
     <message>
-        <location line="-41"/>
-        <source>Specify connection timeout in milliseconds (default: 5000)</source>
-        <translation>Specifică intervalul maxim de conectare în milisecunde (implicit: 5000)</translation>
+        <source>Signing transaction failed</source>
+        <translation>Nu s-a reuşit semnarea tranzacţiei</translation>
     </message>
     <message>
-        <location line="+28"/>
-        <source>Use UPnP to map the listening port (default: 0)</source>
-        <translation>Foloseste UPnP pentru a vedea porturile (initial: 0)</translation>
+        <source>This is experimental software.</source>
+        <translation>Acesta este un program experimental.</translation>
     </message>
     <message>
-        <location line="-1"/>
+        <source>Transaction amount too small</source>
+        <translation>Suma tranzacţionată este prea mică</translation>
+    </message>
+    <message>
+        <source>Transaction amounts must be positive</source>
+        <translation>Sumele tranzacţionate trebuie să fie pozitive</translation>
+    </message>
+    <message>
+        <source>Transaction too large for fee policy</source>
+        <translation>Tranzacţie prea mare pentru politică gratis</translation>
+    </message>
+    <message>
+        <source>Transaction too large</source>
+        <translation>Tranzacţie prea mare</translation>
+    </message>
+    <message>
+        <source>Unable to bind to %s on this computer (bind returned error %s)</source>
+        <translation>Nu se poate lega la %s pe acest calculator. (Legarea a întors eroarea %s)</translation>
+    </message>
+    <message>
         <source>Use UPnP to map the listening port (default: 1 when listening)</source>
-        <translation>Foloseste UPnP pentru a vedea porturile (initial: 1 cand listezi)</translation>
+        <translation>Foloseşte UPnP pentru a vedea porturile (implicit: 1 cînd ascultă)</translation>
     </message>
     <message>
-        <location line="-25"/>
-        <source>Use proxy to reach tor hidden services (default: same as -proxy)</source>
-        <translation>Utilizati proxy pentru a ajunge la serviciile tor (implicit: la fel ca proxy)</translation>
-    </message>
-    <message>
-        <location line="+45"/>
         <source>Username for JSON-RPC connections</source>
         <translation>Utilizator pentru conexiunile JSON-RPC</translation>
     </message>
     <message>
-        <location line="+54"/>
-        <source>Verifying database integrity...</source>
-        <translation>Se verifica integritatea bazei de date...</translation>
+        <source>Wallet needed to be rewritten: restart Silk Core to complete</source>
+        <translation>Portofelul necesită rescrierea: reporniţi Nucleul Silk pentru completare</translation>
     </message>
     <message>
-        <location line="+42"/>
-        <source>Error: Wallet locked, unable to create transaction!</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Error: Transaction creation failed!</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+7"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>Avertisment</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Information</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>Warning: This version is obsolete, upgrade required!</source>
-        <translation>Atenție: această versiune este depășită, este necesară actualizarea!</translation>
+        <translation>Atenţie: această versiune este depăşită, este necesară actualizarea!</translation>
     </message>
     <message>
-        <location line="-52"/>
+        <source>Warning: Unsupported argument -benchmark ignored, use -debug=bench.</source>
+        <translation>Avertisment: Argument nesuportat -benchmark ignorat, folosiţi -debug=bench.</translation>
+    </message>
+    <message>
+        <source>Warning: Unsupported argument -debugnet ignored, use -debug=net.</source>
+        <translation>Avertisment: Argument nesuportat -debugnet ignorat, folosiţi -debug=net.</translation>
+    </message>
+    <message>
+        <source>Zapping all transactions from wallet...</source>
+        <translation>Şterge toate tranzacţiile din portofel...</translation>
+    </message>
+    <message>
+        <source>on startup</source>
+        <translation>la pornire</translation>
+    </message>
+    <message>
         <source>wallet.dat corrupt, salvage failed</source>
-        <translation>wallet.dat corupt, recuperare eșuată</translation>
+        <translation>wallet.dat corupt, salvare nereuşită</translation>
     </message>
     <message>
-        <location line="-59"/>
         <source>Password for JSON-RPC connections</source>
         <translation>Parola pentru conexiunile JSON-RPC</translation>
     </message>
     <message>
-        <location line="-47"/>
-        <source>Connect through SOCKS5 proxy</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>Sync time with other nodes. Disable if time on your system is precise e.g. syncing with NTP (default: 1)</source>
-        <translation>Sincronizează timp cu alte noduri. Dezactivează daca timpul de pe sistemul dumneavoastră este precis ex: sincronizare cu NTP (implicit: 1)</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>When creating transactions, ignore inputs with value less than this (default: 0.01)</source>
-        <translation>Când creați tranzacții, ignorați intrări cu valori mai mici decât aceasta (implicit: 0,01)</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Output debugging information (default: 0, supplying &lt;category&gt; is optional)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>If &lt;category&gt; is not supplied, output all debugging information.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>&lt;category&gt; can be:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Enter regression test mode, which uses a special chain in which blocks can be solved instantly. This is intended for regression testing tools and app development.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Allow JSON-RPC connections from specified IP address</source>
-        <translation>Permite conexiuni JSON-RPC de la adresa IP specificată</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Send commands to node running on &lt;ip&gt; (default: 127.0.0.1)</source>
-        <translation>Trimite comenzi la nodul care rulează la &lt;ip&gt; (implicit: 127.0.0.1)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Wait for RPC server to start</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Set the number of threads to service RPC calls (default: 4)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
-        <translation>Execută comanda când cel mai bun bloc se modifică (%s în cmd este înlocuit cu hash-ul blocului)</translation>
+        <translation>Execută comanda cînd cel mai bun bloc se modifică (%s în cmd este înlocuit cu hash-ul blocului)</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)</source>
-        <translation>Executati comanda cand o tranzactie a portofelului se schimba (%s in cmd este inlocuit de TxID)</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Require a confirmations for change (default: 0)</source>
-        <translation>Necesita confirmari pentru schimbare (implicit: 0)</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Execute command when a relevant alert is received (%s in cmd is replaced by message)</source>
-        <translation>Execută o comandă când o alerta relevantâ este primitâ(%s in cmd este înlocuit de mesaj)</translation>
-    </message>
-    <message>
-        <location line="+3"/>
         <source>Upgrade wallet to latest format</source>
         <translation>Actualizează portofelul la ultimul format</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Set key pool size to &lt;n&gt; (default: 100)</source>
-        <translation>Setează mărimea bazinului de chei la &lt;n&gt; (implicit: 100)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>Rescan the block chain for missing wallet transactions</source>
-        <translation>Rescanează lanțul de bloc pentru tranzacțiile portofel lipsă</translation>
+        <translation>Rescanează lanţul de bloc pentru tranzacţiile portofel lipsă</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>How thorough the block verification is (0-6, default: 1)</source>
-        <translation>Cat de temeinica sa fie verificarea blocurilor( 0-6, implicit: 1)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Imports blocks from external blk000?.dat file</source>
-        <translation>Importă blocuri dintr-un fișier extern blk000?.dat</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Keep at most &lt;n&gt; MiB of unconnectable blocks in memory (default: %u)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+8"/>
         <source>Use OpenSSL (https) for JSON-RPC connections</source>
-        <translation>Folosește OpenSSL (https) pentru conexiunile JSON-RPC</translation>
+        <translation>Foloseşte OpenSSL (https) pentru conexiunile JSON-RPC</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Server certificate file (default: server.cert)</source>
-        <translation>Certificatul serverului (implicit: server.cert)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Server private key (default: server.pem)</source>
-        <translation>Cheia privată a serverului (implicit: server.pem)</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>Error: Unsupported argument -socks found. Setting SOCKS version isn&apos;t possible anymore, only SOCKS5 proxies are supported.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Initialization sanity check failed. Silk is shutting down.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Error loading block database</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+28"/>
-        <source>Error: Wallet unlocked for staking only, unable to create transaction.</source>
-        <translation>Eroare: portofel blocat doar pentru staking, tranzactia nu s-a creat.</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Error: Disk space is low!</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="-168"/>
         <source>This help message</source>
         <translation>Acest mesaj de ajutor</translation>
     </message>
     <message>
-        <location line="+104"/>
-        <source>Wallet %s resides outside data directory %s.</source>
-        <translation>Portofelul %s este in afara directorului %s</translation>
-    </message>
-    <message>
-        <location line="+35"/>
-        <source>Unable to bind to %s on this computer (bind returned error %d, %s)</source>
-        <translation>Nu se poate folosi %s pe acest calculator (eroarea returnată este %d, %s)</translation>
-    </message>
-    <message>
-        <location line="-129"/>
         <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
-        <translation>Permite căutări DNS pentru -addnode, -seednode și -connect</translation>
+        <translation>Permite căutări DNS pentru -addnode, -seednode şi -connect</translation>
     </message>
     <message>
-        <location line="+125"/>
         <source>Loading addresses...</source>
-        <translation>Încarc adrese...</translation>
+        <translation>Încărcare adrese...</translation>
     </message>
     <message>
-        <location line="-10"/>
         <source>Error loading wallet.dat: Wallet corrupted</source>
         <translation>Eroare la încărcarea wallet.dat: Portofel corupt</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Error loading wallet.dat: Wallet requires newer version of Silk</source>
-        <translation>Eroare la încărcarea wallet.dat: Portofelul necesita o versiune mai noua de Silk</translation>
+        <source>Flush database activity from memory pool to disk log every &lt;n&gt; megabytes (default: %u)</source>
+        <translation>Goleşte baza de date a activităţii din memoria pool în jurnal pe disc la fiecare &lt;n&gt; megaocteţi (implicit: %u)</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Wallet needed to be rewritten: restart Silk to complete</source>
-        <translation>A fost nevoie de rescrierea portofelului: restartați Silk pentru a finaliza</translation>
+        <source>Output debugging information (default: %u, supplying &lt;category&gt; is optional)</source>
+        <translation>Produce toate informaţiile de depanare (implicit: %u &lt;category&gt; furnizată este opţională)</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <source>(default: %s)</source>
+        <translation>(implicit: %s)</translation>
+    </message>
+    <message>
+        <source>Acceptable ciphers (default: %s)</source>
+        <translation>Cifruri acceptabile (implicit: %s)</translation>
+    </message>
+    <message>
         <source>Error loading wallet.dat</source>
         <translation>Eroare la încărcarea wallet.dat</translation>
     </message>
     <message>
-        <location line="-15"/>
-        <source>Invalid -proxy address: &apos;%s&apos;</source>
-        <translation>Adresa -proxy nevalidă: &apos;%s&apos;</translation>
+        <source>Force safe mode (default: %u)</source>
+        <translation>Forţează mod sigur (implicit: %u)</translation>
     </message>
     <message>
-        <location line="-1"/>
-        <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
-        <translation>Rețeaua specificată în -onlynet este necunoscută: &apos;%s&apos;</translation>
+        <source>Generate coins (default: %u)</source>
+        <translation>Generează monede (implicit: %u)</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Cannot resolve -bind address: &apos;%s&apos;</source>
-        <translation>Nu se poate rezolva adresa -bind: &apos;%s&apos;</translation>
+        <source>How many blocks to check at startup (default: %u, 0 = all)</source>
+        <translation>Cîte blocuri verifică la pornire (implicit: %u, 0 = toate)</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Cannot resolve -externalip address: &apos;%s&apos;</source>
-        <translation>Nu se poate rezolva adresa -externalip: &apos;%s&apos;</translation>
+        <source>Invalid -proxy address: '%s'</source>
+        <translation>Adresa -proxy nevalidă: '%s'</translation>
     </message>
     <message>
-        <location line="-22"/>
-        <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>Suma nevalidă pentru -paytxfee=&lt;amount&gt;: &apos;%s&apos;</translation>
+        <source>Server certificate file (default: %s)</source>
+        <translation>Fişierul certificat al serverului (implicit: %s)</translation>
     </message>
     <message>
-        <location line="+58"/>
-        <source>Sending...</source>
-        <translation>Se trimite...</translation>
+        <source>Server private key (default: %s)</source>
+        <translation>Cheia privată a serverului (implicit: %s)</translation>
     </message>
     <message>
-        <location line="+5"/>
-        <source>Invalid amount</source>
-        <translation>Sumă nevalidă</translation>
+        <source>Set minimum block size in bytes (default: %u)</source>
+        <translation>Setare mărime minimă bloc în octeţi (implicit: %u)</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <source>Specify configuration file (default: %s)</source>
+        <translation>Specificaţi fişierul configuraţie (implicit: %s)</translation>
+    </message>
+    <message>
+        <source>Specify pid file (default: %s)</source>
+        <translation>Specifică fişierul pid (implicit: %s)</translation>
+    </message>
+    <message>
+        <source>Unknown network specified in -onlynet: '%s'</source>
+        <translation>Reţeaua specificată în -onlynet este necunoscută: '%s'</translation>
+    </message>
+    <message>
+        <source>Cannot resolve -bind address: '%s'</source>
+        <translation>Nu se poate rezolva adresa -bind: '%s'</translation>
+    </message>
+    <message>
+        <source>Cannot resolve -externalip address: '%s'</source>
+        <translation>Nu se poate rezolva adresa -externalip: '%s'</translation>
+    </message>
+    <message>
+        <source>Invalid amount for -paytxfee=&lt;amount&gt;: '%s'</source>
+        <translation>Suma nevalidă pentru -paytxfee=&lt;amount&gt;: '%s'</translation>
+    </message>
+    <message>
         <source>Insufficient funds</source>
         <translation>Fonduri insuficiente</translation>
     </message>
     <message>
-        <location line="-40"/>
         <source>Loading block index...</source>
-        <translation>Încarc indice bloc...</translation>
+        <translation>Încărcare index bloc...</translation>
     </message>
     <message>
-        <location line="-109"/>
         <source>Add a node to connect to and attempt to keep the connection open</source>
-        <translation>Adaugă un nod la care te poți conecta pentru a menține conexiunea deschisă</translation>
+        <translation>Adaugă un nod la care te poţi conecta pentru a menţine conexiunea deschisă</translation>
     </message>
     <message>
-        <location line="+124"/>
-        <source>Unable to bind to %s on this computer. Silk is probably already running.</source>
-        <translation>Imposibil de conectat %s pe acest computer. Cel mai probabil Silk ruleaza</translation>
-    </message>
-    <message>
-        <location line="-101"/>
-        <source>Fee per KB to add to transactions you send</source>
-        <translation>Comision pe kB de adaugat la tranzactiile pe care le trimiti</translation>
-    </message>
-    <message>
-        <location line="+33"/>
-        <source>Minimize weight consumption (experimental) (default: 0)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>How many blocks to check at startup (default: 500, 0 = all)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>Acceptable ciphers (default: TLSv1.2+HIGH:TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!3DES:@STRENGTH)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Warning: Deprecated argument -debugnet ignored, use -debug=net</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>Invalid amount for -mininput=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>Suma invalida pentru -mininput=&lt;amount&gt;: &apos;%s&apos;</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Cannot obtain a lock on data directory %s. Silk is probably already running.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Error initializing wallet database environment %s!</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+15"/>
         <source>Loading wallet...</source>
-        <translation>Încarc portofel...</translation>
+        <translation>Încărcare portofel...</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>Cannot downgrade wallet</source>
         <translation>Nu se poate retrograda portofelul</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Cannot write default address</source>
         <translation>Nu se poate scrie adresa implicită</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Rescanning...</source>
-        <translation>Rescanez...</translation>
+        <translation>Rescanare...</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Done loading</source>
         <translation>Încărcare terminată</translation>
     </message>
     <message>
-        <location line="-159"/>
-        <source>To use the %s option</source>
-        <translation>Pentru a folosi opțiunea %s</translation>
-    </message>
-    <message>
-        <location line="+186"/>
         <source>Error</source>
         <translation>Eroare</translation>
-    </message>
-    <message>
-        <location line="-18"/>
-        <source>You must set rpcpassword=&lt;password&gt; in the configuration file:
-%s
-If the file does not exist, create it with owner-readable-only file permissions.</source>
-        <translation>Trebuie sa setezi rpcpassword=&lt;password&gt; în fișierul de configurare:⏎
-%s⏎
-Dacă fișierul nu există, creează-l cu permisiuni de citire doar de către proprietar.</translation>
     </message>
 </context>
 </TS>

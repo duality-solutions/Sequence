@@ -1,34 +1,49 @@
-#include <QApplication>
-#include <QClipboard>
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "sendcoinsentry.h"
 #include "ui_sendcoinsentry.h"
-#include "guiutil.h"
-#include "silkunits.h"
+
 #include "addressbookpage.h"
-#include "walletmodel.h"
-#include "optionsmodel.h"
 #include "addresstablemodel.h"
+#include "guiutil.h"
+#include "optionsmodel.h"
+#include "walletmodel.h"
+#include "../namecoin.h"
+
+#include <QApplication>
+#include <QClipboard>
 
 SendCoinsEntry::SendCoinsEntry(QWidget *parent) :
-    QFrame(parent),
+    QStackedWidget(parent),
     ui(new Ui::SendCoinsEntry),
     model(0)
 {
     ui->setupUi(this);
 
+    setCurrentWidget(ui->SendCoins);
+
 #ifdef Q_OS_MAC
     ui->payToLayout->setSpacing(4);
 #endif
 #if QT_VERSION >= 0x040700
-    /* Do not move this to the XML file, Qt before 4.7 will choke on it */
     ui->addAsLabel->setPlaceholderText(tr("Enter a label for this address to add it to your address book"));
-    ui->payTo->setPlaceholderText(tr("Enter a Silk address (e.g. SiWpJ6o9Y3XX16bRNirG5TRqP4tcECEdbK)"));
 #endif
-    setFocusPolicy(Qt::TabFocus);
-    setFocusProxy(ui->payTo);
 
+    // normal Silk address field
     GUIUtil::setupAddressWidget(ui->payTo, this);
+    // just a label for displaying Silk address(es)
+    ui->payTo_is->setFont(GUIUtil::SilkAddressFont());
+
+    // Connect signals
+    connect(ui->payAmount, SIGNAL(valueChanged()), this, SIGNAL(payAmountChanged()));
+    connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deleteClicked()));
+    connect(ui->deleteButton_is, SIGNAL(clicked()), this, SLOT(deleteClicked()));
+    connect(ui->deleteButton_s, SIGNAL(clicked()), this, SLOT(deleteClicked()));
+    ui->payTo->setValidator(0);  // Silk: disable validator so that we can type names
 }
 
 SendCoinsEntry::~SendCoinsEntry()
@@ -46,80 +61,103 @@ void SendCoinsEntry::on_addressBookButton_clicked()
 {
     if(!model)
         return;
-    AddressBookPage dlg(AddressBookPage::ForSending, AddressBookPage::SendingTab, this);
-    dlg.setModel(model->getAddressTableModel());
-    if(dlg.exec())
+    if (model->getSplitBlock())
     {
-        ui->payTo->setText(dlg.getReturnValue());
-        ui->payAmount->setFocus();
+        AddressBookPage dlg(AddressBookPage::ForSelection, AddressBookPage::SendingTab, this);
+        dlg.setModel(model->getAddressTableModel());
+        if(dlg.exec())
+        {
+            ui->payTo->setText(dlg.getReturnValue());
+            ui->payAmount->setFocus();
+        }
+    } 
+    else 
+    {
+        AddressBookPage dlg(AddressBookPage::ForSelection, AddressBookPage::SendingTab, this);
+        dlg.setModel(model->getAddressTableModel());
+        if(dlg.exec())
+        {
+            ui->payTo->setText(dlg.getReturnValue());
+            ui->payAmount->setFocus();
+        }
     }
 }
 
 void SendCoinsEntry::on_payTo_textChanged(const QString &address)
 {
-    if(!model)
-        return;
-    // Fill in label from address book, if address has an associated label
-    QString associatedLabel = model->getAddressTableModel()->labelForAddress(address);
-    if(!associatedLabel.isEmpty())
-        ui->addAsLabel->setText(associatedLabel);
+    updateLabel(address);
 }
 
 void SendCoinsEntry::setModel(WalletModel *model)
 {
     this->model = model;
 
-    if(model && model->getOptionsModel())
+    if (model && model->getOptionsModel())
         connect(model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
-
-    connect(ui->payAmount, SIGNAL(textChanged()), this, SIGNAL(payAmountChanged()));
 
     clear();
 }
 
-void SendCoinsEntry::setRemoveEnabled(bool enabled)
-{
-    ui->deleteButton->setEnabled(enabled);
-}
-
 void SendCoinsEntry::clear()
 {
+    // clear UI elements for normal payment
     ui->payTo->clear();
     ui->addAsLabel->clear();
     ui->payAmount->clear();
-    ui->payTo->setFocus();
-    // update the display unit, to not use the default ("BTC")
+    ui->messageTextLabel->clear();
+    ui->messageTextLabel->hide();
+    ui->messageLabel->hide();
+    // clear UI elements for insecure payment request
+    ui->payTo_is->clear();
+    ui->memoTextLabel_is->clear();
+    ui->payAmount_is->clear();
+    // clear UI elements for secure payment request
+    ui->payTo_s->clear();
+    ui->memoTextLabel_s->clear();
+    ui->payAmount_s->clear();
+
+    // update the display unit, to not use the default ("SILK")
     updateDisplayUnit();
 }
 
-void SendCoinsEntry::on_deleteButton_clicked()
+void SendCoinsEntry::deleteClicked()
 {
     emit removeEntry(this);
 }
 
 bool SendCoinsEntry::validate()
 {
+    if (!model)
+        return false;
+
     // Check input validity
     bool retval = true;
 
-    if(!ui->payAmount->validate())
+    // Skip checks for payment request
+    if (recipient.paymentRequest.IsInitialized())
+        return retval;
+
+    if (!model->validateAddress(ui->payTo->text()))
+    {
+        ui->payTo->setValid(false);
+        retval = false;
+    }
+
+    if (!ui->payAmount->validate())
     {
         retval = false;
     }
-    else
+
+    // Sending a zero amount is invalid
+    if (ui->payAmount->value(0) <= 0)
     {
-        if(ui->payAmount->value() <= 0)
-        {
-            // Cannot send 0 coins or less
-            ui->payAmount->setValid(false);
-            retval = false;
-        }
+        ui->payAmount->setValid(false);
+        retval = false;
     }
 
-    if(!ui->payTo->hasAcceptableInput() ||
-       (model && !model->validateAddress(ui->payTo->text())))
-    {
-        ui->payTo->setValid(false);
+    // Reject dust outputs:
+    if (retval && GUIUtil::isDust(ui->payTo->text(), ui->payAmount->value())) {
+        ui->payAmount->setValid(false);
         retval = false;
     }
 
@@ -128,35 +166,77 @@ bool SendCoinsEntry::validate()
 
 SendCoinsRecipient SendCoinsEntry::getValue()
 {
-    SendCoinsRecipient rv;
+    // Payment request
+    if (recipient.paymentRequest.IsInitialized())
+        return recipient;
 
-    rv.address = ui->payTo->text();
-    rv.label = ui->addAsLabel->text();
-    rv.amount = ui->payAmount->value();
+    // Normal payment
+    recipient.address = ui->payTo->text();
+    recipient.label = ui->addAsLabel->text();
+    recipient.amount = ui->payAmount->value();
+    recipient.message = ui->messageTextLabel->text();
 
-    return rv;
+    return recipient;
 }
 
 QWidget *SendCoinsEntry::setupTabChain(QWidget *prev)
 {
     QWidget::setTabOrder(prev, ui->payTo);
-    QWidget::setTabOrder(ui->payTo, ui->addressBookButton);
+    QWidget::setTabOrder(ui->payTo, ui->addAsLabel);
+    QWidget *w = ui->payAmount->setupTabChain(ui->addAsLabel);
+    QWidget::setTabOrder(w, ui->addressBookButton);
     QWidget::setTabOrder(ui->addressBookButton, ui->pasteButton);
     QWidget::setTabOrder(ui->pasteButton, ui->deleteButton);
-    QWidget::setTabOrder(ui->deleteButton, ui->addAsLabel);
-    return ui->payAmount->setupTabChain(ui->addAsLabel);
+    return ui->deleteButton;
 }
 
 void SendCoinsEntry::setValue(const SendCoinsRecipient &value)
 {
-    ui->payTo->setText(value.address);
-    ui->addAsLabel->setText(value.label);
-    ui->payAmount->setValue(value.amount);
+    recipient = value;
+
+    if (recipient.paymentRequest.IsInitialized()) // payment request
+    {
+        if (recipient.authenticatedMerchant.isEmpty()) // insecure
+        {
+            ui->payTo_is->setText(recipient.address);
+            ui->memoTextLabel_is->setText(recipient.message);
+            ui->payAmount_is->setValue(recipient.amount);
+            ui->payAmount_is->setReadOnly(true);
+            setCurrentWidget(ui->SendCoins_InsecurePaymentRequest);
+        }
+        else // secure
+        {
+            ui->payTo_s->setText(recipient.authenticatedMerchant);
+            ui->memoTextLabel_s->setText(recipient.message);
+            ui->payAmount_s->setValue(recipient.amount);
+            ui->payAmount_s->setReadOnly(true);
+            setCurrentWidget(ui->SendCoins_SecurePaymentRequest);
+        }
+    }
+    else // normal payment
+    {
+        // message
+        ui->messageTextLabel->setText(recipient.message);
+        ui->messageTextLabel->setVisible(!recipient.message.isEmpty());
+        ui->messageLabel->setVisible(!recipient.message.isEmpty());
+
+        ui->addAsLabel->clear();
+        ui->payTo->setText(recipient.address); // this may set a label from addressbook
+        if (!recipient.label.isEmpty()) // if a label had been set from the addressbook, dont overwrite with an empty label
+            ui->addAsLabel->setText(recipient.label);
+        ui->payAmount->setValue(recipient.amount);
+    }
+}
+
+void SendCoinsEntry::setAddress(const QString &address)
+{
+    ui->payTo->setText(address);
+    ui->payAmount->setFocus();
 }
 
 bool SendCoinsEntry::isClear()
 {
-    return ui->payTo->text().isEmpty();
+    return ui->payTo->text().isEmpty() && ui->payTo_is->text().isEmpty() && ui->payTo_s->text().isEmpty();
 }
 
 void SendCoinsEntry::setFocus()
@@ -170,5 +250,52 @@ void SendCoinsEntry::updateDisplayUnit()
     {
         // Update payAmount with the current unit
         ui->payAmount->setDisplayUnit(model->getOptionsModel()->getDisplayUnit());
+        ui->payAmount_is->setDisplayUnit(model->getOptionsModel()->getDisplayUnit());
+        ui->payAmount_s->setDisplayUnit(model->getOptionsModel()->getDisplayUnit());
     }
+}
+
+bool SendCoinsEntry::updateLabel(const QString &address)
+{
+    if(!model)
+        return false;
+
+    // Fill in label from address book, if address has an associated label
+    QString associatedLabel = model->getAddressTableModel()->labelForAddress(address);
+    if(!associatedLabel.isEmpty())
+    {
+        ui->addAsLabel->setText(associatedLabel);
+        return true;
+    }
+
+    return false;
+}
+
+void SendCoinsEntry::on_payTo_editingFinished()
+{
+    QString name = ui->payTo->text();
+    if (name.isEmpty())
+        return;
+
+    std::string strName = name.toStdString();
+    std::vector<unsigned char> vchName(strName.begin(), strName.end());
+
+    std::string error;
+    CSilkAddress address;
+    if (!GetNameCurrentAddress(vchName, address, error))
+        return;
+
+    QString qstrAddress = QString::fromStdString(address.ToString());
+
+    if (QMessageBox::Yes != QMessageBox::question(this, tr("Confirm name as address"),
+            tr("This name exist and still active. Do you wish to use address of its current owner - %1?").arg(qstrAddress),
+            QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel))
+        return;
+    else
+        ui->payTo->setText(qstrAddress);
+}
+
+void SendCoinsEntry::setRemoveEnabled(bool enabled)
+{
+    ui->deleteButton->setEnabled(enabled);
 }

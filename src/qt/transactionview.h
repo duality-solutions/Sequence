@@ -1,19 +1,29 @@
-#ifndef TRANSACTIONVIEW_H
-#define TRANSACTIONVIEW_H
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+#ifndef SILK_QT_TRANSACTIONVIEW_H
+#define SILK_QT_TRANSACTIONVIEW_H
+
+#include "guiutil.h"
 
 #include <QWidget>
+#include <QKeyEvent>
 
-class WalletModel;
 class TransactionFilterProxy;
+class WalletModel;
 
 QT_BEGIN_NAMESPACE
-class QTableView;
 class QComboBox;
-class QLineEdit;
-class QModelIndex;
-class QMenu;
-class QFrame;
 class QDateTimeEdit;
+class QFrame;
+class QLineEdit;
+class QMenu;
+class QModelIndex;
+class QSignalMapper;
+class QTableView;
 QT_END_NAMESPACE
 
 /** Widget showing the transaction list for a wallet, including a filter row.
@@ -44,7 +54,7 @@ public:
         STATUS_COLUMN_WIDTH = 23,
         WATCHONLY_COLUMN_WIDTH = 23,
         DATE_COLUMN_WIDTH = 120,
-        TYPE_COLUMN_WIDTH = 240,
+        TYPE_COLUMN_WIDTH = 120,
         AMOUNT_MINIMUM_COLUMN_WIDTH = 120,
         MINIMUM_COLUMN_WIDTH = 23
     };
@@ -61,12 +71,19 @@ private:
     QLineEdit *amountWidget;
 
     QMenu *contextMenu;
+    QSignalMapper *mapperThirdPartyTxUrls;
 
     QFrame *dateRangeWidget;
     QDateTimeEdit *dateFrom;
     QDateTimeEdit *dateTo;
 
     QWidget *createDateRangeWidget();
+
+    GUIUtil::TableViewLastColumnResizingFixer *columnResizingFixer;
+
+    virtual void resizeEvent(QResizeEvent* event);
+
+    bool eventFilter(QObject *obj, QEvent *event);
 
 private slots:
     void contextualMenu(const QPoint &);
@@ -77,10 +94,14 @@ private slots:
     void copyLabel();
     void copyAmount();
     void copyTxID();
+    void openThirdPartyTxUrl(QString url);
     void updateWatchOnlyColumn(bool fHaveWatchOnly);
 
 signals:
     void doubleClicked(const QModelIndex&);
+
+    /**  Fired when a message should be reported to the user */
+    void message(const QString &title, const QString &message, unsigned int style);
 
 public slots:
     void chooseDate(int idx);
@@ -93,4 +114,4 @@ public slots:
 
 };
 
-#endif // TRANSACTIONVIEW_H
+#endif // SILK_QT_TRANSACTIONVIEW_H

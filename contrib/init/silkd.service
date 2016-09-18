@@ -1,0 +1,22 @@
+[Unit]
+Description=silk's distributed currency daemon
+After=network.target
+
+[Service]
+User=silk
+Group=silk
+
+Type=forking
+PIDFile=/var/lib/silkd/silkd.pid
+ExecStart=/usr/bin/silkd -daemon -pid=/var/lib/silkd/silkd.pid \
+-conf=/etc/silk/silk.conf -datadir=/var/lib/silkd -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

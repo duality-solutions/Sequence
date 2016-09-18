@@ -1,5 +1,11 @@
-#ifndef MACDOCKICONHANDLER_H
-#define MACDOCKICONHANDLER_H
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+#ifndef SILK_QT_MACDOCKICONHANDLER_H
+#define SILK_QT_MACDOCKICONHANDLER_H
 
 #include <QMainWindow>
 #include <QObject>
@@ -9,12 +15,6 @@ class QIcon;
 class QMenu;
 class QWidget;
 QT_END_NAMESPACE
-
-#ifdef __OBJC__
-@class DockIconClickEventHandler;
-#else
-class DockIconClickEventHandler;
-#endif
 
 /** Macintosh-specific dock icon handler.
  */
@@ -29,7 +29,7 @@ public:
     void setIcon(const QIcon &icon);
     void setMainWindow(QMainWindow *window);
     static MacDockIconHandler *instance();
-
+    static void cleanup();
     void handleDockIconClickEvent();
 
 signals:
@@ -38,10 +38,9 @@ signals:
 private:
     MacDockIconHandler();
 
-    DockIconClickEventHandler *m_dockIconClickEventHandler;
     QWidget *m_dummyWidget;
     QMenu *m_dockMenu;
     QMainWindow *mainWindow;
 };
 
-#endif // MACDOCKICONCLICKHANDLER_H
+#endif // SILK_QT_MACDOCKICONHANDLER_H

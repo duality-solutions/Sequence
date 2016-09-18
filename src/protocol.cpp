@@ -1,22 +1,25 @@
 // Copyright (c) 2009-2016 Satoshi Nakamoto
-// Copyright (c) 2009-2016 The Bitcoin developers
-// Copyright (c) 2015-2016 Silk Network
-// Distributed under the MIT/X11 software license, see the accompanying
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+#include "protocol.h"
+
+#include "chainparams.h"
+#include "util.h"
+#include "utilstrencodings.h"
 
 #ifndef WIN32
 # include <arpa/inet.h>
 #endif
-
-#include "protocol.h"
-#include "util.h"
-#include "netbase.h"
 
 static const char* ppszTypeName[] =
 {
     "ERROR",
     "tx",
     "block",
+    "filtered block"
 };
 
 CMessageHeader::CMessageHeader()
@@ -38,7 +41,7 @@ CMessageHeader::CMessageHeader(const char* pszCommand, unsigned int nMessageSize
 
 std::string CMessageHeader::GetCommand() const
 {
-    return std::string(pchCommand, pchCommand + strnlen(pchCommand, COMMAND_SIZE));
+    return std::string(pchCommand, pchCommand + strnlen_int(pchCommand, COMMAND_SIZE));
 }
 
 bool CMessageHeader::IsValid() const
@@ -117,11 +120,6 @@ CInv::CInv(const std::string& strType, const uint256& hashIn)
     if (i == ARRAYLEN(ppszTypeName))
         throw std::out_of_range(strprintf("CInv::CInv(string, uint256) : unknown type '%s'", strType));
     hash = hashIn;
-}
-
-bool operator<(const CInv& a, const CInv& b)
-{
-    return (a.type < b.type || (a.type == b.type && a.hash < b.hash));
 }
 
 bool CInv::IsKnownType() const

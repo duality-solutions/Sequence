@@ -1,11 +1,19 @@
-#ifndef SENDCOINSDIALOG_H
-#define SENDCOINSDIALOG_H
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+#ifndef SILK_QT_SENDCOINSDIALOG_H
+#define SILK_QT_SENDCOINSDIALOG_H
+
+#include "walletmodel.h"
 
 #include <QDialog>
 #include <QString>
 
 class ClientModel;
-class WalletModel;
+class OptionsModel;
 class SendCoinsEntry;
 class SendCoinsRecipient;
 
@@ -26,30 +34,45 @@ public:
     explicit SendCoinsDialog(QWidget *parent = 0);
     ~SendCoinsDialog();
 
+    void setClientModel(ClientModel *clientModel);
     void setModel(WalletModel *model);
 
     /** Set up the tab chain manually, as Qt messes up the tab chain by default in some cases (issue https://bugreports.qt-project.org/browse/QTBUG-10907).
      */
     QWidget *setupTabChain(QWidget *prev);
 
+    void setAddress(const QString &address);
     void pasteEntry(const SendCoinsRecipient &rv);
-    bool handleURI(const QString &uri);
+    bool handlePaymentRequest(const SendCoinsRecipient &recipient);
+    bool fSplitBlock;
 
 public slots:
     void clear();
     void reject();
     void accept();
     SendCoinsEntry *addEntry();
-    void updateRemoveEnabled();
-    void setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBalance, qint64 immatureBalance, qint64 watchOnlyBalance, qint64 watchOnlyStake, qint64 watchUnconfBalance, qint64 watchImmatureBalance);
- 
+    void updateTabsAndLabels();
+    void setBalance(const CAmount& balance, const CAmount& total, const CAmount& stake, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
+                    const CAmount& watchOnlyBalance, const CAmount& watchOnlyStake, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance);
+
 private:
     Ui::SendCoinsDialog *ui;
+    ClientModel *clientModel;
     WalletModel *model;
     bool fNewRecipientAllowed;
+    bool fFeeMinimized;
+
+    // Process WalletModel::SendCoinsReturn and generate a pair consisting
+    // of a message and message flags for use in emit message().
+    // Additional parameter msgArg can be used via .arg(msgArg).
+    void processSendCoinsReturn(const WalletModel::SendCoinsReturn &sendCoinsReturn, const QString &msgArg = QString());
+    void minimizeFeeSection(bool fMinimize);
+    void updateFeeMinimizedLabel();
 
 private slots:
     void on_sendButton_clicked();
+    void on_buttonChooseFee_clicked();
+    void on_buttonMinimizeFee_clicked();
     void removeEntry(SendCoinsEntry* entry);
     void updateDisplayUnit();
     void coinControlFeatureChanged(bool);
@@ -65,6 +88,17 @@ private slots:
     void coinControlClipboardPriority();
     void coinControlClipboardLowOutput();
     void coinControlClipboardChange();
+    void coinControlSplitBlockChecked(int);
+    void splitBlockLineEditChanged(const QString & text);
+    void setMinimumFee();
+    void updateFeeSectionControls();
+    void updateMinFeeLabel();
+    void updateSmartFeeLabel();
+    void updateGlobalFeeVariables();
+
+signals:
+    // Fired when a message should be reported to the user
+    void message(const QString &title, const QString &message, unsigned int style);
 };
 
-#endif // SENDCOINSDIALOG_H
+#endif // SILK_QT_SENDCOINSDIALOG_H

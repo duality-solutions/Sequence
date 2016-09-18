@@ -1,11 +1,17 @@
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+#include "trafficgraphwidget.h"
+#include "clientmodel.h"
+
 #include <QPainter>
 #include <QColor>
 #include <QTimer>
 
 #include <cmath>
-
-#include "trafficgraphwidget.h"
-#include "clientmodel.h"
 
 #define DESIRED_SAMPLES         800
 
@@ -72,10 +78,12 @@ void TrafficGraphWidget::paintEvent(QPaintEvent *)
     int base = floor(log10(fMax));
     float val = pow(10.0f, base);
 
-    const QString units = tr("KB/s");
+    const QString units     = tr("KB/s");
+    const float yMarginText = 2.0;
+    
     // draw lines
     painter.setPen(axisCol);
-    painter.drawText(XMARGIN, YMARGIN + h - h * val / fMax, QString("%1 %2").arg(val).arg(units));
+    painter.drawText(XMARGIN, YMARGIN + h - h * val / fMax-yMarginText, QString("%1 %2").arg(val).arg(units));
     for(float y = val; y < fMax; y += val) {
         int yy = YMARGIN + h - h * y / fMax;
         painter.drawLine(XMARGIN, yy, width() - XMARGIN, yy);
@@ -85,7 +93,7 @@ void TrafficGraphWidget::paintEvent(QPaintEvent *)
         axisCol = axisCol.darker();
         val = pow(10.0f, base - 1);
         painter.setPen(axisCol);
-        painter.drawText(XMARGIN, YMARGIN + h - h * val / fMax, QString("%1 %2").arg(val).arg(units));
+        painter.drawText(XMARGIN, YMARGIN + h - h * val / fMax-yMarginText, QString("%1 %2").arg(val).arg(units));
         int count = 1;
         for(float y = val; y < fMax; y += val, count++) {
             // don't overwrite lines drawn above

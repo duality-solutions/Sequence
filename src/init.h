@@ -1,22 +1,38 @@
 // Copyright (c) 2009-2016 Satoshi Nakamoto
-// Copyright (c) 2009-2016 The Bitcoin developers
-// Copyright (c) 2015-2016 Silk Network
-// Distributed under the MIT/X11 software license, see the accompanying
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #ifndef SILK_INIT_H
 #define SILK_INIT_H
 
-#include "wallet.h"
+#include <string>
 
-namespace boost {
-    class thread_group;
+class CWallet;
+
+namespace boost
+{
+class thread_group;
 } // namespace boost
 
 extern CWallet* pwalletMain;
+
 void StartShutdown();
 bool ShutdownRequested();
 void Shutdown();
+void PrepareShutdown();
 bool AppInit2(boost::thread_group& threadGroup);
-std::string HelpMessage();
 
-#endif
+/** The help message mode determines what help message to show */
+enum HelpMessageMode {
+    HMM_SILKD,
+    HMM_SILK_QT
+};
+
+/** Help for options shared between UI and daemon (for -help) */
+std::string HelpMessage(HelpMessageMode mode);
+/** Returns licensing information (for -version) */
+std::string LicenseInfo();
+
+#endif // SILK_INIT_H

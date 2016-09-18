@@ -1,26 +1,34 @@
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #include "overviewpage.h"
 #include "ui_overviewpage.h"
 
-#include "clientmodel.h"
-#include "walletmodel.h"
 #include "silkunits.h"
-#include "optionsmodel.h"
-#include "transactiontablemodel.h"
-#include "transactionfilterproxy.h"
-#include "guiutil.h"
+#include "clientmodel.h"
 #include "guiconstants.h"
+#include "guiutil.h"
+#include "optionsmodel.h"
+#include "transactionfilterproxy.h"
+#include "transactiontablemodel.h"
+#include "walletmodel.h"
 
 #include <QAbstractItemDelegate>
+#include <QMovie>
 #include <QPainter>
+#include <QTimer>
 
 #define DECORATION_SIZE 64
-#define NUM_ITEMS 6
+#define NUM_ITEMS 3
 
 class TxViewDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
 public:
-    TxViewDelegate(): QAbstractItemDelegate(), unit(SilkUnits::BTC)
+    TxViewDelegate(): QAbstractItemDelegate(), unit(SilkUnits::SLK)
     {
 
     }
@@ -46,13 +54,22 @@ public:
         bool confirmed = index.data(TransactionTableModel::ConfirmedRole).toBool();
         QVariant value = index.data(Qt::ForegroundRole);
         QColor foreground = option.palette.color(QPalette::Text);
-        if(qVariantCanConvert<QColor>(value))
+        if(value.canConvert<QBrush>())
         {
-            foreground = qvariant_cast<QColor>(value);
+            QBrush brush = qvariant_cast<QBrush>(value);
+            foreground = brush.color();
         }
 
-        painter->setPen(fUseBlackTheme ? QColor(255, 255, 255) : foreground);
-        painter->drawText(addressRect, Qt::AlignLeft|Qt::AlignVCenter, address);
+        painter->setPen(foreground);
+        QRect boundingRect;
+        painter->drawText(addressRect, Qt::AlignLeft|Qt::AlignVCenter, address, &boundingRect);
+
+        if (index.data(TransactionTableModel::WatchonlyRole).toBool())
+        {
+            QIcon iconWatchonly = qvariant_cast<QIcon>(index.data(TransactionTableModel::WatchonlyDecorationRole));
+            QRect watchonlyRect(boundingRect.right() + 5, mainRect.top()+ypad+halfheight, 16, halfheight);
+            iconWatchonly.paint(painter, watchonlyRect);
+        }
 
         if(amount < 0)
         {
@@ -66,15 +83,15 @@ public:
         {
             foreground = option.palette.color(QPalette::Text);
         }
-        painter->setPen(fUseBlackTheme ? QColor(255, 255, 255) : foreground);
-        QString amountText = SilkUnits::formatWithUnit(unit, amount, true);
+        painter->setPen(foreground);
+        QString amountText = SilkUnits::formatWithUnit(unit, amount, true, SilkUnits::separatorAlways);
         if(!confirmed)
         {
             amountText = QString("[") + amountText + QString("]");
         }
         painter->drawText(amountRect, Qt::AlignRight|Qt::AlignVCenter, amountText);
 
-        painter->setPen(fUseBlackTheme ? QColor(96, 101, 110) : option.palette.color(QPalette::Text));
+        painter->setPen(option.palette.color(QPalette::Text));
         painter->drawText(amountRect, Qt::AlignLeft|Qt::AlignVCenter, GUIUtil::dateTimeStr(date));
 
         painter->restore();
@@ -96,7 +113,8 @@ OverviewPage::OverviewPage(QWidget *parent) :
     clientModel(0),
     walletModel(0),
     currentBalance(-1),
-    currentStake(0),
+    currentTotal(-1),
+    currentStake(-1),
     currentUnconfirmedBalance(-1),
     currentImmatureBalance(-1),
     currentWatchOnlyBalance(-1),
@@ -104,7 +122,9 @@ OverviewPage::OverviewPage(QWidget *parent) :
     currentWatchImmatureBalance(-1),
     currentWatchOnlyStake(-1),
     txdelegate(new TxViewDelegate()),
-    filter(0)
+    filter(0),
+    fCamelVisibile(false),
+    movePixs(40)
 {
     ui->setupUi(this);
 
@@ -123,15 +143,9 @@ OverviewPage::OverviewPage(QWidget *parent) :
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
 
-    if (fUseBlackTheme)
-    {
-        const char* whiteLabelQSS = "QLabel { color: rgb(255,255,255); }";
-        ui->labelBalance->setStyleSheet(whiteLabelQSS);
-        ui->labelStake->setStyleSheet(whiteLabelQSS);
-        ui->labelUnconfirmed->setStyleSheet(whiteLabelQSS);
-        ui->labelImmature->setStyleSheet(whiteLabelQSS);
-        ui->labelTotal->setStyleSheet(whiteLabelQSS);
-    }
+    // camel marching animation
+    gifCamel = new QMovie(":/movies/camel", "gif", this);
+    ui->labelCamel->setMovie(gifCamel);
 }
 
 void OverviewPage::handleTransactionClicked(const QModelIndex &index)
@@ -142,14 +156,46 @@ void OverviewPage::handleTransactionClicked(const QModelIndex &index)
 
 OverviewPage::~OverviewPage()
 {
+    killTimer(timerId);
     delete ui;
 }
 
-void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBalance, qint64 immatureBalance, qint64 watchOnlyBalance,
-                              qint64 watchOnlyStake, qint64 watchUnconfBalance, qint64 watchImmatureBalance)
+void OverviewPage::showCamel()
+{
+    fCamelVisibile = false;
+    ui->labelCamel->move(QPoint(movePixs, ui->labelCamel->y()));
+    gifCamel->start();
+    ui->labelCamel->show();
+    timerId = startTimer(400);
+}
+
+void OverviewPage::hideCamel()
+{
+    fCamelVisibile = true;
+    gifCamel->stop();
+    ui->labelCamel->hide();
+}
+
+void OverviewPage::moveCamel()
+{
+    movePixs = movePixs + 10;
+    if (movePixs > 600)
+    {
+        movePixs = 40;
+        hideCamel();
+        killTimer(timerId);
+    }
+    else
+        ui->labelCamel->move(QPoint(movePixs, ui->labelCamel->y()));
+}
+
+void OverviewPage::setBalance(const CAmount& balance, const CAmount& total, const CAmount& stake, const CAmount& unconfirmedBalance,
+                              const CAmount& immatureBalance, const CAmount& watchOnlyBalance,const CAmount& watchOnlyStake, 
+                              const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance)
 {
     int unit = walletModel->getOptionsModel()->getDisplayUnit();
     currentBalance = balance;
+    currentTotal = total;
     currentStake = stake;
     currentUnconfirmedBalance = unconfirmedBalance;
     currentImmatureBalance = immatureBalance;
@@ -157,21 +203,26 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
     currentWatchUnconfBalance = watchUnconfBalance;
     currentWatchImmatureBalance = watchImmatureBalance;
     currentWatchOnlyStake = watchOnlyStake;
-    ui->labelBalance->setText(SilkUnits::formatWithUnit(unit, balance));
-    ui->labelStake->setText(SilkUnits::formatWithUnit(unit, stake));
-    ui->labelUnconfirmed->setText(SilkUnits::formatWithUnit(unit, unconfirmedBalance));
-    ui->labelImmature->setText(SilkUnits::formatWithUnit(unit, immatureBalance));
-    ui->labelTotal->setText(SilkUnits::formatWithUnit(unit, balance + stake + unconfirmedBalance + immatureBalance));
-    ui->labelWatchAvailable->setText(SilkUnits::floorWithUnit(unit, watchOnlyBalance));
-    ui->labelWatchPending->setText(SilkUnits::floorWithUnit( unit, watchUnconfBalance));
-    ui->labelWatchImmature->setText(SilkUnits::floorWithUnit(unit, watchImmatureBalance));
-    ui->labelWatchTotal->setText(SilkUnits::floorWithUnit(unit, watchOnlyBalance + watchUnconfBalance + watchImmatureBalance));
+
+    ui->labelBalance->setText(SilkUnits::formatWithUnit(unit, balance, false, SilkUnits::separatorAlways));
+    ui->labelTotal->setText(SilkUnits::formatWithUnit(unit, balance + unconfirmedBalance + immatureBalance + stake, false, SilkUnits::separatorAlways));
+    ui->labelStake->setText(SilkUnits::formatWithUnit(unit, stake, false, SilkUnits::separatorAlways));
+    ui->labelUnconfirmed->setText(SilkUnits::formatWithUnit(unit, unconfirmedBalance, false, SilkUnits::separatorAlways));
+    ui->labelImmature->setText(SilkUnits::formatWithUnit(unit, immatureBalance, false, SilkUnits::separatorAlways));
+    ui->labelWatchAvailable->setText(SilkUnits::formatWithUnit(unit, watchOnlyBalance, false, SilkUnits::separatorAlways));
+    ui->labelWatchPending->setText(SilkUnits::formatWithUnit(unit, watchUnconfBalance, false, SilkUnits::separatorAlways));
+    ui->labelWatchImmature->setText(SilkUnits::formatWithUnit(unit, watchImmatureBalance, false, SilkUnits::separatorAlways));
+    ui->labelWatchTotal->setText(SilkUnits::formatWithUnit(unit, watchOnlyBalance + watchUnconfBalance + watchImmatureBalance, false, SilkUnits::separatorAlways));
 
     // only show immature (newly mined) balance if it's non-zero, so as not to complicate things
     // for the non-mining users
     bool showImmature = immatureBalance != 0;
-    ui->labelImmature->setVisible(showImmature);
-    ui->labelImmatureText->setVisible(showImmature);
+    bool showWatchOnlyImmature = watchImmatureBalance != 0;
+
+    // for symmetry reasons also show immature label when the watch-only one is shown
+    ui->labelImmature->setVisible(showImmature || showWatchOnlyImmature);
+    ui->labelImmatureText->setVisible(showImmature || showWatchOnlyImmature);
+    ui->labelWatchImmature->setVisible(showWatchOnlyImmature); // show watch-only immature balance
 }
 
 // show/hide watch-only labels
@@ -180,7 +231,7 @@ void OverviewPage::updateWatchOnlyLabels(bool showWatchOnly)
     ui->labelSpendable->setVisible(showWatchOnly);      // show spendable label (only when watch-only is active)
     ui->labelWatchonly->setVisible(showWatchOnly);      // show watch-only label
     ui->lineWatchBalance->setVisible(showWatchOnly);    // show watch-only balance separator line
-    ui->labelWatchStake->setVisible(showWatchOnly);    // show watch-only balance separator line
+    ui->labelWatchStake->setVisible(showWatchOnly);     // show watch-only balance separator line
     ui->labelWatchAvailable->setVisible(showWatchOnly); // show watch-only available balance
     ui->labelWatchPending->setVisible(showWatchOnly);   // show watch-only pending balance
     ui->labelWatchTotal->setVisible(showWatchOnly);     // show watch-only total balance
@@ -190,11 +241,12 @@ void OverviewPage::updateWatchOnlyLabels(bool showWatchOnly)
     }
     else{
         ui->labelBalance->setIndent(20);
+        ui->labelTotal->setIndent(20);
         ui->labelStake->setIndent(20);
         ui->labelUnconfirmed->setIndent(20);
         ui->labelImmature->setIndent(20);
-        ui->labelTotal->setIndent(20);
     }
+
 }
 
 void OverviewPage::setClientModel(ClientModel *model)
@@ -226,15 +278,17 @@ void OverviewPage::setWalletModel(WalletModel *model)
         ui->listTransactions->setModelColumn(TransactionTableModel::ToAddress);
 
         // Keep up to date with wallet
-        setBalance(model->getBalance(), model->getStake(), model->getUnconfirmedBalance(), model->getImmatureBalance(), model->getWatchBalance(), model->getWatchStake(), model->getWatchUnconfirmedBalance(), model->getWatchImmatureBalance());
-        connect(model, SIGNAL(balanceChanged(qint64, qint64, qint64, qint64, qint64, qint64, qint64, qint64)), this, SLOT(setBalance(qint64, qint64, qint64, qint64, qint64, qint64, qint64, qint64)));
+        setBalance(model->getBalance(), model->getTotal(), model->getStake(), model->getUnconfirmedBalance(), model->getImmatureBalance(),
+                   model->getWatchBalance(), model->getWatchStake(), model->getWatchUnconfirmedBalance(), model->getWatchImmatureBalance());
+        connect(model, SIGNAL(balanceChanged(CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount)), this, SLOT(setBalance(CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount)));
 
         connect(model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
-    
-        updateWatchOnlyLabels(model->haveWatchOnly());    
+
+        updateWatchOnlyLabels(model->haveWatchOnly());
+        connect(model, SIGNAL(notifyWatchonlyChanged(bool)), this, SLOT(updateWatchOnlyLabels(bool)));
     }
 
-    // update the display unit, to not use the default ("BTC")
+    // update the display unit, to not use the default ("SILK")
     updateDisplayUnit();
 }
 
@@ -243,12 +297,20 @@ void OverviewPage::updateDisplayUnit()
     if(walletModel && walletModel->getOptionsModel())
     {
         if(currentBalance != -1)
-            setBalance(currentBalance, walletModel->getStake(), currentUnconfirmedBalance, currentImmatureBalance, currentWatchOnlyBalance, currentWatchOnlyStake, currentWatchUnconfBalance, currentWatchImmatureBalance);
+            setBalance(currentBalance, currentTotal, currentStake, currentUnconfirmedBalance, currentImmatureBalance, 
+                currentWatchOnlyBalance, currentWatchOnlyStake, currentWatchUnconfBalance, currentWatchImmatureBalance);
 
         // Update txdelegate->unit with the current unit
         txdelegate->unit = walletModel->getOptionsModel()->getDisplayUnit();
 
         ui->listTransactions->update();
+        if (fCamelVisibile)
+        {
+            movePixs = 40;
+            showCamel(); 
+        }
+        else
+            hideCamel();
     }
 }
 
@@ -262,4 +324,9 @@ void OverviewPage::showOutOfSyncWarning(bool fShow)
 {
     ui->labelWalletStatus->setVisible(fShow);
     ui->labelTransactionsStatus->setVisible(fShow);
+}
+
+void OverviewPage::timerEvent(QTimerEvent *event)
+{
+    moveCamel();
 }

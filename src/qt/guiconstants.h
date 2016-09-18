@@ -1,5 +1,11 @@
-#ifndef GUICONSTANTS_H
-#define GUICONSTANTS_H
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+#ifndef SILK_QT_GUICONSTANTS_H
+#define SILK_QT_GUICONSTANTS_H
 
 /* Milliseconds between model updates */
 static const int MODEL_UPDATE_DELAY = 250;
@@ -19,6 +25,12 @@ static const int STATUSBAR_ICONSIZE = 16;
 #define COLOR_NEGATIVE QColor(255, 0, 0)
 /* Transaction list -- bare address (without label) */
 #define COLOR_BAREADDRESS QColor(140, 140, 140)
+/* Transaction list -- TX status decoration - open until date */
+#define COLOR_TX_STATUS_OPENUNTILDATE QColor(64, 64, 255)
+/* Transaction list -- TX status decoration - offline */
+#define COLOR_TX_STATUS_OFFLINE QColor(192, 192, 192)
+/* Transaction list -- TX status decoration - default color */
+#define COLOR_BLACK QColor(0, 0, 0)
 
 /* Tooltips longer than this (in characters) are converted into rich text,
    so that they can be word-wrapped.
@@ -31,4 +43,12 @@ static const int MAX_URI_LENGTH = 255;
 /* QRCodeDialog -- size of exported QR Code image */
 #define EXPORT_IMAGE_SIZE 256
 
-#endif // GUICONSTANTS_H
+/* Number of frames in spinner animation */
+#define SPINNER_FRAMES 35
+
+#define QAPP_ORG_NAME "Silk"
+#define QAPP_ORG_DOMAIN "silk.com"
+#define QAPP_APP_NAME_DEFAULT "Silk-Qt"
+#define QAPP_APP_NAME_TESTNET "Silk-Qt-testnet"
+
+#endif // SILK_QT_GUICONSTANTS_H
