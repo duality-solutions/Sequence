@@ -1,30 +1,18 @@
 // Copyright (c) 2009-2016 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 /**
  * Utilities for converting data from/to strings.
  */
-#ifndef DARKSILK_UTILSTRENCODINGS_H
-#define DARKSILK_UTILSTRENCODINGS_H
-
-#include <boost/date_time/posix_time/posix_time.hpp>
-
-#include <openssl/bio.h>
-#include <openssl/evp.h>
-#include <openssl/buffer.h>
-#include <openssl/crypto.h> // for OPENSSL_cleanse()
-#include <openssl/rand.h>
-#include <openssl/bn.h>
-
-#include <string>
-#include <vector>
+#ifndef SILK_UTILSTRENCODINGS_H
+#define SILK_UTILSTRENCODINGS_H
 
 #include <stdint.h>
-
-#include "serialize.h"
-#include "allocators.h"
+#include <string>
+#include <vector>
 
 #define BEGIN(a)            ((char*)&(a))
 #define END(a)              ((char*)&((&(a))[1]))
@@ -35,22 +23,10 @@
 /** This is needed because the foreach macro can't get over the comma in pair<t1, t2> */
 #define PAIRTYPE(t1, t2)    std::pair<t1, t2>
 
-/** Used by SanitizeString() */
-enum SafeChars
-{
-    SAFE_CHARS_DEFAULT, //!< The full set of allowed chars
-    SAFE_CHARS_UA_COMMENT //!< BIP-0014 subset
-};
-
-/**
-* Remove unsafe chars. Safe chars chosen to allow simple messages/URLs/email
-* addresses, but avoid anything even possibly remotely dangerous like & or >
-* @param[in] str    The string to sanitize
-* @param[in] rule   The set of safe chars to choose (default: least restrictive)
-* @return           A new string without unsafe chars
-*/
-
-std::string SanitizeString(const std::string& str, int rule = SAFE_CHARS_DEFAULT);
+std::string SanitizeString(const std::string& str);
+/// Formats the network peer user agent text (or subversion)
+/// by removing the begining and ending charactors(/).
+/// example: /Silk Core:1.0.0/ --> Silk Core:1.0.0
 std::string SanitizeSubVersionString(const std::string& str);
 
 std::vector<unsigned char> ParseHex(const char* psz);
@@ -61,8 +37,6 @@ std::vector<unsigned char> DecodeBase64(const char* p, bool* pfInvalid = NULL);
 std::string DecodeBase64(const std::string& str);
 std::string EncodeBase64(const unsigned char* pch, size_t len);
 std::string EncodeBase64(const std::string& str);
-SecureString DecodeBase64Secure(const SecureString& input);
-SecureString EncodeBase64Secure(const SecureString& input);
 std::vector<unsigned char> DecodeBase32(const char* p, bool* pfInvalid = NULL);
 std::string DecodeBase32(const std::string& str);
 std::string EncodeBase32(const unsigned char* pch, size_t len);
@@ -95,11 +69,51 @@ bool ParseInt64(const std::string& str, int64_t *out);
  */
 bool ParseDouble(const std::string& str, double *out);
 
-/**
+template<typename T>
+std::string HexStr(const T itbegin, const T itend, bool fSpaces=false)
+{
+    std::string rv;
+    static const char hexmap[16] = { '0', '1', '2', '3', '4', '5', '6', '7',
+                                     '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    rv.reserve((itend-itbegin)*3);
+    for(T it = itbegin; it < itend; ++it)
+    {
+        unsigned char val = (unsigned char)(*it);
+        if(fSpaces && it != itbegin)
+            rv.push_back(' ');
+        rv.push_back(hexmap[val>>4]);
+        rv.push_back(hexmap[val&15]);
+    }
+
+    return rv;
+}
+
+template<typename T>
+inline std::string HexStr(const T& vch, bool fSpaces=false)
+{
+    return HexStr(vch.begin(), vch.end(), fSpaces);
+}
+
+/** 
  * Format a paragraph of text to a fixed width, adding spaces for
  * indentation to any added line.
  */
-std::string FormatParagraph(const std::string& in, size_t width = 79, size_t indent = 0);
+std::string FormatParagraph(const std::string in, size_t width=79, size_t indent=0);
+
+/**
+ * Timing-attack-resistant comparison.
+ * Takes time proportional to length
+ * of first argument.
+ */
+template <typename T>
+bool TimingResistantEqual(const T& a, const T& b)
+{
+    if (b.size() == 0) return a.size() == 0;
+    size_t accumulator = a.size() ^ b.size();
+    for (size_t i = 0; i < a.size(); i++)
+        accumulator |= a[i] ^ b[i%b.size()];
+    return accumulator == 0;
+}
 
 /** Parse number as fixed point according to JSON number syntax.
  * See http://json.org/number.gif
@@ -108,4 +122,5 @@ std::string FormatParagraph(const std::string& in, size_t width = 79, size_t ind
  */
 bool ParseFixedPoint(const std::string &val, int decimals, int64_t *amount_out);
 
-#endif // DARKSILK_UTILSTRENCODINGS_H
+
+#endif // SILK_UTILSTRENCODINGS_H

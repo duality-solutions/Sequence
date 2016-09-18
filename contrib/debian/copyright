@@ -1,14 +1,12 @@
 Format: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?rev=174
 Upstream-Name: Silk
-Upstream-Contact: Satoshi Nakamoto <satoshin@gmx.com>
- irc://#silk@freenode.net
-Source: http://sourceforge.net/projects/silk/files/
- https://github.com/silk/silk
+Upstream-Contact: Silk Network <contact@silknetwork.org>
+Source: https://github.com/silknetwork/silk-core
 
 Files: *
-Copyright: 2009-2016, Silk Developers
+Copyright: 2015-2016, Silk Core Developers
 License: Expat
-Comment: The Silk Developers encompasses the current developers listed on silk.org,
+Comment: Silk Network Developers encompasses the current developers listed on silknetwork.org,
          as well as the numerous contributors to the project.
 
 Files: src/json/*
@@ -56,7 +54,7 @@ Comment: Icon Pack: Human-O2
 Files: src/qt/res/icons/transaction*.png
 Copyright: md2k7
 License: Expat
-Comment: Site: https://silktalk.org/index.php?topic=15276.0
+Comment: Site: https://bitcointalk.org/index.php?topic=15276.0
 
 Files: src/qt/res/icons/configure.png, src/qt/res/icons/quit.png,
       src/qt/res/icons/editcopy.png, src/qt/res/icons/editpaste.png,
@@ -67,11 +65,10 @@ License: LGPL
 Comment: Icon Pack: Crystal SVG
 
 Files: src/qt/res/icons/silk.png, src/qt/res/icons/toolbar.png
-Copyright: Bitboy (optimized for 16x16 by Wladimir van der Laan)
+Copyright: Jan Fox
 License: PUB-DOM
-Comment: Site: https://silktalk.org/?topic=1756.0
 
-Files:  scripts/img/reload.xcf, src/qt/res/movies/update_spinner.mng
+Files:  scripts/img/reload.xcf, src/qt/res/movies/*.png
 Copyright: Everaldo (Everaldo Coelho)
 License: GPL-3+
 Comment: Icon Pack: Kids
@@ -79,9 +76,7 @@ Comment: Icon Pack: Kids
 
 Files: src/qt/res/images/splash2.jpg
 License: PUB-DOM
-Copyright: Crobbo (forum)
-Comment: Site: https://silktalk.org/index.php?topic=32273.0
-
+Copyright: Jan Fox
 
 License: Expat
  Permission is hereby granted, free of charge, to any person obtaining a

@@ -1,8 +1,8 @@
-// Copyright (c) 2014 The Silk developers
-// Distributed under the MIT/X11 software license, see the accompanying
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
-#include <boost/foreach.hpp>
 
 #include "timedata.h"
 
@@ -10,20 +10,22 @@
 #include "sync.h"
 #include "ui_interface.h"
 #include "util.h"
+#include "utilstrencodings.h"
+
+#include <boost/foreach.hpp>
 
 using namespace std;
 
 static CCriticalSection cs_nTimeOffset;
 static int64_t nTimeOffset = 0;
 
-//
-// "Never go to sea with two chronometers; take one or three."
-// Our three time sources are:
-//  - System clock
-//  - Median of other nodes clocks
-//  - The user (asking the user to fix the system clock if the first two disagree)
-//
-//
+/**
+ * "Never go to sea with two chronometers; take one or three."
+ * Our three time sources are:
+ *  - System clock
+ *  - Median of other nodes clocks
+ *  - The user (asking the user to fix the system clock if the first two disagree)
+ */
 int64_t GetTimeOffset()
 {
     LOCK(cs_nTimeOffset);
@@ -35,20 +37,23 @@ int64_t GetAdjustedTime()
     return GetTime() + GetTimeOffset();
 }
 
-#define SILK_TIMEDATA_MAX_SAMPLES 200
-
-void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
+static int64_t abs64(int64_t n)
 {
+    return (n >= 0 ? n : -n);
+}
+
+void AddTimeData(const CNetAddr& ip, int64_t nTime)
+{
+    int64_t nOffsetSample = nTime - GetTime();
+
     LOCK(cs_nTimeOffset);
     // Ignore duplicates
     static set<CNetAddr> setKnown;
-    if (setKnown.size() == SILK_TIMEDATA_MAX_SAMPLES)
-        return;
     if (!setKnown.insert(ip).second)
         return;
 
     // Add data
-    static CMedianFilter<int64_t> vTimeOffsets(SILK_TIMEDATA_MAX_SAMPLES, 0);
+    static CMedianFilter<int64_t> vTimeOffsets(200,0);
     vTimeOffsets.input(nOffsetSample);
     LogPrintf("Added time data, samples %d, offset %+d (%+d minutes)\n", vTimeOffsets.size(), nOffsetSample, nOffsetSample/60);
 
@@ -94,7 +99,7 @@ void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
                 if (!fMatch)
                 {
                     fDone = true;
-                    string strMessage = _("Warning: Please check that your computer's date and time are correct! If your clock is wrong Silk will not work properly.");
+                    string strMessage = _("Warning: Please check that your computer's date and time are correct! If your clock is wrong Silk Core will not work properly.");
                     strMiscWarning = strMessage;
                     LogPrintf("*** %s\n", strMessage);
                     uiInterface.ThreadSafeMessageBox(strMessage, "", CClientUIInterface::MSG_WARNING);

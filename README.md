@@ -1,14 +1,10 @@
-# **Silk (SLK) Pre-Release Code**
-
-**Copyright (c) 2015-2016 Silk Network**
-
-### Project Status: ![Backlog](https://badge.waffle.io/SilkNetwork/Silk-Core.png?label=Ready&title=Backlog)
-
+# **Silk-Core (SLK) v1.0**
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 
-[![Stories in Ready](https://badge.waffle.io/amirabrams/amirabrams.png?label=ready&title=Ready)](http://waffle.io/SilkNetwork/Silk-Core)
-[![Build Status](https://travis-ci.org/amirabrams/silk.png?branch=master)](https://travis-ci.org/SilkNetwork/Silk-Core) 
+[![Stories in Ready](https://badge.waffle.io/SilkNetwork/Silk-Core.png?label=ready&title=Ready)](https://waffle.io/SilkNetwork/Silk-Core)
+[![Build Status](https://travis-ci.org/SilkNetwork/Silk-Core.png?branch=master)](https://travis-ci.org/SilkNetwork/Silk-Core)
+
 
 Graph on Pull Request History
 ====================================
@@ -17,22 +13,22 @@ Graph on Pull Request History
 
 Silk Integration/Staging Tree
 ================================
-[](https://github.com/SilkNetwork/Silk-Core/tree/master/src/qt/res/icons/silk-80.png)
+![SLK logo](https://github.com/SilkNetwork/Silk-Core/blob/master/src/qt/res/icons/silk-80.png)
 
 **Copyright (c) 2015-2016 Silk Network**
 
 #### What is Silk?
 ----------------
-* Algorithm: Scrypt
 * Coin Suffix: SLK
-* PoW Period: 41,089 Blocks
-* PoW Target Spacing: 60 Seconds
-* PoW Difficulty Retarget: 10 Blocks
+* Algorithm: Scrypt
+* PoW Period: 10,000 Blocks
+* PoW Target Spacing: 60 Seconds 
+* PoW Difficulty Retarget: 10 Blocks 
 * PoW Reward per Block: 0 SLK
 * Full Confirmation: 10 Blocks
-* PoS Target Spacing: 64 Seconds
-* PoS Difficulty Retarget: 10 Blocks
-* PoS Reward: 2 SLK (Static)
+* PoS Target Spacing: 64 Seconds 
+* PoS Difficulty Retarget: 10 Blocks 
+* PoS Reward: 2 SLK
 * PoS Min: 12 Hours
 * PoS Max: Unlimited
 * Total Coins: 2,000,000,000 SLK
@@ -42,14 +38,15 @@ Silk Integration/Staging Tree
 Silk is a digital currency that enables instant payments to anyone, anywhere in the world. Silk uses peer-to-peer technology over ClearNet to operate with no central authority (centralisation): managing transactions and issuing currency (SLK) are carried out collectively by the Silk network. Silk is the name of open source software which enables the use of the currency SLK.
 
 
+
 **MainNet Parameters**
-P2P Port = 16666
-RPC Port = 16667
+P2P Port = 16662
+RPC Port = 16663
 
 
 **TestNet Parameters**
-P2P Port = 16668
-RPC Port = 16669
+P2P Port = 16664
+RPC Port = 16665
 
 
 UNIX BUILD NOTES
@@ -197,7 +194,7 @@ It is recommended to use Berkeley DB 4.8. If you have to build it yourself:
 ```bash
 SILK_ROOT=$(pwd)
 
-# Pick some path to install BDB to, here we create a directory within the Silk directory
+# Pick some path to install BDB to, here we create a directory within the silk directory
 BDB_PREFIX="${SILK_ROOT}/db4"
 mkdir -p $BDB_PREFIX
 
@@ -264,7 +261,7 @@ Hardening enables the following features:
 
 * Non-executable Stack
     If the stack is executable then trivial stack based buffer overflow exploits are possible if
-    vulnerable buffers are found. By default, Silk should be built with a non-executable stack
+    vulnerable buffers are found. By default, silk should be built with a non-executable stack
     but if one of the libraries it uses asks for an executable stack or someone makes a mistake
     and uses a compiler extension which requires an executable stack, it will silently build an
     executable without the non-executable stack protection.
@@ -280,7 +277,7 @@ Hardening enables the following features:
 
 Disable-wallet mode
 --------------------
-When the intention is to run only a P2P node without a wallet, Silk may be compiled in
+When the intention is to run only a P2P node without a wallet, silk may be compiled in
 disable-wallet mode with:
 
     ./configure --disable-wallet
@@ -294,7 +291,7 @@ Example Build Command
 --------------------
 Qt Wallet and Deamon, CLI version build:
 
-    ./autogen.sh && ./configure --with-gui && make
+    ./autogen.sh && ./configure --with-gui=qt5 && make
 
 CLI and Deamon Only Buld:
 

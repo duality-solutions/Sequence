@@ -1,0 +1,86 @@
+#!/sbin/runscript
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/silk/.silk" ]; then
+	SILKD_DEFAULT_DATADIR="/var/lib/silk/.silk"
+else
+	SILKD_DEFAULT_DATADIR="/var/lib/silkd"
+fi
+
+SILKD_CONFIGFILE=${SILKD_CONFIGFILE:-/etc/silk/silk.conf}
+SILKD_PIDDIR=${SILKD_PIDDIR:-/var/run/silkd}
+SILKD_PIDFILE=${SILKD_PIDFILE:-${SILKD_PIDDIR}/silkd.pid}
+SILKD_DATADIR=${SILKD_DATADIR:-${SILKD_DEFAULT_DATADIR}}
+SILKD_USER=${SILKD_USER:-silk}
+SILKD_GROUP=${SILKD_GROUP:-silk}
+SILKD_BIN=${SILKD_BIN:-/usr/bin/silkd}
+
+name="Silk Core Daemon"
+description="silk crypto-currency p2p network daemon"
+
+command="/usr/bin/silkd"
+command_args="-pid=\"${SILKD_PIDFILE}\" \
+		-conf=\"${SILKD_CONFIGFILE}\" \
+		-datadir=\"${SILKD_DATADIR}\" \
+		-daemon \
+		${SILKD_OPTS}"
+
+required_files="${SILKD_CONFIGFILE}"
+start_stop_daemon_args="-u ${SILKD_USER} \
+			-N ${SILKD_NICE:-0} -w 2000"
+pidfile="${SILKD_PIDFILE}"
+retry=60
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${SILKD_USER}:${SILKD_GROUP}" \
+	"${SILKD_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${SILKD_USER}:${SILKD_GROUP}" \
+	"${SILKD_PIDDIR}"
+
+	checkpath -f \
+	-o ${SILKD_USER}:${SILKD_GROUP} \
+	-m 0660 \
+	${SILKD_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${SILKD_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run silkd."
+		eerror "The setting must appear in ${SILKD_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following"
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is also recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"silk Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

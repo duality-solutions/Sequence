@@ -1,8 +1,14 @@
-#ifndef CSVMODELWRITER_H
-#define CSVMODELWRITER_H
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QObject>
+#ifndef SILK_QT_CSVMODELWRITER_H
+#define SILK_QT_CSVMODELWRITER_H
+
 #include <QList>
+#include <QObject>
 
 QT_BEGIN_NAMESPACE
 class QAbstractItemModel;
@@ -39,4 +45,4 @@ private:
     QList<Column> columns;
 };
 
-#endif // CSVMODELWRITER_H
+#endif // SILK_QT_CSVMODELWRITER_H

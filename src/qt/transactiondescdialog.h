@@ -1,5 +1,11 @@
-#ifndef TRANSACTIONDESCDIALOG_H
-#define TRANSACTIONDESCDIALOG_H
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+#ifndef SILK_QT_TRANSACTIONDESCDIALOG_H
+#define SILK_QT_TRANSACTIONDESCDIALOG_H
 
 #include <QDialog>
 
@@ -24,4 +30,4 @@ private:
     Ui::TransactionDescDialog *ui;
 };
 
-#endif // TRANSACTIONDESCDIALOG_H
+#endif // SILK_QT_TRANSACTIONDESCDIALOG_H

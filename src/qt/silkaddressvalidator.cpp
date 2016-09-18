@@ -1,4 +1,14 @@
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #include "silkaddressvalidator.h"
+
+#include "base58.h"
+#include "pubkey.h"
+#include "utilstrencodings.h"
 
 /* Base58 characters are:
      "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
@@ -7,21 +17,23 @@
   - All numbers except for '0'
   - All upper-case letters except for 'I' and 'O'
   - All lower-case letters except for 'l'
-
-  User friendly Base58 input can map
-  - 'l' and 'I' to '1'
-  - '0' and 'O' to 'o'
 */
 
-SilkAddressValidator::SilkAddressValidator(QObject *parent) :
+SilkAddressEntryValidator::SilkAddressEntryValidator(QObject *parent) :
     QValidator(parent)
 {
 }
 
-QValidator::State SilkAddressValidator::validate(QString &input, int &pos) const
+QValidator::State SilkAddressEntryValidator::validate(QString &input, int &pos) const
 {
+    Q_UNUSED(pos);
+
+    // Empty address is "intermediate" input
+    if (input.isEmpty())
+        return QValidator::Intermediate;
+
     // Correction
-    for(int idx=0; idx<input.size();)
+    for (int idx = 0; idx < input.size();)
     {
         bool removeChar = false;
         QChar ch = input.at(idx);
@@ -38,11 +50,13 @@ QValidator::State SilkAddressValidator::validate(QString &input, int &pos) const
         default:
             break;
         }
+
         // Remove whitespace
-        if(ch.isSpace())
+        if (ch.isSpace())
             removeChar = true;
+
         // To next character
-        if(removeChar)
+        if (removeChar)
             input.remove(idx, 1);
         else
             ++idx;
@@ -50,16 +64,15 @@ QValidator::State SilkAddressValidator::validate(QString &input, int &pos) const
 
     // Validation
     QValidator::State state = QValidator::Acceptable;
-    for(int idx=0; idx<input.size(); ++idx)
+    for (int idx = 0; idx < input.size(); ++idx)
     {
         int ch = input.at(idx).unicode();
 
-        if(((ch >= '0' && ch<='9') ||
-           (ch >= 'a' && ch<='z') ||
-           (ch >= 'A' && ch<='Z')) &&
-           ch != 'l' && ch != 'I' && ch != '0' && ch != 'O')
+        if (((ch >= '0' && ch<='9') ||
+            (ch >= 'a' && ch<='z') ||
+            (ch >= 'A' && ch<='Z')))
         {
-            // Alphanumeric and not a 'forbidden' character
+            // Alphanumeric
         }
         else
         {
@@ -67,11 +80,30 @@ QValidator::State SilkAddressValidator::validate(QString &input, int &pos) const
         }
     }
 
-    // Empty address is "intermediate" input
-    if(input.isEmpty())
+    return state;
+}
+
+SilkAddressCheckValidator::SilkAddressCheckValidator(QObject *parent) :
+    QValidator(parent)
+{
+}
+
+QValidator::State SilkAddressCheckValidator::validate(QString &input, int &pos) const
+{
+    Q_UNUSED(pos);
+    // Validate the passed Silk address
+    const std::string strInput = input.toStdString();
+    CSilkAddress addr(strInput);
+    if (addr.IsValid())
+        return QValidator::Acceptable;
+
+    // Validate the passed Silk public key
+    if (IsHex(strInput))
     {
-        state = QValidator::Intermediate;
+        CPubKey vchPubKey(ParseHex(strInput));
+        if (vchPubKey.IsFullyValid())
+            return QValidator::Acceptable;
     }
 
-    return state;
+    return QValidator::Invalid;
 }

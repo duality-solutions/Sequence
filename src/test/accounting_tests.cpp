@@ -1,15 +1,23 @@
-#include <boost/test/unit_test.hpp>
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <boost/foreach.hpp>
-
-#include "init.h"
 #include "wallet.h"
 #include "walletdb.h"
+
+#include <stdint.h>
+
+#include <boost/foreach.hpp>
+#include <boost/test/unit_test.hpp>
+
+extern CWallet* pwalletMain;
 
 BOOST_AUTO_TEST_SUITE(accounting_tests)
 
 static void
-GetResults(CWalletDB& walletdb, std::map<int64, CAccountingEntry>& results)
+GetResults(CWalletDB& walletdb, std::map<CAmount, CAccountingEntry>& results)
 {
     std::list<CAccountingEntry> aes;
 
@@ -28,7 +36,9 @@ BOOST_AUTO_TEST_CASE(acc_orderupgrade)
     std::vector<CWalletTx*> vpwtx;
     CWalletTx wtx;
     CAccountingEntry ae;
-    std::map<int64, CAccountingEntry> results;
+    std::map<CAmount, CAccountingEntry> results;
+
+    LOCK(pwalletMain->cs_wallet);
 
     ae.strAccount = "";
     ae.nCreditDebit = 1;
@@ -75,13 +85,21 @@ BOOST_AUTO_TEST_CASE(acc_orderupgrade)
 
 
     wtx.mapValue["comment"] = "y";
-    --wtx.nLockTime;  // Just to change the hash :)
+    {
+        CMutableTransaction tx(wtx);
+        --tx.nLockTime;  // Just to change the hash :)
+        *static_cast<CTransaction*>(&wtx) = CTransaction(tx);
+    }
     pwalletMain->AddToWallet(wtx);
     vpwtx.push_back(&pwalletMain->mapWallet[wtx.GetHash()]);
     vpwtx[1]->nTimeReceived = (unsigned int)1333333336;
 
     wtx.mapValue["comment"] = "x";
-    --wtx.nLockTime;  // Just to change the hash :)
+    {
+        CMutableTransaction tx(wtx);
+        --tx.nLockTime;  // Just to change the hash :)
+        *static_cast<CTransaction*>(&wtx) = CTransaction(tx);
+    }
     pwalletMain->AddToWallet(wtx);
     vpwtx.push_back(&pwalletMain->mapWallet[wtx.GetHash()]);
     vpwtx[2]->nTimeReceived = (unsigned int)1333333329;

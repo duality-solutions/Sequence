@@ -1,15 +1,25 @@
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+#include "util.h"
+
+#include <string>
+#include <vector>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
 #include <boost/test/unit_test.hpp>
-
-#include "util.h"
 
 BOOST_AUTO_TEST_SUITE(getarg_tests)
 
 static void ResetArgs(const std::string& strArg)
 {
     std::vector<std::string> vecArg;
-    boost::split(vecArg, strArg, boost::is_space(), boost::token_compress_on);
+    if (strArg.size())
+      boost::split(vecArg, strArg, boost::is_space(), boost::token_compress_on);
 
     // Insert dummy executable name:
     vecArg.insert(vecArg.begin(), "testsilk");

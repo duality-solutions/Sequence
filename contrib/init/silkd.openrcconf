@@ -1,0 +1,27 @@
+# /etc/conf.d/silkd: config file for /etc/init.d/silkd
+
+# Config file location
+#SILKD_CONFIGFILE="/etc/silk/silk.conf"
+
+# What directory to write pidfile to?  (created and owned by $SILKD_USER)
+#SILKD_PIDDIR="/var/run/silkd"
+
+# What filename to give the pidfile
+#SILKD_PIDFILE="${SILKD_PIDDIR}/silkd.pid"
+
+# Where to write silkd data (be mindful that the blockchain is large)
+#SILKD_DATADIR="/var/lib/silkd"
+
+# User and group to own silkd process
+#SILKD_USER="silk"
+#SILKD_GROUP="silk"
+
+# Path to silkd executable
+#SILKD_BIN="/usr/bin/silkd"
+
+# Nice value to run silkd under
+#SILKD_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+SILKD_OPTS="-disablewallet"
+

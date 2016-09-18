@@ -1,12 +1,19 @@
-#ifndef EDITADDRESSDIALOG_H
-#define EDITADDRESSDIALOG_H
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+#ifndef SILK_QT_EDITADDRESSDIALOG_H
+#define SILK_QT_EDITADDRESSDIALOG_H
 
 #include <QDialog>
+
+class AddressTableModel;
 
 namespace Ui {
     class EditAddressDialog;
 }
-class AddressTableModel;
 
 QT_BEGIN_NAMESPACE
 class QDataWidgetMapper;
@@ -26,7 +33,7 @@ public:
         EditSendingAddress
     };
 
-    explicit EditAddressDialog(Mode mode, QWidget *parent = 0);
+    explicit EditAddressDialog(Mode mode, QWidget *parent);
     ~EditAddressDialog();
 
     void setModel(AddressTableModel *model);
@@ -49,4 +56,4 @@ private:
     QString address;
 };
 
-#endif // EDITADDRESSDIALOG_H
+#endif // SILK_QT_EDITADDRESSDIALOG_H

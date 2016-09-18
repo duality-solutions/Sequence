@@ -1,10 +1,17 @@
-#ifndef TRANSACTIONRECORD_H
-#define TRANSACTIONRECORD_H
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
+#ifndef SILK_QT_TRANSACTIONRECORD_H
+#define SILK_QT_TRANSACTIONRECORD_H
+
+#include "amount.h"
+#include "uint256.h"
 
 #include <QList>
 #include <QString>
-
-#include "uint256.h"
 
 class CWallet;
 class CWalletTx;
@@ -20,7 +27,7 @@ public:
     { }
 
     enum Status {
-        Confirmed,          /**< Have 6 or more confirmations (normal tx) or fully mature (mined tx) **/
+        Confirmed,          /**< Have 10 or more confirmations (normal tx) or fully mature (mined tx) **/
         /// Normal (sent/received) transactions
         OpenUntilDate,      /**< Transaction not yet final, waiting for date */
         OpenUntilBlock,     /**< Transaction not yet final, waiting for block */
@@ -47,10 +54,10 @@ public:
     /** @name Reported status
        @{*/
     Status status;
-    int64_t depth;
-    int64_t open_for; /**< Timestamp if status==OpenUntilDate, otherwise number
-                       of additional blocks that need to be mined before
-                       finalization */
+    qint64 depth;
+    qint64 open_for; /**< Timestamp if status==OpenUntilDate, otherwise number
+                      of additional blocks that need to be mined before
+                      finalization */
     /**@}*/
 
     /** Current number of blocks (to know whether cached status is still valid) */
@@ -71,7 +78,9 @@ public:
         SendToOther,
         RecvWithAddress,
         RecvFromOther,
-        SendToSelf
+        SendToSelf,
+        StakeMint,
+        NameOp
     };
 
     /** Number of confirmation recommended for accepting a transaction */
@@ -82,15 +91,15 @@ public:
     {
     }
 
-    TransactionRecord(uint256 hash, int64_t time):
+    TransactionRecord(uint256 hash, qint64 time):
             hash(hash), time(time), type(Other), address(""), debit(0),
             credit(0), idx(0)
     {
     }
 
-    TransactionRecord(uint256 hash, int64_t time,
+    TransactionRecord(uint256 hash, qint64 time,
                 Type type, const std::string &address,
-                int64_t debit, int64_t credit):
+                const CAmount& debit, const CAmount& credit):
             hash(hash), time(time), type(type), address(address), debit(debit), credit(credit),
             idx(0)
     {
@@ -107,8 +116,8 @@ public:
     qint64 time;
     Type type;
     std::string address;
-    qint64 debit;
-    qint64 credit;
+    CAmount debit;
+    CAmount credit;
     /**@}*/
 
     /** Subtransaction index, for sort key */
@@ -116,6 +125,9 @@ public:
 
     /** Status: can change with block chain update */
     TransactionStatus status;
+
+    /** Whether the transaction was sent/received with a watch-only address */
+    bool involvesWatchAddress;
 
     /** Return the unique identifier for this transaction (part) */
     QString getTxID() const;
@@ -132,4 +144,4 @@ public:
     bool statusUpdateNeeded();
 };
 
-#endif // TRANSACTIONRECORD_H
+#endif // SILK_QT_TRANSACTIONRECORD_H

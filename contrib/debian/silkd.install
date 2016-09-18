@@ -1,2 +1,2 @@
-debian/bin/silkd usr/bin
-src/silkd usr/lib/silk
+usr/local/bin/silkd usr/bin
+usr/local/bin/silk-cli usr/bin

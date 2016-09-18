@@ -1,6 +1,7 @@
-// Copyright (c) 2011-2016 The Bitcoin developers
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
 // Copyright (c) 2015-2016 Silk Network Developers
-// Distributed under the MIT/X11 software license, see the accompanying
+// Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "peertablemodel.h"
@@ -64,7 +65,6 @@ public:
 #if QT_VERSION >= 0x040700
             cachedNodeStats.reserve(vNodes.size());
 #endif
-            //CopyNodeStats();
             BOOST_FOREACH(CNode* pnode, vNodes)
             {
                 CNodeCombinedStats stats;
@@ -81,10 +81,8 @@ public:
             TRY_LOCK(cs_main, lockMain);
             if (lockMain)
             {
-                BOOST_FOREACH(CNodeCombinedStats &stats, cachedNodeStats) {
+                BOOST_FOREACH(CNodeCombinedStats &stats, cachedNodeStats)
                     stats.fNodeStateStatsAvailable = GetNodeStateStats(stats.nodeStats.nodeid, stats.nodeStateStats);
-                    stats.fNodeStateStatsAvailable = true;
-                }
             }
         }
 

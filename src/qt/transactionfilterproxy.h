@@ -1,8 +1,16 @@
-#ifndef TRANSACTIONFILTERPROXY_H
-#define TRANSACTIONFILTERPROXY_H
+// Copyright (c) 2009-2016 Satoshi Nakamoto
+// Copyright (c) 2009-2016 The Bitcoin Developers
+// Copyright (c) 2015-2016 Silk Network Developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QSortFilterProxyModel>
+#ifndef SILK_QT_TRANSACTIONFILTERPROXY_H
+#define SILK_QT_TRANSACTIONFILTERPROXY_H
+
+#include "amount.h"
+
 #include <QDateTime>
+#include <QSortFilterProxyModel>
 
 /** Filter the transaction list according to pre-specified rules. */
 class TransactionFilterProxy : public QSortFilterProxyModel
@@ -18,11 +26,9 @@ public:
     static const QDateTime MAX_DATE;
     /** Type filter bit field (all types) */
     static const quint32 ALL_TYPES = 0xFFFFFFFF;
-    /** Type filter bit field */
-    static const quint32 COMMON_TYPES = 4223;
- 
-     static quint32 TYPE(int type) { return 1<<type; }
- 
+
+    static quint32 TYPE(int type) { return 1<<type; }
+
     enum WatchOnlyFilter
     {
         WatchOnlyFilter_All,
@@ -36,7 +42,7 @@ public:
       @note Type filter takes a bit field created with TYPE() or ALL_TYPES
      */
     void setTypeFilter(quint32 modes);
-    void setMinAmount(qint64 minimum);
+    void setMinAmount(const CAmount& minimum);
     void setWatchOnlyFilter(WatchOnlyFilter filter);
 
     /** Set maximum number of rows returned, -1 if unlimited. */
@@ -56,9 +62,9 @@ private:
     QString addrPrefix;
     quint32 typeFilter;
     WatchOnlyFilter watchOnlyFilter;
-    qint64 minAmount;
+    CAmount minAmount;
     int limitRows;
     bool showInactive;
 };
 
-#endif // TRANSACTIONFILTERPROXY_H
+#endif // SILK_QT_TRANSACTIONFILTERPROXY_H

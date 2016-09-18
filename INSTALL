@@ -1,9 +1,5 @@
 Building Silk
 
-See doc/readme-qt.rst for instructions on building Silk QT,
-the intended-for-end-users, nice-graphical-interface, reference
-implementation of Silk.
-
-See doc/build-*.txt for instructions on building silkd,
+See doc/build-*.md for instructions on building silkd,
 the intended-for-services, no-graphical-interface, reference
 implementation of Silk.
