@@ -10,7 +10,7 @@
 #include "main.h"
 #include "multisigaddressentry.h"
 #include "multisiginputentry.h"
-#include "namecoin.h"
+#include "dns.h"
 #include "script/script.h"
 #include "sendcoinsentry.h"
 #include "util.h"

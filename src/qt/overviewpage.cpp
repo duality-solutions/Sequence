@@ -124,7 +124,8 @@ OverviewPage::OverviewPage(QWidget *parent) :
     txdelegate(new TxViewDelegate()),
     filter(0),
     fCamelVisibile(false),
-    movePixs(40)
+    movePixs(40),
+    timerId(0)
 {
     ui->setupUi(this);
 
@@ -156,7 +157,9 @@ void OverviewPage::handleTransactionClicked(const QModelIndex &index)
 
 OverviewPage::~OverviewPage()
 {
-    killTimer(timerId);
+    if (timerId)
+        killTimer(timerId);
+
     delete ui;
 }
 
@@ -184,6 +187,9 @@ void OverviewPage::moveCamel()
         movePixs = 40;
         hideCamel();
         killTimer(timerId);
+        timerId = startTimer(1);
+        killTimer(timerId);
+        timerId = 0;
     }
     else
         ui->labelCamel->move(QPoint(movePixs, ui->labelCamel->y()));

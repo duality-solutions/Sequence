@@ -12,7 +12,7 @@
 #include "coincontrol.h"
 #include "kernel.h"
 #include "net.h"
-#include "namecoin.h"
+#include "dns.h"
 #include "script/script.h"
 #include "script/sign.h"
 #include "timedata.h"

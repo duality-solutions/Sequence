@@ -442,7 +442,7 @@ HEADERS += \
     src/miner.h \
     src/ministun.h \
     src/mruset.h \
-    src/namecoin.h \
+    src/dns.h \
     src/net.h \
     src/netbase.h \
     src/noui.h \
@@ -576,7 +576,7 @@ SOURCES += \
     src/main.cpp \
     src/merkleblock.cpp \
     src/miner.cpp \
-    src/namecoin.cpp \
+    src/dns.cpp \
     src/net.cpp \
     src/netbase.cpp \
     src/noui.cpp \
