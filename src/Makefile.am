@@ -156,7 +156,7 @@ SILK_CORE_H = \
 ## --- ppcoin and silk headers start from this line --- ##
   uint256hm.h \
   kernel.h \
-  namecoin.h \
+  dns.h \
   hooks.h \
   slkdns.h 
 
@@ -194,7 +194,7 @@ libsilk_server_a_SOURCES = \
   txmempool.cpp \
 ## --- ppcoin and silk sources start from this line --- ##
   kernel.cpp \
-  namecoin.cpp \
+  dns.cpp \
   slkdns.cpp \
   $(SILK_CORE_H)
 
@@ -209,7 +209,7 @@ libsilk_wallet_a_SOURCES = \
   wallet.cpp \
   wallet_ismine.cpp \
   walletdb.cpp \
-  namecoin.cpp \
+  dns.cpp \
   $(SILK_CORE_H)
 
 # crypto primitives library

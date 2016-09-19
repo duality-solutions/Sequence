@@ -11,7 +11,7 @@
 #include "walletmodel.h"
 #include "guiconstants.h"
 #include "../wallet.h"
-#include "../namecoin.h"
+#include "../dns.h"
 
 #include <vector>
 

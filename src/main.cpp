@@ -24,7 +24,7 @@
 #include "utilmoneystr.h"
 #include "kernel.h"
 #include "keystore.h"
-#include "namecoin.h"
+#include "dns.h"
 
 #include <sstream>
 
