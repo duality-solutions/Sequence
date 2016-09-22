@@ -264,7 +264,7 @@ macx:OBJECTIVE_SOURCES += src/qt/macdockiconhandler.mm
 macx:LIBS += -framework Foundation -framework ApplicationServices -framework AppKit
 macx:DEFINES += MAC_OSX MSG_NOSIGNAL=0
 macx:ICON = src/qt/res/icons/silk.icns
-macx:TARGET = "Crave-Qt"
+macx:TARGET = "Silk-Qt"
 macx:QMAKE_CFLAGS_THREAD += -pthread
 macx:QMAKE_LFLAGS_THREAD += -pthread
 macx:QMAKE_CXXFLAGS_THREAD += -pthread
@@ -440,7 +440,6 @@ HEADERS += \
     src/main.h \
     src/merkleblock.h \
     src/miner.h \
-    src/ministun.h \
     src/mruset.h \
     src/dns.h \
     src/net.h \
@@ -595,7 +594,6 @@ SOURCES += \
     src/rpcrawtransaction.cpp \
     src/rpcserver.cpp \
     src/rpcwallet.cpp \
-    src/stun.cpp \
     src/sync.cpp \
     src/timedata.cpp \
     src/txdb.cpp \
@@ -610,25 +608,26 @@ SOURCES += \
     src/walletdb.cpp
 
 FORMS += \
-    src/qt/forms/addressbookpage.ui \
-    src/qt/forms/askpassphrasedialog.ui \
-    src/qt/forms/coincontroldialog.ui \
-    src/qt/forms/dnspage.ui \
-    src/qt/forms/editaddressdialog.ui \
-    src/qt/forms/helpmessagedialog.ui \
-    src/qt/forms/intro.ui \
-    src/qt/forms/openuridialog.ui \
-    src/qt/forms/optionsdialog.ui \
-    src/qt/forms/overviewpage.ui \
-    src/qt/forms/receivecoinsdialog.ui \
-    src/qt/forms/receiverequestdialog.ui \
-    src/qt/forms/rpcconsole.ui \
-    src/qt/forms/sendcoinsdialog.ui \
-    src/qt/forms/sendcoinsentry.ui \
-    src/qt/forms/signverifymessagedialog.ui \
-    src/qt/forms/transactiondescdialog.ui \
-    src/qt/forms/createmultisigaddrdialog.ui \
-    src/qt/forms/multisigdialog.ui
+    qt/forms/addressbookpage.ui \
+    qt/forms/askpassphrasedialog.ui \
+    qt/forms/coincontroldialog.ui \
+    qt/forms/dnspage.ui \
+    qt/forms/editaddressdialog.ui \
+    qt/forms/helpmessagedialog.ui \
+    qt/forms/intro.ui \
+    qt/forms/openuridialog.ui \
+    qt/forms/optionsdialog.ui \
+    qt/forms/overviewpage.ui \
+    qt/forms/receivecoinsdialog.ui \
+    qt/forms/receiverequestdialog.ui \
+    qt/forms/rpcconsole.ui \
+    qt/forms/sendcoinsdialog.ui \
+    qt/forms/sendcoinsentry.ui \
+    qt/forms/signverifymessagedialog.ui \
+    qt/forms/transactiondescdialog.ui \
+    qt/forms/multisigaddressentry.ui \
+    qt/forms/multisigdialog.ui \
+    qt/forms/multisiginputentry.ui
 
 DISTFILES += \
     autogen.sh \
