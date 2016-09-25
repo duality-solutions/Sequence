@@ -29,7 +29,7 @@ Silk Integration/Staging Tree
 * PoS Target Spacing: 64 Seconds 
 * PoS Difficulty Retarget: 10 Blocks 
 * PoS Reward: 2 SLK
-* PoS Min: 12 Hours
+* PoS Min: 1 Hour
 * PoS Max: Unlimited
 * Total Coins: 2,000,000,000 SLK
 * Block Size: 4MB
