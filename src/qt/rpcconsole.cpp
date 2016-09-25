@@ -791,13 +791,8 @@ void RPCConsole::setMempoolSize(long numberOfTxs, size_t dynUsage)
 {
     ui->mempoolNumberTxs->setText(QString::number(numberOfTxs));
 
-    if (dynUsage < 1024)
-        ui->mempoolSize->setText(QString::number(dynUsage, 'f', 2) + " bytes");
+    if (dynUsage < 1000000)
+        ui->mempoolSize->setText(QString::number(dynUsage/1000.0, 'f', 2) + " KB");
     else
-    {
-        if (dynUsage < 1048576)
-            ui->mempoolSize->setText(QString::number(dynUsage/1024.0, 'f', 2) + "  kilobytes");
-        else
-            ui->mempoolSize->setText(QString::number(dynUsage/1048576.0, 'f', 2) + " megabytes");
-    }
+        ui->mempoolSize->setText(QString::number(dynUsage/1000000.0, 'f', 2) + " MB");
 }
