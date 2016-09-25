@@ -63,7 +63,6 @@ namespace CheckpointsSync
     void AskForPendingSyncCheckpoint(CNode* pfrom);
     bool SetCheckpointPrivKey(std::string strPrivKey);
     bool SendSyncCheckpoint(uint256 hashCheckpoint);
-    bool IsSyncCheckpointTooOld(unsigned int nSeconds);
 
 }  //namespace CheckpointsSync
 
