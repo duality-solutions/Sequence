@@ -417,21 +417,6 @@ bool SendSyncCheckpoint(uint256 hashCheckpoint)
     return true;
 }
 
-// Is the sync-checkpoint too old?
-bool IsSyncCheckpointTooOld(unsigned int nSeconds)
-{
-    static bool fMain = Params().NetworkIDString() == "main";
-    if (!fMain) return false; // Testnet has no checkpoints
-
-    LOCK(cs_hashSyncCheckpoint);
-    // sync-checkpoint should always be accepted block
-    assert(mapBlockIndex.count(hashSyncCheckpoint));
-    const CBlockIndex* pindexSync = mapBlockIndex[hashSyncCheckpoint];
-    assert(pindexSync->nStatus & BLOCK_HAVE_DATA);
-
-    return (pindexSync->GetBlockTime() + nSeconds < GetAdjustedTime());
-}
-
 }  // namespace CheckpointsSync
 
 
