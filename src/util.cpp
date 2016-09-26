@@ -74,7 +74,6 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/foreach.hpp>
-#include <boost/lexical_cast.hpp>
 #include <boost/program_options/detail/config_file.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <boost/thread.hpp>
@@ -435,10 +434,9 @@ static void WriteConfigFile(FILE* configFile)
 {
     std::string sRPCpassword = "rpcpassword=" + GenerateRandomString(RandomIntegerRange(18, 24)) + "\n";
     std::string sUserID = "rpcuser=" + GenerateRandomString(RandomIntegerRange(7, 11)) + "\n";
-    std::string sRPCPort = "rpcport=" + boost::lexical_cast<std::string>(BaseParams().RPCPort()) + "\n";
     fputs (sUserID.c_str(), configFile);
     fputs (sRPCpassword.c_str(), configFile);
-    fputs (sRPCPort.c_str(), configFile);
+    fputs ("rpcport=16662\n", configFile);
     fputs ("listen=1\n", configFile);
     fputs ("server=1\n", configFile);
     fputs ("daemon=1\n", configFile);
@@ -501,7 +499,7 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
     if (!streamConfig.good()){
         // Create silk.conf if it does not exist
         FILE* configFile = fopen(GetConfigFile().string().c_str(), "a");
-        if (configFile == NULL) {
+        if (configFile != NULL) {
             // Write silk.conf file with random username and password.
             WriteConfigFile(configFile);
             // New silk.conf file written, now read it.
