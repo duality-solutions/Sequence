@@ -106,6 +106,7 @@ SILK_CORE_H = \
   eccryptoverify.h \
   ecwrapper.h \
   hash.h \
+  indirectmap.h \
   init.h \
   key.h \
   keystore.h \
