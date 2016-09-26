@@ -44,7 +44,7 @@ Instructions: Homebrew
 
 #### Install dependencies using Homebrew
 
-    $ brew install autoconf automake libtool boost miniupnpc openssl pkg-config protobuf qt berkeley-db4
+    $ brew install git autoconf automake libtool boost miniupnpc openssl pkg-config protobuf qt berkeley-db4
 
 Because of OS X having LibreSSL installed we have to tell the compiler where OpenSSL is located:
 
@@ -53,7 +53,9 @@ Because of OS X having LibreSSL installed we have to tell the compiler where Ope
     
 or you can instead symlink OS X's OpenSSL to your newly installed OpenSSL:
 
-    $ sudo ln -s openssl-1.0.2h /usr/local/openssl
+    $ sudo ln -s openssl-1.0.2i /usr/local/openssl
+
+(the above version of OpenSSL may differ to the one you have installed, amend to suit)
 
 After exiting you will want to symlink berkeley-db4 and openssl:
 
