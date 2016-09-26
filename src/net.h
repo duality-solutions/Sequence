@@ -7,6 +7,7 @@
 #ifndef SILK_NET_H
 #define SILK_NET_H
 
+#include "addrdb.h"
 #include "bloom.h"
 #include "compat.h"
 #include "hash.h"
@@ -607,16 +608,5 @@ public:
 class CTransaction;
 void RelayTransaction(const CTransaction& tx);
 void RelayTransaction(const CTransaction& tx, const CDataStream& ss);
-
-/** Access to the (IP) address database (peers.dat) */
-class CAddrDB
-{
-private:
-    boost::filesystem::path pathAddr;
-public:
-    CAddrDB();
-    bool Write(const CAddrMan& addr);
-    bool Read(CAddrMan& addr);
-};
 
 #endif // SILK_NET_H
