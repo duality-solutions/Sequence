@@ -21,6 +21,12 @@ Xcode 4.3 or later, you'll need to install its command line tools. This can
 be done in `Xcode > Preferences > Downloads > Components` and generally must
 be re-done or updated every time Xcode is updated.
 
+After installing Xcode, start the application, accept the agreement and then close the application.
+
+Open terminal and enter:
+                
+        sudo xcode-select --install
+
 There's also an assumption that you already have `git` installed. If
 not, it's the path of least resistance to install [Github for Mac](https://mac.github.com/)
 (OS X 10.7+) or
@@ -38,13 +44,16 @@ Instructions: Homebrew
 
 #### Install dependencies using Homebrew
 
-        brew install autoconf automake libtool boost miniupnpc openssl pkg-config protobuf qt berkeley-db4
+    $ brew install autoconf automake libtool boost miniupnpc openssl pkg-config protobuf qt berkeley-db4
+
+Because of osx having LibreSSL installed we have to tell the compiler where OpenSSL is located:
+
+    $ export LDFLAGS=-L/usr/local/opt/openssl/lib
+    $ export CPPFLAGS=-I/usr/local/opt/openssl/include
 
 After exiting you will want to symlink berkeley-db4 and openssl:
 
-    $ brew link berkeley-db4 --force
-    $ brew link openssl --force
-    
+    $ brew link berkeley-db4 --force    
 
 
 ### Building `silkd`
