@@ -162,6 +162,10 @@ public:
 
         vSeeds.push_back(CDNSSeedData("silknetwork.net", "slk1.silknetwork.net"));
         vSeeds.push_back(CDNSSeedData("silknetwork.net", "slk2.silknetwork.net"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.io", "silk.dnsseeder.io"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.com", "silk.dnsseeder.com"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.host", "silk.dnsseeder.host"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.net", "silk.dnsseeder.net"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,64);
