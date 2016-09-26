@@ -50,6 +50,10 @@ Because of OS X having LibreSSL installed we have to tell the compiler where Ope
 
     $ export LDFLAGS=-L/usr/local/opt/openssl/lib
     $ export CPPFLAGS=-I/usr/local/opt/openssl/include
+    
+or you can instead symlink OS X's OpenSSL to your newly installed OpenSSL:
+
+    $ sudo ln -s openssl-1.0.2h /usr/local/openssl
 
 After exiting you will want to symlink berkeley-db4 and openssl:
 
