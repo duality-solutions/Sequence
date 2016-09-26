@@ -46,7 +46,7 @@ Instructions: Homebrew
 
     $ brew install autoconf automake libtool boost miniupnpc openssl pkg-config protobuf qt berkeley-db4
 
-Because of osx having LibreSSL installed we have to tell the compiler where OpenSSL is located:
+Because of OS X having LibreSSL installed we have to tell the compiler where OpenSSL is located:
 
     $ export LDFLAGS=-L/usr/local/opt/openssl/lib
     $ export CPPFLAGS=-I/usr/local/opt/openssl/include
