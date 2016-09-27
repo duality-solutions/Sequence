@@ -268,6 +268,8 @@ SilkGUI::~SilkGUI()
     delete appMenuBar;
     MacDockIconHandler::cleanup();
 #endif
+
+    delete rpcConsole;
 }
 
 void SilkGUI::createActions(const NetworkStyle *networkStyle)
@@ -935,11 +937,20 @@ void SilkGUI::closeEvent(QCloseEvent *event)
         if(!clientModel->getOptionsModel()->getMinimizeToTray() &&
            !clientModel->getOptionsModel()->getMinimizeOnClose())
         {
+            // close rpcConsole in case it was open to make some space for the shutdown window
+            rpcConsole->close();
+
             QApplication::quit();
         }
+        else
+        {
+            QMainWindow::showMinimized();
+            event->ignore();
+        }
     }
-#endif
+#else
     QMainWindow::closeEvent(event);
+#endif
 }
 
 #ifdef ENABLE_WALLET
