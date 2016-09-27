@@ -79,7 +79,7 @@ contains(USE_DBUS, 1) {
 }
 
 contains(SILK_NEED_QT_PLUGINS, 1) {
-    DEFINES += DARKSILK_NEED_QT_PLUGINS
+    DEFINES += SILK_NEED_QT_PLUGINS
     QTPLUGIN += qcncodecs qjpcodecs qtwcodecs qkrcodecs qtaccessiblewidgets
 }
 
@@ -126,7 +126,7 @@ genProtobuff.target = $$PWD/src/qt/paymentrequest.pb.cc
 genProtobuff.depends = FORCE
 genProtobuff.commands = cd $$PWD/src/qt && protoc -I=. --cpp_out=. ./paymentrequest.proto
 QMAKE_EXTRA_TARGETS += genProtobuff
-QMAKE_CLEAN += $$PWD/src/qt/paymentrequest.pb.cc; cd $$PWD/src/qt ; rm -f paymentrequest.pb.cc
+QMAKE_CLEAN += $$PWD/src/qt/paymentrequest.pb.cc; cd $$PWD/src/qt ; rm -f paymentrequest.pb.*
 
 #Build Univalue
 INCLUDEPATH += src/univalue/include
@@ -644,7 +644,6 @@ SOURCES += \
     src/qt/receivecoinsdialog.cpp \
     src/qt/qvaluecombobox.cpp \
     src/qt/qvalidatedlineedit.cpp \
-    src/qt/paymentrequest.pb.cc \
     src/qt/paymentrequest.pb.cc
 
 
