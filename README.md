@@ -20,12 +20,13 @@ Silk Integration/Staging Tree
 #### What is Silk?
 ----------------
 * Coin Suffix: SLK
-* Algorithm: Scrypt
+* PoW Algorithm: Scrypt
 * PoW Period: 10,000 Blocks
 * PoW Target Spacing: 60 Seconds 
 * PoW Difficulty Retarget: 10 Blocks 
 * PoW Reward per Block: 0 SLK
 * Full Confirmation: 10 Blocks
+* PoS Algorithm: Blake2b
 * PoS Target Spacing: 64 Seconds 
 * PoS Difficulty Retarget: 10 Blocks 
 * PoS Reward: 2 SLK
