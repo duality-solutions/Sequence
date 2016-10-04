@@ -437,12 +437,6 @@ static void WriteConfigFile(FILE* configFile)
     fputs (sUserID.c_str(), configFile);
     fputs (sRPCpassword.c_str(), configFile);
     fputs ("rpcport=16662\n", configFile);
-    fputs ("listen=1\n", configFile);
-    fputs ("server=1\n", configFile);
-    fputs ("daemon=1\n", configFile);
-    fputs ("stakegen=1\n", configFile);
-    fputs ("staking=1\n", configFile);
-    fputs ("testnet=0\n", configFile);
     fclose(configFile);
 }
 
