@@ -54,7 +54,8 @@ public:
 
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
-        READWRITE(FLATDATA(*this));
+        READWRITE(hash);
+        READWRITE(n);
     }
 
     void SetNull() { hash = 0; n = (uint32_t) -1; }
