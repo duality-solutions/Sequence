@@ -1,5 +1,8 @@
 DIST_SUBDIRS = secp256k1 univalue
-AM_LDFLAGS = $(PTHREAD_CFLAGS) $(LIBTOOL_LDFLAGS)
+
+AM_LDFLAGS = $(PTHREAD_CFLAGS) $(LIBTOOL_LDFLAGS) $(HARDENED_LDFLAGS)
+AM_CXXFLAGS = $(HARDENED_CXXFLAGS)
+AM_CPPFLAGS = $(HARDENED_CPPFLAGS)
 EXTRA_LIBRARIES =
 
 if EMBEDDED_UNIVALUE
@@ -27,7 +30,7 @@ $(LIBLEVELDB) $(LIBMEMENV):
 endif
 
 SILK_CONFIG_INCLUDES=-I$(builddir)/config
-SILK_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
+SILK_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BDB_CPPFLAGS) $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
 
 SILK_INCLUDES += -I$(srcdir)/secp256k1/include
 SILK_INCLUDES += $(UNIVALUE_CFLAGS)
@@ -97,6 +100,9 @@ SILK_CORE_H = \
   coincontrol.h \
   coins.h \
   compat.h \
+  compat/byteswap.h \
+  compat/endian.h \
+  compat/sanity.h \
   compressor.h \
   primitives/block.h \
   primitives/transaction.h \
@@ -168,7 +174,8 @@ obj/build.h: FORCE
 libsilk_util_a-clientversion.$(OBJEXT): obj/build.h
 
 # server: shared between silkd and silk-qt
-libsilk_server_a_CPPFLAGS = $(SILK_INCLUDES) $(MINIUPNPC_CPPFLAGS)
+libsilk_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES) $(MINIUPNPC_CPPFLAGS)
+libsilk_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_server_a_SOURCES = \
   addrman.cpp \
   alert.cpp \
@@ -201,7 +208,8 @@ libsilk_server_a_SOURCES = \
 
 # wallet: shared between silkd and silk-qt, but only linked
 # when wallet enabled
-libsilk_wallet_a_CPPFLAGS = $(SILK_INCLUDES)
+libsilk_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
+libsilk_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_wallet_a_SOURCES = \
   db.cpp \
   crypter.cpp \
@@ -214,7 +222,8 @@ libsilk_wallet_a_SOURCES = \
   $(SILK_CORE_H)
 
 # crypto primitives library
-crypto_libsilk_crypto_a_CPPFLAGS = $(SILK_CONFIG_INCLUDES)
+crypto_libsilk_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_CONFIG_INCLUDES)
+crypto_libsilk_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 crypto_libsilk_crypto_a_SOURCES = \
   crypto/sha1.cpp \
   crypto/sha256.cpp \
@@ -233,7 +242,8 @@ crypto_libsilk_crypto_a_SOURCES = \
   crypto/ripemd160.h
 
 # common: shared between silkd, and silk-qt and non-server tools
-libsilk_common_a_CPPFLAGS = $(SILK_INCLUDES)
+libsilk_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
+libsilk_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_common_a_SOURCES = \
   allocators.cpp \
   amount.cpp \
@@ -263,7 +273,8 @@ libsilk_common_a_SOURCES = \
 # util: shared between all executables.
 # This library *must* be included to make sure that the glibc
 # backward-compatibility objects and their sanity checks are linked.
-libsilk_util_a_CPPFLAGS = $(SILK_INCLUDES)
+libsilk_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
+libsilk_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_util_a_SOURCES = \
   compat/strnlen.cpp \
   compat/glibc_sanity.cpp \
@@ -286,7 +297,8 @@ libsilk_util_a_SOURCES += compat/glibc_compat.cpp
 endif
 
 # cli: shared between silk-cli and silk-qt
-libsilk_cli_a_CPPFLAGS = $(SILK_INCLUDES)
+libsilk_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
+libsilk_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_cli_a_SOURCES = \
   rpcclient.cpp \
   $(SILK_CORE_H)
@@ -295,6 +307,15 @@ nodist_libsilk_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # silkd binary #
+silkd_SOURCES = silkd.cpp
+silkd_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
+silkd_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+silkd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+
+if TARGET_WINDOWS
+silkd_SOURCES += silkd-res.rc
+endif
+
 silkd_LDADD = \
   $(LIBSILK_SERVER) \
   $(LIBSILK_COMMON) \
@@ -308,51 +329,44 @@ silkd_LDADD = \
 if ENABLE_WALLET
 silkd_LDADD += libsilk_wallet.a
 endif
-silkd_SOURCES = silkd.cpp
-#
-
-if TARGET_WINDOWS
-silkd_SOURCES += silkd-res.rc
-endif
 
 silkd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS)
-silkd_CPPFLAGS = $(SILK_INCLUDES)
-silkd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+#
 
 # silk-cli binary #
+silk_cli_SOURCES = silk-cli.cpp
+silk_cli_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
+silk_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+silk_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+
+
+if TARGET_WINDOWS
+silk_cli_SOURCES += silk-cli-res.rc
+endif
+
 silk_cli_LDADD = \
   $(LIBSILK_CLI) \
   $(LIBSILK_UTIL) \
-  $(LIBUNIVALUE) \
-  $(BOOST_LIBS) \
-  $(SSL_LIBS) \
-  $(CRYPTO_LIBS)
+  $(LIBUNIVALUE)
 
-silk_cli_SOURCES = \
-  silk-cli.cpp
-
-silk_cli_CPPFLAGS = $(SILK_INCLUDES)
+silk_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS)
 #
 
 # silk-tx binary #
+silk_tx_SOURCES = silk-tx.cpp
+silk_tx_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
+silk_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+silk_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+
 silk_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBSILK_COMMON) \
   $(LIBSILK_UTIL) \
   $(LIBSILK_CRYPTO) \
-  $(LIBSECP256K1) \
-  $(BOOST_LIBS) \
-  $(CRYPTO_LIBS)
+  $(LIBSECP256K1)
 
-silk_tx_SOURCES = silk-tx.cpp
-silk_tx_CPPFLAGS = $(SILK_INCLUDES)
+silk_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
-silk_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
-
-if TARGET_WINDOWS
-silk_cli_SOURCES += silk-cli-res.rc
-endif
-silk_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if BUILD_SILK_LIBS
 include_HEADERS = script/silkconsensus.h
