@@ -33,7 +33,11 @@
 #   and this notice are preserved. This file is offered as-is, without any
 #   warranty.
 
+<<<<<<< HEAD
 #serial 23
+=======
+#serial 27
+>>>>>>> bc83e23... Set minimum required Boost to 1.47.0
 
 AC_DEFUN([AX_BOOST_BASE],
 [
@@ -72,7 +76,7 @@ AC_ARG_WITH([boost-libdir],
 )
 
 if test "x$want_boost" = "xyes"; then
-    boost_lib_version_req=ifelse([$1], ,1.20.0,$1)
+    boost_lib_version_req=ifelse([$1], ,1.47.0,$1)
     boost_lib_version_req_shorten=`expr $boost_lib_version_req : '\([[0-9]]*\.[[0-9]]*\)'`
     boost_lib_version_req_major=`expr $boost_lib_version_req : '\([[0-9]]*\)'`
     boost_lib_version_req_minor=`expr $boost_lib_version_req : '[[0-9]]*\.\([[0-9]]*\)'`
@@ -95,7 +99,11 @@ if test "x$want_boost" = "xyes"; then
       x86_64)
         libsubdirs="lib64 libx32 lib lib64"
         ;;
+<<<<<<< HEAD
       ppc64|s390x|sparc64|aarch64)
+=======
+      ppc64|s390x|sparc64|aarch64|ppc64le)
+>>>>>>> bc83e23... Set minimum required Boost to 1.47.0
         libsubdirs="lib64 lib lib64"
         ;;
     esac
