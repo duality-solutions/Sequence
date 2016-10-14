@@ -92,7 +92,7 @@ void UpdateTime(CBlockHeader* pblock, const CBlockIndex* pindexPrev)
 CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProofOfStake, bool& fPoSCancel, CWallet* pwallet)
 {
     // Create new block
-    auto_ptr<CBlockTemplate> pblocktemplate(new CBlockTemplate());
+    unique_ptr<CBlockTemplate> pblocktemplate(new CBlockTemplate());
     if(!pblocktemplate.get())
         return NULL;
     CBlock *pblock = &pblocktemplate->block; // pointer for convenience
@@ -557,11 +557,11 @@ void silkMiner(CWallet *pwallet, bool fProofOfStake)
             CBlockIndex* pindexPrev = chainActive.Tip();
 
             bool fPoSCancel = false;  // fPoSCancel == true means that we failed to create coinstake and exited without going further (by returning NULL)
-            auto_ptr<CBlockTemplate> pblocktemplate;
+            unique_ptr<CBlockTemplate> pblocktemplate;
             if (fProofOfStake)
-                pblocktemplate = auto_ptr<CBlockTemplate> (CreateNewPoSBlockWithKey(reservekey, fPoSCancel, pwallet));
+                pblocktemplate = unique_ptr<CBlockTemplate> (CreateNewPoSBlockWithKey(reservekey, fPoSCancel, pwallet));
             else
-                pblocktemplate = auto_ptr<CBlockTemplate> (CreateNewBlockWithKey(reservekey));
+                pblocktemplate = unique_ptr<CBlockTemplate> (CreateNewBlockWithKey(reservekey));
 
             if (fProofOfStake && fPoSCancel)  // if we tried to create PoS block and failed - sleep
             {
