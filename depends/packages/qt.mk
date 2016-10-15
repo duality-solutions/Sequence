@@ -29,7 +29,7 @@ $(package)_config_opts += -skip qtquickcontrols -skip qtactiveqt -skip qtconnect
 $(package)_config_opts += -skip qtwinextras -skip qtxmlpatterns -skip qtscript -skip qtdoc
 
 $(package)_config_opts += -prefix $(host_prefix) -bindir $(build_prefix)/bin
-$(package)_config_opts += -no-c++11 -openssl-linked  -v -static -silent -pkg-config
+$(package)_config_opts += -c++11 -openssl-linked  -v -static -silent -pkg-config
 $(package)_config_opts += -qt-libpng -qt-libjpeg -qt-zlib -qt-pcre
 
 ifneq ($(build_os),darwin)

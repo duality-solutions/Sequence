@@ -16,7 +16,7 @@
 
 uint256 CBlockHeader::GetHash() const
 {
-    return Hash(BEGIN(nVersion), END(nNonce));
+    return SerializeHash(*this);
 }
 
 uint256 CBlock::BuildMerkleTree(bool* fMutated) const
