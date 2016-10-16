@@ -33,11 +33,7 @@
 #   and this notice are preserved. This file is offered as-is, without any
 #   warranty.
 
-<<<<<<< HEAD
-#serial 23
-=======
 #serial 27
->>>>>>> bc83e23... Set minimum required Boost to 1.47.0
 
 AC_DEFUN([AX_BOOST_BASE],
 [
@@ -99,11 +95,7 @@ if test "x$want_boost" = "xyes"; then
       x86_64)
         libsubdirs="lib64 libx32 lib lib64"
         ;;
-<<<<<<< HEAD
-      ppc64|s390x|sparc64|aarch64)
-=======
       ppc64|s390x|sparc64|aarch64|ppc64le)
->>>>>>> bc83e23... Set minimum required Boost to 1.47.0
         libsubdirs="lib64 lib lib64"
         ;;
     esac
