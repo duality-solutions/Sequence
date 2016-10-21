@@ -558,7 +558,7 @@ SOURCES += \
     src/rpc/rpcprotocol.cpp \
     src/rpc/rpcrawtransaction.cpp \
     src/rpc/rpcserver.cpp \
-    src/wallet/rpcwallet/wallet.cpp \
+    src/wallet/rpcwallet.cpp \
     src/dns/slkdns.cpp \
     src/sync.cpp \
     src/timedata.cpp \

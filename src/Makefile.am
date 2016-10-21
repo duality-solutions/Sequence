@@ -131,10 +131,10 @@ SILK_CORE_H = \
   protocol.h \
   pubkey.h \
   random.h \
-  rpcclient.h \
-  rpcprotocol.h \
-  rpcregister.h \
-  rpcserver.h \
+  rpc/rpcclient.h \
+  rpc/rpcprotocol.h \
+  rpc/rpcregister.h \
+  rpc/rpcserver.h \
   script/interpreter.h \
   script/script.h \
   script/sigcache.h \
@@ -194,11 +194,11 @@ libsilk_server_a_SOURCES = \
   pow.cpp \
   rest.cpp \
   rpc/rpcblockchain.cpp \
-  rpcmining.cpp \
-  rpcmisc.cpp \
-  rpcnet.cpp \
-  rpcrawtransaction.cpp \
-  rpcserver.cpp \
+  rpc/rpcmining.cpp \
+  rpc/rpcmisc.cpp \
+  rpc/rpcnet.cpp \
+  rpc/rpcrawtransaction.cpp \
+  rpc/rpcserver.cpp \
   script/sigcache.cpp \
   txdb.cpp \
   txmempool.cpp \
@@ -215,8 +215,8 @@ libsilk_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_wallet_a_SOURCES = \
   wallet/db.cpp \
   wallet/crypter.cpp \
-  rpcdump.cpp \
-  rpcwallet/wallet.cpp \
+  wallet/rpcdump.cpp \
+  wallet/rpcwallet.cpp \
   wallet/wallet.cpp \
   wallet/wallet_ismine.cpp \
   wallet/walletdb.cpp \
@@ -284,7 +284,7 @@ libsilk_util_a_SOURCES = \
   chainparamsbase.cpp \
   clientversion.cpp \
   random.cpp \
-  rpcprotocol.cpp \
+  rpc/rpcprotocol.cpp \
   sync.cpp \
   timedata.cpp \
   uint256.cpp \
@@ -302,7 +302,7 @@ endif
 libsilk_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
 libsilk_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_cli_a_SOURCES = \
-  rpcclient.cpp \
+  rpc/rpcclient.cpp \
   $(SILK_CORE_H)
 
 nodist_libsilk_util_a_SOURCES = $(srcdir)/obj/build.h
