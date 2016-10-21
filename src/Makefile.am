@@ -125,6 +125,7 @@ SILK_CORE_H = \
   miner.h \
   mruset.h \
   netbase.h \
+  netaddress.h \
   net.h \
   noui.h \
   pow.h \
@@ -263,6 +264,7 @@ libsilk_common_a_SOURCES = \
   key.cpp \
   keystore.cpp \
   netbase.cpp \
+  netaddress.cpp \
   protocol.cpp \
   pubkey.cpp \
   script/interpreter.cpp \
