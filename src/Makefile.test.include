@@ -45,7 +45,7 @@ SILK_TESTS =\
   test/Checkpoints_tests.cpp \
   test/coins_tests.cpp \
   test/compress_tests.cpp \
-  test/crypto_tests.cpp \
+  wallet/test/crypto_tests.cpp \
   test/DoS_tests.cpp \
   test/getarg_tests.cpp \
   test/hash_tests.cpp \
@@ -57,7 +57,7 @@ SILK_TESTS =\
   test/multisig_tests.cpp \
   test/netbase_tests.cpp \
   test/pmt_tests.cpp \
-  test/rpc_tests.cpp \
+  rpc/tests/rpc_tests.cpp \
   test/sanity_tests.cpp \
   test/script_P2SH_tests.cpp \
   test/script_tests.cpp \
@@ -73,9 +73,9 @@ SILK_TESTS =\
 
 if ENABLE_WALLET
 SILK_TESTS += \
-  test/accounting_tests.cpp \
+  wallet/test/accounting_tests.cpp \
   test/wallet_tests.cpp \
-  test/rpc_wallet_tests.cpp
+  rpc/tests/rpc_wallet_tests.cpp
 endif
 
 test_test_silk_SOURCES = $(SILK_TESTS) $(JSON_TEST_FILES) $(RAW_TEST_FILES)

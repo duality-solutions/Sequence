@@ -11,7 +11,7 @@
 #include "keystore.h"
 #include "main.h"
 #include "net.h"
-#include "rpcserver.h"
+#include "rpc/rpcserver.h"
 #include "script/script.h"
 #include "script/script_error.h"
 #include "script/sign.h"
@@ -19,7 +19,7 @@
 #include "uint256.h"
 #include "utilstrencodings.h"
 #ifdef ENABLE_WALLET
-#include "wallet.h"
+#include "wallet/wallet.h"
 #endif
 
 #include <stdint.h>

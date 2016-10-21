@@ -13,7 +13,7 @@
 #include "main.h"
 #include "script/script.h"
 #include "util.h"
-#include "wallet.h"
+#include "wallet/wallet.h"
 #include "walletmodel.h"
 
 

@@ -16,8 +16,8 @@
 #include "txdb.h"
 #include "txmempool.h"
 #include "ui_interface.h"
-#include "rpcserver.h"
-#include "rpcregister.h"
+#include "rpc/rpcserver.h"
+#include "rpc/rpcregister.h"
 
 #include "test/testutil.h"
 

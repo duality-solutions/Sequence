@@ -18,19 +18,19 @@
 #include "main.h"
 #include "miner.h"
 #include "net.h"
-#include "rpcregister.h"
-#include "rpcserver.h"
+#include "rpc/rpcregister.h"
+#include "rpc/rpcserver.h"
 #include "script/standard.h"
 #include "txdb.h"
 #include "ui_interface.h"
 #include "util.h"
 #include "utilmoneystr.h"
 #ifdef ENABLE_WALLET
-#include "db.h"
-#include "wallet.h"
-#include "walletdb.h"
+#include "wallet/db.h"
+#include "wallet/wallet.h"
+#include "wallet/walletdb.h"
 #endif
-#include "slkdns.h"
+#include "dns/slkdns.h"
 
 #include <stdint.h>
 #include <stdio.h>

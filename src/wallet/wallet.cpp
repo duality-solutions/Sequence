@@ -5,14 +5,14 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "wallet.h"
+#include "wallet/wallet.h"
 
 #include "base58.h"
 #include "checkpoints.h"
-#include "coincontrol.h"
+#include "wallet/coincontrol.h"
 #include "kernel.h"
 #include "net.h"
-#include "dns.h"
+#include "dns/dns.h"
 #include "script/script.h"
 #include "script/sign.h"
 #include "timedata.h"

@@ -10,8 +10,8 @@
 #include "guiutil.h"
 #include "walletmodel.h"
 #include "guiconstants.h"
-#include "../wallet.h"
-#include "../dns.h"
+#include "../wallet/wallet.h"
+#include "../dns/dns.h"
 
 #include <vector>
 

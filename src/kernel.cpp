@@ -8,11 +8,11 @@
 #include <boost/assign/list_of.hpp>
 
 #include "kernel.h"
-#include "db.h"
+#include "wallet/db.h"
 #include "uint256hm.h"
 #include "chainparams.h"
 #include "util.h"
-#include "wallet.h"
+#include "wallet/wallet.h"
 #include "init.h"
 #include "timedata.h"
 #include "txdb.h"

@@ -8,7 +8,7 @@
 #define SILK_WALLETDB_H
 
 #include "amount.h"
-#include "db.h"
+#include "wallet/db.h"
 #include "key.h"
 #include "keystore.h"
 

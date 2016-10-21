@@ -25,7 +25,7 @@
 #include "utilmoneystr.h"
 #include "kernel.h"
 #include "keystore.h"
-#include "dns.h"
+#include "dns/dns.h"
 
 #include <sstream>
 

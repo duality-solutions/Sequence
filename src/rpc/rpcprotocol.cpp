@@ -4,7 +4,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "rpcprotocol.h"
+#include "rpc/rpcprotocol.h"
 
 #include "clientversion.h"
 #include "tinyformat.h"

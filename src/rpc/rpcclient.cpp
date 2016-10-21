@@ -4,9 +4,9 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "rpcclient.h"
+#include "rpc/rpcclient.h"
 
-#include "rpcprotocol.h"
+#include "rpc/rpcprotocol.h"
 #include "util.h"
 #include "ui_interface.h"
 

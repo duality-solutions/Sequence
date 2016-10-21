@@ -12,7 +12,7 @@
 #include "guiutil.h"
 #include "optionsmodel.h"
 #include "walletmodel.h"
-#include "../dns.h"
+#include "../dns/dns.h"
 
 #include <QApplication>
 #include <QClipboard>

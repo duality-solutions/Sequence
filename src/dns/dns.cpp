@@ -4,12 +4,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "dns.h"
+#include "dns/dns.h"
 #include "script/interpreter.h"
 #include "script/script.h"
 #include "script/sign.h"
-#include "wallet.h"
-#include "rpcserver.h"
+#include "wallet/wallet.h"
+#include "rpc/rpcserver.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>

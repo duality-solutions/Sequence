@@ -98,7 +98,7 @@ SILK_CORE_H = \
   checkpoints.h \
   checkqueue.h \
   clientversion.h \
-  coincontrol.h \
+  wallet/coincontrol.h \
   coins.h \
   compat.h \
   compat/byteswap.h \
@@ -108,8 +108,8 @@ SILK_CORE_H = \
   primitives/block.h \
   primitives/transaction.h \
   core_io.h \
-  crypter.h \
-  db.h \
+  wallet/crypter.h \
+  wallet/db.h \
   eccryptoverify.h \
   ecwrapper.h \
   hash.h \
@@ -157,16 +157,16 @@ SILK_CORE_H = \
   utilmoneystr.h \
   utiltime.h \
   version.h \
-  wallet.h \
-  wallet_ismine.h \
-  walletdb.h \
+  wallet/wallet.h \
+  wallet/wallet_ismine.h \
+  wallet/walletdb.h \
   compat/sanity.h \
 ## --- ppcoin and silk headers start from this line --- ##
   uint256hm.h \
   kernel.h \
-  dns.h \
+  dns/dns.h \
   hooks.h \
-  slkdns.h 
+  dns/slkdns.h 
 
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
@@ -193,7 +193,7 @@ libsilk_server_a_SOURCES = \
   noui.cpp \
   pow.cpp \
   rest.cpp \
-  rpcblockchain.cpp \
+  rpc/rpcblockchain.cpp \
   rpcmining.cpp \
   rpcmisc.cpp \
   rpcnet.cpp \
@@ -204,8 +204,8 @@ libsilk_server_a_SOURCES = \
   txmempool.cpp \
 ## --- ppcoin and silk sources start from this line --- ##
   kernel.cpp \
-  dns.cpp \
-  slkdns.cpp \
+  dns/dns.cpp \
+  dns/slkdns.cpp \
   $(SILK_CORE_H)
 
 # wallet: shared between silkd and silk-qt, but only linked
@@ -213,14 +213,14 @@ libsilk_server_a_SOURCES = \
 libsilk_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
 libsilk_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_wallet_a_SOURCES = \
-  db.cpp \
-  crypter.cpp \
+  wallet/db.cpp \
+  wallet/crypter.cpp \
   rpcdump.cpp \
-  rpcwallet.cpp \
-  wallet.cpp \
-  wallet_ismine.cpp \
-  walletdb.cpp \
-  dns.cpp \
+  rpcwallet/wallet.cpp \
+  wallet/wallet.cpp \
+  wallet/wallet_ismine.cpp \
+  wallet/walletdb.cpp \
+  dns/dns.cpp \
   $(SILK_CORE_H)
 
 # crypto primitives library

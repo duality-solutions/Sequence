@@ -7,7 +7,7 @@
 #include "checkpoints.h"
 #include "kernel.h"
 #include "main.h"
-#include "rpcserver.h"
+#include "rpc/rpcserver.h"
 #include "sync.h"
 #include "util.h"
 

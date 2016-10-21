@@ -5,7 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "base58.h"
-#include "rpcserver.h"
+#include "rpc/rpcserver.h"
 #include "init.h"
 #include "main.h"
 #include "script/script.h"
@@ -13,7 +13,7 @@
 #include "sync.h"
 #include "util.h"
 #include "utiltime.h"
-#include "wallet.h"
+#include "wallet/wallet.h"
 
 #include <fstream>
 #include <stdint.h>

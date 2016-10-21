@@ -10,15 +10,15 @@
 #include "main.h"
 #include "multisigaddressentry.h"
 #include "multisiginputentry.h"
-#include "dns.h"
+#include "dns/dns.h"
 #include "script/script.h"
 #include "sendcoinsentry.h"
 #include "util.h"
-#include "wallet.h"
+#include "wallet/wallet.h"
 #include "walletmodel.h"
 #include "script/standard.h"
 #include "script/sign.h"
-#include "rpcserver.h"
+#include "rpc/rpcserver.h"
 #include "core_io.h"
 
 #include <QClipboard>

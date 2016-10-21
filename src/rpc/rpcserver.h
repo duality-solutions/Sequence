@@ -8,7 +8,7 @@
 #define SILK_RPCSERVER_H
 
 #include "amount.h"
-#include "rpcprotocol.h"
+#include "rpc/rpcprotocol.h"
 #include "uint256.h"
 
 #include <list>
