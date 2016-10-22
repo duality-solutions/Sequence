@@ -9,6 +9,7 @@
 #include "init.h"
 #include "main.h"
 #include "noui.h"
+#include "scheduler.h"
 #include "ui_interface.h"
 #include "util.h"
 
@@ -58,6 +59,7 @@ bool AppInit(int argc, char* argv[])
 {
     boost::thread_group threadGroup;
     boost::thread* detectShutdownThread = NULL;
+    CScheduler scheduler;
 
     bool fRet = false;
 
@@ -146,7 +148,7 @@ bool AppInit(int argc, char* argv[])
         SoftSetBoolArg("-server", true);
 
         detectShutdownThread = new boost::thread(boost::bind(&DetectShutdownThread, &threadGroup));
-        fRet = AppInit2(threadGroup);
+        fRet = AppInit2(threadGroup, scheduler);
     }
     catch (std::exception& e) {
         PrintExceptionContinue(&e, "AppInit()");

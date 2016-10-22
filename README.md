@@ -109,7 +109,7 @@ Dependency Build Instructions: Ubuntu & Debian
 ----------------------------------------------
 Build requirements:
 
-    sudo apt-get install git build-essential libtool autotools-dev autoconf pkg-config libssl-dev libcrypto++-dev
+    sudo apt-get install git build-essential libtool autotools-dev autoconf pkg-config libssl-dev libcrypto++-dev libevent-dev
     
 for Ubuntu 12.04 and later or Debian 7 and later libboost-all-dev has to be installed:
 

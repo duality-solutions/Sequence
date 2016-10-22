@@ -15,6 +15,7 @@
 #include "guiutil.h"
 #include "intro.h"
 #include "net.h"
+#include "scheduler.h"
 #include "networkstyle.h"
 #include "optionsmodel.h"
 #include "splashscreen.h"
@@ -261,10 +262,11 @@ void SilkCore::handleRunawayException(std::exception *e)
 
 void SilkCore::initialize()
 {
+    CScheduler scheduler;
     try
     {
         qDebug() << __func__ << ": Running AppInit2 in thread";
-        int rv = AppInit2(threadGroup);
+        int rv = AppInit2(threadGroup, scheduler);
         if(rv)
         {
             /* Start a dummy RPC thread if no RPC thread is active yet

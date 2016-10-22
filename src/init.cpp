@@ -21,6 +21,7 @@
 #include "net.h"
 #include "rpc/rpcregister.h"
 #include "rpc/rpcserver.h"
+#include "scheduler.h"
 #include "script/standard.h"
 #include "txdb.h"
 #include "ui_interface.h"
@@ -32,6 +33,7 @@
 #include "wallet/walletdb.h"
 #endif
 #include "dns/slkdns.h"
+#include "torcontrol.h"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -41,6 +43,10 @@
 #endif
 
 #include "hooks.h"
+
+#if ENABLE_ZMQ
+#include "zmq/zmqnotificationinterface.h"
+#endif
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -58,6 +64,10 @@ CWallet* pwalletMain = NULL;
 bool fFeeEstimatesInitialized = false;
 bool fRestartRequested = false; // true: restart, false: shutdown
 SlkDns* slkdns = NULL;
+
+#if ENABLE_ZMQ
+static CZMQNotificationInterface* pzmqNotificationInterface = NULL;
+#endif
 
 #ifdef WIN32
 // Win32 LevelDB doesn't use filedescriptors, and the ones used for
@@ -169,7 +179,16 @@ void PrepareShutdown()
     GenerateSilks(false, NULL, 0);
     ShutdownRPCMining();
 #endif
+#if ENABLE_ZMQ
+    if (pzmqNotificationInterface) {
+        UnregisterValidationInterface(pzmqNotificationInterface);
+        delete pzmqNotificationInterface;
+        pzmqNotificationInterface = NULL;
+    }
+#endif
     StopNode();
+	StopTorControl();
+
     UnregisterNodeSignals(GetNodeSignals());
 
     if (fFeeEstimatesInitialized)
@@ -310,6 +329,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += "  -externalip=<ip>       " + _("Specify your own public address") + "\n";
     strUsage += "  -forcednsseed          " + strprintf(_("Always query for peer addresses via DNS lookup (default: %u)"), 0) + "\n";
     strUsage += "  -listen                " + _("Accept connections from outside (default: 1 if no -proxy or -connect)") + "\n";
+    strUsage += "  -listenonion			  " + strprintf(_("Automatically create Tor hidden service (default: %d)"), DEFAULT_LISTEN_ONION);
     strUsage += "  -maxconnections=<n>    " + strprintf(_("Maintain at most <n> connections to peers (default: %u)"), 125) + "\n";
     strUsage += "  -maxreceivebuffer=<n>  " + strprintf(_("Maximum per-connection receive buffer, <n>*1000 bytes (default: %u)"), 5000) + "\n";
     strUsage += "  -maxsendbuffer=<n>     " + strprintf(_("Maximum per-connection send buffer, <n>*1000 bytes (default: %u)"), 1000) + "\n";
@@ -320,6 +340,9 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += "  -proxy=<ip:port>       " + _("Connect through SOCKS5 proxy") + "\n";
     strUsage += "  -seednode=<ip>         " + _("Connect to a node to retrieve peer addresses, and disconnect") + "\n";
     strUsage += "  -timeout=<n>           " + strprintf(_("Specify connection timeout in milliseconds (minimum: 1, default: %d)"), DEFAULT_CONNECT_TIMEOUT) + "\n";
+    strUsage += "  -torcontrol=<ip>:<port>" + strprintf(_("Tor control port to use if onion listening enabled (default: %s)"), DEFAULT_TOR_CONTROL) + "\n";
+    strUsage += "  -torpassword=<pass>	  " + _("Tor control port password (default: empty)") + "\n";
+
 #ifdef USE_UPNP
 #if USE_UPNP
     strUsage += "  -upnp                  " + _("Use UPnP to map the listening port (default: 1 when listening)") + "\n";
@@ -330,6 +353,14 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += "  -whitebind=<addr>      " + _("Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6") + "\n";
     strUsage += "  -whitelist=<netmask>   " + _("Whitelist peers connecting from the given netmask or IP address. Can be specified multiple times.") + "\n";
     strUsage += "                         " + _("Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway") + "\n";
+
+#if ENABLE_ZMQ
+    strUsage += "\n" + _("ZeroMQ notification options:") + "\n";
+    strUsage += "-zmqpubhashblock=<address>" + 	_("Enable publish hash block in <address>") + "\n";
+    strUsage += "-zmqpubhashtx=<address>" + 	_("Enable publish hash transaction in <address>") + "\n";
+    strUsage += "-zmqpubrawblock=<address>" + 	_("Enable publish raw block in <address>") + "\n";
+    strUsage += "-zmqpubrawtx=<address>" + 		_("Enable publish raw transaction in <address>") + "\n";
+#endif
 
 #ifdef ENABLE_WALLET
     strUsage += "\n" + _("Wallet options:") + "\n";
@@ -556,7 +587,7 @@ bool InitSanityCheck(void)
 /** Initialize silk.
  *  @pre Parameters should be parsed and config file should be read.
  */
-bool AppInit2(boost::thread_group& threadGroup)
+bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 {
     // ********************************************************* Step 1: setup
 #ifdef _MSC_VER
@@ -657,6 +688,8 @@ bool AppInit2(boost::thread_group& threadGroup)
             LogPrintf("AppInit2 : parameter interaction: -listen=0 -> setting -upnp=0\n");
         if (SoftSetBoolArg("-discover", false))
             LogPrintf("AppInit2 : parameter interaction: -listen=0 -> setting -discover=0\n");
+        if (SoftSetBoolArg("-listenonion", false))
+            LogPrintf("%s: parameter interaction: -listen=0 -> setting -listenonion=0\n", __func__);
     }
 
     if (mapArgs.count("-externalip")) {
@@ -858,6 +891,11 @@ bool AppInit2(boost::thread_group& threadGroup)
             threadGroup.create_thread(&ThreadScriptCheck);
     }
 
+
+    // Start the lightweight task scheduler thread
+    CScheduler::Function serviceLoop = boost::bind(&CScheduler::serviceQueue, &scheduler);
+    threadGroup.create_thread(boost::bind(&TraceThread<CScheduler::Function>, "scheduler", serviceLoop));
+
     /* Start the RPC server already.  It will be started in "warmup" mode
      * and not really process calls already (but it will signify connections
      * that the server is there and will be ready later).  Warmup mode will
@@ -1010,6 +1048,14 @@ bool AppInit2(boost::thread_group& threadGroup)
         if (!fBound)
             return InitError(_("Failed to listen on any port. Use -listen=0 if you want this."));
     }
+
+#if ENABLE_ZMQ
+    pzmqNotificationInterface = CZMQNotificationInterface::CreateWithArguments(mapArgs);
+
+    if (pzmqNotificationInterface) {
+        RegisterValidationInterface(pzmqNotificationInterface);
+    }
+#endif
 
     if (mapArgs.count("-externalip")) {
         BOOST_FOREACH(string strAddr, mapMultiArgs["-externalip"]) {
@@ -1358,7 +1404,8 @@ bool AppInit2(boost::thread_group& threadGroup)
     LogPrintf("mapWallet.size() = %u\n",       pwalletMain ? pwalletMain->mapWallet.size() : 0);
     LogPrintf("mapAddressBook.size() = %u\n",  pwalletMain ? pwalletMain->mapAddressBook.size() : 0);
 #endif
-
+    if (GetBoolArg("-listenonion", DEFAULT_LISTEN_ONION))
+        StartTorControl(threadGroup, scheduler);
 
 
     StartNode(threadGroup);
