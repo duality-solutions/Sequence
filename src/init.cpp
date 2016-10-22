@@ -20,6 +20,7 @@
 #include "net.h"
 #include "rpcregister.h"
 #include "rpcserver.h"
+#include "scheduler.h"
 #include "script/standard.h"
 #include "txdb.h"
 #include "ui_interface.h"
@@ -31,6 +32,7 @@
 #include "walletdb.h"
 #endif
 #include "slkdns.h"
+#include "torcontrol.h"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -169,6 +171,8 @@ void PrepareShutdown()
     ShutdownRPCMining();
 #endif
     StopNode();
+	StopTorControl();
+
     UnregisterNodeSignals(GetNodeSignals());
 
     if (fFeeEstimatesInitialized)
@@ -309,6 +313,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += "  -externalip=<ip>       " + _("Specify your own public address") + "\n";
     strUsage += "  -forcednsseed          " + strprintf(_("Always query for peer addresses via DNS lookup (default: %u)"), 0) + "\n";
     strUsage += "  -listen                " + _("Accept connections from outside (default: 1 if no -proxy or -connect)") + "\n";
+    strUsage += "  -listenonion			  " + strprintf(_("Automatically create Tor hidden service (default: %d)"), DEFAULT_LISTEN_ONION);
     strUsage += "  -maxconnections=<n>    " + strprintf(_("Maintain at most <n> connections to peers (default: %u)"), 125) + "\n";
     strUsage += "  -maxreceivebuffer=<n>  " + strprintf(_("Maximum per-connection receive buffer, <n>*1000 bytes (default: %u)"), 5000) + "\n";
     strUsage += "  -maxsendbuffer=<n>     " + strprintf(_("Maximum per-connection send buffer, <n>*1000 bytes (default: %u)"), 1000) + "\n";
@@ -319,6 +324,9 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += "  -proxy=<ip:port>       " + _("Connect through SOCKS5 proxy") + "\n";
     strUsage += "  -seednode=<ip>         " + _("Connect to a node to retrieve peer addresses, and disconnect") + "\n";
     strUsage += "  -timeout=<n>           " + strprintf(_("Specify connection timeout in milliseconds (minimum: 1, default: %d)"), DEFAULT_CONNECT_TIMEOUT) + "\n";
+    strUsage += "  -torcontrol=<ip>:<port>" + strprintf(_("Tor control port to use if onion listening enabled (default: %s)"), DEFAULT_TOR_CONTROL) + "\n";
+    strUsage += "  -torpassword=<pass>	  " + _("Tor control port password (default: empty)") + "\n";
+
 #ifdef USE_UPNP
 #if USE_UPNP
     strUsage += "  -upnp                  " + _("Use UPnP to map the listening port (default: 1 when listening)") + "\n";
@@ -555,7 +563,7 @@ bool InitSanityCheck(void)
 /** Initialize silk.
  *  @pre Parameters should be parsed and config file should be read.
  */
-bool AppInit2(boost::thread_group& threadGroup)
+bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 {
     // ********************************************************* Step 1: setup
 #ifdef _MSC_VER
@@ -656,6 +664,8 @@ bool AppInit2(boost::thread_group& threadGroup)
             LogPrintf("AppInit2 : parameter interaction: -listen=0 -> setting -upnp=0\n");
         if (SoftSetBoolArg("-discover", false))
             LogPrintf("AppInit2 : parameter interaction: -listen=0 -> setting -discover=0\n");
+        if (SoftSetBoolArg("-listenonion", false))
+            LogPrintf("%s: parameter interaction: -listen=0 -> setting -listenonion=0\n", __func__);
     }
 
     if (mapArgs.count("-externalip")) {
@@ -856,6 +866,11 @@ bool AppInit2(boost::thread_group& threadGroup)
         for (int i=0; i<nScriptCheckThreads-1; i++)
             threadGroup.create_thread(&ThreadScriptCheck);
     }
+
+
+    // Start the lightweight task scheduler thread
+    CScheduler::Function serviceLoop = boost::bind(&CScheduler::serviceQueue, &scheduler);
+    threadGroup.create_thread(boost::bind(&TraceThread<CScheduler::Function>, "scheduler", serviceLoop));
 
     /* Start the RPC server already.  It will be started in "warmup" mode
      * and not really process calls already (but it will signify connections
@@ -1357,7 +1372,8 @@ bool AppInit2(boost::thread_group& threadGroup)
     LogPrintf("mapWallet.size() = %u\n",       pwalletMain ? pwalletMain->mapWallet.size() : 0);
     LogPrintf("mapAddressBook.size() = %u\n",  pwalletMain ? pwalletMain->mapAddressBook.size() : 0);
 #endif
-
+    if (GetBoolArg("-listenonion", DEFAULT_LISTEN_ONION))
+        StartTorControl(threadGroup, scheduler);
 
 
     StartNode(threadGroup);
