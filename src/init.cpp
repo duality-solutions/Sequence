@@ -41,6 +41,10 @@
 
 #include "hooks.h"
 
+#if ENABLE_ZMQ
+#include "zmq/zmqnotificationinterface.h"
+#endif
+
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
@@ -57,6 +61,10 @@ CWallet* pwalletMain = NULL;
 bool fFeeEstimatesInitialized = false;
 bool fRestartRequested = false; // true: restart, false: shutdown
 SlkDns* slkdns = NULL;
+
+#if ENABLE_ZMQ
+static CZMQNotificationInterface* pzmqNotificationInterface = NULL;
+#endif
 
 #ifdef WIN32
 // Win32 LevelDB doesn't use filedescriptors, and the ones used for
@@ -167,6 +175,13 @@ void PrepareShutdown()
         bitdb.Flush(false);
     GenerateSilks(false, NULL, 0);
     ShutdownRPCMining();
+#endif
+#if ENABLE_ZMQ
+    if (pzmqNotificationInterface) {
+        UnregisterValidationInterface(pzmqNotificationInterface);
+        delete pzmqNotificationInterface;
+        pzmqNotificationInterface = NULL;
+    }
 #endif
     StopNode();
     UnregisterNodeSignals(GetNodeSignals());
@@ -329,6 +344,14 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += "  -whitebind=<addr>      " + _("Bind to given address and whitelist peers connecting to it. Use [host]:port notation for IPv6") + "\n";
     strUsage += "  -whitelist=<netmask>   " + _("Whitelist peers connecting from the given netmask or IP address. Can be specified multiple times.") + "\n";
     strUsage += "                         " + _("Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway") + "\n";
+
+#if ENABLE_ZMQ
+    strUsage += "\n" + _("ZeroMQ notification options:") + "\n";
+    strUsage += "-zmqpubhashblock=<address>" + 	_("Enable publish hash block in <address>") + "\n";
+    strUsage += "-zmqpubhashtx=<address>" + 	_("Enable publish hash transaction in <address>") + "\n";
+    strUsage += "-zmqpubrawblock=<address>" + 	_("Enable publish raw block in <address>") + "\n";
+    strUsage += "-zmqpubrawtx=<address>" + 		_("Enable publish raw transaction in <address>") + "\n";
+#endif
 
 #ifdef ENABLE_WALLET
     strUsage += "\n" + _("Wallet options:") + "\n";
@@ -1009,6 +1032,14 @@ bool AppInit2(boost::thread_group& threadGroup)
         if (!fBound)
             return InitError(_("Failed to listen on any port. Use -listen=0 if you want this."));
     }
+
+#if ENABLE_ZMQ
+    pzmqNotificationInterface = CZMQNotificationInterface::CreateWithArguments(mapArgs);
+
+    if (pzmqNotificationInterface) {
+        RegisterValidationInterface(pzmqNotificationInterface);
+    }
+#endif
 
     if (mapArgs.count("-externalip")) {
         BOOST_FOREACH(string strAddr, mapMultiArgs["-externalip"]) {
