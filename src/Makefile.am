@@ -32,6 +32,10 @@ endif
 SILK_CONFIG_INCLUDES=-I$(builddir)/config
 SILK_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BDB_CPPFLAGS) $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
 
+if ENABLE_ZMQ
+EXTRA_LIBRARIES += libsilk_zmq.a
+endif
+
 SILK_INCLUDES += -I$(srcdir)/secp256k1/include
 SILK_INCLUDES += $(UNIVALUE_CFLAGS)
 
@@ -166,7 +170,11 @@ SILK_CORE_H = \
   kernel.h \
   dns.h \
   hooks.h \
-  slkdns.h 
+  slkdns.h \
+  zmq/zmqabstractnotifier.h \
+  zmq/zmqconfig.h\
+  zmq/zmqnotificationinterface.h \
+  zmq/zmqpublishnotifier.h
 
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
@@ -207,6 +215,16 @@ libsilk_server_a_SOURCES = \
   dns.cpp \
   slkdns.cpp \
   $(SILK_CORE_H)
+
+if ENABLE_ZMQ
+LIBSILK_ZMQ=libsilk_zmq.a
+
+libsilk_zmq_a_CPPFLAGS = $(SILK_INCLUDES)
+libsilk_zmq_a_SOURCES = \
+  zmq/zmqabstractnotifier.cpp \
+  zmq/zmqnotificationinterface.cpp \
+  zmq/zmqpublishnotifier.cpp
+endif
 
 # wallet: shared between silkd and silk-qt, but only linked
 # when wallet enabled
@@ -327,6 +345,10 @@ silkd_LDADD = \
   $(LIBLEVELDB) \
   $(LIBMEMENV) \
   $(LIBSECP256K1)
+
+if ENABLE_ZMQ
+silkd_LDADD += $(LIBSILK_ZMQ) $(ZMQ_LIBS)
+endif
 
 if ENABLE_WALLET
 silkd_LDADD += libsilk_wallet.a
