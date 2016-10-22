@@ -8,6 +8,8 @@
 #include "test_silk.h"
 
 #include "chainparams.h"
+#include "consensus/validation.h"
+#include "consensus/consensus.h"
 #include "key.h"
 #include "main.h"
 #include "miner.h"
@@ -16,8 +18,8 @@
 #include "txdb.h"
 #include "txmempool.h"
 #include "ui_interface.h"
-#include "rpcserver.h"
-#include "rpcregister.h"
+#include "rpc/rpcserver.h"
+#include "rpc/rpcregister.h"
 
 #include "test/testutil.h"
 

@@ -13,6 +13,9 @@
 #include "chainparams.h"
 #include "checkpoints.h"
 #include "checkqueue.h"
+#include "consensus/consensus.h"
+#include "consensus/merkle.h"
+#include "consensus/validation.h"
 #include "crypto/common.h"
 #include "init.h"
 #include "merkleblock.h"
@@ -25,7 +28,7 @@
 #include "utilmoneystr.h"
 #include "kernel.h"
 #include "keystore.h"
-#include "dns.h"
+#include "dns/dns.h"
 
 #include <sstream>
 
@@ -3155,12 +3158,6 @@ bool CheckBlockSignature(const CBlock& block)
     }
     return false;
 }
-
-
-
-
-
-
 
 
 bool AbortNode(const std::string &strMessage, const std::string &userMessage) {

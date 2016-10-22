@@ -102,18 +102,19 @@ SILK_CORE_H = \
   checkpoints.h \
   checkqueue.h \
   clientversion.h \
-  coincontrol.h \
+  wallet/coincontrol.h \
   coins.h \
   compat.h \
   compat/byteswap.h \
   compat/endian.h \
   compat/sanity.h \
   compressor.h \
+  consensus/consensus.h \
   primitives/block.h \
   primitives/transaction.h \
   core_io.h \
-  crypter.h \
-  db.h \
+  wallet/crypter.h \
+  wallet/db.h \
   eccryptoverify.h \
   ecwrapper.h \
   hash.h \
@@ -135,10 +136,10 @@ SILK_CORE_H = \
   protocol.h \
   pubkey.h \
   random.h \
-  rpcclient.h \
-  rpcprotocol.h \
-  rpcregister.h \
-  rpcserver.h \
+  rpc/rpcclient.h \
+  rpc/rpcprotocol.h \
+  rpc/rpcregister.h \
+  rpc/rpcserver.h \
   scheduler.h \
   script/interpreter.h \
   script/script.h \
@@ -162,17 +163,17 @@ SILK_CORE_H = \
   utilmoneystr.h \
   utiltime.h \
   version.h \
-  wallet.h \
-  wallet_ismine.h \
-  walletdb.h \
+  wallet/wallet.h \
+  wallet/wallet_ismine.h \
+  wallet/walletdb.h \
   compat/sanity.h \
   reverselock.h \
 ## --- ppcoin and silk headers start from this line --- ##
   uint256hm.h \
   kernel.h \
-  dns.h \
+  dns/dns.h \
   hooks.h \
-  slkdns.h \
+  dns/slkdns.h \
   torcontrol.h \
   zmq/zmqabstractnotifier.h \
   zmq/zmqconfig.h\
@@ -204,19 +205,19 @@ libsilk_server_a_SOURCES = \
   noui.cpp \
   pow.cpp \
   rest.cpp \
-  rpcblockchain.cpp \
-  rpcmining.cpp \
-  rpcmisc.cpp \
-  rpcnet.cpp \
-  rpcrawtransaction.cpp \
-  rpcserver.cpp \
+  rpc/rpcblockchain.cpp \
+  rpc/rpcmining.cpp \
+  rpc/rpcmisc.cpp \
+  rpc/rpcnet.cpp \
+  rpc/rpcrawtransaction.cpp \
+  rpc/rpcserver.cpp \
   script/sigcache.cpp \
   txdb.cpp \
   txmempool.cpp \
 ## --- ppcoin and silk sources start from this line --- ##
   kernel.cpp \
-  dns.cpp \
-  slkdns.cpp \
+  dns/dns.cpp \
+  dns/slkdns.cpp \
   torcontrol.cpp \
   $(SILK_CORE_H)
 
@@ -235,14 +236,14 @@ endif
 libsilk_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
 libsilk_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_wallet_a_SOURCES = \
-  db.cpp \
-  crypter.cpp \
-  rpcdump.cpp \
-  rpcwallet.cpp \
-  wallet.cpp \
-  wallet_ismine.cpp \
-  walletdb.cpp \
-  dns.cpp \
+  wallet/db.cpp \
+  wallet/crypter.cpp \
+  wallet/rpcdump.cpp \
+  wallet/rpcwallet.cpp \
+  wallet/wallet.cpp \
+  wallet/wallet_ismine.cpp \
+  wallet/walletdb.cpp \
+  dns/dns.cpp \
   $(SILK_CORE_H)
 
 # crypto primitives library
@@ -275,6 +276,10 @@ libsilk_common_a_SOURCES = \
   chainparams.cpp \
   coins.cpp \
   compressor.cpp \
+  consensus/merkle.h \
+  consensus/merkle.cpp \
+  consensus/params.h \
+  consensus/validation.h \
   primitives/block.cpp \
   primitives/transaction.cpp \
   core_read.cpp \
@@ -307,7 +312,7 @@ libsilk_util_a_SOURCES = \
   chainparamsbase.cpp \
   clientversion.cpp \
   random.cpp \
-  rpcprotocol.cpp \
+  rpc/rpcprotocol.cpp \
   sync.cpp \
   timedata.cpp \
   uint256.cpp \
@@ -325,7 +330,7 @@ endif
 libsilk_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
 libsilk_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_cli_a_SOURCES = \
-  rpcclient.cpp \
+  rpc/rpcclient.cpp \
   $(SILK_CORE_H)
 
 nodist_libsilk_util_a_SOURCES = $(srcdir)/obj/build.h

@@ -8,6 +8,9 @@
 #include "miner.h"
 
 #include "amount.h"
+#include "consensus/consensus.h"
+#include "consensus/merkle.h"
+#include "consensus/validation.h"
 #include "primitives/block.h"
 #include "primitives/transaction.h"
 #include "hash.h"
@@ -18,7 +21,7 @@
 #include "util.h"
 #include "utilmoneystr.h"
 #ifdef ENABLE_WALLET
-#include "wallet.h"
+#include "wallet/wallet.h"
 #include "openssl/sha.h"
 #endif
 

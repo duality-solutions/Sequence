@@ -161,8 +161,8 @@ public:
         assert(hashGenesisBlock == uint256("0x000000251356c62e0aa14c63e2b0db2a05ac0d3316ea5000c797a281be8c9fd7"));
         assert(genesis.hashMerkleRoot == uint256("0x73d6f8c42dfa8c9175b8bf4bf75ebfd10d22b0b6b1a39a82ce0e408447418e4b"));
 
-        vSeeds.push_back(CDNSSeedData("silknetwork.net", "slk1.silknetwork.net"));
-        vSeeds.push_back(CDNSSeedData("silknetwork.net", "slk2.silknetwork.net"));
+        //vSeeds.push_back(CDNSSeedData("silknetwork.net", "slk1.silknetwork.net"));
+        //vSeeds.push_back(CDNSSeedData("silknetwork.net", "slk2.silknetwork.net"));
         vSeeds.push_back(CDNSSeedData("dnsseeder.io", "silk.dnsseeder.io"));
         vSeeds.push_back(CDNSSeedData("dnsseeder.com", "silk.dnsseeder.com"));
         vSeeds.push_back(CDNSSeedData("dnsseeder.host", "silk.dnsseeder.host"));

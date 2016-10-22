@@ -14,12 +14,13 @@
 #include "amount.h"
 #include "checkpoints.h"
 #include "compat/sanity.h"
+#include "consensus/validation.h"
 #include "key.h"
 #include "main.h"
 #include "miner.h"
 #include "net.h"
-#include "rpcregister.h"
-#include "rpcserver.h"
+#include "rpc/rpcregister.h"
+#include "rpc/rpcserver.h"
 #include "scheduler.h"
 #include "script/standard.h"
 #include "txdb.h"
@@ -27,11 +28,11 @@
 #include "util.h"
 #include "utilmoneystr.h"
 #ifdef ENABLE_WALLET
-#include "db.h"
-#include "wallet.h"
-#include "walletdb.h"
+#include "wallet/db.h"
+#include "wallet/wallet.h"
+#include "wallet/walletdb.h"
 #endif
-#include "slkdns.h"
+#include "dns/slkdns.h"
 #include "torcontrol.h"
 
 #include <stdint.h>

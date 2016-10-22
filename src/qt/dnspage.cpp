@@ -10,12 +10,12 @@
 
 #include "walletmodel.h"
 #include "nametablemodel.h"
-#include "../dns.h"
+#include "../dns/dns.h"
 #include "csvmodelwriter.h"
 #include "guiutil.h"
 #include "../base58.h"
 #include "../main.h"
-#include "../wallet.h"
+#include "../wallet/wallet.h"
 #include "guiconstants.h"
 #include "ui_interface.h"
 
