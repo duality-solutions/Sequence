@@ -166,7 +166,8 @@ SILK_CORE_H = \
   kernel.h \
   dns.h \
   hooks.h \
-  slkdns.h 
+  slkdns.h \
+  torcontrol.h
 
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
@@ -206,6 +207,7 @@ libsilk_server_a_SOURCES = \
   kernel.cpp \
   dns.cpp \
   slkdns.cpp \
+  torcontrol.cpp \
   $(SILK_CORE_H)
 
 # wallet: shared between silkd and silk-qt, but only linked

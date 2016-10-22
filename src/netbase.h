@@ -195,5 +195,9 @@ std::string NetworkErrorString(int err);
 bool CloseSocket(SOCKET& hSocket);
 /** Disable or enable blocking-mode for a socket */
 bool SetSocketNonBlocking(SOCKET& hSocket, bool fNonBlocking);
+/**
+ * Convert milliseconds to a struct timeval for select.
+ */
+struct timeval MillisToTimeval(int64_t nTimeout);
 
 #endif // SILK_NETBASE_H
