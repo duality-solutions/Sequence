@@ -8,6 +8,8 @@
 #include "test_silk.h"
 
 #include "chainparams.h"
+#include "consensus/validation.h"
+#include "consensus/consensus.h"
 #include "key.h"
 #include "main.h"
 #include "miner.h"

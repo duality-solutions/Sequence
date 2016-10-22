@@ -11,6 +11,7 @@
 #include "wallet/db.h"
 #include "uint256hm.h"
 #include "chainparams.h"
+#include "consensus/validation.h"
 #include "util.h"
 #include "wallet/wallet.h"
 #include "init.h"

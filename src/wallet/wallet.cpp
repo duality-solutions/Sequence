@@ -9,6 +9,8 @@
 
 #include "base58.h"
 #include "checkpoints.h"
+#include "consensus/consensus.h"
+#include "consensus/validation.h"
 #include "wallet/coincontrol.h"
 #include "kernel.h"
 #include "net.h"

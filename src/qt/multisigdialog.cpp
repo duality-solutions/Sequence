@@ -6,6 +6,7 @@
 #include "ui_multisigdialog.h"
 #include "addresstablemodel.h"
 #include "base58.h"
+#include "consensus/validation.h"
 #include "key.h"
 #include "main.h"
 #include "multisigaddressentry.h"

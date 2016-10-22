@@ -5,6 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "checkpoints.h"
+#include "consensus/validation.h"
 #include "kernel.h"
 #include "main.h"
 #include "rpc/rpcserver.h"

@@ -105,6 +105,7 @@ SILK_CORE_H = \
   compat/endian.h \
   compat/sanity.h \
   compressor.h \
+  consensus/consensus.h \
   primitives/block.h \
   primitives/transaction.h \
   core_io.h \
@@ -253,6 +254,10 @@ libsilk_common_a_SOURCES = \
   chainparams.cpp \
   coins.cpp \
   compressor.cpp \
+  consensus/merkle.h \
+  consensus/merkle.cpp \
+  consensus/params.h \
+  consensus/validation.h \
   primitives/block.cpp \
   primitives/transaction.cpp \
   core_read.cpp \

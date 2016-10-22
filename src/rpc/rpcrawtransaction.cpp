@@ -7,6 +7,7 @@
 #include "base58.h"
 #include "primitives/transaction.h"
 #include "core_io.h"
+#include "consensus/validation.h"
 #include "init.h"
 #include "keystore.h"
 #include "main.h"

@@ -8,6 +8,9 @@
 #include "miner.h"
 
 #include "amount.h"
+#include "consensus/consensus.h"
+#include "consensus/merkle.h"
+#include "consensus/validation.h"
 #include "primitives/block.h"
 #include "primitives/transaction.h"
 #include "hash.h"
