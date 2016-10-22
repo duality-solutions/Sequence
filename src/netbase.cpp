@@ -229,6 +229,16 @@ bool LookupNumeric(const char *pszName, CService& addr, int portDefault)
     return Lookup(pszName, addr, portDefault, false);
 }
 
+CService LookupNumeric(const char *pszName, int portDefault)
+{
+    CService addr;
+    // "1.2:345" will fail to resolve the ip, but will still set the port.
+    // If the ip fails to resolve, re-init the result.
+    if(!Lookup(pszName, addr, portDefault, false))
+        addr = CService();
+    return addr;
+}
+
 struct timeval MillisToTimeval(int64_t nTimeout)
 {
     struct timeval timeout;

@@ -162,6 +162,7 @@ SILK_CORE_H = \
   wallet_ismine.h \
   walletdb.h \
   compat/sanity.h \
+  reverselock.h \
 ## --- ppcoin and silk headers start from this line --- ##
   uint256hm.h \
   kernel.h \
