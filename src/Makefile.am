@@ -130,6 +130,7 @@ SILK_CORE_H = \
   miner.h \
   mruset.h \
   netbase.h \
+  netaddress.h \
   net.h \
   noui.h \
   pow.h \
@@ -250,6 +251,8 @@ libsilk_wallet_a_SOURCES = \
 crypto_libsilk_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_CONFIG_INCLUDES)
 crypto_libsilk_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 crypto_libsilk_crypto_a_SOURCES = \
+  crypto/aes.cpp \
+  crypto/aes.h \
   crypto/sha1.cpp \
   crypto/sha256.cpp \
   crypto/sha512.cpp \
@@ -290,6 +293,7 @@ libsilk_common_a_SOURCES = \
   key.cpp \
   keystore.cpp \
   netbase.cpp \
+  netaddress.cpp \
   protocol.cpp \
   pubkey.cpp \
   scheduler.cpp \
@@ -446,7 +450,7 @@ CLEANFILES += univalue/*.gcda univalue/*.gcno
 
 DISTCLEANFILES = obj/build.h
 
-EXTRA_DIST = leveldb
+EXTRA_DIST = leveldb crypto/ctaes
 
 clean-local:
 	-$(MAKE) -C leveldb clean
