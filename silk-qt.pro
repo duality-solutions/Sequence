@@ -347,9 +347,9 @@ DISTFILES += \
             .travis.yml
 
 HEADERS += \
-    src/walletdb.h \
-    src/wallet.h \
-    src/wallet_ismine.h \
+    src/wallet/walletdb.h \
+    src/wallet/wallet.h \
+    src/wallet/wallet_ismine.h \
     src/version.h \
     src/utiltime.h \
     src/utilstrencodings.h \
@@ -366,12 +366,12 @@ HEADERS += \
     src/threadsafety.h \
     src/sync.h \
     src/streams.h \
-    src/slkdns.h \
+    src/dns/slkdns.h \
     src/serialize.h \
-    src/rpcserver.h \
-    src/rpcregister.h \
-    src/rpcprotocol.h \
-    src/rpcclient.h \
+    src/rpc/rpcserver.h \
+    src/rpc/rpcregister.h \
+    src/rpc/rpcprotocol.h \
+    src/rpc/rpcclient.h \
     src/random.h \
     src/pubkey.h \
     src/protocol.h \
@@ -394,14 +394,14 @@ HEADERS += \
     src/hash.h \
     src/ecwrapper.h \
     src/eccryptoverify.h \
-    src/dns.h \
-    src/db.h \
-    src/crypter.h \
+    src/dns/dns.h \
+    src/wallet/db.h \
+    src/wallet/crypter.h \
     src/core_io.h \
     src/compressor.h \
     src/compat.h \
     src/coins.h \
-    src/coincontrol.h \
+    src/wallet/coincontrol.h \
     src/clientversion.h \
     src/checkqueue.h \
     src/checkpoints.h \
@@ -527,9 +527,9 @@ SOURCES += \
     src/compressor.cpp \
     src/core_read.cpp \
     src/core_write.cpp \
-    src/crypter.cpp \
-    src/db.cpp \
-    src/dns.cpp \
+    src/wallet/crypter.cpp \
+    src/wallet/db.cpp \
+    src/dns/dns.cpp \
     src/eccryptoverify.cpp \
     src/ecwrapper.cpp \
     src/hash.cpp \
@@ -549,17 +549,17 @@ SOURCES += \
     src/pubkey.cpp \
     src/random.cpp \
     src/rest.cpp \
-    src/rpcblockchain.cpp \
-    src/rpcclient.cpp \
-    src/rpcdump.cpp \
-    src/rpcmining.cpp \
-    src/rpcmisc.cpp \
-    src/rpcnet.cpp \
-    src/rpcprotocol.cpp \
-    src/rpcrawtransaction.cpp \
-    src/rpcserver.cpp \
-    src/rpcwallet.cpp \
-    src/slkdns.cpp \
+    src/rpc/rpcblockchain.cpp \
+    src/rpc/rpcclient.cpp \
+    src/wallet/rpcdump.cpp \
+    src/rpc/rpcmining.cpp \
+    src/rpc/rpcmisc.cpp \
+    src/rpc/rpcnet.cpp \
+    src/rpc/rpcprotocol.cpp \
+    src/rpc/rpcrawtransaction.cpp \
+    src/rpc/rpcserver.cpp \
+    src/wallet/rpcwallet.cpp \
+    src/dns/slkdns.cpp \
     src/sync.cpp \
     src/timedata.cpp \
     src/txmempool.cpp \
@@ -569,9 +569,9 @@ SOURCES += \
     src/utilmoneystr.cpp \
     src/utilstrencodings.cpp \
     src/utiltime.cpp \
-    src/wallet_ismine.cpp \
-    src/wallet.cpp \
-    src/walletdb.cpp \
+    src/wallet/wallet_ismine.cpp \
+    src/wallet/wallet.cpp \
+    src/wallet/walletdb.cpp \
     src/primitives/block.cpp \
     src/primitives/transaction.cpp \
     src/crypto/hmac_sha256.cpp \

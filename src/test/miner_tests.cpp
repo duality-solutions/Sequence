@@ -8,6 +8,7 @@
 
 #if 0
 
+#include "consensus/validation.h"
 #include "main.h"
 #include "miner.h"
 #include "pubkey.h"

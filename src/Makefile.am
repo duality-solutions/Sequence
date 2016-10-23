@@ -32,6 +32,10 @@ endif
 SILK_CONFIG_INCLUDES=-I$(builddir)/config
 SILK_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BDB_CPPFLAGS) $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
 
+if ENABLE_ZMQ
+EXTRA_LIBRARIES += libsilk_zmq.a
+endif
+
 SILK_INCLUDES += -I$(srcdir)/secp256k1/include
 SILK_INCLUDES += $(UNIVALUE_CFLAGS)
 
@@ -98,18 +102,19 @@ SILK_CORE_H = \
   checkpoints.h \
   checkqueue.h \
   clientversion.h \
-  coincontrol.h \
+  wallet/coincontrol.h \
   coins.h \
   compat.h \
   compat/byteswap.h \
   compat/endian.h \
   compat/sanity.h \
   compressor.h \
+  consensus/consensus.h \
   primitives/block.h \
   primitives/transaction.h \
   core_io.h \
-  crypter.h \
-  db.h \
+  wallet/crypter.h \
+  wallet/db.h \
   eccryptoverify.h \
   ecwrapper.h \
   hash.h \
@@ -125,16 +130,18 @@ SILK_CORE_H = \
   miner.h \
   mruset.h \
   netbase.h \
+  netaddress.h \
   net.h \
   noui.h \
   pow.h \
   protocol.h \
   pubkey.h \
   random.h \
-  rpcclient.h \
-  rpcprotocol.h \
-  rpcregister.h \
-  rpcserver.h \
+  rpc/rpcclient.h \
+  rpc/rpcprotocol.h \
+  rpc/rpcregister.h \
+  rpc/rpcserver.h \
+  scheduler.h \
   script/interpreter.h \
   script/script.h \
   script/sigcache.h \
@@ -157,16 +164,22 @@ SILK_CORE_H = \
   utilmoneystr.h \
   utiltime.h \
   version.h \
-  wallet.h \
-  wallet_ismine.h \
-  walletdb.h \
+  wallet/wallet.h \
+  wallet/wallet_ismine.h \
+  wallet/walletdb.h \
   compat/sanity.h \
+  reverselock.h \
 ## --- ppcoin and silk headers start from this line --- ##
   uint256hm.h \
   kernel.h \
-  dns.h \
+  dns/dns.h \
   hooks.h \
-  slkdns.h 
+  dns/slkdns.h \
+  torcontrol.h \
+  zmq/zmqabstractnotifier.h \
+  zmq/zmqconfig.h\
+  zmq/zmqnotificationinterface.h \
+  zmq/zmqpublishnotifier.h
 
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
@@ -175,7 +188,7 @@ obj/build.h: FORCE
 libsilk_util_a-clientversion.$(OBJEXT): obj/build.h
 
 # server: shared between silkd and silk-qt
-libsilk_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES) $(MINIUPNPC_CPPFLAGS)
+libsilk_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
 libsilk_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_server_a_SOURCES = \
   addrman.cpp \
@@ -193,40 +206,53 @@ libsilk_server_a_SOURCES = \
   noui.cpp \
   pow.cpp \
   rest.cpp \
-  rpcblockchain.cpp \
-  rpcmining.cpp \
-  rpcmisc.cpp \
-  rpcnet.cpp \
-  rpcrawtransaction.cpp \
-  rpcserver.cpp \
+  rpc/rpcblockchain.cpp \
+  rpc/rpcmining.cpp \
+  rpc/rpcmisc.cpp \
+  rpc/rpcnet.cpp \
+  rpc/rpcrawtransaction.cpp \
+  rpc/rpcserver.cpp \
   script/sigcache.cpp \
   txdb.cpp \
   txmempool.cpp \
 ## --- ppcoin and silk sources start from this line --- ##
   kernel.cpp \
-  dns.cpp \
-  slkdns.cpp \
+  dns/dns.cpp \
+  dns/slkdns.cpp \
+  torcontrol.cpp \
   $(SILK_CORE_H)
+
+if ENABLE_ZMQ
+LIBSILK_ZMQ=libsilk_zmq.a
+
+libsilk_zmq_a_CPPFLAGS = $(SILK_INCLUDES)
+libsilk_zmq_a_SOURCES = \
+  zmq/zmqabstractnotifier.cpp \
+  zmq/zmqnotificationinterface.cpp \
+  zmq/zmqpublishnotifier.cpp
+endif
 
 # wallet: shared between silkd and silk-qt, but only linked
 # when wallet enabled
 libsilk_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
 libsilk_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_wallet_a_SOURCES = \
-  db.cpp \
-  crypter.cpp \
-  rpcdump.cpp \
-  rpcwallet.cpp \
-  wallet.cpp \
-  wallet_ismine.cpp \
-  walletdb.cpp \
-  dns.cpp \
+  wallet/db.cpp \
+  wallet/crypter.cpp \
+  wallet/rpcdump.cpp \
+  wallet/rpcwallet.cpp \
+  wallet/wallet.cpp \
+  wallet/wallet_ismine.cpp \
+  wallet/walletdb.cpp \
+  dns/dns.cpp \
   $(SILK_CORE_H)
 
 # crypto primitives library
 crypto_libsilk_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_CONFIG_INCLUDES)
 crypto_libsilk_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 crypto_libsilk_crypto_a_SOURCES = \
+  crypto/aes.cpp \
+  crypto/aes.h \
   crypto/sha1.cpp \
   crypto/sha256.cpp \
   crypto/sha512.cpp \
@@ -253,6 +279,10 @@ libsilk_common_a_SOURCES = \
   chainparams.cpp \
   coins.cpp \
   compressor.cpp \
+  consensus/merkle.h \
+  consensus/merkle.cpp \
+  consensus/params.h \
+  consensus/validation.h \
   primitives/block.cpp \
   primitives/transaction.cpp \
   core_read.cpp \
@@ -263,8 +293,10 @@ libsilk_common_a_SOURCES = \
   key.cpp \
   keystore.cpp \
   netbase.cpp \
+  netaddress.cpp \
   protocol.cpp \
   pubkey.cpp \
+  scheduler.cpp \
   script/interpreter.cpp \
   script/script.cpp \
   script/sign.cpp \
@@ -284,7 +316,7 @@ libsilk_util_a_SOURCES = \
   chainparamsbase.cpp \
   clientversion.cpp \
   random.cpp \
-  rpcprotocol.cpp \
+  rpc/rpcprotocol.cpp \
   sync.cpp \
   timedata.cpp \
   uint256.cpp \
@@ -302,7 +334,7 @@ endif
 libsilk_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
 libsilk_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_cli_a_SOURCES = \
-  rpcclient.cpp \
+  rpc/rpcclient.cpp \
   $(SILK_CORE_H)
 
 nodist_libsilk_util_a_SOURCES = $(srcdir)/obj/build.h
@@ -328,16 +360,20 @@ silkd_LDADD = \
   $(LIBMEMENV) \
   $(LIBSECP256K1)
 
+if ENABLE_ZMQ
+silkd_LDADD += $(LIBSILK_ZMQ) $(ZMQ_LIBS)
+endif
+
 if ENABLE_WALLET
 silkd_LDADD += libsilk_wallet.a
 endif
 
-silkd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS)
+silkd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
 #
 
 # silk-cli binary #
 silk_cli_SOURCES = silk-cli.cpp
-silk_cli_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
+silk_cli_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES) $(EVENT_CFLAGS)
 silk_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 silk_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
@@ -349,7 +385,8 @@ endif
 silk_cli_LDADD = \
   $(LIBSILK_CLI) \
   $(LIBSILK_UTIL) \
-  $(LIBUNIVALUE)
+  $(LIBUNIVALUE) \
+  $(EVENT_LIBS)
 
 silk_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS)
 #
@@ -413,7 +450,7 @@ CLEANFILES += univalue/*.gcda univalue/*.gcno
 
 DISTCLEANFILES = obj/build.h
 
-EXTRA_DIST = leveldb
+EXTRA_DIST = leveldb crypto/ctaes
 
 clean-local:
 	-$(MAKE) -C leveldb clean

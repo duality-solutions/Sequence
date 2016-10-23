@@ -17,7 +17,7 @@
 #include "optionsmodel.h"
 #include "rpcconsole.h"
 #include "utilitydialog.h"
-#include "wallet.h"
+#include "wallet/wallet.h"
 #include "multisigdialog.h"
 
 #ifdef ENABLE_WALLET
