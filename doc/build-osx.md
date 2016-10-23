@@ -44,7 +44,8 @@ Instructions: Homebrew
 
 #### Install dependencies using Homebrew
 
-    $ brew install git autoconf automake libtool boost miniupnpc openssl pkg-config protobuf qt berkeley-db4
+    $ brew install git autoconf automake libtool boost miniupnpc openssl pkg-config qt berkeley-db4
+    $ brew install homebrew/versions/protobuf260 --c++11
 
 Because of OS X having LibreSSL installed we have to tell the compiler where OpenSSL is located:
 
