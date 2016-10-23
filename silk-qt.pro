@@ -427,7 +427,6 @@ HEADERS += \
     src/netaddress.h \
     src/consensus/consensus.h \
     src/consensus/merkle.h \
-    src/consensus/params.h \
     src/consensus/validation.h \
     src/primitives/block.h \
     src/primitives/transaction.h \
