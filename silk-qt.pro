@@ -10,7 +10,8 @@ VERSION = 1.0.1.0
 
 # Dependency library locations can be customized with:
 #    BOOST_INCLUDE_PATH, BOOST_LIB_PATH, BDB_INCLUDE_PATH,
-#    BDB_LIB_PATH, OPENSSL_INCLUDE_PATH and OPENSSL_LIB_PATH respectively
+#    BDB_LIB_PATH, EVENT_INCLUDE_PATH, EVENT_LIB_PATH,
+#    OPENSSL_INCLUDE_PATH and OPENSSL_LIB_PATH respectively
 
 # workaround for boost 1.58
 DEFINES += BOOST_VARIANT_USE_RELAXED_GET_BY_DEFAULT
@@ -197,6 +198,9 @@ DEPENDPATH += . \
               src/obj \
               src/primitives \
               src/qt \
+              src/dns \
+              src/rpc \
+              src/wallet \
               src/leveldb/db \
               src/leveldb/issues \
               src/leveldb/port \
@@ -311,9 +315,9 @@ macx:QMAKE_CXXFLAGS_THREAD += -pthread
 macx:QMAKE_INFO_PLIST = share/qt/Info.plist
 
 # Set libraries and includes at end, to use platform-defined defaults if not overridden
-INCLUDEPATH += $$BOOST_INCLUDE_PATH $$BDB_INCLUDE_PATH $$OPENSSL_INCLUDE_PATH $$QRENCODE_INCLUDE_PATH
-LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
-LIBS += -lssl -lboost_chrono -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX -lcryptopp
+INCLUDEPATH += $$BOOST_INCLUDE_PATH $$BDB_INCLUDE_PATH $$OPENSSL_INCLUDE_PATH $$QRENCODE_INCLUDE_PATH $$EVENT_INCLUDE_PATH 
+LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,) $$join(EVENT_LIB_PATH,,-L,)
+LIBS += -lssl -levent -lboost_chrono -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX -lcryptopp
 # -lgdi32 has to happen after -lcrypto (see  #681)
 windows:LIBS += -lws2_32 -lshlwapi -lmswsock -lole32 -loleaut32 -luuid -lgdi32
 LIBS += -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
@@ -347,6 +351,7 @@ DISTFILES += \
             .travis.yml
 
 HEADERS += \
+    src/addrdb.h \
     src/wallet/walletdb.h \
     src/wallet/wallet.h \
     src/wallet/wallet_ismine.h \
@@ -416,8 +421,16 @@ HEADERS += \
     src/allocators.h \
     src/alert.h \
     src/addrman.h \
+    src/torcontrol.h \
+    src/reverselock.h \
+    src/scheduler.h \
+    src/netaddress.h \
+    src/consensus/consensus.h \
+    src/consensus/merkle.h \
+    src/consensus/validation.h \
     src/primitives/block.h \
     src/primitives/transaction.h \
+    src/crypto/aes.h \
     src/crypto/common.h \
     src/crypto/hmac_sha256.h \
     src/crypto/hmac_sha512.h \
@@ -486,6 +499,10 @@ HEADERS += \
     src/qt/addresstablemodel.h \
     src/qt/addressbookpage.h \
     src/compat/sanity.h \
+    src/zmq/zmqabstractnotifier.h \
+    src/zmq/zmqconfig.h\
+    src/zmq/zmqnotificationinterface.h \
+    src/zmq/zmqpublishnotifier.h \
     src/qt/paymentrequest.pb.h
 
 FORMS += \
@@ -512,6 +529,7 @@ FORMS += \
     src/qt/forms/transactiondescdialog.ui
 
 SOURCES += \
+    src/addrdb.cpp \
     src/addrman.cpp \
     src/alert.cpp \
     src/allocators.cpp \
@@ -523,6 +541,7 @@ SOURCES += \
     src/chainparamsbase.cpp \
     src/checkpoints.cpp \
     src/clientversion.cpp \
+    src/consensus/merkle.cpp \
     src/coins.cpp \
     src/compressor.cpp \
     src/core_read.cpp \
@@ -549,6 +568,9 @@ SOURCES += \
     src/pubkey.cpp \
     src/random.cpp \
     src/rest.cpp \
+    src/torcontrol.cpp \
+    src/netaddress.cpp \
+    src/scheduler.cpp \
     src/rpc/rpcblockchain.cpp \
     src/rpc/rpcclient.cpp \
     src/wallet/rpcdump.cpp \
@@ -574,6 +596,7 @@ SOURCES += \
     src/wallet/walletdb.cpp \
     src/primitives/block.cpp \
     src/primitives/transaction.cpp \
+    src/crypto/aes.cpp \
     src/crypto/hmac_sha256.cpp \
     src/crypto/hmac_sha512.cpp \
     src/crypto/rfc6979_hmac_sha256.cpp \
