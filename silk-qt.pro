@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = Silk
-VERSION = 1.0.1.0
+VERSION = 1.2.1.1
 
 # for boost 1.37, add -mt to the boost libraries
 # use: qmake BOOST_LIB_SUFFIX=-mt
@@ -51,6 +51,23 @@ contains(USE_QRCODE, 1) {
     DEFINES += USE_QRCODE
     LIBS += -lqrencode
 }
+
+# handles byteswap.h
+DEFINES += HAVE_DECL_HTOBE16=1
+DEFINES += HAVE_DECL_HTOLE16=1
+DEFINES += HAVE_DECL_BE16TOH=1
+DEFINES += HAVE_DECL_BE32TOH=1
+DEFINES += HAVE_DECL_HTOLE64=1
+DEFINES += HAVE_DECL_LE32TOH=1
+DEFINES += HAVE_DECL_LE16TOH=1
+DEFINES += HAVE_DECL_HTOLE32=1
+DEFINES += HAVE_DECL_BE64TOH=1
+DEFINES += HAVE_DECL_LE64TOH=1
+DEFINES += HAVE_DECL_HTOBE32=1
+DEFINES += HAVE_DECL_HTOBE64=1
+
+# handles boost sleep error
+DEFINES += HAVE_WORKING_BOOST_SLEEP_FOR=1
 
 # use: qmake "USE_UPNP=1" ( enabled by default; default)
 #  or: qmake "USE_UPNP=0" (disabled by default)
@@ -161,6 +178,7 @@ INCLUDEPATH += src src/json src/qt src/qt/plugins/mrichtexteditor
 QT += network widgets
 DEFINES += ENABLE_WALLET
 DEFINES += BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE
+
 CONFIG += static
 CONFIG += no_include_pwd
 CONFIG += thread
@@ -187,7 +205,7 @@ contains(USE_O3, 1) {
     QMAKE_CFLAGS += -msse2
 }
 
-QMAKE_CXXFLAGS_WARN_ON = -fdiagnostics-show-option -Wall -Wextra -Wno-ignored-qualifiers -Wformat -Wformat-security -Wno-unused-parameter -Wstack-protector
+QMAKE_CXXFLAGS_WARN_ON = -fdiagnostics-show-option -std=c++0x -Wall -Wextra -Wno-ignored-qualifiers -Wformat -Wformat-security -Wno-unused-parameter -Wstack-protector
 
 # Input
 DEPENDPATH += . \
@@ -317,7 +335,7 @@ macx:QMAKE_INFO_PLIST = share/qt/Info.plist
 # Set libraries and includes at end, to use platform-defined defaults if not overridden
 INCLUDEPATH += $$BOOST_INCLUDE_PATH $$BDB_INCLUDE_PATH $$OPENSSL_INCLUDE_PATH $$QRENCODE_INCLUDE_PATH $$EVENT_INCLUDE_PATH 
 LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,) $$join(EVENT_LIB_PATH,,-L,)
-LIBS += -lssl -levent -lboost_chrono -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX -lcryptopp
+LIBS += -lssl -levent -lboost_chrono -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX -lcryptopp -levent_pthreads
 # -lgdi32 has to happen after -lcrypto (see  #681)
 windows:LIBS += -lws2_32 -lshlwapi -lmswsock -lole32 -loleaut32 -luuid -lgdi32
 LIBS += -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
@@ -503,7 +521,9 @@ HEADERS += \
     src/zmq/zmqconfig.h\
     src/zmq/zmqnotificationinterface.h \
     src/zmq/zmqpublishnotifier.h \
-    src/qt/paymentrequest.pb.h
+    src/qt/paymentrequest.pb.h \
+    src/compat/byteswap.h \
+    src/compat/endian.h
 
 FORMS += \
     src/qt/forms/addressbookpage.ui \
