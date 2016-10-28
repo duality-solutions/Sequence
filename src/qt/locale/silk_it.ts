@@ -1337,6 +1337,10 @@ Per specificare più URL separarli con una barra verticale "|".</translation>
         <translation>Inserisci un indirizzo Silk (ad es. %1)</translation>
     </message>
     <message>
+        <source>Enter a Silk address or name registered on the dDNS.</source>
+        <translation>Inserire un indirizzo Silk o ragione sociale sulle dDNS.</translation>
+    </message>
+    <message>
         <source>%1 d</source>
         <translation>%1 d</translation>
     </message>
