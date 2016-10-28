@@ -311,7 +311,7 @@ void SilkGUI::createActions(const NetworkStyle *networkStyle)
     multiSigAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
     tabGroup->addAction(multiSigAction);
 
-    dnsAction = new QAction(QIcon(":/icons/decentralised"), tr("&DNS"), this);
+    dnsAction = new QAction(QIcon(":/icons/decentralised"), tr("&dDNS"), this);
     dnsAction->setStatusTip(tr("Manage values registered via Silk"));
     dnsAction->setToolTip(dnsAction->statusTip());
     dnsAction->setCheckable(true);
