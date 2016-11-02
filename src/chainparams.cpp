@@ -26,6 +26,32 @@ struct SeedSpec6 {
 
 #include "chainparamsseeds.h"
 
+void MineGenesis(CBlock genesis, uint256 bnProofOfWorkLimit){
+    // This will figure out a valid hash and Nonce if you're creating a different genesis block:
+    uint256 hashTarget = bnProofOfWorkLimit;
+    printf("Target: %s\n", hashTarget.GetHex().c_str());
+    uint256 newhash = genesis.GetHash();
+    uint256 besthash;
+    memset(&besthash,0xFF,32);
+    while (newhash > hashTarget) {
+        ++genesis.nNonce;
+        if (genesis.nNonce == 0){
+            printf("NONCE WRAPPED, incrementing time");
+            ++genesis.nTime;
+        }
+    newhash = genesis.GetHash();
+    if(newhash < besthash){
+        besthash=newhash;
+        printf("New best: %s\n", newhash.GetHex().c_str());
+    }
+    }
+    printf("Gensis Hash: %s\n", genesis.GetHash().ToString().c_str());
+    printf("Gensis Hash Merkle: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+    printf("Gensis nTime: %u\n", genesis.nTime);
+    printf("Gensis nBits: %08x\n", genesis.nBits);
+    printf("Gensis Nonce: %u\n\n\n", genesis.nNonce);
+}
+
 /**
  * Main network
  */
@@ -50,6 +76,36 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     genesis.hashMerkleRoot = genesis.BuildMerkleTree();
 
     return genesis;
+}
+
+static CBlock CreateTestNetGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
+{
+    std::vector<CTxIn> vin;
+    vin.resize(1);
+    vin[0].scriptSig = CScript() << 1473949300 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
+    std::vector<CTxOut> vout;
+    vout.resize(1);
+    vout[0].scriptPubKey = genesisOutputScript;
+    vout[0].nValue = 0;
+    CMutableTransaction txNew(1, 1478106900, vin, vout, 0);
+
+    CBlock genesis;
+    genesis.nTime    = nTime;
+    genesis.nBits    = nBits;
+    genesis.nNonce   = nNonce;
+    genesis.nVersion = nVersion;
+    genesis.vtx.push_back(txNew);
+    genesis.hashPrevBlock = 0;
+    genesis.hashMerkleRoot = genesis.BuildMerkleTree();
+
+    return genesis;
+}
+
+static CBlock CreateTestNetGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
+{
+    const char* pszTimestamp = "AP November 2nd 2016: Telescope reveals amazing pillars in star-breeding ground";
+    const CScript genesisOutputScript = CScript() << ParseHex("") << OP_CHECKSIG;
+    return CreateTestNetGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
 
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
@@ -103,11 +159,11 @@ static const Checkpoints::CCheckpointData data = {
 
 static Checkpoints::MapCheckpoints mapCheckpointsTestnet =
         boost::assign::map_list_of
-        ( 0, uint256("0x000000d5ac7eb1616789c30baccc4c76a1ea609fa28d3c4774e6686169234510"))
+        ( 0, uint256("0x00000009cfa952b4f748c8cf7cdf975f89bce0a26a6a7e7c8cb33968bc20848e"))
         ;
 static const Checkpoints::CCheckpointData dataTestnet = {
         &mapCheckpointsTestnet,
-        1473949500,
+        1478107000,
         0,
         1000
     };
@@ -206,8 +262,8 @@ public:
         pchMessageStart[3] = 0x30;
         vAlertPubKey = ParseHex("");
         nDefaultPort = 16664;
-        bnProofOfWorkLimit = ~uint256(0) >> 24;
-        bnProofOfStakeLimit = ~uint256(0) >> 24;
+        bnProofOfWorkLimit = ~uint256(0) >> 26;
+        bnProofOfStakeLimit = ~uint256(0) >> 26;
         nEnforceBlockUpgradeMajority = 51;
         nRejectBlockOutdatedMajority = 75;
         nToCheckBlockUpgradeMajority = 100;
@@ -215,33 +271,34 @@ public:
         nCoinbaseMaturity = 6;          // 6 blocks for full confirmation
         nStakeMinAge = 30 * 60;         // 30 minute minimum stake age
         nModifierInterval = 15 * 60;    // 15 minutes to elapse before new modifier is computed
-        nLastPOWBlock = 500;            // Proof of Work finishes on block 500
+        nLastPOWBlock = 100000;         // Proof of Work finishes on block 300000
+        //bool startNewChain = true;
 
-        genesis = CreateGenesisBlock(1473949500, 47280689, bnProofOfWorkLimit.GetCompact(), 1, (0 * COIN));
-
+        genesis = CreateTestNetGenesisBlock(1478107000, 82131309, bnProofOfWorkLimit.GetCompact(), 1, (0 * COIN));
+        //if(startNewChain == true) { MineGenesis(genesis, bnProofOfWorkLimit); }
         hashGenesisBlock = genesis.GetHash();
 
-        assert(hashGenesisBlock == uint256("0x000000d5ac7eb1616789c30baccc4c76a1ea609fa28d3c4774e6686169234510"));
-        assert(genesis.hashMerkleRoot == uint256("0x73d6f8c42dfa8c9175b8bf4bf75ebfd10d22b0b6b1a39a82ce0e408447418e4b"));
+        assert(hashGenesisBlock == uint256("0x00000009cfa952b4f748c8cf7cdf975f89bce0a26a6a7e7c8cb33968bc20848e"));
+        assert(genesis.hashMerkleRoot == uint256("0x2daaebb4a85d64d0a5266ca58656c8db03f95a7c9c863eb34872b48c3c6f3dea"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,85);
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,153);
-        base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x88)(0xB2)(0x1E).convert_to_container<std::vector<unsigned char> >();
-        base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x88)(0xAD)(0xE4).convert_to_container<std::vector<unsigned char> >();
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,53);  //N
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,50);  //M
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,204); //X or 7
+        base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x11)(0x35)(0xAA)(0xEE).convert_to_container<std::vector<unsigned char> >();
+        base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x35)(0x11)(0xDD)(0xFF).convert_to_container<std::vector<unsigned char> >();
 
         convertSeed6(vFixedSeeds, pnSeed6_test, ARRAYLEN(pnSeed6_test));
 
         fRequireRPCPassword = true;
-        fMiningRequiresPeers = false;
-        fAllowMinDifficultyBlocks = true;
+        fMiningRequiresPeers = true;
+        fAllowMinDifficultyBlocks = false;
         fDefaultConsistencyChecks = false;
-        fRequireStandard = false;
+        fRequireStandard = true;
         fMineBlocksOnDemand = false;
-        fTestnetToBeDeprecatedFieldRPC = true;
+        fTestnetToBeDeprecatedFieldRPC = false;
     }
     const Checkpoints::CCheckpointData& Checkpoints() const 
     {
@@ -271,8 +328,9 @@ public:
         bnProofOfStakeLimit = ~uint256(0) >> 22;
         nLastPOWBlock = 100;    // Proof of Work finishes on block 100
 
+        
         genesis = CreateGenesisBlock(1473949500, 1427578, 0x1e00ffff, 1, (0 * COIN));
-
+        
         hashGenesisBlock = genesis.GetHash();
 
         assert(hashGenesisBlock == uint256("0x000003b8d718c47f10afdaa9b59c7d709e0bc8daf79b41dada0c411e7dc9985f"));
