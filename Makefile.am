@@ -198,5 +198,3 @@ CLEANFILES = $(OSX_DMG) $(SILK_WIN_INSTALLER)
 
 clean-local:
 	rm -rf test_silk.coverage/ total.coverage/ $(OSX_APP)
-	rm -f Makefile &&  rm -f Makefile.in && rm -rf autom4te.cache && rm -rf autom4te.cache && rm -f configure && rm -f aclocal.m4
-	rm -rf build-aux/* &&  rm -f config.log && rm -f config.status && rm -f libtool && rm -f configure && rm -f aclocal.m4
