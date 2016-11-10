@@ -1339,6 +1339,10 @@ Dirección: %4
         <translation>Introducir una dirección Silk (p. ej. %1)</translation>
     </message>
     <message>
+        <source>Enter a Silk address or name registered on the dDNS.</source>
+        <translation>Introduzca una dirección Silk o nombre registrado en el dDNS.</translation>
+    </message>
+    <message>
         <source>%1 d</source>
         <translation>%1 d</translation>
     </message>

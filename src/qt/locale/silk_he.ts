@@ -1274,6 +1274,10 @@ Address: %4
         <translation>נא להזין כתובת ביטקוין (למשל: %1)</translation>
     </message>
     <message>
+        <source>Enter a Silk address or name registered on the dDNS.</source>
+        <translation>הזן כתובת Silk או שם רשום על dDNS.</translation>
+    </message>
+    <message>
         <source>%1 d</source>
         <translation>%1 ימים</translation>
     </message>

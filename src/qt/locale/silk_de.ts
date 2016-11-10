@@ -1342,6 +1342,10 @@ Adresse: %4</translation>
         <translation>Silk-Adresse eingeben (z.B. %1)</translation>
     </message>
     <message>
+        <source>Enter a Silk address or name registered on the dDNS.</source>
+        <translation>Geben Sie eine Silk-Adresse oder einen Namen ein, die auf dem dDNS registriert sind.</translation>
+    </message>
+    <message>
         <source>%1 d</source>
         <translation>%1 d</translation>
     </message>
