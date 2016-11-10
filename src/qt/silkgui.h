@@ -147,6 +147,8 @@ private:
     int spinnerFrame;
 
     uint64_t nWeight;
+    uint64_t nNetworkWeight;
+    CAmount nAmount;
 
     /** Create the main UI actions. */
     void createActions(const NetworkStyle *networkStyle);

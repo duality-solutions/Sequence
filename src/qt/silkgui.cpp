@@ -1099,24 +1099,18 @@ void SilkGUI::updateWeight()
     if (!lockWallet)
         return;
 
-    nWeight = pwalletMain->GetStakeWeight();
+    nWeight = pwalletMain->GetStakeWeight() / COIN;
 }
 
 void SilkGUI::updateStakingIcon()
 {
     updateWeight();
 
-    if (nLastCoinStakeSearchInterval && nWeight) 
-    {
-            labelStakingIcon->setPixmap(QIcon(":/icons/staking_on").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-            labelStakingIcon->setToolTip(tr("Staking: On"));
-    }
-
-    /*if (nLastCoinStakeSearchInterval && nWeight)
+    if (nLastCoinStakeSearchInterval && nWeight)
     {
         uint64_t nWeight = this->nWeight;
         uint64_t nNetworkWeight = GetPoSKernelPS();
-        unsigned nEstimateTime = Params().PoSTargetSpacing() * nNetworkWeight / nWeight;
+        uint64_t nEstimateTime = Params().PoSTargetSpacing() * nNetworkWeight / nWeight;
 
         QString text;
         if (nEstimateTime < 60)
@@ -1136,12 +1130,9 @@ void SilkGUI::updateStakingIcon()
             text = tr("%n day(s)", "", nEstimateTime/(60*60*24));
         }
 
-        nWeight /= COIN;
-        nNetworkWeight /= COIN;
-
         labelStakingIcon->setPixmap(QIcon(":/icons/staking_on").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
         labelStakingIcon->setToolTip(tr("Staking.<br>Your weight is %1<br>Network weight is %2<br>Expected time to earn reward is %3").arg(nWeight).arg(nNetworkWeight).arg(text));
-    }*/
+    }
     else
     {
 
