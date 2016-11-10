@@ -865,6 +865,10 @@ bool CheckTransaction(const CTransaction& tx, CValidationState &state)
         return state.DoS(100, error("CheckTransaction() : size limits failed"),
                          REJECT_INVALID, "bad-txns-oversize");
 
+    //  Checks tx time in order to catch time drifting attacks
+    if (tx.nTime > GetAdjustedTime() + nMaxClockDrift)
+        return state.DoS(10, error("CTransaction::CheckTransaction() : timestamp is too far into the future"));
+
     // Check for negative or overflow output values
     CAmount nValueOut = 0;
     BOOST_FOREACH(const CTxOut& txout, tx.vout)
