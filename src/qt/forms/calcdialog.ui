@@ -32,7 +32,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLineEdit" name="blockSizeEdit">
+  <widget class="QLineEdit" name="stakeDaysEdit">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -82,7 +82,7 @@
     <number>1</number>
    </property>
    <property name="text">
-    <string>Calculate Optimal Block Sizes by Seeing Potential Reward</string>
+    <string>Calculate your PoS Rewards</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

@@ -4,6 +4,16 @@
 
 #include "calcdialog.h"
 #include "ui_calcdialog.h"
+
+#include "transactiontablemodel.h"
+#include "transactiondesc.h"
+#include "transactionrecord.h"
+#include "walletmodel.h"
+#include "silkunits.h"
+
+#include "main.h"
+#include "wallet/wallet.h"
+
 #include <QString>
 
 calcDialog::calcDialog(QWidget *parent) :
@@ -25,12 +35,33 @@ void calcDialog::setModel(ClientModel *model)
 
 }
 
-
+// Calculates the percent profit within the user defined timeframe (in days)
 void calcDialog::pushButtonClicked()
 {
-	QString strUserSize = ui->blockSizeEdit->text();
-	double dUserBlock = strUserSize.toDouble();
-	double dMax = 1000;
+	float rate = 0;
+	CWalletTx tx;
+	CWalletTx ptx;
+	CWallet *wallet;
+	const TransactionRecord *wtx;
+	uint256 hash;
+
+	QString strRewardSize = ui->stakeDaysEdit->text(); // strUserSize, blockSizeEdit
+	float days = strRewardSize.toFloat();
+
+	//if (wtx->decomposeTransaction(wallet->hash, &tx)) 
+	{
+		if (tx.vin.size() == 1) 
+		{
+			rate = 100.0f * (wtx->credit + wtx->debit) / -wtx->debit;
+
+			//if (wallet->GetTransaction(tx->vin[0].prevout.hash, ptx)) 
+			{
+				days = (tx.nTime - ptx.nTime) / 86400.0f;
+
+				strRewardSize += "\n" + tr("%1% SLK staked in %2 days").arg(rate).arg(days);
+			}
+		}
+	}
 	
 }
 
