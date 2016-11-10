@@ -135,6 +135,7 @@ private:
 
     QAction *openAction;
     QAction *showHelpMessageAction;
+    QAction *calcAction;
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
@@ -230,6 +231,8 @@ private slots:
     void aboutClicked();
     /** Show help message dialog */
     void showHelpMessageClicked();
+    /** Show Stake Calculator Dialog */
+    void calcClicked();
 #ifndef Q_OS_MAC
     /** Handle tray icon clicked */
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);

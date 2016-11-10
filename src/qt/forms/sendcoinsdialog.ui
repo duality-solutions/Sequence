@@ -572,12 +572,24 @@
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Block Size:</string>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="labelBlockSize">
             <property name="enabled">
              <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>0.00 SLK</string>
             </property>
            </widget>
           </item>
