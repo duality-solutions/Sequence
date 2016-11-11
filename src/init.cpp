@@ -19,6 +19,7 @@
 #include "main.h"
 #include "miner.h"
 #include "net.h"
+#include "ntp.h"
 #include "rpc/rpcregister.h"
 #include "rpc/rpcserver.h"
 #include "scheduler.h"
@@ -1420,7 +1421,13 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         MintStake(threadGroup, pwalletMain);
 #endif
 
-    // ********************************************************* Step 11: finished
+    // ********************************************************* Step 11: NTP synchronization
+
+    // Trusted NTP server, it's localhost by default.
+    strTrustedUpstream = GetArg("-ntp", "localhost");
+
+
+    // ********************************************************* Step 12: finished
 
     SetRPCWarmupFinished();
     uiInterface.InitMessage(_("Done loading"));
