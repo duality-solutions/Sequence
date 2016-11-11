@@ -135,6 +135,7 @@ private:
 
     QAction *openAction;
     QAction *showHelpMessageAction;
+    QAction *calcAction;
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
@@ -146,6 +147,8 @@ private:
     int spinnerFrame;
 
     uint64_t nWeight;
+    uint64_t nNetworkWeight;
+    CAmount nAmount;
 
     /** Create the main UI actions. */
     void createActions(const NetworkStyle *networkStyle);
@@ -230,6 +233,8 @@ private slots:
     void aboutClicked();
     /** Show help message dialog */
     void showHelpMessageClicked();
+    /** Show Stake Calculator Dialog */
+    void calcClicked();
 #ifndef Q_OS_MAC
     /** Handle tray icon clicked */
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);

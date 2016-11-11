@@ -294,7 +294,7 @@ UniValue getmininginfo(const UniValue& params, bool fHelp)
     if (pwalletMain)
         nWeight = pwalletMain->GetStakeWeight();
 
-    UniValue obj(UniValue::VOBJ), diff, weight;
+    UniValue obj(UniValue::VOBJ);
     obj.push_back(Pair("blocks",           (int)chainActive.Height()));
     obj.push_back(Pair("currentblocksize", (uint64_t)nLastBlockSize));
     obj.push_back(Pair("currentblocktx",   (uint64_t)nLastBlockTx));
@@ -309,9 +309,9 @@ UniValue getmininginfo(const UniValue& params, bool fHelp)
     obj.push_back(Pair("generate",         getgenerate(params, false)));
     obj.push_back(Pair("hashespersec",     gethashespersec(params, false)));
 #endif
-    weight.push_back(Pair("minimum",    (uint64_t)nWeight));
-    weight.push_back(Pair("maximum",    (uint64_t)0));
-    weight.push_back(Pair("combined",  (uint64_t)nWeight));
+    obj.push_back(Pair("minimum",    (uint64_t)nWeight));
+    obj.push_back(Pair("maximum",    (uint64_t)0));
+    obj.push_back(Pair("combined",  (uint64_t)nWeight));
     return obj;
 }
 
@@ -324,7 +324,8 @@ UniValue getstakinginfo(const UniValue& params, bool fHelp)
 
     uint64_t nWeight = 0;
     if (pwalletMain)
-        nWeight = pwalletMain->GetStakeWeight();
+        nWeight = pwalletMain->GetStakeWeight() / COIN;
+
 
     uint64_t nNetworkWeight = GetPoSKernelPS();
     bool staking = nLastCoinStakeSearchInterval && nWeight;
@@ -343,9 +344,59 @@ UniValue getstakinginfo(const UniValue& params, bool fHelp)
     obj.push_back(Pair("difficulty", GetDifficulty(GetLastBlockIndex(chainActive.Tip(), true))));
     obj.push_back(Pair("search-interval", (int)nLastCoinStakeSearchInterval));
 
-    obj.push_back(Pair("expectedtime", nExpectedTime));
+    obj.push_back(Pair("weight", (uint64_t)nWeight));
+    obj.push_back(Pair("netstakeweight", (uint64_t)GetPoSKernelPS()));
+
+    obj.push_back(Pair("expectedtime (seconds)", nExpectedTime));
+    obj.push_back(Pair("expectedtime (minutes)", nExpectedTime/60));
+    obj.push_back(Pair("expectedtime (hours)", nExpectedTime/(60*60)));
+    obj.push_back(Pair("expectedtime (days)", (double)nExpectedTime/(60*60*24)));
 
     return obj;
+}
+
+double GetMoneySupply()
+{
+    CBlockIndex* pindex = chainActive.Tip();
+    double nSupply = pindex->nMoneySupply;  
+    return nSupply / COIN;  
+}
+
+UniValue getmoneysupply(const UniValue& params, bool fHelp)
+{
+    if (fHelp || params.size() != 0)
+        throw runtime_error(
+            "getmoneysupply \n"
+            "Returns the current total money supply");
+    
+    GetLastBlockIndex(chainActive.Tip(), false);
+
+    double nMoneySupply = 0;
+    
+    nMoneySupply = GetMoneySupply();
+
+    UniValue obj(UniValue::VOBJ);
+    obj.push_back(Pair("money supply", nMoneySupply));
+    return obj;
+}
+
+uint64_t GetWeight()
+{
+    uint64_t nWeight = 0;
+    if (pwalletMain)
+        nWeight = pwalletMain->GetStakeWeight() / COIN;
+
+    return nWeight;
+}
+
+UniValue getweight(const UniValue& params, bool fHelp)
+{
+    if (fHelp)
+        throw runtime_error(
+            "getweight\n"
+            "This will return your total stake weight for confirmed outputs\n");
+            
+    return GetWeight();
 }
 
 // NOTE: Unlike wallet RPC (which use SILK values), mining RPCs follow GBT (BIP 22) in using satoshi amounts
@@ -956,6 +1007,8 @@ static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode threadSafe reqWallet
   //  --------------------- ------------------------  -----------------------  ---------- ---------- ---------
     { "mining",             "getwork",                &getwork,                true,      false,      true  },
+    { "mining",             "getmoneysupply",         &getmoneysupply,         true,      false,      true },
+    { "mining",             "getweight",              &getweight,              true,      false,      true },
     { "mining",             "getblocktemplate",       &getblocktemplate,       true,      false,      false },
     { "mining",             "getlastpowblock",        &getlastpowblock,        true,      true,       false },
     { "mining",             "getmininginfo",          &getmininginfo,          true,      false,      false },

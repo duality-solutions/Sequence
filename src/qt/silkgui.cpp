@@ -7,6 +7,7 @@
 #include "silkgui.h"
 
 #include "silkunits.h"
+#include "calcdialog.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
@@ -356,6 +357,10 @@ void SilkGUI::createActions(const NetworkStyle *networkStyle)
     toggleHideAction = new QAction(networkStyle->getAppIcon(), tr("&Show / Hide"), this);
     toggleHideAction->setStatusTip(tr("Show or hide the main Window"));
 
+    calcAction = new QAction(QIcon(":/icons/silk"), tr("&Stake Calculator"), this);
+    calcAction->setToolTip(tr("Open Stake Calculator"));
+    calcAction->setMenuRole(QAction::AboutRole);
+
     encryptWalletAction = new QAction(QIcon(":/icons/lock_closed"), tr("&Encrypt Wallet..."), this);
     encryptWalletAction->setStatusTip(tr("Encrypt the private keys that belong to your wallet"));
     encryptWalletAction->setCheckable(true);
@@ -397,6 +402,9 @@ void SilkGUI::createActions(const NetworkStyle *networkStyle)
     connect(optionsAction, SIGNAL(triggered()), this, SLOT(optionsClicked()));
     connect(toggleHideAction, SIGNAL(triggered()), this, SLOT(toggleHidden()));
     connect(showHelpMessageAction, SIGNAL(triggered()), this, SLOT(showHelpMessageClicked()));
+
+    connect(calcAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(calcAction, SIGNAL(triggered()), this, SLOT(calcClicked()));
 #ifdef ENABLE_WALLET
     if(walletFrame)
     {
@@ -442,6 +450,7 @@ void SilkGUI::createMenuBar()
     {
         settings->addAction(encryptWalletAction);
         settings->addAction(changePassphraseAction);
+        settings->addAction(calcAction);
         settings->addSeparator();
     }
     settings->addAction(optionsAction);
@@ -1090,24 +1099,18 @@ void SilkGUI::updateWeight()
     if (!lockWallet)
         return;
 
-    nWeight = pwalletMain->GetStakeWeight();
+    nWeight = pwalletMain->GetStakeWeight() / COIN;
 }
 
 void SilkGUI::updateStakingIcon()
 {
     updateWeight();
 
-    if (nLastCoinStakeSearchInterval && nWeight) 
-    {
-            labelStakingIcon->setPixmap(QIcon(":/icons/staking_on").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-            labelStakingIcon->setToolTip(tr("Staking: On"));
-    }
-
-    /*if (nLastCoinStakeSearchInterval && nWeight)
+    if (nLastCoinStakeSearchInterval && nWeight)
     {
         uint64_t nWeight = this->nWeight;
         uint64_t nNetworkWeight = GetPoSKernelPS();
-        unsigned nEstimateTime = Params().PoSTargetSpacing() * nNetworkWeight / nWeight;
+        uint64_t nEstimateTime = Params().PoSTargetSpacing() * nNetworkWeight / nWeight;
 
         QString text;
         if (nEstimateTime < 60)
@@ -1127,12 +1130,9 @@ void SilkGUI::updateStakingIcon()
             text = tr("%n day(s)", "", nEstimateTime/(60*60*24));
         }
 
-        nWeight /= COIN;
-        nNetworkWeight /= COIN;
-
         labelStakingIcon->setPixmap(QIcon(":/icons/staking_on").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
         labelStakingIcon->setToolTip(tr("Staking.<br>Your weight is %1<br>Network weight is %2<br>Expected time to earn reward is %3").arg(nWeight).arg(nNetworkWeight).arg(text));
-    }*/
+    }
     else
     {
 
@@ -1148,6 +1148,12 @@ void SilkGUI::updateStakingIcon()
         else
             labelStakingIcon->setToolTip(tr("Staking: Off"));
     }
+}
+
+void SilkGUI::calcClicked()
+{
+    calcDialog dlg;
+    dlg.exec();
 }
 
 void SilkGUI::detectShutdown()

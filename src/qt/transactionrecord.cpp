@@ -54,7 +54,15 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
     }
     else if (wtx.IsCoinStake()) // ppcoin: coinstake transaction
     {
-        parts.append(TransactionRecord(hash, nTime, TransactionRecord::StakeMint, "", -nDebit, wtx.GetValueOut()));
+        TransactionRecord txrCoinStake = TransactionRecord(hash, nTime, TransactionRecord::StakeMint, "", -nDebit, wtx.GetValueOut());
+
+        CTxDestination address;
+        if (ExtractDestination(wtx.vout[1].scriptPubKey, address))
+        {
+            txrCoinStake.address = CSilkAddress(address).ToString();
+        }
+
+        parts.append(txrCoinStake); // Stake generation
     }
     else if (nNet > 0 || wtx.IsCoinBase())
     {
