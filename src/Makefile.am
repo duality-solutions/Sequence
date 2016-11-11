@@ -133,6 +133,7 @@ SILK_CORE_H = \
   netaddress.h \
   net.h \
   noui.h \
+  ntp.h \
   pow.h \
   protocol.h \
   pubkey.h \
@@ -204,6 +205,7 @@ libsilk_server_a_SOURCES = \
   miner.cpp \
   net.cpp \
   noui.cpp \
+  ntp.cpp \
   pow.cpp \
   rest.cpp \
   rpc/rpcblockchain.cpp \

@@ -10,17 +10,18 @@
 
 #include "utiltime.h"
 
+#include "ntp.h"
+
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/thread.hpp>
 
 using namespace std;
 
-static int64_t nMockTime = 0;  //! For unit testing
+static int64_t nMockTime = 0; //! For unit testing
 
+// System Clock
 int64_t GetTime()
 {
-    if (nMockTime) return nMockTime;
-
     return time(NULL);
 }
 

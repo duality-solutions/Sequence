@@ -402,6 +402,7 @@ HEADERS += \
     src/noui.h \
     src/netbase.h \
     src/net.h \
+    src/ntp.h \
     src/mruset.h \
     src/miner.h \
     src/merkleblock.h \
@@ -585,6 +586,7 @@ SOURCES += \
     src/net.cpp \
     src/netbase.cpp \
     src/noui.cpp \
+    src/ntp.cpp \
     src/pow.cpp \
     src/protocol.cpp \
     src/pubkey.cpp \
