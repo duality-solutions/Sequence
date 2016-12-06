@@ -357,8 +357,6 @@ UniValue removeaddress(const UniValue& params, bool fHelp)
             + HelpExampleRpc("removeaddress", "\"myaddress\"")
         );
 
-    EnsureWalletIsUnlocked();
-
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
     CScript script;
