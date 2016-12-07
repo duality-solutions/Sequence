@@ -2162,6 +2162,7 @@ extern UniValue importaddress(const UniValue& params, bool fHelp);
 extern UniValue importpubkey(const UniValue& params, bool fHelp);
 extern UniValue dumpwallet(const UniValue& params, bool fHelp);
 extern UniValue importwallet(const UniValue& params, bool fHelp);
+extern UniValue removeaddress(const UniValue& params, bool fHelp);
 
 extern UniValue name_scan(const UniValue& params, bool fHelp);
 extern UniValue name_filter(const UniValue& params, bool fHelp);
@@ -2209,6 +2210,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "lockunspent",            &lockunspent,            true,      false,      true },
     { "wallet",             "makekeypair",            &makekeypair,            false,     false,      false },
     { "wallet",             "move",                   &movecmd,                false,     false,      true },
+    { "wallet",             "removeaddress",          &removeaddress,          true,      false,      true },
     { "wallet",             "sendfrom",               &sendfrom,               false,     false,      true },
     { "wallet",             "sendmany",               &sendmany,               false,     false,      true },
     { "wallet",             "sendtoaddress",          &sendtoaddress,          false,     false,      true },
