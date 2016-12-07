@@ -37,8 +37,11 @@ libtool
 src/config/silk-config.h
 src/config/silk-config.h.in
 src/config/stamp-h1
+qa/pull-tester/run-silkd-for-test.sh
+qa/pull-tester/tests-config.sh
 share/setup.nsi
 share/qt/Info.plist
+share/qt/Info.plist.in
 
 src/univalue/gen
 
