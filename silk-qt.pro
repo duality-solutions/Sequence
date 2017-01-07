@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = Silk
-VERSION = 1.2.1.1
+VERSION = 1.0.1.2
 
 # for boost 1.37, add -mt to the boost libraries
 # use: qmake BOOST_LIB_SUFFIX=-mt

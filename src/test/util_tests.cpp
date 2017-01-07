@@ -1,5 +1,5 @@
-// Copyright (c) 2012-2016 The Bitcoin Core developers
-// Copyright (c) 2015-2016 Silk Network developers
+// Copyright (c) 2012-2017 The Bitcoin Core developers
+// Copyright (c) 2015-2017 Silk Network developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 

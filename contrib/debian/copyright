@@ -4,7 +4,7 @@ Upstream-Contact: Silk Network <contact@silknetwork.org>
 Source: https://github.com/silknetwork/silk-core
 
 Files: *
-Copyright: 2015-2016, Silk Core Developers
+Copyright: 2015-2017, Silk Core Developers
 License: Expat
 Comment: Silk Network Developers encompasses the current developers listed on silknetwork.org,
          as well as the numerous contributors to the project.

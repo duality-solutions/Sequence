@@ -1,5 +1,5 @@
 // Copyright (c) 2015 The BitCoin Core developers
-// Copyright (c) 2016 The Silk Network developers
+// Copyright (c) 2017 The Silk Network developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
