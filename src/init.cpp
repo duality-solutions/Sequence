@@ -1,6 +1,6 @@
-// Copyright (c) 2009-2016 Satoshi Nakamoto
-// Copyright (c) 2009-2016 The Bitcoin Developers
-// Copyright (c) 2015-2016 Silk Network Developers
+// Copyright (c) 2009-2017 Satoshi Nakamoto
+// Copyright (c) 2009-2017 The Bitcoin Developers
+// Copyright (c) 2015-2017 Silk Network Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -442,13 +442,13 @@ std::string LicenseInfo()
 {
     return FormatParagraph(strprintf(_("Copyright (c) 2015-%i Silk Network Developers"), COPYRIGHT_YEAR)) + "\n" +
            "\n" +
-           FormatParagraph(_("Copyright (c) 2009-2016 Bitcoin Developers")) + "\n" +
+           FormatParagraph(_("Copyright (c) 2009-2017 Bitcoin Developers")) + "\n" +
            "\n" +
-           FormatParagraph(_("Copyright (c) 2013-2016 Emercoin Developers")) + "\n" +
+           FormatParagraph(_("Copyright (c) 2013-2017 Emercoin Developers")) + "\n" +
            "\n" +
-           FormatParagraph(_("Copyright (c) 2011-2016 PPCoin Developers")) + "\n" +
+           FormatParagraph(_("Copyright (c) 2011-2017 PPCoin Developers")) + "\n" +
            "\n" +
-           FormatParagraph(_("Copyright (c) 2009-2016 Namecoin Developers")) + "\n" +
+           FormatParagraph(_("Copyright (c) 2009-2017 Namecoin Developers")) + "\n" +
            "\n" +
            FormatParagraph(_("This is experimental software.")) + "\n" +
            "\n" +

@@ -1,5 +1,5 @@
-// Copyright (c) 2013-2016 The NovaCoin developers
-// Copyright (c) 2015-2016 The Silk Network developers
+// Copyright (c) 2013-2017 The NovaCoin developers
+// Copyright (c) 2015-2017 The Silk Network developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or https://opensource.org/licenses/mit-license.php
 

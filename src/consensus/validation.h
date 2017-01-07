@@ -1,6 +1,6 @@
 // Copyright 20109-2010 Satoshi Nakamoto
-// Copyright 2009-2016  The Bitcoin Core Developers
-// Copyright 2015-2016 Silk Network Developers
+// Copyright 2009-2017  The Bitcoin Core Developers
+// Copyright 2015-2017 Silk Network Developers
 // file COPYING of http://wwww.opensource.org/licences/mit-license.php.
 
 #include <string>

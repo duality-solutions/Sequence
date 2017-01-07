@@ -15,7 +15,7 @@ Silk Integration/Staging Tree
 ================================
 ![SLK logo](https://github.com/SilkNetwork/Silk-Core/blob/master/src/qt/res/icons/silk-80.png)
 
-**Copyright (c) 2015-2016 Silk Network**
+**Copyright (c) 2015-2017 Silk Network**
 
 #### What is Silk?
 ----------------
