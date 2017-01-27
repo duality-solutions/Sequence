@@ -4,8 +4,7 @@ compiler: gcc
 os: linux
 
 sudo: required
-dist: precise
-group: legacy
+dist: trusty
 
 install:
   - sudo apt-get -qq update
