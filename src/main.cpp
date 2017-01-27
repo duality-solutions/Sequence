@@ -29,7 +29,7 @@
 #include "kernel.h"
 #include "keystore.h"
 #include "dns/dns.h"
-#include "rpcserver.h"
+#include "rpc/rpcserver.h"
 
 #include <sstream>
 

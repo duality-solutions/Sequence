@@ -406,7 +406,7 @@ void SlkDns::HandlePacket() {
     }
 
     if(m_status) {
-      if(m_status = IsInitialBlockDownload()) {
+      if((m_status = IsInitialBlockDownload())) {
         m_hdr->Bits |= 2; // Server failure - not available valid nameindex DB yet
         break;
       } else {
@@ -960,7 +960,7 @@ void SlkDns::Answer_ENUM(const char *q_str) {
   // Tokenize lines in the NVS-value.
   // There can be prefixes SIG=, TTL=, E2U
   while(char *tok = strsep(&str_val, "\n\r"))
-    switch(*(uint32_t*)tok & 0xffffff | 0x202020) {
+    switch((*(uint32_t*)tok & 0xffffff) | 0x202020) {
  case ENC3('e', '2', 'u'):
     e2u[e2uN++] = tok;
     continue;
@@ -1095,7 +1095,7 @@ bool SlkDns::CheckEnumSig(const char *q_str, char *sig_str) {
   // SRL=5|srl:hello-%02x
   ver.mask = VERMASK_NOSRL;
         while(char *tok = strsep(&str_val, "\n\r"))
-   if((*(uint32_t*)tok & 0xffffff | 0x202020) == ENC3('s', 'r', 'l') && (tok = strchr(tok + 3, '='))) {
+   if(((*(uint32_t*)tok & 0xffffff) | 0x202020) == ENC3('s', 'r', 'l') && (tok = strchr(tok + 3, '='))) {
      unsigned nbits = atoi(++tok);
             if(nbits > 30) nbits = 30;
      ///mask = (1 << mask) - 1;
