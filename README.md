@@ -1,4 +1,4 @@
-# **Silk-Core (SLK) v1.0.1.2**
+# **Silk-Core (SLK) v1.1.0.0**
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 
