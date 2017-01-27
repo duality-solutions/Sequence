@@ -98,6 +98,8 @@ UniValue getinfo(const UniValue& params, bool fHelp)
     if (pwalletMain) {
         obj.push_back(Pair("keypoololdest", pwalletMain->GetOldestKeyPoolTime()));
         obj.push_back(Pair("keypoolsize",   (int)pwalletMain->GetKeyPoolSize()));
+        obj.push_back(Pair("encrypted",   pwalletMain->IsCrypted()));
+        obj.push_back(Pair("mintonly",   fWalletUnlockMintOnly));
     }
     if (pwalletMain && pwalletMain->IsCrypted())
         obj.push_back(Pair("unlocked_until", nWalletUnlockTime));
