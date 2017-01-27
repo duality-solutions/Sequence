@@ -1001,7 +1001,7 @@ void SlkDns::OutS(const char *p) {
  // Generate ENUM-answers for a single E2U entry
  // E2U+sip=100|10|!^(.*)$!sip:17771234567@in.callcentric.com!
 void SlkDns::HandleE2U(char *e2u) {
-  char *data = strchr(e2u, '='), *p = data;
+  char *data = strchr(e2u, '=');
   if(data == NULL) 
     return;
 

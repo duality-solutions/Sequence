@@ -41,8 +41,7 @@ void calcDialog::pushButtonClicked()
 	float rate = 0;
 	CWalletTx tx;
 	CWalletTx ptx;
-	CWallet *wallet;
-	const TransactionRecord *wtx;
+	const TransactionRecord *wtx = nullptr;
 	uint256 hash;
 
 	QString strRewardSize = ui->stakeDaysEdit->text(); // strUserSize, blockSizeEdit
