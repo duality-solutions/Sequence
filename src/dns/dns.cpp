@@ -1007,6 +1007,7 @@ UniValue name_update(const UniValue& params, bool fHelp)
         throw runtime_error(
                 "name_update <name> <value> <days> [toaddress] [valueAsFilepath]\n"
                 "Update name value, add days to expiration time and possibly transfer a name to diffrent address.\n"
+                "If <value> is empty then previous value is left intact.\n"
                 "If [valueAsFilepath] is non-zero it will interpret <value> as a filepath and try to write file contents in binary format.\n"
                 + HelpRequiringPassphrase());
 
@@ -1052,7 +1053,7 @@ NameTxReturn name_operation(const int op, const CNameVal& name, CNameVal value, 
     ret.err_msg = "unkown error";
     ret.ok = false;
 
-    if ((op == OP_NAME_NEW || op == OP_NAME_UPDATE || op == OP_NAME_MULTISIG) && value.empty())
+    if ((op == OP_NAME_NEW || op == OP_NAME_MULTISIG) && value.empty())
     {
         ret.err_msg = "value must not be empty";
         return ret;
@@ -1155,11 +1156,16 @@ NameTxReturn name_operation(const int op, const CNameVal& name, CNameVal value, 
         {
             CNameDB dbName("r");
             CTransaction prevTx;
-            if (!GetLastTxOfName(dbName, name, prevTx))
+            CNameRecord nameRec;
+            if (!GetLastTxOfName(dbName, name, prevTx, nameRec))
             {
                 ret.err_msg = "could not find tx with this name";
                 return ret;
             }
+
+            // empty value == reuse old value
+            if (op == OP_NAME_UPDATE && value.empty())
+                value = nameRec.vtxPos.back().value;
 
             uint256 wtxInHash = prevTx.GetHash();
             if (!pwalletMain->mapWallet.count(wtxInHash))
