@@ -1425,8 +1425,9 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         string allowed = GetArg("-slkdnsallowed", "");
         string localcf = GetArg("-slkdnslocalcf", "");
         string enums   = GetArg("-enumtrust", "");
+        string tf      = GetArg("-enumtollfree", "");
         slkdns = new SlkDns(bind_ip.c_str(), port,
-        suffix.c_str(), allowed.c_str(), localcf.c_str(), enums.c_str(), verbose);
+        suffix.c_str(), allowed.c_str(), localcf.c_str(), enums.c_str(), tf.c_str(), verbose);
         LogPrintf("DNS server started\n");
     }
 
