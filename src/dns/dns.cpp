@@ -980,6 +980,7 @@ UniValue name_new(const UniValue& params, bool fHelp)
                 "name_new <name> <value> <days> [toaddress] [valueAsFilepath]\n"
                 "Creates new key->value pair which expires after specified number of days.\n"
                 "Cost is square root of (1% of last PoW + 1% per year of last PoW)."
+                "If <value> is empty then previous value is left intact.\n"
                 "If [valueAsFilepath] is non-zero it will interpret <value> as a filepath and try to write file contents in binary format.\n"
                 + HelpRequiringPassphrase());
 
@@ -1164,7 +1165,7 @@ NameTxReturn name_operation(const int op, const CNameVal& name, CNameVal value, 
             }
 
             // empty value == reuse old value
-            if (op == OP_NAME_UPDATE && value.empty())
+            if ((op == OP_NAME_UPDATE || op == OP_NAME_MULTISIG) && value.empty())
                 value = nameRec.vtxPos.back().value;
 
             uint256 wtxInHash = prevTx.GetHash();
