@@ -98,7 +98,7 @@ class SlkDns {
     void Answer_ENUM(const char *q_str);
     void HandleE2U(char *e2u);
     bool CheckEnumSig(const char *q_str, char *sig_str);
-    void AddTF(const char *tf_tok);
+    void AddTF(char *tf_tok);
 
     // Returns x = hash index to update size; x==NULL = disable;
     DNSAP  *CheckDAP(uint32_t ip_addr);

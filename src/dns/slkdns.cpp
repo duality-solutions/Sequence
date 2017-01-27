@@ -255,18 +255,18 @@ SlkDns::SlkDns(const char *bind_ip, uint16_t port_no,
 
     // Hack - pass TF file list through m_value to HandlePacket()
 
-    if(tollfree && *tollfree)
+    if(tollfree && *tollfree) {
       if(m_verbose > 3)
     LogPrintf("\tSlkDns::EmcDns: Setup deferred toll-free=%s\n", tollfree);
       strcpy(m_value, tollfree);
-    else
+    } else
       m_value[0] = 0;
 
     m_status = 1; // Active, and maybe download
 } // SlkDns::SlkDns
 
 /*---------------------------------------------------*/
-void SlkDns::AddTF(const char *tf_tok) {
+void SlkDns::AddTF(char *tf_tok) {
   // Skip comments and empty lines
   if(tf_tok[0] < '0')
     return;
