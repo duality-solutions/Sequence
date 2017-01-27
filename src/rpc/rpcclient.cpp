@@ -103,9 +103,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
 
     // Silk:
     { "name_new", 2 },
-    { "name_new", 4 },
     { "name_update", 2 },
-    { "name_update", 4 },
     { "name_filter", 1 },
     { "name_filter", 2 },
     { "name_filter", 3 },

@@ -506,11 +506,14 @@ UniValue name_debug(const UniValue& params, bool fHelp)
 
 UniValue name_show(const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() < 1 || params.size() > 2)
+    if (fHelp || params.size() < 1 || params.size() > 3)
         throw runtime_error(
-            "name_show <name> [filepath]\n"
+            "name_show <name> [valuetype] [filepath]\n"
             "Show values of a name.\n"
-            "If filepath is specified name value will be saved in that file in binary format (file will be overwritten!).\n"
+            "\nArguments:\n"
+            "1. name      (string, required).\n"
+            "2. valuetype (string, optional) if \"hex\" or \"base64\" is specified then it will print value in corresponding format instead of string.\n"
+            "3. filepath  (string, optional) save name value in binary format in specified file (file will be overwritten!).\n"
             );
 
     if (IsInitialBlockDownload())
@@ -518,6 +521,7 @@ UniValue name_show(const UniValue& params, bool fHelp)
 
     UniValue oName(UniValue::VOBJ);
     CNameVal name = nameValFromValue(params[0]);
+    string outputType = params.size() > 1 ? params[1].get_str() : "";
     string sName = stringFromNameVal(name);
     NameTxInfo nti;
     {
@@ -538,7 +542,13 @@ UniValue name_show(const UniValue& params, bool fHelp)
             throw JSONRPCError(RPC_WALLET_ERROR, "failed to decode name");
 
         oName.push_back(Pair("name", sName));
-        string value = stringFromNameVal(nti.value);
+
+        // insert value
+        string value;
+        if      (outputType == "hex")    value = HexStr(nti.value);
+        else if (outputType == "base64") value = EncodeBase64(nti.value.data(), nti.value.size());
+        else                             value = stringFromNameVal(nti.value);
+
         oName.push_back(Pair("value", value));
         oName.push_back(Pair("txid", tx.GetHash().GetHex()));
         oName.push_back(Pair("address", nti.strAddress));
@@ -552,9 +562,9 @@ UniValue name_show(const UniValue& params, bool fHelp)
                 oName.push_back(Pair("expired", true));
     }
 
-    if (params.size() > 1)
+    if (params.size() > 2)
     {
-        string filepath = params[1].get_str();
+        string filepath = params[2].get_str();
         ofstream file;
         file.open(filepath.c_str(), ios::out | ios::binary | ios::trunc);
         if (!file.is_open())
@@ -977,26 +987,28 @@ UniValue name_new(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() < 2 || params.size() > 5)
         throw runtime_error(
-                "name_new <name> <value> <days> [toaddress] [valueAsFilepath]\n"
+                "name_new <name> <value> <days> [toaddress] [valuetype]\n"
                 "Creates new key->value pair which expires after specified number of days.\n"
                 "Cost is square root of (1% of last PoW + 1% per year of last PoW)."
                 "If <value> is empty then previous value is left intact.\n"
-                "If [valueAsFilepath] is non-zero it will interpret <value> as a filepath and try to write file contents in binary format.\n"
+                "\nArguments:\n"
+                "1. name      (string, required) Name to create.\n"
+                "2. value     (string, required) Value to write.\n"
+                "3. toaddress (string, optional) Address of recipient. Empty string = transaction to yourself.\n"
+                "4. valuetype (string, optional) Interpretation of value string. Can be \"hex\", \"base64\" or filepath.\n"
+                "   not specified or empty - Write value as a unicode string.\n"
+                "   \"hex\" or \"base64\" - Decode value string as a binary data in hex or base64 string format.\n"
+                "   otherwise - Decode value string as a filepath from which to read the data.\n"
                 + HelpRequiringPassphrase());
 
     // make sure the DDNS entry is all lowercase.
     CNameVal name = CNameValToLowerCase(nameValFromValue(params[0]));
     CNameVal value = nameValFromValue(params[1]);
     int nRentalDays = params[2].get_int();
-    string strAddress = "";
-    if (params.size() == 4)
-        strAddress = params[3].get_str();
+    string strAddress = params.size() > 3 ? params[3].get_str() : "";
+    string strValueType = params.size() > 4 ? params[4].get_str() : "";
 
-    bool fValueAsFilepath = false;
-    if (params.size() > 4)
-        fValueAsFilepath = (params[4].get_int() != 0);
-
-    NameTxReturn ret = name_operation(OP_NAME_NEW, name, value, nRentalDays, strAddress, fValueAsFilepath);
+    NameTxReturn ret = name_operation(OP_NAME_NEW, name, value, nRentalDays, strAddress, strValueType);
     if (!ret.ok)
         throw JSONRPCError(ret.err_code, ret.err_msg);
     return ret.hex.GetHex();
@@ -1006,25 +1018,27 @@ UniValue name_update(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() < 2 || params.size() > 5)
         throw runtime_error(
-                "name_update <name> <value> <days> [toaddress] [valueAsFilepath]\n"
+                "name_update <name> <value> <days> [toaddress] [valuetype]\n"
                 "Update name value, add days to expiration time and possibly transfer a name to diffrent address.\n"
-                "If <value> is empty then previous value is left intact.\n"
-                "If [valueAsFilepath] is non-zero it will interpret <value> as a filepath and try to write file contents in binary format.\n"
+                "\nArguments:\n"
+                "1. name      (string, required) Name to update.\n"
+                "2. value     (string, required) Value to write. Empty string = use previous value.\n"
+                "3. toaddress (string, optional) Address of recipient. Empty string = transaction to yourself.\n"
+                "4. valuetype (string, optional) Interpretation of value string. Can be \"hex\", \"base64\" or filepath.\n"
+                "   not specified or empty - Write value as a unicode string.\n"
+                "   \"hex\" or \"base64\" - Decode value string as a binary data in hex or base64 string format.\n"
+                "   otherwise - Decode value string as a filepath from which to read the data.\n"
                 + HelpRequiringPassphrase());
 
     // make sure the DDNS entry is all lowercase.
     CNameVal name = CNameValToLowerCase(nameValFromValue(params[0]));
     CNameVal value = nameValFromValue(params[1]);
     int nRentalDays = params[2].get_int();
-    string strAddress = "";
-    if (params.size() == 4)
-        strAddress = params[3].get_str();
+    string strAddress = params.size() > 3 ? params[3].get_str() : "";
+    string strValueType = params.size() > 4 ? params[4].get_str() : "";
 
-    bool fValueAsFilepath = false;
-    if (params.size() > 4)
-        fValueAsFilepath = (params[4].get_int() != 0);
+    NameTxReturn ret = name_operation(OP_NAME_UPDATE, name, value, nRentalDays, strAddress, strValueType);
 
-    NameTxReturn ret = name_operation(OP_NAME_UPDATE, name, value, nRentalDays, strAddress, fValueAsFilepath);
      if (!ret.ok)
         throw JSONRPCError(ret.err_code, ret.err_msg);
     return ret.hex.GetHex();
@@ -1040,14 +1054,14 @@ UniValue name_delete(const UniValue& params, bool fHelp)
     // make sure the DDNS entry is all lowercase.
     CNameVal name = CNameValToLowerCase(nameValFromValue(params[0]));
 
-    NameTxReturn ret = name_operation(OP_NAME_DELETE, name, CNameVal(), 0, "");
+    NameTxReturn ret = name_operation(OP_NAME_DELETE, name, CNameVal(), 0, "", "");
     if (!ret.ok)
         throw JSONRPCError(ret.err_code, ret.err_msg);
     return ret.hex.GetHex();
 
 }
 
-NameTxReturn name_operation(const int op, const CNameVal& name, CNameVal value, const int nRentalDays, const string strAddress, bool fValueAsFilepath)
+NameTxReturn name_operation(const int op, const CNameVal& name, CNameVal value, const int nRentalDays, const string& strAddress, const string& strValueType)
 {
     NameTxReturn ret;
     ret.err_code = RPC_INTERNAL_ERROR; // default value in case of abnormal exit
@@ -1067,31 +1081,54 @@ NameTxReturn name_operation(const int op, const CNameVal& name, CNameVal value, 
         return ret;
     }
 
-    if (fValueAsFilepath)
+    // decode value or leave it as is
+    if (!strValueType.empty() && !value.empty())
     {
-        string filepath = stringFromNameVal(value);
-        std::ifstream ifs;
-        ifs.open(filepath.c_str(), std::ios::binary | std::ios::ate);
-        if (!ifs)
+        string strValue = stringFromNameVal(value);
+        if (strValueType == "hex")
         {
-            ret.err_msg = "failed to open file";
-            return ret;
+            if (!IsHex(strValue))
+            {
+                ret.err_msg = "failed to decode value as hex";
+                return ret;
+            }
+            value = ParseHex(strValue);        
         }
-        std::streampos fileSize = ifs.tellg();
-        if (fileSize > MAX_VALUE_LENGTH)
+        else if (strValueType == "base64")
         {
-            ret.err_msg = "file is larger than maximum allowed size";
-            return ret;
+            bool fInvalid = false;
+            value = DecodeBase64(strValue.c_str(), &fInvalid);
+            if (fInvalid)
+            {
+                ret.err_msg = "failed to decode value as base64";
+                return ret;
+            }
         }
-
-        ifs.clear();
-        ifs.seekg(0, std::ios::beg);
-
-        value.resize(fileSize);
-        if (!ifs.read(reinterpret_cast<char*>(&value[0]), fileSize))
+        else // decode as filepath
         {
-            ret.err_msg = "failed to read file";
-            return ret;
+            std::ifstream ifs;
+            ifs.open(strValue.c_str(), std::ios::binary | std::ios::ate);
+            if (!ifs)
+            {
+                ret.err_msg = "failed to open file";
+                return ret;
+            }
+            std::streampos fileSize = ifs.tellg();
+            if (fileSize > MAX_VALUE_LENGTH)
+            {
+                ret.err_msg = "file is larger than maximum allowed size";
+                return ret;
+            }
+
+            ifs.clear();
+            ifs.seekg(0, std::ios::beg);
+
+            value.resize(fileSize);
+            if (!ifs.read(reinterpret_cast<char*>(&value[0]), fileSize))
+            {
+                ret.err_msg = "failed to read file";
+                return ret;
+            }
         }
     }
 
