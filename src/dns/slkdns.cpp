@@ -153,8 +153,9 @@ SlkDns::SlkDns(const char *bind_ip, uint16_t port_no,
         if(*p == '.') 
 	  m_gw_suf_dots++;
 
+    // Activate DAP only on the public gateways, with some suffixes, like .emergate.net
     // If no memory, DAP inactive - this is not critical problem
-    m_dap_ht  = (allowed_len | m_gw_suf_len)? (DNSAP*)calloc(SLKDNS_DAPSIZE, sizeof(DNSAP)) : NULL; 
+    m_dap_ht  = (allowed_len && m_gw_suf_len)? (DNSAP*)calloc(SLKDNS_DAPSIZE, sizeof(DNSAP)) : NULL; 
     m_daprand = GetRand(0xffffffff) | 1; 
 
     m_value  = (char *)malloc(VAL_SIZE + BUF_SIZE + 2 + 

@@ -19,7 +19,7 @@ using namespace std;
 #include "pubkey.h"
 
 #define SLKDNS_DAPSIZE     (8 * 1024)
-#define SLKDNS_DAPTRESHOLD 300 // 20K/min limit answer
+#define SLKDNS_DAPTRESHOLD 3000 // 200K/min limit answer
 
 #define VERMASK_NEW  -1
 #define VERMASK_BLOCKED -2
