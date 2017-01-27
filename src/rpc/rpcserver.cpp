@@ -772,7 +772,8 @@ static string JSONRPCExecBatch(const UniValue& vReq)
     for (unsigned int reqIdx = 0; reqIdx < vReq.size(); reqIdx++)
         ret.push_back(JSONRPCExecOne(vReq[reqIdx]));
 
-    return ret.write() + "\n";
+    static bool legacy = GetBoolArg("-legacyrpc", true);
+    return ret.write(0, 0, legacy) + "\n";
 }
 
 static bool HTTPReq_JSONRPC(AcceptedConnection *conn,
@@ -804,7 +805,8 @@ static bool HTTPReq_JSONRPC(AcceptedConnection *conn,
     {
         // Parse request
         UniValue valRequest;
-        if (!valRequest.read(strRequest))
+        static bool legacy = GetBoolArg("-legacyrpc", true);
+        if (!valRequest.read(strRequest, legacy ? 2 : 0))
             throw JSONRPCError(RPC_PARSE_ERROR, "Parse error");
 
         // Return immediately if in warmup
