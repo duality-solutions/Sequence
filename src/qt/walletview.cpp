@@ -74,7 +74,7 @@ WalletView::WalletView(QWidget *parent):
     connect(transactionView, SIGNAL(doubleClicked(QModelIndex)), transactionView, SLOT(showDetails()));
 
     // Double-clicking on a name on the name page copies all values
-    connect(manageNamesPage, SIGNAL(doubleClicked(QModelIndex)), manageNamesPage, SLOT(onCopyAllAction()));
+    connect(dnsPage, SIGNAL(doubleClicked(QModelIndex)), dnsPage, SLOT(onCopyAllAction()));
 
     // Clicking on "Export" allows to export the transaction list
     connect(exportButton, SIGNAL(clicked()), transactionView, SLOT(exportClicked()));

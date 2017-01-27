@@ -1481,7 +1481,7 @@ CAmount CWallet::GetTotal() const
 CAmount CWallet::GetStake() const
 {
     CAmount nTotal = 0;
-    LOCK(cs_main, cs_wallet);
+    LOCK2(cs_main, cs_wallet);
     for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)
     {
         const CWalletTx* pcoin = &(*it).second;
