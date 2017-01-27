@@ -1,8 +1,12 @@
 language: cpp
 compiler: gcc
+
 os: linux
+
 sudo: required
-dist: trusty
+dist: precise
+group: legacy
+
 install:
   - sudo apt-get -qq update
   - sudo apt-get install -y build-essential libtool autotools-dev autoconf pkg-config libssl-dev libcrypto++-dev

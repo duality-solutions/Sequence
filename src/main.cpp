@@ -63,6 +63,7 @@ bool fTxIndex = true;
 bool fIsBareMultisigStd = true;
 bool fCheckBlockIndex = false;
 size_t nCoinCacheUsage = 5000 * 300;
+bool fAlerts = DEFAULT_ALERTS;
 
 // ppcoin values
 string strMintWarning;
@@ -1288,6 +1289,31 @@ CAmount GetProofOfStakeReward()
 
 bool IsInitialBlockDownload()
 {
+    static bool rc = true; // Default - we're in the Initial Download
+    do {
+      if(rc == false)
+    break; // ret false
+
+      const CChainParams& chainParams = Params();
+      LOCK(cs_main);
+ 
+      if (fImporting || fReindex)
+        break; // ret true
+ 
+      unsigned int cah = chainActive.Height();
+
+      if(cah < Checkpoints::GetTotalBlocksEstimate() || cah < pindexBestHeader->nHeight - 24 * 6)
+        break; // ret true
+
+      rc = pindexBestHeader->GetBlockTime() < GetTime() - chainParams.MaxTipAge();
+
+    } while(false);
+
+    return rc;
+}
+
+#if 0
+const CChainParams& chainParams = Params();
     LOCK(cs_main);
     if (fImporting || fReindex || chainActive.Height() < Checkpoints::GetTotalBlocksEstimate())
         return true;
@@ -1295,11 +1321,11 @@ bool IsInitialBlockDownload()
     if (lockIBDState)
         return false;
     bool state = (chainActive.Height() < pindexBestHeader->nHeight - 24 * 6 ||
-            pindexBestHeader->GetBlockTime() < GetTime() - 24 * 60 * 60);
+            pindexBestHeader->GetBlockTime() < GetTime() - chainParams.MaxTipAge());
     if (!state)
         lockIBDState = true;
     return state;
-}
+#endif
 
 bool fLargeWorkForkFound = false;
 bool fLargeWorkInvalidChainFound = false;
@@ -1837,6 +1863,12 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
 
     unsigned int flags = fStrictPayToScriptHash ? SCRIPT_VERIFY_P2SH : SCRIPT_VERIFY_NONE;  
                  flags |= SCRIPT_VERIFY_DERSIG;
+
+    // Start enforcing CHECKLOCKTIMEVERIFY, (BIP65) for block.nVersion=4
+    // blocks, when 75% of the network has upgraded:
+    if (block.nVersion >= 2 && CBlockIndex::IsSuperMajority(2, pindex->pprev, Params().EnforceBlockUpgradeMajority())) {
+        flags |= SCRIPT_VERIFY_CHECKLOCKTIMEVERIFY;
+    }
 
     CBlockUndo blockundo;
 
@@ -2868,7 +2900,15 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, bool fProofOfStake, C
     CBlockIndex* pcheckpoint = Checkpoints::GetLastCheckpoint();
     if (pcheckpoint && nHeight < pcheckpoint->nHeight)
         return state.DoS(100, error("%s : forked chain older than last checkpoint (height %d)", __func__, nHeight));
- 
+
+     // Reject block.nVersion=1 blocks when 95% (75% on testnet) of the network has upgraded:
+     if (block.nVersion < 2 &&
+         CBlockIndex::IsSuperMajority(2, pindexPrev, Params().RejectBlockOutdatedMajority()))
+     {
+         return state.Invalid(error("%s : rejected nVersion=1 block", __func__),
+                              REJECT_OBSOLETE, "bad-version");
+     }
+
     return true;
 }
 
@@ -3168,7 +3208,7 @@ bool AbortNode(const std::string &strMessage, const std::string &userMessage) {
     strMiscWarning = strMessage;
     LogPrintf("*** %s\n", strMessage);
     uiInterface.ThreadSafeMessageBox(
-        userMessage.empty() ? _("Error: A fatal internal error occured, see debug.log for details") : userMessage,
+        userMessage.empty() ? _("Error: A fatal internal error occurred, see debug.log for details") : userMessage,
         "", CClientUIInterface::MSG_ERROR);
     StartShutdown();
     return false;
@@ -3509,9 +3549,8 @@ bool InitBlockIndex() {
             // write checkpoint master key to db
             if (!pblocktree->WriteCheckpointPubKey(CSyncCheckpoint::strMasterPubKey))
                 return error("LoadBlockIndex() : failed to write new checkpoint master key to db");
-            if (!pblocktree->Sync())
-                return error("LoadBlockIndex() : failed to commit new checkpoint master key to db");
-            if ((Params().NetworkIDString() == "main") && !CheckpointsSync::ResetSyncCheckpoint())
+            FlushStateToDisk();
+            if (!CheckpointsSync::ResetSyncCheckpoint())
                 return error("LoadBlockIndex() : failed to reset sync-checkpoint");
         }
     }*/
@@ -4717,7 +4756,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
     }
 
 
-    else if (strCommand == "alert")
+    else if (fAlerts && strCommand == "alert")
     {
         CAlert alert;
         vRecv >> alert;

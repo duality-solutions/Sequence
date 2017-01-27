@@ -52,11 +52,14 @@
 #define BUF_SIZE (512 + 512)
 #define MAX_OUT  512	// Old DNS restricts UDP to 512 bytes
 #define MAX_TOK  64	// Maximal TokenQty in the vsl_list, like A=IP1,..,IPn
-#define MAX_DOM  10	// Maximal domain level
+#define MAX_DOM  20  // Maximal domain level; min 10 is needed for NAPTR E164
 
 #define VAL_SIZE (MAX_VALUE_LENGTH + 16)
 #define DNS_PREFIX "dns"
 #define REDEF_SYM  '~'
+
+// HT offset contains it for ENUM SPFUN
+#define ENUM_FLAG  (1 << 14)
 
 /*---------------------------------------------------*/
 
@@ -89,11 +92,11 @@ int inet_pton(int af, const char *src, void *dst)
 /*---------------------------------------------------*/
 
 SlkDns::SlkDns(const char *bind_ip, uint16_t port_no,
-	  const char *gw_suffix, const char *allowed_suff, const char *local_fname, uint8_t verbose) 
-    : m_status(0), m_thread(StatRun, this) {
+   const char *gw_suffix, const char *allowed_suff, const char *local_fname, const char *enums, uint8_t verbose) 
+    : m_status(-1), m_thread(StatRun, this) {
 
-    // Set object to a new state
-    memset(this, 0, sizeof(SlkDns)); // Clear previous state
+    // Clear vars [m_hdr..m_verbose)
+    memset(&m_hdr, 0, &m_verbose - (uint8_t *)&m_hdr); // Clear previous state
     m_verbose = verbose;
 
     // Create and socket
@@ -160,6 +163,19 @@ SlkDns::SlkDns(const char *bind_ip, uint16_t port_no,
     if(m_value == NULL) 
       throw runtime_error("SlkDns::SlkDns: Cannot allocate buffer");
 
+    // Temporary use m_value for parse enum-verifiers, if exists
+    if(enums && *enums) {
+      char *str = strcpy(m_value, enums);
+      Verifier empty_ver;
+      while(char *p_tok = strsep(&str, "|,"))
+        if(*p_tok) {
+          if(m_verbose > 5)
+          LogPrintf("\tEmcDns::EmcDns: enumtrust=%s\n", p_tok);
+          m_verifiers[string(p_tok)] = empty_ver;
+        }
+    } // ENUMs completed 
+
+    // Assign data buffers inside m_value hyper-array
     m_buf    = (uint8_t *)(m_value + VAL_SIZE);
     m_bufend = m_buf + MAX_OUT;
     char *varbufs = m_value + VAL_SIZE + BUF_SIZE + 2;
@@ -177,18 +193,28 @@ SlkDns::SlkDns(const char *bind_ip, uint16_t port_no,
 	  *p = pos = step = 0;
 	  continue;
 	}
-	if(c == '.') {
+ if(c == '.' || c == '$') {
+   *p = 64;
 	  if(p[1] > 040) { // if allowed domain is not empty - save it into ht
 	    step |= 1;
-	    if(m_verbose > 3)
-	      LogPrintf("\tSlkDns::SlkDns: Insert TLD=%s: pos=%u step=%u\n", p + 1, pos, step);
 	    do 
 	      pos += step;
             while(m_ht_offset[pos] != 0);
 	    m_ht_offset[pos] = p + 1 - m_allowed_base;
+     const char *dnstype = "DNS";
+     if(c == '$') {
+       m_ht_offset[pos] |= ENUM_FLAG;
+       char *pp = p; // ref to $
+        while(--pp >= m_allowed_base && *pp >= '0' && *pp <= '9');
+        if(++pp < p)
+          *p = atoi(pp);
+        dnstype = "ENUM";
+      }
 	    m_allowed_qty++;
+     if(m_verbose > 3)
+       LogPrintf("\tSlkDns::EmcDns: Insert %s TLD=%s:%u\n", dnstype, p + 1, *p);
 	  }
-	  *p = pos = step = 0;
+   pos = step = 0;
 	  continue;
 	}
         pos  = ((pos >> 7) | (pos << 1)) + c;
@@ -226,7 +252,7 @@ SlkDns::SlkDns(const char *bind_ip, uint16_t port_no,
 		 m_address.sin_addr.s_addr == INADDR_ANY? "INADDR_ANY" : bind_ip, 
 		 port_no, m_allowed_qty, local_qty);
 
-    m_status = 1; // Active 
+    m_status = 1; // Active, and maybe download
 } // SlkDns::SlkDns
 
 /*---------------------------------------------------*/
@@ -258,8 +284,8 @@ void SlkDns::StatRun(void *p) {
 void SlkDns::Run() {
   if(m_verbose > 2) LogPrintf("SlkDns::Run: started\n");
 
-  while(m_status == 0)
-      MilliSleep(133);
+  while(m_status < 0) // not initied yet
+    MilliSleep(133);
 
   for( ; ; ) {
     m_addrLen = sizeof(m_clientAddress);
@@ -329,13 +355,16 @@ void SlkDns::HandlePacket() {
       break;
     }
 
-    if(IsInitialBlockDownload()) {
-      m_hdr->Bits |= 2; // Server failure - not available valud nameindex DB yet
+//    if(IsInitialBlockDownload()) {
+    if(m_status && (m_status = IsInitialBlockDownload())) {
+      m_hdr->Bits |= 2; // Server failure - not available valid nameindex DB yet
       break;
     }
 
     // Handle questions here
-    for(uint16_t qno = 0; qno < m_hdr->QDCount && m_snd < m_bufend; qno--) {
+    for(uint16_t qno = 0; qno < m_hdr->QDCount && m_snd < m_bufend; qno++) {
+      if(m_verbose > 5) 
+        LogPrintf("\tSlkDns::HandlePacket: qno=%u m_hdr->QDCount=%u\n", qno, m_hdr->QDCount);
       uint16_t rc = HandleQuery();
       if(rc) {
 	m_hdr->Bits |= rc;
@@ -371,7 +400,7 @@ uint16_t SlkDns::HandleQuery() {
   uint8_t key[BUF_SIZE];				// Key, transformed to dot-separated LC
   uint8_t *key_end = key;
   uint8_t *domain_ndx[MAX_DOM];				// indexes to domains
-  uint8_t **domain_ndx_p = domain_ndx;			// Ptr to end
+  uint8_t **domain_ndx_p = domain_ndx;     // Ptr to the end
 
   // m_rcv is pointer to QNAME
   // Set reference to domain label
@@ -386,10 +415,10 @@ uint16_t SlkDns::HandleQuery() {
       return 1; // Invalid request
     *domain_ndx_p++ = key_end;
     do {
-      *key_end++ = tolower(*m_rcv++);
+      *key_end++ = 040 | *m_rcv++;
     } while(--dom_len);
     *key_end++ = '.'; // Set DOT at domain end
-  }
+  } //  while(dom_len)
   *--key_end = 0; // Remove last dot, set EOLN
 
   if(m_verbose > 3) 
@@ -404,9 +433,9 @@ uint16_t SlkDns::HandleQuery() {
   if(qclass != 1)
     return 4; // Not implemented - support INET only
 
-  // If thid is puplic gateway, gw-suffix can be specified, like 
+  // If thid is public gateway, gw-suffix can be specified, like 
   // slkdnssuffix=.xyz.com
-  // Followind block cuts this suffix, if exist.
+  // Followind block cuts this suffix, if exists.
   // If received domain name "xyz.com" only, keyp is empty string
 
   if(m_gw_suf_len) { // suffix defined [public DNS], need to cut
@@ -468,7 +497,12 @@ uint16_t SlkDns::HandleQuery() {
   	    LogPrintf("SlkDns::HandleQuery: TLD-suffix=[.%s] in given key=%s is not allowed; return NXDOMAIN\n", p, key);
 	  return 3; // Reached EndOfList, so NXDOMAIN
         } 
-      } while(m_ht_offset[pos] < 0 || strcmp((const char *)p, m_allowed_base + m_ht_offset[pos]) != 0);
+      } while(m_ht_offset[pos] < 0 || strcmp((const char *)p, m_allowed_base + (m_ht_offset[pos] & ~ENUM_FLAG)) != 0);
+
+      // ENUM SPFUN works only if TLD-filter is active
+      if(m_ht_offset[pos] & ENUM_FLAG)
+        return SpfunENUM(m_allowed_base[(m_ht_offset[pos] & ~ENUM_FLAG) - 1], domain_ndx, domain_ndx_p);
+
     } // if(m_allowed_qty)
 
     uint8_t **cur_ndx_p, **prev_ndx_p = domain_ndx_p - 2;
@@ -611,7 +645,7 @@ void SlkDns::Answer_ALL(uint16_t qtype, char *buf) {
       case 16 : key = "TXT";    break;
       case 28 : key = "AAAA";   break;
       default: return;
-  } // swithc
+  } // switch
 
   char *tokens[MAX_TOK];
   int tokQty = Tokenize(key, ",", tokens, buf);
@@ -760,3 +794,293 @@ DNSAP *SlkDns::CheckDAP(uint32_t ip_addr) {
   return (dap->ed_size <= SLKDNS_DAPTRESHOLD)? dap : NULL;
 } // SlkDns::CheckDAP 
 
+
+/*---------------------------------------------------*/
+// Handle Special function - phone number in the E.164 format
+// to support ENUM service
+int SlkDns::SpfunENUM(uint8_t len, uint8_t **domain_start, uint8_t **domain_end) {
+  int dom_length = domain_end - domain_start;
+  const char *tld = (const char*)domain_end[-1];
+
+  if(m_verbose > 3)
+    LogPrintf("\tSlkDns::SpfunENUM: Domain=[%s] N=%u TLD=[%s] Len=%u\n", 
+     (const char*)*domain_start, dom_length, tld, len);
+
+  do {
+    if(dom_length < 2)
+      break; // no domains for phone number - NXDOMAIN
+
+    if(m_verifiers.empty())  
+      break; // no verifier - all ENUMs untrusted
+
+    char itut_num[68], *pitut = itut_num, *pitutend = itut_num + len;
+    for(const uint8_t *p = domain_end[-1]; --p >= *domain_start; )
+      if(*p >= '0' && *p <= '9') {
+  *pitut++ = *p;
+        if(pitut >= pitutend)
+   break;
+      }
+    *pitut = 0; // EOLN at phone number end
+
+    if(pitut == itut_num)
+      break; // Empty phone number - NXDOMAIN
+
+    if(m_verbose > 3)
+      LogPrintf("\tSlkDns::SpfunENUM: ITU-T num=[%s]\n", itut_num);
+
+    // Itrrate all available ENUM-records, and build joined answer from them
+    for(int16_t qno = 0; qno >= 0; qno++) {
+      char q_str[100];
+      sprintf(q_str, "%s:%s:%u", tld, itut_num, qno); 
+      if(m_verbose > 1) 
+        LogPrintf("\tSlkDns::SpfunENUM Search(%s)\n", q_str);
+
+      string value;
+      if(!hooks->getNameValue(string(q_str), value))
+        return m_hdr->ANCount? 0 : 3;
+
+      strcpy(m_value, value.c_str());
+      Answer_ENUM(q_str);
+    } // for 
+
+  } while(false);
+
+  return 3; // NXDOMAIN
+} // SlkDns::SpfunENUM
+
+/*---------------------------------------------------*/
+
+#define ENC3(a, b, c) (a | (b << 8) | (c << 16))
+
+/*---------------------------------------------------*/
+// Generate answewr for found EMUM NVS record
+void SlkDns::Answer_ENUM(const char *q_str) {
+  char *str_val = m_value;
+  const char *pttl;
+  char *e2u[VAL_SIZE / 4]; // 20kb max input, and min 4 bytes per token
+  uint16_t e2uN = 0;
+  bool sigOK = false;
+
+  m_ttl = 24 * 3600; // 24h by default
+
+  // Tokenize lines in the NVS-value.
+  // There can be prefixes SIG=, TTL=, E2U
+  while(char *tok = strsep(&str_val, "\n\r"))
+    switch(*(uint32_t*)tok & 0xffffff | 0x202020) {
+ case ENC3('e', '2', 'u'):
+    e2u[e2uN++] = tok;
+    continue;
+
+ case ENC3('t', 't', 'l'):
+   pttl = strchr(tok + 3, '=');
+   if(pttl)
+     m_ttl = atoi(pttl + 1);
+    continue;
+
+ case ENC3('s', 'i', 'g'):
+    if(!sigOK)
+      sigOK = CheckEnumSig(q_str, strchr(tok + 3, '='));
+    continue;
+
+  default:
+    continue;
+    } // while + switch
+
+  if(!sigOK)
+    return; // This ENUM-record does not contain a valid signature
+
+  // Generate ENUM-answers here
+  for(uint16_t e2undx = 0; e2undx < e2uN; e2undx++)
+    if(m_snd < m_bufend - 24)
+      HandleE2U(e2u[e2undx]);
+
+} // EmcDns::Answer_ENUM
+
+/*---------------------------------------------------*/
+void SlkDns::OutS(const char *p) {
+  int len = strlen(strcpy((char *)m_snd + 1, p));
+  *m_snd = len;
+  m_snd += len + 1; 
+} // SlkDns::OutS
+
+/*---------------------------------------------------*/
+ // Generate ENUM-answers for a single E2U entry
+ // E2U+sip=100|10|!^(.*)$!sip:17771234567@in.callcentric.com!
+void SlkDns::HandleE2U(char *e2u) {
+  char *data = strchr(e2u, '='), *p = data;
+  if(data == NULL) 
+    return;
+
+  // Cleanum sufix for service; Service started from E2U
+  for(char *p = data; *--p <= 040; *p = 0) {}
+
+  unsigned int ord, pref;
+  char re[VAL_SIZE];
+
+  *data++ = 0; // Remove '='
+
+  if(sscanf(data, "%u | %u | %s", &ord, &pref, re) != 3)
+    return;
+
+    if(m_verbose > 3)
+      LogPrintf("\tEmcDns::HandleE2U: Parsed: %u %u %s %s\n", ord, pref, e2u, re);
+
+  if(m_snd + strlen(re) + strlen(e2u) + 24 >= m_bufend)
+    return;
+
+  Out2(m_label_ref);
+  Out2(0x23); // NAPTR record
+  Out2(1); //  INET
+  Out4(m_ttl);
+  uint8_t *snd0 = m_snd; m_snd += 2;
+  Out2(ord);
+  Out2(pref);
+  OutS("u");
+  OutS(e2u);
+  OutS(re);
+  *m_snd++ = 0;
+
+  uint16_t len = m_snd - snd0 - 2;
+  *snd0++ = len >> 8;
+  *snd0++ = len;
+
+  m_hdr->ANCount++;
+} //  SlkDns::HandleE2U
+
+/*---------------------------------------------------*/
+bool SlkDns::CheckEnumSig(const char *q_str, char *sig_str) {
+    if(sig_str == NULL)
+      return false;
+
+    // skip SP/TABs in signature
+    while(*++sig_str <= ' ');
+
+    char *signature = strchr(sig_str, '|');
+    if(signature == NULL)
+      return false;
+    
+    for(char *p = signature; *--p <= 040; *p = 0) {}
+    *signature++ = 0;
+
+    map<string, Verifier>::iterator it = m_verifiers.find(sig_str);
+    if(it == m_verifiers.end())
+      return false; // Unknown verifier - do not trust it
+
+    Verifier &ver = it->second;
+
+    if(ver.mask < 0) {
+      if(ver.mask == VERMASK_BLOCKED)
+  return false; // Already unable to fetch
+
+      do {
+        NameTxInfo nti;
+        CNameRecord nameRec;
+        CTransaction tx;
+        LOCK(cs_main);
+        CNameDB dbName("r");
+        if(!dbName.ReadName(CNameVal(it->first.c_str(), it->first.c_str() + it->first.size()), nameRec))
+    break; // failed to read from name DB
+        if(nameRec.vtxPos.size() < 1)
+    break; // no result returned
+        if(!tx.ReadFromDisk(nameRec.vtxPos.back().txPos))
+          break; // failed to read from from disk
+        if(!DecodeNameTx(tx, nti, true))
+          break; // failed to decode name
+  CSilkAddress addr(nti.strAddress);
+        if(!addr.IsValid())
+          break; // Invalid address
+        if(!addr.GetKeyID(ver.keyID))
+          break; // Address does not refer to key
+
+  // Verifier has been read successfully, configure SRL if exist
+  char valbuf[VAL_SIZE], *str_val = valbuf;
+        memcpy(valbuf, &nti.value[0], nti.value.size());
+        valbuf[nti.value.size()] = 0;
+
+ // Proces SRL-line like
+  // SRL=5|srl:hello-%02x
+  ver.mask = VERMASK_NOSRL;
+        while(char *tok = strsep(&str_val, "\n\r"))
+   if((*(uint32_t*)tok & 0xffffff | 0x202020) == ENC3('s', 'r', 'l') && (tok = strchr(tok + 3, '='))) {
+     unsigned nbits = atoi(++tok);
+            if(nbits > 30) nbits = 30;
+     ///mask = (1 << mask) - 1;
+      tok = strchr(tok, '|');
+      if(tok != NULL) {
+   do {
+     if(*++tok == 0)
+       break; // empty SRL, thus keep VERMASK_NOSRL
+     char *pp = strchr(tok, '%');
+      if(pp != NULL) {
+        if(*++pp == '0')
+          do ++pp; while(*pp >= '0' && *pp <= '9');
+                    if(strchr("diouXx", *pp) == NULL)
+      break; // Invalid char in the template
+        if(strchr(pp, '%'))
+      break; // Not allowed 2nd % symbol
+      } else
+        nbits = 0; // Don't needed nbits/mask for no-bucket srl_tpl
+
+                  ver.srl_tpl.assign(tok);
+      ver.mask = (1 << nbits) - 1;
+    } while(false);
+      } // if(tok != NULL)
+      if(ver.mask != VERMASK_NOSRL)
+        break; // Mask found
+   } // while + if
+
+      } while(false);
+      if(ver.mask < 0) {
+ ver.mask = VERMASK_BLOCKED; // Unable to read - block next read
+  return false;
+      } // if(ver.mask < 0) - after try-fill verifiyer
+
+    } // if(ver.mask < 0) - main
+ 
+    while(*signature <= 040 && *signature) 
+      signature++;
+
+    bool fInvalid = false;
+    vector<unsigned char> vchSig(DecodeBase64(signature, &fInvalid));
+
+    if(fInvalid)
+      return false;
+
+    CHashWriter ss(SER_GETHASH, 0);
+    ss << strMessageMagic;
+    ss << string(q_str);
+
+    CPubKey pubkey;
+    if(!pubkey.RecoverCompact(ss.GetHash(), vchSig))
+      return false;
+
+    if(pubkey.GetID() != ver.keyID)
+  return false; // Signature check did not passed
+
+    if(ver.mask == VERMASK_NOSRL)
+  return true; // This verifiyer does not have active SRL
+
+    // TODO - check SRL here
+    
+    char valbuf[VAL_SIZE];
+    // Compute a simple hash from q_str like enum:17771234567:0
+    // This hasu must be used by verifiyers for build buckets
+    unsigned h = 0x5555;
+    for(const char *p = q_str; *p; p++)
+  h += (h << 5) + *p;
+    sprintf(valbuf, ver.srl_tpl.c_str(), h & ver.mask);
+
+    string value;
+    if(!hooks->getNameValue(string(valbuf), value))
+      return true; // Unable fetch SRL - as same as SRL does not exist
+
+    return !value.find(q_str);
+#if 0
+    char *valstr = strcpy(valbuf, value.c_str());
+    while(char *tok = strsep(&valstr, "|, \r\n\t"))
+      if(strcmp(tok, q_str) == 0)
+  reurn false;
+
+    return true;
+#endif
+} // SlkDns::CheckEnumSig

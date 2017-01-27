@@ -209,6 +209,7 @@ public:
         nStakeMaxAge = std::numeric_limits<int64_t>::max(); // Unlimited stake age
         nModifierInterval = 15 * 60;    // 15 minutes to elapse before new modifier is computed
         nLastPOWBlock = 10000;          // Proof of Work finishes on block 10000
+        nMaxTipAge = 24 * 60 * 60;
 
         genesis = CreateGenesisBlock(1473949500, 37239843, bnProofOfWorkLimit.GetCompact(), 1, (0 * COIN));
 
@@ -272,6 +273,7 @@ public:
         nStakeMinAge = 30 * 60;         // 30 minute minimum stake age
         nModifierInterval = 15 * 60;    // 15 minutes to elapse before new modifier is computed
         nLastPOWBlock = 100000;         // Proof of Work finishes on block 300000
+        nMaxTipAge = 24 * 60 * 60;
         //bool startNewChain = true;
 
         genesis = CreateTestNetGenesisBlock(1478107000, 82131309, bnProofOfWorkLimit.GetCompact(), 1, (0 * COIN));
@@ -327,7 +329,7 @@ public:
         bnProofOfWorkLimit = ~uint256(0) >> 22;
         bnProofOfStakeLimit = ~uint256(0) >> 22;
         nLastPOWBlock = 100;    // Proof of Work finishes on block 100
-
+        nMaxTipAge = 24 * 60 * 60;
         
         genesis = CreateGenesisBlock(1473949500, 1427578, 0x1e00ffff, 1, (0 * COIN));
         
