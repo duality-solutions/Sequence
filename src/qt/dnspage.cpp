@@ -126,6 +126,7 @@ DNSPage::DNSPage(QWidget *parent) :
     connect(copyAllAction, SIGNAL(triggered()), this, SLOT(onCopyAllAction()));
     connect(saveValueAsBinaryAction, SIGNAL(triggered()), this, SLOT(onSaveValueAsBinaryAction()));
 
+    connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SIGNAL(doubleClicked(QModelIndex)));
     connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextualMenu(QPoint)));
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 

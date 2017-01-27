@@ -73,6 +73,9 @@ WalletView::WalletView(QWidget *parent):
     // Double-clicking on a transaction on the transaction history page shows details
     connect(transactionView, SIGNAL(doubleClicked(QModelIndex)), transactionView, SLOT(showDetails()));
 
+    // Double-clicking on a name on the name page copies all values
+    connect(manageNamesPage, SIGNAL(doubleClicked(QModelIndex)), manageNamesPage, SLOT(onCopyAllAction()));
+
     // Clicking on "Export" allows to export the transaction list
     connect(exportButton, SIGNAL(clicked()), transactionView, SLOT(exportClicked()));
 
