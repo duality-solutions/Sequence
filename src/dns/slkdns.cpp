@@ -87,6 +87,21 @@ int inet_pton(int af, const char *src, void *dst)
   }
   return 0;
 }
+
+char *strsep(char **s, const char *ct)
+{
+    char *sstart = *s;
+    char *end;
+
+    if (sstart == NULL)
+        return NULL;
+
+    end = strpbrk(sstart, ct);
+    if (end)
+        *end++ = '\0';
+    *s = end;
+    return sstart;
+}
 #endif
 
 /*---------------------------------------------------*/
