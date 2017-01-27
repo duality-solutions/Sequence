@@ -83,6 +83,15 @@ string limitString(const string& inp, unsigned int size, string message = "")
     return ret;
 }
 
+string encodeNameVal(const CNameVal& input, const string& format)
+{
+    string output;
+    if      (format == "hex")    output = HexStr(input);
+    else if (format == "base64") output = EncodeBase64(input.data(), input.size());
+    else                         output = stringFromNameVal(input);
+    return output;
+}
+
 // Calculate at which block will expire.
 bool CalculateExpiresAt(CNameRecord& nameRec)
 {
@@ -366,18 +375,20 @@ bool CNamecoinHooks::RemoveNameScriptPrefix(const CScript& scriptIn, CScript& sc
 
 UniValue name_list(const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() > 1)
+    if (fHelp || params.size() > 2)
         throw runtime_error(
-                "name_list [<name>]\n"
-                "list my own names"
-                );
+                "name_list [name] [valuetype]\n"
+                "list my own names.\n"
+                "\nArguments:\n"
+                "1. name      (string, required) Restrict output to specific name.\n"
+                "2. valuetype (string, optional) If \"hex\" or \"base64\" is specified then it will print value in corresponding format instead of string.\n"
+                 );
 
     if (IsInitialBlockDownload())
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Silk is downloading blocks...");
 
-    CNameVal nameUniq;
-    if (params.size() == 1)
-        nameUniq = nameValFromValue(params[0]);
+    CNameVal nameUniq = params.size() > 0 ? nameValFromValue(params[0]) : CNameVal();
+   string outputType = params.size() > 1 ? params[1].get_str() : "";
 
     map<CNameVal, NameTxInfo> mapNames, mapPending;
     GetNameList(nameUniq, mapNames, mapPending);
@@ -387,7 +398,7 @@ UniValue name_list(const UniValue& params, bool fHelp)
     {
         UniValue oName(UniValue::VOBJ);
         oName.push_back(Pair("name", stringFromNameVal(item.second.name)));
-        oName.push_back(Pair("value", stringFromNameVal(item.second.value)));
+        oName.push_back(Pair("value", encodeNameVal(item.second.value, outputType)));
         if (item.second.fIsMine == false)
             oName.push_back(Pair("transferred", true));
         oName.push_back(Pair("address", item.second.strAddress));
@@ -512,7 +523,7 @@ UniValue name_show(const UniValue& params, bool fHelp)
             "Show values of a name.\n"
             "\nArguments:\n"
             "1. name      (string, required).\n"
-            "2. valuetype (string, optional) if \"hex\" or \"base64\" is specified then it will print value in corresponding format instead of string.\n"
+            "2. valuetype (string, optional) If \"hex\" or \"base64\" is specified then it will print value in corresponding format instead of string.\n"
             "3. filepath  (string, optional) save name value in binary format in specified file (file will be overwritten!).\n"
             );
 
@@ -542,14 +553,7 @@ UniValue name_show(const UniValue& params, bool fHelp)
             throw JSONRPCError(RPC_WALLET_ERROR, "failed to decode name");
 
         oName.push_back(Pair("name", sName));
-
-        // insert value
-        string value;
-        if      (outputType == "hex")    value = HexStr(nti.value);
-        else if (outputType == "base64") value = EncodeBase64(nti.value.data(), nti.value.size());
-        else                             value = stringFromNameVal(nti.value);
-
-        oName.push_back(Pair("value", value));
+        oName.push_back(Pair("value", encodeNameVal(nti.value, outputType)));
         oName.push_back(Pair("txid", tx.GetHash().GetHex()));
         oName.push_back(Pair("address", nti.strAddress));
         oName.push_back(Pair("expires_in", nameRec.nExpiresAt - chainActive.Height()));
@@ -579,13 +583,14 @@ UniValue name_show(const UniValue& params, bool fHelp)
 
 UniValue name_history (const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() < 1 || params.size() > 2)
+    if (fHelp || params.size() < 1 || params.size() > 3)
         throw std::runtime_error (
-            "name_history \"name\" ( fullhistory )\n"
+            "name_history <name> [fullhistory] [valuetype]\n"
             "\nLook up the current and all past data for the given name.\n"
             "\nArguments:\n"
-            "1. \"name\"           (string, required) the name to query for\n"
-            "2. \"fullhistory\"    (boolean, optional) shows full history, even if name is not active\n"
+            "1. name        (string, required) the name to query for\n"
+            "2. fullhistory (boolean, optional) shows full history, even if name is not active\n"
+            "3. valuetype   (string, optional) If \"hex\" or \"base64\" is specified then it will print value in corresponding format instead of string.\n"
             "\nResult:\n"
             "[\n"
             "  {\n"
@@ -608,9 +613,8 @@ UniValue name_history (const UniValue& params, bool fHelp)
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Silk is downloading blocks...");
 
     CNameVal name = nameValFromValue(params[0]);
-    bool fFullHistory = false;
-    if (params.size() > 1)
-        fFullHistory = params[1].get_bool();
+    bool fFullHistory = params.size() > 1 ? params[1].get_bool() : false;
+    string outputType = params.size() > 2 ? params[2].get_str() : "";
 
     CNameRecord nameRec;
     {
@@ -648,7 +652,7 @@ UniValue name_history (const UniValue& params, bool fHelp)
         if (nti.op == OP_NAME_UPDATE || nti.op == OP_NAME_NEW || nti.op == OP_NAME_MULTISIG)
             obj.push_back(Pair("days_added",       nti.nRentalDays));
         if (nti.op == OP_NAME_UPDATE || nti.op == OP_NAME_NEW || nti.op == OP_NAME_MULTISIG)
-            obj.push_back(Pair("value",            stringFromNameVal(nti.value)));
+        obj.push_back(Pair("value", encodeNameVal(nti.value, outputType)));
 
         res.push_back(obj);
     }
@@ -658,9 +662,11 @@ UniValue name_history (const UniValue& params, bool fHelp)
 
 UniValue name_mempool (const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() > 0)
+    if (fHelp || params.size() > 1)
         throw std::runtime_error (
-            "name_mempool\n"
+            "name_mempool [valuetype]\n"
+            "\nArguments:\n"
+            "1. valuetype   (string, optional) If \"hex\" or \"base64\" is specified then it will print value in corresponding format instead of string.\n"
             "\nList pending name transactions in mempool.\n"
             "\nResult:\n"
             "[\n"
@@ -679,6 +685,8 @@ UniValue name_mempool (const UniValue& params, bool fHelp)
             + HelpExampleCli ("name_mempool", "" )
             + HelpExampleRpc ("name_mempool", "" )
         );
+
+    string outputType = params.size() > 0 ? params[0].get_str() : "";
 
     UniValue res(UniValue::VARR);
     BOOST_FOREACH(const PAIRTYPE(CNameVal, set<uint256>) &pairPending, mapNamePending)
@@ -705,7 +713,7 @@ UniValue name_mempool (const UniValue& params, bool fHelp)
             if (nti.op == OP_NAME_UPDATE || nti.op == OP_NAME_NEW || nti.op == OP_NAME_MULTISIG)
                 obj.push_back(Pair("days_added",       nti.nRentalDays));
             if (nti.op == OP_NAME_UPDATE || nti.op == OP_NAME_NEW || nti.op == OP_NAME_MULTISIG)
-                obj.push_back(Pair("value",            stringFromNameVal(nti.value)));
+            obj.push_back(Pair("value",            encodeNameVal(nti.value, outputType)));
 
             res.push_back(obj);
         }
@@ -720,17 +728,19 @@ bool mycompare2 (const UniValue& lhs, const UniValue& rhs)
 
     return lhs[pos].get_int() < rhs[pos].get_int();
 }
+
 UniValue name_filter(const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() > 5)
+    if (fHelp || params.size() > 6)
         throw runtime_error(
-                "name_filter [[[[[regexp] maxage=0] from=0] nb=0] stat]\n"
+                "name_filter [regexp] [maxage=0] [from=0] [nb=0] [stat] [valuetype]\n"
                 "scan and filter names\n"
                 "[regexp] : apply [regexp] on names, empty means all names\n"
                 "[maxage] : look in last [maxage] blocks\n"
                 "[from] : show results from number [from]\n"
                 "[nb] : show [nb] results, 0 means all\n"
-                "[stats] : show some stats instead of results\n"
+                "[stat] : show some stats instead of results\n"
+                "[valuetype] : if \"hex\" or \"base64\" is specified then it will print value in corresponding format instead of string.\n"                
                 "name_filter \"\" 5 # list names updated in last 5 blocks\n"
                 "name_filter \"^id/\" # list all names from the \"id\" namespace\n"
                 "name_filter \"^id/\" 0 0 0 stat # display stats (number of names) on active names from the \"id\" namespace\n"
@@ -739,29 +749,16 @@ UniValue name_filter(const UniValue& params, bool fHelp)
     if (IsInitialBlockDownload())
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Silk is downloading blocks...");
 
-    string strRegexp;
-    int nFrom = 0;
-    int nNb = 0;
-    int nMaxAge = 0;
-    bool fStat = false;
     int nCountFrom = 0;
     int nCountNb = 0;
 
-    if (params.size() > 0)
-        strRegexp = params[0].get_str();
+    string strRegexp  = params.size() > 0 ? params[0].get_str() : "";
 
-    if (params.size() > 1)
-        nMaxAge = params[1].get_int();
-
-    if (params.size() > 2)
-        nFrom = params[2].get_int();
-
-    if (params.size() > 3)
-        nNb = params[3].get_int();
-
-    if (params.size() > 4)
-        fStat = (params[4].get_str() == "stat" ? true : false);
-
+    int nMaxAge       = params.size() > 1 ? params[1].get_int() : 0;
+    int nFrom         = params.size() > 2 ? params[2].get_int() : 0;
+    int nNb           = params.size() > 3 ? params[3].get_int() : 0;
+    bool fStat        = params.size() > 4 ? (params[4].get_str() == "stat" ? true : false) : false;
+    string outputType = params.size() > 5 ? params[5].get_str() : "";
 
     CNameDB dbName("r");
     vector<UniValue> oRes;
@@ -812,9 +809,7 @@ UniValue name_filter(const UniValue& params, bool fHelp)
         UniValue oName(UniValue::VOBJ);
         if (!fStat) {
             oName.push_back(Pair("name", name));
-
-            string value = stringFromNameVal(txName.value);
-            oName.push_back(Pair("value", limitString(value, 300, "\n...(value too large - use name_show to see full value)")));
+            oName.push_back(Pair("value", limitString(encodeNameVal(txName.value, outputType), 300, "\n...(value too large - use name_show to see full value)")));
 
             oName.push_back(Pair("registered_at", nHeight)); // pos = 2 in comparison function (above name_filter)
 
@@ -852,31 +847,22 @@ UniValue name_filter(const UniValue& params, bool fHelp)
 
 UniValue name_scan(const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() > 3)
+    if (fHelp || params.size() > 4)
         throw runtime_error(
-                "name_scan [start-name] [max-returned] [max-value-length=-1]\n"
+                "name_scan [start-name] [max-returned] [max-value-length=-1] [valuetype]\n"
                 "Scan all names, starting at start-name and returning a maximum number of entries (default 500)\n"
                 "You can also control the length of shown value (0 = full value)\n"
+                "[valuetype] : if \"hex\" or \"base64\" is specified then it will print value in corresponding format instead of string.\n"
                 );
 
     if (IsInitialBlockDownload())
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Silk is downloading blocks...");
 
-    CNameVal name;
+    CNameVal name      = params.size() > 0 ? nameValFromValue(params[0]) : CNameVal();
     string strSearchName = "";
-    unsigned int nMax = 500;
-    unsigned int mMaxShownValue = 96;
-    if (params.size() > 0)
-    {
-        name = nameValFromValue(params[0]);
-        strSearchName = params[0].get_str();
-    }
-
-    if (params.size() > 1)
-        nMax = params[1].get_int();
-
-    if (params.size() > 2)
-        mMaxShownValue = params[2].get_int();
+    int nMax           = params.size() > 1 ? params[1].get_int() : 500;
+    int mMaxShownValue = params.size() > 2 ? params[2].get_int() : 0;
+    string outputType  = params.size() > 3 ? params[3].get_str() : "";
 
     CNameDB dbName("r");
     UniValue oRes(UniValue::VARR);
@@ -899,9 +885,8 @@ UniValue name_scan(const UniValue& params, bool fHelp)
             CNameIndex txName = pairScan.second.first;
             int nExpiresAt    = pairScan.second.second;
             CNameVal value = txName.value;
-            string sValue = stringFromNameVal(value);
 
-            oName.push_back(Pair("value", limitString(sValue, mMaxShownValue, "\n...(value too large - use name_show to see full value)")));
+        oName.push_back(Pair("value", limitString(encodeNameVal(value, outputType), mMaxShownValue, "\n...(value too large - use name_show to see full value)")));
             oName.push_back(Pair("expires_in", nExpiresAt - chainActive.Height()));
             if (nExpiresAt - chainActive.Height() <= 0)
                 oName.push_back(Pair("expired", true));
