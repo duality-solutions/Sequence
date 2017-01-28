@@ -8,11 +8,6 @@ CURDIR=$(cd $(dirname "$0"); pwd)
 export SILKCLI=${BUILDDIR}/qa/pull-tester/run-silk-cli
 export SILKD=${REAL_SILKD}
 
-if [ "x${EXEEXT}" = "x.exe" ]; then
-  echo "Win tests currently disabled"
-  exit 0
-fi
-
 #Run the tests
 
 if [ "x${ENABLE_SILKD}${ENABLE_UTILS}${ENABLE_WALLET}" = "x111" ]; then

@@ -91,13 +91,19 @@ void RPCTypeCheckObj(const UniValue& o,
     }
 }
 
+static inline int64_t roundint64(double d)
+{
+    return (int64_t)(d > 0 ? d + 0.5 : d - 0.5);
+}
+
 CAmount AmountFromValue(const UniValue& value)
 {
     if (!value.isNum() && !value.isStr())
         throw JSONRPCError(RPC_TYPE_ERROR, "Amount is not a number or string");
-    CAmount amount;
-    if (!ParseFixedPoint(value.getValStr(), 8, &amount))
+    double dAmount = value.get_real();
+    if (dAmount <= 0.0 || dAmount > MAX_MONEY)
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount");
+    CAmount amount = roundint64(dAmount * COIN);
     if (!MoneyRange(amount))
         throw JSONRPCError(RPC_TYPE_ERROR, "Amount out of range");
     return amount;
@@ -110,7 +116,7 @@ UniValue ValueFromAmount(const CAmount& amount)
     int64_t quotient = n_abs / COIN;
     int64_t remainder = n_abs % COIN;
     return UniValue(UniValue::VNUM,
-            strprintf("%s%d.%08d", sign ? "-" : "", quotient, remainder));
+            strprintf("%s%d.%06d", sign ? "-" : "", quotient, remainder));
 }
 
 uint256 ParseHashV(const UniValue& v, string strName)
@@ -766,7 +772,8 @@ static string JSONRPCExecBatch(const UniValue& vReq)
     for (unsigned int reqIdx = 0; reqIdx < vReq.size(); reqIdx++)
         ret.push_back(JSONRPCExecOne(vReq[reqIdx]));
 
-    return ret.write() + "\n";
+    static bool legacy = GetBoolArg("-legacyrpc", true);
+    return ret.write(0, 0, legacy) + "\n";
 }
 
 static bool HTTPReq_JSONRPC(AcceptedConnection *conn,
@@ -798,7 +805,8 @@ static bool HTTPReq_JSONRPC(AcceptedConnection *conn,
     {
         // Parse request
         UniValue valRequest;
-        if (!valRequest.read(strRequest))
+        static bool legacy = GetBoolArg("-legacyrpc", true);
+        if (!valRequest.read(strRequest, legacy ? 2 : 0))
             throw JSONRPCError(RPC_PARSE_ERROR, "Parse error");
 
         // Return immediately if in warmup

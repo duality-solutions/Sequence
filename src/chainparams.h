@@ -81,6 +81,7 @@ public:
     int64_t StakeMaxAge() const { return nStakeMaxAge; }
     int64_t ModifierInterval() const { return nModifierInterval; }
     int LastPOWBlock() const { return nLastPOWBlock; }
+    int64_t MaxTipAge() const { return nMaxTipAge; }
 
     /** Make miner stop after a block is found. In RPC, don't return until nGenProcLimit blocks are generated */
     bool MineBlocksOnDemand() const { return fMineBlocksOnDemand; }
@@ -109,6 +110,7 @@ protected:
     int nRejectBlockOutdatedMajority;
     int nToCheckBlockUpgradeMajority;
     int nMinerThreads;
+    long nMaxTipAge;
     int64_t nTargetSpacingMax;
     int64_t nPoWTargetSpacing;
     int64_t nPoSTargetSpacing;

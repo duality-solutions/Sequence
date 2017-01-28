@@ -47,7 +47,7 @@ public:
     if((int32_t)size < 0)
 	m_mask = 0x80000000;
     else
-        for(m_mask = 64; m_mask < size; m_mask <<= 1);
+        for(m_mask = 8; m_mask < size; m_mask <<= 1);
 
     LogPrintf("uint256HashMap:Set(%u/%u) data=%u sz=%u\n", size, m_mask, (unsigned)sizeof(struct Data), (unsigned)(m_mask * sizeof(struct Data)));
     // allocate memory

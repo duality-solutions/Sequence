@@ -346,7 +346,7 @@ color: rgb(0, 0, 0);</string>
         <enum>Qt::CustomContextMenu</enum>
        </property>
        <property name="toolTip">
-        <string>Double-click name to configure</string>
+        <string>Double-click name to copy all values</string>
        </property>
        <property name="verticalScrollBarPolicy">
         <enum>Qt::ScrollBarAlwaysOn</enum>

@@ -1,11 +1,12 @@
 ---
-name: "silk-win-0.5"
+name: "silk-win-1.1"
 enable_cache: true
 suites:
 - "trusty"
 architectures:
 - "amd64"
 packages: 
+- "curl"
 - "g++"
 - "git-core"
 - "pkg-config"

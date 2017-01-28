@@ -68,7 +68,7 @@ static bool AppInitRPC(int argc, char* argv[])
     // Parameters
     //
     ParseParameters(argc, argv);
-    if (argc<2 || mapArgs.count("-?") || mapArgs.count("-help") || mapArgs.count("-version")) {
+    if (argc<2 || mapArgs.count("-?") || mapArgs.count("-h") || mapArgs.count("-help") || mapArgs.count("-version")) {
         std::string strUsage = _("Silk Core RPC client version") + " " + FormatFullVersion() + "\n";
         if (!mapArgs.count("-version")) {
             strUsage += "\n" + _("Usage:") + "\n" +
@@ -147,9 +147,17 @@ UniValue CallRPC(const string& strMethod, const UniValue& params)
     else if (strReply.empty())
         throw runtime_error("no response from server");
 
+    // silk:   
+    // we get emercoind output (possibly binary) of .write() that either:
+    // 1) escapes some unicode characters (defined in univalue_escapes.h)
+    // 2) escapes all unicode character as in legacy json_spirit
+    // we must get back the same string byte by byte by invoking .read() with mode=1 or mode=2.
+    // finaly we "return reply" and it gets .write() in upper function
+    int mode = GetBoolArg("-legacyrpc", true) ? 2 : (strMethod.rfind("name_", 0) != std::string::npos ? 1 : 0);
+
     // Parse reply
     UniValue valReply(UniValue::VSTR);
-    if (!valReply.read(strReply))
+    if (!valReply.read(strReply, mode))
         throw runtime_error("couldn't parse reply from server");
     const UniValue& reply = valReply.get_obj();
     if (reply.empty())

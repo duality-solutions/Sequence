@@ -45,11 +45,11 @@ void MineGenesis(CBlock genesis, uint256 bnProofOfWorkLimit){
         printf("New best: %s\n", newhash.GetHex().c_str());
     }
     }
-    printf("Gensis Hash: %s\n", genesis.GetHash().ToString().c_str());
-    printf("Gensis Hash Merkle: %s\n", genesis.hashMerkleRoot.ToString().c_str());
-    printf("Gensis nTime: %u\n", genesis.nTime);
-    printf("Gensis nBits: %08x\n", genesis.nBits);
-    printf("Gensis Nonce: %u\n\n\n", genesis.nNonce);
+    printf("Genesis Hash: %s\n", genesis.GetHash().ToString().c_str());
+    printf("Genesis Hash Merkle: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+    printf("Genesis nTime: %u\n", genesis.nTime);
+    printf("Genesis nBits: %08x\n", genesis.nBits);
+    printf("Genesis Nonce: %u\n\n\n", genesis.nNonce);
 }
 
 /**
@@ -148,6 +148,7 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
         ( 4000, uint256("0x00000030b6226239a0d3b809e3b076e3a75476fe8048dc41859a6138f63a7a28"))
         ( 10000, uint256("0x0a7589f8bdc5e49f55e4ba3ba8875b909e7ca4802a0505b94d0b42b5f55d1598"))
         ( 40000, uint256("0xc6b43d4102098d0babf3529ebe9fc772bec026a36319b534d94f6fde64b963d9"))
+        ( 160000, uint256("0x62cf48b78e93ef09d60c83da6da1c7b3dfa6602126e36d6756706124d2fb730b"))
         ;
 static const Checkpoints::CCheckpointData data = {
         &mapCheckpoints,
@@ -209,6 +210,7 @@ public:
         nStakeMaxAge = std::numeric_limits<int64_t>::max(); // Unlimited stake age
         nModifierInterval = 15 * 60;    // 15 minutes to elapse before new modifier is computed
         nLastPOWBlock = 10000;          // Proof of Work finishes on block 10000
+        nMaxTipAge = 24 * 60 * 60;
 
         genesis = CreateGenesisBlock(1473949500, 37239843, bnProofOfWorkLimit.GetCompact(), 1, (0 * COIN));
 
@@ -272,6 +274,7 @@ public:
         nStakeMinAge = 30 * 60;         // 30 minute minimum stake age
         nModifierInterval = 15 * 60;    // 15 minutes to elapse before new modifier is computed
         nLastPOWBlock = 100000;         // Proof of Work finishes on block 300000
+        nMaxTipAge = 24 * 60 * 60;
         //bool startNewChain = true;
 
         genesis = CreateTestNetGenesisBlock(1478107000, 82131309, bnProofOfWorkLimit.GetCompact(), 1, (0 * COIN));
@@ -327,7 +330,7 @@ public:
         bnProofOfWorkLimit = ~uint256(0) >> 22;
         bnProofOfStakeLimit = ~uint256(0) >> 22;
         nLastPOWBlock = 100;    // Proof of Work finishes on block 100
-
+        nMaxTipAge = 24 * 60 * 60;
         
         genesis = CreateGenesisBlock(1473949500, 1427578, 0x1e00ffff, 1, (0 * COIN));
         

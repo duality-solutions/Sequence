@@ -92,6 +92,10 @@ private slots:
     void on_importValueButton_clicked();
     void on_registerValue_textChanged();
     void on_tableView_doubleClicked(const QModelIndex& index);
+
+signals:
+    void doubleClicked(const QModelIndex&);
+
 };
 
 #endif // DNSPAGE_H

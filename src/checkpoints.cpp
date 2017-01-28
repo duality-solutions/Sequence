@@ -182,8 +182,7 @@ bool WriteSyncCheckpoint(const uint256& hashCheckpoint)
     {
         return error("WriteSyncCheckpoint(): failed to write to txdb sync checkpoint %s", hashCheckpoint.ToString());
     }
-    if (!pblocktree->Sync())
-        return error("WriteSyncCheckpoint(): failed to commit to txdb sync checkpoint %s", hashCheckpoint.ToString());
+    FlushStateToDisk();
 
     hashSyncCheckpoint = hashCheckpoint;
     return true;

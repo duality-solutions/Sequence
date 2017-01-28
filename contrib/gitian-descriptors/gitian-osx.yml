@@ -1,5 +1,5 @@
 ---
-name: "silk-osx-0.5"
+name: "silk-osx-1.1"
 enable_cache: true
 suites:
 - "trusty"
@@ -7,6 +7,7 @@ architectures:
 - "amd64"
 packages: 
 - "g++-multilib"
+- "curl"
 - "git-core"
 - "pkg-config"
 - "autoconf"
@@ -20,7 +21,7 @@ packages:
 - "libbz2-dev"
 reference_datetime: "2017-01-01 00:00:00"
 remotes:
-- "url": "https://github.com/Silk/silk.git"
+- "url": "https://github.com/silknetwork/silk-core.git"
   "dir": "silk"
 files:
 - "MacOSX10.7.sdk.tar.gz"
