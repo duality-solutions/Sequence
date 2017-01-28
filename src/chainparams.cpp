@@ -45,11 +45,11 @@ void MineGenesis(CBlock genesis, uint256 bnProofOfWorkLimit){
         printf("New best: %s\n", newhash.GetHex().c_str());
     }
     }
-    printf("Gensis Hash: %s\n", genesis.GetHash().ToString().c_str());
-    printf("Gensis Hash Merkle: %s\n", genesis.hashMerkleRoot.ToString().c_str());
-    printf("Gensis nTime: %u\n", genesis.nTime);
-    printf("Gensis nBits: %08x\n", genesis.nBits);
-    printf("Gensis Nonce: %u\n\n\n", genesis.nNonce);
+    printf("Genesis Hash: %s\n", genesis.GetHash().ToString().c_str());
+    printf("Genesis Hash Merkle: %s\n", genesis.hashMerkleRoot.ToString().c_str());
+    printf("Genesis nTime: %u\n", genesis.nTime);
+    printf("Genesis nBits: %08x\n", genesis.nBits);
+    printf("Genesis Nonce: %u\n\n\n", genesis.nNonce);
 }
 
 /**
