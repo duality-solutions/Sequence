@@ -148,7 +148,7 @@ UniValue CallRPC(const string& strMethod, const UniValue& params)
         throw runtime_error("no response from server");
 
     // silk:   
-    // we get emercoind output (possibly binary) of .write() that either:
+    // we get silkd output (possibly binary) of .write() that either:
     // 1) escapes some unicode characters (defined in univalue_escapes.h)
     // 2) escapes all unicode character as in legacy json_spirit
     // we must get back the same string byte by byte by invoking .read() with mode=1 or mode=2.
