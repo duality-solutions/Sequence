@@ -54,6 +54,8 @@ UNIX BUILD NOTES
 ====================
 Some notes on how to build Silk in Unix. 
 
+Building requirements for Unix based Systems :  3GB
+
 Note
 ---------------------
 Always use absolute paths to configure and compile Silk and the dependencies,
