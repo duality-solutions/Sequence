@@ -4174,7 +4174,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
 
         // ppcoin: relay sync-checkpoint
         {
-            LOCK(CheckpointsSync::cs_hashSyncCheckpoint);
+            LOCK(cs_main);
             if (!CheckpointsSync::checkpointMessage.IsNull())
                 CheckpointsSync::checkpointMessage.RelayTo(pfrom);
         }
@@ -4796,10 +4796,22 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         if (checkpoint.ProcessSyncCheckpoint(pfrom))
         {
             // Relay
+            vector<CNode*> vNodesCopy;
+            {
+                LOCK(cs_vNodes);
+                vNodesCopy = vNodes;
+                BOOST_FOREACH(CNode* pnode, vNodesCopy) {
+                    pnode->AddRef();
+                }
+            }
+
             pfrom->hashCheckpointKnown = checkpoint.hashCheckpoint;
-            LOCK(cs_vNodes);
-            BOOST_FOREACH(CNode* pnode, vNodes)
+            BOOST_FOREACH(CNode* pnode, vNodesCopy)
                 checkpoint.RelayTo(pnode);
+
+            LOCK(cs_vNodes);
+            BOOST_FOREACH(CNode* pnode, vNodesCopy)
+                pnode->Release();
         }
     }
 

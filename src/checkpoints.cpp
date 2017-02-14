@@ -131,7 +131,6 @@ uint256 hashPendingCheckpoint = 0;
 CSyncCheckpoint checkpointMessage;
 CSyncCheckpoint checkpointMessagePending;
 uint256 hashInvalidCheckpoint = 0;
-CCriticalSection cs_hashSyncCheckpoint;
 
 // ppcoin: only descendant of current sync-checkpoint is allowed
 bool ValidateSyncCheckpoint(uint256 hashCheckpoint)
@@ -190,7 +189,7 @@ bool WriteSyncCheckpoint(const uint256& hashCheckpoint)
 
 bool AcceptPendingSyncCheckpoint()
 {
-    LOCK(cs_hashSyncCheckpoint);
+    LOCK(cs_main);
     bool fHavePendingBlock = mapBlockIndex.count(hashPendingCheckpoint) && (mapBlockIndex[hashPendingCheckpoint]->nStatus & BLOCK_HAVE_DATA);
     if (hashPendingCheckpoint != 0 && fHavePendingBlock)
     {
@@ -279,12 +278,12 @@ uint256 AutoSelectSyncCheckpoint()
 // Check against synchronized checkpoint
 bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev)
 {
+    LOCK(cs_main);
     assert(pindexPrev != NULL);
     static bool fMain = Params().NetworkIDString() == "main";
     if (!fMain) return true; // Testnet has no checkpoints
     int nHeight = pindexPrev->nHeight + 1;
 
-    LOCK(cs_hashSyncCheckpoint);
     // sync-checkpoint should always be accepted block
     assert(mapBlockIndex.count(hashSyncCheckpoint));
     const CBlockIndex* pindexSync = mapBlockIndex[hashSyncCheckpoint];
@@ -310,7 +309,7 @@ bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev)
 // ppcoin: reset synchronized checkpoint to last hardened checkpoint
 /*bool ResetSyncCheckpoint()
 {
-    LOCK(cs_hashSyncCheckpoint);
+    LOCK(cs_main);
     const uint256& hash = Checkpoints::GetLatestHardenedCheckpoint();
     bool fHaveBlock = mapBlockIndex.count(hash) && (mapBlockIndex[hash]->nStatus & BLOCK_HAVE_DATA);
     if (fHaveBlock && !chainActive.Contains(mapBlockIndex[hash]))
@@ -353,7 +352,7 @@ bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev)
 
 void AskForPendingSyncCheckpoint(CNode* pfrom)
 {
-    LOCK(cs_hashSyncCheckpoint);
+    LOCK(cs_main);
     bool fHavePendingBlock = mapBlockIndex.count(hashPendingCheckpoint) && (mapBlockIndex[hashPendingCheckpoint]->nStatus & BLOCK_HAVE_DATA);
 
     if (pfrom && hashPendingCheckpoint != 0 && !fHavePendingBlock)
@@ -443,10 +442,11 @@ bool CSyncCheckpoint::CheckSignature()
 // ppcoin: process synchronized checkpoint    //ppcoin TODO: redo commented lines
 bool CSyncCheckpoint::ProcessSyncCheckpoint(CNode* pfrom)
 {
+    LOCK(cs_main);
+
     if (!CheckSignature())
         return false;
 
-    LOCK(CheckpointsSync::cs_hashSyncCheckpoint);
     bool fHaveBlock = mapBlockIndex.count(hashCheckpoint) && (mapBlockIndex[hashCheckpoint]->nStatus & BLOCK_HAVE_DATA);
     if (!fHaveBlock)
     {

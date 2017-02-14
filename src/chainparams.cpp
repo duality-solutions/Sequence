@@ -194,7 +194,7 @@ public:
         pchMessageStart[1] = 0x10;
         pchMessageStart[2] = 0x02;
         pchMessageStart[3] = 0x20;
-        vAlertPubKey = ParseHex("");
+        vAlertPubKey = ParseHex("04cd4cd0b961a17d0ca977580f123fc3836c3081491484f21c5e4b97d41d3762c30a51d1141b81c21dd6a23c55d4424a98b38a1e914c8158645ce51869e52b99b0");
         nDefaultPort = 16662;
         bnProofOfWorkLimit = ~uint256(0) >> 26;
         bnProofOfStakeLimit = ~uint256(0) >> 26;
@@ -219,12 +219,12 @@ public:
         assert(hashGenesisBlock == uint256("0x000000251356c62e0aa14c63e2b0db2a05ac0d3316ea5000c797a281be8c9fd7"));
         assert(genesis.hashMerkleRoot == uint256("0x73d6f8c42dfa8c9175b8bf4bf75ebfd10d22b0b6b1a39a82ce0e408447418e4b"));
 
-        vSeeds.push_back(CDNSSeedData("silknetwork.net", "slk1.silknetwork.net"));
-        vSeeds.push_back(CDNSSeedData("silknetwork.net", "slk2.silknetwork.net"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.io", "silk.dnsseeder.io"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.com", "silk.dnsseeder.com"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.host", "silk.dnsseeder.host"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.net", "silk.dnsseeder.net"));
+        //vSeeds.push_back(CDNSSeedData("silknetwork.net", "slk1.silknetwork.net"));
+        //vSeeds.push_back(CDNSSeedData("silknetwork.net", "slk2.silknetwork.net"));
+        //vSeeds.push_back(CDNSSeedData("dnsseeder.io", "silk.dnsseeder.io"));
+        //vSeeds.push_back(CDNSSeedData("dnsseeder.com", "silk.dnsseeder.com"));
+        //vSeeds.push_back(CDNSSeedData("dnsseeder.host", "silk.dnsseeder.host"));
+        //vSeeds.push_back(CDNSSeedData("dnsseeder.net", "silk.dnsseeder.net"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,64);
