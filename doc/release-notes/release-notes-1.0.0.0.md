@@ -1,6 +1,6 @@
-Silk Core version 1.0.0.0 is now available from:
+Silk Core version 1.1.1.0 is now available from:
 
-  <https://github.com/SilkNetwork/Silk-Core/releases/tag/1.0.0.0>
+  <https://github.com/SilkNetwork/Silk-Core/releases/tag/1.1.1.0>
 
 This is the first release.
 
