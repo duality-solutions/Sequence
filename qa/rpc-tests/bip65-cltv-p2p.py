@@ -71,11 +71,11 @@ class BIP65Test(ComparisonTestFramework):
         self.nodeaddress = self.nodes[0].getnewaddress()
         self.last_block_time = time.time()
 
-        ''' 98 more version 3 blocks '''
+        ''' 98 more version 1 blocks '''
         test_blocks = []
         for i in xrange(98):
             block = create_block(self.tip, create_coinbase(2), self.last_block_time + 1)
-            block.nVersion = 3
+            block.nVersion = 1
             block.rehash()
             block.solve()
             test_blocks.append([block, True])
@@ -83,11 +83,11 @@ class BIP65Test(ComparisonTestFramework):
             self.tip = block.sha256
         yield TestInstance(test_blocks, sync_every_block=False)
 
-        ''' Mine 749 version 4 blocks '''
+        ''' Mine 749 version 2 blocks '''
         test_blocks = []
         for i in xrange(749):
             block = create_block(self.tip, create_coinbase(2), self.last_block_time + 1)
-            block.nVersion = 4
+            block.nVersion = 2
             block.rehash()
             block.solve()
             test_blocks.append([block, True])
@@ -97,7 +97,7 @@ class BIP65Test(ComparisonTestFramework):
 
         '''
         Check that the new CLTV rules are not enforced in the 750th
-        version 3 block.
+        version 1 block.
         '''
         spendtx = self.create_transaction(self.nodes[0],
                 self.coinbase_blocks[0], self.nodeaddress, 1.0)
@@ -105,7 +105,7 @@ class BIP65Test(ComparisonTestFramework):
         spendtx.rehash()
 
         block = create_block(self.tip, create_coinbase(2), self.last_block_time + 1)
-        block.nVersion = 4
+        block.nVersion = 2
         block.vtx.append(spendtx)
         block.hashMerkleRoot = block.calc_merkle_root()
         block.rehash()
@@ -125,7 +125,7 @@ class BIP65Test(ComparisonTestFramework):
         spendtx.rehash()
 
         block = create_block(self.tip, create_coinbase(1), self.last_block_time + 1)
-        block.nVersion = 4
+        block.nVersion = 2
         block.vtx.append(spendtx)
         block.hashMerkleRoot = block.calc_merkle_root()
         block.rehash()
@@ -137,7 +137,7 @@ class BIP65Test(ComparisonTestFramework):
         test_blocks = []
         for i in xrange(199):
             block = create_block(self.tip, create_coinbase(1), self.last_block_time + 1)
-            block.nVersion = 4
+            block.nVersion = 2
             block.rehash()
             block.solve()
             test_blocks.append([block, True])
@@ -147,7 +147,7 @@ class BIP65Test(ComparisonTestFramework):
 
         ''' Mine 1 old version block '''
         block = create_block(self.tip, create_coinbase(1), self.last_block_time + 1)
-        block.nVersion = 3
+        block.nVersion = 1
         block.rehash()
         block.solve()
         self.last_block_time += 1
@@ -156,7 +156,7 @@ class BIP65Test(ComparisonTestFramework):
 
         ''' Mine 1 new version block '''
         block = create_block(self.tip, create_coinbase(1), self.last_block_time + 1)
-        block.nVersion = 4
+        block.nVersion = 2
         block.rehash()
         block.solve()
         self.last_block_time += 1
@@ -165,7 +165,7 @@ class BIP65Test(ComparisonTestFramework):
 
         ''' Mine 1 old version block, should be invalid '''
         block = create_block(self.tip, create_coinbase(1), self.last_block_time + 1)
-        block.nVersion = 3
+        block.nVersion = 1
         block.rehash()
         block.solve()
         self.last_block_time += 1

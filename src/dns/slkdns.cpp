@@ -754,7 +754,7 @@ void SlkDns::Answer_ALL(uint16_t qtype, char *buf) {
       } // swithc
   } // for
   m_hdr->ANCount += tokQty;
-} // SlkDns::Answer_A 
+} // SlkDns::Answer_ALL 
 
 /*---------------------------------------------------*/
 
@@ -769,14 +769,7 @@ void SlkDns::Fill_RD_IP(char *ipddrtxt, int af) {
   if(inet_pton(af, ipddrtxt, m_snd)) 
     m_snd += out_sz;
   else
-    m_snd -= 2, m_hdr->ANCount--;
-#if 0  
-  return;
-
-  in_addr_t inetaddr = inet_addr(ipddrtxt);
-  Out2(htons(sizeof(inetaddr)));
-  Out4(inetaddr);
-#endif
+    m_snd -= 12, m_hdr->ANCount--; // 12 = clear this 2 and 10 bytes at caller
 } // SlkDns::Fill_RD_IP
 
 /*---------------------------------------------------*/
