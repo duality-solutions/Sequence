@@ -369,7 +369,6 @@ DISTFILES += \
             .travis.yml
 
 HEADERS += \
-    src/addrdb.h \
     src/wallet/walletdb.h \
     src/wallet/wallet.h \
     src/wallet/wallet_ismine.h \
@@ -443,7 +442,6 @@ HEADERS += \
     src/torcontrol.h \
     src/reverselock.h \
     src/scheduler.h \
-    src/netaddress.h \
     src/consensus/consensus.h \
     src/consensus/merkle.h \
     src/consensus/validation.h \
@@ -552,7 +550,6 @@ FORMS += \
     src/qt/forms/transactiondescdialog.ui
 
 SOURCES += \
-    src/addrdb.cpp \
     src/addrman.cpp \
     src/alert.cpp \
     src/allocators.cpp \
@@ -593,7 +590,6 @@ SOURCES += \
     src/random.cpp \
     src/rest.cpp \
     src/torcontrol.cpp \
-    src/netaddress.cpp \
     src/scheduler.cpp \
     src/rpc/rpcblockchain.cpp \
     src/rpc/rpcclient.cpp \

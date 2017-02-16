@@ -83,7 +83,6 @@ endif
 .PHONY: FORCE
 # Silk Core #
 SILK_CORE_H = \
-  addrdb.h \
   addrman.h \
   alert.h \
   allocators.h \
@@ -126,7 +125,6 @@ SILK_CORE_H = \
   miner.h \
   mruset.h \
   netbase.h \
-  netaddress.h \
   net.h \
   noui.h \
   ntp.h \
@@ -185,7 +183,6 @@ libsilk_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES) $(MINIUPNPC_CPPFLAGS
 libsilk_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_server_a_SOURCES = \
   addrman.cpp \
-  addrdb.cpp \
   alert.cpp \
   bloom.cpp \
   chain.cpp \
@@ -277,7 +274,6 @@ libsilk_common_a_SOURCES = \
   key.cpp \
   keystore.cpp \
   netbase.cpp \
-  netaddress.cpp \
   protocol.cpp \
   pubkey.cpp \
   scheduler.cpp \
