@@ -102,6 +102,7 @@ QT_MOC_CPP = \
   qt/moc_addressbookpage.cpp \
   qt/moc_addresstablemodel.cpp \
   qt/moc_askpassphrasedialog.cpp \
+  qt/moc_bantablemodel.cpp \
   qt/moc_silkaddressvalidator.cpp \
   qt/moc_silkamountfield.cpp \
   qt/moc_silkgui.cpp \
@@ -173,6 +174,7 @@ SILK_QT_H = \
   qt/addressbookpage.h \
   qt/addresstablemodel.h \
   qt/askpassphrasedialog.h \
+  qt/bantablemodel.h \
   qt/silkaddressvalidator.h \
   qt/silkamountfield.h \
   qt/silkgui.h \
@@ -309,6 +311,7 @@ SILK_QT_CPP += \
   qt/addressbookpage.cpp \
   qt/addresstablemodel.cpp \
   qt/askpassphrasedialog.cpp \
+  qt/bantablemodel.cpp \
   qt/coincontroldialog.cpp \
   qt/coincontroltreewidget.cpp \
   qt/dnspage.cpp \

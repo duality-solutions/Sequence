@@ -9,8 +9,7 @@
 #endif
 
 #include "utiltime.h"
-
-#include "ntp.h"
+#include "ntp.h"       
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/thread.hpp>

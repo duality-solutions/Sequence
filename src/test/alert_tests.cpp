@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_CASE(AlertNotify)
     mapArgs["-alertnotify"] = std::string("echo %s >> ") + temp.string();
 
     BOOST_FOREACH(CAlert alert, alerts)
-        alert.ProcessAlert(false);
+        alert.ProcessAlert(alertKey, false);
 
     std::vector<std::string> r = read_lines(temp);
     // Silk: following tests requires alertnotify.txt to exist, but for some reason this file is deleted at next instruction...

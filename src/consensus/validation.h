@@ -3,6 +3,9 @@
 // Copyright 2015-2017 Silk Network Developers
 // file COPYING of http://wwww.opensource.org/licences/mit-license.php.
 
+#ifndef SILK_CONSENSUS_VALIDATION_H
+#define SILK_CONSENSUS_VALIDATION_H
+
 #include <string>
 
 #include "main.h"
@@ -30,14 +33,17 @@ private:
     std::string strRejectReason;
     unsigned char chRejectCode;
     bool corruptionPossible;
+    std::string strDebugMessage;
 public:
     CValidationState() : mode(MODE_VALID), nDoS(0), chRejectCode(0), corruptionPossible(false) {}
     bool DoS(int level, bool ret = false,
              unsigned char chRejectCodeIn=0, std::string strRejectReasonIn="",
-             bool corruptionIn=false) {
+             bool corruptionIn=false,
+             const std::string &strDebugMessageIn="") {
         chRejectCode = chRejectCodeIn;
         strRejectReason = strRejectReasonIn;
         corruptionPossible = corruptionIn;
+        strDebugMessage = strDebugMessageIn;
         if (mode == MODE_ERROR)
             return ret;
         nDoS += level;
@@ -79,4 +85,7 @@ public:
     }
     unsigned char GetRejectCode() const { return chRejectCode; }
     std::string GetRejectReason() const { return strRejectReason; }
+    std::string GetDebugMessage() const { return strDebugMessage; }
 };
+
+#endif // SILK_CONSENSUS_VALIDATION_H

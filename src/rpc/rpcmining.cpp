@@ -6,20 +6,25 @@
 
 #include "amount.h"
 #include "chainparams.h"
+#include "consensus/consensus.h"
+#include "consensus/merkle.h"
+#include "consensus/params.h"
 #include "consensus/validation.h"
 #include "core_io.h"
 #include "init.h"
-#include "net.h"
 #include "main.h"
 #include "miner.h"
+#include "net.h"
 #include "pow.h"
 #include "rpc/rpcserver.h"
-
+#include "txmempool.h"
 #include "util.h"
 #ifdef ENABLE_WALLET
 #include "wallet/db.h"
 #include "wallet/wallet.h"
 #endif
+#include "utilstrencodings.h"
+#include "validationinterface.h"
 
 #include <stdint.h>
 
@@ -68,7 +73,7 @@ UniValue getlastpowblock(const UniValue& params, bool fHelp)
             "getlastpowblock [nHeight]\n"
             "Returns last block when PoW ends.");
 
-    return Params().LastPOWBlock();
+    return Params().GetConsensus().nLastPOWBlock;
 }
 
 /**
@@ -107,7 +112,7 @@ UniValue GetNetworkHashPS(int lookup, int height) {
     if (minTime == maxTime)
         return 0;
 
-    uint256 workDiff = pb->nChainTrust - pb0->nChainTrust;
+    uint256 workDiff = pb->nChainWork - pb0->nChainWork;
     int64_t timeDiff = maxTime - minTime;
 
     return (int64_t)(workDiff.getdouble() / timeDiff);
@@ -221,13 +226,13 @@ UniValue setgenerate(const UniValue& params, bool fHelp)
                 LOCK(cs_main);
                 IncrementExtraNonce(pblock, chainActive.Tip(), nExtraNonce);
             }
-            while (!CheckProofOfWork(pblock->GetHash(), pblock->nBits)) {
+            while (!CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus())) {
                 // Yes, there is a chance every nonce could fail to satisfy the -regtest
                 // target -- 1 in 2^(2^32). That ain't gonna happen.
                 ++pblock->nNonce;
             }
             CValidationState state;
-            if (!ProcessNewBlock(state, NULL, pblock))
+            if (!ProcessNewBlock(state, Params(), NULL, pblock))
                 throw JSONRPCError(RPC_INTERNAL_ERROR, "ProcessNewBlock, block not accepted");
             ++nHeight;
             blockHashes.push_back(pblock->GetHash().GetHex());
@@ -238,7 +243,7 @@ UniValue setgenerate(const UniValue& params, bool fHelp)
     {
         mapArgs["-gen"] = (fGenerate ? "1" : "0");
         mapArgs ["-genproclimit"] = itostr(nGenProcLimit);
-        GenerateSilks(fGenerate, pwalletMain, nGenProcLimit);
+        GenerateSilks(fGenerate, pwalletMain, nGenProcLimit, Params());
     }
 
     return NullUniValue;
@@ -329,7 +334,7 @@ UniValue getstakinginfo(const UniValue& params, bool fHelp)
 
     uint64_t nNetworkWeight = GetPoSKernelPS();
     bool staking = nLastCoinStakeSearchInterval && nWeight;
-    uint64_t nExpectedTime = staking ? (Params().PoSTargetSpacing() * nNetworkWeight / nWeight) : 0;
+    uint64_t nExpectedTime = staking ? (Params().GetConsensus().nPoSTargetSpacing * nNetworkWeight / nWeight) : 0;
 
     UniValue obj(UniValue::VOBJ);
 
@@ -479,7 +484,7 @@ UniValue getwork(const UniValue& params, bool fHelp)
     if (IsInitialBlockDownload())
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Silk is downloading blocks...");
 
-    if (chainActive.Height() >= Params().LastPOWBlock())
+    if (chainActive.Height() >= Params().GetConsensus().nLastPOWBlock)
         throw JSONRPCError(RPC_MISC_ERROR, "No more PoW blocks");
 
     typedef map<uint256, pair<CBlock*, CScript> > mapNewBlock_t;
@@ -523,9 +528,10 @@ UniValue getwork(const UniValue& params, bool fHelp)
             pindexPrev = pindexPrevNew;
         }
         CBlock* pblock = &pblocktemplate->block; // pointer for convenience
+        const Consensus::Params& consensusParams = Params().GetConsensus();
 
         // Update nTime
-        UpdateTime(pblock, pindexPrev);
+        UpdateTime(pblock, consensusParams, pindexPrev);
         pblock->nNonce = 0;
 
         // Update nExtraNonce
@@ -575,7 +581,8 @@ UniValue getwork(const UniValue& params, bool fHelp)
         pblock->hashMerkleRoot = pblock->BuildMerkleTree();
 
         assert(pwalletMain != NULL);
-        return CheckWork(pblock, *pwalletMain, *pMiningKey);
+        const CChainParams& chainParams = Params();
+        return CheckWork(chainParams, pblock, *pwalletMain, *pMiningKey);
     }
 }
 #endif
@@ -698,7 +705,7 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
     if (IsInitialBlockDownload())
         throw JSONRPCError(RPC_CLIENT_IN_INITIAL_DOWNLOAD, "Silk is downloading blocks...");
 
-    if (chainActive.Height() >= Params().LastPOWBlock())
+    if (chainActive.Height() >= Params().GetConsensus().nLastPOWBlock)
         throw JSONRPCError(RPC_MISC_ERROR, "No more PoW blocks");
 
     static unsigned int nTransactionsUpdatedLast;
@@ -787,9 +794,10 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
         pindexPrev = pindexPrevNew;
     }
     CBlock* pblock = &pblocktemplate->block; // pointer for convenience
+    const Consensus::Params& consensusParams = Params().GetConsensus();
 
     // Update nTime
-    UpdateTime(pblock, pindexPrev);
+    UpdateTime(pblock, consensusParams, pindexPrev);
     pblock->nNonce = 0;
 
     UniValue aCaps(UniValue::VARR);
@@ -933,7 +941,7 @@ UniValue submitblock(const UniValue& params, bool fHelp)
     CValidationState state;
     submitblock_StateCatcher sc(block.GetHash());
     RegisterValidationInterface(&sc);
-    bool fAccepted = ProcessNewBlock(state, NULL, &block);
+    bool fAccepted = ProcessNewBlock(state, Params(), NULL, &block);
     UnregisterValidationInterface(&sc);
     if (fBlockPresent)
     {

@@ -7,11 +7,14 @@
 #include "txmempool.h"
 
 #include "clientversion.h"
+#include "consensus/consensus.h"
 #include "consensus/validation.h"
 #include "main.h"
 #include "streams.h"
+#include "timedata.h"
 #include "util.h"
 #include "utilmoneystr.h"
+#include "utiltime.h"
 #include "version.h"
 
 #include <boost/circular_buffer.hpp>
@@ -815,7 +818,7 @@ void CTxMemPool::removeCoinbaseSpends(const CCoinsViewCache *pcoins, unsigned in
                 continue;
             const CCoins *coins = pcoins->AccessCoins(txin.prevout.hash);
             if (fSanityCheck) assert(coins);
-            if (!coins || (coins->IsCoinBase() && nMemPoolHeight - coins->nHeight < Params().CoinbaseMaturity())) {
+            if (!coins || (coins->IsCoinBase() && nMemPoolHeight - coins->nHeight < COINBASE_MATURITY)) {
                 transactionsToRemove.push_back(tx);
                 break;
             }
@@ -1023,7 +1026,7 @@ bool CTxMemPool::WriteFeeEstimates(CAutoFile& fileout) const
         fileout << CLIENT_VERSION; // version that wrote the file
         minerPolicyEstimator->Write(fileout);
     }
-    catch (const std::exception &) {
+    catch (const std::exception&) {
         LogPrintf("CTxMemPool::WriteFeeEstimates() : unable to write policy estimator data (non-fatal)");
         return false;
     }
@@ -1041,7 +1044,7 @@ bool CTxMemPool::ReadFeeEstimates(CAutoFile& filein)
         LOCK(cs);
         minerPolicyEstimator->Read(filein, minRelayFee);
     }
-    catch (const std::exception &) {
+    catch (const std::exception&) {
         LogPrintf("CTxMemPool::ReadFeeEstimates() : unable to read policy estimator data (non-fatal)");
         return false;
     }

@@ -170,7 +170,7 @@ CAlert CAlert::getAlertByHash(const uint256 &hash)
     return retval;
 }
 
-bool CAlert::ProcessAlert(bool fThread)
+bool CAlert::ProcessAlert(const std::vector<unsigned char>& alertKey, bool fThread)
 {
     if (!CheckSignature())
         return false;

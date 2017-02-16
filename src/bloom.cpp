@@ -10,6 +10,7 @@
 #include "hash.h"
 #include "script/script.h"
 #include "script/standard.h"
+#include "random.h"
 #include "streams.h"
 
 #include <math.h>
@@ -23,22 +24,33 @@
 using namespace std;
 
 CBloomFilter::CBloomFilter(unsigned int nElements, double nFPRate, unsigned int nTweakIn, unsigned char nFlagsIn) :
-/**
- * The ideal size for a bloom filter with a given number of elements and false positive rate is:
- * - nElements * log(fp rate) / ln(2)^2
- * We ignore filter parameters which will create a bloom filter larger than the protocol limits
- */
-vData(min((unsigned int)(-1  / LN2SQUARED * nElements * log(nFPRate)), MAX_BLOOM_FILTER_SIZE * 8) / 8),
-/**
- * The ideal number of hash functions is filter size * ln(2) / number of elements
- * Again, we ignore filter parameters which will create a bloom filter with more hash functions than the protocol limits
- * See https://en.wikipedia.org/wiki/Bloom_filter for an explanation of these formulas
- */
-isFull(false),
-isEmpty(false),
-nHashFuncs(min((unsigned int)(vData.size() * 8 / nElements * LN2), MAX_HASH_FUNCS)),
-nTweak(nTweakIn),
-nFlags(nFlagsIn)
+    /**
+     * The ideal size for a bloom filter with a given number of elements and false positive rate is:
+     * - nElements * log(fp rate) / ln(2)^2
+     * We ignore filter parameters which will create a bloom filter larger than the protocol limits
+     */
+    vData(min((unsigned int)(-1  / LN2SQUARED * nElements * log(nFPRate)), MAX_BLOOM_FILTER_SIZE * 8) / 8),
+    /**
+     * The ideal number of hash functions is filter size * ln(2) / number of elements
+     * Again, we ignore filter parameters which will create a bloom filter with more hash functions than the protocol limits
+     * See https://en.wikipedia.org/wiki/Bloom_filter for an explanation of these formulas
+     */
+    isFull(false),
+    isEmpty(false),
+    nHashFuncs(min((unsigned int)(vData.size() * 8 / nElements * LN2), MAX_HASH_FUNCS)),
+    nTweak(nTweakIn),
+    nFlags(nFlagsIn)
+{
+}
+
+// Private constructor used by CRollingBloomFilter
+CBloomFilter::CBloomFilter(unsigned int nElements, double nFPRate, unsigned int nTweakIn) :
+    vData((unsigned int)(-1  / LN2SQUARED * nElements * log(nFPRate)) / 8),
+    isFull(false),
+    isEmpty(true),
+    nHashFuncs((unsigned int)(vData.size() * 8 / nElements * LN2)),
+    nTweak(nTweakIn),
+    nFlags(BLOOM_UPDATE_NONE)
 {
 }
 
@@ -110,6 +122,12 @@ void CBloomFilter::clear()
     vData.assign(vData.size(),0);
     isFull = false;
     isEmpty = true;
+}
+
+void CBloomFilter::reset(unsigned int nNewTweak)
+{
+    clear();
+    nTweak = nNewTweak;
 }
 
 bool CBloomFilter::IsWithinSizeConstraints() const
@@ -198,4 +216,59 @@ void CBloomFilter::UpdateEmptyFull()
     }
     isFull = full;
     isEmpty = empty;
+}
+
+CRollingBloomFilter::CRollingBloomFilter(unsigned int nElements, double fpRate) :
+    b1(nElements * 2, fpRate, 0), b2(nElements * 2, fpRate, 0)
+{
+    // Implemented using two bloom filters of 2 * nElements each.
+    // We fill them up, and clear them, staggered, every nElements
+    // inserted, so at least one always contains the last nElements
+    // inserted.
+    nInsertions = 0;
+    nBloomSize = nElements * 2;
+
+    reset();
+}
+
+void CRollingBloomFilter::insert(const std::vector<unsigned char>& vKey)
+{
+    if (nInsertions == 0) {
+        b1.clear();
+    } else if (nInsertions == nBloomSize / 2) {
+        b2.clear();
+    }
+    b1.insert(vKey);
+    b2.insert(vKey);
+    if (++nInsertions == nBloomSize) {
+        nInsertions = 0;
+    }
+}
+
+void CRollingBloomFilter::insert(const uint256& hash)
+{
+    vector<unsigned char> data(hash.begin(), hash.end());
+    insert(data);
+}
+
+bool CRollingBloomFilter::contains(const std::vector<unsigned char>& vKey) const
+{
+    if (nInsertions < nBloomSize / 2) {
+        return b2.contains(vKey);
+    }
+    return b1.contains(vKey);
+}
+
+bool CRollingBloomFilter::contains(const uint256& hash) const
+{
+    vector<unsigned char> data(hash.begin(), hash.end());
+    return contains(data);
+}
+
+void CRollingBloomFilter::reset()
+{
+    unsigned int nNewTweak = GetRand(std::numeric_limits<unsigned int>::max());
+    b1.reset(nNewTweak);
+    b2.reset(nNewTweak);
+    nInsertions = 0;
 }

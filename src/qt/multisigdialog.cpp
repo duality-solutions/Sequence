@@ -459,7 +459,7 @@ void MultisigDialog::on_transaction_textChanged()
     {
         ss >> tx;
     }
-    catch(std::exception &e)
+    catch(const std::exception& e)
     {
         return;
     }
@@ -536,7 +536,7 @@ void MultisigDialog::on_signTransactionButton_clicked()
             ssData >> tx;
             txVariants.push_back(tx);
         }
-        catch (const std::exception &) {
+        catch (const std::exception&) {
             QMessageBox::critical(this, tr("Multisig: Sign Button failed!"), tr("TX decodefailed"));
         }
     }
@@ -680,7 +680,7 @@ void MultisigDialog::on_sendTransactionButton_clicked()
     {
         ssData >> tx;
     }
-    catch(std::exception &e)
+    catch(const std::exception& e)
     {
         return;
     }
@@ -689,7 +689,7 @@ void MultisigDialog::on_sendTransactionButton_clicked()
     // Check if the transaction is already in the blockchain
     CTransaction existingTx;
     uint256 blockHash = 0;
-    if(GetTransaction(txHash, existingTx, blockHash))
+    if(GetTransaction(txHash, existingTx, Params().GetConsensus(), blockHash))
     {
         if(blockHash != 0)
             return;

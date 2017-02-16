@@ -8,13 +8,16 @@
 #define SILK_QT_CLIENTMODEL_H
 
 #include <QObject>
+#include <QDateTime>
 
 class AddressTableModel;
+class BanTableModel;
 class OptionsModel;
 class PeerTableModel;
 class TransactionTableModel;
 
 class CWallet;
+class CBlockIndex;
 
 QT_BEGIN_NAMESPACE
 class QDateTime;
@@ -46,6 +49,7 @@ public:
 
     OptionsModel *getOptionsModel();
     PeerTableModel *getPeerTableModel();
+    BanTableModel *getBanTableModel();
 
     //! Return number of connections, default is in- and outbound (total)
     int getNumConnections(unsigned int flags = CONNECTIONS_ALL) const;
@@ -70,6 +74,7 @@ public:
     QString getStatusBarWarnings() const;
 
     QString formatFullVersion() const;
+    QString formatSubVersion() const;
     QString formatBuildDate() const;
     bool isReleaseVersion() const;
     QString clientName() const;
@@ -78,6 +83,7 @@ public:
 private:
     OptionsModel *optionsModel;
     PeerTableModel *peerTableModel;
+    BanTableModel *banTableModel;
 
     int cachedNumBlocks;
     bool cachedReindexing;
@@ -93,6 +99,7 @@ private:
 signals:
     void numConnectionsChanged(int count);
     void numBlocksChanged(int count);
+    void additionalDataSyncProgressChanged(double nSyncProgress);
     void alertsChanged(const QString &warnings);
     void bytesChanged(quint64 totalBytesIn, quint64 totalBytesOut);
 
@@ -108,6 +115,7 @@ public slots:
     void updateTimer();
     void updateNumConnections(int numConnections);
     void updateAlert(const QString &hash, int status);
+    void updateBanlist();
 };
 
 #endif // SILK_QT_CLIENTMODEL_H

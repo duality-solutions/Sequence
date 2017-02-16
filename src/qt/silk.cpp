@@ -10,6 +10,7 @@
 
 #include "silkgui.h"
 
+#include "chainparams.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
@@ -186,7 +187,7 @@ private:
     boost::thread_group threadGroup;
 
     /// Pass fatal exception message to UI thread
-    void handleRunawayException(std::exception *e);
+    void handleRunawayException(const std::exception *e);
 };
 
 /** Main silk application object */
@@ -254,7 +255,7 @@ SilkCore::SilkCore():
 {
 }
 
-void SilkCore::handleRunawayException(std::exception *e)
+void SilkCore::handleRunawayException(const std::exception *e)
 {
     PrintExceptionContinue(e, "Runaway exception");
     emit runawayException(QString::fromStdString(strMiscWarning));
@@ -275,7 +276,7 @@ void SilkCore::initialize()
             StartDummyRPCThread();
         }
         emit initializeResult(rv);
-    } catch (std::exception& e) {
+    } catch (const std::exception& e) {
         handleRunawayException(&e);
     } catch (...) {
         handleRunawayException(NULL);
@@ -296,7 +297,7 @@ void SilkCore::restart(QStringList args)
         QProcess::startDetached(QApplication::applicationFilePath(), args);
         qDebug() << __func__ << ": Restart initiated...";
         QCoreApplication::quit();
-    } catch (std::exception& e) {
+    } catch (const std::exception& e) {
         handleRunawayException(&e);
     } catch (...) {
         handleRunawayException(NULL);
@@ -313,7 +314,7 @@ void SilkCore::shutdown()
         Shutdown();
         qDebug() << __func__ << ": Shutdown finished";
         emit shutdownResult(1);
-    } catch (std::exception& e) {
+    } catch (const std::exception& e) {
         handleRunawayException(&e);
     } catch (...) {
         handleRunawayException(NULL);
@@ -562,7 +563,7 @@ int main(int argc, char *argv[])
     // Now that QSettings are accessible, initialize translations
     QTranslator qtTranslatorBase, qtTranslator, translatorBase, translator;
     initTranslations(qtTranslatorBase, qtTranslator, translatorBase, translator);
-    uiInterface.Translate.connect(Translate);
+    translationInterface.Translate.connect(Translate);
 
     // Show help message immediately after parsing command-line options (for "-lang") and setting locale,
     // but before showing splash screen.
@@ -587,7 +588,7 @@ int main(int argc, char *argv[])
     }
     try {
         ReadConfigFile(mapArgs, mapMultiArgs);
-    } catch(std::exception &e) {
+    } catch(const std::exception& e) {
         QMessageBox::critical(0, QObject::tr("Silk Core"),
                               QObject::tr("Error: Cannot parse configuration file: %1. Only use key=value syntax.").arg(e.what()));
         return false;
@@ -600,9 +601,11 @@ int main(int argc, char *argv[])
     // - Needs to be done before createOptionsModel
 
     // Check for -testnet or -regtest parameter (Params() calls are only valid after this clause)
-    if (!SelectParamsFromCommandLine()) {
-        QMessageBox::critical(0, QObject::tr("Silk Core"), QObject::tr("Error: Invalid combination of -regtest and -testnet."));
-        return 1;
+    try {
+        SelectParams(ChainNameFromCommandLine());
+    } catch(const std::exception& e) {
+        QMessageBox::critical(0, QObject::tr("Silk Core"), QObject::tr("Error: %1").arg(e.what()));
+        return EXIT_FAILURE;
     }
 #ifdef ENABLE_WALLET
     // Parse URIs on command line -- this can affect Params()
@@ -664,7 +667,7 @@ int main(int argc, char *argv[])
         app.exec();
         app.requestShutdown();
         app.exec();
-    } catch (std::exception& e) {
+    } catch (const std::exception& e) {
         PrintExceptionContinue(&e, "Runaway exception");
         app.handleRunawayException(QString::fromStdString(strMiscWarning));
     } catch (...) {

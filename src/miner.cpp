@@ -8,26 +8,29 @@
 #include "miner.h"
 
 #include "amount.h"
+#include "chainparams.h"
 #include "consensus/consensus.h"
 #include "consensus/merkle.h"
+#include "consensus/params.h"
 #include "consensus/validation.h"
-#include "primitives/block.h"
-#include "primitives/transaction.h"
+#include "wallet/wallet.h"
 #include "hash.h"
 #include "main.h"
 #include "net.h"
 #include "pow.h"
+#include "primitives/block.h"
+#include "primitives/transaction.h"
 #include "timedata.h"
+#include "txmempool.h"
 #include "util.h"
 #include "utilmoneystr.h"
-#ifdef ENABLE_WALLET
-#include "wallet/wallet.h"
-#include "openssl/sha.h"
-#endif
+#include "validationinterface.h"
 
 #include <boost/thread.hpp>
 #include <boost/tuple/tuple.hpp>
-#include <boost/thread.hpp>
+#include <queue>
+
+#include <openssl/sha.h>
 
 using namespace std;
 
@@ -87,13 +90,24 @@ public:
     }
 };
 
-void UpdateTime(CBlockHeader* pblock, const CBlockIndex* pindexPrev)
+int64_t UpdateTime(CBlockHeader* pblock, const Consensus::Params& consensusParams, const CBlockIndex* pindexPrev)
 {
-    pblock->nTime = std::max(pblock->GetBlockTime(), GetAdjustedTime());
+    int64_t nOldTime = pblock->nTime;
+    int64_t nNewTime = std::max(pindexPrev->GetMedianTimePast()+1, GetAdjustedTime());
+
+    if (nOldTime < nNewTime)
+        pblock->nTime = nNewTime;
+
+    // Updating time can change work required on testnet:
+    if (consensusParams.fAllowMinDifficultyBlocks)
+        pblock->nBits = GetNextTargetRequired(pindexPrev, pblock, consensusParams);
+
+    return nNewTime - nOldTime;
 }
 
 CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProofOfStake, bool& fPoSCancel, CWallet* pwallet)
 {
+    const Consensus::Params& consensusParams = Params().GetConsensus();
     // Create new block
     unique_ptr<CBlockTemplate> pblocktemplate(new CBlockTemplate());
     if(!pblocktemplate.get())
@@ -139,7 +153,7 @@ CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProo
     if (fAddProofOfStake)  // attemp to find a coinstake
     {
         fPoSCancel = true;
-        pblock->nBits = GetNextTargetRequired(pindexPrev, true);
+        pblock->nBits = GetNextTargetRequired(pindexPrev, true, consensusParams);
         CMutableTransaction txCoinStake;
         int64_t nSearchTime = txCoinStake.nTime; // search to current time
         if (nSearchTime > nLastCoinStakeSearchTime)
@@ -162,7 +176,7 @@ CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProo
             return NULL; // Silk: there is no point to continue if we failed to create coinstake
     }
     else
-        pblock->nBits = GetNextTargetRequired(pindexPrev, false);
+        pblock->nBits = GetNextTargetRequired(pindexPrev, false, consensusParams);
 
     // Collect memory pool transactions into the block
     CAmount nFees = 0;
@@ -371,12 +385,13 @@ CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProo
 
         // Fill in header
         pblock->hashPrevBlock  = pindexPrev->GetBlockHash();
+        UpdateTime(pblock, consensusParams, pindexPrev);
         if (pblock->IsProofOfStake())
             pblock->nTime      = pblock->vtx[1].nTime; //same as coinstake timestamp
         pblock->nTime          = max(pindexPrev->GetMedianTimePast()+1, pblock->GetMaxTransactionTime());
         pblock->nTime          = max(pblock->GetBlockTime(), pindexPrev->GetBlockTime() - nMaxClockDrift);
         if (pblock->IsProofOfWork())
-            UpdateTime(pblock, pindexPrev);
+            UpdateTime(pblock, consensusParams, pindexPrev);
         pblock->nNonce         = 0;
         pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
 
@@ -502,13 +517,13 @@ bool ProcessBlockFound(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
 
     // Process this block the same as if we had received it from another node
     CValidationState state;
-    if (!ProcessNewBlock(state, NULL, pblock))
+    if (!ProcessNewBlock(state, Params(), NULL, pblock))
         return error("SilkMiner : ProcessNewBlock, block not accepted");
 
     return true;
 }
 
-void silkMiner(CWallet *pwallet, bool fProofOfStake)
+void SilkMiner(CWallet *pwallet, bool fProofOfStake)
 {
     LogPrintf("CPUMiner started for proof-of-%s\n", fProofOfStake? "stake" : "work");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
@@ -689,11 +704,13 @@ void silkMiner(CWallet *pwallet, bool fProofOfStake)
                 if (pindexPrev != chainActive.Tip())
                     break;
 
+
                 // Update nTime every few seconds
-                pblock->nTime = max(pindexPrev->GetMedianTimePast()+1, pblock->GetMaxTransactionTime());
-                pblock->nTime = max(pblock->GetBlockTime(), pindexPrev->GetBlockTime() - nMaxClockDrift);
-                UpdateTime(pblock, pindexPrev);
-                if (Params().AllowMinDifficultyBlocks())
+                const Consensus::Params& consensusParams = Params().GetConsensus();
+                if (UpdateTime(pblock, consensusParams, pindexPrev) < 0)
+                    break; // Recreate the block if the clock has run backwards,
+                           // so that we can use the correct time.
+                if (consensusParams.fAllowMinDifficultyBlocks)
                 {
                     // Changing pblock->nTime can change work required on testnet:
                     hashTarget.SetCompact(pblock->nBits);
@@ -716,17 +733,12 @@ void silkMiner(CWallet *pwallet, bool fProofOfStake)
     }
 }
 
-void GenerateSilks(bool fGenerate, CWallet* pwallet, int nThreads)
+void GenerateSilks(bool fGenerate, CWallet* pwallet, int nThreads, const CChainParams& chainparams)
 {
     static boost::thread_group* minerThreads = NULL;
 
-    if (nThreads < 0) {
-        // In regtest threads defaults to 1
-        if (Params().DefaultMinerThreads())
-            nThreads = Params().DefaultMinerThreads();
-        else
-            nThreads = boost::thread::hardware_concurrency();
-    }
+    if (nThreads < 0)
+        nThreads = GetNumCores();
 
     if (minerThreads != NULL)
     {
@@ -740,7 +752,7 @@ void GenerateSilks(bool fGenerate, CWallet* pwallet, int nThreads)
 
     minerThreads = new boost::thread_group();
     for (int i = 0; i < nThreads; i++)
-        minerThreads->create_thread(boost::bind(&silkMiner, pwallet, false));
+        minerThreads->create_thread(boost::bind(&SilkMiner, pwallet, false));
 }
 
 // ppcoin: stake minter thread
@@ -750,9 +762,9 @@ void static ThreadStakeMinter(void* parg)
     CWallet* pwallet = (CWallet*)parg;
     try
     {
-        silkMiner(pwallet, true);
+        SilkMiner(pwallet, true);
     }
-    catch (std::exception& e) {
+    catch (const std::exception& e) {
         PrintExceptionContinue(&e, "ThreadStakeMinter()");
     } catch (...) {
         PrintExceptionContinue(NULL, "ThreadStakeMinter()");
@@ -850,7 +862,7 @@ void FormatHashBuffers(CBlock* pblock, char* pmidstate, char* pdata, char* phash
     memcpy(phash1, &tmp.hash1, 64);
 }
 
-bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
+bool CheckWork(const CChainParams& chainparams, CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
 {
     uint256 hashBlock = pblock->GetHash();
     uint256 hashProof = chainActive.Tip()->GetBlockHash();

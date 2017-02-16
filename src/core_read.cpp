@@ -105,7 +105,7 @@ bool DecodeHexTx(CTransaction& tx, const std::string& strHexTx)
     try {
         ssData >> tx;
     }
-    catch (const std::exception &) {
+    catch (const std::exception&) {
         return false;
     }
 
@@ -122,7 +122,7 @@ bool DecodeHexBlk(CBlock& block, const std::string& strHexBlk)
     try {
         ssBlock >> block;
     }
-    catch (const std::exception &) {
+    catch (const std::exception&) {
         return false;
     }
 

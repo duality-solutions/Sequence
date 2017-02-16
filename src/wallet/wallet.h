@@ -16,6 +16,7 @@
 #include "keystore.h"
 #include "main.h"
 #include "ui_interface.h"
+#include "validationinterface.h"
 #include "wallet/wallet_ismine.h"
 #include "wallet/walletdb.h"
 
@@ -279,8 +280,8 @@ public:
     void EraseFromWallet(const uint256 &hash);
     int ScanForWalletTransactions(CBlockIndex* pindexStart, bool fUpdate = false);
     void ReacceptWalletTransactions();
-    void ResendWalletTransactions();
-    CAmount GetBalance() const;
+    void ResendWalletTransactions(int64_t nBestBlockTime);
+    std::vector<uint256> ResendWalletTransactionsBefore(int64_t nTime);    CAmount GetBalance() const;
     CAmount GetTotal() const;
     CAmount GetStake() const;
     CAmount GetUnconfirmedBalance() const;
@@ -297,7 +298,7 @@ public:
                            CWalletTx& wtxNew, CReserveKey& reservekey, CAmount& nFeeRet, int nSplitBlock, std::string& strFailReason, const CCoinControl *coinControl = NULL);
     uint64_t GetStakeWeight() const;
     bool CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int64_t nSearchInterval, CMutableTransaction &txNew);
-    bool CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey);
+    bool CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey, std::string strCommand="tx");
 
     static CFeeRate minTxFee;
 
@@ -337,9 +338,11 @@ public:
 
     bool DelAddressBook(const CTxDestination& address);
 
-    void UpdatedTransaction(const uint256 &hashTx);
+    bool UpdatedTransaction(const uint256 &hashTx);
 
     void Inventory(const uint256 &hash);
+
+    void ResetRequestCount(const uint256 &hash);
 
     unsigned int GetKeyPoolSize();
 
@@ -627,7 +630,7 @@ public:
     int64_t GetTxTime() const;
     int GetRequestCount() const;
 
-    void RelayWalletTransaction();
+    bool RelayWalletTransaction(std::string strCommand="tx");
 
     std::set<uint256> GetConflicts() const;
 };

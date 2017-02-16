@@ -6,6 +6,7 @@
 
 #include "alert.h"
 #include "base58.h"
+#include "chainparams.h"
 #include "clientversion.h"
 #include "init.h"
 #include "main.h"
@@ -90,8 +91,7 @@ UniValue getinfo(const UniValue& params, bool fHelp)
     obj.push_back(Pair("moneysupply",   ValueFromAmount(chainActive.Tip()->nMoneySupply)));
     obj.push_back(Pair("timeoffset",    GetTimeOffset()));
     obj.push_back(Pair("connections",   (int)vNodes.size()));
-    obj.push_back(Pair("proxy",         (proxy.IsValid() ? proxy.ToStringIPPort() : string())));
-    obj.push_back(Pair("ip",            addrSeenByPeer.ToStringIP()));
+    obj.push_back(Pair("proxy",         (proxy.IsValid() ? proxy.proxy.ToStringIPPort() : string())));
     obj.push_back(Pair("difficulty",    GetDifficulty(GetLastBlockIndex(chainActive.Tip(), true))));
     obj.push_back(Pair("testnet",       Params().TestnetToBeDeprecatedFieldRPC()));
 #ifdef ENABLE_WALLET
@@ -471,7 +471,7 @@ UniValue sendalert(const UniValue& params, bool fHelp)
     if (!key.Sign(Hash(alert.vchMsg.begin(), alert.vchMsg.end()), alert.vchSig))
         throw runtime_error(
             "Unable to sign alert, check private key?\n");
-    if(!alert.ProcessAlert())
+    if(!alert.ProcessAlert(Params().AlertKey()))
         throw runtime_error(
             "Failed to process alert.\n");
     // Relay alert

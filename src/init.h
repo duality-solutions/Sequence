@@ -9,8 +9,8 @@
 
 #include <string>
 
-class CWallet;
 class CScheduler;
+class CWallet;
 
 namespace boost
 {

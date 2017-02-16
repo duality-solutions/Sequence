@@ -6,17 +6,17 @@
 
 #include "base58.h"
 #include "clientversion.h"
-#include "primitives/block.h" // for MAX_BLOCK_SIZE
-#include "primitives/transaction.h"
-#include "core_io.h"
 #include "coins.h"
+#include "consensus/consensus.h"
+#include "core_io.h"
 #include "keystore.h"
+#include "primitives/transaction.h"
 #include "script/script.h"
 #include "script/sign.h"
 #include "ui_interface.h" // for _(...)
 #include "util.h"
-#include "utilstrencodings.h"
 #include "utilmoneystr.h"
+#include "utilstrencodings.h"
 
 #include <stdio.h>
 
@@ -25,7 +25,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/assign/list_of.hpp>
 
-using namespace boost::assign;
 using namespace std;
 
 static bool fCreateBlank;
@@ -40,9 +39,11 @@ static bool AppInitRawTx(int argc, char* argv[])
     ParseParameters(argc, argv);
 
     // Check for -testnet or -regtest parameter (Params() calls are only valid after this clause)
-    if (!SelectParamsFromCommandLine()) {
-        fprintf(stderr, "Error: Invalid combination of -regtest and -testnet.\n");
-        return false;
+    try {
+        SelectParams(ChainNameFromCommandLine());
+    } catch (const std::exception& e) {
+        fprintf(stderr, "Error: %s\n", e.what());
+        return EXIT_FAILURE;
     }
 
     fCreateBlank = GetBoolArg("-create", false);
@@ -66,9 +67,8 @@ static bool AppInitRawTx(int argc, char* argv[])
         strUsage += "  -regtest                " + _("Enter regression test mode, which uses a special chain in which blocks can be solved instantly.") + "\n";
         strUsage += "  -testnet                " + _("Use the test network") + "\n";
         strUsage += "\n";
-
+        
         fprintf(stdout, "%s", strUsage.c_str());
-
 
         strUsage = _("Commands:") + "\n";
         strUsage += "  delin=N                " + _("Delete input N from TX") + "\n";
@@ -390,7 +390,7 @@ static void MutateTxSign(CMutableTransaction& tx, const string& flagStr)
             if (!prevOut.isObject())
                 throw runtime_error("expected prevtxs internal object");
 
-            map<string,UniValue::VType> types = map_list_of("txid", UniValue::VSTR)("vout",UniValue::VNUM)("scriptPubKey",UniValue::VSTR);
+            map<string,UniValue::VType> types = boost::assign::map_list_of("txid", UniValue::VSTR)("vout",UniValue::VNUM)("scriptPubKey",UniValue::VSTR);
             if (!prevOut.checkObject(types))
                 throw runtime_error("prevtxs internal object typecheck fail");
 
@@ -607,7 +607,7 @@ static int CommandLineRawTx(int argc, char* argv[])
     catch (boost::thread_interrupted) {
         throw;
     }
-    catch (std::exception& e) {
+    catch (const std::exception& e) {
         strPrint = string("error: ") + e.what();
         nRet = EXIT_FAILURE;
     }
@@ -630,7 +630,7 @@ int main(int argc, char* argv[])
         if(!AppInitRawTx(argc, argv))
             return EXIT_FAILURE;
     }
-    catch (std::exception& e) {
+    catch (const std::exception& e) {
         PrintExceptionContinue(&e, "AppInitRawTx()");
         return EXIT_FAILURE;
     } catch (...) {
@@ -642,7 +642,7 @@ int main(int argc, char* argv[])
     try {
         ret = CommandLineRawTx(argc, argv);
     }
-    catch (std::exception& e) {
+    catch (const std::exception& e) {
         PrintExceptionContinue(&e, "CommandLineRawTx()");
     } catch (...) {
         PrintExceptionContinue(NULL, "CommandLineRawTx()");
