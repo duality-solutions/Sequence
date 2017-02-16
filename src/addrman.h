@@ -25,6 +25,10 @@
  */
 class CAddrInfo : public CAddress
 {
+public:
+    //! last try whatsoever by us (memory only)
+    int64_t nLastTry;
+
 private:
     //! where knowledge about this address first came from
     CNetAddr source;
@@ -232,9 +236,8 @@ protected:
     //! Mark an entry as attempted to connect.
     void Attempt_(const CService &addr, int64_t nTime);
 
-    //! Select an address to connect to.
-    //! nUnkBias determines how much to favor new addresses over tried ones (min=0, max=100)
-    CAddress Select_();
+    //! Select an address to connect to, if newOnly is set to true, only the new table is selected from.
+    CAddrInfo Select_(bool newOnly);
 
 #ifdef DEBUG_ADDRMAN
     //! Perform consistency check. Returns an error code or zero.
@@ -457,7 +460,7 @@ public:
 
     ~CAddrMan()
     {
-        nKey = uint256(0);
+        nKey.SetNull();
     }
 
     //! Return the number of (unique) addresses in all tables.
@@ -534,15 +537,14 @@ public:
 
     /**
      * Choose an address to connect to.
-     * nUnkBias determines how much "new" entries are favored over "tried" ones (0-100).
      */
-    CAddress Select()
+    CAddrInfo Select(bool newOnly = false)
     {
-        CAddress addrRet;
+        CAddrInfo addrRet;
         {
             LOCK(cs);
             Check();
-            addrRet = Select_();
+            addrRet = Select_(newOnly);
             Check();
         }
         return addrRet;
@@ -571,6 +573,12 @@ public:
             Check();
         }
     }
+    
+    //! Ensure that bucket placement is always the same for testing purposes.
+    void MakeDeterministic(){
+        nKey.SetNull(); //Do not use outside of tests.
+    }
+    
 };
 
 #endif // SILK_ADDRMAN_H

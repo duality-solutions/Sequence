@@ -63,6 +63,19 @@ public:
     explicit base_uint(const std::string& str);
     explicit base_uint(const std::vector<unsigned char>& vch);
 
+    bool IsNull() const
+    {
+        for (int i = 0; i < WIDTH; i++)
+            if (pn[i] != 0)
+                return false;
+        return true;
+    }
+
+    void SetNull()
+    {
+        memset(pn, 0, sizeof(pn));
+    }
+
     bool operator!() const
     {
         for (int i = 0; i < WIDTH; i++)
