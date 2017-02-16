@@ -18,6 +18,7 @@
 #include <QMap>
 #include <QMenu>
 #include <QPoint>
+#include <QPushButton>
 #include <QSystemTrayIcon>
 
 class ClientModel;
@@ -101,7 +102,7 @@ private:
     WalletFrame *walletFrame;
 
     UnitDisplayStatusBarControl *unitDisplayControl;
-    QLabel *labelConnectionsIcon;
+    QPushButton *labelConnectionsIcon;
     QLabel *labelStakingIcon;
     QLabel *labelBlocksIcon;
     QLabel *progressBarLabel;

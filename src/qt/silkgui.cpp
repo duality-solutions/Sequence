@@ -188,7 +188,13 @@ SilkGUI::SilkGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     unitDisplayControl = new UnitDisplayStatusBarControl();
     labelEncryptionIcon = new ClickableLockLabel();
     labelStakingIcon = new QLabel();
-    labelConnectionsIcon = new QLabel();
+    labelConnectionsIcon = new QPushButton();
+    labelConnectionsIcon->setFlat(true); // Make the button look like a label, but clickable
+    labelConnectionsIcon->setStyleSheet(".QPushButton { background-color: rgba(255, 255, 255, 0);}");
+    labelConnectionsIcon->setMaximumSize(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE);
+    // Jump to peers tab by clicking on connections icon
+    connect(labelConnectionsIcon, SIGNAL(clicked()), this, SLOT(showPeers()));
+
     labelBlocksIcon = new QLabel();
     if(enableWallet)
     {
@@ -746,7 +752,8 @@ void SilkGUI::setNumConnections(int count)
     case 7: case 8: case 9: icon = ":/icons/connect_3"; break;
     default: icon = ":/icons/connect_4"; break;
     }
-    labelConnectionsIcon->setPixmap(QIcon(icon).pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
+    QIcon connectionItem = QIcon(icon).pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE);
+    labelConnectionsIcon->setIcon(connectionItem);
     labelConnectionsIcon->setToolTip(tr("%n active connection(s) to Silk network", "", count));
 }
 
