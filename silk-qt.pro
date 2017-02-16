@@ -442,8 +442,10 @@ HEADERS += \
     src/torcontrol.h \
     src/reverselock.h \
     src/scheduler.h \
+    src/validationinterface.h \
     src/consensus/consensus.h \
     src/consensus/merkle.h \
+    src/consensus/params.h \
     src/consensus/validation.h \
     src/primitives/block.h \
     src/primitives/transaction.h \
@@ -513,6 +515,7 @@ HEADERS += \
     src/qt/coincontroldialog.h \
     src/qt/clientmodel.h \
     src/qt/calcdialog.h \
+    src/qt/bantablemodel.h \
     src/qt/askpassphrasedialog.h \
     src/qt/addresstablemodel.h \
     src/qt/addressbookpage.h \
@@ -591,6 +594,7 @@ SOURCES += \
     src/rest.cpp \
     src/torcontrol.cpp \
     src/scheduler.cpp \
+    src/validationinterface.cpp \
     src/rpc/rpcblockchain.cpp \
     src/rpc/rpcclient.cpp \
     src/wallet/rpcdump.cpp \
@@ -634,6 +638,7 @@ SOURCES += \
     src/qt/addressbookpage.cpp \
     src/qt/addresstablemodel.cpp \
     src/qt/askpassphrasedialog.cpp \
+    src/qt/bantablemodel.cpp \
     src/qt/calcdialog.cpp \
     src/qt/clientmodel.cpp \
     src/qt/coincontroldialog.cpp \
