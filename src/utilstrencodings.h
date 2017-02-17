@@ -23,7 +23,21 @@
 /** This is needed because the foreach macro can't get over the comma in pair<t1, t2> */
 #define PAIRTYPE(t1, t2)    std::pair<t1, t2>
 
-std::string SanitizeString(const std::string& str);
+/** Used by SanitizeString() */
+enum SafeChars
+{
+    SAFE_CHARS_DEFAULT, //!< The full set of allowed chars
+    SAFE_CHARS_UA_COMMENT //!< BIP-0014 subset
+};
+
+/**
+* Remove unsafe chars. Safe chars chosen to allow simple messages/URLs/email
+* addresses, but avoid anything even possibly remotely dangerous like & or >
+* @param[in] str    The string to sanitize
+* @param[in] rule   The set of safe chars to choose (default: least restrictive)
+* @return           A new string without unsafe chars
+*/
+std::string SanitizeString(const std::string& str, int rule = SAFE_CHARS_DEFAULT);
 /// Formats the network peer user agent text (or subversion)
 /// by removing the begining and ending charactors(/).
 /// example: /Silk Core:1.0.0/ --> Silk Core:1.0.0

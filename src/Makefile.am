@@ -105,6 +105,9 @@ SILK_CORE_H = \
   compat/sanity.h \
   compressor.h \
   consensus/consensus.h \
+  consensus/merkle.h \
+  consensus/params.h \
+  consensus/validation.h \
   primitives/block.h \
   primitives/transaction.h \
   core_io.h \
@@ -260,10 +263,7 @@ libsilk_common_a_SOURCES = \
   chainparams.cpp \
   coins.cpp \
   compressor.cpp \
-  consensus/merkle.h \
   consensus/merkle.cpp \
-  consensus/params.h \
-  consensus/validation.h \
   primitives/block.cpp \
   primitives/transaction.cpp \
   core_read.cpp \
@@ -383,6 +383,7 @@ silk_tx_LDADD = \
 silk_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
+# darksilkconsensus library #
 if BUILD_SILK_LIBS
 include_HEADERS = script/silkconsensus.h
 libsilkconsensus_la_SOURCES = \

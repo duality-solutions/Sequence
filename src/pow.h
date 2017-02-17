@@ -7,6 +7,8 @@
 #ifndef SILK_POW_H
 #define SILK_POW_H
 
+#include "consensus/params.h"
+
 #include <stdint.h>
 
 class CBlockHeader;

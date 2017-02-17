@@ -59,6 +59,10 @@ static const unsigned int DEFAULT_BLOCK_MIN_SIZE = 0;
 static const unsigned int DEFAULT_BLOCK_PRIORITY_SIZE = 200000;
 /** Default for accepting alerts from the P2P network. */
 static const bool DEFAULT_ALERTS = true;
+/** Default for DEFAULT_WHITELISTRELAY. */
+static const bool DEFAULT_WHITELISTRELAY = true;
+/** Default for DEFAULT_WHITELISTFORCERELAY. */
+static const bool DEFAULT_WHITELISTFORCERELAY = true;
 /** The maximum size for transactions we're willing to relay/mine */
 static const unsigned int MAX_STANDARD_TX_SIZE = 400000;
 /** The maximum allowed number of signature check operations in a block (network rule) */
@@ -113,6 +117,11 @@ static const unsigned int AVG_ADDRESS_BROADCAST_INTERVAL = 30;
  *  Blocks, whitelisted receivers, and a random 25% of transactions bypass this. */
 static const unsigned int AVG_INVENTORY_BROADCAST_INTERVAL = 5;
 
+static const bool DEFAULT_CHECKPOINTS_ENABLED = true;
+
+/** Maximum number of headers to announce when relaying blocks with headers message.*/
+static const unsigned int MAX_BLOCKS_TO_ANNOUNCE = 12;
+
 /** silk constants */
 static const CAmount STATIC_POW_REWARD = 0 * COIN;
 static const CAmount STATIC_POS_REWARD = 2 * COIN;
@@ -146,6 +155,7 @@ extern int nScriptCheckThreads;
 extern bool fTxIndex;
 extern bool fIsBareMultisigStd;
 extern bool fCheckBlockIndex;
+extern bool fCheckpointsEnabled;
 extern size_t nCoinCacheUsage;
 extern CFeeRate minRelayTxFee;
 extern bool fAlerts;
@@ -162,9 +172,6 @@ void RegisterValidationInterface(CValidationInterface* pwalletIn);
 void UnregisterValidationInterface(CValidationInterface* pwalletIn);
 /** Unregister all wallets from core */
 void UnregisterAllValidationInterfaces();
-/** Push an updated transaction to all registered wallets */
-void SyncWithWallets(const CTransaction& tx, const CBlock* pblock = NULL);
-
 /** Register with a network node to receive its signals */
 void RegisterNodeSignals(CNodeSignals& nodeSignals);
 /** Unregister a network node */
@@ -512,25 +519,6 @@ struct CBlockTemplate
     CBlock block;
     std::vector<CAmount> vTxFees;
     std::vector<int64_t> vTxSigOps;
-};
-
-
-
-
-
-
-class CValidationInterface {
-protected:
-    virtual void SyncTransaction(const CTransaction &tx, const CBlock *pblock) {};
-    virtual void EraseFromWallet(const uint256 &hash) {};
-    virtual void SetBestChain(const CBlockLocator &locator) {};
-    virtual void UpdatedTransaction(const uint256 &hash) {};
-    virtual void Inventory(const uint256 &hash) {};
-    virtual void ResendWalletTransactions() {};
-    virtual void BlockChecked(const CBlock&, const CValidationState&) {};
-    friend void ::RegisterValidationInterface(CValidationInterface*);
-    friend void ::UnregisterValidationInterface(CValidationInterface*);
-    friend void ::UnregisterAllValidationInterfaces();
 };
 
 #endif // SILK_MAIN_H

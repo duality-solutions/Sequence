@@ -5,6 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "chainparams.h"
+#include "consensus/merkle.h"
 #include "chainparamsseeds.h"
 #include "random.h"
 #include "util.h"
@@ -161,38 +162,28 @@ public:
     CMainParams() {
         networkID = CBaseChainParams::MAIN;
         strNetworkID = "main";
-        /** 
-         * The message start string is designed to be unlikely to occur in normal data.
-         * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
-         * a large 4-byte int at any alignment.
-         */
-        pchMessageStart[0] = 0x01;
-        pchMessageStart[1] = 0x10;
-        pchMessageStart[2] = 0x02;
-        pchMessageStart[3] = 0x20;
-        vAlertPubKey = ParseHex("04cd4cd0b961a17d0ca977580f123fc3836c3081491484f21c5e4b97d41d3762c30a51d1141b81c21dd6a23c55d4424a98b38a1e914c8158645ce51869e52b99b0");
-        nDefaultPort = 16662;
-        bnProofOfWorkLimit = ~uint256(0) >> 26;
-        bnProofOfStakeLimit = ~uint256(0) >> 26;
-        nEnforceBlockUpgradeMajority = 750;
-        nRejectBlockOutdatedMajority = 950;
-        nToCheckBlockUpgradeMajority = 1000;
-        nMinerThreads = 0;
-        nTargetSpacingMax = 1 * 64;     // 64 second max spacing target
-        nPoWTargetSpacing = 1 * 60;     // 60 seconds PoW Target
-        nPoSTargetSpacing = 1 * 64;     // 64 seconds PoS Target
-        nCoinbaseMaturity = 10;         // 10 blocks for full confirmation
-        nStakeMinAge = 1 * 60 * 60;     // 1 hour minimum stake age
-        nStakeMaxAge = std::numeric_limits<int64_t>::max(); // Unlimited stake age
-        nModifierInterval = 15 * 60;    // 15 minutes to elapse before new modifier is computed
-        nLastPOWBlock = 10000;          // Proof of Work finishes on block 10000
-        nMaxTipAge = 24 * 60 * 60;
+        consensus.bnProofOfWorkLimit = ~uint256(0) >> 26;
+        consensus.bnProofOfStakeLimit = ~uint256(0) >> 26;
+        consensus.nEnforceBlockUpgradeMajority = 750;
+        consensus.nRejectBlockOutdatedMajority = 950;
+        consensus.nToCheckBlockUpgradeMajority = 1000;
+        consensus.nMinerThreads = 0;
+        consensus.nTargetSpacingMax = 1 * 64;     // 64 second max spacing target
+        consensus.nPoWTargetSpacing = 1 * 60;     // 60 seconds PoW Target
+        consensus.fAllowMinDifficultyBlocks = false;
+        consensus.fDefaultConsistencyChecks = false;
+        consensus.nPoSTargetSpacing = 1 * 64;     // 64 seconds PoS Target
+        consensus.nCoinbaseMaturity = 10;         // 10 blocks for full confirmation
+        consensus.nStakeMinAge = 1 * 60 * 60;     // 1 hour minimum stake age
+        consensus.nStakeMaxAge = std::numeric_limits<int64_t>::max(); // Unlimited stake age
+        consensus.nModifierInterval = 15 * 60;    // 15 minutes to elapse before new modifier is computed
+        consensus.nLastPOWBlock = 10000;          // Proof of Work finishes on block 10000
 
-        genesis = CreateGenesisBlock(1473949500, 37239843, bnProofOfWorkLimit.GetCompact(), 1, (0 * COIN));
+        genesis = CreateGenesisBlock(1473949500, 37239843, consensus.bnProofOfWorkLimit.GetCompact(), 1, (0 * COIN));
 
-        hashGenesisBlock = genesis.GetHash();
+        consensus.hashGenesisBlock = genesis.GetHash();
 
-        assert(hashGenesisBlock == uint256("0x000000251356c62e0aa14c63e2b0db2a05ac0d3316ea5000c797a281be8c9fd7"));
+        assert(consensus.hashGenesisBlock == uint256("0x000000251356c62e0aa14c63e2b0db2a05ac0d3316ea5000c797a281be8c9fd7"));
         assert(genesis.hashMerkleRoot == uint256("0x73d6f8c42dfa8c9175b8bf4bf75ebfd10d22b0b6b1a39a82ce0e408447418e4b"));
 
         //vSeeds.push_back(CDNSSeedData("", ""));
@@ -208,10 +199,16 @@ public:
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
 
+        pchMessageStart[0] = 0x01;
+        pchMessageStart[1] = 0x10;
+        pchMessageStart[2] = 0x02;
+        pchMessageStart[3] = 0x20;
+        vAlertPubKey = ParseHex("04cd4cd0b961a17d0ca977580f123fc3836c3081491484f21c5e4b97d41d3762c30a51d1141b81c21dd6a23c55d4424a98b38a1e914c8158645ce51869e52b99b0");
+        nDefaultPort = 16662;
+        nMaxTipAge = 24 * 60 * 60;
+
         fRequireRPCPassword = true;
         fMiningRequiresPeers = true;
-        fAllowMinDifficultyBlocks = false;
-        fDefaultConsistencyChecks = false;
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = false;
@@ -232,30 +229,25 @@ public:
     CTestNetParams() {
         networkID = CBaseChainParams::TESTNET;
         strNetworkID = "test";
-        pchMessageStart[0] = 0x02;
-        pchMessageStart[1] = 0x20;
-        pchMessageStart[2] = 0x03;
-        pchMessageStart[3] = 0x30;
-        vAlertPubKey = ParseHex("");
-        nDefaultPort = 16664;
-        bnProofOfWorkLimit = ~uint256(0) >> 26;
-        bnProofOfStakeLimit = ~uint256(0) >> 26;
-        nEnforceBlockUpgradeMajority = 51;
-        nRejectBlockOutdatedMajority = 75;
-        nToCheckBlockUpgradeMajority = 100;
-        nMinerThreads = 0;
-        nCoinbaseMaturity = 6;          // 6 blocks for full confirmation
-        nStakeMinAge = 30 * 60;         // 30 minute minimum stake age
-        nModifierInterval = 15 * 60;    // 15 minutes to elapse before new modifier is computed
-        nLastPOWBlock = 100000;         // Proof of Work finishes on block 300000
-        nMaxTipAge = 24 * 60 * 60;
-        //bool startNewChain = true;
+        consensus.bnProofOfWorkLimit = ~uint256(0) >> 26;
+        consensus.bnProofOfStakeLimit = ~uint256(0) >> 26;
+        consensus.nEnforceBlockUpgradeMajority = 51;
+        consensus.nRejectBlockOutdatedMajority = 75;
+        consensus.nToCheckBlockUpgradeMajority = 100;
+        consensus.nMinerThreads = 0;
+        consensus.fAllowMinDifficultyBlocks = false;
+        consensus.fDefaultConsistencyChecks = false;
+        consensus.nCoinbaseMaturity = 6;          // 6 blocks for full confirmation
+        consensus.nStakeMinAge = 30 * 60;         // 30 minute minimum stake age
+        consensus.nModifierInterval = 15 * 60;    // 15 minutes to elapse before new modifier is computed
+        consensus.nLastPOWBlock = 100000;         // Proof of Work finishes on block 300000
+        bool startNewChain = false;
 
-        genesis = CreateTestNetGenesisBlock(1478107000, 82131309, bnProofOfWorkLimit.GetCompact(), 1, (0 * COIN));
-        //if(startNewChain == true) { MineGenesis(genesis, bnProofOfWorkLimit); }
-        hashGenesisBlock = genesis.GetHash();
+        genesis = CreateTestNetGenesisBlock(1478107000, 82131309, consensus.bnProofOfWorkLimit.GetCompact(), 1, (0 * COIN));
+        if(startNewChain == true) { MineGenesis(genesis, bnProofOfWorkLimit); }
+        consensus.hashGenesisBlock = genesis.GetHash();
 
-        assert(hashGenesisBlock == uint256("0x00000009cfa952b4f748c8cf7cdf975f89bce0a26a6a7e7c8cb33968bc20848e"));
+        assert(consensus.hashGenesisBlock == uint256("0x00000009cfa952b4f748c8cf7cdf975f89bce0a26a6a7e7c8cb33968bc20848e"));
         assert(genesis.hashMerkleRoot == uint256("0x2daaebb4a85d64d0a5266ca58656c8db03f95a7c9c863eb34872b48c3c6f3dea"));
 
         vFixedSeeds.clear();
@@ -269,10 +261,16 @@ public:
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
 
+        pchMessageStart[0] = 0x02;
+        pchMessageStart[1] = 0x20;
+        pchMessageStart[2] = 0x03;
+        pchMessageStart[3] = 0x30;
+        vAlertPubKey = ParseHex("");
+        nDefaultPort = 16664;
+        nMaxTipAge = 24 * 60 * 60;
+
         fRequireRPCPassword = true;
         fMiningRequiresPeers = true;
-        fAllowMinDifficultyBlocks = false;
-        fDefaultConsistencyChecks = false;
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = false;
@@ -292,34 +290,35 @@ public:
     CRegTestParams() {
         networkID = CBaseChainParams::REGTEST;
         strNetworkID = "regtest";
-        pchMessageStart[0] = 0x40;
-        pchMessageStart[1] = 0x04;
-        pchMessageStart[2] = 0x50;
-        pchMessageStart[3] = 0x05;
-        nEnforceBlockUpgradeMajority = 750;
-        nRejectBlockOutdatedMajority = 950;
-        nToCheckBlockUpgradeMajority = 1000;
-        nDefaultPort = 16670;
-        nMinerThreads = 1;
-        bnProofOfWorkLimit = ~uint256(0) >> 22;
-        bnProofOfStakeLimit = ~uint256(0) >> 22;
-        nLastPOWBlock = 100;    // Proof of Work finishes on block 100
-        nMaxTipAge = 24 * 60 * 60;
+        consensus.nEnforceBlockUpgradeMajority = 750;
+        consensus.nRejectBlockOutdatedMajority = 950;
+        consensus.nToCheckBlockUpgradeMajority = 1000;
+        consensus.nMinerThreads = 1;
+        consensus.bnProofOfWorkLimit = ~uint256(0) >> 22;
+        consensus.bnProofOfStakeLimit = ~uint256(0) >> 22;
+        consensus.fDefaultConsistencyChecks = true;
+        consensus.fAllowMinDifficultyBlocks = true;
+        consensus.nLastPOWBlock = 100;    // Proof of Work finishes on block 100
         
         genesis = CreateGenesisBlock(1473949500, 1427578, 0x1e00ffff, 1, (0 * COIN));
         
-        hashGenesisBlock = genesis.GetHash();
+        consensus.hashGenesisBlock = genesis.GetHash();
 
-        assert(hashGenesisBlock == uint256("0x000003b8d718c47f10afdaa9b59c7d709e0bc8daf79b41dada0c411e7dc9985f"));
+        assert(consensus.hashGenesisBlock == uint256("0x000003b8d718c47f10afdaa9b59c7d709e0bc8daf79b41dada0c411e7dc9985f"));
         assert(genesis.hashMerkleRoot == uint256("0x73d6f8c42dfa8c9175b8bf4bf75ebfd10d22b0b6b1a39a82ce0e408447418e4b"));
 
         vFixedSeeds.clear(); //! Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();  //! Regtest mode doesn't have any DNS seeds.
 
+        pchMessageStart[0] = 0x40;
+        pchMessageStart[1] = 0x04;
+        pchMessageStart[2] = 0x50;
+        pchMessageStart[3] = 0x05;
+        nDefaultPort = 16670;
+        nMaxTipAge = 24 * 60 * 60;
+
         fRequireRPCPassword = false;
         fMiningRequiresPeers = false;
-        fAllowMinDifficultyBlocks = true;
-        fDefaultConsistencyChecks = true;
         fRequireStandard = false;
         fMineBlocksOnDemand = true;
         fTestnetToBeDeprecatedFieldRPC = false;
@@ -339,12 +338,14 @@ public:
     CUnitTestParams() {
         networkID = CBaseChainParams::UNITTEST;
         strNetworkID = "unittest";
-        nDefaultPort = 6665;
+        consensus.fMiningRequiresPeers = false;
+
         vFixedSeeds.clear(); //! Unit test mode doesn't have any fixed seeds.
         vSeeds.clear();  //! Unit test mode doesn't have any DNS seeds.
 
+        nDefaultPort = 6665;
+
         fRequireRPCPassword = false;
-        fMiningRequiresPeers = false;
         fDefaultConsistencyChecks = true;
         fAllowMinDifficultyBlocks = false;
         fMineBlocksOnDemand = true;
