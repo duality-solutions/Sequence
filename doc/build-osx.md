@@ -58,9 +58,10 @@ or you can instead symlink your newly installed OpenSSL:
 
 (the above version of OpenSSL may differ to the one you have installed, amend to suit)
 
-After exiting you will want to symlink berkeley-db4:
+After exiting you will want to symlink berkeley-db4 and qt:
 
-    $ brew link berkeley-db4 --force    
+    $ brew link berkeley-db4 --force
+    $ brew link qt@5.5 --force
 
 
 ### Building `silkd`
