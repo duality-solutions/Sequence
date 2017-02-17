@@ -10,7 +10,7 @@
 #include "keystore.h"
 #include "script/script.h"
 #include "script/standard.h"
-#include "dns/hooks.h"
+#include "hooks.h"
 
 #include <boost/foreach.hpp>
 
