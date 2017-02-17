@@ -160,7 +160,6 @@ static const Checkpoints::CCheckpointData dataRegtest = {
 class CMainParams : public CChainParams {
 public:
     CMainParams() {
-        networkID = CBaseChainParams::MAIN;
         strNetworkID = "main";
         consensus.bnProofOfWorkLimit = ~uint256(0) >> 26;
         consensus.bnProofOfStakeLimit = ~uint256(0) >> 26;
@@ -171,7 +170,6 @@ public:
         consensus.nTargetSpacingMax = 1 * 64;     // 64 second max spacing target
         consensus.nPoWTargetSpacing = 1 * 60;     // 60 seconds PoW Target
         consensus.fAllowMinDifficultyBlocks = false;
-        consensus.fDefaultConsistencyChecks = false;
         consensus.nPoSTargetSpacing = 1 * 64;     // 64 seconds PoS Target
         consensus.nCoinbaseMaturity = 10;         // 10 blocks for full confirmation
         consensus.nStakeMinAge = 1 * 60 * 60;     // 1 hour minimum stake age
@@ -209,6 +207,7 @@ public:
 
         fRequireRPCPassword = true;
         fMiningRequiresPeers = true;
+        fDefaultConsistencyChecks = false;
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = false;
@@ -224,10 +223,9 @@ static CMainParams mainParams;
 /**
  * Testnet (v3)
  */
-class CTestNetParams : public CMainParams {
+class CTestNetParams : public CChainParams {
 public:
     CTestNetParams() {
-        networkID = CBaseChainParams::TESTNET;
         strNetworkID = "test";
         consensus.bnProofOfWorkLimit = ~uint256(0) >> 26;
         consensus.bnProofOfStakeLimit = ~uint256(0) >> 26;
@@ -236,7 +234,6 @@ public:
         consensus.nToCheckBlockUpgradeMajority = 100;
         consensus.nMinerThreads = 0;
         consensus.fAllowMinDifficultyBlocks = false;
-        consensus.fDefaultConsistencyChecks = false;
         consensus.nCoinbaseMaturity = 6;          // 6 blocks for full confirmation
         consensus.nStakeMinAge = 30 * 60;         // 30 minute minimum stake age
         consensus.nModifierInterval = 15 * 60;    // 15 minutes to elapse before new modifier is computed
@@ -271,6 +268,7 @@ public:
 
         fRequireRPCPassword = true;
         fMiningRequiresPeers = true;
+        fDefaultConsistencyChecks = false;
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = false;
@@ -285,10 +283,9 @@ static CTestNetParams testNetParams;
 /**
  * Regression test
  */
-class CRegTestParams : public CTestNetParams {
+class CRegTestParams : public CChainParams {
 public:
     CRegTestParams() {
-        networkID = CBaseChainParams::REGTEST;
         strNetworkID = "regtest";
         consensus.nEnforceBlockUpgradeMajority = 750;
         consensus.nRejectBlockOutdatedMajority = 950;
@@ -296,7 +293,6 @@ public:
         consensus.nMinerThreads = 1;
         consensus.bnProofOfWorkLimit = ~uint256(0) >> 22;
         consensus.bnProofOfStakeLimit = ~uint256(0) >> 22;
-        consensus.fDefaultConsistencyChecks = true;
         consensus.fAllowMinDifficultyBlocks = true;
         consensus.nLastPOWBlock = 100;    // Proof of Work finishes on block 100
         
@@ -314,11 +310,12 @@ public:
         pchMessageStart[1] = 0x04;
         pchMessageStart[2] = 0x50;
         pchMessageStart[3] = 0x05;
-        nDefaultPort = 16670;
+        nDefaultPort = 16666;
         nMaxTipAge = 24 * 60 * 60;
 
         fRequireRPCPassword = false;
         fMiningRequiresPeers = false;
+        fDefaultConsistencyChecks = true;
         fRequireStandard = false;
         fMineBlocksOnDemand = true;
         fTestnetToBeDeprecatedFieldRPC = false;
@@ -330,84 +327,27 @@ public:
 };
 static CRegTestParams regTestParams;
 
-/**
- * Unit test
- */
-class CUnitTestParams : public CMainParams, public CModifiableParams {
-public:
-    CUnitTestParams() {
-        networkID = CBaseChainParams::UNITTEST;
-        strNetworkID = "unittest";
-        consensus.fMiningRequiresPeers = false;
-
-        vFixedSeeds.clear(); //! Unit test mode doesn't have any fixed seeds.
-        vSeeds.clear();  //! Unit test mode doesn't have any DNS seeds.
-
-        nDefaultPort = 6665;
-
-        fRequireRPCPassword = false;
-        fDefaultConsistencyChecks = true;
-        fAllowMinDifficultyBlocks = false;
-        fMineBlocksOnDemand = true;
-    }
-
-    const Checkpoints::CCheckpointData& Checkpoints() const 
-    {
-        // UnitTest share the same checkpoints as MAIN
-        return data;
-    }
-
-    //! Published setters to allow changing values in unit test cases
-    virtual void setEnforceBlockUpgradeMajority(int anEnforceBlockUpgradeMajority)  { nEnforceBlockUpgradeMajority=anEnforceBlockUpgradeMajority; }
-    virtual void setRejectBlockOutdatedMajority(int anRejectBlockOutdatedMajority)  { nRejectBlockOutdatedMajority=anRejectBlockOutdatedMajority; }
-    virtual void setToCheckBlockUpgradeMajority(int anToCheckBlockUpgradeMajority)  { nToCheckBlockUpgradeMajority=anToCheckBlockUpgradeMajority; }
-    virtual void setDefaultConsistencyChecks(bool afDefaultConsistencyChecks)  { fDefaultConsistencyChecks=afDefaultConsistencyChecks; }
-    virtual void setAllowMinDifficultyBlocks(bool afAllowMinDifficultyBlocks) {  fAllowMinDifficultyBlocks=afAllowMinDifficultyBlocks; }
-};
-static CUnitTestParams unitTestParams;
-
-
 static CChainParams *pCurrentParams = 0;
-
-CModifiableParams *ModifiableParams()
-{
-   assert(pCurrentParams);
-   assert(pCurrentParams==&unitTestParams);
-   return (CModifiableParams*)&unitTestParams;
-}
 
 const CChainParams &Params() {
     assert(pCurrentParams);
     return *pCurrentParams;
 }
 
-CChainParams &Params(CBaseChainParams::Network network) {
-    switch (network) {
-        case CBaseChainParams::MAIN:
-            return mainParams;
-        case CBaseChainParams::TESTNET:
-            return testNetParams;
-        case CBaseChainParams::REGTEST:
-            return regTestParams;
-        case CBaseChainParams::UNITTEST:
-            return unitTestParams;
-        default:
-            assert(false && "Unimplemented network");
-            return mainParams;
-    }
+CChainParams& Params(const std::string& chain)
+{
+    if (chain == CBaseChainParams::MAIN)
+        return mainParams;
+    else if (chain == CBaseChainParams::TESTNET)
+        return testNetParams;
+    else if (chain == CBaseChainParams::REGTEST)
+        return regTestParams;
+    else
+        throw std::runtime_error(strprintf("%s: Unknown chain %s.", __func__, chain));
 }
 
-void SelectParams(CBaseChainParams::Network network) {
+void SelectParams(const std::string& network)
+{
     SelectBaseParams(network);
     pCurrentParams = &Params(network);
-}
-
-bool SelectParamsFromCommandLine()
-{
-    CBaseChainParams::Network network = NetworkIdFromCommandLine();
-    if (network == CBaseChainParams::MAX_NETWORK_TYPES)
-        return false;
-
-    SelectParams(network);
-    return true;
 }

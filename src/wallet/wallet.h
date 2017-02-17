@@ -280,8 +280,8 @@ public:
     void EraseFromWallet(const uint256 &hash);
     int ScanForWalletTransactions(CBlockIndex* pindexStart, bool fUpdate = false);
     void ReacceptWalletTransactions();
-    void ResendWalletTransactions();
-    CAmount GetBalance() const;
+    void ResendWalletTransactions(int64_t nBestBlockTime);
+    std::vector<uint256> ResendWalletTransactionsBefore(int64_t nTime);    CAmount GetBalance() const;
     CAmount GetTotal() const;
     CAmount GetStake() const;
     CAmount GetUnconfirmedBalance() const;

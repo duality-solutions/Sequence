@@ -363,7 +363,7 @@ bool SetCheckpointPrivKey(std::string strPrivKey)
 {
     // Test signing a sync-checkpoint with genesis block
     CSyncCheckpoint checkpoint;
-    checkpoint.hashCheckpoint = Params().HashGenesisBlock();
+    checkpoint.hashCheckpoint = Params().GetConsensus().hashGenesisBlock;
     CDataStream sMsg(SER_NETWORK, PROTOCOL_VERSION);
     sMsg << (CUnsignedSyncCheckpoint)checkpoint;
     checkpoint.vchMsg = std::vector<unsigned char>(sMsg.begin(), sMsg.end());

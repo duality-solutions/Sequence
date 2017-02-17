@@ -16,10 +16,10 @@ class CBlockIndex;
 class uint256;
 
 const CBlockIndex* GetLastBlockIndex(const CBlockIndex* pindex, bool fProofOfStake);
-unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfStake);
+unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, const Consensus::Params& params, bool fProofOfStake);
 
 /** Check whether a block hash satisfies the proof-of-work requirement specified by nBits */
-bool CheckProofOfWork(uint256 hash, unsigned int nBits);
+bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params& params);
 uint256 GetBlockTrust(const CBlockIndex& block);
 
 #endif // SILK_POW_H

@@ -22,7 +22,6 @@ struct Params {
     int nRejectBlockOutdatedMajority;
     int nToCheckBlockUpgradeMajority;
     bool fAllowMinDifficultyBlocks;
-    bool fDefaultConsistencyChecks;
     /** Proof of Work parameters */
     uint256 bnProofOfWorkLimit;
     int64_t nTargetSpacingMax;
@@ -33,28 +32,11 @@ struct Params {
     /**Proof of Stake parameters */
     uint256 bnProofOfStakeLimit;
     int64_t nPoSTargetSpacing;
-    int64_t nCoinbaseMaturity
+    int64_t nCoinbaseMaturity;
     int64_t nStakeMinAge;
     int64_t nStakeMaxAge;
     int64_t nModifierInterval;
 };
-
-/** 
- * Modifiable parameters interface is used by test cases to adapt the parameters in order
- * to test specific features more easily. Test cases should always restore the previous
- * values after finalization.
- */
-
-class CModifiableParams {
-public:
-    //! Published setters to allow changing values in unit test cases
-    virtual void setEnforceBlockUpgradeMajority(int anEnforceBlockUpgradeMajority)=0;
-    virtual void setRejectBlockOutdatedMajority(int anRejectBlockOutdatedMajority)=0;
-    virtual void setToCheckBlockUpgradeMajority(int anToCheckBlockUpgradeMajority)=0;
-    virtual void setDefaultConsistencyChecks(bool aDefaultConsistencyChecks)=0;
-    virtual void setAllowMinDifficultyBlocks(bool aAllowMinDifficultyBlocks)=0;
-};
-
 } // namespace Consensus
 
 #endif // SILK_CONSENSUS_PARAMS_H
