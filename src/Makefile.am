@@ -83,7 +83,6 @@ endif
 .PHONY: FORCE
 # Silk Core #
 SILK_CORE_H = \
-  addrdb.h \
   addrman.h \
   alert.h \
   allocators.h \
@@ -106,6 +105,9 @@ SILK_CORE_H = \
   compat/sanity.h \
   compressor.h \
   consensus/consensus.h \
+  consensus/merkle.h \
+  consensus/params.h \
+  consensus/validation.h \
   primitives/block.h \
   primitives/transaction.h \
   core_io.h \
@@ -126,7 +128,6 @@ SILK_CORE_H = \
   miner.h \
   mruset.h \
   netbase.h \
-  netaddress.h \
   net.h \
   noui.h \
   ntp.h \
@@ -185,7 +186,6 @@ libsilk_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES) $(MINIUPNPC_CPPFLAGS
 libsilk_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_server_a_SOURCES = \
   addrman.cpp \
-  addrdb.cpp \
   alert.cpp \
   bloom.cpp \
   chain.cpp \
@@ -263,10 +263,7 @@ libsilk_common_a_SOURCES = \
   chainparams.cpp \
   coins.cpp \
   compressor.cpp \
-  consensus/merkle.h \
   consensus/merkle.cpp \
-  consensus/params.h \
-  consensus/validation.h \
   primitives/block.cpp \
   primitives/transaction.cpp \
   core_read.cpp \
@@ -277,7 +274,6 @@ libsilk_common_a_SOURCES = \
   key.cpp \
   keystore.cpp \
   netbase.cpp \
-  netaddress.cpp \
   protocol.cpp \
   pubkey.cpp \
   scheduler.cpp \
@@ -387,6 +383,7 @@ silk_tx_LDADD = \
 silk_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
+# darksilkconsensus library #
 if BUILD_SILK_LIBS
 include_HEADERS = script/silkconsensus.h
 libsilkconsensus_la_SOURCES = \
