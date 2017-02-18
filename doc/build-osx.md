@@ -5,7 +5,7 @@ This guide will show you how to build silkd (headless client) for OSX.
 Notes
 -----
 
-* Tested on OS X 10.7 through 10.12.6 on 64-bit Intel processors only.
+* Tested on OS X 10.7 through 10.12.3 on 64-bit Intel processors only.
 
 * All of the commands should be executed in a Terminal application. The
 built-in one is located in `/Applications/Utilities`.
