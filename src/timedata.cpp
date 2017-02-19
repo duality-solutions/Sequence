@@ -18,7 +18,7 @@ using namespace std;
 
 static volatile int64_t nTimeOffset =  0;
 static volatile int nUpdCount   = ~0;
-
+static CCriticalSection cs_nTimeOffset;
 /**
  * "Never go to sea with two chronometers; take one or three."
  * Our three time sources are:
@@ -47,22 +47,26 @@ static int64_t abs64(int64_t n)
     return (n >= 0 ? n : -n);
 }
 
-void AddTimeData(CNetAddr& ip, int64_t nTime)
-{
-    static CCriticalSection cs_nTimeOffset;
+#define SILK_TIMEDATA_MAX_SAMPLES 200
 
+void AddTimeData(CNetAddr& ip, int64_t nOffsetSample)
+{
     LOCK(cs_nTimeOffset);
     // Ignore duplicates
-    static set<CNetAddr> setKnown;
-    if (!setKnown.insert(ip).second)
+    static std::vector<CNetAddr> setKnown;
+
+    if (setKnown.size() == SILK_TIMEDATA_MAX_SAMPLES)
         return;
 
-    int64_t nOffsetSample = nTime - GetTime();
+    setKnown.push_back(ip);
+
+    if (setKnown.size() != 1)
+        return;
 
     // Add data
-    static CMedianFilter<int64_t> vTimeOffsets(200,0);
+    static CMedianFilter<int64_t> vTimeOffsets(SILK_TIMEDATA_MAX_SAMPLES, 0);
     vTimeOffsets.input(nOffsetSample);
-    LogPrintf("Added time data, samples %d, offset %+d (%+d minutes)\n", vTimeOffsets.size(), nOffsetSample, nOffsetSample/60);
+    LogPrint("net","added time data, samples %d, offset %+d (%+d minutes)\n", vTimeOffsets.size(), nOffsetSample, nOffsetSample/60);
 
     // There is a known issue here (see issue #4521):
     //
@@ -81,17 +85,18 @@ void AddTimeData(CNetAddr& ip, int64_t nTime)
     // So we should hold off on fixing this and clean it up as part of
     // a timing cleanup that strengthens it in a number of other ways.
     //
-    size_t vlen = vTimeOffsets.size();
-    if (vlen >= 5)
+    if (vTimeOffsets.size() >= 5 && vTimeOffsets.size() % 2 == 1)
     {
+        int64_t nMedian = vTimeOffsets.median();
         std::vector<int64_t> vSorted = vTimeOffsets.sorted();
-        unsigned midpoint = vlen >> 1;
-        // If vTimeOffsets.size is even, median=average(midpoint, midpoint-1)
-        int64_t nMedian = (vSorted[midpoint] + vSorted[midpoint - (~vlen & 1)]) >> 1;
         // Only let other nodes change our time by so much
-        if (abs64(nMedian) >= 70 * 60)
+        if (abs64(nMedian) < 70 * 60)
         {
-       nMedian = 0; // clear untrusted median
+            nTimeOffset = nMedian;
+        }
+        else
+        {
+            nTimeOffset = 0;
 
             static bool fDone;
             if (!fDone)
@@ -105,24 +110,17 @@ void AddTimeData(CNetAddr& ip, int64_t nTime)
                 if (!fMatch)
                 {
                     fDone = true;
-                    string strMessage = _("Warning: Please check that your computer's date and time are correct! If your clock is wrong Silk Core will not work properly.");
+                    string strMessage = _("Please check that your computer's date and time are correct! If your clock is wrong DarkSilk Core will not work properly.");
                     strMiscWarning = strMessage;
-                    LogPrintf("*** %s\n", strMessage);
                     uiInterface.ThreadSafeMessageBox(strMessage, "", CClientUIInterface::MSG_WARNING);
                 }
             }
         }
-
-        // Lock-free update nTimeOffset
-        nUpdCount = -nUpdCount;
-        nTimeOffset = nMedian;
-        nUpdCount = ~nUpdCount | 0xe0000000;
-
-        if (fDebug) {
-            BOOST_FOREACH(int64_t n, vSorted)
-                LogPrintf("%+d  ", n);
-            LogPrintf("|  ");
-        }
-        LogPrintf("nTimeOffset = %+d  (%+d minutes)\n", nTimeOffset, nTimeOffset/60);
+        
+        BOOST_FOREACH(int64_t n, vSorted)
+            LogPrint("net", "%+d  ", n);
+        LogPrint("net", "|  ");
+        
+        LogPrint("net", "nTimeOffset = %+d  (%+d minutes)\n", nTimeOffset, nTimeOffset/60);
     }
 } // void AddTimeData
