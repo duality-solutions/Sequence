@@ -57,9 +57,7 @@ void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
     static std::vector<CNetAddr> setKnown;
     if (setKnown.size() == SILK_TIMEDATA_MAX_SAMPLES)
         return;
-
-    setKnown.push_back(ip);
-    if (setKnown[0].IsValid())
+    if (!setKnown.insert(ip).second)
         return;
 
     // Add data
