@@ -52,22 +52,15 @@ static int64_t abs64(int64_t n)
 void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
 {
     LOCK(cs_nTimeOffset);
-    // Ignore duplicates
-    static std::vector<CNetAddr> vecKnown;
-
-    if (vecKnown.size() == SILK_TIMEDATA_MAX_SAMPLES)
-        return;
-
-    vecKnown.push_back(ip);
-
-    if (vecKnown.size() != 1)
-        return;
-    /*
     static std::set<CNetAddr> setKnown;
 
+    if (setKnown.size() == SILK_TIMEDATA_MAX_SAMPLES)
+        return;
+
+    // Ignore duplicates
     if (!setKnown.insert(ip).second)
         return;
-    */
+
     // Add data
     static CMedianFilter<int64_t> vTimeOffsets(SILK_TIMEDATA_MAX_SAMPLES, 0);
     vTimeOffsets.input(nOffsetSample);
