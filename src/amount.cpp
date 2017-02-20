@@ -5,6 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "amount.h"
+#include "consensus/consensus.h"
 #include "primitives/block.h"
 #include "tinyformat.h"
 

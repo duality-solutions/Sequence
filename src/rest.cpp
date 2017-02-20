@@ -4,6 +4,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "chainparams.h"
 #include "primitives/block.h"
 #include "primitives/transaction.h"
 #include "main.h"
@@ -180,7 +181,7 @@ static bool rest_tx(AcceptedConnection* conn,
 
     CTransaction tx;
     uint256 hashBlock = 0;
-    if (!GetTransaction(hash, tx, hashBlock, true))
+    if (!GetTransaction(hash, tx, Params().GetConsensus(), hashBlock, true))
         throw RESTERR(HTTP_NOT_FOUND, hashStr + " not found");
 
     CDataStream ssTx(SER_NETWORK, PROTOCOL_VERSION);

@@ -85,7 +85,7 @@ const std::map<std::string, UniValue::VType>& typesExpected, bool fAllowNull=fal
  */
 void RPCRunLater(const std::string& name, boost::function<void(void)> func, int64_t nSeconds);
 
-//! Convert boost::asio address to CNetAddr
+//! Convert boost::asio address to CNetAddr        
 extern CNetAddr BoostAsioToCNetAddr(boost::asio::ip::address address);
 
 typedef UniValue(*rpcfn_type)(const UniValue& params, bool fHelp);

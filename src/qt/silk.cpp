@@ -10,12 +10,12 @@
 
 #include "silkgui.h"
 
+#include "chainparams.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
 #include "intro.h"
 #include "net.h"
-#include "scheduler.h"
 #include "networkstyle.h"
 #include "optionsmodel.h"
 #include "splashscreen.h"
@@ -29,6 +29,7 @@
 
 #include "init.h"
 #include "rpc/rpcserver.h"
+#include "scheduler.h"
 #include "ui_interface.h"
 #include "util.h"
 
@@ -51,6 +52,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QTranslator>
+#include <QSslConfiguration>
 
 #if defined(QT_STATICPLUGIN)
 #include <QtPlugin>
@@ -184,9 +186,10 @@ signals:
 
 private:
     boost::thread_group threadGroup;
+    CScheduler scheduler;
 
     /// Pass fatal exception message to UI thread
-    void handleRunawayException(std::exception *e);
+    void handleRunawayException(const std::exception *e);
 };
 
 /** Main silk application object */
@@ -254,7 +257,7 @@ SilkCore::SilkCore():
 {
 }
 
-void SilkCore::handleRunawayException(std::exception *e)
+void SilkCore::handleRunawayException(const std::exception *e)
 {
     PrintExceptionContinue(e, "Runaway exception");
     emit runawayException(QString::fromStdString(strMiscWarning));
@@ -275,7 +278,7 @@ void SilkCore::initialize()
             StartDummyRPCThread();
         }
         emit initializeResult(rv);
-    } catch (std::exception& e) {
+    } catch (const std::exception& e) {
         handleRunawayException(&e);
     } catch (...) {
         handleRunawayException(NULL);
@@ -296,7 +299,7 @@ void SilkCore::restart(QStringList args)
         QProcess::startDetached(QApplication::applicationFilePath(), args);
         qDebug() << __func__ << ": Restart initiated...";
         QCoreApplication::quit();
-    } catch (std::exception& e) {
+    } catch (const std::exception& e) {
         handleRunawayException(&e);
     } catch (...) {
         handleRunawayException(NULL);
@@ -313,7 +316,7 @@ void SilkCore::shutdown()
         Shutdown();
         qDebug() << __func__ << ": Shutdown finished";
         emit shutdownResult(1);
-    } catch (std::exception& e) {
+    } catch (const std::exception& e) {
         handleRunawayException(&e);
     } catch (...) {
         handleRunawayException(NULL);
@@ -543,6 +546,13 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_MAC
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
 #endif
+#if QT_VERSION >= 0x050500
+    // Because of the POODLE attack it is recommended to disable SSLv3 (https://disablessl3.com/),
+    // so set SSL protocols to TLS1.0+.
+    QSslConfiguration sslconf = QSslConfiguration::defaultConfiguration();
+    sslconf.setProtocol(QSsl::TlsV1_0OrLater);
+    QSslConfiguration::setDefaultConfiguration(sslconf);
+#endif
 
     // Register meta types used for QMetaObject::invokeMethod
     qRegisterMetaType< bool* >();
@@ -562,7 +572,7 @@ int main(int argc, char *argv[])
     // Now that QSettings are accessible, initialize translations
     QTranslator qtTranslatorBase, qtTranslator, translatorBase, translator;
     initTranslations(qtTranslatorBase, qtTranslator, translatorBase, translator);
-    uiInterface.Translate.connect(Translate);
+    translationInterface.Translate.connect(Translate);
 
     // Show help message immediately after parsing command-line options (for "-lang") and setting locale,
     // but before showing splash screen.
@@ -587,7 +597,7 @@ int main(int argc, char *argv[])
     }
     try {
         ReadConfigFile(mapArgs, mapMultiArgs);
-    } catch(std::exception &e) {
+    } catch(const std::exception& e) {
         QMessageBox::critical(0, QObject::tr("Silk Core"),
                               QObject::tr("Error: Cannot parse configuration file: %1. Only use key=value syntax.").arg(e.what()));
         return false;
@@ -600,9 +610,11 @@ int main(int argc, char *argv[])
     // - Needs to be done before createOptionsModel
 
     // Check for -testnet or -regtest parameter (Params() calls are only valid after this clause)
-    if (!SelectParamsFromCommandLine()) {
-        QMessageBox::critical(0, QObject::tr("Silk Core"), QObject::tr("Error: Invalid combination of -regtest and -testnet."));
-        return 1;
+    try {
+        SelectParams(ChainNameFromCommandLine());
+    } catch(const std::exception& e) {
+        QMessageBox::critical(0, QObject::tr("Silk Core"), QObject::tr("Error: %1").arg(e.what()));
+        return EXIT_FAILURE;
     }
 #ifdef ENABLE_WALLET
     // Parse URIs on command line -- this can affect Params()
@@ -612,7 +624,7 @@ int main(int argc, char *argv[])
     QScopedPointer<const NetworkStyle> networkStyle(NetworkStyle::instantiate(QString::fromStdString(Params().NetworkIDString())));
     assert(!networkStyle.isNull());
     // Allow for separate UI settings for testnets
-    QApplication::setApplicationName(networkStyle->getAppName());
+    //QApplication::setApplicationName(networkStyle->getAppName());
     // Re-initialize translations after changing application name (language in network-specific settings can be different)
     initTranslations(qtTranslatorBase, qtTranslator, translatorBase, translator);
 
@@ -664,7 +676,7 @@ int main(int argc, char *argv[])
         app.exec();
         app.requestShutdown();
         app.exec();
-    } catch (std::exception& e) {
+    } catch (const std::exception& e) {
         PrintExceptionContinue(&e, "Runaway exception");
         app.handleRunawayException(QString::fromStdString(strMiscWarning));
     } catch (...) {

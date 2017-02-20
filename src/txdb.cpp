@@ -143,7 +143,7 @@ bool CCoinsViewDB::GetStats(CCoinsStats &stats) const {
                 ss << VARINT(0);
             }
             pcursor->Next();
-        } catch (std::exception &e) {
+        } catch (const std::exception& e) {
             return error("%s : Deserialize or I/O error - %s", __func__, e.what());
         }
     }
@@ -223,14 +223,14 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
                 pindexNew->hashProofOfStake = diskindex.hashProofOfStake;
 
                 // Silk: we ignore this check if header was gotten from old client and we still did not download block for it.
-                if (pindexNew->IsProofOfWork() && !CheckProofOfWork(pindexNew->GetBlockHash(), pindexNew->nBits))
+                if (pindexNew->IsProofOfWork() && !CheckProofOfWork(pindexNew->GetBlockHash(), pindexNew->nBits, Params().GetConsensus()))
                     return error("LoadBlockIndex() : CheckProofOfWork failed: %s", pindexNew->ToString());
 
                 pcursor->Next();
             } else {
                 break; // if shutdown requested or finished loading block index
             }
-        } catch (std::exception &e) {
+        } catch (const std::exception& e) {
             return error("%s : Deserialize or I/O error - %s", __func__, e.what());
         }
     }

@@ -7,6 +7,7 @@
 #ifndef SILK_TXDB_H
 #define SILK_TXDB_H
 
+#include "chainparams.h"
 #include "leveldbwrapper.h"
 #include "main.h"
 

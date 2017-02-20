@@ -18,6 +18,7 @@
 #include "compat.h"
 #include "tinyformat.h"
 #include "utiltime.h"
+#include "amount.h"
 
 #include <exception>
 #include <map>
@@ -26,7 +27,18 @@
 #include <vector>
 
 #include <boost/filesystem/path.hpp>
+#include <boost/signals2/signal.hpp>
 #include <boost/thread/exceptions.hpp>
+
+extern int nWalletBackups;
+
+/** Signals for translation. */
+class CTranslationInterface
+{
+public:
+    /** Translate a message to the native language of the user. */
+    boost::signals2::signal<std::string (const char* psz)> Translate;
+};
 
 extern std::map<std::string, std::string> mapArgs;
 extern std::map<std::string, std::vector<std::string> > mapMultiArgs;
@@ -38,6 +50,17 @@ extern std::string strMiscWarning;
 extern bool fLogTimestamps;
 extern bool fLogIPs;
 extern volatile bool fReopenDebugLog;
+extern CTranslationInterface translationInterface;
+
+/**
+ * Translation function: Call Translate signal on UI interface, which returns a boost::optional result.
+ * If no translation slot is registered, nothing is returned, and simply return the input.
+ */
+inline std::string _(const char* psz)
+{
+    boost::optional<std::string> rv = translationInterface.Translate(psz);
+    return rv ? (*rv) : psz;
+}
 
 void SetupEnvironment();
 
@@ -85,7 +108,7 @@ static inline bool error(const char* format)
     return false;
 }
 
-void PrintExceptionContinue(std::exception* pex, const char* pszThread);
+void PrintExceptionContinue(const std::exception* pex, const char* pszThread);
 void ParseParameters(int argc, const char*const argv[]);
 void FileCommit(FILE *fileout);
 bool TruncateFile(FILE *file, unsigned int length);
@@ -95,6 +118,7 @@ bool RenameOver(boost::filesystem::path src, boost::filesystem::path dest);
 bool TryCreateDirectory(const boost::filesystem::path& p);
 boost::filesystem::path GetDefaultDataDir();
 const boost::filesystem::path &GetDataDir(bool fNetSpecific = true);
+const boost::filesystem::path &GetBackupsDir();
 boost::filesystem::path GetConfigFile();
 #ifndef WIN32
 boost::filesystem::path GetPidFile();
@@ -162,6 +186,13 @@ bool SoftSetArg(const std::string& strArg, const std::string& strValue);
  */
 bool SoftSetBoolArg(const std::string& strArg, bool fValue);
 
+/**
+ * Return the number of physical cores available on the current system.
+ * @note This does not count virtual cores, such as those provided by HyperThreading
+ * when boost is newer than 1.56.
+ */
+int GetNumCores();
+
 void SetThreadPriority(int nPriority);
 void RenameThread(const char* name);
 
@@ -192,7 +223,7 @@ template <typename Callable> void LoopForever(const char* name,  Callable func, 
         LogPrintf("%s thread stop\n", name);
         throw;
     }
-    catch (std::exception& e) {
+    catch (const std::exception& e) {
         PrintExceptionContinue(&e, name);
         throw;
     }
@@ -220,7 +251,7 @@ template <typename Callable> void TraceThread(const char* name,  Callable func)
         LogPrintf("%s thread interrupt\n", name);
         throw;
     }
-    catch (std::exception& e) {
+    catch (const std::exception& e) {
         PrintExceptionContinue(&e, name);
         throw;
     }

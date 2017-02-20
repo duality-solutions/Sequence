@@ -46,7 +46,7 @@ config file):
 	HiddenServicePort 16664 127.0.0.1:16664
 
 The directory can be different of course, but (both) port numbers should be equal to
-your silkd's P2P listen port (8333 by default).
+your silkd's P2P listen port (16662 by default).
 
 	-externalip=X   You can tell silk about its publicly reachable address using
 	                this option, and this can be a .onion address. Given the above

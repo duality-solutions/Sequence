@@ -11,6 +11,7 @@
 #include "wallet/db.h"
 #include "uint256hm.h"
 #include "chainparams.h"
+#include "consensus/consensus.h"
 #include "consensus/validation.h"
 #include "util.h"
 #include "wallet/wallet.h"
@@ -44,7 +45,7 @@ int64_t GetWeight(int64_t nIntervalBeginning, int64_t nIntervalEnd)
     // this change increases active coins participating the hash and helps
     // to secure the network when proof-of-stake difficulty is low
 
-    return nIntervalEnd - nIntervalBeginning - Params().StakeMinAge();
+    return nIntervalEnd - nIntervalBeginning - Params().GetConsensus().nStakeMinAge;
 }
 
 // Get the last stake modifier and its generation time from a given block
@@ -65,7 +66,7 @@ static bool GetLastStakeModifier(const CBlockIndex* pindex, uint64_t& nStakeModi
 static int64_t GetStakeModifierSelectionIntervalSection(int nSection)
 {
     assert (nSection >= 0 && nSection < 64);
-    return (Params().ModifierInterval() * 63 / (63 + ((63 - nSection) * (MODIFIER_INTERVAL_RATIO - 1))));
+    return (Params().GetConsensus().nModifierInterval * 63 / (63 + ((63 - nSection) * (MODIFIER_INTERVAL_RATIO - 1))));
 }
 
 // Get stake modifier selection interval (in seconds)
@@ -160,13 +161,13 @@ bool ComputeNextStakeModifier(const CBlockIndex* pindexCurrent, uint64_t& nStake
     }
     if (fDebugPoS)
     {
-        int64_t iIfLeft = (nModifierTime / Params().ModifierInterval());
-        int64_t iIfRight = (pindexPrev->GetBlockTime() / Params().ModifierInterval());
+        int64_t iIfLeft = (nModifierTime / Params().GetConsensus().nModifierInterval);
+        int64_t iIfRight = (pindexPrev->GetBlockTime() / Params().GetConsensus().nModifierInterval);
         LogPrintf("ComputeNextStakeModifier: Check PoS Values, nModifierTime=%u, Params().ModifierInterval()=%u, pindexPrev->GetBlockTime()=%u, left=%u, right=%u\n", 
-            (int64_t)nModifierTime, (int64_t)Params().ModifierInterval(), (int64_t)pindexPrev->GetBlockTime(), iIfLeft, iIfRight);
+            (int64_t)nModifierTime, (int64_t)Params().GetConsensus().nModifierInterval, (int64_t)pindexPrev->GetBlockTime(), iIfLeft, iIfRight);
     }
 
-    if (nModifierTime / Params().ModifierInterval() >= pindexPrev->GetBlockTime() / Params().ModifierInterval())
+    if (nModifierTime / Params().GetConsensus().nModifierInterval >= pindexPrev->GetBlockTime() / Params().GetConsensus().nModifierInterval)
     {
         if (fDebugPoS)
         {
@@ -174,7 +175,7 @@ bool ComputeNextStakeModifier(const CBlockIndex* pindexCurrent, uint64_t& nStake
         }
         return true;
     }
-    if (nModifierTime / Params().ModifierInterval() >= pindexCurrent->GetBlockTime() / Params().ModifierInterval())
+    if (nModifierTime / Params().GetConsensus().nModifierInterval >= pindexCurrent->GetBlockTime() / Params().GetConsensus().nModifierInterval)
     {
         if (fDebugPoS)
         {
@@ -185,9 +186,9 @@ bool ComputeNextStakeModifier(const CBlockIndex* pindexCurrent, uint64_t& nStake
 
     // Sort candidate blocks by timestamp
     vector<pair<int64_t, uint256> > vSortedByTimestamp;
-    vSortedByTimestamp.reserve(64 * Params().ModifierInterval() / Params().PoSTargetSpacing());
+    vSortedByTimestamp.reserve(64 * Params().GetConsensus().nModifierInterval / Params().GetConsensus().nPoSTargetSpacing);
     int64_t nSelectionInterval = GetStakeModifierSelectionInterval();
-    int64_t nSelectionIntervalStart = (pindexPrev->GetBlockTime() / Params().ModifierInterval()) * Params().ModifierInterval() - nSelectionInterval;
+    int64_t nSelectionIntervalStart = (pindexPrev->GetBlockTime() / Params().GetConsensus().nModifierInterval ) * Params().GetConsensus().nModifierInterval - nSelectionInterval;
     const CBlockIndex* pindex = pindexPrev;
     while (pindex && pindex->GetBlockTime() >= nSelectionIntervalStart)
     {
@@ -323,12 +324,12 @@ static bool GetKernelStakeModifier(uint256 hashBlockFrom, uint64_t& nStakeModifi
 
             if(fDebugPoS)
             {
-                int64_t nLetfSide = pindex->GetBlockTime() + Params().StakeMinAge() - nStakeModifierSelectionInterval;
+                int64_t nLetfSide = pindex->GetBlockTime() + Params().GetConsensus().nStakeMinAge - nStakeModifierSelectionInterval;
                 LogPrintf("GetKernelStakeModifier(): reached best block but no PoS; GetBlockTime=%d, StakeMinAge=%d, nLetfSide=%d, nRightSide=%d, ndiff=%d\n", 
-                    pindex->GetBlockTime(), Params().StakeMinAge(), nLetfSide, GetAdjustedTime(), nLetfSide - GetAdjustedTime());
+                    pindex->GetBlockTime(), Params().GetConsensus().nStakeMinAge, nLetfSide, GetAdjustedTime(), nLetfSide - GetAdjustedTime());
             }
 
-            if (fPrintProofOfStake || (pindex->GetBlockTime() + Params().StakeMinAge() - nStakeModifierSelectionInterval > GetAdjustedTime()))
+            if (fPrintProofOfStake || (pindex->GetBlockTime() + Params().GetConsensus().nStakeMinAge - nStakeModifierSelectionInterval > GetAdjustedTime()))
                 return error("GetKernelStakeModifier() : reached best block %s at height %d from block %s",
                     pindex->GetBlockHash().ToString(), pindex->nHeight, hashBlockFrom.ToString());
             else
@@ -391,7 +392,6 @@ static bool GetKernelStakeModifier(uint256 hashBlockFrom, uint64_t& nStakeModifi
 //
 bool CheckStakeKernelHash(unsigned int nBits, const CBlock& blockFrom, unsigned int nTxPrevOffset, const CTransaction& txPrev, const COutPoint& prevout, unsigned int nTimeTx, uint256& hashProofOfStake, bool fPrintProofOfStake)
 {
-
     if(fDebugPoS) 
         LogPrintf("CheckStakeKernelHash() function called.\n");
 
@@ -399,7 +399,7 @@ bool CheckStakeKernelHash(unsigned int nBits, const CBlock& blockFrom, unsigned 
         return error("CheckStakeKernelHash() : nTime violation");
 
     unsigned int nTimeBlockFrom = blockFrom.GetBlockTime();
-    if (nTimeBlockFrom + Params().StakeMinAge() > nTimeTx) // Min age requirement
+    if (nTimeBlockFrom + Params().GetConsensus().nStakeMinAge > nTimeTx) // Min age requirement
         return error("CheckStakeKernelHash() : min age violation");
 
     uint256 bnTargetPerCoinDay;
@@ -408,7 +408,7 @@ bool CheckStakeKernelHash(unsigned int nBits, const CBlock& blockFrom, unsigned 
     // v0.3 protocol kernel hash weight starts from 0 at the 30-day min age
     // this change increases active coins participating the hash and helps
     // to secure the network when proof-of-stake difficulty is low
-    int64_t nTimeWeight = min((int64_t)nTimeTx - txPrev.nTime, Params().StakeMaxAge()) - (Params().StakeMinAge());
+    int64_t nTimeWeight = min((int64_t)nTimeTx - txPrev.nTime, Params().GetConsensus().nStakeMaxAge) - (Params().GetConsensus().nStakeMinAge);
     uint256 bnCoinDayWeight = uint256(nValueIn) * nTimeWeight / COIN / (24 * 60 * 60);
     // Calculate hash
     CDataStream ss(SER_GETHASH, 0);
@@ -472,7 +472,7 @@ bool CheckProofOfStake(CValidationState& state,const CTransaction& tx, unsigned 
     // First try finding the previous transaction in database
     CTransaction txTmp;
     uint256 hashBlock = 0;
-    if (!GetTransaction(txin.prevout.hash, txTmp, hashBlock))
+    if (!GetTransaction(txin.prevout.hash, txTmp, Params().GetConsensus(), hashBlock))
         return state.DoS(1, error("CheckProofOfStake() : txPrev not found")); // previous transaction not in main chain, may occur during initial download
 
     // Verify signature
@@ -494,7 +494,7 @@ bool CheckProofOfStake(CValidationState& state,const CTransaction& tx, unsigned 
             file >> header;
             fseek(file.Get(), postx.nTxOffset, SEEK_CUR);
             file >> txPrev;
-        } catch (std::exception& e) {
+        } catch (const std::exception& e) {
             return error("%s() : deserialize or I/O error in CheckProofOfStake()", __PRETTY_FUNCTION__);
         }
         if (txPrev.GetHash() != txin.prevout.hash)
@@ -517,7 +517,7 @@ bool CheckCoinStakeTimestamp(int64_t nTimeBlock, int64_t nTimeTx)
 // Get stake modifier checksum
 unsigned int GetStakeModifierChecksum(const CBlockIndex* pindex)
 {
-    assert (pindex->pprev || pindex->GetBlockHash() == Params().HashGenesisBlock());
+    assert (pindex->pprev || pindex->GetBlockHash() == Params().GetConsensus().hashGenesisBlock);
     // Hash previous checksum with flags, hashProofOfStake and nStakeModifier
     CDataStream ss(SER_GETHASH, 0);
     if (pindex->pprev)

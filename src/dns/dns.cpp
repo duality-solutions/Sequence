@@ -54,7 +54,7 @@ bool CTransaction::ReadFromDisk(const CDiskTxPos& postx)
         file >> header;
         fseek(file.Get(), postx.nTxOffset, SEEK_CUR);
         file >> *this;
-    } catch (std::exception& e) {
+    } catch (const std::exception& e) {
         return error("%s() : deserialize or I/O error\n%s", __PRETTY_FUNCTION__, e.what());
     }
     return true;
@@ -1305,7 +1305,7 @@ bool createNameIndexFile()
             {
                 CTransaction txPrev;
                 uint256 hashBlock = 0;
-                if (!GetTransaction(txin.prevout.hash, txPrev, hashBlock))
+                if (!GetTransaction(txin.prevout.hash, txPrev, Params().GetConsensus(), hashBlock))
                     return error("createNameIndexFile() : prev transaction not found");
 
                 input += txPrev.vout[txin.prevout.n].nValue;

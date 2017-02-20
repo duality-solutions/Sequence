@@ -140,4 +140,6 @@ private:
 
 bool BackupWallet(const CWallet& wallet, const std::string& strDest);
 
+bool AutoBackupWallet (CWallet* wallet, std::string strWalletFile, std::string& strBackupWarning, std::string& strBackupError);
+
 #endif // SILK_WALLETDB_H

@@ -5,15 +5,17 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "rpc/rpcserver.h"
-
+#include "chainparams.h"
+#include "checkpoints.h"
 #include "clientversion.h"
 #include "main.h"
 #include "net.h"
 #include "netbase.h"
-#include "ntp.h"
+#include "ntp.h"       
 #include "protocol.h"
 #include "sync.h"
 #include "timedata.h"
+#include "ui_interface.h"
 #include "util.h"
 #include "version.h"
 
@@ -176,8 +178,8 @@ UniValue addnode(const UniValue& params, bool fHelp)
             "1. \"node\"     (string, required) The node (see getpeerinfo for nodes)\n"
             "2. \"command\"  (string, required) 'add' to add a node to the list, 'remove' to remove a node from the list, 'onetry' to try a connection to the node once\n"
             "\nExamples:\n"
-            + HelpExampleCli("addnode", "\"192.168.0.6:8333\" \"onetry\"")
-            + HelpExampleRpc("addnode", "\"192.168.0.6:8333\", \"onetry\"")
+            + HelpExampleCli("addnode", "\"192.168.0.6:16662\" \"onetry\"")
+            + HelpExampleRpc("addnode", "\"192.168.0.6:16662\", \"onetry\"")
         );
 
     string strNode = params[0].get_str();
@@ -230,7 +232,7 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
             "    \"connected\" : true|false,          (boolean) If connected\n"
             "    \"addresses\" : [\n"
             "       {\n"
-            "         \"address\" : \"192.168.0.201:8333\",  (string) The Silk server host and port\n"
+            "         \"address\" : \"192.168.0.201:16662\",  (string) The Silk server host and port\n"
             "         \"connected\" : \"outbound\"           (string) connection, inbound or outbound\n"
             "       }\n"
             "       ,...\n"
@@ -367,7 +369,8 @@ static UniValue GetNetworksInfo()
         obj.push_back(Pair("name", GetNetworkName(network)));
         obj.push_back(Pair("limited", IsLimited(network)));
         obj.push_back(Pair("reachable", IsReachable(network)));
-        obj.push_back(Pair("proxy", proxy.IsValid() ? proxy.ToStringIPPort() : string()));
+        obj.push_back(Pair("proxy", proxy.IsValid() ? proxy.proxy.ToStringIPPort() : string()));
+        obj.push_back(Pair("proxy_randomize_credentials", proxy.randomize_credentials));
         networks.push_back(obj);
     }
     return networks;
@@ -382,7 +385,7 @@ UniValue getnetworkinfo(const UniValue& params, bool fHelp)
             "\nResult:\n"
             "{\n"
             "  \"version\": xxxxx,                      (numeric) the server version\n"
-            "  \"subversion\": \"/Satoshi:x.x.x/\",     (string) the server subversion string\n"
+            "  \"subversion\": \"/Silk Core:x.x.x/\",   (string) the server subversion string\n"
             "  \"protocolversion\": xxxxx,              (numeric) the protocol version\n"
             "  \"localservices\": \"xxxxxxxxxxxxxxxx\", (string) the services we offer to the network\n"
             "  \"timeoffset\": xxxxx,                   (numeric) the time offset\n"
@@ -413,8 +416,7 @@ UniValue getnetworkinfo(const UniValue& params, bool fHelp)
 
     UniValue obj(UniValue::VOBJ);
     obj.push_back(Pair("version",       CLIENT_VERSION));
-    obj.push_back(Pair("subversion",
-        FormatSubVersion(CLIENT_NAME, CLIENT_VERSION, std::vector<string>())));
+    obj.push_back(Pair("subversion",    strSubVersion));
     obj.push_back(Pair("protocolversion",PROTOCOL_VERSION));
     obj.push_back(Pair("localservices",       strprintf("%016x", nLocalServices)));
     obj.push_back(Pair("timeoffset",    GetTimeOffset()));
@@ -458,29 +460,144 @@ UniValue getcheckpoint(const UniValue& params, bool fHelp)
     return result;
 }
 
-UniValue ntptime(const UniValue& params, bool fHelp)
+UniValue setban(const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() > 1)
+    string strCommand;
+    if (params.size() >= 2)
+        strCommand = params[1].get_str();
+    if (fHelp || params.size() < 2 ||
+        (strCommand != "add" && strCommand != "remove"))
         throw runtime_error(
-            "ntptime [ntpserver]\n"
-            "Returns current time from specific or random NTP server.");
+                            "setban \"ip(/netmask)\" \"add|remove\" (bantime) (absolute)\n"
+                            "\nAttempts add or remove a IP/Subnet from the banned list.\n"
+                            "\nArguments:\n"
+                            "1. \"ip(/netmask)\" (string, required) The IP/Subnet (see getpeerinfo for nodes ip) with a optional netmask (default is /32 = single ip)\n"
+                            "2. \"command\"      (string, required) 'add' to add a IP/Subnet to the list, 'remove' to remove a IP/Subnet from the list\n"
+                            "3. \"bantime\"      (numeric, optional) time in seconds how long (or until when if [absolute] is set) the ip is banned (0 or empty means using the default time of 24h which can also be overwritten by the -bantime startup argument)\n"
+                            "4. \"absolute\"     (boolean, optional) If set, the bantime must be a absolute timestamp in seconds since epoch (Jan 1 1970 GMT)\n"
+                            "\nExamples:\n"
+                            + HelpExampleCli("setban", "\"192.168.0.6\" \"add\" 86400")
+                            + HelpExampleCli("setban", "\"192.168.0.0/24\" \"add\"")
+                            + HelpExampleRpc("setban", "\"192.168.0.6\", \"add\" 86400")
+                            );
 
-    int64_t nTime;
-    if (params.size() > 0)
-    {
-        std::string strHostName = params[0].get_str();
-        nTime = NtpGetTime(strHostName);
-    }
+    CSubNet subNet;
+    CNetAddr netAddr;
+    bool isSubnet = false;
+
+    if (params[0].get_str().find("/") != string::npos)
+        isSubnet = true;
+
+    if (!isSubnet)
+        netAddr = CNetAddr(params[0].get_str());
     else
-        nTime = NtpGetTime(nullptr);
+        subNet = CSubNet(params[0].get_str());
 
-    if (nTime < 0)
-        throw runtime_error("Request error");
+    if (! (isSubnet ? subNet.IsValid() : netAddr.IsValid()) )
+        throw JSONRPCError(RPC_CLIENT_NODE_ALREADY_ADDED, "Error: Invalid IP/Subnet");
 
-    UniValue obj(UniValue::VOBJ);
-    obj.push_back(Pair("epoch", nTime));
-    obj.push_back(Pair("time", DateTimeStrFormat(nTime)));
-    return obj;
+    if (strCommand == "add")
+    {
+        if (isSubnet ? CNode::IsBanned(subNet) : CNode::IsBanned(netAddr))
+            throw JSONRPCError(RPC_CLIENT_NODE_ALREADY_ADDED, "Error: IP/Subnet already banned");
+
+        int64_t banTime = 0; //use standard bantime if not specified
+        if (params.size() >= 3 && !params[2].isNull())
+            banTime = params[2].get_int64();
+
+        bool absolute = false;
+        if (params.size() == 4 && params[3].isTrue())
+            absolute = true;
+
+        isSubnet ? CNode::Ban(subNet, BanReasonManuallyAdded, banTime, absolute) : CNode::Ban(netAddr, BanReasonManuallyAdded, banTime, absolute);
+
+        //disconnect possible nodes
+        while(CNode *bannedNode = (isSubnet ? FindNode(subNet) : FindNode(netAddr)))
+            bannedNode->fDisconnect = true;
+    }
+    else if(strCommand == "remove")
+    {
+        if (!( isSubnet ? CNode::Unban(subNet) : CNode::Unban(netAddr) ))
+            throw JSONRPCError(RPC_MISC_ERROR, "Error: Unban failed");
+    }
+
+    DumpBanlist(); //store banlist to disk
+    uiInterface.BannedListChanged();
+
+    return NullUniValue;
+}
+
+UniValue listbanned(const UniValue& params, bool fHelp)
+{
+    if (fHelp || params.size() != 0)
+        throw runtime_error(
+                            "listbanned\n"
+                            "\nList all banned IPs/Subnets.\n"
+                            "\nExamples:\n"
+                            + HelpExampleCli("listbanned", "")
+                            + HelpExampleRpc("listbanned", "")
+                            );
+
+    banmap_t banMap;
+    CNode::GetBanned(banMap);
+
+    UniValue bannedAddresses(UniValue::VARR);
+    for (banmap_t::iterator it = banMap.begin(); it != banMap.end(); it++)
+    {
+        CBanEntry banEntry = (*it).second;
+        UniValue rec(UniValue::VOBJ);
+        rec.push_back(Pair("address", (*it).first.ToString()));
+        rec.push_back(Pair("banned_until", banEntry.nBanUntil));
+        rec.push_back(Pair("ban_created", banEntry.nCreateTime));
+        rec.push_back(Pair("ban_reason", banEntry.banReasonToString()));
+
+        bannedAddresses.push_back(rec);
+    }
+
+    return bannedAddresses;
+}
+
+UniValue clearbanned(const UniValue& params, bool fHelp)
+{
+    if (fHelp || params.size() != 0)
+        throw runtime_error(
+                            "clearbanned\n"
+                            "\nClear all banned IPs.\n"
+                            "\nExamples:\n"
+                            + HelpExampleCli("clearbanned", "")
+                            + HelpExampleRpc("clearbanned", "")
+                            );
+
+    CNode::ClearBanned();
+    DumpBanlist(); //store banlist to disk
+    uiInterface.BannedListChanged();
+
+    return NullUniValue;
+}
+
+UniValue ntptime(const UniValue& params, bool fHelp)       
+{     
+    if (fHelp || params.size() > 1)       
+        throw runtime_error(      
+            "ntptime [ntpserver]\n"       
+            "Returns current time from specific or random NTP server.");      
+      
+    int64_t nTime;        
+    if (params.size() > 0)        
+    {     
+        std::string strHostName = params[0].get_str();        
+        nTime = NtpGetTime(strHostName);      
+    }     
+    else      
+        nTime = NtpGetTime(nullptr);      
+      
+    if (nTime < 0)        
+        throw runtime_error("Request error");     
+      
+    UniValue obj(UniValue::VOBJ);     
+    obj.push_back(Pair("epoch", nTime));      
+    obj.push_back(Pair("time", DateTimeStrFormat(nTime)));        
+    return obj;       
 }
 
 static const CRPCCommand commands[] =
@@ -494,7 +611,7 @@ static const CRPCCommand commands[] =
     { "network",            "getpeerinfo",            &getpeerinfo,            true,      false,      false },
     { "network",            "ping",                   &ping,                   true,      false,      false },
     { "network",            "getcheckpoint",          &getcheckpoint,          false,     false,      false },
-    { "network",            "ntptime",                &ntptime,                true,      true,       false },
+    { "network",            "ntptime",                &ntptime,                true,      true,       false },     
 };
 
 void RegisterNetRPCCommands(CRPCTable &tableRPC)

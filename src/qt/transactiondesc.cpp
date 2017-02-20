@@ -12,12 +12,13 @@
 #include "transactionrecord.h"
 
 #include "base58.h"
-#include "wallet/db.h"
+#include "consensus/consensus.h"
 #include "main.h"
 #include "script/script.h"
 #include "timedata.h"
 #include "ui_interface.h"
 #include "util.h"
+#include "wallet/db.h"
 #include "wallet/wallet.h"
 
 #include <stdint.h>
@@ -264,7 +265,7 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, TransactionReco
         }
     }
 
-    quint32 numBlocksToMaturity = Params().CoinbaseMaturity() +  1;
+    quint32 numBlocksToMaturity = COINBASE_MATURITY +  1;
     if (wtx.IsCoinBase())
         strHTML += "<br>" + tr("Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to \"not accepted\" and it won't be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.").arg(QString::number(numBlocksToMaturity)) + "<br>";
     if (wtx.IsCoinStake())
@@ -296,7 +297,7 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, TransactionReco
 
             CTransaction txPrev;
             uint256 hashBlock = 0;
-            if (GetTransaction(prevout.hash, txPrev, hashBlock))
+            if (GetTransaction(prevout.hash, txPrev, Params().GetConsensus(), hashBlock))
             {
                 strHTML += "<li>";
                 const CTxOut &vout = txPrev.vout[prevout.n];

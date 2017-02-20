@@ -30,8 +30,7 @@ std::string HelpMessageCli()
     strUsage += "  -datadir=<dir>         " + _("Specify data directory") + "\n";
     strUsage += "  -testnet               " + _("Use the test network") + "\n";
     strUsage += "  -regtest               " + _("Enter regression test mode, which uses a special chain in which blocks can be "
-                                                "solved instantly. This is intended for regression testing tools and app development.") + "\n";
-    strUsage += "  -rpcconnect=<ip>       " + strprintf(_("Send commands to node running on <ip> (default: %s)"), "127.0.0.1") + "\n";
+                                                "solved instantly. This is intended for regression testing tools and app development.") + "\n";    strUsage += "  -rpcconnect=<ip>       " + strprintf(_("Send commands to node running on <ip> (default: %s)"), "127.0.0.1") + "\n";
     strUsage += "  -rpcport=<port>        " + strprintf(_("Connect to JSON-RPC on <port> (default: %u or testnet: %u)"), 16663, 16665) + "\n";
     strUsage += "  -rpcwait               " + _("Wait for RPC server to start") + "\n";
     strUsage += "  -rpcuser=<user>        " + _("Username for JSON-RPC connections") + "\n";
@@ -88,14 +87,16 @@ static bool AppInitRPC(int argc, char* argv[])
     }
     try {
         ReadConfigFile(mapArgs, mapMultiArgs);
-    } catch(std::exception &e) {
+    } catch(const std::exception& e) {
         fprintf(stderr,"Error reading configuration file: %s\n", e.what());
         return false;
     }
     // Check for -testnet or -regtest parameter (BaseParams() calls are only valid after this clause)
-    if (!SelectBaseParamsFromCommandLine()) {
-        fprintf(stderr, "Error: Invalid combination of -regtest and -testnet.\n");
-        return false;
+    try {
+        SelectBaseParams(ChainNameFromCommandLine());
+    } catch (const std::exception& e) {
+        fprintf(stderr, "Error: %s\n", e.what());
+        return EXIT_FAILURE;
     }
     return true;
 }
@@ -236,7 +237,7 @@ int CommandLineRPC(int argc, char *argv[])
     catch (boost::thread_interrupted) {
         throw;
     }
-    catch (std::exception& e) {
+    catch (const std::exception& e) {
         strPrint = string("error: ") + e.what();
         nRet = EXIT_FAILURE;
     }
@@ -259,7 +260,7 @@ int main(int argc, char* argv[])
         if(!AppInitRPC(argc, argv))
             return EXIT_FAILURE;
     }
-    catch (std::exception& e) {
+    catch (const std::exception& e) {
         PrintExceptionContinue(&e, "AppInitRPC()");
         return EXIT_FAILURE;
     } catch (...) {
@@ -271,7 +272,7 @@ int main(int argc, char* argv[])
     try {
         ret = CommandLineRPC(argc, argv);
     }
-    catch (std::exception& e) {
+    catch (const std::exception& e) {
         PrintExceptionContinue(&e, "CommandLineRPC()");
     } catch (...) {
         PrintExceptionContinue(NULL, "CommandLineRPC()");

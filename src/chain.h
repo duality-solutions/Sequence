@@ -49,6 +49,11 @@ struct CDiskBlockPos
 
     void SetNull() { nFile = -1; nPos = 0; }
     bool IsNull() const { return (nFile == -1); }
+
+    std::string ToString() const
+    {
+        return strprintf("CBlockDiskPos(nFile=%i, nPos=%i)", nFile, nPos);
+    }
 };
 
 enum BlockStatus {
@@ -119,7 +124,7 @@ public:
     unsigned int nUndoPos;
 
     //! (memory only) Total amount of trust score (ppcoin proof-of-stake difficulty) in the chain up to and including this block
-    uint256 nChainTrust;
+    uint256 nChainWork;
 
     //! Number of transactions in this block.
     //! Note: in a potential headers-first mode, this number cannot be relied upon
@@ -207,9 +212,9 @@ public:
         nFile = 0;
         nDataPos = 0;
         nUndoPos = 0;
-        nChainTrust = 0;
-        nTx = 0;
+        nChainWork = 0;
         nChainTx = 0;
+        nTx = 0;
         nStatus = 0;
         nSequenceId = 0;
 
@@ -302,14 +307,6 @@ public:
         std::sort(pbegin, pend);
         return pbegin[(pend - pbegin)/2];
     }
-
-    /**
-     * Returns true if there are nRequired or more blocks of minVersion or above
-     * in the last Params().ToCheckBlockUpgradeMajority() blocks, starting at pstart 
-     * and going backwards.
-     */
-    static bool IsSuperMajority(int minVersion, const CBlockIndex* pstart,
-                                unsigned int nRequired);
 
     std::string ToString() const
     {

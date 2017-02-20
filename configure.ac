@@ -1,8 +1,8 @@
 dnl require autoconf 2.60 (AS_ECHO/AS_ECHO_N)
 AC_PREREQ([2.60])
 define(_CLIENT_VERSION_MAJOR, 1)
-define(_CLIENT_VERSION_MINOR, 1)
-define(_CLIENT_VERSION_REVISION, 1)
+define(_CLIENT_VERSION_MINOR, 2)
+define(_CLIENT_VERSION_REVISION, 0)
 define(_CLIENT_VERSION_BUILD, 0)
 define(_CLIENT_VERSION_IS_RELEASE, true)
 define(_COPYRIGHT_YEAR, 2017)
@@ -853,7 +853,7 @@ AC_MSG_RESULT($build_silk_utils)
 AC_MSG_CHECKING([whether to build libraries])
 AM_CONDITIONAL([BUILD_SILK_LIBS], [test x$build_silk_libs = xyes])
 if test x$build_silk_libs = xyes; then
-  AC_DEFINE(HAVE_CONSENSUS_LIB, 1, [Define this symbol if the consensus lib has been built])
+  AC_CONFIG_FILES([libsilkconsensus.pc:libsilkconsensus.pc.in])
 fi
 AC_MSG_RESULT($build_silk_libs)
 

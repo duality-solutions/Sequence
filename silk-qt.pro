@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = Silk
-VERSION = 1.1.1.0
+VERSION = 1.2.0.0
 
 # for boost 1.37, add -mt to the boost libraries
 # use: qmake BOOST_LIB_SUFFIX=-mt
@@ -369,7 +369,6 @@ DISTFILES += \
             .travis.yml
 
 HEADERS += \
-    src/addrdb.h \
     src/wallet/walletdb.h \
     src/wallet/wallet.h \
     src/wallet/wallet_ismine.h \
@@ -402,7 +401,7 @@ HEADERS += \
     src/noui.h \
     src/netbase.h \
     src/net.h \
-    src/ntp.h \
+    src/ntp.h \        
     src/mruset.h \
     src/miner.h \
     src/merkleblock.h \
@@ -443,9 +442,10 @@ HEADERS += \
     src/torcontrol.h \
     src/reverselock.h \
     src/scheduler.h \
-    src/netaddress.h \
+    src/validationinterface.h \
     src/consensus/consensus.h \
     src/consensus/merkle.h \
+    src/consensus/params.h \
     src/consensus/validation.h \
     src/primitives/block.h \
     src/primitives/transaction.h \
@@ -515,6 +515,7 @@ HEADERS += \
     src/qt/coincontroldialog.h \
     src/qt/clientmodel.h \
     src/qt/calcdialog.h \
+    src/qt/bantablemodel.h \
     src/qt/askpassphrasedialog.h \
     src/qt/addresstablemodel.h \
     src/qt/addressbookpage.h \
@@ -552,7 +553,6 @@ FORMS += \
     src/qt/forms/transactiondescdialog.ui
 
 SOURCES += \
-    src/addrdb.cpp \
     src/addrman.cpp \
     src/alert.cpp \
     src/allocators.cpp \
@@ -586,15 +586,15 @@ SOURCES += \
     src/net.cpp \
     src/netbase.cpp \
     src/noui.cpp \
-    src/ntp.cpp \
+    src/ntp.cpp \      
     src/pow.cpp \
     src/protocol.cpp \
     src/pubkey.cpp \
     src/random.cpp \
     src/rest.cpp \
     src/torcontrol.cpp \
-    src/netaddress.cpp \
     src/scheduler.cpp \
+    src/validationinterface.cpp \
     src/rpc/rpcblockchain.cpp \
     src/rpc/rpcclient.cpp \
     src/wallet/rpcdump.cpp \
@@ -638,6 +638,7 @@ SOURCES += \
     src/qt/addressbookpage.cpp \
     src/qt/addresstablemodel.cpp \
     src/qt/askpassphrasedialog.cpp \
+    src/qt/bantablemodel.cpp \
     src/qt/calcdialog.cpp \
     src/qt/clientmodel.cpp \
     src/qt/coincontroldialog.cpp \

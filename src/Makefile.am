@@ -83,7 +83,6 @@ endif
 .PHONY: FORCE
 # Silk Core #
 SILK_CORE_H = \
-  addrdb.h \
   addrman.h \
   alert.h \
   allocators.h \
@@ -106,6 +105,9 @@ SILK_CORE_H = \
   compat/sanity.h \
   compressor.h \
   consensus/consensus.h \
+  consensus/merkle.h \
+  consensus/params.h \
+  consensus/validation.h \
   primitives/block.h \
   primitives/transaction.h \
   core_io.h \
@@ -126,10 +128,9 @@ SILK_CORE_H = \
   miner.h \
   mruset.h \
   netbase.h \
-  netaddress.h \
   net.h \
   noui.h \
-  ntp.h \
+  ntp.h \    
   pow.h \
   protocol.h \
   pubkey.h \
@@ -160,6 +161,7 @@ SILK_CORE_H = \
   utilstrencodings.h \
   utilmoneystr.h \
   utiltime.h \
+  validationinterface.h \
   version.h \
   wallet/wallet.h \
   wallet/wallet_ismine.h \
@@ -185,7 +187,6 @@ libsilk_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES) $(MINIUPNPC_CPPFLAGS
 libsilk_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_server_a_SOURCES = \
   addrman.cpp \
-  addrdb.cpp \
   alert.cpp \
   bloom.cpp \
   chain.cpp \
@@ -197,7 +198,7 @@ libsilk_server_a_SOURCES = \
   miner.cpp \
   net.cpp \
   noui.cpp \
-  ntp.cpp \
+  ntp.cpp \    
   pow.cpp \
   rest.cpp \
   rpc/rpcblockchain.cpp \
@@ -209,6 +210,7 @@ libsilk_server_a_SOURCES = \
   script/sigcache.cpp \
   txdb.cpp \
   txmempool.cpp \
+  validationinterface.cpp \
 ## --- ppcoin and silk sources start from this line --- ##
   kernel.cpp \
   dns/dns.cpp \
@@ -255,7 +257,7 @@ crypto_libsilk_crypto_a_SOURCES = \
 
 # common: shared between silkd, and silk-qt and non-server tools
 libsilk_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
-libsilk_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libsilk_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_common_a_SOURCES = \
   allocators.cpp \
   amount.cpp \
@@ -263,10 +265,7 @@ libsilk_common_a_SOURCES = \
   chainparams.cpp \
   coins.cpp \
   compressor.cpp \
-  consensus/merkle.h \
   consensus/merkle.cpp \
-  consensus/params.h \
-  consensus/validation.h \
   primitives/block.cpp \
   primitives/transaction.cpp \
   core_read.cpp \
@@ -277,7 +276,6 @@ libsilk_common_a_SOURCES = \
   key.cpp \
   keystore.cpp \
   netbase.cpp \
-  netaddress.cpp \
   protocol.cpp \
   pubkey.cpp \
   scheduler.cpp \
@@ -387,6 +385,7 @@ silk_tx_LDADD = \
 silk_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
+# silkconsensus library #
 if BUILD_SILK_LIBS
 include_HEADERS = script/silkconsensus.h
 libsilkconsensus_la_SOURCES = \
@@ -411,22 +410,25 @@ if GLIBC_BACK_COMPAT
   libsilkconsensus_la_SOURCES += compat/glibc_compat.cpp
 endif
 
-libsilkconsensus_la_LDFLAGS = -no-undefined $(RELDFLAGS)
-libsilkconsensus_la_LIBADD = $(CRYPTO_LIBS)
-libsilkconsensus_la_CPPFLAGS = $(CRYPTO_CFLAGS) -I$(builddir)/obj -DBUILD_SILK_INTERNAL
-if USE_LIBSECP256K1
-libsilkconsensus_la_LIBADD += secp256k1/libsecp256k1.la
-endif
+libsilkconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
+libsilkconsensus_la_LIBADD = $(LIBSECP256K1)
+libsilkconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_SILK_INTERNAL
+libsilkconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+
 endif
 
-CLEANFILES = $(EXTRA_LIBRARIES)
-
+CLEANFILES = leveldb/libleveldb.a leveldb/libmemenv.a
 CLEANFILES += *.gcda *.gcno
 CLEANFILES += compat/*.gcda compat/*.gcno
+CLEANFILES += consensus/*.gcda consensus/*.gcno
 CLEANFILES += crypto/*.gcda crypto/*.gcno
+CLEANFILES += policy/*.gcda policy/*.gcno
 CLEANFILES += primitives/*.gcda primitives/*.gcno
 CLEANFILES += script/*.gcda script/*.gcno
+CLEANFILES += support/*.gcda support/*.gcno
 CLEANFILES += univalue/*.gcda univalue/*.gcno
+CLEANFILES += wallet/*.gcda wallet/*.gcno
+CLEANFILES += wallet/test/*.gcda wallet/test/*.gcno
 
 DISTCLEANFILES = obj/build.h
 

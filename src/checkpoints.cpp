@@ -30,14 +30,9 @@ namespace Checkpoints {
      */
     static const double SIGCHECK_VERIFICATION_FACTOR = 5.0;
 
-    bool fEnabled = true;
-
-    bool CheckBlock(int nHeight, const uint256& hash)
+    bool CheckBlock(const CCheckpointData& data, int nHeight, const uint256& hash)
     {
-        if (!fEnabled)
-            return true;
-
-        const MapCheckpoints& checkpoints = *Params().Checkpoints().mapCheckpoints;
+        const MapCheckpoints& checkpoints = data.mapCheckpoints;
 
         MapCheckpoints::const_iterator i = checkpoints.find(nHeight);
         if (i == checkpoints.end()) return true;
@@ -45,7 +40,7 @@ namespace Checkpoints {
     }
 
     //! Guess how far we are in the verification process at the given block index
-    double GuessVerificationProgress(CBlockIndex *pindex, bool fSigchecks) {
+    double GuessVerificationProgress(const CCheckpointData& data, CBlockIndex *pindex, bool fSigchecks) {
         if (pindex==NULL)
             return 0.0;
 
@@ -56,8 +51,6 @@ namespace Checkpoints {
         double fWorkAfter = 0.0;  // Amount of work left after pindex (estimated)
         // Work is defined as: 1.0 per transaction before the last checkpoint, and
         // fSigcheckVerificationFactor per transaction after.
-
-        const CCheckpointData &data = Params().Checkpoints();
 
         if (pindex->nChainTx <= data.nTransactionsLastCheckpoint) {
             double nCheapBefore = pindex->nChainTx;
@@ -76,22 +69,19 @@ namespace Checkpoints {
         return fWorkBefore / (fWorkBefore + fWorkAfter);
     }
 
-    int GetTotalBlocksEstimate()
+    int GetTotalBlocksEstimate(const CCheckpointData& data)
     {
-        if (!fEnabled)
-            return 0;
+        const MapCheckpoints& checkpoints = data.mapCheckpoints;
 
-        const MapCheckpoints& checkpoints = *Params().Checkpoints().mapCheckpoints;
+        if (checkpoints.empty())
+            return 0;
 
         return checkpoints.rbegin()->first;
     }
 
-    CBlockIndex* GetLastCheckpoint()
+    CBlockIndex* GetLastCheckpoint(const CCheckpointData& data)
     {
-        if (!fEnabled)
-            return NULL;
-
-        const MapCheckpoints& checkpoints = *Params().Checkpoints().mapCheckpoints;
+        const MapCheckpoints& checkpoints = data.mapCheckpoints;
 
         BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type& i, checkpoints)
         {
@@ -103,9 +93,9 @@ namespace Checkpoints {
         return NULL;
     }
 
-    uint256 GetLatestHardenedCheckpoint()
+    uint256 GetLatestHardenedCheckpoint(const CCheckpointData& data)
     {
-        const MapCheckpoints& checkpoints = *Params().Checkpoints().mapCheckpoints;
+        const MapCheckpoints& checkpoints = data.mapCheckpoints;
         return (checkpoints.rbegin()->second);
     }
 
@@ -131,6 +121,7 @@ uint256 hashPendingCheckpoint = 0;
 CSyncCheckpoint checkpointMessage;
 CSyncCheckpoint checkpointMessagePending;
 uint256 hashInvalidCheckpoint = 0;
+CCriticalSection cs_hashSyncCheckpoint;        
 
 // ppcoin: only descendant of current sync-checkpoint is allowed
 bool ValidateSyncCheckpoint(uint256 hashCheckpoint)
@@ -189,7 +180,7 @@ bool WriteSyncCheckpoint(const uint256& hashCheckpoint)
 
 bool AcceptPendingSyncCheckpoint()
 {
-    LOCK(cs_main);
+    LOCK(cs_hashSyncCheckpoint);
     bool fHavePendingBlock = mapBlockIndex.count(hashPendingCheckpoint) && (mapBlockIndex[hashPendingCheckpoint]->nStatus & BLOCK_HAVE_DATA);
     if (hashPendingCheckpoint != 0 && fHavePendingBlock)
     {
@@ -207,7 +198,8 @@ bool AcceptPendingSyncCheckpoint()
                 return false;
 
             CValidationState state;
-            if (!ActivateBestChain(state, NULL, pindexCheckpoint))
+            const CChainParams& chainparams = Params();
+            if (!ActivateBestChain(state, chainparams, NULL, pindexCheckpoint))
             {
                 hashInvalidCheckpoint = hashPendingCheckpoint;
                 return error("AcceptPendingSyncCheckpoint: SetBestChain failed for sync checkpoint %s", hashPendingCheckpoint.ToString());
@@ -269,7 +261,7 @@ uint256 AutoSelectSyncCheckpoint()
     // Select the last proof-of-work block
     const CBlockIndex *pindex = GetLastBlockIndex(pindexBest, false);
     // Search forward for a block within max span and maturity window
-    while (pindex->pnext && (pindex->GetBlockTime() + CHECKPOINT_MAX_SPAN <= pindexBest->GetBlockTime() || pindex->nHeight + std::min(10, nCoinbaseMaturity) <= pindexBest->nHeight))
+    while (pindex->pnext && (pindex->GetBlockTime() + CHECKPOINT_MAX_SPAN <= pindexBest->GetBlockTime() || pindex->nHeight + std::min(10, 10) <= pindexBest->nHeight))
         pindex = pindex->pnext;
     return pindex->GetBlockHash();
 #endif
@@ -278,7 +270,7 @@ uint256 AutoSelectSyncCheckpoint()
 // Check against synchronized checkpoint
 bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev)
 {
-    LOCK(cs_main);
+    LOCK(cs_hashSyncCheckpoint);
     assert(pindexPrev != NULL);
     static bool fMain = Params().NetworkIDString() == "main";
     if (!fMain) return true; // Testnet has no checkpoints
@@ -309,7 +301,7 @@ bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev)
 // ppcoin: reset synchronized checkpoint to last hardened checkpoint
 /*bool ResetSyncCheckpoint()
 {
-    LOCK(cs_main);
+    LOCK(cs_hashSyncCheckpoint);
     const uint256& hash = Checkpoints::GetLatestHardenedCheckpoint();
     bool fHaveBlock = mapBlockIndex.count(hash) && (mapBlockIndex[hash]->nStatus & BLOCK_HAVE_DATA);
     if (fHaveBlock && !chainActive.Contains(mapBlockIndex[hash]))
@@ -320,7 +312,7 @@ bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev)
 
         LogPrintf("ResetSyncCheckpoint: SetBestChain to hardened checkpoint %s\n", hash.ToString());
         CValidationState state;
-        if (!ActivateBestChain(state, NULL, mapBlockIndex[hash]))
+        if (!ActivateBestChain(state, chainparams, NULL, mapBlockIndex[hash]))
         {
             return error("ResetSyncCheckpoint: SetBestChain failed for hardened checkpoint %s", hash.ToString());
         }
@@ -352,7 +344,7 @@ bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev)
 
 void AskForPendingSyncCheckpoint(CNode* pfrom)
 {
-    LOCK(cs_main);
+    LOCK(cs_hashSyncCheckpoint);
     bool fHavePendingBlock = mapBlockIndex.count(hashPendingCheckpoint) && (mapBlockIndex[hashPendingCheckpoint]->nStatus & BLOCK_HAVE_DATA);
 
     if (pfrom && hashPendingCheckpoint != 0 && !fHavePendingBlock)
@@ -363,7 +355,7 @@ bool SetCheckpointPrivKey(std::string strPrivKey)
 {
     // Test signing a sync-checkpoint with genesis block
     CSyncCheckpoint checkpoint;
-    checkpoint.hashCheckpoint = Params().HashGenesisBlock();
+    checkpoint.hashCheckpoint = Params().GetConsensus().hashGenesisBlock;
     CDataStream sMsg(SER_NETWORK, PROTOCOL_VERSION);
     sMsg << (CUnsignedSyncCheckpoint)checkpoint;
     checkpoint.vchMsg = std::vector<unsigned char>(sMsg.begin(), sMsg.end());
@@ -442,7 +434,7 @@ bool CSyncCheckpoint::CheckSignature()
 // ppcoin: process synchronized checkpoint    //ppcoin TODO: redo commented lines
 bool CSyncCheckpoint::ProcessSyncCheckpoint(CNode* pfrom)
 {
-    LOCK(cs_main);
+    LOCK(CheckpointsSync::cs_hashSyncCheckpoint);
 
     if (!CheckSignature())
         return false;
@@ -470,13 +462,14 @@ bool CSyncCheckpoint::ProcessSyncCheckpoint(CNode* pfrom)
 
     CBlockIndex* pindexCheckpoint = mapBlockIndex[hashCheckpoint];
     if (!chainActive.Contains(pindexCheckpoint))
-    {
+    {   
+        const CChainParams& chainparams = Params();
         // checkpoint chain received but not yet main chain
         if (!haveBlocksUpTo(pindexCheckpoint))
             return false;
 
         CValidationState state;
-        if (!ActivateBestChain(state, NULL, pindexCheckpoint))
+        if (!ActivateBestChain(state, chainparams, NULL, pindexCheckpoint))
         {
             CheckpointsSync::hashInvalidCheckpoint = hashCheckpoint;
             return error("ProcessSyncCheckpoint: SetBestChain failed for sync checkpoint %s", hashCheckpoint.ToString());

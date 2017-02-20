@@ -184,7 +184,7 @@ std::string CRPCTable::help(const std::string& strCommand) const
             if (setDone.insert(pfn).second)
                 (*pfn)(params, true);
         }
-        catch (std::exception& e)
+        catch (const std::exception& e)
         {
             // Help text is returned in an exception
             string strHelp = string(e.what());
@@ -337,7 +337,7 @@ CNetAddr BoostAsioToCNetAddr(boost::asio::ip::address address)
 bool ClientAllowed(const boost::asio::ip::address& address)
 {
     CNetAddr netaddr = BoostAsioToCNetAddr(address);
-    BOOST_FOREACH(const CSubNet &subnet, rpc_allow_subnets)
+    BOOST_FOREACH(const CSubNet& subnet, rpc_allow_subnets)
         if (subnet.Match(netaddr))
             return true;
     return false;
@@ -481,7 +481,7 @@ void StartRPCThreads()
         }
     }
     std::string strAllowed;
-    BOOST_FOREACH(const CSubNet &subnet, rpc_allow_subnets)
+    BOOST_FOREACH(const CSubNet& subnet, rpc_allow_subnets)
         strAllowed += subnet.ToString() + " ";
     LogPrint("rpc", "Allowing RPC connections from: %s\n", strAllowed);
 
@@ -757,7 +757,7 @@ static UniValue JSONRPCExecOne(const UniValue& req)
     {
         rpc_result = JSONRPCReplyObj(NullUniValue, objError, jreq.id);
     }
-    catch (std::exception& e)
+    catch (const std::exception& e)
     {
         rpc_result = JSONRPCReplyObj(NullUniValue,
                                      JSONRPCError(RPC_PARSE_ERROR, e.what()), jreq.id);
@@ -840,7 +840,7 @@ static bool HTTPReq_JSONRPC(AcceptedConnection *conn,
         ErrorReply(conn->stream(), objError, jreq.id);
         return false;
     }
-    catch (std::exception& e)
+    catch (const std::exception& e)
     {
         ErrorReply(conn->stream(), JSONRPCError(RPC_PARSE_ERROR, e.what()), jreq.id);
         return false;
@@ -926,7 +926,7 @@ UniValue CRPCTable::execute(const std::string &strMethod, const UniValue &params
         }
         return result;
     }
-    catch (std::exception& e)
+    catch (const std::exception& e)
     {
         throw JSONRPCError(RPC_MISC_ERROR, e.what());
     }
