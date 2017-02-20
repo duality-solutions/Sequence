@@ -116,12 +116,6 @@ namespace GUIUtil
     // Open debug.log
     void openDebugLogfile();
 
-    // Open silk.conf
-    void openConfigfile();  
-
-    // Browse backup folder
-    void showBackups();
-    
     // Replace invalid default fonts with known good ones
     void SubstituteFonts(const QString& language);
 

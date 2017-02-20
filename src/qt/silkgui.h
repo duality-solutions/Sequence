@@ -233,10 +233,6 @@ private slots:
     void optionsClicked();
     /** Show about dialog */
     void aboutClicked();
-    /** Open external (default) editor with darksilk.conf */
-    void showConfEditor();
-    /** Show folder with wallet backups in default file browser */
-    void showBackups();
     /** Show help message dialog */
     void showHelpMessageClicked();
     /** Show Stake Calculator Dialog */
