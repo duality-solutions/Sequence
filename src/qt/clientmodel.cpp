@@ -280,9 +280,7 @@ static void BlockTipChanged(ClientModel *clientmodel, bool initialSync, const CB
     if (!initialSync || now - nLastBlockTipUpdateNotification > MODEL_UPDATE_DELAY) {
         //pass a async signal to the UI thread
         QMetaObject::invokeMethod(clientmodel, "numBlocksChanged", Qt::QueuedConnection,
-                                  Q_ARG(int, pIndex->nHeight),
-                                  Q_ARG(QDateTime, QDateTime::fromTime_t(pIndex->GetBlockTime())),
-                                  Q_ARG(double, clientmodel->getVerificationProgress()));
+                                  Q_ARG(int, pIndex->nHeight));
         nLastBlockTipUpdateNotification = now;
     }
 }
