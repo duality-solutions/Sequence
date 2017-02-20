@@ -854,7 +854,6 @@ AC_MSG_CHECKING([whether to build libraries])
 AM_CONDITIONAL([BUILD_SILK_LIBS], [test x$build_silk_libs = xyes])
 if test x$build_silk_libs = xyes; then
   AC_DEFINE(HAVE_CONSENSUS_LIB, 1, [Define this symbol if the consensus lib has been built])
-  AC_CONFIG_FILES([libsilkconsensus.pc:libsilkconsensus.pc.in])
 fi
 AC_MSG_RESULT($build_silk_libs)
 
