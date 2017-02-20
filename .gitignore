@@ -121,4 +121,4 @@ qa/pull-tester/test.*/*
 .cproject
 .project
 /doc/doxygen/
-libdarksilkconsensus.pc
+libsilkconsensus.pc

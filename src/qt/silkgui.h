@@ -133,7 +133,8 @@ private:
     QAction *openNetworkAction;
     QAction *openPeersAction;
     QAction *openRepairAction;
-
+    QAction *openConfEditorAction;
+    QAction *showBackupsAction;
     QAction *openAction;
     QAction *showHelpMessageAction;
     QAction *calcAction;
