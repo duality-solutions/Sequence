@@ -247,6 +247,10 @@ SilkGUI::SilkGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     connect(openRepairAction, SIGNAL(triggered()), rpcConsole, SLOT(showRepair()));
     connect(labelConnectionsIcon, SIGNAL(clicked()), rpcConsole, SLOT(showPeers()));
 
+    // Open configs and backup folder from menu
+    connect(openConfEditorAction, SIGNAL(triggered()), this, SLOT(showConfEditor()));
+    connect(showBackupsAction, SIGNAL(triggered()), this, SLOT(showBackups()));
+
     // Get restart command-line parameters and handle restart
     connect(rpcConsole, SIGNAL(handleRestart(QStringList)), this, SLOT(handleRestart(QStringList)));
 
@@ -685,6 +689,17 @@ void SilkGUI::aboutClicked()
 
     HelpMessageDialog dlg(this, true);
     dlg.exec();
+}
+
+void SilkGUI::showConfEditor()
+{
+    GUIUtil::openConfigfile();
+}
+
+
+void SilkGUI::showBackups()
+{
+    GUIUtil::showBackups();
 }
 
 void SilkGUI::showHelpMessageClicked()

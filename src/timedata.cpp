@@ -16,9 +16,8 @@
 
 using namespace std;
 
-static volatile int64_t nTimeOffset =  0;
-static volatile int nUpdCount   = ~0;
 static CCriticalSection cs_nTimeOffset;
+static int64_t nTimeOffset = 0;
 /**
  * "Never go to sea with two chronometers; take one or three."
  * Our three time sources are:
@@ -28,13 +27,8 @@ static CCriticalSection cs_nTimeOffset;
  */
 int64_t GetTimeOffset()
 {
-    int64_t offset;
-    int     cnt1;
-    do {
-        cnt1    = nUpdCount;
-        offset  = nTimeOffset;
-    } while(cnt1 != nUpdCount || cnt1 > 0);
-    return offset;
+    LOCK(cs_nTimeOffset);
+    return nTimeOffset;
 }
 
 int64_t GetAdjustedTime()
@@ -54,10 +48,9 @@ void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
     LOCK(cs_nTimeOffset);
     static std::set<CNetAddr> setKnown;
 
+    // Ignore duplicates
     if (setKnown.size() == SILK_TIMEDATA_MAX_SAMPLES)
         return;
-
-    // Ignore duplicates
     if (!setKnown.insert(ip).second)
         return;
 
