@@ -133,7 +133,8 @@ private:
     QAction *openNetworkAction;
     QAction *openPeersAction;
     QAction *openRepairAction;
-
+    QAction *openConfEditorAction;
+    QAction *showBackupsAction;
     QAction *openAction;
     QAction *showHelpMessageAction;
     QAction *calcAction;
@@ -232,6 +233,10 @@ private slots:
     void optionsClicked();
     /** Show about dialog */
     void aboutClicked();
+    /** Open external (default) editor with darksilk.conf */
+    void showConfEditor();
+    /** Show folder with wallet backups in default file browser */
+    void showBackups();
     /** Show help message dialog */
     void showHelpMessageClicked();
     /** Show Stake Calculator Dialog */

@@ -16,6 +16,8 @@
 
 using namespace std;
 
+#define SILK_TIMEDATA_MAX_SAMPLES 200
+
 static volatile int64_t nTimeOffset =  0;
 static volatile int nUpdCount   = ~0;
 static CCriticalSection cs_nTimeOffset;
@@ -47,19 +49,20 @@ static int64_t abs64(int64_t n)
     return (n >= 0 ? n : -n);
 }
 
-#define SILK_TIMEDATA_MAX_SAMPLES 200
 
-void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
+void AddTimeData(const CNetAddr& ip, int64_t nTime)
 {
     LOCK(cs_nTimeOffset);
     // Ignore duplicates
-    
-    static std::vector<CNetAddr> setKnown;
+
+    static std::set<CNetAddr> setKnown;
     if (setKnown.size() == SILK_TIMEDATA_MAX_SAMPLES)
         return;
     if (!setKnown.insert(ip).second)
         return;
 
+    int64_t nOffsetSample = nTime - GetTime();
+    
     // Add data
     static CMedianFilter<int64_t> vTimeOffsets(SILK_TIMEDATA_MAX_SAMPLES, 0);
     vTimeOffsets.input(nOffsetSample);
@@ -107,13 +110,19 @@ void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
                 if (!fMatch)
                 {
                     fDone = true;
-                    string strMessage = _("Please check that your computer's date and time are correct! If your clock is wrong DarkSilk Core will not work properly.");
+                    string strMessage = _("Please check that your computer's date and time are correct! If your clock is wrong Silk Core will not work properly.");
                     strMiscWarning = strMessage;
                     uiInterface.ThreadSafeMessageBox(strMessage, "", CClientUIInterface::MSG_WARNING);
                 }
             }
         }
-        
+ 
+
+        // Lock-free update nTimeOffset
+        nUpdCount = -nUpdCount;
+        nTimeOffset = nMedian;
+        nUpdCount = ~nUpdCount | 0xe0000000;    
+
         BOOST_FOREACH(int64_t n, vSorted)
             LogPrint("net", "%+d  ", n);
         LogPrint("net", "|  ");

@@ -97,7 +97,10 @@ class CNetAddr
 
         friend bool operator==(const CNetAddr& a, const CNetAddr& b);
         friend bool operator!=(const CNetAddr& a, const CNetAddr& b);
-        friend bool operator<(const CNetAddr& a, const CNetAddr& b);
+        friend bool operator<(const CNetAddr& a, const CNetAddr& b)
+        {
+            return (memcmp(a.ip, b.ip, 16) < 0);
+        }
 
         ADD_SERIALIZE_METHODS;
 
@@ -134,7 +137,7 @@ class CSubNet
         friend bool operator==(const CSubNet& a, const CSubNet& b);
         friend bool operator!=(const CSubNet& a, const CSubNet& b);
         friend bool operator<(const CSubNet& a, const CSubNet& b);
-
+        
         ADD_SERIALIZE_METHODS;
 
         template <typename Stream, typename Operation>

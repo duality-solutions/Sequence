@@ -123,7 +123,6 @@ public slots:
     void setTabFocus(enum TabTypes tabType);
     /** Set size (number of transactions and memory usage) of the mempool in the UI */
     void setMempoolSize(long numberOfTxs, size_t dynUsage);
-
 signals:
     // For RPC command executor
     void stopExecutor();

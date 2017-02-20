@@ -410,15 +410,12 @@ if GLIBC_BACK_COMPAT
   libsilkconsensus_la_SOURCES += compat/glibc_compat.cpp
 endif
 
-libsilkconsensus_la_LDFLAGS = -no-undefined $(RELDFLAGS)
-libsilkconsensus_la_LIBADD = $(CRYPTO_LIBS)
-libsilkconsensus_la_CPPFLAGS = $(CRYPTO_CFLAGS) -I$(builddir)/obj -DBUILD_SILK_INTERNAL
-if USE_LIBSECP256K1
-libsilkconsensus_la_LIBADD += secp256k1/libsecp256k1.la
-endif
-endif
+libsilkconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
+libsilkconsensus_la_LIBADD = $(LIBSECP256K1)
+libsilkconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_SILK_INTERNAL
+libsilkconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
-CLEANFILES = $(EXTRA_LIBRARIES)
+endif
 
 CLEANFILES = leveldb/libleveldb.a leveldb/libmemenv.a
 CLEANFILES += *.gcda *.gcno
