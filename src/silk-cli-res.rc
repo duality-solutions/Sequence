@@ -17,13 +17,13 @@ BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
             VALUE "CompanyName",        "Silk"
-            VALUE "FileDescription",    "Silk-cli (OSS RPC client for Silk)"
+            VALUE "FileDescription",    "silk-cli (OSS RPC client for Silk)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
             VALUE "InternalName",       "silk-cli"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
             VALUE "OriginalFilename",   "silk-cli.exe"
-            VALUE "ProductName",        "Silk-cli"
+            VALUE "ProductName",        "silk-cli"
             VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
         END
     END

@@ -169,15 +169,13 @@ public:
     }
 
     // ppcoin: get max transaction timestamp
-    int64_t GetMaxTransactionTime() const
+    int64_t GetMaxTransactionTime()
     {
         int64_t maxTransactionTime = 0;
         BOOST_FOREACH(const CTransaction& tx, vtx)
             maxTransactionTime = std::max(maxTransactionTime, (int64_t)tx.nTime);
         return maxTransactionTime;
     }
-
-
 
     // Build the in-memory merkle tree for this block and return the merkle root.
     // If non-NULL, *mutated is set to whether mutation was detected in the merkle

@@ -33,7 +33,7 @@ class MultisigDialog : public QDialog
 
     typedef std::vector<CScript> redeemScripts;
 
-  public slots:
+  public Q_SLOTS:
     MultisigAddressEntry * addPubKey();
     void clear();
     void updateRemoveEnabled();
@@ -45,7 +45,7 @@ class MultisigDialog : public QDialog
     WalletModel *model;
     bool fSetTxString;
 
-  private slots:
+  private Q_SLOTS:
     void on_createAddressButton_clicked();
     void on_copyMultisigAddressButton_clicked();
     void on_copyRedeemScriptButton_clicked();

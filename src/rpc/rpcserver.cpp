@@ -18,6 +18,8 @@
 #include "wallet/wallet.h"
 #endif
 
+#include <univalue.h>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
@@ -28,8 +30,8 @@
 #include <boost/iostreams/stream.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/thread.hpp>
+#include <boost/algorithm/string/case_conv.hpp> // for to_upper()
 
-#include <univalue.h>
 
 using namespace boost;
 using namespace boost::asio;
@@ -772,8 +774,7 @@ static string JSONRPCExecBatch(const UniValue& vReq)
     for (unsigned int reqIdx = 0; reqIdx < vReq.size(); reqIdx++)
         ret.push_back(JSONRPCExecOne(vReq[reqIdx]));
 
-    static bool legacy = GetBoolArg("-legacyrpc", true);
-    return ret.write(0, 0, legacy) + "\n";
+    return ret.write(0, 0) + "\n";
 }
 
 static bool HTTPReq_JSONRPC(AcceptedConnection *conn,
@@ -805,8 +806,7 @@ static bool HTTPReq_JSONRPC(AcceptedConnection *conn,
     {
         // Parse request
         UniValue valRequest;
-        static bool legacy = GetBoolArg("-legacyrpc", true);
-        if (!valRequest.read(strRequest, legacy ? 2 : 0))
+        if (!valRequest.read(strRequest))
             throw JSONRPCError(RPC_PARSE_ERROR, "Parse error");
 
         // Return immediately if in warmup

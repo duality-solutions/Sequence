@@ -10,7 +10,7 @@
 #include "paymentrequestplus.h"
 #include "walletmodeltransaction.h"
 
-#include "allocators.h" /* for SecureString */
+#include "support/allocators/secure.h"
 
 #include <map>
 #include <vector>
@@ -208,6 +208,7 @@ public:
     bool saveReceiveRequest(const std::string &sAddress, const int64_t nId, const std::string &sRequest);
     CWallet *getWallet(){ return wallet; }
 
+    bool hdEnabled() const;
 private:
     CWallet *wallet;
     bool fHaveWatchOnly;
@@ -241,7 +242,7 @@ private:
     void unsubscribeFromCoreSignals();
     void checkBalanceChanged();
 
-signals:
+Q_SIGNALS:
     // Signal that balance in wallet changed
     void balanceChanged(const CAmount& balance, const CAmount& total, const CAmount& stake, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
                         const CAmount& watchOnlyBalance, const CAmount& watchOnlyStake, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance);
@@ -266,7 +267,7 @@ signals:
     // Watch-only address added
     void notifyWatchonlyChanged(bool fHaveWatchonly);
 
-public slots:
+public Q_SLOTS:
     /* Wallet status might have changed */
     void updateStatus();
     /* New transaction, or transaction changed status */

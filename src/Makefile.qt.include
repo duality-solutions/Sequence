@@ -3,163 +3,165 @@ EXTRA_LIBRARIES += qt/libsilkqt.a
 
 # silk qt core #
 QT_TS = \
-  qt/locale/silk_ach.ts \
-  qt/locale/silk_af_ZA.ts \
-  qt/locale/silk_ar.ts \
-  qt/locale/silk_be_BY.ts \
-  qt/locale/silk_bg.ts \
-  qt/locale/silk_bs.ts \
-  qt/locale/silk_ca_ES.ts \
-  qt/locale/silk_ca.ts \
-  qt/locale/silk_ca@valencia.ts \
-  qt/locale/silk_cmn.ts \
-  qt/locale/silk_cs.ts \
-  qt/locale/silk_cy.ts \
-  qt/locale/silk_da.ts \
-  qt/locale/silk_de.ts \
-  qt/locale/silk_el_GR.ts \
-  qt/locale/silk_en.ts \
-  qt/locale/silk_eo.ts \
-  qt/locale/silk_es_CL.ts \
-  qt/locale/silk_es_DO.ts \
-  qt/locale/silk_es_MX.ts \
-  qt/locale/silk_es.ts \
-  qt/locale/silk_es_UY.ts \
-  qt/locale/silk_et.ts \
-  qt/locale/silk_eu_ES.ts \
-  qt/locale/silk_fa_IR.ts \
-  qt/locale/silk_fa.ts \
-  qt/locale/silk_fi.ts \
-  qt/locale/silk_fr_CA.ts \
-  qt/locale/silk_fr.ts \
-  qt/locale/silk_gl.ts \
-  qt/locale/silk_gu_IN.ts \
-  qt/locale/silk_he.ts \
-  qt/locale/silk_hi_IN.ts \
-  qt/locale/silk_hr.ts \
-  qt/locale/silk_hu.ts \
-  qt/locale/silk_id_ID.ts \
-  qt/locale/silk_it.ts \
-  qt/locale/silk_ja.ts \
-  qt/locale/silk_ka.ts \
-  qt/locale/silk_kk_KZ.ts \
-  qt/locale/silk_ko_KR.ts \
-  qt/locale/silk_ky.ts \
-  qt/locale/silk_la.ts \
-  qt/locale/silk_lt.ts \
-  qt/locale/silk_lv_LV.ts \
-  qt/locale/silk_mn.ts \
-  qt/locale/silk_ms_MY.ts \
-  qt/locale/silk_nb.ts \
-  qt/locale/silk_nl.ts \
-  qt/locale/silk_pam.ts \
-  qt/locale/silk_pl.ts \
-  qt/locale/silk_pt_BR.ts \
-  qt/locale/silk_pt_PT.ts \
-  qt/locale/silk_ro_RO.ts \
-  qt/locale/silk_ru.ts \
-  qt/locale/silk_sah.ts \
-  qt/locale/silk_sk.ts \
-  qt/locale/silk_sl_SI.ts \
-  qt/locale/silk_sq.ts \
-  qt/locale/silk_sr.ts \
-  qt/locale/silk_sv.ts \
-  qt/locale/silk_th_TH.ts \
-  qt/locale/silk_tr.ts \
-  qt/locale/silk_uk.ts \
-  qt/locale/silk_ur_PK.ts \
-  qt/locale/silk_uz@Cyrl.ts \
-  qt/locale/silk_vi.ts \
-  qt/locale/silk_vi_VN.ts \
-  qt/locale/silk_zh_CN.ts \
-  qt/locale/silk_zh_HK.ts \
-  qt/locale/silk_zh_TW.ts
+	qt/locale/silk_ach.ts \
+	qt/locale/silk_af_ZA.ts \
+	qt/locale/silk_ar.ts \
+	qt/locale/silk_be_BY.ts \
+	qt/locale/silk_bg.ts \
+	qt/locale/silk_bs.ts \
+	qt/locale/silk_ca_ES.ts \
+	qt/locale/silk_ca.ts \
+	qt/locale/silk_ca@valencia.ts \
+	qt/locale/silk_cmn.ts \
+	qt/locale/silk_cs.ts \
+	qt/locale/silk_cy.ts \
+	qt/locale/silk_da.ts \
+	qt/locale/silk_de.ts \
+	qt/locale/silk_el_GR.ts \
+	qt/locale/silk_en.ts \
+	qt/locale/silk_eo.ts \
+	qt/locale/silk_es_CL.ts \
+	qt/locale/silk_es_DO.ts \
+	qt/locale/silk_es_MX.ts \
+	qt/locale/silk_es.ts \
+	qt/locale/silk_es_UY.ts \
+	qt/locale/silk_et.ts \
+	qt/locale/silk_eu_ES.ts \
+	qt/locale/silk_fa_IR.ts \
+	qt/locale/silk_fa.ts \
+	qt/locale/silk_fi.ts \
+	qt/locale/silk_fr_CA.ts \
+	qt/locale/silk_fr.ts \
+	qt/locale/silk_gl.ts \
+	qt/locale/silk_gu_IN.ts \
+	qt/locale/silk_he.ts \
+	qt/locale/silk_hi_IN.ts \
+	qt/locale/silk_hr.ts \
+	qt/locale/silk_hu.ts \
+	qt/locale/silk_id_ID.ts \
+	qt/locale/silk_it.ts \
+	qt/locale/silk_ja.ts \
+	qt/locale/silk_ka.ts \
+	qt/locale/silk_kk_KZ.ts \
+	qt/locale/silk_ko_KR.ts \
+	qt/locale/silk_ky.ts \
+	qt/locale/silk_la.ts \
+	qt/locale/silk_lt.ts \
+	qt/locale/silk_lv_LV.ts \
+	qt/locale/silk_mn.ts \
+	qt/locale/silk_ms_MY.ts \
+	qt/locale/silk_nb.ts \
+	qt/locale/silk_nl.ts \
+	qt/locale/silk_pam.ts \
+	qt/locale/silk_pl.ts \
+	qt/locale/silk_pt_BR.ts \
+	qt/locale/silk_pt_PT.ts \
+	qt/locale/silk_ro_RO.ts \
+	qt/locale/silk_ru.ts \
+	qt/locale/silk_sah.ts \
+	qt/locale/silk_sk.ts \
+	qt/locale/silk_sl_SI.ts \
+	qt/locale/silk_sq.ts \
+	qt/locale/silk_sr.ts \
+	qt/locale/silk_sv.ts \
+	qt/locale/silk_th_TH.ts \
+	qt/locale/silk_tr.ts \
+	qt/locale/silk_uk.ts \
+	qt/locale/silk_ur_PK.ts \
+	qt/locale/silk_uz@Cyrl.ts \
+	qt/locale/silk_vi.ts \
+	qt/locale/silk_vi_VN.ts \
+	qt/locale/silk_zh_CN.ts \
+	qt/locale/silk_zh_HK.ts \
+	qt/locale/silk_zh_TW.ts
 
 QT_FORMS_UI = \
-  qt/forms/addressbookpage.ui \
-  qt/forms/askpassphrasedialog.ui \
-  qt/forms/calcdialog.ui \
-  qt/forms/coincontroldialog.ui \
-  qt/forms/dnspage.ui \
-  qt/forms/editaddressdialog.ui \
-  qt/forms/helpmessagedialog.ui \
-  qt/forms/intro.ui \
-  qt/forms/openuridialog.ui \
-  qt/forms/optionsdialog.ui \
-  qt/forms/overviewpage.ui \
-  qt/forms/receivecoinsdialog.ui \
-  qt/forms/receiverequestdialog.ui \
-  qt/forms/rpcconsole.ui \
-  qt/forms/sendcoinsdialog.ui \
-  qt/forms/sendcoinsentry.ui \
-  qt/forms/signverifymessagedialog.ui \
-  qt/forms/transactiondescdialog.ui \
-  qt/forms/multisigaddressentry.ui \
-  qt/forms/multisigdialog.ui \
-  qt/forms/multisiginputentry.ui
+	qt/forms/addressbookpage.ui \
+	qt/forms/askpassphrasedialog.ui \
+	qt/forms/calcdialog.ui \
+	qt/forms/coincontroldialog.ui \
+	qt/forms/dnspage.ui \
+	qt/forms/editaddressdialog.ui \
+	qt/forms/helpmessagedialog.ui \
+	qt/forms/intro.ui \
+	qt/forms/openuridialog.ui \
+	qt/forms/optionsdialog.ui \
+	qt/forms/overviewpage.ui \
+	qt/forms/receivecoinsdialog.ui \
+	qt/forms/receiverequestdialog.ui \
+	qt/forms/rpcconsole.ui \
+	qt/forms/sendcoinsdialog.ui \
+	qt/forms/sendcoinsentry.ui \
+	qt/forms/signverifymessagedialog.ui \
+	qt/forms/transactiondescdialog.ui \
+	qt/forms/multisigaddressentry.ui \
+	qt/forms/multisigdialog.ui \
+	qt/forms/multisiginputentry.ui
+
 
 QT_MOC_CPP = \
-  qt/moc_addressbookpage.cpp \
-  qt/moc_addresstablemodel.cpp \
-  qt/moc_askpassphrasedialog.cpp \
-  qt/moc_bantablemodel.cpp \
-  qt/moc_silkaddressvalidator.cpp \
-  qt/moc_silkamountfield.cpp \
-  qt/moc_silkgui.cpp \
-  qt/moc_silkunits.cpp \
-  qt/moc_calcdialog.cpp \
-  qt/moc_clientmodel.cpp \
-  qt/moc_coincontroldialog.cpp \
-  qt/moc_coincontroltreewidget.cpp \
-  qt/moc_csvmodelwriter.cpp \
-  qt/moc_dnspage.cpp \
-  qt/moc_editaddressdialog.cpp \
-  qt/moc_guiutil.cpp \
-  qt/moc_intro.cpp \
-  qt/moc_macdockiconhandler.cpp \
-  qt/moc_macnotificationhandler.cpp \
-  qt/moc_nametablemodel.cpp \
-  qt/moc_notificator.cpp \
-  qt/moc_openuridialog.cpp \
-  qt/moc_optionsdialog.cpp \
-  qt/moc_optionsmodel.cpp \
-  qt/moc_overviewpage.cpp \
-  qt/moc_peertablemodel.cpp \
-  qt/moc_paymentserver.cpp \
-  qt/moc_qvalidatedlineedit.cpp \
-  qt/moc_qvaluecombobox.cpp \
-  qt/moc_receivecoinsdialog.cpp \
-  qt/moc_receiverequestdialog.cpp \
-  qt/moc_recentrequeststablemodel.cpp \
-  qt/moc_rpcconsole.cpp \
-  qt/moc_sendcoinsdialog.cpp \
-  qt/moc_sendcoinsentry.cpp \
-  qt/moc_signverifymessagedialog.cpp \
-  qt/moc_splashscreen.cpp \
-  qt/moc_trafficgraphwidget.cpp \
-  qt/moc_transactiondesc.cpp \
-  qt/moc_transactiondescdialog.cpp \
-  qt/moc_transactionfilterproxy.cpp \
-  qt/moc_transactiontablemodel.cpp \
-  qt/moc_transactionview.cpp \
-  qt/moc_utilitydialog.cpp \
-  qt/moc_walletframe.cpp \
-  qt/moc_walletmodel.cpp \
-  qt/moc_walletview.cpp \
-  qt/moc_multisigaddressentry.cpp \
-  qt/moc_multisigdialog.cpp \
-  qt/moc_multisiginputentry.cpp
+	qt/moc_addressbookpage.cpp \
+	qt/moc_addresstablemodel.cpp \
+	qt/moc_askpassphrasedialog.cpp \
+	qt/moc_bantablemodel.cpp \
+	qt/moc_silkaddressvalidator.cpp \
+	qt/moc_silkamountfield.cpp \
+	qt/moc_silkgui.cpp \
+	qt/moc_silkunits.cpp \
+	qt/moc_calcdialog.cpp \
+	qt/moc_clientmodel.cpp \
+	qt/moc_coincontroldialog.cpp \
+	qt/moc_coincontroltreewidget.cpp \
+	qt/moc_csvmodelwriter.cpp \
+	qt/moc_dnspage.cpp \
+	qt/moc_editaddressdialog.cpp \
+	qt/moc_guiutil.cpp \
+	qt/moc_intro.cpp \
+	qt/moc_macdockiconhandler.cpp \
+	qt/moc_macnotificationhandler.cpp \
+	qt/moc_nametablemodel.cpp \
+	qt/moc_notificator.cpp \
+	qt/moc_openuridialog.cpp \
+	qt/moc_optionsdialog.cpp \
+	qt/moc_optionsmodel.cpp \
+	qt/moc_overviewpage.cpp \
+	qt/moc_peertablemodel.cpp \
+	qt/moc_paymentserver.cpp \
+	qt/moc_qvalidatedlineedit.cpp \
+	qt/moc_qvaluecombobox.cpp \
+	qt/moc_receivecoinsdialog.cpp \
+	qt/moc_receiverequestdialog.cpp \
+	qt/moc_recentrequeststablemodel.cpp \
+	qt/moc_rpcconsole.cpp \
+	qt/moc_sendcoinsdialog.cpp \
+	qt/moc_sendcoinsentry.cpp \
+	qt/moc_signverifymessagedialog.cpp \
+	qt/moc_splashscreen.cpp \
+	qt/moc_trafficgraphwidget.cpp \
+	qt/moc_transactiondesc.cpp \
+	qt/moc_transactiondescdialog.cpp \
+	qt/moc_transactionfilterproxy.cpp \
+	qt/moc_transactiontablemodel.cpp \
+	qt/moc_transactionview.cpp \
+	qt/moc_utilitydialog.cpp \
+	qt/moc_walletframe.cpp \
+	qt/moc_walletmodel.cpp \
+	qt/moc_walletview.cpp \
+	qt/moc_multisigaddressentry.cpp \
+	qt/moc_multisigdialog.cpp \
+	qt/moc_multisiginputentry.cpp 
+
 
 SILK_MM = \
-  qt/macdockiconhandler.mm \
-  qt/macnotificationhandler.mm
+	qt/macdockiconhandler.mm \
+	qt/macnotificationhandler.mm
 
 QT_MOC = \
-  qt/silk.moc \
-  qt/silkamountfield.moc \
-  qt/intro.moc \
-  qt/overviewpage.moc \
-  qt/rpcconsole.moc
+	qt/silk.moc \
+	qt/silkamountfield.moc \
+	qt/intro.moc \
+	qt/overviewpage.moc \
+	qt/rpcconsole.moc
 
 QT_QRC_CPP = qt/qrc_silk.cpp
 QT_QRC = qt/silk.qrc
@@ -171,206 +173,211 @@ PROTOBUF_H = qt/paymentrequest.pb.h
 PROTOBUF_PROTO = qt/paymentrequest.proto
 
 SILK_QT_H = \
-  qt/addressbookpage.h \
-  qt/addresstablemodel.h \
-  qt/askpassphrasedialog.h \
-  qt/bantablemodel.h \
-  qt/silkaddressvalidator.h \
-  qt/silkamountfield.h \
-  qt/silkgui.h \
-  qt/silkunits.h \
-  qt/calcdialog.h \
-  qt/clientmodel.h \
-  qt/coincontroldialog.h \
-  qt/coincontroltreewidget.h \
-  qt/csvmodelwriter.h \
-  qt/dnspage.h \
-  qt/editaddressdialog.h \
-  qt/guiconstants.h \
-  qt/guiutil.h \
-  qt/intro.h \
-  qt/macdockiconhandler.h \
-  qt/macnotificationhandler.h \
-  qt/nametablemodel.h \
-  qt/networkstyle.h \
-  qt/notificator.h \
-  qt/openuridialog.h \
-  qt/optionsdialog.h \
-  qt/optionsmodel.h \
-  qt/overviewpage.h \
-  qt/paymentrequestplus.h \
-  qt/paymentserver.h \
-  qt/peertablemodel.h \
-  qt/qvalidatedlineedit.h \
-  qt/qvaluecombobox.h \
-  qt/receivecoinsdialog.h \
-  qt/receiverequestdialog.h \
-  qt/recentrequeststablemodel.h \
-  qt/rpcconsole.h \
-  qt/sendcoinsdialog.h \
-  qt/sendcoinsentry.h \
-  qt/signverifymessagedialog.h \
-  qt/splashscreen.h \
-  qt/trafficgraphwidget.h \
-  qt/transactiondesc.h \
-  qt/transactiondescdialog.h \
-  qt/transactionfilterproxy.h \
-  qt/transactionrecord.h \
-  qt/transactiontablemodel.h \
-  qt/transactionview.h \
-  qt/utilitydialog.h \
-  qt/walletframe.h \
-  qt/walletmodel.h \
-  qt/walletmodeltransaction.h \
-  qt/walletview.h \
-  qt/winshutdownmonitor.h \
-  qt/multisigaddressentry.h \
-  qt/multisigdialog.h \
-  qt/multisiginputentry.h
-
+	qt/addressbookpage.h \
+	qt/addresstablemodel.h \
+	qt/askpassphrasedialog.h \
+	qt/bantablemodel.h \
+	qt/silkaddressvalidator.h \
+	qt/silkamountfield.h \
+	qt/silkgui.h \
+	qt/silkunits.h \
+	qt/calcdialog.h \
+	qt/clientmodel.h \
+	qt/coincontroldialog.h \
+	qt/coincontroltreewidget.h \
+	qt/csvmodelwriter.h \
+	qt/dnspage.h \
+	qt/editaddressdialog.h \
+	qt/guiconstants.h \
+	qt/guiutil.h \
+	qt/intro.h \
+	qt/macdockiconhandler.h \
+	qt/macnotificationhandler.h \
+	qt/nametablemodel.h \
+	qt/networkstyle.h \
+	qt/notificator.h \
+	qt/openuridialog.h \
+	qt/optionsdialog.h \
+	qt/optionsmodel.h \
+	qt/overviewpage.h \
+	qt/paymentrequestplus.h \
+	qt/paymentserver.h \
+	qt/peertablemodel.h \
+	qt/qvalidatedlineedit.h \
+	qt/qvaluecombobox.h \
+	qt/receivecoinsdialog.h \
+	qt/receiverequestdialog.h \
+	qt/recentrequeststablemodel.h \
+	qt/rpcconsole.h \
+	qt/sendcoinsdialog.h \
+	qt/sendcoinsentry.h \
+	qt/signverifymessagedialog.h \
+	qt/splashscreen.h \
+	qt/trafficgraphwidget.h \
+	qt/transactiondesc.h \
+	qt/transactiondescdialog.h \
+	qt/transactionfilterproxy.h \
+	qt/transactionrecord.h \
+	qt/transactiontablemodel.h \
+	qt/transactionview.h \
+	qt/utilitydialog.h \
+	qt/walletframe.h \
+	qt/walletmodel.h \
+	qt/walletmodeltransaction.h \
+	qt/walletview.h \
+	qt/winshutdownmonitor.h \
+	qt/multisigaddressentry.h \
+	qt/multisigdialog.h \
+	qt/multisiginputentry.h
+	
 RES_ICONS = \
-  qt/res/icons/add.png \
-  qt/res/icons/address-book.png \
-  qt/res/icons/silk.ico \
-  qt/res/icons/silk.png \
-  qt/res/icons/silk_testnet.ico \
-  qt/res/icons/silk_testnet.png \
-  qt/res/icons/clock1.png \
-  qt/res/icons/clock2.png \
-  qt/res/icons/clock3.png \
-  qt/res/icons/clock4.png \
-  qt/res/icons/clock5.png \
-  qt/res/icons/configure.png \
-  qt/res/icons/connect0_16.png \
-  qt/res/icons/connect1_16.png \
-  qt/res/icons/connect2_16.png \
-  qt/res/icons/connect3_16.png \
-  qt/res/icons/connect4_16.png \
-  qt/res/icons/decentralised.png \
-  qt/res/icons/debugwindow.png \
-  qt/res/icons/edit.png \
-  qt/res/icons/editcopy.png \
-  qt/res/icons/editpaste.png \
-  qt/res/icons/export.png \
-  qt/res/icons/eye.png \
-  qt/res/icons/eye_minus.png \
-  qt/res/icons/eye_plus.png \
-  qt/res/icons/filesave.png \
-  qt/res/icons/history.png \
-  qt/res/icons/key.png \
-  qt/res/icons/lock_closed.png \
-  qt/res/icons/lock_open.png \
-  qt/res/icons/multisig.png \
-  qt/res/icons/overview.png \
-  qt/res/icons/qrcode.png \
-  qt/res/icons/quit.png \
-  qt/res/icons/receive.png \
-  qt/res/icons/remove.png \
-  qt/res/icons/send.png \
-  qt/res/icons/synced.png \
-  qt/res/icons/transaction0.png \
-  qt/res/icons/transaction2.png \
-  qt/res/icons/transaction_conflicted.png \
-  qt/res/icons/tx_inout.png \
-  qt/res/icons/tx_input.png \
-  qt/res/icons/tx_output.png \
-  qt/res/icons/tx_mined.png \
-  qt/res/icons/unit_slk.png \
-  qt/res/icons/unit_mslk.png \
-  qt/res/icons/unit_uslk.png
+	qt/res/icons/add.png \
+	qt/res/icons/address-book.png \
+	qt/res/icons/silk.ico \
+	qt/res/icons/silk.png \
+	qt/res/icons/silk_testnet.ico \
+	qt/res/icons/silk_testnet.png \
+	qt/res/icons/clock1.png \
+	qt/res/icons/clock2.png \
+	qt/res/icons/clock3.png \
+	qt/res/icons/clock4.png \
+	qt/res/icons/clock5.png \
+	qt/res/icons/configure.png \
+	qt/res/icons/connect0_16.png \
+	qt/res/icons/connect1_16.png \
+	qt/res/icons/connect2_16.png \
+	qt/res/icons/connect3_16.png \
+	qt/res/icons/connect4_16.png \
+	qt/res/icons/decentralised.png \
+	qt/res/icons/debugwindow.png \
+	qt/res/icons/edit.png \
+	qt/res/icons/editcopy.png \
+	qt/res/icons/editpaste.png \
+	qt/res/icons/export.png \
+	qt/res/icons/eye.png \
+	qt/res/icons/eye_minus.png \
+	qt/res/icons/eye_plus.png \
+	qt/res/icons/filesave.png \
+	qt/res/icons/history.png \
+	qt/res/icons/key.png \
+	qt/res/icons/lock_closed.png \
+	qt/res/icons/lock_open.png \
+	qt/res/icons/multisig.png \
+	qt/res/icons/overview.png \
+	qt/res/icons/qrcode.png \
+	qt/res/icons/quit.png \
+	qt/res/icons/receive.png \
+	qt/res/icons/remove.png \
+	qt/res/icons/send.png \
+	qt/res/icons/synced.png \
+	qt/res/icons/transaction0.png \
+	qt/res/icons/transaction2.png \
+	qt/res/icons/transaction_conflicted.png \
+	qt/res/icons/tx_inout.png \
+	qt/res/icons/tx_input.png \
+	qt/res/icons/tx_output.png \
+	qt/res/icons/tx_mined.png \
+	qt/res/icons/unit_slk.png \
+	qt/res/icons/unit_mslk.png \
+	qt/res/icons/unit_uslk.png
 
 SILK_QT_CPP = \
-  qt/silkaddressvalidator.cpp \
-  qt/silkamountfield.cpp \
-  qt/silkgui.cpp \
-  qt/silkunits.cpp \
-  qt/calcdialog.cpp \
-  qt/clientmodel.cpp \
-  qt/csvmodelwriter.cpp \
-  qt/guiutil.cpp \
-  qt/intro.cpp \
-  qt/networkstyle.cpp \
-  qt/notificator.cpp \
-  qt/optionsdialog.cpp \
-  qt/optionsmodel.cpp \
-  qt/peertablemodel.cpp \
-  qt/qvalidatedlineedit.cpp \
-  qt/qvaluecombobox.cpp \
-  qt/rpcconsole.cpp \
-  qt/splashscreen.cpp \
-  qt/trafficgraphwidget.cpp \
-  qt/utilitydialog.cpp \
-  qt/winshutdownmonitor.cpp \
-  qt/multisigaddressentry.cpp \
-  qt/multisigdialog.cpp \
-  qt/multisigaddressentry.cpp \
-  qt/multisiginputentry.cpp
+	qt/silkaddressvalidator.cpp \
+	qt/silkamountfield.cpp \
+	qt/silkgui.cpp \
+	qt/silkunits.cpp \
+	qt/calcdialog.cpp \
+	qt/clientmodel.cpp \
+	qt/csvmodelwriter.cpp \
+	qt/guiutil.cpp \
+	qt/intro.cpp \
+	qt/networkstyle.cpp \
+	qt/notificator.cpp \
+	qt/optionsdialog.cpp \
+	qt/optionsmodel.cpp \
+	qt/peertablemodel.cpp \
+	qt/qvalidatedlineedit.cpp \
+	qt/qvaluecombobox.cpp \
+	qt/rpcconsole.cpp \
+	qt/splashscreen.cpp \
+	qt/trafficgraphwidget.cpp \
+	qt/utilitydialog.cpp \
+	qt/winshutdownmonitor.cpp \
+	qt/multisigaddressentry.cpp \
+	qt/multisigdialog.cpp \
+	qt/multisigaddressentry.cpp \
+	qt/multisiginputentry.cpp
+
+if TARGET_WINDOWS
+SILK_QT_CPP += qt/winshutdownmonitor.cpp
+endif
 
 if ENABLE_WALLET
 SILK_QT_CPP += \
-  qt/addressbookpage.cpp \
-  qt/addresstablemodel.cpp \
-  qt/askpassphrasedialog.cpp \
-  qt/bantablemodel.cpp \
-  qt/coincontroldialog.cpp \
-  qt/coincontroltreewidget.cpp \
-  qt/dnspage.cpp \
-  qt/editaddressdialog.cpp \
-  qt/nametablemodel.cpp \
-  qt/openuridialog.cpp \
-  qt/overviewpage.cpp \
-  qt/paymentrequestplus.cpp \
-  qt/paymentserver.cpp \
-  qt/receivecoinsdialog.cpp \
-  qt/receiverequestdialog.cpp \
-  qt/recentrequeststablemodel.cpp \
-  qt/sendcoinsdialog.cpp \
-  qt/sendcoinsentry.cpp \
-  qt/signverifymessagedialog.cpp \
-  qt/transactiondesc.cpp \
-  qt/transactiondescdialog.cpp \
-  qt/transactionfilterproxy.cpp \
-  qt/transactionrecord.cpp \
-  qt/transactiontablemodel.cpp \
-  qt/transactionview.cpp \
-  qt/walletframe.cpp \
-  qt/walletmodel.cpp \
-  qt/walletmodeltransaction.cpp \
-  qt/walletview.cpp
+	qt/addressbookpage.cpp \
+	qt/addresstablemodel.cpp \
+	qt/askpassphrasedialog.cpp \
+	qt/bantablemodel.cpp \
+	qt/coincontroldialog.cpp \
+	qt/coincontroltreewidget.cpp \
+	qt/dnspage.cpp \
+	qt/editaddressdialog.cpp \
+	qt/nametablemodel.cpp \
+	qt/openuridialog.cpp \
+	qt/overviewpage.cpp \
+	qt/paymentrequestplus.cpp \
+	qt/paymentserver.cpp \
+	qt/receivecoinsdialog.cpp \
+	qt/receiverequestdialog.cpp \
+	qt/recentrequeststablemodel.cpp \
+	qt/sendcoinsdialog.cpp \
+	qt/sendcoinsentry.cpp \
+	qt/signverifymessagedialog.cpp \
+	qt/transactiondesc.cpp \
+	qt/transactiondescdialog.cpp \
+	qt/transactionfilterproxy.cpp \
+	qt/transactionrecord.cpp \
+	qt/transactiontablemodel.cpp \
+	qt/transactionview.cpp \
+	qt/walletframe.cpp \
+	qt/walletmodel.cpp \
+	qt/walletmodeltransaction.cpp \
+	qt/walletview.cpp
 endif
 
 RES_IMAGES = \
-  qt/res/images/about.png \
-  qt/res/images/silk_logo_horizontal.png \
-  qt/res/images/splash.png \
-  qt/res/images/splash_testnet.png \
-  qt/res/images/silver_downArrow.png \
-  qt/res/images/silver_downArrow_small.png \
-  qt/res/images/silver_upArrow_small.png \
-  qt/res/images/silver_leftArrow_small.png \
-  qt/res/images/silver_rightArrow_small.png \
-  qt/res/images/silver_qtreeview_selected.png \
-  qt/res/images/drk_walletFrame_bg.png \
-  qt/res/images/drk_walletFrame.png
+	qt/res/images/about.png \
+	qt/res/images/silk_logo_horizontal.png \
+	qt/res/images/splash.png \
+	qt/res/images/splash_testnet.png \
+	qt/res/images/silver_downArrow.png \
+	qt/res/images/silver_downArrow_small.png \
+	qt/res/images/silver_upArrow_small.png \
+	qt/res/images/silver_leftArrow_small.png \
+	qt/res/images/silver_rightArrow_small.png \
+	qt/res/images/silver_qtreeview_selected.png \
+	qt/res/images/drk_walletFrame_bg.png \
+	qt/res/images/drk_walletFrame.png 
 
 RES_CSS = \
-  qt/res/css/silver.css
+	qt/res/css/silver.css 
 
 RES_MOVIES = $(wildcard qt/res/movies/spinner-*.png)
 
 SILK_RC = qt/res/silk-qt-res.rc
 
 SILK_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
-  -I$(builddir)/qt/forms
+	-I$(builddir)/qt/forms -DQT_NO_KEYWORDS
 
-qt_libsilkqt_a_CPPFLAGS = $(SILK_INCLUDES) $(SILK_QT_INCLUDES) \
-  $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
+qt_libsilkqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES) $(SILK_QT_INCLUDES) \
+	$(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
+qt_libsilkqt_a_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 
 qt_libsilkqt_a_SOURCES = $(SILK_QT_CPP) $(SILK_QT_H) $(QT_FORMS_UI) \
-  $(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES)
+	$(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS) $(RES_MOVIES)
 
 nodist_qt_libsilkqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
-  $(PROTOBUF_H) $(QT_QRC_CPP) $(QT_QRC_LOCALE_CPP)
+	$(PROTOBUF_H) $(QT_QRC_CPP) $(QT_QRC_LOCALE_CPP)
 
 # forms/foo.h -> forms/ui_foo.h
 QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:.ui=.h))))
@@ -386,8 +393,9 @@ $(QT_MOC): $(PROTOBUF_H)
 $(QT_MOC_CPP): $(PROTOBUF_H)
 
 # silk-qt binary #
-qt_silk_qt_CPPFLAGS = $(SILK_INCLUDES) $(SILK_QT_INCLUDES) \
-  $(QT_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
+qt_silk_qt_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES) $(SILK_QT_INCLUDES) \
+	$(QT_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
+qt_silk_qt_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 
 qt_silk_qt_SOURCES = qt/silk.cpp
 if TARGET_DARWIN
@@ -401,17 +409,17 @@ if ENABLE_WALLET
 qt_silk_qt_LDADD += $(LIBSILK_WALLET)
 endif
 qt_silk_qt_LDADD += $(LIBSILK_CLI) $(LIBSILK_COMMON) $(LIBSILK_UTIL) $(LIBSILK_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBMEMENV) \
-  $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(LIBSECP256K1) \
-  $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
+	$(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(LIBSECP256K1) \
+	$(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
 qt_silk_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 qt_silk_qt_LIBTOOLFLAGS = --tag CXX
 
 #locale/foo.ts -> locale/foo.qm
 QT_QM=$(QT_TS:.ts=.qm)
 
-.SECONDARY: $(QT_QM)
+SECONDARY: $(QT_QM)
 
-qt/silkstrings.cpp: $(libsilk_server_a_SOURCES) $(libsilk_wallet_a_SOURCES)
+qt/silkstrings.cpp: $(libsilk_server_a_SOURCES) $(libsilk_wallet_a_SOURCES) $(libsilk_common_a_SOURCES)
 	@test -n $(XGETTEXT) || echo "xgettext is required for updating translations"
 	$(AM_V_GEN) cd $(srcdir); XGETTEXT=$(XGETTEXT) ../share/qt/extract_strings_qt.py $^
 
@@ -423,12 +431,12 @@ $(QT_QRC_LOCALE_CPP): $(QT_QRC_LOCALE) $(QT_QM)
 	@test -f $(RCC)
 	@test -f $(@D)/$(<F) || cp -f $< $(@D)
 	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name silk_locale $(@D)/$(<F) | \
-	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+		$(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 
-$(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_MOVIES) $(PROTOBUF_H)
+$(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS) $(RES_MOVIES) $(PROTOBUF_H)
 	@test -f $(RCC)
 	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name silk $< | \
-	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+		$(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 
 CLEAN_QT = $(nodist_qt_libsilkqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno
 
@@ -445,12 +453,12 @@ ui_%.h: %.ui
 	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(UIC) -o $@ $< || (echo "Error creating $@"; false)
 
 %.moc: %.cpp
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(MOC) $(QT_INCLUDES) $(MOC_DEFS) $< | \
-	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(MOC) $(DEFAULT_INCLUDES) $(QT_INCLUDES) $(MOC_DEFS) $< | \
+		$(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 
 moc_%.cpp: %.h
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(MOC) $(QT_INCLUDES) $(MOC_DEFS) $< | \
-	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(MOC) $(DEFAULT_INCLUDES) $(QT_INCLUDES) $(MOC_DEFS) $< | \
+		$(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 
 %.qm: %.ts
 	@test -f $(LRELEASE)

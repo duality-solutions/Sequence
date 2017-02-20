@@ -7,6 +7,8 @@
 #ifndef SILK_SERIALIZE_H
 #define SILK_SERIALIZE_H
 
+#include "compat/endian.h"
+
 #include <algorithm>
 #include <assert.h>
 #include <ios>
@@ -19,7 +21,7 @@
 #include <utility>
 #include <vector>
 
-#include "compat/endian.h"
+#include "prevector.h"
 
 class CScript;
 

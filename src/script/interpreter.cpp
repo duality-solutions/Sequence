@@ -8,7 +8,7 @@
 #include "interpreter.h"
 
 #include "primitives/transaction.h"
-#include "base58.h"
+//#include "base58.h"
 #include "crypto/ripemd160.h"
 #include "crypto/sha1.h"
 #include "crypto/sha256.h"
@@ -1256,7 +1256,7 @@ bool checkNameValues(NameTxInfo& ret)
 
 bool AddressMatchesPubKey(const CNameVal& name, const CNameVal& value, std::string& strError)
 {
-    std::string strAddress = stringFromNameVal(name);
+    /*std::string strAddress = stringFromNameVal(name);
 
     if (strAddress.size() >= 8)
         strAddress = strAddress.replace(0, 8, "");
@@ -1274,7 +1274,7 @@ bool AddressMatchesPubKey(const CNameVal& name, const CNameVal& value, std::stri
     {
         strError = CSilkAddress(keyID).ToString() + " != Base58(SHA256(" + strAddress + "))";
         return false;
-    }
+    }*/
     return true;
 }
 

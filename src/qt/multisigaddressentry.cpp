@@ -63,7 +63,7 @@ void MultisigAddressEntry::on_pasteButton_clicked()
 
 void MultisigAddressEntry::on_deleteButton_clicked()
 {
-    emit removeEntry(this);
+    Q_EMIT removeEntry(this);
 }
 
 void MultisigAddressEntry::on_addressBookButton_clicked()

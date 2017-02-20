@@ -174,12 +174,12 @@ class SilkCore: public QObject
 public:
     explicit SilkCore();
 
-public slots:
+public Q_SLOTS:
     void initialize();
     void shutdown();
     void restart(QStringList args);
 
-signals:
+Q_SIGNALS:
     void initializeResult(int retval);
     void shutdownResult(int retval);
     void runawayException(const QString &message);
@@ -222,13 +222,13 @@ public:
     /// Get window identifier of QMainWindow (SilkGUI)
     WId getMainWinId() const;
 
-public slots:
+public Q_SLOTS:
     void initializeResult(int retval);
     void shutdownResult(int retval);
     /// Handle runaway exceptions. Shows a message box with the problem and quits the program.
     void handleRunawayException(const QString &message);
 
-signals:
+Q_SIGNALS:
     void requestedInitialize();
     void requestedRestart(QStringList args);
     void requestedShutdown();
@@ -260,7 +260,7 @@ SilkCore::SilkCore():
 void SilkCore::handleRunawayException(const std::exception *e)
 {
     PrintExceptionContinue(e, "Runaway exception");
-    emit runawayException(QString::fromStdString(strMiscWarning));
+    Q_EMIT runawayException(QString::fromStdString(strMiscWarning));
 }
 
 void SilkCore::initialize()
@@ -277,7 +277,7 @@ void SilkCore::initialize()
              */
             StartDummyRPCThread();
         }
-        emit initializeResult(rv);
+        Q_EMIT initializeResult(rv);
     } catch (const std::exception& e) {
         handleRunawayException(&e);
     } catch (...) {
@@ -294,7 +294,7 @@ void SilkCore::restart(QStringList args)
         threadGroup.join_all();
         PrepareShutdown();
         qDebug() << __func__ << ": Shutdown finished";
-        emit shutdownResult(1);
+        Q_EMIT shutdownResult(1);
         CExplicitNetCleanup::callCleanup();
         QProcess::startDetached(QApplication::applicationFilePath(), args);
         qDebug() << __func__ << ": Restart initiated...";
@@ -315,7 +315,7 @@ void SilkCore::shutdown()
         threadGroup.join_all();
         Shutdown();
         qDebug() << __func__ << ": Shutdown finished";
-        emit shutdownResult(1);
+        Q_EMIT shutdownResult(1);
     } catch (const std::exception& e) {
         handleRunawayException(&e);
     } catch (...) {
@@ -344,7 +344,7 @@ silkApplication::~silkApplication()
     if(coreThread)
     {
         qDebug() << __func__ << ": Stopping thread";
-        emit stopThread();
+        Q_EMIT stopThread();
         coreThread->wait();
         qDebug() << __func__ << ": Stopped thread";
     }
@@ -416,7 +416,7 @@ void silkApplication::requestInitialize()
 {
     qDebug() << __func__ << ": Requesting initialize";
     startThread();
-    emit requestedInitialize();
+    Q_EMIT requestedInitialize();
 }
 
 void silkApplication::requestShutdown()
@@ -439,7 +439,7 @@ void silkApplication::requestShutdown()
     ShutdownWindow::showShutdownWindow(window);
 
     // Request shutdown from core thread
-    emit requestedShutdown();
+    Q_EMIT requestedShutdown();
 }
 
 void silkApplication::initializeResult(int retval)
@@ -479,7 +479,7 @@ void silkApplication::initializeResult(int retval)
         {
             window->show();
         }
-        emit splashFinished(window);
+        Q_EMIT splashFinished(window);
 
 #ifdef ENABLE_WALLET
         // Now that initialization/startup is done, process any command-line

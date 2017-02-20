@@ -40,11 +40,11 @@ public:
     void hideCamel();
     void moveCamel();
     
-public slots:
+public Q_SLOTS:
     void setBalance(const CAmount& balance, const CAmount& total, const CAmount& stake, const CAmount& unconfirmedBalance,
                     const CAmount& immatureBalance, const CAmount& watchOnlyBalance, const CAmount& watchOnlyStake, 
                     const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance);
-signals:
+Q_SIGNALS:
     void transactionClicked(const QModelIndex &index);
 
 private:
@@ -69,7 +69,7 @@ private:
     unsigned int movePixs;
     int timerId;
 
-private slots:
+private Q_SLOTS:
     void updateDisplayUnit();
     void handleTransactionClicked(const QModelIndex &index);
     void updateAlerts(const QString &warnings);

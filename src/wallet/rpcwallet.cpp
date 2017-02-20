@@ -37,6 +37,18 @@ std::string HelpRequiringPassphrase()
         : "";
 }
 
+bool EnsureWalletIsAvailable(bool avoidException)
+{
+    if (!pwalletMain)
+    {
+        if (!avoidException)
+            throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (disabled)");
+        else
+            return false;
+    }
+    return true;
+}
+
 void EnsureWalletIsUnlocked()
 {
     if (pwalletMain->IsLocked())
@@ -79,6 +91,9 @@ string AccountFromValue(const UniValue& value)
 
 UniValue getnewaddress(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() > 1)
         throw runtime_error(
             "getnewaddress ( \"account\" )\n"
@@ -155,6 +170,9 @@ CSilkAddress GetAccountAddress(string strAccount, bool bForceNew=false)
 
 UniValue getaccountaddress(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() != 1)
         throw runtime_error(
             "getaccountaddress \"account\"\n"
@@ -183,6 +201,9 @@ UniValue getaccountaddress(const UniValue& params, bool fHelp)
 
 UniValue getrawchangeaddress(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() > 1)
         throw runtime_error(
             "getrawchangeaddress\n"
@@ -213,6 +234,9 @@ UniValue getrawchangeaddress(const UniValue& params, bool fHelp)
 
 UniValue setaccount(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
             "setaccount \"silkaddress\" \"account\"\n"
@@ -255,6 +279,9 @@ UniValue setaccount(const UniValue& params, bool fHelp)
 
 UniValue getaccount(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() != 1)
         throw runtime_error(
             "getaccount \"silkaddress\"\n"
@@ -282,6 +309,9 @@ UniValue getaccount(const UniValue& params, bool fHelp)
 
 UniValue getaddressesbyaccount(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() != 1)
         throw runtime_error(
             "getaddressesbyaccount \"account\"\n"
@@ -314,6 +344,10 @@ UniValue getaddressesbyaccount(const UniValue& params, bool fHelp)
 
 UniValue sendtoaddress(const UniValue& params, bool fHelp)
 {
+    
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() < 2 || params.size() > 4)
         throw runtime_error(
             "sendtoaddress \"silkaddress\" amount ( \"comment\" \"comment-to\" )\n"
@@ -360,6 +394,9 @@ UniValue sendtoaddress(const UniValue& params, bool fHelp)
 
 UniValue listaddressgroupings(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp)
         throw runtime_error(
             "listaddressgroupings\n"
@@ -407,6 +444,9 @@ UniValue listaddressgroupings(const UniValue& params, bool fHelp)
 
 UniValue signmessage(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() != 2)
         throw runtime_error(
             "signmessage \"silkaddress\" \"message\"\n"
@@ -458,6 +498,9 @@ UniValue signmessage(const UniValue& params, bool fHelp)
 
 UniValue getreceivedbyaddress(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
             "getreceivedbyaddress \"silkaddress\" ( minconf )\n"
@@ -511,6 +554,9 @@ UniValue getreceivedbyaddress(const UniValue& params, bool fHelp)
 
 UniValue getreceivedbyaccount(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
             "getreceivedbyaccount \"account\" ( minconf )\n"
@@ -595,6 +641,9 @@ CAmount GetAccountBalance(const string& strAccount, int nMinDepth, const isminef
 
 UniValue getbalance(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() > 3)
         throw runtime_error(
             "getbalance ( \"account\" minconf includeWatchonly )\n"
@@ -669,6 +718,9 @@ UniValue getbalance(const UniValue& params, bool fHelp)
 
 UniValue getunconfirmedbalance(const UniValue &params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() > 0)
         throw runtime_error(
                 "getunconfirmedbalance\n"
@@ -679,6 +731,9 @@ UniValue getunconfirmedbalance(const UniValue &params, bool fHelp)
 
 UniValue movecmd(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() < 3 || params.size() > 5)
         throw runtime_error(
             "move \"fromaccount\" \"toaccount\" amount ( minconf \"comment\" )\n"
@@ -744,6 +799,9 @@ UniValue movecmd(const UniValue& params, bool fHelp)
 
 UniValue sendfrom(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() < 3 || params.size() > 6)
         throw runtime_error(
             "sendfrom \"fromaccount\" \"tosilkaddress\" amount ( minconf \"comment\" \"comment-to\" )\n"
@@ -804,6 +862,9 @@ UniValue sendfrom(const UniValue& params, bool fHelp)
 
 UniValue sendmany(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() < 2 || params.size() > 4)
         throw runtime_error(
             "sendmany \"fromaccount\" {\"address\":amount,...} ( minconf \"comment\" )\n"
@@ -1020,6 +1081,9 @@ UniValue ListReceived(const UniValue& params, bool fByAccounts)
 
 UniValue listreceivedbyaddress(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+    
     if (fHelp || params.size() > 3)
         throw runtime_error(
             "listreceivedbyaddress ( minconf includeempty includeWatchonly)\n"
@@ -1052,6 +1116,9 @@ UniValue listreceivedbyaddress(const UniValue& params, bool fHelp)
 
 UniValue listreceivedbyaccount(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() > 3)
         throw runtime_error(
             "listreceivedbyaccount ( minconf includeempty includeWatchonly)\n"
@@ -1186,6 +1253,9 @@ void AcentryToJSON(const CAccountingEntry& acentry, const string& strAccount, Un
 
 UniValue listtransactions(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() > 4)
         throw runtime_error(
             "listtransactions ( \"account\" count from includeWatchonly)\n"
@@ -1304,6 +1374,9 @@ UniValue listtransactions(const UniValue& params, bool fHelp)
 
 UniValue listaccounts(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() > 2)
         throw runtime_error(
             "listaccounts ( minconf includeWatchonly)\n"
@@ -1379,6 +1452,9 @@ UniValue listaccounts(const UniValue& params, bool fHelp)
 
 UniValue listsinceblock(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp)
         throw runtime_error(
             "listsinceblock ( \"blockhash\" target-confirmations includeWatchonly)\n"
@@ -1465,6 +1541,9 @@ UniValue listsinceblock(const UniValue& params, bool fHelp)
 
 UniValue gettransaction(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
             "gettransaction \"txid\" ( includeWatchonly )\n"
@@ -1538,6 +1617,9 @@ UniValue gettransaction(const UniValue& params, bool fHelp)
 
 UniValue backupwallet(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() != 1)
         throw runtime_error(
             "backupwallet \"destination\"\n"
@@ -1559,6 +1641,9 @@ UniValue backupwallet(const UniValue& params, bool fHelp)
 
 UniValue keypoolrefill(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() > 1)
         throw runtime_error(
             "keypoolrefill ( newsize )\n"
@@ -1598,6 +1683,9 @@ static void LockWallet(CWallet* pWallet)
 
 UniValue walletpassphrase(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (pwalletMain->IsCrypted() && (fHelp || params.size() < 2 || params.size() > 3))
         throw runtime_error(
             "walletpassphrase \"passphrase\" timeout [mintonly]\n"
@@ -1670,6 +1758,9 @@ void relockWalletAfterDuration(CWallet *wallet, int64_t nSeconds)
 
 UniValue walletpassphrasechange(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (pwalletMain->IsCrypted() && (fHelp || params.size() != 2))
         throw runtime_error(
             "walletpassphrasechange \"oldpassphrase\" \"newpassphrase\"\n"
@@ -1711,6 +1802,9 @@ UniValue walletpassphrasechange(const UniValue& params, bool fHelp)
 
 UniValue walletlock(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (pwalletMain->IsCrypted() && (fHelp || params.size() != 0))
         throw runtime_error(
             "walletlock\n"
@@ -1745,6 +1839,9 @@ UniValue walletlock(const UniValue& params, bool fHelp)
 
 UniValue encryptwallet(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (!pwalletMain->IsCrypted() && (fHelp || params.size() != 1))
         throw runtime_error(
             "encryptwallet \"passphrase\"\n"
@@ -1798,6 +1895,9 @@ UniValue encryptwallet(const UniValue& params, bool fHelp)
 #ifdef ENABLE_WALLET
 UniValue listunspent(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() > 3)
         throw runtime_error(
             "listunspent ( minconf maxconf  [\"address\",...] )\n"
@@ -1908,6 +2008,9 @@ UniValue listunspent(const UniValue& params, bool fHelp)
 
 UniValue lockunspent(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
             "lockunspent unlock [{\"txid\":\"txid\",\"vout\":n},...]\n"
@@ -1988,6 +2091,9 @@ UniValue lockunspent(const UniValue& params, bool fHelp)
 
 UniValue listlockunspent(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() > 0)
         throw runtime_error(
             "listlockunspent\n"
@@ -2032,6 +2138,9 @@ UniValue listlockunspent(const UniValue& params, bool fHelp)
 
 UniValue settxfee(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() < 1 || params.size() > 1 || AmountFromValue(params[0]) < MIN_TX_FEE)
         throw runtime_error(
             "settxfee amount\n"
@@ -2054,6 +2163,9 @@ UniValue settxfee(const UniValue& params, bool fHelp)
 
 UniValue getwalletinfo(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() != 0)
         throw runtime_error(
             "getwalletinfo\n"
@@ -2080,12 +2192,18 @@ UniValue getwalletinfo(const UniValue& params, bool fHelp)
     obj.push_back(Pair("keypoolsize",   (int)pwalletMain->GetKeyPoolSize()));
     if (pwalletMain->IsCrypted())
         obj.push_back(Pair("unlocked_until", nWalletUnlockTime));
+    CKeyID masterKeyID = pwalletMain->GetHDChain().masterKeyID;
+    if (!masterKeyID.IsNull())
+         obj.push_back(Pair("masterkeyid", masterKeyID.GetHex()));
     return obj;
 }
 
 // ppcoin: reserve balance from being staked for network protection
 UniValue reservebalance(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() > 2)
         throw runtime_error(
             "reservebalance [<reserve> [amount]]\n"
@@ -2127,6 +2245,9 @@ UniValue reservebalance(const UniValue& params, bool fHelp)
 // ppcoin: make a public-private key pair
 UniValue makekeypair(const UniValue& params, bool fHelp)
 {
+    if (!EnsureWalletIsAvailable(fHelp))
+        return NullUniValue;
+
     if (fHelp || params.size() > 1)
         throw runtime_error(
             "makekeypair [prefix]\n"

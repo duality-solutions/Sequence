@@ -1,7 +1,7 @@
-#include "org_silk_NativeSecp256k1.h"
+#include "org_bitcoin_NativeSecp256k1.h"
 #include "include/secp256k1.h"
 
-JNIEXPORT jint JNICALL Java_org_silk_NativeSecp256k1_secp256k1_1ecdsa_1verify
+JNIEXPORT jint JNICALL Java_org_bitcoin_NativeSecp256k1_secp256k1_1ecdsa_1verify
   (JNIEnv* env, jclass classObject, jobject byteBufferObject)
 {
 	unsigned char* data = (unsigned char*) (*env)->GetDirectBufferAddress(env, byteBufferObject);

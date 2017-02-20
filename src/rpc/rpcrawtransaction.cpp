@@ -12,6 +12,7 @@
 #include "keystore.h"
 #include "main.h"
 #include "net.h"
+#include "policy/policy.h"
 #include "rpc/rpcserver.h"
 #include "script/script.h"
 #include "script/script_error.h"
