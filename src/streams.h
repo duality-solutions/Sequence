@@ -7,7 +7,7 @@
 #ifndef SILK_STREAMS_H
 #define SILK_STREAMS_H
 
-#include "allocators.h"
+#include "support/allocators/zeroafterfree.h"
 #include "serialize.h"
 
 #include <algorithm>

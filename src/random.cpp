@@ -1,11 +1,13 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
+// Copyright (c) 2014-2017 The Dash Core Developers
 // Copyright (c) 2015-2017 Silk Network Developers
-// Distributed under the MIT software license, see the accompanying
+// Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "random.h"
 
+#include "support/cleanse.h"
 #ifdef WIN32
 #include "compat.h" // for Windows API
 #endif
@@ -19,7 +21,6 @@
 #include <sys/time.h>
 #endif
 
-#include <openssl/crypto.h>
 #include <openssl/err.h>
 #include <openssl/rand.h>
 
@@ -41,12 +42,16 @@ void RandAddSeed()
     // Seed with CPU performance counter
     int64_t nCounter = GetPerformanceCounter();
     RAND_add(&nCounter, sizeof(nCounter), 1.5);
-    OPENSSL_cleanse((void*)&nCounter, sizeof(nCounter));
+    memory_cleanse((void*)&nCounter, sizeof(nCounter));
 }
 
 void RandAddSeedPerfmon()
 {
     RandAddSeed();
+
+#ifdef WIN32
+    // Don't need this on Linux, OpenSSL automatically uses /dev/urandom
+    // Seed with the entire set of perfmon data
 
     // This can take up to 2 seconds, so only do it every 10 minutes
     static int64_t nLastPerfmon;
@@ -54,9 +59,6 @@ void RandAddSeedPerfmon()
         return;
     nLastPerfmon = GetTime();
 
-#ifdef WIN32
-    // Don't need this on Linux, OpenSSL automatically uses /dev/urandom
-    // Seed with the entire set of perfmon data
     std::vector<unsigned char> vData(250000, 0);
     long ret = 0;
     unsigned long nSize = 0;
@@ -71,7 +73,7 @@ void RandAddSeedPerfmon()
     RegCloseKey(HKEY_PERFORMANCE_DATA);
     if (ret == ERROR_SUCCESS) {
         RAND_add(begin_ptr(vData), nSize, nSize / 100.0);
-        OPENSSL_cleanse(begin_ptr(vData), nSize);
+        memory_cleanse(begin_ptr(vData), nSize);
         LogPrint("rand", "%s: %lu bytes\n", __func__, nSize);
     } else {
         static bool warned = false; // Warn only once
@@ -136,4 +138,22 @@ void seed_insecure_rand(bool fDeterministic)
         } while (tmp == 0 || tmp == 0x464fffffU);
         insecure_rand_Rw = tmp;
     }
+}
+
+InsecureRand::InsecureRand(bool _fDeterministic)
+    : nRz(11),
+      nRw(11),
+      fDeterministic(_fDeterministic)
+{
+    // The seed values have some unlikely fixed points which we avoid.
+    if(fDeterministic) return;
+    uint32_t nTmp;
+    do {
+        GetRandBytes((unsigned char*)&nTmp, 4);
+    } while (nTmp == 0 || nTmp == 0x9068ffffU);
+    nRz = nTmp;
+    do {
+        GetRandBytes((unsigned char*)&nTmp, 4);
+    } while (nTmp == 0 || nTmp == 0x464fffffU);
+    nRw = nTmp;
 }

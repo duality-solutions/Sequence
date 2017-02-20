@@ -120,6 +120,7 @@ static const int64_t BLOCK_DOWNLOAD_TIMEOUT_PER_PEER = 125000;
 static const bool DEFAULT_PERMIT_BAREMULTISIG = true;
 static const unsigned int DEFAULT_BYTES_PER_SIGOP = 20;
 static const bool DEFAULT_CHECKPOINTS_ENABLED = true;
+static const unsigned int DEFAULT_BANSCORE_THRESHOLD = 100;
 
 /** Maximum number of headers to announce when relaying blocks with headers message.*/
 static const unsigned int MAX_BLOCKS_TO_ANNOUNCE = 12;

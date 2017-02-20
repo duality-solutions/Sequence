@@ -10,7 +10,7 @@
 #include "paymentrequestplus.h"
 #include "walletmodeltransaction.h"
 
-#include "allocators.h" /* for SecureString */
+#include "support/allocators/secure.h"
 
 #include <map>
 #include <vector>
@@ -208,6 +208,7 @@ public:
     bool saveReceiveRequest(const std::string &sAddress, const int64_t nId, const std::string &sRequest);
     CWallet *getWallet(){ return wallet; }
 
+    bool hdEnabled() const;
 private:
     CWallet *wallet;
     bool fHaveWatchOnly;

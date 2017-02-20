@@ -85,7 +85,6 @@ endif
 SILK_CORE_H = \
   addrman.h \
   alert.h \
-  allocators.h \
   amount.h \
   base58.h \
   bignum.h \
@@ -114,7 +113,6 @@ SILK_CORE_H = \
   wallet/crypter.h \
   wallet/db.h \
   eccryptoverify.h \
-  ecwrapper.h \
   hash.h \
   indirectmap.h \
   init.h \
@@ -132,6 +130,7 @@ SILK_CORE_H = \
   noui.h \
   ntp.h \    
   pow.h \
+  prevector.h \
   protocol.h \
   pubkey.h \
   random.h \
@@ -148,6 +147,10 @@ SILK_CORE_H = \
   script/script_error.h \
   serialize.h \
   streams.h \
+  support/allocators/secure.h \
+  support/allocators/zeroafterfree.h \
+  support/cleanse.h \
+  support/pagelocker.h \
   sync.h \
   threadsafety.h \
   timedata.h \
@@ -259,7 +262,6 @@ crypto_libsilk_crypto_a_SOURCES = \
 libsilk_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
 libsilk_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_common_a_SOURCES = \
-  allocators.cpp \
   amount.cpp \
   base58.cpp \
   chainparams.cpp \
@@ -271,7 +273,6 @@ libsilk_common_a_SOURCES = \
   core_read.cpp \
   core_write.cpp \
   eccryptoverify.cpp \
-  ecwrapper.cpp \
   hash.cpp \
   key.cpp \
   keystore.cpp \
@@ -299,6 +300,8 @@ libsilk_util_a_SOURCES = \
   clientversion.cpp \
   random.cpp \
   rpc/rpcprotocol.cpp \
+  support/cleanse.cpp \
+  support/pagelocker.cpp \
   sync.cpp \
   timedata.cpp \
   uint256.cpp \
@@ -397,7 +400,6 @@ libsilkconsensus_la_SOURCES = \
   crypto/sha512.cpp \
   crypto/ripemd160.cpp \
   eccryptoverify.cpp \
-  ecwrapper.cpp \
   hash.cpp \
   pubkey.cpp \
   script/script.cpp \
