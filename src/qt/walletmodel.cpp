@@ -236,7 +236,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
     int nAddresses = 0;
 
     // Pre-check input data for validity
-    foreach(const SendCoinsRecipient &rcp, recipients)
+    Q_FOREACH(const SendCoinsRecipient &rcp, recipients)
     {
         if (rcp.paymentRequest.IsInitialized())
         {   // PaymentRequest...
