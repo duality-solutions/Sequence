@@ -691,6 +691,17 @@ void SilkGUI::aboutClicked()
     dlg.exec();
 }
 
+void SilkGUI::showConfEditor()
+{
+    GUIUtil::openConfigfile();
+}
+
+
+void SilkGUI::showBackups()
+{
+    GUIUtil::showBackups();
+}
+
 void SilkGUI::showHelpMessageClicked()
 {
     HelpMessageDialog *help = new HelpMessageDialog(this, false);
