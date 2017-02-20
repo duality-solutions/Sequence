@@ -107,12 +107,12 @@ double ClientModel::getVerificationProgress() const
 
 long ClientModel::getMempoolSize() const
 {
-    return (long)mempool.size();
+    return mempool.size();
 }
 
 size_t ClientModel::getMempoolDynamicUsage() const
 {
-    return (size_t)mempool.DynamicMemoryUsage();
+    return mempool.DynamicMemoryUsage();
 }
 
 void ClientModel::updateTimer()
