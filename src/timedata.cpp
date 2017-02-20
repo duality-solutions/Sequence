@@ -17,6 +17,7 @@
 using namespace std;
 
 static CCriticalSection cs_nTimeOffset;
+
 static volatile int64_t nTimeOffset =  0;
 static volatile int     nUpdCount   = ~0;
 
