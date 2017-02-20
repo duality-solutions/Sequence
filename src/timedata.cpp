@@ -16,10 +16,10 @@
 
 using namespace std;
 
-static CCriticalSection cs_nTimeOffset;
+#define SILK_TIMEDATA_MAX_SAMPLES 200
 
 static volatile int64_t nTimeOffset =  0;
-static volatile int     nUpdCount   = ~0;
+static volatile int nUpdCount   = ~0;
 
 /**
  * "Never go to sea with two chronometers; take one or three."
@@ -49,19 +49,20 @@ static int64_t abs64(int64_t n)
     return (n >= 0 ? n : -n);
 }
 
-#define SILK_TIMEDATA_MAX_SAMPLES 200
-
 void AddTimeData(const CNetAddr& ip, int64_t nTime)
 {
-    LOCK(cs_nTimeOffset);
-    static std::set<CNetAddr> setKnown;
+    static CCriticalSection cs_nTimeOffset;
 
+    LOCK(cs_nTimeOffset);
     // Ignore duplicates
+    static std::set<CNetAddr> setKnown;
     if (setKnown.size() == SILK_TIMEDATA_MAX_SAMPLES)
         return;
     if (!setKnown.insert(ip).second)
         return;
 
+    int64_t nOffsetSample = nTime - GetTime();
+    
     // Add data
     static CMedianFilter<int64_t> vTimeOffsets(SILK_TIMEDATA_MAX_SAMPLES, 0);
     vTimeOffsets.input(nOffsetSample);
