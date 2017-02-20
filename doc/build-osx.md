@@ -54,7 +54,7 @@ Because of OS X having LibreSSL installed we have to tell the compiler where Ope
     
 or you can instead symlink your newly installed OpenSSL:
 
-    $ sudo ln -s openssl-1.0.2i /usr/local/openssl
+    $ sudo ln -s openssl-1.0.2j /usr/local/openssl
 
 (the above version of OpenSSL may differ to the one you have installed, amend to suit)
 
