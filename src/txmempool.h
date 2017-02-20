@@ -17,8 +17,10 @@
 #include "sync.h"
 #include "indirectmap.h"
 
-//#undef foreach
-#include <boost/foreach.hpp>
+#if !defined(QT_PROJECT_BUILD)
+    #undef foreach
+#endif
+
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/ordered_index.hpp>
 
