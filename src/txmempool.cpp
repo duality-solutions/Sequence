@@ -17,6 +17,8 @@
 #include "utiltime.h"
 #include "version.h"
 
+#include <boost/circular_buffer.hpp>
+
 using namespace std;
 
 CTxMemPoolEntry::CTxMemPoolEntry(const CTransaction& _tx, const CAmount& _nFee,
