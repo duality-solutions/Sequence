@@ -64,6 +64,16 @@
 #include <QUrlQuery>
 #endif
 
+const std::string SilkGUI::DEFAULT_UIPLATFORM =
+#if defined(Q_OS_MAC)
+        "macosx"
+#elif defined(Q_OS_WIN)
+        "windows"
+#else
+        "other"
+#endif
+        ;
+
 extern bool fWalletUnlockMintOnly;
 
 const QString SilkGUI::DEFAULT_WALLET = "~Default";

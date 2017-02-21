@@ -69,6 +69,7 @@ class SilkGUI : public QMainWindow
 
 public:
     static const QString DEFAULT_WALLET;
+    static const std::string DEFAULT_UIPLATFORM;
 
     explicit SilkGUI(const NetworkStyle *networkStyle, QWidget *parent = 0);
     ~SilkGUI();

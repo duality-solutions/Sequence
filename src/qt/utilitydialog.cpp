@@ -72,6 +72,7 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
             "  -min                      " + tr("Start minimized") + "\n" +
             "  -rootcertificates=<file>  " + tr("Set SSL root certificates for payment request (default: -system-)") + "\n" +
             "  -splash                   " + tr("Show splash screen on startup (default: 1)");
+            "  -uiplatform               " + tr("Select platform to customize UI for (one of windows, macosx, other; default: %s)", SilkGUI::DEFAULT_UIPLATFORM);
 
         ui->helpMessageLabel->setFont(GUIUtil::SilkAddressFont());
         text = version + "\n" + header + "\n" + coreOptions + "\n" + uiOptions;
