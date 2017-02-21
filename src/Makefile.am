@@ -93,6 +93,7 @@ SILK_CORE_H = \
   core_memusage.h \
   wallet/crypter.h \
   wallet/db.h \
+  dbwrapper.h \
   eccryptoverify.h \
   hash.h \
   indirectmap.h \
@@ -178,6 +179,7 @@ libsilk_server_a_SOURCES = \
   bloom.cpp \
   chain.cpp \
   checkpoints.cpp \
+  dbwrapper.cpp \
   init.cpp \
   leveldbwrapper.cpp \
   main.cpp \

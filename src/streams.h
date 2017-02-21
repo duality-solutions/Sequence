@@ -1,7 +1,8 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
+// Copyright (c) 2014-2017 The Dash Core Developers
 // Copyright (c) 2015-2017 Silk Network Developers
-// Distributed under the MIT software license, see the accompanying
+// Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef SILK_STREAMS_H
@@ -226,7 +227,7 @@ public:
         {
             if (nReadPosNext > vch.size())
             {
-                throw std::ios_base::failure("CDataStream::read() : end of data");
+                throw std::ios_base::failure("CDataStream::read(): end of data");
             }
             memcpy(pch, &vch[nReadPos], nSize);
             nReadPos = 0;
@@ -246,7 +247,7 @@ public:
         if (nReadPosNext >= vch.size())
         {
             if (nReadPosNext > vch.size())
-                throw std::ios_base::failure("CDataStream::ignore() : end of data");
+                throw std::ios_base::failure("CDataStream::ignore(): end of data");
             nReadPos = 0;
             vch.clear();
             return (*this);
@@ -297,7 +298,39 @@ public:
         data.insert(data.end(), begin(), end());
         clear();
     }
+
+    /**
+     * XOR the contents of this stream with a certain key.
+     *
+     * @param[in] key    The key used to XOR the data in this stream.
+     */
+    void Xor(const std::vector<unsigned char>& key)
+    {
+        if (key.size() == 0) {
+            return;
+        }
+
+        for (size_type i = 0, j = 0; i != size(); i++) {
+            vch[i] ^= key[j++];
+
+            // This potentially acts on very many bytes of data, so it's
+            // important that we calculate `j`, i.e. the `key` index in this
+            // way instead of doing a %, which would effectively be a division
+            // for each byte Xor'd -- much slower than need be.
+            if (j == key.size())
+                j = 0;
+        }
+    }
 };
+
+
+
+
+
+
+
+
+
 
 /** Non-refcounted RAII wrapper for FILE*
  *
@@ -314,8 +347,8 @@ private:
 
     int nType;
     int nVersion;
-	
-    FILE* file;	
+    
+    FILE* file; 
 
 public:
     CAutoFile(FILE* filenew, int nTypeIn, int nVersionIn)
@@ -367,18 +400,18 @@ public:
     CAutoFile& read(char* pch, size_t nSize)
     {
         if (!file)
-            throw std::ios_base::failure("CAutoFile::read : file handle is NULL");
+            throw std::ios_base::failure("CAutoFile::read: file handle is NULL");
         if (fread(pch, 1, nSize, file) != nSize)
-            throw std::ios_base::failure(feof(file) ? "CAutoFile::read : end of file" : "CAutoFile::read : fread failed");
+            throw std::ios_base::failure(feof(file) ? "CAutoFile::read: end of file" : "CAutoFile::read: fread failed");
         return (*this);
     }
 
     CAutoFile& write(const char* pch, size_t nSize)
     {
         if (!file)
-            throw std::ios_base::failure("CAutoFile::write : file handle is NULL");
+            throw std::ios_base::failure("CAutoFile::write: file handle is NULL");
         if (fwrite(pch, 1, nSize, file) != nSize)
-            throw std::ios_base::failure("CAutoFile::write : write failed");
+            throw std::ios_base::failure("CAutoFile::write: write failed");
         return (*this);
     }
 
@@ -394,7 +427,7 @@ public:
     {
         // Serialize to this stream
         if (!file)
-            throw std::ios_base::failure("CAutoFile::operator<< : file handle is NULL");
+            throw std::ios_base::failure("CAutoFile::operator<<: file handle is NULL");
         ::Serialize(*this, obj, nType, nVersion);
         return (*this);
     }
@@ -404,7 +437,7 @@ public:
     {
         // Unserialize from this stream
         if (!file)
-            throw std::ios_base::failure("CAutoFile::operator>> : file handle is NULL");
+            throw std::ios_base::failure("CAutoFile::operator>>: file handle is NULL");
         ::Unserialize(*this, obj, nType, nVersion);
         return (*this);
     }
@@ -445,7 +478,7 @@ protected:
             return false;
         size_t read = fread((void*)&vchBuf[pos], 1, readNow, src);
         if (read == 0) {
-            throw std::ios_base::failure(feof(src) ? "CBufferedFile::Fill : end of file" : "CBufferedFile::Fill : fread failed");
+            throw std::ios_base::failure(feof(src) ? "CBufferedFile::Fill: end of file" : "CBufferedFile::Fill: fread failed");
         } else {
             nSrcPos += read;
             return true;

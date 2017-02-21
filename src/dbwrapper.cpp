@@ -1,10 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
+// Copyright (c) 2014-2017 The Dash Core Developers
 // Copyright (c) 2015-2017 Silk Network Developers
-// Distributed under the MIT software license, see the accompanying
+// Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "leveldbwrapper.h"
+#include "dbwrapper.h"
 
 #include "util.h"
 #include "random.h"
@@ -12,24 +13,23 @@
 #include <boost/filesystem.hpp>
 
 #include <leveldb/cache.h>
-#include <leveldb/cache.h>
 #include <leveldb/env.h>
 #include <leveldb/filter_policy.h>
 #include <memenv.h>
 #include <stdint.h>
 
-void HandleError(const leveldb::Status& status) throw(leveldb_error)
+void HandleError(const leveldb::Status& status) throw(dbwrapper_error)
 {
     if (status.ok())
         return;
     LogPrintf("%s\n", status.ToString());
     if (status.IsCorruption())
-        throw leveldb_error("Database corrupted");
+        throw dbwrapper_error("Database corrupted");
     if (status.IsIOError())
-        throw leveldb_error("Database I/O error");
+        throw dbwrapper_error("Database I/O error");
     if (status.IsNotFound())
-        throw leveldb_error("Database entry missing");
-    throw leveldb_error("Unknown database error");
+        throw dbwrapper_error("Database entry missing");
+    throw dbwrapper_error("Unknown database error");
 }
 
 static leveldb::Options GetOptions(size_t nCacheSize)
@@ -48,7 +48,7 @@ static leveldb::Options GetOptions(size_t nCacheSize)
     return options;
 }
 
-CLevelDBWrapper::CLevelDBWrapper(const boost::filesystem::path& path, size_t nCacheSize, bool fMemory, bool fWipe, bool obfuscate)
+CDBWrapper::CDBWrapper(const boost::filesystem::path& path, size_t nCacheSize, bool fMemory, bool fWipe, bool obfuscate)
 {
     penv = NULL;
     readoptions.verify_checksums = true;
@@ -64,6 +64,7 @@ CLevelDBWrapper::CLevelDBWrapper(const boost::filesystem::path& path, size_t nCa
         if (fWipe) {
             LogPrintf("Wiping LevelDB in %s\n", path.string());
             leveldb::Status result = leveldb::DestroyDB(path.string(), options);
+            HandleError(result);
         }
         TryCreateDirectory(path);
         LogPrintf("Opening LevelDB in %s\n", path.string());
@@ -78,7 +79,7 @@ CLevelDBWrapper::CLevelDBWrapper(const boost::filesystem::path& path, size_t nCa
     bool key_exists = Read(OBFUSCATE_KEY_KEY, obfuscate_key);
 
     if (!key_exists && obfuscate && IsEmpty()) {
-        // Initialize non-degenerate obfuscation if it won't upset 
+        // Initialize non-degenerate obfuscation if it won't upset
         // existing, non-obfuscated data.
         std::vector<unsigned char> new_key = CreateObfuscateKey();
 
@@ -92,7 +93,7 @@ CLevelDBWrapper::CLevelDBWrapper(const boost::filesystem::path& path, size_t nCa
     LogPrintf("Using obfuscation key for %s: %s\n", path.string(), GetObfuscateKeyHex());
 }
 
-CLevelDBWrapper::~CLevelDBWrapper()
+CDBWrapper::~CDBWrapper()
 {
     delete pdb;
     pdb = NULL;
@@ -104,7 +105,7 @@ CLevelDBWrapper::~CLevelDBWrapper()
     options.env = NULL;
 }
 
-bool CLevelDBWrapper::WriteBatch(CLevelDBBatch& batch, bool fSync) throw(leveldb_error)
+bool CDBWrapper::WriteBatch(CDBBatch& batch, bool fSync) throw(dbwrapper_error)
 {
     leveldb::Status status = pdb->Write(fSync ? syncoptions : writeoptions, &batch.batch);
     HandleError(status);
@@ -115,15 +116,15 @@ bool CLevelDBWrapper::WriteBatch(CLevelDBBatch& batch, bool fSync) throw(leveldb
 //
 // We must use a string constructor which specifies length so that we copy
 // past the null-terminator.
-const std::string CLevelDBWrapper::OBFUSCATE_KEY_KEY("\000obfuscate_key", 14);
+const std::string CDBWrapper::OBFUSCATE_KEY_KEY("\000obfuscate_key", 14);
 
-const unsigned int CLevelDBWrapper::OBFUSCATE_KEY_NUM_BYTES = 8;
+const unsigned int CDBWrapper::OBFUSCATE_KEY_NUM_BYTES = 8;
 
 /**
- * Returns a string (consisting of 8 random bytes) suitable for use as an 
- * obfuscating XOR key. 
+ * Returns a string (consisting of 8 random bytes) suitable for use as an
+ * obfuscating XOR key.
  */
-std::vector<unsigned char> CLevelDBWrapper::CreateObfuscateKey() const 
+std::vector<unsigned char> CDBWrapper::CreateObfuscateKey() const
 {
     unsigned char buff[OBFUSCATE_KEY_NUM_BYTES];
     GetRandBytes(buff, OBFUSCATE_KEY_NUM_BYTES);
@@ -131,19 +132,24 @@ std::vector<unsigned char> CLevelDBWrapper::CreateObfuscateKey() const
 
 }
 
-bool CLevelDBWrapper::IsEmpty()
+bool CDBWrapper::IsEmpty()
 {
-    boost::scoped_ptr<leveldb::Iterator> it(NewIterator());
+    boost::scoped_ptr<CDBIterator> it(NewIterator());
     it->SeekToFirst();
     return !(it->Valid());
 }
 
-const std::vector<unsigned char>& CLevelDBWrapper::GetObfuscateKey() const 
-{ 
-    return obfuscate_key; 
+const std::vector<unsigned char>& CDBWrapper::GetObfuscateKey() const
+{
+    return obfuscate_key;
 }
 
-std::string CLevelDBWrapper::GetObfuscateKeyHex() const
-{ 
-    return HexStr(obfuscate_key); 
+std::string CDBWrapper::GetObfuscateKeyHex() const
+{
+    return HexStr(obfuscate_key);
 }
+
+CDBIterator::~CDBIterator() { delete piter; }
+bool CDBIterator::Valid() { return piter->Valid(); }
+void CDBIterator::SeekToFirst() { piter->SeekToFirst(); }
+void CDBIterator::Next() { piter->Next(); }
