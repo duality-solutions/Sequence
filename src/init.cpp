@@ -839,12 +839,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         if (!ParseMoney(mapArgs["-reservebalance"], nReserveBalance))
             return InitError(strprintf(_("Invalid amount for -reservebalance=<amount>: '%s'"), mapArgs["-reservebalance"]));
     }
-    if (mapArgs.count("-checkpointkey")) // ppcoin: checkpoint master priv key
-    {
-        if (!CheckpointsSync::SetCheckpointPrivKey(GetArg("-checkpointkey", "")))
-            return InitError(_("Unable to sign checkpoint, wrong checkpointkey?\n"));
-        else LogPrintf("Setting checkpoint private key is successful\n");
-    }
     nTxConfirmTarget = GetArg("-txconfirmtarget", 1);
     bSpendZeroConfChange = GetArg("-spendzeroconfchange", true);
     fSendFreeTransactions = GetArg("-sendfreetransactions", false);

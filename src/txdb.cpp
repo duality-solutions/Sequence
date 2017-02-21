@@ -35,13 +35,6 @@ static const char DB_REINDEX_FLAG = 'R';
 static const char DB_LAST_BLOCK = 'l';
 
 
-void static BatchWriteCoins(CLevelDBBatch &batch, const uint256 &hash, const CCoins &coins) {      
-    if (coins.IsPruned())      
-        batch.Erase(make_pair('c', hash));     
-    else       
-        batch.Write(make_pair('c', hash), coins);      
-}      
-
 CCoinsViewDB::CCoinsViewDB(size_t nCacheSize, bool fMemory, bool fWipe) : db(GetDataDir() / "chainstate", nCacheSize, fMemory, fWipe, true) 
 {
 }

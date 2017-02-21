@@ -5,8 +5,8 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef DARKSILK_TXDB_H
-#define DARKSILK_TXDB_H
+#ifndef SILK_TXDB_H
+#define SILK_TXDB_H
 
 #include "coins.h"
 #include "dbwrapper.h"
@@ -85,4 +85,4 @@ public:
     bool LoadBlockIndexGuts();
 };
 
-#endif // DARKSILK_TXDB_H
+#endif // SILK_TXDB_H

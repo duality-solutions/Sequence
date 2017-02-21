@@ -438,27 +438,6 @@ UniValue getnetworkinfo(const UniValue& params, bool fHelp)
     return obj;
 }
 
-// ppcoin: get information of sync-checkpoint
-UniValue getcheckpoint(const UniValue& params, bool fHelp)
-{
-    if (fHelp || params.size() != 0)
-        throw runtime_error(
-            "getcheckpoint\n"
-            "Show info of synchronized checkpoint.\n");
-
-    UniValue result(UniValue::VOBJ);
-    CBlockIndex* pindexCheckpoint;
-
-    result.push_back(Pair("synccheckpoint", CheckpointsSync::hashSyncCheckpoint.ToString()));
-    pindexCheckpoint = mapBlockIndex[CheckpointsSync::hashSyncCheckpoint];
-    result.push_back(Pair("height", pindexCheckpoint->nHeight));
-    result.push_back(Pair("timestamp", DateTimeStrFormat(".%Y-%m-%d-%H-%M", pindexCheckpoint->GetBlockTime())));
-    if (mapArgs.count("-checkpointkey"))
-        result.push_back(Pair("checkpointmaster", true));
-
-    return result;
-}
-
 UniValue setban(const UniValue& params, bool fHelp)
 {
     string strCommand;
@@ -584,7 +563,6 @@ static const CRPCCommand commands[] =
     { "network",            "getnettotals",           &getnettotals,           true,      true,       false },
     { "network",            "getpeerinfo",            &getpeerinfo,            true,      false,      false },
     { "network",            "ping",                   &ping,                   true,      false,      false },
-    { "network",            "getcheckpoint",          &getcheckpoint,          false,     false,      false },
     { "Network",            "setban",                 &setban,                 true,      false,      false },
     { "Network",            "listbanned",             &listbanned,             true,      false,      false },
     { "Network",            "clearbanned",            &clearbanned,            true,      false,      false },
