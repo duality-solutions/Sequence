@@ -612,6 +612,9 @@ static const CRPCCommand commands[] =
     { "network",            "ping",                   &ping,                   true,      false,      false },
     { "network",            "getcheckpoint",          &getcheckpoint,          false,     false,      false },
     { "network",            "ntptime",                &ntptime,                true,      true,       false },     
+    { "Network",            "setban",                 &setban,                 true,      false,      false },
+    { "Network",            "listbanned",             &listbanned,             true,      false,      false },
+    { "Network",            "clearbanned",            &clearbanned,            true,      false,      false },
 };
 
 void RegisterNetRPCCommands(CRPCTable &tableRPC)
