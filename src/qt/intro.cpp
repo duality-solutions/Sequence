@@ -43,10 +43,10 @@ public:
         ST_ERROR
     };
 
-public slots:
+public Q_SLOTS:
     void check();
 
-signals:
+Q_SIGNALS:
     void reply(int status, const QString &message, quint64 available);
 
 private:

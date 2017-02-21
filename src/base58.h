@@ -157,7 +157,7 @@ public:
     CSilkExtKeyBase() {}
 };
 
-typedef CSilkExtKeyBase<CExtKey, 74, CChainParams::EXT_SECRET_KEY> CSilkExtKey;
-typedef CSilkExtKeyBase<CExtPubKey, 74, CChainParams::EXT_PUBLIC_KEY> CSilkExtPubKey;
+typedef CSilkExtKeyBase<CExtKey, BIP32_EXTKEY_SIZE, CChainParams::EXT_SECRET_KEY> CSilkExtKey;
+typedef CSilkExtKeyBase<CExtPubKey, BIP32_EXTKEY_SIZE, CChainParams::EXT_PUBLIC_KEY> CSilkExtPubKey;
 
 #endif // SILK_BASE58_H

@@ -47,7 +47,7 @@ public:
 
     void setModel(WalletModel *model);
 
-public slots:
+public Q_SLOTS:
     void clear();
     void reject();
     void accept();
@@ -63,7 +63,7 @@ private:
     void copyColumnToClipboard(int column);
     virtual void resizeEvent(QResizeEvent *event);
 
-private slots:
+private Q_SLOTS:
     void on_receiveButton_clicked();
     void on_showRequestButton_clicked();
     void on_removeRequestButton_clicked();

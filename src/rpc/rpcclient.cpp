@@ -91,6 +91,8 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "estimatepriority", 0 },
     { "prioritisetransaction", 1 },
     { "prioritisetransaction", 2 },
+    { "setban", 2 },
+    { "setban", 3 },
 
     // ppcoin:
     { "sendalert", 2 },
