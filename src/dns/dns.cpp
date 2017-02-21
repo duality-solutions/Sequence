@@ -5,6 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "dns/dns.h"
+#include "policy/policy.h"
 #include "script/interpreter.h"
 #include "script/script.h"
 #include "script/sign.h"

@@ -10,6 +10,7 @@
 #include "consensus/validation.h"
 #include "kernel.h"
 #include "main.h"
+#include "policy/policy.h"
 #include "rpc/rpcserver.h"
 #include "sync.h"
 #include "util.h"
@@ -272,7 +273,7 @@ UniValue getrawmempool(const UniValue& params, bool fHelp)
             info.push_back(Pair("currentpriority", e.GetPriority(chainActive.Height())));
             info.push_back(Pair("descendantcount", e.GetCountWithDescendants()));
             info.push_back(Pair("descendantsize", e.GetSizeWithDescendants()));
-            info.push_back(Pair("descendantfees", e.GetFeesWithDescendants()));
+            info.push_back(Pair("descendantfees", e.GetModFeesWithDescendants()));
             const CTransaction& tx = e.GetTx();
             set<string> setDepends;
             BOOST_FOREACH(const CTxIn& txin, tx.vin)

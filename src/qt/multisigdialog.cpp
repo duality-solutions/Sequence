@@ -20,6 +20,8 @@
 #include "script/standard.h"
 #include "script/sign.h"
 #include "rpc/rpcserver.h"
+#include "policy/policy.h"
+#include "txmempool.h"
 #include "core_io.h"
 
 #include <QClipboard>

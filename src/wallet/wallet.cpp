@@ -15,6 +15,7 @@
 #include "wallet/coincontrol.h"
 #include "kernel.h"
 #include "net.h"
+#include "policy/policy.h"
 #include "dns/dns.h"
 #include "primitives/block.h"
 #include "primitives/transaction.h"

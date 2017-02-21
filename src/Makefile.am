@@ -84,6 +84,7 @@ endif
 # Silk Core #
 SILK_CORE_H = \
   addrman.h \
+  addressindex.h \
   alert.h \
   amount.h \
   base58.h \
@@ -110,6 +111,7 @@ SILK_CORE_H = \
   primitives/block.h \
   primitives/transaction.h \
   core_io.h \
+  core_memusage.h \
   wallet/crypter.h \
   wallet/db.h \
   eccryptoverify.h \
@@ -128,7 +130,10 @@ SILK_CORE_H = \
   netbase.h \
   net.h \
   noui.h \
-  ntp.h \    
+  ntp.h \  
+  policy/fees.h \
+  policy/policy.h \
+  policy/rbf.h \  
   pow.h \
   prevector.h \
   protocol.h \
@@ -146,6 +151,7 @@ SILK_CORE_H = \
   script/standard.h \
   script/script_error.h \
   serialize.h \
+  spentindex.h \
   streams.h \
   support/allocators/secure.h \
   support/allocators/zeroafterfree.h \
@@ -201,7 +207,9 @@ libsilk_server_a_SOURCES = \
   miner.cpp \
   net.cpp \
   noui.cpp \
-  ntp.cpp \    
+  ntp.cpp \
+  policy/fees.cpp \
+  policy/policy.cpp \    
   pow.cpp \
   rest.cpp \
   rpc/rpcblockchain.cpp \
@@ -233,6 +241,7 @@ libsilk_wallet_a_SOURCES = \
   wallet/wallet.cpp \
   wallet/wallet_ismine.cpp \
   wallet/walletdb.cpp \
+  policy/rbf.cpp \
   dns/dns.cpp \
   $(SILK_CORE_H)
 
