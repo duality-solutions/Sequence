@@ -1,11 +1,12 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
+// Copyright (c) 2014-2017 The Dash CoreDevelopers
 // Copyright (c) 2015-2017 Silk Network Developers
-// Distributed under the MIT software license, see the accompanying
+// Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_DB_H
-#define SILK_DB_H
+#ifndef SILK_WALLET_DB_H
+#define SILK_WALLET_DB_H
 
 #include "clientversion.h"
 #include "serialize.h"
@@ -21,22 +22,17 @@
 
 #include <db_cxx.h>
 
-class CDiskBlockIndex;
-class COutPoint;
-
-struct CBlockLocator;
+static const unsigned int DEFAULT_WALLET_DBLOGSIZE = 100;
+static const bool DEFAULT_WALLET_PRIVDB = true;
 
 extern unsigned int nWalletDBUpdated;
-
-void ThreadFlushWalletDB(const std::string& strWalletFile);
-
 
 class CDBEnv
 {
 private:
     bool fDbEnvInit;
     bool fMockDb;
-   // Don't change into boost::filesystem::path, as that can result in
+    // Don't change into boost::filesystem::path, as that can result in
     // shutdown problems/crashes caused by a static initialized internal pointer.
     std::string strPath;
 
@@ -44,12 +40,14 @@ private:
 
 public:
     mutable CCriticalSection cs_db;
-    DbEnv dbenv;
+    DbEnv *dbenv;
     std::map<std::string, int> mapFileUseCount;
     std::map<std::string, Db*> mapDb;
 
     CDBEnv();
     ~CDBEnv();
+    void Reset();
+
     void MakeMock();
     bool IsMock() { return fMockDb; }
 
@@ -62,7 +60,7 @@ public:
     enum VerifyResult { VERIFY_OK,
                         RECOVER_OK,
                         RECOVER_FAIL };
-    VerifyResult Verify(std::string strFile, bool (*recoverFunc)(CDBEnv& dbenv, std::string strFile));
+    VerifyResult Verify(const std::string& strFile, bool (*recoverFunc)(CDBEnv& dbenv, const std::string& strFile));
     /**
      * Salvage data from a file that Verify says is bad.
      * fAggressive sets the DB_AGGRESSIVE flag (see berkeley DB->verify() method documentation).
@@ -71,7 +69,7 @@ public:
      * for huge databases.
      */
     typedef std::pair<std::vector<unsigned char>, std::vector<unsigned char> > KeyValPair;
-    bool Salvage(std::string strFile, bool fAggressive, std::vector<KeyValPair>& vResult);
+    bool Salvage(const std::string& strFile, bool fAggressive, std::vector<KeyValPair>& vResult);
 
     bool Open(const boost::filesystem::path& path);
     void Close();
@@ -84,7 +82,7 @@ public:
     DbTxn* TxnBegin(int flags = DB_TXN_WRITE_NOSYNC)
     {
         DbTxn* ptxn = NULL;
-        int ret = dbenv.txn_begin(NULL, &ptxn, flags);
+        int ret = dbenv->txn_begin(NULL, &ptxn, flags);
         if (!ptxn || ret != 0)
             return NULL;
         return ptxn;
@@ -102,8 +100,9 @@ protected:
     std::string strFile;
     DbTxn* activeTxn;
     bool fReadOnly;
+    bool fFlushOnClose;
 
-    explicit CDB(const std::string& strFilename, const char* pszMode = "r+");
+    explicit CDB(const std::string& strFilename, const char* pszMode = "r+", bool fFlushOnCloseIn=true);
     ~CDB() { Close(); }
 
 public:
@@ -312,4 +311,4 @@ public:
     bool static Rewrite(const std::string& strFile, const char* pszSkip = NULL);
 };
 
-#endif // SILK_DB_H
+#endif // SILK_WALLET_DB_H

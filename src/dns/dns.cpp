@@ -1331,12 +1331,11 @@ bool DecodeNameTx(const CTransaction& tx, NameTxInfo& nti, bool checkAddressAndI
         return false;
 
     bool found = false;
-    CScript::const_iterator pc;
     for (unsigned int i = 0; i < tx.vout.size(); i++)
     {
         const CTxOut& out = tx.vout[i];
         NameTxInfo ntiTmp;
-        pc = out.scriptPubKey.begin();
+        CScript::const_iterator pc = out.scriptPubKey.begin();
         if (DecodeNameScript(out.scriptPubKey, ntiTmp, pc))
         {
             // If more than one name op, fail

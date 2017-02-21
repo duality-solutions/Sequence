@@ -31,11 +31,11 @@
 #include "util.h"
 #include "utilmoneystr.h"
 #include "validationinterface.h"
+#include "wallet/walletdb.h"
 
 #ifdef ENABLE_WALLET
 #include "wallet/db.h"
 #include "wallet/wallet.h"
-#include "wallet/walletdb.h"
 #endif
 #include "dns/slkdns.h"
 #include "torcontrol.h"
@@ -975,19 +975,19 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                 return false;
         }
 
-        if (filesystem::exists(GetDataDir() / strWalletFile))
+        if (boost::filesystem::exists(GetDataDir() / strWalletFile))
         {
             CDBEnv::VerifyResult r = bitdb.Verify(strWalletFile, CWalletDB::Recover);
             if (r == CDBEnv::RECOVER_OK)
             {
-                string msg = strprintf(_("Warning: wallet.dat corrupt, data salvaged!"
-                                         " Original wallet.dat saved as wallet.{timestamp}.bak in %s; if"
-                                         " your balance or transactions are incorrect you should"
-                                         " restore from a backup."), strDataDir);
-                InitWarning(msg);
+                InitWarning(strprintf(_("Warning: Wallet file corrupt, data salvaged!"
+                                             " Original %s saved as %s in %s; if"
+                                             " your balance or transactions are incorrect you should"
+                                             " restore from a backup."),
+                    strWalletFile, "wallet.{timestamp}.bak", GetDataDir()));
             }
             if (r == CDBEnv::RECOVER_FAIL)
-                return InitError(_("wallet.dat corrupt, salvage failed"));
+                return InitError(strprintf(_("%s corrupt, salvage failed"), strWalletFile));
         }
     } // (!fDisableWallet)
 #endif // ENABLE_WALLET

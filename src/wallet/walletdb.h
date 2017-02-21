@@ -1,22 +1,24 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
+// Copyright (c) 2014-2017 The Dash CoreDevelopers
 // Copyright (c) 2015-2017 Silk Network Developers
-// Distributed under the MIT software license, see the accompanying
+// Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_WALLETDB_H
-#define SILK_WALLETDB_H
+#ifndef SILK_WALLET_WALLETDB_H
+#define SILK_WALLET_WALLETDB_H
 
 #include "amount.h"
 #include "wallet/db.h"
 #include "key.h"
-#include "keystore.h"
 
 #include <list>
 #include <stdint.h>
 #include <string>
 #include <utility>
 #include <vector>
+
+static const bool DEFAULT_FLUSHWALLET = true;
 
 class CAccount;
 class CAccountingEntry;
@@ -117,7 +119,7 @@ public:
 class CWalletDB : public CDB
 {
 public:
-    CWalletDB(const std::string& strFilename, const char* pszMode = "r+") : CDB(strFilename, pszMode)
+    CWalletDB(const std::string& strFilename, const char* pszMode = "r+", bool fFlushOnClose = true) : CDB(strFilename, pszMode, fFlushOnClose)
     {
     }
 
@@ -152,6 +154,9 @@ public:
 
     bool WriteMinVersion(int nVersion);
 
+    /// This writes directly to the database, and will not update the CWallet's cached accounting entries!
+    /// Use wallet.AddAccountingEntry instead, to write *and* update its caches.
+    bool WriteAccountingEntry_Backend(const CAccountingEntry& acentry);
     bool ReadAccount(const std::string& strAccount, CAccount& account);
     bool WriteAccount(const std::string& strAccount, const CAccount& account);
 
@@ -160,7 +165,6 @@ public:
     /// Erase destination data tuple from wallet database
     bool EraseDestData(const std::string &address, const std::string &key);
 
-    bool WriteAccountingEntry(const CAccountingEntry& acentry);
     CAmount GetAccountCreditDebit(const std::string& strAccount);
     void ListAccountCreditDebit(const std::string& strAccount, std::list<CAccountingEntry>& acentries);
 
@@ -168,8 +172,8 @@ public:
     DBErrors LoadWallet(CWallet* pwallet);
     DBErrors FindWalletTx(CWallet* pwallet, std::vector<uint256>& vTxHash, std::vector<CWalletTx>& vWtx);
     DBErrors ZapWalletTx(CWallet* pwallet, std::vector<CWalletTx>& vWtx);
-    static bool Recover(CDBEnv& dbenv, std::string filename, bool fOnlyKeys);
-    static bool Recover(CDBEnv& dbenv, std::string filename);
+    static bool Recover(CDBEnv& dbenv, const std::string& filename, bool fOnlyKeys);
+    static bool Recover(CDBEnv& dbenv, const std::string& filename);
 
     //! write the hdchain model (external chain child index counter)
     bool WriteHDChain(const CHDChain& chain);
@@ -182,7 +186,8 @@ private:
 };
 
 bool BackupWallet(const CWallet& wallet, const std::string& strDest);
+void ThreadFlushWalletDB(const std::string& strFile);
 
 bool AutoBackupWallet (CWallet* wallet, std::string strWalletFile, std::string& strBackupWarning, std::string& strBackupError);
 
-#endif // SILK_WALLETDB_H
+#endif // SILK_WALLET_WALLETDB_H
