@@ -10,6 +10,7 @@
 
 #include "util.h"
 
+#include "support/allocators/secure.h"
 #include "chainparamsbase.h"
 #include "random.h"
 #include "serialize.h"

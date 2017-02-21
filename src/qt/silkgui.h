@@ -103,6 +103,7 @@ private:
 
     UnitDisplayStatusBarControl *unitDisplayControl;
     QPushButton *labelConnectionsIcon;
+    QLabel *labelWalletHDStatusIcon;
     QLabel *labelStakingIcon;
     QLabel *labelBlocksIcon;
     QLabel *progressBarLabel;
@@ -201,6 +202,12 @@ public slots:
     */
     void setEncryptionStatus(int status);
 
+    /** Set the hd-enabled status as shown in the UI.
+     @param[in] status            current hd enabled status
+     @see WalletModel::EncryptionStatus
+     */
+    void setHDStatus(int hdEnabled);
+
     bool handlePaymentRequest(const SendCoinsRecipient& recipient);
 
     /** Show incoming transaction notification for new transactions. */
@@ -233,7 +240,7 @@ private slots:
     void optionsClicked();
     /** Show about dialog */
     void aboutClicked();
-    /** Open external (default) editor with darksilk.conf */
+    /** Open external (default) editor with silk.conf */
     void showConfEditor();
     /** Show folder with wallet backups in default file browser */
     void showBackups();

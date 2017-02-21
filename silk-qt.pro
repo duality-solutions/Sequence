@@ -397,6 +397,7 @@ HEADERS += \
     src/random.h \
     src/pubkey.h \
     src/protocol.h \
+    src/prevector.h \
     src/pow.h \
     src/noui.h \
     src/netbase.h \
@@ -415,7 +416,6 @@ HEADERS += \
     src/init.h \
     src/hooks.h \
     src/hash.h \
-    src/ecwrapper.h \
     src/eccryptoverify.h \
     src/dns/dns.h \
     src/wallet/db.h \
@@ -436,7 +436,6 @@ HEADERS += \
     src/bignum.h \
     src/base58.h \
     src/amount.h \
-    src/allocators.h \
     src/alert.h \
     src/addrman.h \
     src/torcontrol.h \
@@ -465,6 +464,10 @@ HEADERS += \
     src/script/sign.h \
     src/script/silkconsensus.h \
     src/script/standard.h \
+    src/support/cleanse.h \
+    src/support/pagelocker.h \
+    src/support/allocators/secure.h \
+    src/support/allocators/zeroafterfree.h \
     src/qt/winshutdownmonitor.h \
     src/qt/walletview.h \
     src/qt/walletmodeltransaction.h \
@@ -555,7 +558,6 @@ FORMS += \
 SOURCES += \
     src/addrman.cpp \
     src/alert.cpp \
-    src/allocators.cpp \
     src/amount.cpp \
     src/base58.cpp \
     src/bloom.cpp \
@@ -573,7 +575,6 @@ SOURCES += \
     src/wallet/db.cpp \
     src/dns/dns.cpp \
     src/eccryptoverify.cpp \
-    src/ecwrapper.cpp \
     src/hash.cpp \
     src/init.cpp \
     src/kernel.cpp \
@@ -635,6 +636,8 @@ SOURCES += \
     src/script/sign.cpp \
     src/script/silkconsensus.cpp \
     src/script/standard.cpp \
+    src/support/cleanse.cpp \
+    src/support/pagelocker.cpp \
     src/qt/addressbookpage.cpp \
     src/qt/addresstablemodel.cpp \
     src/qt/askpassphrasedialog.cpp \

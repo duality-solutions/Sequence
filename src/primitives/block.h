@@ -14,8 +14,6 @@
 #include "uint256.h"
 #include "util.h"
 
-#include <boost/foreach.hpp>
-
 enum
 {
     BLOCK_PROOF_OF_STAKE = (1 << 0), // is proof-of-stake block
@@ -167,17 +165,6 @@ public:
     {
         return IsProofOfStake()? std::make_pair(vtx[1].vin[0].prevout, vtx[1].nTime) : std::make_pair(COutPoint(), (unsigned int)0);
     }
-
-    // ppcoin: get max transaction timestamp
-    int64_t GetMaxTransactionTime() const
-    {
-        int64_t maxTransactionTime = 0;
-        BOOST_FOREACH(const CTransaction& tx, vtx)
-            maxTransactionTime = std::max(maxTransactionTime, (int64_t)tx.nTime);
-        return maxTransactionTime;
-    }
-
-
 
     // Build the in-memory merkle tree for this block and return the merkle root.
     // If non-NULL, *mutated is set to whether mutation was detected in the merkle

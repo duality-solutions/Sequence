@@ -24,6 +24,8 @@
 #include <QDebug>
 #include <QTimer>
 
+class CBlockIndex;
+
 static const int64_t nClientStartupTime = GetTime();
 static int64_t nLastBlockTipUpdateNotification = 0;
 
@@ -59,7 +61,7 @@ int ClientModel::getNumConnections(unsigned int flags) const
         return vNodes.size();
 
     int nNum = 0;
-    Q_FOREACH(CNode* pnode, vNodes)
+    BOOST_FOREACH(const CNode* pnode, vNodes)
     if (flags & (pnode->fInbound ? CONNECTIONS_IN : CONNECTIONS_OUT))
         nNum++;
 
