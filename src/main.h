@@ -489,6 +489,18 @@ bool ReconsiderBlock(CValidationState& state, CBlockIndex *pindex);
 bool GetCoinAge(const CTransaction& tx, CValidationState &state, const CCoinsViewCache &view, uint64_t& nCoinAge);
 bool GetCoinAge(const CBlock& block, uint64_t &nCoinAge);
 
+// network and disk
+std::vector<CTransaction> vtx;
+    
+// ppcoin: get max transaction timestamp
+int64_t GetMaxTransactionTime()
+{
+    int64_t maxTransactionTime = 0;
+    BOOST_FOREACH(const CTransaction& tx, vtx)
+        maxTransactionTime = std::max(maxTransactionTime, (int64_t)tx.nTime);
+    return maxTransactionTime;
+}
+
 /** The currently-connected chain of blocks. */
 extern CChain chainActive;
 
