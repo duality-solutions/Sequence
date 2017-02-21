@@ -72,10 +72,10 @@ class RPCExecutor : public QObject
 {
     Q_OBJECT
 
-public slots:
+public Q_SLOTS:
     void request(const QString &command);
 
-signals:
+Q_SIGNALS:
     void reply(int category, const QString &command);
 };
 
