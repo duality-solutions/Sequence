@@ -21,6 +21,7 @@
 #include "primitives/transaction.h"
 #include "script/script.h"
 #include "script/sign.h"
+#include "streams.h"
 #include "timedata.h"
 #include "txdb.h"
 #include "txmempool.h"
