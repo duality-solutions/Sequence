@@ -8,7 +8,7 @@
 #define SILK_COINS_H
 
 #include "compressor.h"
-#include "memusage.h"
+#include "core_memusage.h"
 #include "serialize.h"
 #include "uint256.h"
 #include "undo.h"
@@ -294,8 +294,7 @@ public:
     size_t DynamicMemoryUsage() const {
         size_t ret = memusage::DynamicUsage(vout);
         BOOST_FOREACH(const CTxOut &out, vout) {
-            const std::vector<unsigned char> *script = &out.scriptPubKey;
-            ret += memusage::DynamicUsage(*script);
+            ret += RecursiveDynamicUsage(out.scriptPubKey);
         }
         return ret;
     }
@@ -483,7 +482,7 @@ public:
     bool HaveInputs(const CTransaction& tx) const;
 
     //! Return priority of tx at height nHeight
-    double GetPriority(const CTransaction &tx, int nHeight) const;
+    double GetPriority(const CTransaction &tx, int nHeight, CAmount &inChainInputValue) const;
 
     const CTxOut &GetOutputFor(const CTxIn& input) const;
 

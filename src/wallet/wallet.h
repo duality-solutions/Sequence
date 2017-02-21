@@ -15,6 +15,7 @@
 #include "key.h"
 #include "keystore.h"
 #include "main.h"
+#include "streams.h"
 #include "ui_interface.h"
 #include "validationinterface.h"
 #include "wallet/wallet_ismine.h"
@@ -50,6 +51,9 @@ static const CAmount DEFAULT_TRANSACTION_MAXFEE = 0.1 * COIN;
 static const CAmount nHighTransactionMaxFeeWarning = 100 * nHighTransactionFeeWarning;
 //! Largest (in bytes) free transaction we're willing to create
 static const unsigned int MAX_FREE_TRANSACTION_CREATE_SIZE = 1000;
+
+//! if set, all keys will be derived by using BIP32
+static const bool DEFAULT_USE_HD_WALLET = true;
 
 class CAccountingEntry;
 class CCoinControl;
@@ -141,6 +145,9 @@ private:
     bool CreateTransactionInner(const std::vector<std::pair<CScript, CAmount> >& vecSend, const CWalletTx& wtxNameIn, CAmount nFeeInput,
                            CWalletTx& wtxNew, CReserveKey& reservekey, CAmount& nFeeRet, int nSplitBlock, std::string& strFailReason, const CCoinControl *coinControl = NULL);
 
+    /* the HD chain data model (external chain counters) */
+    CHDChain hdChain;
+
 public:
     /*
      * Main wallet lock.
@@ -186,6 +193,11 @@ public:
     void SetNull();
 
     std::map<uint256, CWalletTx> mapWallet;
+    std::list<CAccountingEntry> laccentries;
+    
+    typedef std::pair<CWalletTx*, CAccountingEntry*> TxPair;
+    typedef std::multimap<int64_t, TxPair > TxItems;
+    TxItems wtxOrdered;
 
     int64_t nOrderPosNext;
     std::map<uint256, int> mapRequestCount;
@@ -263,9 +275,6 @@ public:
      */
     int64_t IncOrderPosNext(CWalletDB *pwalletdb = NULL);
 
-    typedef std::pair<CWalletTx*, CAccountingEntry*> TxPair;
-    typedef std::multimap<int64_t, TxPair > TxItems;
-
     /**
      * Get the wallet's activity log
      * @return multimap of ordered transactions and accounting entries
@@ -299,6 +308,8 @@ public:
     uint64_t GetStakeWeight() const;
     bool CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int64_t nSearchInterval, CMutableTransaction &txNew);
     bool CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey, std::string strCommand="tx");
+
+    bool AddAccountingEntry(const CAccountingEntry&, CWalletDB & pwalletdb);
 
     static CFeeRate minTxFee;
 
@@ -381,6 +392,19 @@ public:
 
     /** Watch-only address added */
     boost::signals2::signal<void (bool fHaveWatchOnly)> NotifyWatchonlyChanged;
+
+    /**
+     * HD Wallet Functions
+     */
+    const CHDChain& GetHDChain() { return hdChain; }
+    /* Returns true if HD is enabled */
+    bool IsHDEnabled();
+    /* Set the HD chain model (chain child index counters) */
+    bool SetHDChain(const CHDChain& chain, bool memonly);
+    /* Generates a new HD master key (will not be activated) */
+    CPubKey GenerateNewHDMasterKey();
+    /* Set the current HD master key (will reset the chain child index counters) */
+    bool SetHDMasterKey(const CPubKey& key);
 };
 
 /** A key allocated from the key pool. */

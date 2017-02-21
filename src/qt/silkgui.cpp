@@ -64,6 +64,16 @@
 #include <QUrlQuery>
 #endif
 
+const std::string SilkGUI::DEFAULT_UIPLATFORM =
+#if defined(Q_OS_MAC)
+        "macosx"
+#elif defined(Q_OS_WIN)
+        "windows"
+#else
+        "other"
+#endif
+        ;
+
 extern bool fWalletUnlockMintOnly;
 
 const QString SilkGUI::DEFAULT_WALLET = "~Default";
@@ -75,6 +85,7 @@ SilkGUI::SilkGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     walletFrame(0),
     unitDisplayControl(0),
     labelConnectionsIcon(0),
+    labelWalletHDStatusIcon(0),
     labelBlocksIcon(0),
     progressBarLabel(0),
     progressBar(0),
@@ -187,6 +198,7 @@ SilkGUI::SilkGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     frameBlocksLayout->setSpacing(3);
     unitDisplayControl = new UnitDisplayStatusBarControl();
     labelEncryptionIcon = new ClickableLockLabel();
+    labelWalletHDStatusIcon = new QLabel();
     labelStakingIcon = new QLabel();
     labelConnectionsIcon = new QPushButton();
     labelConnectionsIcon->setFlat(true); // Make the button look like a label, but clickable
@@ -202,6 +214,7 @@ SilkGUI::SilkGUI(const NetworkStyle *networkStyle, QWidget *parent) :
         frameBlocksLayout->addWidget(unitDisplayControl);
         frameBlocksLayout->addStretch();
         frameBlocksLayout->addWidget(labelEncryptionIcon);
+        frameBlocksLayout->addWidget(labelWalletHDStatusIcon);
         frameBlocksLayout->addStretch();
         frameBlocksLayout->addWidget(labelStakingIcon);
     }
@@ -715,7 +728,7 @@ void SilkGUI::openClicked()
     OpenURIDialog dlg(this);
     if(dlg.exec())
     {
-        emit receivedURI(dlg.getURI());
+        Q_EMIT receivedURI(dlg.getURI());
     }
 }
 
@@ -1023,7 +1036,7 @@ void SilkGUI::dropEvent(QDropEvent *event)
     {
         Q_FOREACH(const QUrl &uri, event->mimeData()->urls())
         {
-            emit receivedURI(uri.toString());
+            Q_EMIT receivedURI(uri.toString());
         }
     }
     event->acceptProposedAction();
@@ -1052,6 +1065,16 @@ bool SilkGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
         return true;
     }
     return false;
+}
+
+void SilkGUI::setHDStatus(int hdEnabled)
+{
+   
+    labelWalletHDStatusIcon->setPixmap(QIcon(hdEnabled ? ":/icons/hd_enabled" : ":/icons/hd_disabled").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
+    labelWalletHDStatusIcon->setToolTip(hdEnabled ? tr("HD key generation is <b>enabled</b>") : tr("HD key generation is <b>disabled</b>"));
+
+    // eventually disable the QLabel to set its opacity to 50% 
+    labelWalletHDStatusIcon->setEnabled(hdEnabled);
 }
 
 void SilkGUI::setEncryptionStatus(int status)
@@ -1254,7 +1277,7 @@ void SilkGUI::unsubscribeFromCoreSignals()
 void SilkGUI::handleRestart(QStringList args)
 {
     if (!ShutdownRequested())
-        emit requestedRestart(args);
+        Q_EMIT requestedRestart(args);
 }
 
 UnitDisplayStatusBarControl::UnitDisplayStatusBarControl() :

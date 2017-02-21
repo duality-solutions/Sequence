@@ -96,7 +96,7 @@ private:
     void subscribeToCoreSignals();
     void unsubscribeFromCoreSignals();
 
-signals:
+Q_SIGNALS:
     void numConnectionsChanged(int count);
     void numBlocksChanged(int count);
     void additionalDataSyncProgressChanged(double nSyncProgress);
@@ -111,7 +111,7 @@ signals:
     // Show current transaction memory pool (pending tx waiting to be included in the coming block(s))
     void mempoolSizeChanged(long count, size_t mempoolSizeInBytes);
 
-public slots:
+public Q_SLOTS:
     void updateTimer();
     void updateNumConnections(int numConnections);
     void updateAlert(const QString &hash, int status);

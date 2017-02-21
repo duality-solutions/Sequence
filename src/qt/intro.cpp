@@ -43,10 +43,10 @@ public:
         ST_ERROR
     };
 
-public slots:
+public Q_SLOTS:
     void check();
 
-signals:
+Q_SIGNALS:
     void reply(int status, const QString &message, quint64 available);
 
 private:
@@ -103,7 +103,7 @@ void FreespaceChecker::check()
         replyStatus = ST_ERROR;
         replyMessage = tr("Cannot create data directory here.");
     }
-    emit reply(replyStatus, replyMessage, freeBytesAvailable);
+    Q_EMIT reply(replyStatus, replyMessage, freeBytesAvailable);
 }
 
 
@@ -122,7 +122,7 @@ Intro::~Intro()
 {
     delete ui;
     /* Ensure thread is finished before it is deleted */
-    emit stopThread();
+    Q_EMIT stopThread();
     thread->wait();
 }
 
@@ -278,7 +278,7 @@ void Intro::checkPath(const QString &dataDir)
     if(!signalled)
     {
         signalled = true;
-        emit requestCheck();
+        Q_EMIT requestCheck();
     }
     mutex.unlock();
 }

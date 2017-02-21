@@ -21,7 +21,7 @@
 #include "main.h"
 #include "miner.h"
 #include "net.h"
-#include "ntp.h"       
+#include "policy/policy.h"  
 #include "rpc/rpcregister.h"
 #include "rpc/rpcserver.h"
 #include "scheduler.h"
@@ -31,11 +31,11 @@
 #include "util.h"
 #include "utilmoneystr.h"
 #include "validationinterface.h"
+#include "wallet/walletdb.h"
 
 #ifdef ENABLE_WALLET
 #include "wallet/db.h"
 #include "wallet/wallet.h"
-#include "wallet/walletdb.h"
 #endif
 #include "dns/slkdns.h"
 #include "torcontrol.h"
@@ -151,6 +151,7 @@ public:
 
 static CCoinsViewDB *pcoinsdbview = NULL;
 static CCoinsViewErrorCatcher *pcoinscatcher = NULL;
+static boost::scoped_ptr<ECCVerifyHandle> globalVerifyHandle;
 
 /** Preparing steps before shutting down or restarting the wallet */
 void PrepareShutdown()
@@ -239,6 +240,8 @@ void Shutdown()
     delete pwalletMain;
     pwalletMain = NULL;
 #endif
+    globalVerifyHandle.reset();
+    ECC_Stop();
     LogPrintf("%s: done\n", __func__);
 }
 
@@ -312,8 +315,8 @@ std::string HelpMessage(HelpMessageMode mode)
 
     strUsage += "\n" + _("Connection options:") + "\n";
     strUsage += "  -addnode=<ip>          " + _("Add a node to connect to and attempt to keep the connection open") + "\n";
-    strUsage += "  -banscore=<n>          " + strprintf(_("Threshold for disconnecting misbehaving peers (default: %u)"), 100) + "\n";
-    strUsage += "  -bantime=<n>           " + strprintf(_("Number of seconds to keep misbehaving peers from reconnecting (default: %u)"), 86400) + "\n";
+    strUsage += "  -banscore=<n>          " + strprintf(_("Threshold for disconnecting misbehaving peers (default: %u)"), DEFAULT_BANSCORE_THRESHOLD) + "\n";
+    strUsage += "  -bantime=<n>           " + strprintf(_("Number of seconds to keep misbehaving peers from reconnecting (default: %u)"), DEFAULT_MISBEHAVING_BANTIME) + "\n";
     strUsage += "  -bind=<addr>           " + _("Bind to given address and always listen on it. Use [host]:port notation for IPv6") + "\n";
     strUsage += "  -connect=<ip>          " + _("Connect only to the specified node(s)") + "\n";
     strUsage += "  -discover              " + _("Discover own IP address (default: 1 when listening and no -externalip)") + "\n";
@@ -364,6 +367,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += "  -spendzeroconfchange   " + strprintf(_("Spend unconfirmed change when sending transactions (default: %u)"), 1) + "\n";
     strUsage += "  -txconfirmtarget=<n>   " + strprintf(_("If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)"), 1) + "\n";
     strUsage += "  -maxtxfee=<amt>        " + strprintf(_("Maximum total fees to use in a single wallet transaction, setting too low may abort large transactions (default: %s)"), FormatMoney(maxTxFee)) + "\n";
+    strUsage += "  -usehd                 " + strprintf("Use hierarchical deterministic key generation (HD) after bip32. Only has effect during wallet creation/first start (default: %u).", DEFAULT_USE_HD_WALLET); 
     strUsage += "  -upgradewallet         " + _("Upgrade wallet to latest format") + " " + _("on startup") + "\n";
     strUsage += "  -wallet=<file>         " + _("Specify wallet file (within data directory)") + " " + strprintf(_("(default: %s)"), "wallet.dat") + "\n";
     strUsage += "  -walletnotify=<cmd>    " + _("Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)") + "\n";
@@ -562,8 +566,7 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
 bool InitSanityCheck(void)
 {
     if(!ECC_InitSanityCheck()) {
-        InitError("OpenSSL appears to lack support for elliptic curve cryptography. For more "
-                  "information, visit https://en.silk.it/wiki/OpenSSL_and_EC_Libraries");
+        InitError("Elliptic curve cryptography sanity check failure. Aborting.");
         return false;
     }
     if (!glibc_sanity_test()) {
@@ -836,12 +839,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         if (!ParseMoney(mapArgs["-reservebalance"], nReserveBalance))
             return InitError(strprintf(_("Invalid amount for -reservebalance=<amount>: '%s'"), mapArgs["-reservebalance"]));
     }
-    if (mapArgs.count("-checkpointkey")) // ppcoin: checkpoint master priv key
-    {
-        if (!CheckpointsSync::SetCheckpointPrivKey(GetArg("-checkpointkey", "")))
-            return InitError(_("Unable to sign checkpoint, wrong checkpointkey?\n"));
-        else LogPrintf("Setting checkpoint private key is successful\n");
-    }
     nTxConfirmTarget = GetArg("-txconfirmtarget", 1);
     bSpendZeroConfChange = GetArg("-spendzeroconfchange", true);
     fSendFreeTransactions = GetArg("-sendfreetransactions", false);
@@ -855,6 +852,10 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     fAlerts = GetBoolArg("-alerts", DEFAULT_ALERTS);
 
     // ********************************************************* Step 4: application initialization: dir lock, daemonize, pidfile, debug log
+
+    // Initialize elliptic curve code
+    ECC_Start();
+    globalVerifyHandle.reset(new ECCVerifyHandle());
 
     // Sanity check
     if (!InitSanityCheck())
@@ -968,19 +969,19 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                 return false;
         }
 
-        if (filesystem::exists(GetDataDir() / strWalletFile))
+        if (boost::filesystem::exists(GetDataDir() / strWalletFile))
         {
             CDBEnv::VerifyResult r = bitdb.Verify(strWalletFile, CWalletDB::Recover);
             if (r == CDBEnv::RECOVER_OK)
             {
-                string msg = strprintf(_("Warning: wallet.dat corrupt, data salvaged!"
-                                         " Original wallet.dat saved as wallet.{timestamp}.bak in %s; if"
-                                         " your balance or transactions are incorrect you should"
-                                         " restore from a backup."), strDataDir);
-                InitWarning(msg);
+                InitWarning(strprintf(_("Warning: Wallet file corrupt, data salvaged!"
+                                             " Original %s saved as %s in %s; if"
+                                             " your balance or transactions are incorrect you should"
+                                             " restore from a backup."),
+                    strWalletFile, "wallet.{timestamp}.bak", GetDataDir()));
             }
             if (r == CDBEnv::RECOVER_FAIL)
-                return InitError(_("wallet.dat corrupt, salvage failed"));
+                return InitError(strprintf(_("%s corrupt, salvage failed"), strWalletFile));
         }
     } // (!fDisableWallet)
 #endif // ENABLE_WALLET
@@ -1334,6 +1335,13 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             // Create new keyUser and set as default key
             RandAddSeedPerfmon();
 
+            // Create new keyUser and set as default key
+            if (GetBoolArg("-usehd", DEFAULT_USE_HD_WALLET) && !pwalletMain->IsHDEnabled()) {
+                // generate a new master key
+                CPubKey masterPubKey = pwalletMain->GenerateNewHDMasterKey();
+                if (!pwalletMain->SetHDMasterKey(masterPubKey))
+                    throw std::runtime_error(std::string(__func__) + ": Storing master key failed");
+            }
             CPubKey newDefaultKey;
             if (pwalletMain->GetKeyFromPool(newDefaultKey)) {
                 pwalletMain->SetDefaultKey(newDefaultKey);
@@ -1342,6 +1350,13 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             }
 
             pwalletMain->SetBestChain(chainActive.GetLocator());
+        }
+        else if (mapArgs.count("-usehd")) {
+            bool useHD = GetBoolArg("-usehd", DEFAULT_USE_HD_WALLET);
+            if (pwalletMain->IsHDEnabled() && !useHD)
+                return InitError(strprintf(_("Error loading %s: You can't disable HD on a already existing HD wallet"), strWalletFile));
+            if (!pwalletMain->IsHDEnabled() && useHD)
+                return InitError(strprintf(_("Error loading %s: You can't enable HD on a already existing non-HD wallet"), strWalletFile));
         }
 
         LogPrintf("%s", strErrors.str());
@@ -1451,11 +1466,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     if (GetBoolArg("-stakegen", true))
         MintStake(threadGroup, pwalletMain);
 #endif
-
-    // ********************************************************* Step 11: NTP synchronization      
-      
-    // Trusted NTP server, it's localhost by default.     
-    strTrustedUpstream = GetArg("-ntp", "localhost");
 
     // ********************************************************* Step 12: finished
 

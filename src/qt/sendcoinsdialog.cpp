@@ -348,7 +348,7 @@ void SendCoinsDialog::on_sendButton_clicked()
     questionString.append("<hr />");
     CAmount totalAmount = currentTransaction.getTotalTransactionAmount() + txFee;
     QStringList alternativeUnits;
-    foreach(SilkUnits::Unit u, SilkUnits::availableUnits())
+    Q_FOREACH(SilkUnits::Unit u, SilkUnits::availableUnits())
     {
         if(u != model->getOptionsModel()->getDisplayUnit())
             alternativeUnits.append(SilkUnits::formatHtmlWithUnit(u, totalAmount));
@@ -584,7 +584,7 @@ void SendCoinsDialog::processSendCoinsReturn(const WalletModel::SendCoinsReturn 
         return;
     }
 
-    emit message(tr("Send Coins"), msgParams.first, msgParams.second);
+    Q_EMIT message(tr("Send Coins"), msgParams.first, msgParams.second);
 }
 
 void SendCoinsDialog::minimizeFeeSection(bool fMinimize)

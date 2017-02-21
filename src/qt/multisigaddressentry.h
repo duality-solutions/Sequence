@@ -26,11 +26,11 @@ class MultisigAddressEntry : public QFrame
     bool validate();
     QString getWalletAddress();
 
-    public slots:
+    public Q_SLOTS:
     void setRemoveEnabled(bool enabled);
     void clear();
 
-  signals:
+  Q_SIGNALS:
     void removeEntry(MultisigAddressEntry *entry);
 
   private:
@@ -38,7 +38,7 @@ class MultisigAddressEntry : public QFrame
     WalletModel *model;
     bool updateLabel(const QString &address);
 
-  private slots:
+  private Q_SLOTS:
     void on_walletaddress_textChanged(const QString &address);
     void on_pasteButton_clicked();
     void on_deleteButton_clicked();

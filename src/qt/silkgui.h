@@ -48,14 +48,14 @@ public:
     ClickableLockLabel() : QLabel() {}
     ~ClickableLockLabel() {}
 
-signals:
+Q_SIGNALS:
     void clicked();
 
 protected:
     void mousePressEvent(QMouseEvent * event)
     {
         QLabel::mousePressEvent(event);
-        emit clicked();
+        Q_EMIT clicked();
     }
 };
 
@@ -69,6 +69,7 @@ class SilkGUI : public QMainWindow
 
 public:
     static const QString DEFAULT_WALLET;
+    static const std::string DEFAULT_UIPLATFORM;
 
     explicit SilkGUI(const NetworkStyle *networkStyle, QWidget *parent = 0);
     ~SilkGUI();
@@ -103,6 +104,7 @@ private:
 
     UnitDisplayStatusBarControl *unitDisplayControl;
     QPushButton *labelConnectionsIcon;
+    QLabel *labelWalletHDStatusIcon;
     QLabel *labelStakingIcon;
     QLabel *labelBlocksIcon;
     QLabel *progressBarLabel;
@@ -171,13 +173,13 @@ private:
     /** Disconnect core signals from GUI client */
     void unsubscribeFromCoreSignals();
 
-signals:
+Q_SIGNALS:
     /** Signal raised when a URI was entered or dragged to the GUI */
     void receivedURI(const QString &uri);
     /** Restart handling */
     void requestedRestart(QStringList args);
 
-public slots:
+public Q_SLOTS:
     /** Set number of connections shown in the UI */
     void setNumConnections(int count);
     /** Set number of blocks shown in the UI */
@@ -201,13 +203,19 @@ public slots:
     */
     void setEncryptionStatus(int status);
 
+    /** Set the hd-enabled status as shown in the UI.
+     @param[in] status            current hd enabled status
+     @see WalletModel::EncryptionStatus
+     */
+    void setHDStatus(int hdEnabled);
+
     bool handlePaymentRequest(const SendCoinsRecipient& recipient);
 
     /** Show incoming transaction notification for new transactions. */
     void incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address);
 #endif // ENABLE_WALLET
 
-private slots:
+private Q_SLOTS:
 #ifdef ENABLE_WALLET
     /** Switch to overview (home) page */
     void gotoOverviewPage();
@@ -233,7 +241,7 @@ private slots:
     void optionsClicked();
     /** Show about dialog */
     void aboutClicked();
-    /** Open external (default) editor with darksilk.conf */
+    /** Open external (default) editor with silk.conf */
     void showConfEditor();
     /** Show folder with wallet backups in default file browser */
     void showBackups();
@@ -280,7 +288,7 @@ private:
     /** Creates context menu, its actions, and wires up all the relevant signals for mouse events. */
     void createContextMenu();
 
-private slots:
+private Q_SLOTS:
     /** When Display Units are changed on OptionsModel it will refresh the display text of the control on the status bar */
     void updateDisplayUnit(int newUnits);
     /** Tells underlying optionsModel to update its current display unit. */

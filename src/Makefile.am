@@ -5,35 +5,11 @@ AM_CXXFLAGS = $(HARDENED_CXXFLAGS)
 AM_CPPFLAGS = $(HARDENED_CPPFLAGS)
 EXTRA_LIBRARIES =
 
-if EMBEDDED_UNIVALUE
-LIBUNIVALUE = univalue/libunivalue.la
- 
-$(LIBUNIVALUE): $(wildcard univalue/lib/*) $(wildcard univalue/include/*)
-	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
-else
-LIBUNIVALUE = $(UNIVALUE_LIBS)
-endif
-
-if EMBEDDED_LEVELDB
-LEVELDB_CPPFLAGS += -I$(srcdir)/leveldb/include
-LEVELDB_CPPFLAGS += -I$(srcdir)/leveldb/helpers/memenv
-LIBLEVELDB += $(builddir)/leveldb/libleveldb.a
-LIBMEMENV  += $(builddir)/leveldb/libmemenv.a
-
-# NOTE: This dependency is not strictly necessary, but without it make may try to build both in parallel, which breaks the LevelDB build system in a race
-$(LIBLEVELDB): $(LIBMEMENV)
-
-$(LIBLEVELDB) $(LIBMEMENV):
-	@echo "Building LevelDB ..." && $(MAKE) -C $(@D) $(@F) CXX="$(CXX)" \
-	  CC="$(CC)" PLATFORM=$(TARGET_OS) AR="$(AR)" $(LEVELDB_TARGET_FLAGS) \
-          OPT="$(CXXFLAGS) $(CPPFLAGS)"
-endif
-
 SILK_CONFIG_INCLUDES=-I$(builddir)/config
-SILK_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BDB_CPPFLAGS) $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
+SILK_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
 
 SILK_INCLUDES += -I$(srcdir)/secp256k1/include
-SILK_INCLUDES += $(UNIVALUE_CFLAGS)
+SILK_INCLUDES += -I$(srcdir)/univalue/include
 
 LIBSILK_SERVER=libsilk_server.a
 LIBSILK_WALLET=libsilk_wallet.a
@@ -41,20 +17,22 @@ LIBSILK_COMMON=libsilk_common.a
 LIBSILK_CLI=libsilk_cli.a
 LIBSILK_UTIL=libsilk_util.a
 LIBSILK_CRYPTO=crypto/libsilk_crypto.a
-LIBSILK_UNIVALUE=univalue/libsilk_univalue.a
 LIBSILKQT=qt/libsilkqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
+LIBUNIVALUE=univalue/libunivalue.la
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
 
+$(LIBUNIVALUE): $(wildcard univalue/lib/*) $(wildcard univalue/include/*)
+	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
+
 # Make is not made aware of per-object dependencies to avoid limiting building parallelization
 # But to build the less dependent modules first, we manually select their order here:
-EXTRA_LIBRARIES = \
+EXTRA_LIBRARIES += \
   crypto/libsilk_crypto.a \
   libsilk_util.a \
   libsilk_common.a \
-  univalue/libsilk_univalue.a \
   libsilk_server.a \
   libsilk_cli.a
 if ENABLE_WALLET
@@ -71,6 +49,7 @@ endif
 
 bin_PROGRAMS =
 TESTS =
+BENCHMARKS =
 
 if BUILD_SILKD
   bin_PROGRAMS += silkd
@@ -80,12 +59,12 @@ if BUILD_SILK_UTILS
   bin_PROGRAMS += silk-cli silk-tx
 endif
 
-.PHONY: FORCE
-# Silk Core #
+.PHONY: FORCE check-symbols check-security
+# silk core #
 SILK_CORE_H = \
   addrman.h \
+  addressindex.h \
   alert.h \
-  allocators.h \
   amount.h \
   base58.h \
   bignum.h \
@@ -111,10 +90,11 @@ SILK_CORE_H = \
   primitives/block.h \
   primitives/transaction.h \
   core_io.h \
+  core_memusage.h \
   wallet/crypter.h \
   wallet/db.h \
+  dbwrapper.h \
   eccryptoverify.h \
-  ecwrapper.h \
   hash.h \
   indirectmap.h \
   init.h \
@@ -130,8 +110,11 @@ SILK_CORE_H = \
   netbase.h \
   net.h \
   noui.h \
-  ntp.h \    
+	policy/fees.h \
+  policy/policy.h \
+  policy/rbf.h \
   pow.h \
+	prevector.h \
   protocol.h \
   pubkey.h \
   random.h \
@@ -147,7 +130,12 @@ SILK_CORE_H = \
   script/standard.h \
   script/script_error.h \
   serialize.h \
+  spentindex.h \
   streams.h \
+  support/allocators/secure.h \
+  support/allocators/zeroafterfree.h \
+  support/cleanse.h \
+  support/pagelocker.h \
   sync.h \
   threadsafety.h \
   timedata.h \
@@ -168,18 +156,18 @@ SILK_CORE_H = \
   wallet/walletdb.h \
   compat/sanity.h \
   reverselock.h \
-## --- ppcoin and silk headers start from this line --- ##
-  uint256hm.h \
+ 	uint256hm.h \
   kernel.h \
   dns/dns.h \
   hooks.h \
   dns/slkdns.h \
-  torcontrol.h
+  torcontrol.h 
+
 
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
 	@$(top_srcdir)/share/genbuild.sh $(abs_top_builddir)/src/obj/build.h \
-	  $(abs_top_srcdir)
+		$(abs_top_srcdir)
 libsilk_util_a-clientversion.$(OBJEXT): obj/build.h
 
 # server: shared between silkd and silk-qt
@@ -191,6 +179,7 @@ libsilk_server_a_SOURCES = \
   bloom.cpp \
   chain.cpp \
   checkpoints.cpp \
+  dbwrapper.cpp \
   init.cpp \
   leveldbwrapper.cpp \
   main.cpp \
@@ -198,7 +187,8 @@ libsilk_server_a_SOURCES = \
   miner.cpp \
   net.cpp \
   noui.cpp \
-  ntp.cpp \    
+  policy/fees.cpp \
+  policy/policy.cpp \
   pow.cpp \
   rest.cpp \
   rpc/rpcblockchain.cpp \
@@ -211,7 +201,6 @@ libsilk_server_a_SOURCES = \
   txdb.cpp \
   txmempool.cpp \
   validationinterface.cpp \
-## --- ppcoin and silk sources start from this line --- ##
   kernel.cpp \
   dns/dns.cpp \
   dns/slkdns.cpp \
@@ -230,12 +219,13 @@ libsilk_wallet_a_SOURCES = \
   wallet/wallet.cpp \
   wallet/wallet_ismine.cpp \
   wallet/walletdb.cpp \
+  policy/rbf.cpp \
   dns/dns.cpp \
   $(SILK_CORE_H)
 
 # crypto primitives library
-crypto_libsilk_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_CONFIG_INCLUDES)
-crypto_libsilk_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+crypto_libsilk_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_CONFIG_INCLUDES) $(PIC_FLAGS)
+crypto_libsilk_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) $(PIC_FLAGS)
 crypto_libsilk_crypto_a_SOURCES = \
   crypto/aes.cpp \
   crypto/aes.h \
@@ -259,7 +249,6 @@ crypto_libsilk_crypto_a_SOURCES = \
 libsilk_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
 libsilk_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsilk_common_a_SOURCES = \
-  allocators.cpp \
   amount.cpp \
   base58.cpp \
   chainparams.cpp \
@@ -271,7 +260,6 @@ libsilk_common_a_SOURCES = \
   core_read.cpp \
   core_write.cpp \
   eccryptoverify.cpp \
-  ecwrapper.cpp \
   hash.cpp \
   key.cpp \
   keystore.cpp \
@@ -299,6 +287,8 @@ libsilk_util_a_SOURCES = \
   clientversion.cpp \
   random.cpp \
   rpc/rpcprotocol.cpp \
+  support/cleanse.cpp \
+  support/pagelocker.cpp \
   sync.cpp \
   timedata.cpp \
   uint256.cpp \
@@ -347,7 +337,6 @@ silkd_LDADD += libsilk_wallet.a
 endif
 
 silkd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
-#
 
 # silk-cli binary #
 silk_cli_SOURCES = silk-cli.cpp
@@ -355,18 +344,15 @@ silk_cli_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES) $(EVENT_CFLAGS)
 silk_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 silk_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
-
 if TARGET_WINDOWS
 silk_cli_SOURCES += silk-cli-res.rc
 endif
 
 silk_cli_LDADD = \
   $(LIBSILK_CLI) \
-  $(LIBSILK_UTIL) \
   $(LIBUNIVALUE) \
-  $(EVENT_LIBS)
-
-silk_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS)
+  $(LIBSILK_UTIL)
+silk_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
 #
 
 # silk-tx binary #
@@ -374,6 +360,10 @@ silk_tx_SOURCES = silk-tx.cpp
 silk_tx_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
 silk_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 silk_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+
+if TARGET_WINDOWS
+silk_tx_SOURCES += silk-tx-res.rc
+endif
 
 silk_tx_LDADD = \
   $(LIBUNIVALUE) \
@@ -397,7 +387,6 @@ libsilkconsensus_la_SOURCES = \
   crypto/sha512.cpp \
   crypto/ripemd160.cpp \
   eccryptoverify.cpp \
-  ecwrapper.cpp \
   hash.cpp \
   pubkey.cpp \
   script/script.cpp \
@@ -416,6 +405,7 @@ libsilkconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp
 libsilkconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
 endif
+#
 
 CLEANFILES = leveldb/libleveldb.a leveldb/libmemenv.a
 CLEANFILES += *.gcda *.gcno
@@ -438,40 +428,37 @@ clean-local:
 	-$(MAKE) -C leveldb clean
 	-$(MAKE) -C secp256k1 clean
 	-$(MAKE) -C univalue clean
-	-rm -rf .libs
-	-rm -rf .deps
 	-rm -f leveldb/*/*.gcda leveldb/*/*.gcno leveldb/helpers/memenv/*.gcda leveldb/helpers/memenv/*.gcno
 	-rm -f config.h
-	-rm -rf compat/.deps && rm -rf compat/.libs && rm -f compat/.dirstamp
-	-rm -rf crypto/.deps && rm -rf crypto/.libs && rm -f crypto/.dirstamp
-	-rm -rf primitives/.deps && rm -rf primitives/.libs && rm -f primitives/.dirstamp
-	-rm -rf qt/.deps && rm -rf qt/.libs && rm -f qt/.dirstamp && rm -rf qt/test/.deps
-	-rm -rf script/.deps && rm -rf script/.libs && rm -f script/.dirstamp
-	-rm -rf univalue/.deps && rm -rf univalue/.libs && rm -f univalue/.dirstamp
-	-rm -rf test/.deps && rm -rf test/.libs && rm -f test/.dirstamp && rm	-f test/buildenv.py
-	-rm -rf secp256k1/.deps && rm -rf secp256k1/.libs && rm -f secp256k1/.dirstamp
-	-rm -f Makefile && rm -f Makefile.in
-	-rm -f config/silk-config.h && rm -f config/silk-config.* && rm -f config/stamp-h1
+
 .rc.o:
 	@test -f $(WINDRES)
 	$(AM_V_GEN) $(WINDRES) -DWINDRES_PREPROC -i $< -o $@
 
 .mm.o:
 	$(AM_V_CXX) $(OBJCXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	  $(CPPFLAGS) $(AM_CXXFLAGS) $(QT_INCLUDES) $(CXXFLAGS)  -c -o $@ $<
+		$(CPPFLAGS) $(AM_CXXFLAGS) $(QT_INCLUDES) $(AM_CXXFLAGS) $(PIE_FLAGS) $(CXXFLAGS) -c -o $@ $<
+
+check-symbols: $(bin_PROGRAMS)
+if GLIBC_BACK_COMPAT
+	@echo "Checking glibc back compat..."
+	$(AM_V_at) READELF=$(READELF) CPPFILT=$(CPPFILT) $(top_srcdir)/contrib/devtools/symbol-check.py < $(bin_PROGRAMS)
+endif
+
+check-security: $(bin_PROGRAMS)
+if HARDEN
+	@echo "Checking binary security..."
+	$(AM_V_at) READELF=$(READELF) OBJDUMP=$(OBJDUMP) $(top_srcdir)/contrib/devtools/security-check.py < $(bin_PROGRAMS)
+endif
 
 %.pb.cc %.pb.h: %.proto
 	@test -f $(PROTOC)
 	$(AM_V_GEN) $(PROTOC) --cpp_out=$(@D) --proto_path=$(abspath $(<D) $<)
-# TODO (Amir) put back unit tests
-#if ENABLE_TESTS
-#include Makefile.test.include
-#endif
+
+if EMBEDDED_LEVELDB
+include Makefile.leveldb.include
+endif
 
 if ENABLE_QT
 include Makefile.qt.include
 endif
-
-#if ENABLE_QT_TESTS
-#include Makefile.qttest.include
-#endif

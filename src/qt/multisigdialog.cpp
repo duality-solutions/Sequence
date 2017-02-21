@@ -7,6 +7,7 @@
 #include "addresstablemodel.h"
 #include "base58.h"
 #include "consensus/validation.h"
+#include "dbwrapper.h"
 #include "key.h"
 #include "main.h"
 #include "multisigaddressentry.h"
@@ -20,7 +21,10 @@
 #include "script/standard.h"
 #include "script/sign.h"
 #include "rpc/rpcserver.h"
+#include "policy/policy.h"
+#include "txmempool.h"
 #include "core_io.h"
+
 
 #include <QClipboard>
 #include <QWidget>

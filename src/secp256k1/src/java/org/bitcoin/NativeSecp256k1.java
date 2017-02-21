@@ -1,4 +1,4 @@
-package org.silk;
+package org.bitcoin;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
