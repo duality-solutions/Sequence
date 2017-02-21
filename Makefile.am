@@ -4,11 +4,6 @@ SUBDIRS = src
 
 GZIP_ENV="-9n"
 
-if BUILD_SILK_LIBS
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libsilkconsensus.pc
-endif
-
 SILKD_BIN=$(top_builddir)/src/silkd$(EXEEXT)
 SILK_QT_BIN=$(top_builddir)/src/qt/silk-qt$(EXEEXT)
 SILK_CLI_BIN=$(top_builddir)/src/silk-cli$(EXEEXT)
