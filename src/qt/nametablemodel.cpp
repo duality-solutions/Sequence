@@ -336,5 +336,5 @@ void NameTableModel::updateEntry(const QString &name, const QString &value, cons
 
 void NameTableModel::emitDataChanged(int idx)
 {
-    emit dataChanged(index(idx, 0), index(idx, columns.length()-1));
+    Q_EMIT dataChanged(index(idx, 0), index(idx, columns.length()-1));
 }

@@ -397,11 +397,11 @@ HEADERS += \
     src/random.h \
     src/pubkey.h \
     src/protocol.h \
+    src/prevector.h \
     src/pow.h \
     src/noui.h \
     src/netbase.h \
     src/net.h \
-    src/ntp.h \        
     src/mruset.h \
     src/miner.h \
     src/merkleblock.h \
@@ -415,7 +415,6 @@ HEADERS += \
     src/init.h \
     src/hooks.h \
     src/hash.h \
-    src/ecwrapper.h \
     src/eccryptoverify.h \
     src/dns/dns.h \
     src/wallet/db.h \
@@ -436,7 +435,6 @@ HEADERS += \
     src/bignum.h \
     src/base58.h \
     src/amount.h \
-    src/allocators.h \
     src/alert.h \
     src/addrman.h \
     src/torcontrol.h \
@@ -465,6 +463,10 @@ HEADERS += \
     src/script/sign.h \
     src/script/silkconsensus.h \
     src/script/standard.h \
+    src/support/cleanse.h \
+    src/support/pagelocker.h \
+    src/support/allocators/secure.h \
+    src/support/allocators/zeroafterfree.h \
     src/qt/winshutdownmonitor.h \
     src/qt/walletview.h \
     src/qt/walletmodeltransaction.h \
@@ -520,10 +522,6 @@ HEADERS += \
     src/qt/addresstablemodel.h \
     src/qt/addressbookpage.h \
     src/compat/sanity.h \
-    src/zmq/zmqabstractnotifier.h \
-    src/zmq/zmqconfig.h\
-    src/zmq/zmqnotificationinterface.h \
-    src/zmq/zmqpublishnotifier.h \
     src/qt/paymentrequest.pb.h \
     src/compat/byteswap.h \
     src/compat/endian.h
@@ -555,7 +553,6 @@ FORMS += \
 SOURCES += \
     src/addrman.cpp \
     src/alert.cpp \
-    src/allocators.cpp \
     src/amount.cpp \
     src/base58.cpp \
     src/bloom.cpp \
@@ -573,7 +570,6 @@ SOURCES += \
     src/wallet/db.cpp \
     src/dns/dns.cpp \
     src/eccryptoverify.cpp \
-    src/ecwrapper.cpp \
     src/hash.cpp \
     src/init.cpp \
     src/kernel.cpp \
@@ -586,7 +582,6 @@ SOURCES += \
     src/net.cpp \
     src/netbase.cpp \
     src/noui.cpp \
-    src/ntp.cpp \      
     src/pow.cpp \
     src/protocol.cpp \
     src/pubkey.cpp \
@@ -635,6 +630,8 @@ SOURCES += \
     src/script/sign.cpp \
     src/script/silkconsensus.cpp \
     src/script/standard.cpp \
+    src/support/cleanse.cpp \
+    src/support/pagelocker.cpp \
     src/qt/addressbookpage.cpp \
     src/qt/addresstablemodel.cpp \
     src/qt/askpassphrasedialog.cpp \

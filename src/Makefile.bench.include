@@ -1,8 +1,3 @@
-# Copyright (c) 2015-2017 The Bitcoin Core developers
-# Copyright (c) 2015-2017 The Silk Network developers
-# Distributed under the MIT software license, see the accompanying
-# file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
 bin_PROGRAMS += bench/bench_silk
 BENCH_SRCDIR = bench
 BENCH_BINARY = bench/bench_silk$(EXEEXT)
@@ -25,17 +20,12 @@ bench_bench_silk_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 bench_bench_silk_LDADD = \
   $(LIBSILK_SERVER) \
   $(LIBSILK_COMMON) \
+  $(LIBSILK_UNIVALUE) \
   $(LIBSILK_UTIL) \
-  $(LIBSILK_CONSENSUS) \
   $(LIBSILK_CRYPTO) \
   $(LIBLEVELDB) \
   $(LIBMEMENV) \
-  $(LIBSECP256K1) \
-  $(LIBUNIVALUE)
-
-if ENABLE_ZMQ
-bench_bench_silk_LDADD += $(LIBSILK_ZMQ) $(ZMQ_LIBS)
-endif
+  $(LIBSECP256K1)
 
 if ENABLE_WALLET
 bench_bench_silk_SOURCES += bench/coin_selection.cpp
@@ -52,7 +42,7 @@ CLEANFILES += $(CLEAN_SILK_BENCH)
 silk_bench: $(BENCH_BINARY)
 
 bench: $(BENCH_BINARY) FORCE
-	$(BENCH_BINARY)
+  $(BENCH_BINARY)
 
 silk_bench_clean : FORCE
-	rm -f $(CLEAN_SILK_BENCH) $(bench_bench_silk_OBJECTS) $(BENCH_BINARY)
+  rm -f $(CLEAN_SILK_BENCH) $(bench_bench_silk_OBJECTS) $(BENCH_BINARY)

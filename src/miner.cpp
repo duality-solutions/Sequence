@@ -17,6 +17,7 @@
 #include "hash.h"
 #include "main.h"
 #include "net.h"
+#include "policy/policy.h"
 #include "pow.h"
 #include "primitives/block.h"
 #include "primitives/transaction.h"
@@ -109,7 +110,7 @@ CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProo
 {
     const Consensus::Params& consensusParams = Params().GetConsensus();
     // Create new block
-    unique_ptr<CBlockTemplate> pblocktemplate(new CBlockTemplate());
+    auto_ptr<CBlockTemplate> pblocktemplate(new CBlockTemplate());
     if(!pblocktemplate.get())
         return NULL;
     CBlock *pblock = &pblocktemplate->block; // pointer for convenience
@@ -575,11 +576,11 @@ void SilkMiner(CWallet *pwallet, bool fProofOfStake)
             CBlockIndex* pindexPrev = chainActive.Tip();
 
             bool fPoSCancel = false;  // fPoSCancel == true means that we failed to create coinstake and exited without going further (by returning NULL)
-            unique_ptr<CBlockTemplate> pblocktemplate;
+            auto_ptr<CBlockTemplate> pblocktemplate;
             if (fProofOfStake)
-                pblocktemplate = unique_ptr<CBlockTemplate> (CreateNewPoSBlockWithKey(reservekey, fPoSCancel, pwallet));
+                pblocktemplate = auto_ptr<CBlockTemplate> (CreateNewPoSBlockWithKey(reservekey, fPoSCancel, pwallet));
             else
-                pblocktemplate = unique_ptr<CBlockTemplate> (CreateNewBlockWithKey(reservekey));
+                pblocktemplate = auto_ptr<CBlockTemplate> (CreateNewBlockWithKey(reservekey));
 
             if (fProofOfStake && fPoSCancel)  // if we tried to create PoS block and failed - sleep
             {

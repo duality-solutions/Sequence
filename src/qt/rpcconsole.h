@@ -58,7 +58,7 @@ protected:
     virtual bool eventFilter(QObject* obj, QEvent *event);
     void keyPressEvent(QKeyEvent *);
 
-private slots:
+private Q_SLOTS:
     void on_lineEdit_returnPressed();
     void on_tabWidget_currentChanged(int index);
     /** open the debug.log from the current datadir */
@@ -79,7 +79,7 @@ private slots:
     /** clear the selected node */
     void clearSelectedNode();
 
-public slots:
+public Q_SLOTS:
     void clear();
 
     /** Wallet repair options */
@@ -123,7 +123,7 @@ public slots:
     void setTabFocus(enum TabTypes tabType);
     /** Set size (number of transactions and memory usage) of the mempool in the UI */
     void setMempoolSize(long numberOfTxs, size_t dynUsage);
-signals:
+Q_SIGNALS:
     // For RPC command executor
     void stopExecutor();
     void cmdRequest(const QString &command);

@@ -11,7 +11,6 @@
 #include "main.h"
 #include "net.h"
 #include "netbase.h"
-#include "ntp.h"       
 #include "protocol.h"
 #include "sync.h"
 #include "timedata.h"
@@ -453,7 +452,7 @@ UniValue getcheckpoint(const UniValue& params, bool fHelp)
     result.push_back(Pair("synccheckpoint", CheckpointsSync::hashSyncCheckpoint.ToString()));
     pindexCheckpoint = mapBlockIndex[CheckpointsSync::hashSyncCheckpoint];
     result.push_back(Pair("height", pindexCheckpoint->nHeight));
-    result.push_back(Pair("timestamp", DateTimeStrFormat(pindexCheckpoint->GetBlockTime())));
+    result.push_back(Pair("timestamp", DateTimeStrFormat(".%Y-%m-%d-%H-%M", pindexCheckpoint->GetBlockTime())));
     if (mapArgs.count("-checkpointkey"))
         result.push_back(Pair("checkpointmaster", true));
 
@@ -575,31 +574,6 @@ UniValue clearbanned(const UniValue& params, bool fHelp)
     return NullUniValue;
 }
 
-UniValue ntptime(const UniValue& params, bool fHelp)       
-{     
-    if (fHelp || params.size() > 1)       
-        throw runtime_error(      
-            "ntptime [ntpserver]\n"       
-            "Returns current time from specific or random NTP server.");      
-      
-    int64_t nTime;        
-    if (params.size() > 0)        
-    {     
-        std::string strHostName = params[0].get_str();        
-        nTime = NtpGetTime(strHostName);      
-    }     
-    else      
-        nTime = NtpGetTime(nullptr);      
-      
-    if (nTime < 0)        
-        throw runtime_error("Request error");     
-      
-    UniValue obj(UniValue::VOBJ);     
-    obj.push_back(Pair("epoch", nTime));      
-    obj.push_back(Pair("time", DateTimeStrFormat(nTime)));        
-    return obj;       
-}
-
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode threadSafe reqWallet
   //  --------------------- ------------------------  -----------------------  ---------- ---------- ---------
@@ -611,7 +585,9 @@ static const CRPCCommand commands[] =
     { "network",            "getpeerinfo",            &getpeerinfo,            true,      false,      false },
     { "network",            "ping",                   &ping,                   true,      false,      false },
     { "network",            "getcheckpoint",          &getcheckpoint,          false,     false,      false },
-    { "network",            "ntptime",                &ntptime,                true,      true,       false },     
+    { "Network",            "setban",                 &setban,                 true,      false,      false },
+    { "Network",            "listbanned",             &listbanned,             true,      false,      false },
+    { "Network",            "clearbanned",            &clearbanned,            true,      false,      false },
 };
 
 void RegisterNetRPCCommands(CRPCTable &tableRPC)
