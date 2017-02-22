@@ -1,7 +1,7 @@
 # **Silk-Core CHANGELOG**
 -------------------------
 
-**v1.2.0.0 
+**v1.2.0.0**
 
 * Wallet Autobackup Added
 * Refactored chainparams
@@ -19,7 +19,7 @@
 
 
 
-**v1.1.1.0
+**v1.1.1.0**
 
 * Timedata: Added lock-free time-diff extraction
 * Fix Possible Deadlocks
@@ -38,7 +38,7 @@
 
 
 
-**v1.1.0.0 
+**v1.1.0.0**
 
 * Increase block version to 2 for CheckLockTimeVerify OP. 
 * ENUM for dDNS.
@@ -58,7 +58,7 @@
 
 
 
-**v1.0.1.1
+**v1.0.1.1**
 
 * Fix MacOSX build error
 * Add block and stake modifier checkpoints
@@ -75,7 +75,7 @@
 
 
 
-**v1.0.1.0
+**v1.0.1.0**
 
 * Update OSX Build Instructions
 * Move CAddrDB out of net.h/.cpp
@@ -93,7 +93,7 @@
 
 
 
-**v1.0.0.0
+**v1.0.0.0**
 
 * Add v1.0.0.0 release notes
 * Add Windows build document
