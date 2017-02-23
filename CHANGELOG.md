@@ -5,8 +5,10 @@
 
 * Fix and re-enable ResetSyncCheckpoint()
 * Fix checkpoint locks
-* Fix 'Stake only mode' checkbox
-
+* Fix 'Stake only mode' checkbox styling
+* Add comments for pubkeys/privkeys in chainparams.cpp
+* Fix all includes and paths
+* Align Ping Time text to the left to make it easier to read
 
 
 **v1.2.0.0**
