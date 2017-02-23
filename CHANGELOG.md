@@ -1,5 +1,13 @@
-# **Silk-Core CHANGELOG**
+# **Silk-Core Changelog**
 -------------------------
+
+**v1.3.0.0**
+
+* Fix and re-enable ResetSyncCheckpoint()
+* Fix checkpoint locks
+* Fix 'Stake only mode' checkbox
+
+
 
 **v1.2.0.0**
 
