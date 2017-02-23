@@ -25,6 +25,12 @@
  *
  */
 
+#include "dns/slkdns.h"
+
+#include "dns/dns.h"
+#include "hooks.h"
+#include "util.h"
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdint.h>
@@ -41,11 +47,6 @@
 #endif
 
 #include <ctype.h>
-
-#include "dns/dns.h"
-#include "util.h"
-#include "dns/slkdns.h"
-#include "hooks.h"
 
 /*---------------------------------------------------*/
 

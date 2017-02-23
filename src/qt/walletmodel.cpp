@@ -8,9 +8,9 @@
 
 #include "addresstablemodel.h"
 #include "guiconstants.h"
+#include "nametablemodel.h"
 #include "recentrequeststablemodel.h"
 #include "transactiontablemodel.h"
-#include "nametablemodel.h"
 
 #include "base58.h"
 #include "wallet/db.h"

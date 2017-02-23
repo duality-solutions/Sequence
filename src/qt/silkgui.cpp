@@ -18,8 +18,13 @@
 #include "optionsmodel.h"
 #include "rpcconsole.h"
 #include "utilitydialog.h"
-#include "wallet/wallet.h"
 #include "multisigdialog.h"
+
+#include "init.h"
+#include "txmempool.h"
+#include "ui_interface.h"
+#include "util.h"
+#include "wallet/wallet.h"
 
 #ifdef ENABLE_WALLET
 #include "walletframe.h"
@@ -29,11 +34,6 @@
 #ifdef Q_OS_MAC
 #include "macdockiconhandler.h"
 #endif
-
-#include "init.h"
-#include "txmempool.h"
-#include "ui_interface.h"
-#include "util.h"
 
 #include <iostream>
 

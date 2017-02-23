@@ -7,7 +7,7 @@
 
 #include "primitives/block.h"
 
-#include "hash.h"
+#include "kernel.h"
 #include "tinyformat.h"
 #include "utilstrencodings.h"
 #include "kernel.h"

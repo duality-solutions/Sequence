@@ -8,12 +8,12 @@
 #include "ui_sendcoinsdialog.h"
 
 #include "addresstablemodel.h"
-#include "silkunits.h"
 #include "clientmodel.h"
 #include "coincontroldialog.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
 #include "sendcoinsentry.h"
+#include "silkunits.h"
 #include "walletmodel.h"
 
 #include "base58.h"

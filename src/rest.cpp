@@ -4,13 +4,13 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "chainparams.h"
 #include "primitives/block.h"
-#include "primitives/transaction.h"
+#include "chainparams.h"
 #include "main.h"
 #include "rpc/rpcserver.h"
 #include "streams.h"
 #include "sync.h"
+#include "primitives/transaction.h"
 #include "utilstrencodings.h"
 #include "version.h"
 

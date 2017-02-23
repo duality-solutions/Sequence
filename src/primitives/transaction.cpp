@@ -8,9 +8,9 @@
 #include "primitives/transaction.h"
 
 #include "hash.h"
+#include "timedata.h"
 #include "tinyformat.h"
 #include "utilstrencodings.h"
-#include "timedata.h"
 
 std::string COutPoint::ToString() const
 {

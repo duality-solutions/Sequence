@@ -6,10 +6,11 @@
 
 #include "recentrequeststablemodel.h"
 
-#include "silkunits.h"
 #include "clientversion.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
+#include "silkunits.h"
+
 #include "streams.h"
 
 #include <boost/foreach.hpp>

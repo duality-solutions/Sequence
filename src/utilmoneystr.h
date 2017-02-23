@@ -10,10 +10,10 @@
 #ifndef SILK_UTILMONEYSTR_H
 #define SILK_UTILMONEYSTR_H
 
+#include "amount.h"
+
 #include <stdint.h>
 #include <string>
-
-#include "amount.h"
 
 std::string FormatMoney(const CAmount& n, bool fPlus=false);
 bool ParseMoney(const std::string& str, CAmount& nRet);

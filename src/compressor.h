@@ -7,9 +7,9 @@
 #ifndef SILK_COMPRESSOR_H
 #define SILK_COMPRESSOR_H
 
-#include "primitives/transaction.h"
 #include "script/script.h"
 #include "serialize.h"
+#include "primitives/transaction.h"
 
 class CKeyID;
 class CPubKey;

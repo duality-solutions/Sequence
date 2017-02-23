@@ -6,11 +6,11 @@
 
 #include "wallet/wallet_ismine.h"
 
+#include "hooks.h"
 #include "key.h"
 #include "keystore.h"
 #include "script/script.h"
 #include "script/standard.h"
-#include "hooks.h"
 
 #include <boost/foreach.hpp>
 

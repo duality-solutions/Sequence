@@ -7,9 +7,9 @@
 #include "pow.h"
 
 #include "bignum.h"
+#include "primitives/block.h"
 #include "chain.h"
 #include "chainparams.h"
-#include "primitives/block.h"
 #include "uint256.h"
 #include "util.h"
 

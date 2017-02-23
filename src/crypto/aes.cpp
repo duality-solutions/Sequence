@@ -4,6 +4,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "aes.h"
+
 #include "crypto/common.h"
 
 #include <assert.h>

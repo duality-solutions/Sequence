@@ -7,14 +7,14 @@
 
 #include "interpreter.h"
 
-#include "primitives/transaction.h"
 #include "base58.h"
-#include "crypto/ripemd160.h"
-#include "crypto/sha1.h"
-#include "crypto/sha256.h"
 #include "eccryptoverify.h"
 #include "pubkey.h"
+#include "crypto/ripemd160.h"
 #include "script/script.h"
+#include "crypto/sha1.h"
+#include "crypto/sha256.h"
+#include "primitives/transaction.h"
 #include "uint256.h"
 #include "utilstrencodings.h"
 

@@ -5,12 +5,11 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "utilitydialog.h"
-
 #include "ui_helpmessagedialog.h"
 
-#include "silkgui.h"
 #include "clientmodel.h"
 #include "guiutil.h"
+#include "silkgui.h"
 
 #include "clientversion.h"
 #include "init.h"

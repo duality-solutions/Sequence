@@ -9,11 +9,11 @@
 
 #include "addressbookpage.h"
 #include "addresstablemodel.h"
-#include "silkunits.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
 #include "receiverequestdialog.h"
 #include "recentrequeststablemodel.h"
+#include "silkunits.h"
 #include "walletmodel.h"
 
 #include <QAction>

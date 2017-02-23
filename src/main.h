@@ -13,10 +13,9 @@
 #endif
 
 #include "amount.h"
+#include "primitives/block.h"
 #include "chain.h"
 #include "coins.h"
-#include "primitives/block.h"
-#include "primitives/transaction.h"
 #include "net.h"
 #include "pow.h"
 #include "script/script.h"
@@ -24,6 +23,7 @@
 #include "script/standard.h"
 #include "sync.h"
 #include "tinyformat.h"
+#include "primitives/transaction.h"
 #include "txmempool.h"
 #include "uint256.h"
 #include "undo.h"

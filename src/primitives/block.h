@@ -9,8 +9,8 @@
 #define SILK_PRIMITIVES_BLOCK_H
 
 #include "hash.h"
-#include "primitives/transaction.h"
 #include "serialize.h"
+#include "primitives/transaction.h"
 #include "uint256.h"
 #include "util.h"
 

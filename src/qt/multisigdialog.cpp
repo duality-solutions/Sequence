@@ -4,23 +4,25 @@
 
 #include "multisigdialog.h"
 #include "ui_multisigdialog.h"
+
 #include "addresstablemodel.h"
-#include "base58.h"
-#include "consensus/validation.h"
-#include "key.h"
-#include "main.h"
 #include "multisigaddressentry.h"
 #include "multisiginputentry.h"
-#include "dns/dns.h"
-#include "script/script.h"
 #include "sendcoinsentry.h"
-#include "util.h"
-#include "wallet/wallet.h"
 #include "walletmodel.h"
-#include "script/standard.h"
-#include "script/sign.h"
-#include "rpc/rpcserver.h"
+
+#include "base58.h"
 #include "core_io.h"
+#include "dns/dns.h"
+#include "key.h"
+#include "main.h"
+#include "rpc/rpcserver.h"
+#include "script/script.h"
+#include "script/sign.h"
+#include "script/standard.h"
+#include "util.h"
+#include "consensus/validation.h"
+#include "wallet/wallet.h"
 
 #include <QClipboard>
 #include <QWidget>

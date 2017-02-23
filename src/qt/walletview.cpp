@@ -8,7 +8,6 @@
 
 #include "addressbookpage.h"
 #include "askpassphrasedialog.h"
-#include "silkgui.h"
 #include "clientmodel.h"
 #include "guiutil.h"
 #include "dnspage.h"
@@ -18,11 +17,11 @@
 #include "receivecoinsdialog.h"
 #include "sendcoinsdialog.h"
 #include "signverifymessagedialog.h"
+#include "silkgui.h"
 #include "transactiontablemodel.h"
 #include "transactionview.h"
-#include "walletmodel.h"
-
 #include "ui_interface.h"
+#include "walletmodel.h"
 
 #include <QAction>
 #include <QActionGroup>

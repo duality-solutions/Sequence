@@ -6,17 +6,17 @@
 
 #include "guiutil.h"
 
+#include "qvalidatedlineedit.h"
 #include "silkaddressvalidator.h"
 #include "silkunits.h"
-#include "qvalidatedlineedit.h"
 #include "walletmodel.h"
 
-#include "primitives/transaction.h"
 #include "init.h"
 #include "main.h"
 #include "protocol.h"
 #include "script/script.h"
 #include "script/standard.h"
+#include "primitives/transaction.h"
 #include "util.h"
 
 #ifdef WIN32

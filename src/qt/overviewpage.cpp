@@ -7,11 +7,11 @@
 #include "overviewpage.h"
 #include "ui_overviewpage.h"
 
-#include "silkunits.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
+#include "silkunits.h"
 #include "transactionfilterproxy.h"
 #include "transactiontablemodel.h"
 #include "walletmodel.h"

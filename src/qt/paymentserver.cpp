@@ -6,9 +6,9 @@
 
 #include "paymentserver.h"
 
-#include "silkunits.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
+#include "silkunits.h"
 
 #include "base58.h"
 #include "chainparams.h"

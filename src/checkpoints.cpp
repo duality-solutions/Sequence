@@ -7,13 +7,12 @@
 #include "checkpoints.h"
 
 #include "chainparams.h"
-#include "consensus/validation.h"
 #include "key.h"
 #include "main.h"
 #include "pubkey.h"
 #include "timedata.h"
 #include "txdb.h"
-#include "uint256.h"
+#include "consensus/validation.h"
 
 #include <stdint.h>
 

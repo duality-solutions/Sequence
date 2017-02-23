@@ -5,11 +5,11 @@
 #include "calcdialog.h"
 #include "ui_calcdialog.h"
 
+#include "silkunits.h"
 #include "transactiontablemodel.h"
 #include "transactiondesc.h"
 #include "transactionrecord.h"
 #include "walletmodel.h"
-#include "silkunits.h"
 
 #include "main.h"
 #include "wallet/wallet.h"

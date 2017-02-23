@@ -7,15 +7,18 @@
 #include <string>
 #include <vector>
 
-#include "addressbookpage.h"
-#include "addresstablemodel.h"
-#include "base58.h"
-#include "guiutil.h"
-#include "key.h"
 #include "multisigaddressentry.h"
 #include "ui_multisigaddressentry.h"
+
+#include "addressbookpage.h"
+#include "addresstablemodel.h"
+#include "guiutil.h"
 #include "walletmodel.h"
+
+#include "base58.h"
+#include "key.h"
 #include "utilstrencodings.h"
+
 
 MultisigAddressEntry::MultisigAddressEntry(QWidget *parent) : QFrame(parent), ui(new Ui::MultisigAddressEntry), model(0)
 {

@@ -6,9 +6,6 @@
 
 #include "coins.h"
 
-#include "memusage.h"
-#include "random.h"
-
 #include <assert.h>
 
 /**

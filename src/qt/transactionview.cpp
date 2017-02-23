@@ -7,18 +7,17 @@
 #include "transactionview.h"
 
 #include "addresstablemodel.h"
-#include "silkunits.h"
 #include "csvmodelwriter.h"
 #include "editaddressdialog.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
+#include "silkunits.h"
 #include "transactiondescdialog.h"
 #include "transactionfilterproxy.h"
 #include "transactionrecord.h"
 #include "transactiontablemodel.h"
-#include "walletmodel.h"
-
 #include "ui_interface.h"
+#include "walletmodel.h"
 
 #include <QComboBox>
 #include <QDateTimeEdit>
