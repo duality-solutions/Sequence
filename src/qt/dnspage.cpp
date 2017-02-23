@@ -15,10 +15,10 @@
 #include "ui_interface.h"
 #include "walletmodel.h"
 
-#include "../base58.h"
-#include "../dns/dns.h"
-#include "../main.h"
-#include "../wallet/wallet.h"
+#include "base58.h"
+#include "dns/dns.h"
+#include "main.h"
+#include "wallet/wallet.h"
 
 #include <QSortFilterProxyModel>
 #include <QMessageBox>

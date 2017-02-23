@@ -13,7 +13,7 @@
 #include "optionsmodel.h"
 #include "walletmodel.h"
 
-#include "../dns/dns.h"
+#include "dns/dns.h"
 
 #include <QApplication>
 #include <QClipboard>
