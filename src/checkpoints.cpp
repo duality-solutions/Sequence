@@ -298,25 +298,13 @@ bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev)
 }
 
 // ppcoin: reset synchronized checkpoint to last hardened checkpoint
-/*bool ResetSyncCheckpoint()
+bool ResetSyncCheckpoint(const CCheckpointData& data)
 {
     LOCK(cs_main);
-    const uint256& hash = Checkpoints::GetLatestHardenedCheckpoint();
+    const CChainParams& chainParams = Params();
+    const uint256& hash = Checkpoints::GetLatestHardenedCheckpoint(chainParams.Checkpoints());
     bool fHaveBlock = mapBlockIndex.count(hash) && (mapBlockIndex[hash]->nStatus & BLOCK_HAVE_DATA);
-    if (fHaveBlock && !chainActive.Contains(mapBlockIndex[hash]))
-    {
-        // checkpoint block accepted but not yet in main chain
-        if (!haveBlocksUpTo(mapBlockIndex[hash]))
-            return false;
-
-        LogPrintf("ResetSyncCheckpoint: SetBestChain to hardened checkpoint %s\n", hash.ToString());
-        CValidationState state;
-        if (!ActivateBestChain(state, chainparams, NULL, mapBlockIndex[hash]))
-        {
-            return error("ResetSyncCheckpoint: SetBestChain failed for hardened checkpoint %s", hash.ToString());
-        }
-    }
-    else if (!fHaveBlock)
+    if (!fHaveBlock)
     {
         // checkpoint block not yet accepted
         hashPendingCheckpoint = hash;
@@ -324,12 +312,12 @@ bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev)
         LogPrintf("ResetSyncCheckpoint: pending for sync-checkpoint %s\n", hashPendingCheckpoint.ToString());
     }
 
-    const Checkpoints::MapCheckpoints& checkpoints = *Params().Checkpoints().mapCheckpoints;
+    const MapCheckpoints& checkpoints = data.mapCheckpoints;
 
-    BOOST_REVERSE_FOREACH(const Checkpoints::MapCheckpoints::value_type& i, checkpoints)
+    BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type& i, checkpoints)
     {
         const uint256& hash = i.second;
-        if (fHaveBlock && chainActive.Contains(mapBlockIndex[hash]))
+        if (mapBlockIndex.count(hash) && chainActive.Contains(mapBlockIndex[hash]))
         {
             if (!WriteSyncCheckpoint(hash))
                 return error("ResetSyncCheckpoint: failed to write sync checkpoint %s", hash.ToString());
@@ -338,8 +326,16 @@ bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev)
         }
     }
 
+    if (mapBlockIndex.empty())  //emercoin: this might happen during reindexing
+    {
+        if (!WriteSyncCheckpoint(Params().GetConsensus().hashGenesisBlock))
+            return error("ResetSyncCheckpoint: failed to write sync checkpoint %s", hash.ToString());
+        LogPrintf("ResetSyncCheckpoint: sync-checkpoint reset to %s\n", hashSyncCheckpoint.ToString());
+        return true;
+    }
+
     return false;
-}*/
+}
 
 bool SetCheckpointPrivKey(std::string strPrivKey)
 {

@@ -50,7 +50,7 @@ namespace CheckpointsSync
     bool AcceptPendingSyncCheckpoint();
     uint256 AutoSelectSyncCheckpoint();
     bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev);
-//    bool ResetSyncCheckpoint();
+    bool ResetSyncCheckpoint(const CCheckpointData& data);
     bool SetCheckpointPrivKey(std::string strPrivKey);
     bool SendSyncCheckpoint(uint256 hashCheckpoint);
 
