@@ -51,7 +51,6 @@ namespace CheckpointsSync
     uint256 AutoSelectSyncCheckpoint();
     bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev);
 //    bool ResetSyncCheckpoint();
-    void AskForPendingSyncCheckpoint(CNode* pfrom);
     bool SetCheckpointPrivKey(std::string strPrivKey);
     bool SendSyncCheckpoint(uint256 hashCheckpoint);
 
@@ -123,7 +122,7 @@ public:
     bool RelayTo(CNode* pnode) const;
 
     bool CheckSignature();
-    bool ProcessSyncCheckpoint(CNode* pfrom);
+    bool ProcessSyncCheckpoint();
 };
 
 #endif // SILK_CHECKPOINTS_H

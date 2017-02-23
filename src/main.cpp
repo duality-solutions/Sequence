@@ -3149,10 +3149,6 @@ bool ProcessNewBlock(CValidationState &state, const CChainParams& chainparams, C
         // Store to disk
         CBlockIndex *pindex = NULL;
 
-        // ppcoin: ask for pending sync-checkpoint if any
-        if (!IsInitialBlockDownload())
-            CheckpointsSync::AskForPendingSyncCheckpoint(pfrom);
-
         bool ret = AcceptBlock(*pblock, state, chainparams, &pindex, dbp);
         if (pindex && pfrom) {
             mapBlockSource[pindex->GetBlockHash()] = pfrom->GetId();
@@ -4226,7 +4222,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
 
         // ppcoin: relay sync-checkpoint
         {
-            LOCK(CheckpointsSync::cs_hashSyncCheckpoint);
+            LOCK(cs_main);
             if (!CheckpointsSync::checkpointMessage.IsNull())
                 CheckpointsSync::checkpointMessage.RelayTo(pfrom);
         }
@@ -4243,10 +4239,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
                   remoteAddr);
 
         AddTimeData(pfrom->addr, nTime);
-
-        // ppcoin: ask for pending sync-checkpoint if any
-        if (!IsInitialBlockDownload())
-            CheckpointsSync::AskForPendingSyncCheckpoint(pfrom);
     }
 
 
@@ -4865,7 +4857,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         CSyncCheckpoint checkpoint;
         vRecv >> checkpoint;
 
-        if (checkpoint.ProcessSyncCheckpoint(pfrom))
+        if (checkpoint.ProcessSyncCheckpoint())
         {
             // Relay
             vector<CNode*> vNodesCopy;
@@ -4880,13 +4872,8 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             pfrom->hashCheckpointKnown = checkpoint.hashCheckpoint;
             BOOST_FOREACH(CNode* pnode, vNodesCopy)
                 checkpoint.RelayTo(pnode);
-
-            LOCK(cs_vNodes);
-            BOOST_FOREACH(CNode* pnode, vNodesCopy)
-                pnode->Release();
         }
     }
-
 
     else if (strCommand == "filterload")
     {
