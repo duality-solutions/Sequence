@@ -9,7 +9,7 @@
 * Add comments for pubkeys/privkeys in chainparams.cpp
 * Fix all includes and paths
 * Align Ping Time text to the left to make it easier to read
-
+* Changed Address Label in SendCoinsDialog to display in white
 
 **v1.2.0.0**
 
