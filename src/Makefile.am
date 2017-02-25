@@ -54,11 +54,9 @@ EXTRA_LIBRARIES = \
   crypto/libsilk_crypto.a \
   libsilk_util.a \
   libsilk_common.a \
-  univalue/libsilk_univalue.a \
   libsilk_server.a \
   libsilk_cli.a
 if ENABLE_WALLET
-SILK_INCLUDES += $(BDB_CPPFLAGS)
 EXTRA_LIBRARIES += libsilk_wallet.a
 endif
 
