@@ -117,6 +117,6 @@
 * Make Travis-CI test with Qt5, not Qt4
 * Update to latest leveldb code
 * Fixes sync height in peer table while chain downloading.
-* Update silkcoin readme.
+* Update Silk-Core readme.
 * Updates PRT.
 * Adds issue template to repo.
