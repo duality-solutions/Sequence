@@ -8,9 +8,6 @@
 #include "config/silk-config.h"
 #endif
 
-#include "silkgui.h"
-
-#include "chainparams.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
@@ -18,20 +15,22 @@
 #include "net.h"
 #include "networkstyle.h"
 #include "optionsmodel.h"
+#include "silkgui.h"
 #include "splashscreen.h"
 #include "utilitydialog.h"
 #include "winshutdownmonitor.h"
 
-#ifdef ENABLE_WALLET
-#include "paymentserver.h"
-#include "walletmodel.h"
-#endif
-
+#include "chainparams.h"
 #include "init.h"
 #include "rpc/rpcserver.h"
 #include "scheduler.h"
 #include "ui_interface.h"
 #include "util.h"
+
+#ifdef ENABLE_WALLET
+#include "paymentserver.h"
+#include "walletmodel.h"
+#endif
 
 #ifdef ENABLE_WALLET
 #include "wallet/wallet.h"
@@ -63,7 +62,9 @@ Q_IMPORT_PLUGIN(qtwcodecs)
 Q_IMPORT_PLUGIN(qkrcodecs)
 Q_IMPORT_PLUGIN(qtaccessiblewidgets)
 #else
+#if QT_VERSION < 0x050400
 Q_IMPORT_PLUGIN(AccessibleFactory)
+#endif
 #if defined(QT_QPA_PLATFORM_XCB)
 Q_IMPORT_PLUGIN(QXcbIntegrationPlugin);
 #elif defined(QT_QPA_PLATFORM_WINDOWS)

@@ -1,5 +1,5 @@
 ---
-name: "silk-win-1.1"
+name: "silk-win-1.3.0.0"
 enable_cache: true
 suites:
 - "trusty"
@@ -21,7 +21,7 @@ packages:
 - "zip"
 reference_datetime: "2017-01-01 00:00:00"
 remotes:
-- "url": "https://github.com/amirabrams/silkcoin"
+- "url": "https://github.com/silknetwork/silk-core"
   "dir": "silk"
 files: []
 script: |
