@@ -10,6 +10,9 @@
 * Fix all includes and paths
 * Align Ping Time text to the left to make it easier to read
 * Changed Address Label in SendCoinsDialog to display in white
+* Style UI checkboxes
+
+
 
 **v1.2.0.0**
 
