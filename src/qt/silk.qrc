@@ -58,6 +58,8 @@
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
         <file alias="silk_logo_horizontal">res/images/silk_logo_horizontal.png</file>
+        <file alias="unchecked">res/images/unchecked.png</file>
+        <file alias="checked">res/images/checked.png</file>
         <file alias="silver_downArrow">res/images/silver_downArrow.png</file>
         <file alias="silver_downArrow_small">res/images/silver_downArrow_small.png</file>
         <file alias="silver_upArrow_small">res/images/silver_upArrow_small.png</file>
