@@ -6,8 +6,10 @@
 
 #include "silkunits.h"
 
+#include "chainparams.h"
 #include "primitives/transaction.h"
 
+#include <QSettings>
 #include <QStringList>
 
 SilkUnits::SilkUnits(QObject *parent):
@@ -51,23 +53,49 @@ QString SilkUnits::id(int unit)
 
 QString SilkUnits::name(int unit)
 {
-    switch(unit)
+    if(Params().NetworkIDString() == CBaseChainParams::MAIN)
     {
-    case SLK: return QString("SLK");
-    case mSLK: return QString("mSLK");
-    case uSLK: return QString::fromUtf8("μSLK");
-    default: return QString("???");
+        switch(unit)
+        {
+        case SLK: return QString("SLK");
+        case mSLK: return QString("mSLK");
+        case uSLK: return QString::fromUtf8("μSLK");
+        default: return QString("???");
+        }
+    }
+    else
+    {
+        switch(unit)
+        {
+            case SLK: return QString("tSLK");
+            case mSLK: return QString("mtSLK");
+            case uSLK: return QString::fromUtf8("μtSLK");
+            default: return QString("???");
+        }
     }
 }
 
 QString SilkUnits::description(int unit)
 {
-    switch(unit)
+    if(Params().NetworkIDString() == CBaseChainParams::MAIN)
     {
-    case SLK: return QString("Silk");
-    case mSLK: return QString("Milli-Silk (1 / 1" THIN_SP_UTF8 "000)");
-    case uSLK: return QString("Micro-Silk (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-    default: return QString("???");
+        switch(unit)
+        {
+        case SLK: return QString("Silk");
+        case mSLK: return QString("Milli-Silk (1 / 1" THIN_SP_UTF8 "000)");
+        case uSLK: return QString("Micro-Silk (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+        default: return QString("???");
+        }
+    }
+    else
+    {
+        switch(unit)
+        {
+            case SLK: return QString("TestSilk");
+            case mSLK: return QString("Milli-TestSilk (1 / 1" THIN_SP_UTF8 "000)");
+            case uSLK: return QString("Micro-TestSilk (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            default: return QString("???");
+        }
     }
 }
 
@@ -120,6 +148,10 @@ QString SilkUnits::format(int unit, const CAmount& nIn, bool fPlus, SeparatorSty
         quotient_str.insert(0, '-');
     else if (fPlus && n > 0)
         quotient_str.insert(0, '+');
+
+    if (num_decimals <= 0)
+        return quotient_str;
+
     return quotient_str + QString(".") + remainder_str;
 }
 
@@ -151,6 +183,23 @@ QString SilkUnits::formatHtmlWithUnit(int unit, const CAmount& amount, bool plus
     return QString("<span style='white-space: nowrap;'>%1</span>").arg(str);
 }
 
+QString SilkUnits::floorWithUnit(int unit, const CAmount& amount, bool plussign, SeparatorStyle separators)
+{
+    QSettings settings;
+    int digits = settings.value("digits").toInt();
+
+    QString result = format(unit, amount, plussign, separators);
+    if(decimals(unit) > digits) result.chop(decimals(unit) - digits);
+
+    return result + QString(" ") + name(unit);
+}
+
+QString SilkUnits::floorHtmlWithUnit(int unit, const CAmount& amount, bool plussign, SeparatorStyle separators)
+{
+    QString str(floorWithUnit(unit, amount, plussign, separators));
+    str.replace(QChar(THIN_SP_CP), QString(THIN_SP_HTML));
+    return QString("<span style='white-space: nowrap;'>%1</span>").arg(str);
+}
 
 bool SilkUnits::parse(int unit, const QString &value, CAmount *val_out)
 {
