@@ -135,17 +135,17 @@ void ClientModel::updateTimer()
         cachedReindexing = fReindex;
         cachedImporting = fImporting;
 
-        emit alertsChanged(getStatusBarWarnings());  // Silk: redraw alerts in case of old sync checkpoint
-        emit numBlocksChanged(newNumBlocks);
+        Q_EMIT alertsChanged(getStatusBarWarnings());  // Silk: redraw alerts in case of old sync checkpoint
+        Q_EMIT numBlocksChanged(newNumBlocks);
     }
 
-    emit bytesChanged(getTotalBytesRecv(), getTotalBytesSent());
-    emit mempoolSizeChanged(getMempoolSize(), getMempoolDynamicUsage());
+    Q_EMIT bytesChanged(getTotalBytesRecv(), getTotalBytesSent());
+    Q_EMIT mempoolSizeChanged(getMempoolSize(), getMempoolDynamicUsage());
 }
 
 void ClientModel::updateNumConnections(int numConnections)
 {
-    emit numConnectionsChanged(numConnections);
+    Q_EMIT numConnectionsChanged(numConnections);
 }
 
 void ClientModel::updateAlert(const QString &hash, int status)
@@ -158,11 +158,11 @@ void ClientModel::updateAlert(const QString &hash, int status)
         CAlert alert = CAlert::getAlertByHash(hash_256);
         if(!alert.IsNull())
         {
-            emit message(tr("Network Alert"), QString::fromStdString(alert.strStatusBar), CClientUIInterface::ICON_ERROR);
+            Q_EMIT message(tr("Network Alert"), QString::fromStdString(alert.strStatusBar), CClientUIInterface::ICON_ERROR);
         }
     }
 
-    emit alertsChanged(getStatusBarWarnings());
+    Q_EMIT alertsChanged(getStatusBarWarnings());
 }
 
 bool ClientModel::inInitialBlockDownload() const

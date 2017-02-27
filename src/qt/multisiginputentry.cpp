@@ -100,7 +100,7 @@ void MultisigInputEntry::on_pasteTransactionIdButton_clicked()
 
 void MultisigInputEntry::on_deleteButton_clicked()
 {
-    emit removeEntry(this);
+    Q_EMIT removeEntry(this);
 }
 
 void MultisigInputEntry::on_pasteRedeemScriptButton_clicked()
@@ -182,5 +182,5 @@ void MultisigInputEntry::on_transactionOutput_currentIndexChanged(int index)
         ui->redeemScript->setEnabled(false);
     }
 
-    emit updateAmount();
+    Q_EMIT updateAmount();
 } 
