@@ -12,6 +12,7 @@
 * Changed Address Label in SendCoinsDialog to display in white
 * Style UI checkboxes
 * Add non-mainnet units and amend THIN spacing/HTML code
+* Convert all emit instances in src/qt/ to Q_EMIT
 
 
 
