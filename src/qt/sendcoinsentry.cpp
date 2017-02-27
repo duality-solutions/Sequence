@@ -37,7 +37,7 @@ SendCoinsEntry::SendCoinsEntry(QWidget *parent) :
     // normal Silk address field
     GUIUtil::setupAddressWidget(ui->payTo, this);
     // just a label for displaying Silk address(es)
-    ui->payTo_is->setFont(GUIUtil::SilkAddressFont());
+    ui->payTo_is->setFont(GUIUtil::fixedPitchFont());
 
     // Connect signals
     connect(ui->payAmount, SIGNAL(valueChanged()), this, SIGNAL(payAmountChanged()));

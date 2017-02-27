@@ -263,7 +263,7 @@ QVariant NameTableModel::data(const QModelIndex &index, int role) const
     case Qt::FontRole: {
         QFont font;
         if (index.column() == Address)
-            font = GUIUtil::SilkAddressFont();
+            font = GUIUtil::fixedPitchFont();
         return font;
     }
     case Qt::BackgroundRole:

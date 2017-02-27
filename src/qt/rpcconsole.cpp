@@ -537,6 +537,10 @@ void RPCConsole::clear()
     ui->lineEdit->clear();
     ui->lineEdit->setFocus();
 
+#ifdef Q_OS_MAC // Icons on push buttons are very uncommon on Mac
+    ui->clearButton->setIcon(QIcon(":/icons/remove"));
+#endif
+
     // Add smoothly scaled icon images.
     // (when using width/height on an img, Qt uses nearest instead of linear interpolation)
     for(int i=0; ICON_MAPPING[i].url; ++i)
@@ -546,6 +550,15 @@ void RPCConsole::clear()
                     QUrl(ICON_MAPPING[i].url),
                     QImage(ICON_MAPPING[i].source).scaled(ICON_SIZE, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     }
+
+    // Set default style sheet
+    QFontInfo fixedFontInfo(GUIUtil::fixedPitchFont());        
+    // Try to make fixed font adequately large on different OS        
+#ifdef WIN32      
+    QString ptSize = QString("%1pt").arg(QFontInfo(QFont()).pointSize() * 10 / 8);        
+#else     
+    QString ptSize = QString("%1pt").arg(QFontInfo(QFont()).pointSize() * 8.5 / 9);       
+#endif
 
     // Set default style sheet
     ui->messagesWidget->document()->setDefaultStyleSheet(
