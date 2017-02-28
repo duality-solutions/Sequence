@@ -10,7 +10,7 @@ Graph on Pull Request History
 
 # **Sequence (SEQ) v1.0.0.0**
 
-![SEQ logo](https://github.com/Duality-Solutions/Sequence/blob/master/src/qt/res/icons/sequence-80.png)
+![SEQ logo](https://github.com/Duality-Solutions/Sequence/blob/master/src/qt/res/icons/sequence-128.png)
 
 **Copyright (c) 2016-2017 Duality Blockchain Solutions**
 
