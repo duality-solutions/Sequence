@@ -18,6 +18,7 @@
 * Fixed Gitian script files
 * Upgraded dependency packages
 * Windows installer creator script
+* Improve GUI, shortcuts and toolbar menu
 * Wallet Autobackup Added
 * Refactored chainparams
 * moved g.signals into validation interface
