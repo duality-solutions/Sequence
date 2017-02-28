@@ -85,6 +85,7 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     historyAction(0),
     quitAction(0),
     sendCoinsAction(0),
+    sendCoinsMenuAction(0),
     multiSigAction(0),
     dnsAction(0),
     usedSendingAddressesAction(0),
@@ -93,6 +94,7 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     verifyMessageAction(0),
     aboutAction(0),
     receiveCoinsAction(0),
+    receiveCoinsMenuAction(0),
     optionsAction(0),
     toggleHideAction(0),
     encryptWalletAction(0),
@@ -104,6 +106,7 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     showHelpMessageAction(0),
     trayIcon(0),
     trayIconMenu(0),
+    dockIconMenu(0),
     notificator(0),
     rpcConsole(0),
     prevBlocks(0),
@@ -294,42 +297,74 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     overviewAction->setStatusTip(tr("Show general overview of wallet"));
     overviewAction->setToolTip(overviewAction->statusTip());
     overviewAction->setCheckable(true);
+#ifdef Q_OS_MAC
+    overviewAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_1));
+#else
     overviewAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_1));
+#endif
     tabGroup->addAction(overviewAction);
 
     sendCoinsAction = new QAction(QIcon(":/icons/send"), tr("&Send"), this);
     sendCoinsAction->setStatusTip(tr("Send coins to a Sequence address"));
     sendCoinsAction->setToolTip(sendCoinsAction->statusTip());
     sendCoinsAction->setCheckable(true);
+#ifdef Q_OS_MAC
+    sendCoinsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_2));
+#else
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
+#endif    
     tabGroup->addAction(sendCoinsAction);
+
+    sendCoinsMenuAction = new QAction(QIcon(":/icons/send"), sendCoinsAction->text(), this);
+    sendCoinsMenuAction->setStatusTip(sendCoinsAction->statusTip());
+    sendCoinsMenuAction->setToolTip(sendCoinsMenuAction->statusTip());
 
     receiveCoinsAction = new QAction(QIcon(":/icons/receiving_addresses"), tr("&Receive"), this);
     receiveCoinsAction->setStatusTip(tr("Request payments (generates QR codes and Sequence: URIs)"));
     receiveCoinsAction->setToolTip(receiveCoinsAction->statusTip());
     receiveCoinsAction->setCheckable(true);
+#ifdef Q_OS_MAC
+    receiveCoinsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_3));
+#else
     receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
+#endif
     tabGroup->addAction(receiveCoinsAction);
+
+    receiveCoinsMenuAction = new QAction(QIcon(":/icons/receiving_addresses"), receiveCoinsAction->text(), this);
+    receiveCoinsMenuAction->setStatusTip(receiveCoinsAction->statusTip());
+    receiveCoinsMenuAction->setToolTip(receiveCoinsMenuAction->statusTip());
 
     historyAction = new QAction(QIcon(":/icons/history"), tr("&Transactions"), this);
     historyAction->setStatusTip(tr("Browse transaction history"));
     historyAction->setToolTip(historyAction->statusTip());
     historyAction->setCheckable(true);
+#ifdef Q_OS_MAC
+    historyAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_4));
+#else
     historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
+#endif
     tabGroup->addAction(historyAction);
 
     multiSigAction = new QAction(QIcon(":/icons/multisig"), tr("&MultiSig"), this);
     multiSigAction->setStatusTip(tr("Generate and Utilize Multiple Signature Addresses"));
     multiSigAction->setToolTip(multiSigAction->statusTip());
     multiSigAction->setCheckable(true);
+#ifdef Q_OS_MAC
+    multiSigAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_5));
+#else
     multiSigAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
+#endif
     tabGroup->addAction(multiSigAction);
 
     dnsAction = new QAction(QIcon(":/icons/decentralised"), tr("&dDNS"), this);
     dnsAction->setStatusTip(tr("Manage values registered via Sequence"));
     dnsAction->setToolTip(dnsAction->statusTip());
     dnsAction->setCheckable(true);
+#ifdef Q_OS_MAC
+    dnsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
+#else
     dnsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+#endif
     tabGroup->addAction(dnsAction);
 
 #ifdef ENABLE_WALLET
@@ -339,8 +374,12 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(gotoOverviewPage()));
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(gotoSendCoinsPage()));
+    connect(sendCoinsMenuAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(sendCoinsMenuAction, SIGNAL(triggered()), this, SLOT(gotoSendCoinsPage()));
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));
+    connect(receiveCoinsMenuAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(receiveCoinsMenuAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
     connect(multiSigAction, SIGNAL(triggered()), this, SLOT(gotoMultiSigPage()));
@@ -527,7 +566,27 @@ void SequenceGUI::setClientModel(ClientModel *clientModel)
     {
         // Create system tray menu (or setup the dock menu) that late to prevent users from calling actions,
         // while the client has not yet fully loaded
-        createTrayIconMenu();
+        if (trayIcon) {
+            // do so only if trayIcon is already set
+            trayIconMenu = new QMenu(this);
+            trayIcon->setContextMenu(trayIconMenu);
+            createTrayIconMenu(trayIconMenu);
+
+#ifndef Q_OS_MAC
+            // Show main window on tray icon click
+            // Note: ignore this on Mac - this is not the way tray should work there
+             connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+                    this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+#else
+            // Note: On Mac, the dock icon is also used to provide menu functionality
+            // similar to one for tray icon
+            MacDockIconHandler *dockIconHandler = MacDockIconHandler::instance();
+            dockIconHandler->setMainWindow((QMainWindow *)this);
+            dockIconMenu = dockIconHandler->dockMenu();
+ 
+            createTrayIconMenu(dockIconMenu);
+#endif
+        }
 
         // Keep up to date with client
         setNumConnections(clientModel->getNumConnections());
@@ -558,6 +617,13 @@ void SequenceGUI::setClientModel(ClientModel *clientModel)
             // Disable context menu on tray icon
             trayIconMenu->clear();
         }
+#ifdef Q_OS_MAC
+        if(dockIconMenu)
+        {
+            // Disable context menu on dock icon
+            dockIconMenu->clear();
+        }
+#endif
     }
 }
 
@@ -590,10 +656,12 @@ void SequenceGUI::setWalletActionsEnabled(bool enabled)
 {
     overviewAction->setEnabled(enabled);
     sendCoinsAction->setEnabled(enabled);
+    sendCoinsMenuAction->setEnabled(enabled);
+    receiveCoinsAction->setEnabled(enabled);
+    receiveCoinsMenuAction->setEnabled(enabled);
+    historyAction->setEnabled(enabled);
     multiSigAction->setEnabled(enabled);
     dnsAction->setEnabled(enabled);
-    receiveCoinsAction->setEnabled(enabled);
-    historyAction->setEnabled(enabled);
     encryptWalletAction->setEnabled(enabled);
     backupWalletAction->setEnabled(enabled);
     changePassphraseAction->setEnabled(enabled);
@@ -606,48 +674,30 @@ void SequenceGUI::setWalletActionsEnabled(bool enabled)
 
 void SequenceGUI::createTrayIcon(const NetworkStyle *networkStyle)
 {
-#ifndef Q_OS_MAC
     trayIcon = new QSystemTrayIcon(this);
     QString toolTip = tr("Sequence client") + " " + networkStyle->getTitleAddText();
     trayIcon->setToolTip(toolTip);
     trayIcon->setIcon(networkStyle->getAppIcon());
     trayIcon->show();
-#endif
-
     notificator = new Notificator(QApplication::applicationName(), trayIcon, this);
 }
 
-void SequenceGUI::createTrayIconMenu()
+void SequenceGUI::createTrayIconMenu(QMenu *pmenu)
 {
-#ifndef Q_OS_MAC
-    // return if trayIcon is unset (only on non-Mac OSes)
-    if (!trayIcon)
-        return;
-
-    trayIconMenu = new QMenu(this);
-    trayIcon->setContextMenu(trayIconMenu);
-
-    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-            this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
-#else
-    // Note: On Mac, the dock icon is used to provide the tray's functionality.
-    MacDockIconHandler *dockIconHandler = MacDockIconHandler::instance();
-    dockIconHandler->setMainWindow((QMainWindow *)this);
-    trayIconMenu = dockIconHandler->dockMenu();
-#endif
-
     // Configuration of the tray icon (or dock icon) icon menu
     trayIconMenu->addAction(toggleHideAction);
     trayIconMenu->addSeparator();
-    trayIconMenu->addAction(sendCoinsAction);
-    trayIconMenu->addAction(receiveCoinsAction);
-    trayIconMenu->addSeparator();
-    trayIconMenu->addAction(multiSigAction);
-    trayIconMenu->addSeparator();
-    trayIconMenu->addAction(dnsAction);
+    trayIconMenu->addAction(sendCoinsMenuAction);
+    trayIconMenu->addAction(receiveCoinsMenuAction);
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(signMessageAction);
     trayIconMenu->addAction(verifyMessageAction);
+    trayIconMenu->addSeparator();
+    trayIconMenu->addAction(overviewAction);
+    trayIconMenu->addAction(sendCoinsAction);
+    trayIconMenu->addAction(receiveCoinsAction);
+    trayIconMenu->addAction(multiSigAction);
+    trayIconMenu->addAction(dnsAction);
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(optionsAction);
     trayIconMenu->addAction(openInfoAction);

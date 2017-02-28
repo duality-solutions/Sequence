@@ -115,6 +115,7 @@ private:
     QAction *historyAction;
     QAction *quitAction;
     QAction *sendCoinsAction;
+    QAction *sendCoinsMenuAction;
     QAction *multiSigAction;
     QAction *dnsAction;
     QAction *usedSendingAddressesAction;
@@ -123,6 +124,7 @@ private:
     QAction *verifyMessageAction;
     QAction *aboutAction;
     QAction *receiveCoinsAction;
+    QAction *receiveCoinsMenuAction;
     QAction *optionsAction;
     QAction *toggleHideAction;
     QAction *encryptWalletAction;
@@ -142,6 +144,7 @@ private:
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
+    QMenu *dockIconMenu;
     Notificator *notificator;
     RPCConsole *rpcConsole;
 
@@ -162,7 +165,7 @@ private:
     /** Create system tray icon and notification */
     void createTrayIcon(const NetworkStyle *networkStyle);
     /** Create system tray menu (or setup the dock menu) */
-    void createTrayIconMenu();
+    void createTrayIconMenu(QMenu *pmenu);
 
     /** Enable or disable all wallet-related actions */
     void setWalletActionsEnabled(bool enabled);
