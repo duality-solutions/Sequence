@@ -7,15 +7,15 @@
 #ifndef SILK_TXMEMPOOL_H
 #define SILK_TXMEMPOOL_H
 
+#include "amount.h"
+#include "coins.h"
+#include "indirectmap.h"
+#include "sync.h"
+#include "primitives/transaction.h"
+
 #include <list>
 #include <memory>
 #include <set>
-
-#include "amount.h"
-#include "coins.h"
-#include "primitives/transaction.h"
-#include "sync.h"
-#include "indirectmap.h"
 
 //#undef foreach
 #include <boost/foreach.hpp>

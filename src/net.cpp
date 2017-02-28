@@ -15,11 +15,10 @@
 #include "clientversion.h"
 #include "consensus/consensus.h"
 #include "crypto/common.h"
-#include "primitives/transaction.h"
 #include "scheduler.h"
+#include "primitives/transaction.h"
 #include "ui_interface.h"
 #include "wallet/wallet.h"
-#include "utilstrencodings.h"
 
 #ifdef WIN32
 #include <string.h>

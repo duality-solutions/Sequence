@@ -6,17 +6,17 @@
 
 #include "guiutil.h"
 
+#include "qvalidatedlineedit.h"
 #include "silkaddressvalidator.h"
 #include "silkunits.h"
-#include "qvalidatedlineedit.h"
 #include "walletmodel.h"
 
-#include "primitives/transaction.h"
 #include "init.h"
 #include "main.h"
 #include "protocol.h"
 #include "script/script.h"
 #include "script/standard.h"
+#include "primitives/transaction.h"
 #include "util.h"
 
 #ifdef WIN32
@@ -63,6 +63,10 @@
 #include <QUrlQuery>
 #endif
 
+#if QT_VERSION >= 0x50200
+#include <QFontDatabase>
+#endif
+
 #if BOOST_FILESYSTEM_VERSION >= 3
 static boost::filesystem::detail::utf8_codecvt_facet utf8;
 #endif
@@ -98,6 +102,21 @@ QFont SilkAddressFont()
     font.setStyleHint(QFont::TypeWriter);
 #endif
     return font;
+}
+
+QFont fixedPitchFont()
+{
+#if QT_VERSION >= 0x50200
+    return QFontDatabase::systemFont(QFontDatabase::FixedFont);
+#else
+    QFont font("Monospace");
+#if QT_VERSION >= 0x040800
+    font.setStyleHint(QFont::Monospace);
+#else
+    font.setStyleHint(QFont::TypeWriter);
+#endif
+    return font;
+#endif
 }
 
 void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent)

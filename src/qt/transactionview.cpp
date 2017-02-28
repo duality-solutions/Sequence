@@ -7,18 +7,17 @@
 #include "transactionview.h"
 
 #include "addresstablemodel.h"
-#include "silkunits.h"
 #include "csvmodelwriter.h"
 #include "editaddressdialog.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
+#include "silkunits.h"
 #include "transactiondescdialog.h"
 #include "transactionfilterproxy.h"
 #include "transactionrecord.h"
 #include "transactiontablemodel.h"
-#include "walletmodel.h"
-
 #include "ui_interface.h"
+#include "walletmodel.h"
 
 #include <QComboBox>
 #include <QDateTimeEdit>
@@ -344,11 +343,11 @@ void TransactionView::exportClicked()
     writer.addColumn(tr("ID"), 0, TransactionTableModel::TxIDRole);
 
     if(!writer.write()) {
-        emit message(tr("Exporting Failed"), tr("There was an error trying to save the transaction history to %1.").arg(filename),
+        Q_EMIT message(tr("Exporting Failed"), tr("There was an error trying to save the transaction history to %1.").arg(filename),
             CClientUIInterface::MSG_ERROR);
     }
     else {
-        emit message(tr("Exporting Successful"), tr("The transaction history was successfully saved to %1.").arg(filename),
+        Q_EMIT message(tr("Exporting Successful"), tr("The transaction history was successfully saved to %1.").arg(filename),
             CClientUIInterface::MSG_INFORMATION);
     }
 }

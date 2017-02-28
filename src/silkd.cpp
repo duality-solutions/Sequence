@@ -6,10 +6,10 @@
 
 #include "chainparams.h"
 #include "clientversion.h"
-#include "rpc/rpcserver.h"
 #include "init.h"
 #include "main.h"
 #include "noui.h"
+#include "rpc/rpcserver.h"
 #include "scheduler.h"
 #include "ui_interface.h"
 #include "util.h"

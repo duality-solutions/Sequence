@@ -6,10 +6,11 @@
 
 #include "recentrequeststablemodel.h"
 
-#include "silkunits.h"
 #include "clientversion.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
+#include "silkunits.h"
+
 #include "streams.h"
 
 #include <boost/foreach.hpp>
@@ -129,7 +130,7 @@ QVariant RecentRequestsTableModel::headerData(int section, Qt::Orientation orien
 void RecentRequestsTableModel::updateAmountColumnTitle()
 {
     columns[Amount] = getAmountTitle();
-    emit headerDataChanged(Qt::Horizontal,Amount,Amount);
+    Q_EMIT headerDataChanged(Qt::Horizontal,Amount,Amount);
 }
 
 /** Gets title for amount column including current display unit if optionsModel reference available. */
@@ -224,7 +225,7 @@ void RecentRequestsTableModel::addNewRequest(RecentRequestEntry &recipient)
 void RecentRequestsTableModel::sort(int column, Qt::SortOrder order)
 {
     qSort(list.begin(), list.end(), RecentRequestEntryLessThan(column, order));
-    emit dataChanged(index(0, 0, QModelIndex()), index(list.size() - 1, NUMBER_OF_COLUMNS - 1, QModelIndex()));
+    Q_EMIT dataChanged(index(0, 0, QModelIndex()), index(list.size() - 1, NUMBER_OF_COLUMNS - 1, QModelIndex()));
 }
 
 void RecentRequestsTableModel::updateDisplayUnit()

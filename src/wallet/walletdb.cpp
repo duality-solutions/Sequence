@@ -7,12 +7,12 @@
 #include "wallet/walletdb.h"
 
 #include "base58.h"
-#include "consensus/validation.h"
 #include "protocol.h"
 #include "serialize.h"
 #include "sync.h"
 #include "util.h"
 #include "utiltime.h"
+#include "consensus/validation.h"
 #include "wallet/wallet.h"
 
 #include <boost/filesystem.hpp>

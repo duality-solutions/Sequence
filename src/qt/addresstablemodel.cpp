@@ -218,7 +218,7 @@ QVariant AddressTableModel::data(const QModelIndex &index, int role) const
         QFont font;
         if(index.column() == Address)
         {
-            font = GUIUtil::SilkAddressFont();
+            font = GUIUtil::fixedPitchFont();
         }
         return font;
     }
@@ -450,5 +450,5 @@ int AddressTableModel::lookupAddress(const QString &address) const
 
 void AddressTableModel::emitDataChanged(int idx)
 {
-    emit dataChanged(index(idx, 0, QModelIndex()), index(idx, columns.length()-1, QModelIndex()));
+    Q_EMIT dataChanged(index(idx, 0, QModelIndex()), index(idx, columns.length()-1, QModelIndex()));
 }

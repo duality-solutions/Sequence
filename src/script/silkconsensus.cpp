@@ -6,8 +6,8 @@
 
 #include "silkconsensus.h"
 
-#include "primitives/transaction.h"
 #include "script/interpreter.h"
+#include "primitives/transaction.h"
 #include "version.h"
 
 namespace {

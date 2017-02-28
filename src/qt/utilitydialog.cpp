@@ -5,12 +5,11 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "utilitydialog.h"
-
 #include "ui_helpmessagedialog.h"
 
-#include "silkgui.h"
 #include "clientmodel.h"
 #include "guiutil.h"
+#include "silkgui.h"
 
 #include "clientversion.h"
 #include "init.h"
@@ -73,7 +72,7 @@ HelpMessageDialog::HelpMessageDialog(QWidget *parent, bool about) :
             "  -rootcertificates=<file>  " + tr("Set SSL root certificates for payment request (default: -system-)") + "\n" +
             "  -splash                   " + tr("Show splash screen on startup (default: 1)");
 
-        ui->helpMessageLabel->setFont(GUIUtil::SilkAddressFont());
+        ui->helpMessageLabel->setFont(GUIUtil::fixedPitchFont());
         text = version + "\n" + header + "\n" + coreOptions + "\n" + uiOptions;
         ui->helpMessageLabel->setText(text);
     }

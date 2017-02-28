@@ -8,9 +8,6 @@
 #include "config/silk-config.h"
 #endif
 
-#include "silkgui.h"
-
-#include "chainparams.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
@@ -18,20 +15,22 @@
 #include "net.h"
 #include "networkstyle.h"
 #include "optionsmodel.h"
+#include "silkgui.h"
 #include "splashscreen.h"
 #include "utilitydialog.h"
 #include "winshutdownmonitor.h"
 
-#ifdef ENABLE_WALLET
-#include "paymentserver.h"
-#include "walletmodel.h"
-#endif
-
+#include "chainparams.h"
 #include "init.h"
 #include "rpc/rpcserver.h"
 #include "scheduler.h"
 #include "ui_interface.h"
 #include "util.h"
+
+#ifdef ENABLE_WALLET
+#include "paymentserver.h"
+#include "walletmodel.h"
+#endif
 
 #ifdef ENABLE_WALLET
 #include "wallet/wallet.h"
@@ -63,7 +62,9 @@ Q_IMPORT_PLUGIN(qtwcodecs)
 Q_IMPORT_PLUGIN(qkrcodecs)
 Q_IMPORT_PLUGIN(qtaccessiblewidgets)
 #else
+#if QT_VERSION < 0x050400
 Q_IMPORT_PLUGIN(AccessibleFactory)
+#endif
 #if defined(QT_QPA_PLATFORM_XCB)
 Q_IMPORT_PLUGIN(QXcbIntegrationPlugin);
 #elif defined(QT_QPA_PLATFORM_WINDOWS)
@@ -260,7 +261,7 @@ SilkCore::SilkCore():
 void SilkCore::handleRunawayException(const std::exception *e)
 {
     PrintExceptionContinue(e, "Runaway exception");
-    emit runawayException(QString::fromStdString(strMiscWarning));
+    Q_EMIT runawayException(QString::fromStdString(strMiscWarning));
 }
 
 void SilkCore::initialize()
@@ -277,7 +278,7 @@ void SilkCore::initialize()
              */
             StartDummyRPCThread();
         }
-        emit initializeResult(rv);
+        Q_EMIT initializeResult(rv);
     } catch (const std::exception& e) {
         handleRunawayException(&e);
     } catch (...) {
@@ -294,7 +295,7 @@ void SilkCore::restart(QStringList args)
         threadGroup.join_all();
         PrepareShutdown();
         qDebug() << __func__ << ": Shutdown finished";
-        emit shutdownResult(1);
+        Q_EMIT shutdownResult(1);
         CExplicitNetCleanup::callCleanup();
         QProcess::startDetached(QApplication::applicationFilePath(), args);
         qDebug() << __func__ << ": Restart initiated...";
@@ -315,7 +316,7 @@ void SilkCore::shutdown()
         threadGroup.join_all();
         Shutdown();
         qDebug() << __func__ << ": Shutdown finished";
-        emit shutdownResult(1);
+        Q_EMIT shutdownResult(1);
     } catch (const std::exception& e) {
         handleRunawayException(&e);
     } catch (...) {
@@ -344,7 +345,7 @@ silkApplication::~silkApplication()
     if(coreThread)
     {
         qDebug() << __func__ << ": Stopping thread";
-        emit stopThread();
+        Q_EMIT stopThread();
         coreThread->wait();
         qDebug() << __func__ << ": Stopped thread";
     }
@@ -416,7 +417,7 @@ void silkApplication::requestInitialize()
 {
     qDebug() << __func__ << ": Requesting initialize";
     startThread();
-    emit requestedInitialize();
+    Q_EMIT requestedInitialize();
 }
 
 void silkApplication::requestShutdown()
@@ -439,7 +440,7 @@ void silkApplication::requestShutdown()
     ShutdownWindow::showShutdownWindow(window);
 
     // Request shutdown from core thread
-    emit requestedShutdown();
+    Q_EMIT requestedShutdown();
 }
 
 void silkApplication::initializeResult(int retval)
@@ -479,7 +480,7 @@ void silkApplication::initializeResult(int retval)
         {
             window->show();
         }
-        emit splashFinished(window);
+        Q_EMIT splashFinished(window);
 
 #ifdef ENABLE_WALLET
         // Now that initialization/startup is done, process any command-line

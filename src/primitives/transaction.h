@@ -12,7 +12,6 @@
 #include "script/script.h"
 #include "serialize.h"
 #include "uint256.h"
-
 #include "version.h"
 
 struct CDiskTxPos;

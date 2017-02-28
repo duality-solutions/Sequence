@@ -7,11 +7,11 @@
 #include "overviewpage.h"
 #include "ui_overviewpage.h"
 
-#include "silkunits.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
+#include "silkunits.h"
 #include "transactionfilterproxy.h"
 #include "transactiontablemodel.h"
 #include "walletmodel.h"
@@ -152,7 +152,7 @@ OverviewPage::OverviewPage(QWidget *parent) :
 void OverviewPage::handleTransactionClicked(const QModelIndex &index)
 {
     if(filter)
-        emit transactionClicked(filter->mapToSource(index));
+        Q_EMIT transactionClicked(filter->mapToSource(index));
 }
 
 OverviewPage::~OverviewPage()
@@ -284,8 +284,7 @@ void OverviewPage::setWalletModel(WalletModel *model)
         ui->listTransactions->setModelColumn(TransactionTableModel::ToAddress);
 
         // Keep up to date with wallet
-        setBalance(model->getBalance(), model->getTotal(), model->getStake(), model->getUnconfirmedBalance(), model->getImmatureBalance(),
-                   model->getWatchBalance(), model->getWatchStake(), model->getWatchUnconfirmedBalance(), model->getWatchImmatureBalance());
+        setBalance(model->getBalance(), model->getTotal(), model->getStake(), model->getUnconfirmedBalance(), model->getImmatureBalance(),                        model->getWatchBalance(), model->getWatchStake(), model->getWatchUnconfirmedBalance(), model->getWatchImmatureBalance());
         connect(model, SIGNAL(balanceChanged(CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount)), this, SLOT(setBalance(CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount)));
 
         connect(model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));

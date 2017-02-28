@@ -244,6 +244,53 @@ QAbstractSpinBox::down-arrow {
 image:url(':/images/silver_downArrow_small');
 }
 
+QAbstractSpinBox::down-arrow {
+image:url(':/images/drk/drkpurple_downArrow_small');
+}
+
+/*******************************************************/
+
+QCheckBox {
+spacing: 5px;
+}
+
+QCheckBox::indicator {
+width: 16px;
+height: 16px;
+}
+
+QCheckBox::indicator:unchecked {
+image:url(':/images/unchecked');
+}
+
+QCheckBox::indicator:unchecked:hover {
+image:url(':/images/unchecked');
+}
+
+QCheckBox::indicator:unchecked:pressed {
+image:url(':/images/checked');
+}
+
+QCheckBox::indicator:checked {
+image:url(':/images/checked');
+}
+
+QCheckBox::indicator:checked:hover {
+image:url(':/images/checked');
+}
+
+QCheckBox::indicator:checked:pressed {
+image:url(':/images/unchecked');
+}
+
+QCheckBox::indicator:indeterminate:hover {
+image:url(':/images/unchecked');
+}
+
+QCheckBox::indicator:indeterminate:pressed {
+image:url(':/images/checked');
+}
+
 /*******************************************************/
 
 QHeaderView { /* Table Header */

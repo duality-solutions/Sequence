@@ -10,11 +10,11 @@
 
 #include "amount.h"
 #include "primitives/block.h"
-#include "primitives/transaction.h"
 #include "wallet/crypter.h"
 #include "key.h"
 #include "keystore.h"
 #include "main.h"
+#include "primitives/transaction.h"
 #include "ui_interface.h"
 #include "validationinterface.h"
 #include "wallet/wallet_ismine.h"

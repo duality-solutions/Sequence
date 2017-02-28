@@ -7,10 +7,10 @@
 #include "receiverequestdialog.h"
 #include "ui_receiverequestdialog.h"
 
-#include "silkunits.h"
 #include "guiconstants.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
+#include "silkunits.h"
 #include "walletmodel.h"
 
 #include <QClipboard>

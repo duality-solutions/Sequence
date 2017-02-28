@@ -172,7 +172,7 @@ QVariant PeerTableModel::data(const QModelIndex &index, int role) const
         }
     } else if (role == Qt::TextAlignmentRole) {
         if (index.column() == Ping)
-            return (int)(Qt::AlignRight | Qt::AlignVCenter);
+            return (int)(Qt::AlignLeft | Qt::AlignVCenter);
     }
 
     return QVariant();
@@ -221,9 +221,9 @@ const CNodeCombinedStats *PeerTableModel::getNodeStats(int idx)
 
 void PeerTableModel::refresh()
 {
-    emit layoutAboutToBeChanged();
+    Q_EMIT layoutAboutToBeChanged();
     priv->refreshPeers();
-    emit layoutChanged();
+    Q_EMIT layoutChanged();
 }
 
 int PeerTableModel::getRowByNodeId(NodeId nodeid)

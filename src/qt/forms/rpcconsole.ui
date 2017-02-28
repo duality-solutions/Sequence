@@ -477,7 +477,7 @@ QTabBar { alignment: left; }</string>
             <string/>
            </property>
            <property name="icon">
-            <iconset resource="../silk.qrc">
+            <iconset resource="../silk.qrc">   
              <normaloff>:/icons/drk/remove</normaloff>:/icons/drk/remove</iconset>
            </property>
            <property name="shortcut">

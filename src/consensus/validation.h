@@ -6,9 +6,9 @@
 #ifndef SILK_CONSENSUS_VALIDATION_H
 #define SILK_CONSENSUS_VALIDATION_H
 
-#include <string>
-
 #include "main.h"
+
+#include <string>
 
 /** "reject" message codes */
 static const unsigned char REJECT_MALFORMED = 0x01;

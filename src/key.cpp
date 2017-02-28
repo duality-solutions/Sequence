@@ -7,13 +7,12 @@
 #include "key.h"
 
 #include "crypto/hmac_sha512.h"
-#include "crypto/rfc6979_hmac_sha256.h"
 #include "eccryptoverify.h"
-#include "pubkey.h"
+#include "ecwrapper.h"
 #include "random.h"
+#include "crypto/rfc6979_hmac_sha256.h"
 
 #include <secp256k1.h>
-#include "ecwrapper.h"
 
 //! anonymous namespace
 namespace {

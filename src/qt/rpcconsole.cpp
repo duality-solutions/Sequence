@@ -170,7 +170,7 @@ void RPCExecutor::request(const QString &command)
     std::vector<std::string> args;
     if(!parseCommandLine(args, command.toStdString()))
     {
-        emit reply(RPCConsole::CMD_ERROR, QString("Parse error: unbalanced ' or \""));
+        Q_EMIT reply(RPCConsole::CMD_ERROR, QString("Parse error: unbalanced ' or \""));
         return;
     }
     if(args.empty())
@@ -192,7 +192,7 @@ void RPCExecutor::request(const QString &command)
         else
             strPrint = result.write(2);
 
-        emit reply(RPCConsole::CMD_REPLY, QString::fromStdString(strPrint));
+        Q_EMIT reply(RPCConsole::CMD_REPLY, QString::fromStdString(strPrint));
     }
     catch (UniValue& objError)
     {
@@ -200,16 +200,16 @@ void RPCExecutor::request(const QString &command)
         {
             int code = find_value(objError, "code").get_int();
             std::string message = find_value(objError, "message").get_str();
-            emit reply(RPCConsole::CMD_ERROR, QString::fromStdString(message) + " (code " + QString::number(code) + ")");
+            Q_EMIT reply(RPCConsole::CMD_ERROR, QString::fromStdString(message) + " (code " + QString::number(code) + ")");
         }
         catch(std::runtime_error &) // raised when converting to invalid type, i.e. missing code or message
         {   // Show raw JSON object
-            emit reply(RPCConsole::CMD_ERROR, QString::fromStdString(objError.write()));
+            Q_EMIT reply(RPCConsole::CMD_ERROR, QString::fromStdString(objError.write()));
         }
     }
     catch (const std::exception& e)
     {
-        emit reply(RPCConsole::CMD_ERROR, QString("Error: ") + QString::fromStdString(e.what()));
+        Q_EMIT reply(RPCConsole::CMD_ERROR, QString("Error: ") + QString::fromStdString(e.what()));
     }
 }
 
@@ -264,7 +264,7 @@ RPCConsole::RPCConsole(QWidget *parent) :
 RPCConsole::~RPCConsole()
 {
     GUIUtil::saveWindowGeometry("nRPCConsoleWindow", this);
-    emit stopExecutor();
+    Q_EMIT stopExecutor();
     delete ui;
 }
 
@@ -526,7 +526,7 @@ void RPCConsole::buildParameterlist(QString arg)
     args.append(arg);
 
     // Send command-line arguments to SilkGUI::handleRestart()
-    emit handleRestart(args);
+    Q_EMIT handleRestart(args);
 }
 
 void RPCConsole::clear()
@@ -537,6 +537,10 @@ void RPCConsole::clear()
     ui->lineEdit->clear();
     ui->lineEdit->setFocus();
 
+#ifdef Q_OS_MAC // Icons on push buttons are very uncommon on Mac
+    ui->clearButton->setIcon(QIcon(":/icons/remove"));
+#endif
+
     // Add smoothly scaled icon images.
     // (when using width/height on an img, Qt uses nearest instead of linear interpolation)
     for(int i=0; ICON_MAPPING[i].url; ++i)
@@ -546,6 +550,15 @@ void RPCConsole::clear()
                     QUrl(ICON_MAPPING[i].url),
                     QImage(ICON_MAPPING[i].source).scaled(ICON_SIZE, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     }
+
+    // Set default style sheet
+    QFontInfo fixedFontInfo(GUIUtil::fixedPitchFont());        
+    // Try to make fixed font adequately large on different OS        
+#ifdef WIN32      
+    QString ptSize = QString("%1pt").arg(QFontInfo(QFont()).pointSize() * 10 / 8);        
+#else     
+    QString ptSize = QString("%1pt").arg(QFontInfo(QFont()).pointSize() * 8.5 / 9);       
+#endif
 
     // Set default style sheet
     ui->messagesWidget->document()->setDefaultStyleSheet(
@@ -613,7 +626,7 @@ void RPCConsole::on_lineEdit_returnPressed()
     if(!cmd.isEmpty())
     {
         message(CMD_REQUEST, cmd);
-        emit cmdRequest(cmd);
+        Q_EMIT cmdRequest(cmd);
         // Remove command, if already in history
         history.removeOne(cmd);
         // Append command to history

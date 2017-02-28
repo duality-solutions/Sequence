@@ -5,19 +5,21 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <boost/assign/list_of.hpp>
-
 #include "kernel.h"
-#include "wallet/db.h"
-#include "uint256hm.h"
+
 #include "chainparams.h"
 #include "consensus/consensus.h"
-#include "consensus/validation.h"
-#include "util.h"
-#include "wallet/wallet.h"
+#include "wallet/db.h"
 #include "init.h"
 #include "timedata.h"
 #include "txdb.h"
+#include "uint256hm.h"
+#include "util.h"
+#include "consensus/validation.h"
+#include "wallet/wallet.h"
+
+
+#include <boost/assign/list_of.hpp>
 
 using namespace std;
 

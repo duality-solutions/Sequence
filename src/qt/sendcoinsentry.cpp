@@ -12,7 +12,8 @@
 #include "guiutil.h"
 #include "optionsmodel.h"
 #include "walletmodel.h"
-#include "../dns/dns.h"
+
+#include "dns/dns.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -36,7 +37,7 @@ SendCoinsEntry::SendCoinsEntry(QWidget *parent) :
     // normal Silk address field
     GUIUtil::setupAddressWidget(ui->payTo, this);
     // just a label for displaying Silk address(es)
-    ui->payTo_is->setFont(GUIUtil::SilkAddressFont());
+    ui->payTo_is->setFont(GUIUtil::fixedPitchFont());
 
     // Connect signals
     connect(ui->payAmount, SIGNAL(valueChanged()), this, SIGNAL(payAmountChanged()));
@@ -122,7 +123,7 @@ void SendCoinsEntry::clear()
 
 void SendCoinsEntry::deleteClicked()
 {
-    emit removeEntry(this);
+    Q_EMIT removeEntry(this);
 }
 
 bool SendCoinsEntry::validate()

@@ -8,12 +8,12 @@
 #include "ui_sendcoinsdialog.h"
 
 #include "addresstablemodel.h"
-#include "silkunits.h"
 #include "clientmodel.h"
 #include "coincontroldialog.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
 #include "sendcoinsentry.h"
+#include "silkunits.h"
 #include "walletmodel.h"
 
 #include "base58.h"
@@ -584,7 +584,7 @@ void SendCoinsDialog::processSendCoinsReturn(const WalletModel::SendCoinsReturn 
         return;
     }
 
-    emit message(tr("Send Coins"), msgParams.first, msgParams.second);
+    Q_EMIT message(tr("Send Coins"), msgParams.first, msgParams.second);
 }
 
 void SendCoinsDialog::minimizeFeeSection(bool fMinimize)
@@ -839,7 +839,7 @@ void SendCoinsDialog::coinControlChangeEdited(const QString& text)
             }
             else // Known change address
             {
-                ui->labelCoinControlChangeLabel->setStyleSheet("QLabel{color:black;}");
+                ui->labelCoinControlChangeLabel->setStyleSheet("QLabel{color:white;}");
 
                 // Query label
                 QString associatedLabel = model->getAddressTableModel()->labelForAddress(text);

@@ -63,7 +63,7 @@ public:
     void setValue(const CAmount& value)
     {
         lineEdit()->setText(SilkUnits::format(currentUnit, value, false, SilkUnits::separatorAlways));
-        emit valueChanged();
+        Q_EMIT valueChanged();
     }
 
     void stepBy(int steps)

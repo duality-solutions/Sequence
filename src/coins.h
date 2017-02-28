@@ -9,6 +9,7 @@
 
 #include "compressor.h"
 #include "memusage.h"
+#include "random.h"
 #include "serialize.h"
 #include "uint256.h"
 #include "undo.h"

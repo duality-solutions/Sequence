@@ -1,5 +1,25 @@
-# **Silk-Core CHANGELOG**
+# **Silk-Core Changelog**
 -------------------------
+
+**v1.3.0.0**
+
+* Fix and re-enable ResetSyncCheckpoint()
+* Fix checkpoint locks
+* Fix 'Stake only mode' checkbox styling
+* Add comments for pubkeys/privkeys in chainparams.cpp
+* Fix all includes and paths
+* Align Ping Time text to the left to make it easier to read
+* Changed Address Label in SendCoinsDialog to display in white
+* Style UI checkboxes
+* Add non-mainnet units and amend THIN spacing/HTML code
+* Convert all emit instances in src/qt/ to Q_EMIT
+* Improvements for Font and Icon Display in Qt
+* Fixed libraries for Gitian
+* Fixed Gitian script files
+* Upgraded dependency packages
+* Windows installer creator script
+
+
 
 **v1.2.0.0**
 
@@ -16,6 +36,7 @@
 * Fix CPU utilisation caused by network issues
 * Implement HD Wallet
 * Change all public, private and protected slots in src/qt/ to Q_SLOTS
+* Fixed missing icons in Qt Makefile
 
 
 
@@ -104,6 +125,6 @@
 * Make Travis-CI test with Qt5, not Qt4
 * Update to latest leveldb code
 * Fixes sync height in peer table while chain downloading.
-* Update silkcoin readme.
+* Update Silk-Core readme.
 * Updates PRT.
 * Adds issue template to repo.

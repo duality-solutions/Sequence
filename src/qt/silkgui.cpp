@@ -18,8 +18,13 @@
 #include "optionsmodel.h"
 #include "rpcconsole.h"
 #include "utilitydialog.h"
-#include "wallet/wallet.h"
 #include "multisigdialog.h"
+
+#include "init.h"
+#include "txmempool.h"
+#include "ui_interface.h"
+#include "util.h"
+#include "wallet/wallet.h"
 
 #ifdef ENABLE_WALLET
 #include "walletframe.h"
@@ -29,11 +34,6 @@
 #ifdef Q_OS_MAC
 #include "macdockiconhandler.h"
 #endif
-
-#include "init.h"
-#include "txmempool.h"
-#include "ui_interface.h"
-#include "util.h"
 
 #include <iostream>
 
@@ -718,7 +718,7 @@ void SilkGUI::openClicked()
     OpenURIDialog dlg(this);
     if(dlg.exec())
     {
-        emit receivedURI(dlg.getURI());
+        Q_EMIT receivedURI(dlg.getURI());
     }
 }
 
@@ -1026,7 +1026,7 @@ void SilkGUI::dropEvent(QDropEvent *event)
     {
         Q_FOREACH(const QUrl &uri, event->mimeData()->urls())
         {
-            emit receivedURI(uri.toString());
+            Q_EMIT receivedURI(uri.toString());
         }
     }
     event->acceptProposedAction();
@@ -1267,7 +1267,7 @@ void SilkGUI::unsubscribeFromCoreSignals()
 void SilkGUI::handleRestart(QStringList args)
 {
     if (!ShutdownRequested())
-        emit requestedRestart(args);
+        Q_EMIT requestedRestart(args);
 }
 
 UnitDisplayStatusBarControl::UnitDisplayStatusBarControl() :

@@ -8,6 +8,9 @@
 #ifndef SLKDNS_H
 #define SLKDNS_H
 
+#include "netbase.h"
+#include "pubkey.h"
+
 #include <string>
 #include <map>
 
@@ -15,8 +18,6 @@
 #include <boost/xpressive/xpressive_dynamic.hpp>
 
 using namespace std;
-
-#include "pubkey.h"
 
 #define SLKDNS_DAPSIZE     (8 * 1024)
 #define SLKDNS_DAPTRESHOLD 3000 // 200K/min limit answer

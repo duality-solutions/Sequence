@@ -55,7 +55,7 @@ protected:
     void mousePressEvent(QMouseEvent * event)
     {
         QLabel::mousePressEvent(event);
-        emit clicked();
+        Q_EMIT clicked();
     }
 };
 

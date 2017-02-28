@@ -8,13 +8,13 @@
 
 #include "clientversion.h"
 #include "consensus/consensus.h"
-#include "consensus/validation.h"
 #include "main.h"
 #include "streams.h"
 #include "timedata.h"
 #include "util.h"
 #include "utilmoneystr.h"
 #include "utiltime.h"
+#include "consensus/validation.h"
 #include "version.h"
 
 #include <boost/circular_buffer.hpp>

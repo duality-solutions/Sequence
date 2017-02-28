@@ -5,8 +5,9 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "chainparams.h"
-#include "consensus/merkle.h"
 
+#include "chainparamsseeds.h"
+#include "consensus/merkle.h"
 #include "random.h"
 #include "tinyformat.h"
 #include "util.h"
@@ -18,8 +19,6 @@
 #include <stdio.h>
 
 #include <boost/assign/list_of.hpp>
-
-#include "chainparamsseeds.h"
 
 using namespace std;
 using namespace boost::assign;

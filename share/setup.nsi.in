@@ -5,9 +5,9 @@ SetCompressor /SOLID lzma
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION @SILK_VERSION_MAJOR@.@SILK_VERSION_MINOR@.@SILK_VERSION_REVISION@
+!define VERSION @CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@.@CLIENT_VERSION_REVISION@
 !define COMPANY "Silk Core project"
-!define URL http://www.silk.com/
+!define URL http://silknetwork.org/
 
 # MUI Symbol Definitions
 !define MUI_ICON "@abs_top_srcdir@/share/pixmaps/silk.ico"

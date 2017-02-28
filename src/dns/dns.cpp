@@ -5,11 +5,12 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "dns/dns.h"
+
 #include "script/interpreter.h"
+#include "rpc/rpcserver.h"
 #include "script/script.h"
 #include "script/sign.h"
 #include "wallet/wallet.h"
-#include "rpc/rpcserver.h"
 
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>

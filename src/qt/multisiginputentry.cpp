@@ -2,20 +2,21 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <QApplication>
-#include <QClipboard>
-#include <string>
-#include <vector>
-
-#include "base58.h"
 #include "multisiginputentry.h"
 #include "ui_multisiginputentry.h"
+
+#include "walletmodel.h"
+
+#include "base58.h"
 #include "main.h"
 #include "script/script.h"
 #include "util.h"
 #include "wallet/wallet.h"
-#include "walletmodel.h"
 
+#include <QApplication>
+#include <QClipboard>
+#include <string>
+#include <vector>
 
 MultisigInputEntry::MultisigInputEntry(QWidget *parent) : QFrame(parent), ui(new Ui::MultisigInputEntry), model(0)
 {
@@ -99,7 +100,7 @@ void MultisigInputEntry::on_pasteTransactionIdButton_clicked()
 
 void MultisigInputEntry::on_deleteButton_clicked()
 {
-    emit removeEntry(this);
+    Q_EMIT removeEntry(this);
 }
 
 void MultisigInputEntry::on_pasteRedeemScriptButton_clicked()
@@ -181,5 +182,5 @@ void MultisigInputEntry::on_transactionOutput_currentIndexChanged(int index)
         ui->redeemScript->setEnabled(false);
     }
 
-    emit updateAmount();
+    Q_EMIT updateAmount();
 } 

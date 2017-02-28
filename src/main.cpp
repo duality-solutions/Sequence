@@ -14,24 +14,19 @@
 #include "checkpoints.h"
 #include "checkqueue.h"
 #include "consensus/consensus.h"
-#include "consensus/merkle.h"
-#include "consensus/validation.h"
 #include "crypto/common.h"
 #include "dns/dns.h"
 #include "init.h"
 #include "kernel.h"
 #include "keystore.h"
+#include "consensus/merkle.h"
 #include "merkleblock.h"
-#include "net.h"
-#include "pow.h"
-#include "primitives/block.h"
-#include "primitives/transaction.h"
 #include "rpc/rpcserver.h"
 #include "txdb.h"
-#include "txmempool.h"
 #include "ui_interface.h"
 #include "util.h"
 #include "utilmoneystr.h"
+#include "consensus/validation.h"
 #include "validationinterface.h"
 
 #include <sstream>
@@ -3149,10 +3144,6 @@ bool ProcessNewBlock(CValidationState &state, const CChainParams& chainparams, C
         // Store to disk
         CBlockIndex *pindex = NULL;
 
-        // ppcoin: ask for pending sync-checkpoint if any
-        if (!IsInitialBlockDownload())
-            CheckpointsSync::AskForPendingSyncCheckpoint(pfrom);
-
         bool ret = AcceptBlock(*pblock, state, chainparams, &pindex, dbp);
         if (pindex && pfrom) {
             mapBlockSource[pindex->GetBlockHash()] = pfrom->GetId();
@@ -4226,7 +4217,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
 
         // ppcoin: relay sync-checkpoint
         {
-            LOCK(CheckpointsSync::cs_hashSyncCheckpoint);
+            LOCK(cs_main);
             if (!CheckpointsSync::checkpointMessage.IsNull())
                 CheckpointsSync::checkpointMessage.RelayTo(pfrom);
         }
@@ -4243,10 +4234,6 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
                   remoteAddr);
 
         AddTimeData(pfrom->addr, nTime);
-
-        // ppcoin: ask for pending sync-checkpoint if any
-        if (!IsInitialBlockDownload())
-            CheckpointsSync::AskForPendingSyncCheckpoint(pfrom);
     }
 
 
@@ -4865,7 +4852,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         CSyncCheckpoint checkpoint;
         vRecv >> checkpoint;
 
-        if (checkpoint.ProcessSyncCheckpoint(pfrom))
+        if (checkpoint.ProcessSyncCheckpoint())
         {
             // Relay
             vector<CNode*> vNodesCopy;
@@ -4880,13 +4867,8 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
             pfrom->hashCheckpointKnown = checkpoint.hashCheckpoint;
             BOOST_FOREACH(CNode* pnode, vNodesCopy)
                 checkpoint.RelayTo(pnode);
-
-            LOCK(cs_vNodes);
-            BOOST_FOREACH(CNode* pnode, vNodesCopy)
-                pnode->Release();
         }
     }
-
 
     else if (strCommand == "filterload")
     {

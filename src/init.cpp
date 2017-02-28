@@ -14,9 +14,8 @@
 #include "amount.h"
 #include "chainparams.h"
 #include "checkpoints.h"
-#include "compat/sanity.h"
 #include "consensus/consensus.h"
-#include "consensus/validation.h"
+#include "hooks.h"
 #include "key.h"
 #include "main.h"
 #include "miner.h"
@@ -24,12 +23,16 @@
 #include "ntp.h"       
 #include "rpc/rpcregister.h"
 #include "rpc/rpcserver.h"
+#include "compat/sanity.h"
 #include "scheduler.h"
+#include "dns/slkdns.h"
 #include "script/standard.h"
+#include "torcontrol.h"
 #include "txdb.h"
 #include "ui_interface.h"
 #include "util.h"
 #include "utilmoneystr.h"
+#include "consensus/validation.h"
 #include "validationinterface.h"
 
 #ifdef ENABLE_WALLET
@@ -37,8 +40,6 @@
 #include "wallet/wallet.h"
 #include "wallet/walletdb.h"
 #endif
-#include "dns/slkdns.h"
-#include "torcontrol.h"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -46,8 +47,6 @@
 #ifndef WIN32
 #include <signal.h>
 #endif
-
-#include "hooks.h"
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>

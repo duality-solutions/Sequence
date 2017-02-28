@@ -7,11 +7,12 @@
 
 #include "nametablemodel.h"
 
+#include "guiconstants.h"
 #include "guiutil.h"
 #include "walletmodel.h"
-#include "guiconstants.h"
-#include "../wallet/wallet.h"
-#include "../dns/dns.h"
+
+#include "dns/dns.h"
+#include "wallet/wallet.h"
 
 #include <vector>
 
@@ -262,7 +263,7 @@ QVariant NameTableModel::data(const QModelIndex &index, int role) const
     case Qt::FontRole: {
         QFont font;
         if (index.column() == Address)
-            font = GUIUtil::SilkAddressFont();
+            font = GUIUtil::fixedPitchFont();
         return font;
     }
     case Qt::BackgroundRole:
@@ -336,5 +337,5 @@ void NameTableModel::updateEntry(const QString &name, const QString &value, cons
 
 void NameTableModel::emitDataChanged(int idx)
 {
-    emit dataChanged(index(idx, 0), index(idx, columns.length()-1));
+    Q_EMIT dataChanged(index(idx, 0), index(idx, columns.length()-1));
 }

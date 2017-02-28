@@ -8,10 +8,10 @@
 
 #include "base58.h"
 #include "consensus/consensus.h"
+#include "hooks.h"
 #include "main.h"
 #include "timedata.h"
 #include "wallet/wallet.h"
-#include "hooks.h"
 
 #include <stdint.h>
 

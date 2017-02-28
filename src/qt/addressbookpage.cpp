@@ -12,10 +12,10 @@
 #include "ui_addressbookpage.h"
 
 #include "addresstablemodel.h"
-#include "silkgui.h"
 #include "csvmodelwriter.h"
 #include "editaddressdialog.h"
 #include "guiutil.h"
+#include "silkgui.h"
 
 #include <QIcon>
 #include <QMenu>

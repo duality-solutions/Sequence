@@ -8,13 +8,13 @@
 #include "ui_coincontroldialog.h"
 
 #include "addresstablemodel.h"
-#include "silkunits.h"
 #include "guiutil.h"
-#include "init.h"
 #include "optionsmodel.h"
+#include "silkunits.h"
 #include "walletmodel.h"
 
 #include "wallet/coincontrol.h"
+#include "init.h"
 #include "main.h"
 #include "wallet/wallet.h"
 

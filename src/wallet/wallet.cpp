@@ -10,14 +10,11 @@
 #include "base58.h"
 #include "chainparams.h"
 #include "checkpoints.h"
-#include "consensus/consensus.h"
-#include "consensus/validation.h"
 #include "wallet/coincontrol.h"
+#include "consensus/consensus.h"
+#include "dns/dns.h"
 #include "kernel.h"
 #include "net.h"
-#include "dns/dns.h"
-#include "primitives/block.h"
-#include "primitives/transaction.h"
 #include "script/script.h"
 #include "script/sign.h"
 #include "timedata.h"
@@ -26,6 +23,7 @@
 #include "uint256hm.h"
 #include "util.h"
 #include "utilmoneystr.h"
+#include "consensus/validation.h"
 
 #include <assert.h>
 
