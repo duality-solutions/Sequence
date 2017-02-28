@@ -14,6 +14,10 @@
 * Add non-mainnet units and amend THIN spacing/HTML code
 * Convert all emit instances in src/qt/ to Q_EMIT
 * Improvements for Font and Icon Display in Qt
+* Fixed libraries for Gitian
+* Fixed Gitian script files
+* Upgraded dependency packages
+* Windows installer creator script
 
 
 
@@ -33,10 +37,6 @@
 * Implement HD Wallet
 * Change all public, private and protected slots in src/qt/ to Q_SLOTS
 * Fixed missing icons in Qt Makefile
-* Fixed libraries for Gitian
-* Fixed Gitian script files
-* Upgraded dependency packages
-* Fixed Gitian Windows script
 
 
 
