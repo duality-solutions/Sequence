@@ -12,7 +12,7 @@ Graph on Pull Request History
 
 ![SEQ logo](https://github.com/Duality-Solutions/Sequence/blob/master/src/qt/res/icons/sequence-80.png)
 
-**Copyright (c) 2016-2017 Duality Blockchain Solutions Developers**
+**Copyright (c) 2016-2017 Duality Blockchain Solutions**
 
 #### What is Sequence?
 ----------------
