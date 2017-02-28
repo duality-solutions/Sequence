@@ -348,6 +348,8 @@ endif
 RES_IMAGES = \
   qt/res/images/about.png \
   qt/res/images/sequence_logo_horizontal.png \
+  qt/res/images/unchecked.png \
+  qt/res/images/checked.png \
   qt/res/images/splash.png \
   qt/res/images/splash_testnet.png \
   qt/res/images/silver_downArrow.png \
