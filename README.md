@@ -1,18 +1,15 @@
-# **Sequence (SEQ) v1.0.0.0**
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
 
 [![Stories in Ready](https://badge.waffle.io/Duality-Solutions/Sequence.png?label=ready&title=Ready)](https://waffle.io/Duality-Solutions/Sequence)
 [![Build Status](https://travis-ci.org/Duality-Solutions/Sequence.png?branch=master)](https://travis-ci.org/Duality-Solutions/Sequence)
-
 
 Graph on Pull Request History
 ====================================
 
 [![Throughput Graph](https://graphs.waffle.io/Duality-Solutions/Sequence/throughput.svg)](https://waffle.io/Duality-Solutions/Sequence/metrics/throughput)
 
-Sequence Integration/Staging Tree
-================================
+# **Sequence (SEQ) v1.0.0.0**
+
 ![SEQ logo](https://github.com/Duality-Solutions/Sequence/blob/master/src/qt/res/icons/sequence-80.png)
 
 **Copyright (c) 2016-2017 Duality Blockchain Solutions Developers**
