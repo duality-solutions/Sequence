@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_CHECKQUEUE_H
-#define SILK_CHECKQUEUE_H
+#ifndef SEQUENCE_CHECKQUEUE_H
+#define SEQUENCE_CHECKQUEUE_H
 
 #include <algorithm>
 #include <vector>
@@ -214,4 +214,4 @@ public:
     }
 };
 
-#endif // SILK_CHECKQUEUE_H
+#endif // SEQUENCE_CHECKQUEUE_H

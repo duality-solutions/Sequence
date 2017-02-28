@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_QT_GUICONSTANTS_H
-#define SILK_QT_GUICONSTANTS_H
+#ifndef SEQUENCE_QT_GUICONSTANTS_H
+#define SEQUENCE_QT_GUICONSTANTS_H
 
 /* Milliseconds between model updates */
 static const int MODEL_UPDATE_DELAY = 250;
@@ -13,7 +13,7 @@ static const int MODEL_UPDATE_DELAY = 250;
 /* AskPassphraseDialog -- Maximum passphrase length */
 static const int MAX_PASSPHRASE_SIZE = 1024;
 
-/* SilkGUI -- Size of icons in status bar */
+/* SequenceGUI -- Size of icons in status bar */
 static const int STATUSBAR_ICONSIZE = 16;
 
 /* Invalid field background style */
@@ -46,9 +46,9 @@ static const int MAX_URI_LENGTH = 255;
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 35
 
-#define QAPP_ORG_NAME "Silk"
-#define QAPP_ORG_DOMAIN "silk.com"
-#define QAPP_APP_NAME_DEFAULT "Silk-Qt"
-#define QAPP_APP_NAME_TESTNET "Silk-Qt-testnet"
+#define QAPP_ORG_NAME "Sequence"
+#define QAPP_ORG_DOMAIN "sequence.com"
+#define QAPP_APP_NAME_DEFAULT "Sequence-Qt"
+#define QAPP_APP_NAME_TESTNET "Sequence-Qt-testnet"
 
-#endif // SILK_QT_GUICONSTANTS_H
+#endif // SEQUENCE_QT_GUICONSTANTS_H

@@ -1,9 +1,9 @@
-// Copyright (c) 2015 The Silk Network developers
+// Copyright (c) 2016-2017 The Duality Blockchain Solutions developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_BENCH_BENCH_H
-#define SILK_BENCH_BENCH_H
+#ifndef SEQUENCE_BENCH_BENCH_H
+#define SEQUENCE_BENCH_BENCH_H
 
 #include <map>
 #include <string>
@@ -70,4 +70,4 @@ namespace benchmark {
 #define BENCHMARK(n) \
     benchmark::BenchRunner BOOST_PP_CAT(bench_, BOOST_PP_CAT(__LINE__, n))(BOOST_PP_STRINGIZE(n), n);
 
-#endif // SILK_BENCH_BENCH_H
+#endif // SEQUENCE_BENCH_BENCH_H

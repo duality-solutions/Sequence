@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -57,10 +57,10 @@ bool static TestSplitHost(string test, string host, int port)
 
 BOOST_AUTO_TEST_CASE(netbase_splithost)
 {
-    BOOST_CHECK(TestSplitHost("www.silk.org", "www.silk.org", -1));
-    BOOST_CHECK(TestSplitHost("[www.silk.org]", "www.silk.org", -1));
-    BOOST_CHECK(TestSplitHost("www.silk.org:80", "www.silk.org", 80));
-    BOOST_CHECK(TestSplitHost("[www.silk.org]:80", "www.silk.org", 80));
+    BOOST_CHECK(TestSplitHost("www.sequence.org", "www.sequence.org", -1));
+    BOOST_CHECK(TestSplitHost("[www.sequence.org]", "www.sequence.org", -1));
+    BOOST_CHECK(TestSplitHost("www.sequence.org:80", "www.sequence.org", 80));
+    BOOST_CHECK(TestSplitHost("[www.sequence.org]:80", "www.sequence.org", 80));
     BOOST_CHECK(TestSplitHost("127.0.0.1", "127.0.0.1", -1));
     BOOST_CHECK(TestSplitHost("127.0.0.1:16662", "127.0.0.1", 16662));
     BOOST_CHECK(TestSplitHost("[127.0.0.1]", "127.0.0.1", -1));

@@ -1,5 +1,5 @@
 // Copyright 2014-2017 BitPay, Inc.
-// Copyright 2015-2017 Silk Network Developers
+// Copyright 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,7 +10,7 @@
 #include <string>
 #include <map>
 
-#include "test/test_silk.h"
+#include "test/test_sequence.h"
 
 #include <boost/test/unit_test.hpp>
 

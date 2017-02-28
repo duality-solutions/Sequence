@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_SERIALIZE_H
-#define SILK_SERIALIZE_H
+#ifndef SEQUENCE_SERIALIZE_H
+#define SEQUENCE_SERIALIZE_H
 
 #include "compat/endian.h"
 
@@ -161,7 +161,7 @@ enum
     SER_GETHASH         = (1 << 2),
 
     // modifiers
-    SER_POSMARKER       = (1 << 18),  // Silk: for sending block headers with PoS marker, to allow headers-first syncronization
+    SER_POSMARKER       = (1 << 18),  // Sequence: for sending block headers with PoS marker, to allow headers-first syncronization
 };
 
 #define READWRITE(obj)      (::SerReadWrite(s, (obj), nType, nVersion, ser_action))
@@ -858,4 +858,4 @@ public:
     }
 };
 
-#endif // SILK_SERIALIZE_H
+#endif // SEQUENCE_SERIALIZE_H

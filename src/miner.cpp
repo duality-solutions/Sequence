@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
 // Copyright (c) 2013-2017 Emercoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -34,7 +34,7 @@ using namespace std;
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// SilkMiner
+// SequenceMiner
 //
 
 //
@@ -171,7 +171,7 @@ CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProo
             nLastCoinStakeSearchTime = nSearchTime;
         }
         if (fPoSCancel)
-            return NULL; // Silk: there is no point to continue if we failed to create coinstake
+            return NULL; // Sequence: there is no point to continue if we failed to create coinstake
     }
     else
         pblock->nBits = GetNextTargetRequired(pindexPrev, false, consensusParams);
@@ -394,7 +394,7 @@ CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProo
         pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
 
         CValidationState state;
-        if (!TestBlockValidity(state, *pblock, pindexPrev, false, false, false)) // Silk: we do not check block signature here, since we did not sign it yet
+        if (!TestBlockValidity(state, *pblock, pindexPrev, false, false, false)) // Sequence: we do not check block signature here, since we did not sign it yet
             throw std::runtime_error("CreateNewBlock() : TestBlockValidity failed");
     }
 
@@ -501,7 +501,7 @@ bool ProcessBlockFound(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
     {
         LOCK(cs_main);
         if (pblock->hashPrevBlock != chainActive.Tip()->GetBlockHash())
-            return error("SilkMiner : generated block is stale");
+            return error("SequenceMiner : generated block is stale");
     }
 
     // Remove key from key pool
@@ -516,16 +516,16 @@ bool ProcessBlockFound(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
     // Process this block the same as if we had received it from another node
     CValidationState state;
     if (!ProcessNewBlock(state, Params(), NULL, pblock))
-        return error("SilkMiner : ProcessNewBlock, block not accepted");
+        return error("SequenceMiner : ProcessNewBlock, block not accepted");
 
     return true;
 }
 
-void SilkMiner(CWallet *pwallet, bool fProofOfStake)
+void SequenceMiner(CWallet *pwallet, bool fProofOfStake)
 {
     LogPrintf("CPUMiner started for proof-of-%s\n", fProofOfStake? "stake" : "work");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread(fProofOfStake? "silk-stake-minter" : "silk-miner");
+    RenameThread(fProofOfStake? "sequence-stake-minter" : "sequence-miner");
 
     // Each thread has its own key and counter
     CReserveKey reservekey(pwallet);
@@ -587,7 +587,7 @@ void SilkMiner(CWallet *pwallet, bool fProofOfStake)
 
             if (!pblocktemplate.get())
             {
-                LogPrintf("Error in SilkMiner: Keypool ran out, please call keypoolrefill before restarting the mining thread\n");
+                LogPrintf("Error in SequenceMiner: Keypool ran out, please call keypoolrefill before restarting the mining thread\n");
                 return;
             }
             CBlock *pblock = &pblocktemplate->block;
@@ -616,7 +616,7 @@ void SilkMiner(CWallet *pwallet, bool fProofOfStake)
                 continue;
             }
 
-            LogPrintf("Running SilkMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
+            LogPrintf("Running SequenceMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
                 ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
             //
@@ -720,18 +720,18 @@ void SilkMiner(CWallet *pwallet, bool fProofOfStake)
     }
     catch (boost::thread_interrupted)
     {
-        LogPrintf("SilkMiner terminated\n");
+        LogPrintf("SequenceMiner terminated\n");
 	return;
         // throw;
     }
     catch (const std::runtime_error &e)
     {
-        LogPrintf("SilkMiner runtime error: %s\n", e.what());
+        LogPrintf("SequenceMiner runtime error: %s\n", e.what());
         return;
     }
 }
 
-void GenerateSilks(bool fGenerate, CWallet* pwallet, int nThreads, const CChainParams& chainparams)
+void GenerateSequences(bool fGenerate, CWallet* pwallet, int nThreads, const CChainParams& chainparams)
 {
     static boost::thread_group* minerThreads = NULL;
 
@@ -750,7 +750,7 @@ void GenerateSilks(bool fGenerate, CWallet* pwallet, int nThreads, const CChainP
 
     minerThreads = new boost::thread_group();
     for (int i = 0; i < nThreads; i++)
-        minerThreads->create_thread(boost::bind(&SilkMiner, pwallet, false));
+        minerThreads->create_thread(boost::bind(&SequenceMiner, pwallet, false));
 }
 
 // ppcoin: stake minter thread
@@ -760,7 +760,7 @@ void static ThreadStakeMinter(void* parg)
     CWallet* pwallet = (CWallet*)parg;
     try
     {
-        SilkMiner(pwallet, true);
+        SequenceMiner(pwallet, true);
     }
     catch (const std::exception& e) {
         PrintExceptionContinue(&e, "ThreadStakeMinter()");

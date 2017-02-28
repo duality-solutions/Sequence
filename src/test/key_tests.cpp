@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -23,10 +23,10 @@ static const string strSecret1     ("5HxWvvfubhXpYYpS3tJkw6fq9jE9j18THftkZjHHfmF
 static const string strSecret2     ("5KC4ejrDjv152FGwP386VD1i2NYc5KkfSMyv1nGy1VGDxGHqVY3");
 static const string strSecret1C    ("Kwr371tjA9u2rFSMZjTNun2PXXP3WPZu2afRHTcta6KxEUdm1vEw");
 static const string strSecret2C    ("L3Hq7a8FEQwJkW1M2GNKDW28546Vp5miewcCzSqUD9kCAXrJdS3g");
-static const CSilkAddress addr1 ("EgQkKwJiW2rQ2gu67Qt6KLrNYNqac6og6d");
-static const CSilkAddress addr2 ("EXEsZouknZNTyvujyzgracd1ouj5gKnp5U");
-static const CSilkAddress addr1C("EexDMPiPPLUEeVtm7NSaHicGdAvMbN4iB8");
-static const CSilkAddress addr2C("EUadWsorS9pRyamP9FtEGUxeT1xGvJRnxv");
+static const CSequenceAddress addr1 ("EgQkKwJiW2rQ2gu67Qt6KLrNYNqac6og6d");
+static const CSequenceAddress addr2 ("EXEsZouknZNTyvujyzgracd1ouj5gKnp5U");
+static const CSequenceAddress addr1C("EexDMPiPPLUEeVtm7NSaHicGdAvMbN4iB8");
+static const CSequenceAddress addr2C("EUadWsorS9pRyamP9FtEGUxeT1xGvJRnxv");
 
 
 static const string strAddressBad("1HV9Lc3sNHZxwj4Zk6fB38tEmBryq2cBiF");
@@ -47,14 +47,14 @@ void dumpKeyInfo(uint256 privkey)
     {
         bool fCompressed = nCompressed == 1;
         printf("  * %s:\n", fCompressed ? "compressed" : "uncompressed");
-        CSilkSecret bsecret;
+        CSequenceSecret bsecret;
         bsecret.SetSecret(secret, fCompressed);
         printf("    * secret (base58): %s\n", bsecret.ToString().c_str());
         CKey key;
         key.SetSecret(secret, fCompressed);
         vector<unsigned char> vchPubKey = key.GetPubKey();
         printf("    * pubkey (hex): %s\n", HexStr(vchPubKey).c_str());
-        printf("    * address (base58): %s\n", CSilkAddress(vchPubKey).ToString().c_str());
+        printf("    * address (base58): %s\n", CSequenceAddress(vchPubKey).ToString().c_str());
     }
 }
 #endif
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_SUITE(key_tests)
 
 BOOST_AUTO_TEST_CASE(key_test1)
 {
-    CSilkSecret bsecret1, bsecret2, bsecret1C, bsecret2C, baddress1;
+    CSequenceSecret bsecret1, bsecret2, bsecret1C, bsecret2C, baddress1;
     BOOST_CHECK( bsecret1.SetString (strSecret1));
     BOOST_CHECK( bsecret2.SetString (strSecret2));
     BOOST_CHECK( bsecret1C.SetString(strSecret1C));

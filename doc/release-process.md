@@ -2,7 +2,7 @@ Release Process
 ====================
 
 * update translations (ping wumpus, Diapolo or tcatm on IRC)
-* see https://github.com/silknetwork/silk-core/blob/master/doc/translation_process.md#syncing-with-transifex
+* see https://github.com/duality-solutions/sequence/blob/master/doc/translation_process.md#syncing-with-transifex
 
 * * *
 
@@ -29,11 +29,11 @@ Release Process
 
 ###perform gitian builds
 
- From a directory containing the silk source, gitian-builder and gitian.sigs
+ From a directory containing the sequence source, gitian-builder and gitian.sigs
 
 	export SIGNER=(your gitian key, ie bluematt, sipa, etc)
 	export VERSION=(new version, e.g. 1.1.1.0)
-	pushd ./silk
+	pushd ./sequence
 	git checkout v${VERSION}
 	popd
 	pushd ./gitian-builder
@@ -54,29 +54,29 @@ Release Process
 
   By default, gitian will fetch source files as needed. For offline builds, they can be fetched ahead of time:
 
-	make -C ../silk/depends download SOURCES_PATH=`pwd`/cache/common
+	make -C ../sequence/depends download SOURCES_PATH=`pwd`/cache/common
 
   Only missing files will be fetched, so this is safe to re-run for each build.
 
-###Build Silk Core for Linux, Windows, and OS X:
+###Build Sequence for Linux, Windows, and OS X:
 
-	./bin/gbuild --commit silk=v${VERSION} ../silk/contrib/gitian-descriptors/gitian-linux.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs/ ../silk/contrib/gitian-descriptors/gitian-linux.yml
-	mv build/out/silk-*.tar.gz build/out/src/silk-*.tar.gz ../
-	./bin/gbuild --commit silk=v${VERSION} ../silk/contrib/gitian-descriptors/gitian-win.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION}-win --destination ../gitian.sigs/ ../silk/contrib/gitian-descriptors/gitian-win.yml
-	mv build/out/silk-*.zip build/out/silk-*.exe ../
-	./bin/gbuild --commit silk=v${VERSION} ../silk/contrib/gitian-descriptors/gitian-osx.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs/ ../silk/contrib/gitian-descriptors/gitian-osx.yml
-	mv build/out/silk-*-unsigned.tar.gz inputs/silk-osx-unsigned.tar.gz
-	mv build/out/silk-*.tar.gz build/out/silk-*.dmg ../
+	./bin/gbuild --commit sequence=v${VERSION} ../sequence/contrib/gitian-descriptors/gitian-linux.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs/ ../sequence/contrib/gitian-descriptors/gitian-linux.yml
+	mv build/out/sequence-*.tar.gz build/out/src/sequence-*.tar.gz ../
+	./bin/gbuild --commit sequence=v${VERSION} ../sequence/contrib/gitian-descriptors/gitian-win.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION}-win --destination ../gitian.sigs/ ../sequence/contrib/gitian-descriptors/gitian-win.yml
+	mv build/out/sequence-*.zip build/out/sequence-*.exe ../
+	./bin/gbuild --commit sequence=v${VERSION} ../sequence/contrib/gitian-descriptors/gitian-osx.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION}-osx-unsigned --destination ../gitian.sigs/ ../sequence/contrib/gitian-descriptors/gitian-osx.yml
+	mv build/out/sequence-*-unsigned.tar.gz inputs/sequence-osx-unsigned.tar.gz
+	mv build/out/sequence-*.tar.gz build/out/sequence-*.dmg ../
 	popd
   Build output expected:
 
-  1. source tarball (silk-${VERSION}.tar.gz)
-  2. linux 32-bit and 64-bit binaries dist tarballs (silk-${VERSION}-linux[32|64].tar.gz)
-  3. windows 32-bit and 64-bit installers and dist zips (silk-${VERSION}-win[32|64]-setup.exe, silk-${VERSION}-win[32|64].zip)
-  4. OSX unsigned installer (silk-${VERSION}-osx-unsigned.dmg)
+  1. source tarball (sequence-${VERSION}.tar.gz)
+  2. linux 32-bit and 64-bit binaries dist tarballs (sequence-${VERSION}-linux[32|64].tar.gz)
+  3. windows 32-bit and 64-bit installers and dist zips (sequence-${VERSION}-win[32|64]-setup.exe, sequence-${VERSION}-win[32|64].zip)
+  4. OSX unsigned installer (sequence-${VERSION}-osx-unsigned.dmg)
   5. Gitian signatures (in gitian.sigs/${VERSION}-<linux|win|osx-unsigned>/(your gitian key)/
 
 ###Next steps:
@@ -100,9 +100,9 @@ Commit your signature to gitian.sigs:
 	pushd ./gitian-builder
 	# Fetch the signature as instructed by Evan
 	cp signature.tar.gz inputs/
-	./bin/gbuild -i ../silk/contrib/gitian-descriptors/gitian-osx-signer.yml
-	./bin/gsign --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs/ ../silk/contrib/gitian-descriptors/gitian-osx-signer.yml
-	mv build/out/silk-osx-signed.dmg ../silk-${VERSION}-osx.dmg
+	./bin/gbuild -i ../sequence/contrib/gitian-descriptors/gitian-osx-signer.yml
+	./bin/gsign --signer $SIGNER --release ${VERSION}-osx-signed --destination ../gitian.sigs/ ../sequence/contrib/gitian-descriptors/gitian-osx-signer.yml
+	mv build/out/sequence-osx-signed.dmg ../sequence-${VERSION}-osx.dmg
 	popd
 
 Commit your signature for the signed OSX binary:
@@ -131,20 +131,20 @@ rm SHA256SUMS
 ```
 (the digest algorithm is forced to sha256 to avoid confusion of the `Hash:` header that GPG adds with the SHA256 used for the files)
 
-- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the silk.org server
-  into `/var/www/bin/silk-core-${VERSION}`
+- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the sequence.org server
+  into `/var/www/bin/sequence-${VERSION}`
 
-- Update silkpay.io version ***TODO***
+- Update sequencepay.io version ***TODO***
 
-  - First, check to see if the silkpay.io maintainers have prepared a
-    release: https://github.com/silknetwork/silk-core/labels/Releases
+  - First, check to see if the sequencepay.io maintainers have prepared a
+    release: https://github.com/duality-solutions/sequence/labels/Releases
 
       - If they have, it will have previously failed their Travis CI
         checks because the final release files weren't uploaded.
         Trigger a Travis CI rebuild---if it passes, merge.
 
-  - If they have not prepared a release, follow the silknetwork.org release
-    instructions: https://github.com/silknetwork/silk-core#release-notes
+  - If they have not prepared a release, follow the duality-solutions.com release
+    instructions: https://github.com/duality-solutions/sequence#release-notes
 
   - After the pull request is merged, the website will automatically show the newest version within 15 minutes, as well
     as update the OS download links. Ping @saivann/@harding (saivann/harding on Freenode) in case anything goes wrong

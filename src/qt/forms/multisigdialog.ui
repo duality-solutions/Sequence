@@ -424,7 +424,7 @@ QTabBar { alignment: left; }</string>
                 <item>
                  <widget class="QLabel" name="label">
                   <property name="text">
-                   <string>SLK</string>
+                   <string>SEQ</string>
                   </property>
                  </widget>
                 </item>
@@ -543,7 +543,7 @@ QTabBar { alignment: left; }</string>
                 <item>
                  <widget class="QLabel" name="label_2">
                   <property name="text">
-                   <string>SLK</string>
+                   <string>SEQ</string>
                   </property>
                  </widget>
                 </item>
@@ -581,7 +581,7 @@ QTabBar { alignment: left; }</string>
                 <item>
                  <widget class="QLabel" name="label_3">
                   <property name="text">
-                   <string>SLK</string>
+                   <string>SEQ</string>
                   </property>
                  </widget>
                 </item>
@@ -812,7 +812,7 @@ QTabBar { alignment: left; }</string>
   </layout>
  </widget>
  <resources>
-  <include location="../silk.qrc"/>
+  <include location="../sequence.qrc"/>
  </resources>
  <connections/>
 </ui>

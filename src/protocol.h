@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,8 +8,8 @@
 #error This header can only be compiled as C++.
 #endif
 
-#ifndef SILK_PROTOCOL_H
-#define SILK_PROTOCOL_H
+#ifndef SEQUENCE_PROTOCOL_H
+#define SEQUENCE_PROTOCOL_H
 
 #include "netbase.h"
 #include "serialize.h"
@@ -72,7 +72,7 @@ enum {
 
     // Bits 24-31 are reserved for temporary experiments. Just pick a bit that
     // isn't getting used, or one not being used much, and notify the
-    // Silk-development mailing list. Remember that service bits are just
+    // Sequence-development mailing list. Remember that service bits are just
     // unauthenticated advertisements, so your code must be robust against
     // collisions and other cases where nodes may be advertising a service they
     // do not actually support. Other service bits should be allocated via the
@@ -154,4 +154,4 @@ enum {
     // MSG_FILTERED_BLOCK should not appear in any invs except as a part of getdata.
     MSG_FILTERED_BLOCK,
 };
-#endif // SILK_PROTOCOL_H
+#endif // SEQUENCE_PROTOCOL_H

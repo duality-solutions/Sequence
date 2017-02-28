@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_QT_GUIUTIL_H
-#define SILK_QT_GUIUTIL_H
+#ifndef SEQUENCE_QT_GUIUTIL_H
+#define SEQUENCE_QT_GUIUTIL_H
 
 #include "amount.h"
 
@@ -31,7 +31,7 @@ class QUrl;
 class QWidget;
 QT_END_NAMESPACE
 
-/** Utility functions used by the silk Qt UI.
+/** Utility functions used by the sequence Qt UI.
  */
 namespace GUIUtil
 {
@@ -39,8 +39,8 @@ namespace GUIUtil
     QString dateTimeStr(const QDateTime &datetime);
     QString dateTimeStr(qint64 nTime);
 
-    // Render Silk addresses in monospace font
-    QFont SilkAddressFont();
+    // Render Sequence addresses in monospace font
+    QFont SequenceAddressFont();
     // Return a monospace font
     QFont fixedPitchFont();
     
@@ -48,10 +48,10 @@ namespace GUIUtil
     void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent);
     void setupAmountWidget(QLineEdit *widget, QWidget *parent);
 
-    // Parse "Silk:" URI into recipient object, return true on successful parsing
-    bool parsesilkURI(const QUrl &uri, SendCoinsRecipient *out);
-    bool parsesilkURI(QString uri, SendCoinsRecipient *out);
-    QString formatsilkURI(const SendCoinsRecipient &info);
+    // Parse "Sequence:" URI into recipient object, return true on successful parsing
+    bool parsesequenceURI(const QUrl &uri, SendCoinsRecipient *out);
+    bool parsesequenceURI(QString uri, SendCoinsRecipient *out);
+    QString formatsequenceURI(const SendCoinsRecipient &info);
 
     // Returns true if given address+amount meets "dust" definition
     bool isDust(const QString& address, const CAmount& amount);
@@ -118,7 +118,7 @@ namespace GUIUtil
     // Open debug.log
     void openDebugLogfile();
 
-    // Open silk.conf
+    // Open sequence.conf
     void openConfigfile();  
 
     // Browse backup folder
@@ -226,4 +226,4 @@ namespace GUIUtil
     
 } // namespace GUIUtil
 
-#endif // SILK_QT_GUIUTIL_H
+#endif // SEQUENCE_QT_GUIUTIL_H

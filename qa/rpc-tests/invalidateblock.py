@@ -7,11 +7,11 @@
 # Test InvalidateBlock code
 #
 
-from test_framework import silkTestFramework
-from silkrpc.authproxy import AuthServiceProxy, JSONRPCException
+from test_framework import sequenceTestFramework
+from sequencerpc.authproxy import AuthServiceProxy, JSONRPCException
 from util import *
 
-class InvalidateTest(silkTestFramework):
+class InvalidateTest(sequenceTestFramework):
     
         
     def setup_chain(self):

@@ -1,0 +1,6 @@
+usr/local/bin/sequence-qt usr/bin
+share/pixmaps/sequence32.xpm usr/share/pixmaps
+share/pixmaps/sequence16.xpm usr/share/pixmaps
+share/pixmaps/sequence128.png usr/share/pixmaps
+debian/sequence-qt.desktop usr/share/applications
+debian/sequence-qt.protocol usr/share/kde4/services/

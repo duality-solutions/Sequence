@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -17,9 +17,9 @@ static const struct {
     const char *titleAddText;
     const char *splashImage;
 } network_styles[] = {
-    {"main", QAPP_APP_NAME_DEFAULT, ":/icons/silk", "", ":/images/splash"},
-    {"test", QAPP_APP_NAME_TESTNET, ":/icons/silk_testnet", QT_TRANSLATE_NOOP("SplashScreen", "[testnet]"), ":/images/splash_testnet"},
-    {"regtest", QAPP_APP_NAME_TESTNET, ":/icons/silk_testnet", "[regtest]", ":/images/splash_testnet"}
+    {"main", QAPP_APP_NAME_DEFAULT, ":/icons/sequence", "", ":/images/splash"},
+    {"test", QAPP_APP_NAME_TESTNET, ":/icons/sequence_testnet", QT_TRANSLATE_NOOP("SplashScreen", "[testnet]"), ":/images/splash_testnet"},
+    {"regtest", QAPP_APP_NAME_TESTNET, ":/icons/sequence_testnet", "[regtest]", ":/images/splash_testnet"}
 };
 static const unsigned network_styles_count = sizeof(network_styles)/sizeof(*network_styles);
 

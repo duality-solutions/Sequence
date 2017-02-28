@@ -1,18 +1,18 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_CHAINPARAMSBASE_H
-#define SILK_CHAINPARAMSBASE_H
+#ifndef SEQUENCE_CHAINPARAMSBASE_H
+#define SEQUENCE_CHAINPARAMSBASE_H
 
 #include <string>
 #include <vector>
 
 /**
- * CBaseChainParams defines the base parameters (shared between silk-cli and silkd)
- * of a given instance of the silk system.
+ * CBaseChainParams defines the base parameters (shared between sequence-cli and sequenced)
+ * of a given instance of the sequence system.
  */
 class CBaseChainParams
 {
@@ -55,4 +55,4 @@ std::string ChainNameFromCommandLine();
  */
 bool AreBaseParamsConfigured();
 
-#endif // SILK_CHAINPARAMSBASE_H
+#endif // SEQUENCE_CHAINPARAMSBASE_H

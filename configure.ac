@@ -1,22 +1,22 @@
 dnl require autoconf 2.60 (AS_ECHO/AS_ECHO_N)
 AC_PREREQ([2.60])
 define(_CLIENT_VERSION_MAJOR, 1)
-define(_CLIENT_VERSION_MINOR, 3)
+define(_CLIENT_VERSION_MINOR, 0)
 define(_CLIENT_VERSION_REVISION, 0)
 define(_CLIENT_VERSION_BUILD, 0)
 define(_CLIENT_VERSION_IS_RELEASE, true)
 define(_COPYRIGHT_YEAR, 2017)
-AC_INIT([Silk Core],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_REVISION],[silk])
+AC_INIT([Sequence],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_REVISION],[sequence])
 AC_CONFIG_SRCDIR([src/main.cpp])
-AC_CONFIG_HEADERS([src/config/silk-config.h])
+AC_CONFIG_HEADERS([src/config/sequence-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
 AC_CANONICAL_HOST
 
-AH_TOP([#ifndef SILK_CONFIG_H])
-AH_TOP([#define SILK_CONFIG_H])
-AH_BOTTOM([#endif //SILK_CONFIG_H])
+AH_TOP([#ifndef SEQUENCE_CONFIG_H])
+AH_TOP([#define SEQUENCE_CONFIG_H])
+AH_BOTTOM([#endif //SEQUENCE_CONFIG_H])
 
 dnl faketime breaks configure and is only needed for make. Disable it here.
 unset FAKETIME
@@ -202,9 +202,9 @@ CPPFLAGS="$CPPFLAGS -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS"
 
 AC_ARG_WITH([utils],
   [AS_HELP_STRING([--with-utils],
-  [build silk-cli silk-tx (default=yes)])],
-  [build_silk_utils=$withval],
-  [build_silk_utils=yes])
+  [build sequence-cli sequence-tx (default=yes)])],
+  [build_sequence_utils=$withval],
+  [build_sequence_utils=yes])
 
 case $host_os in
 darwin* )
@@ -212,24 +212,24 @@ darwin* )
     AC_ARG_WITH([libs],
 	[AS_HELP_STRING([--with-libs],
 	[build libraries (default=no)])],
-	[build_silk_libs=$withval],
-	[build_silk_libs=no])
+	[build_sequence_libs=$withval],
+	[build_sequence_libs=no])
 	;;
     *)
 # Other OS like Windows, Linux, etc...
     AC_ARG_WITH([libs],
 	[AS_HELP_STRING([--with-libs],
 	[build libraries (default=yes)])],
-	[build_silk_libs=$withval],
-	[build_silk_libs=yes])
+	[build_sequence_libs=$withval],
+	[build_sequence_libs=yes])
 	;;
 esac
 
 AC_ARG_WITH([daemon],
   [AS_HELP_STRING([--with-daemon],
-  [build silkd daemon (default=yes)])],
-  [build_silkd=$withval],
-  [build_silkd=yes])
+  [build sequenced daemon (default=yes)])],
+  [build_sequenced=$withval],
+  [build_sequenced=yes])
 
 AC_LANG_PUSH([C++])
 
@@ -405,7 +405,7 @@ dnl Require little endian
 dnl Check for pthread compile/link requirements
 AX_PTHREAD
 
-# The following macro will add the necessary defines to silk-config.h, but
+# The following macro will add the necessary defines to sequence-config.h, but
 # they also need to be passed down to any subprojects. Pull the results out of
 # the cache and add them to CPPFLAGS.
 AC_SYS_LARGEFILE
@@ -545,7 +545,7 @@ AC_SUBST(LIBMEMENV)
 
 if test x$enable_wallet != xno; then
     dnl Check for libdb_cxx only if wallet enabled
-    SILK_FIND_BDB48
+    SEQUENCE_FIND_BDB48
 fi
 
 dnl Check for libminiupnpc (optional)
@@ -557,12 +557,12 @@ if test x$use_upnp != xno; then
   )
 fi
 
-SILK_QT_INIT
+SEQUENCE_QT_INIT
 
-dnl sets $silk_enable_qt, $silk_enable_qt_test, $silk_enable_qt_dbus
-SILK_QT_CONFIGURE([$use_pkgconfig], [qt4])
+dnl sets $sequence_enable_qt, $sequence_enable_qt_test, $sequence_enable_qt_dbus
+SEQUENCE_QT_CONFIGURE([$use_pkgconfig], [qt4])
 
-if test x$build_silk_utils$build_silkd$silk_enable_qt$use_tests = xnononono; then
+if test x$build_sequence_utils$build_sequenced$sequence_enable_qt$use_tests = xnononono; then
     use_boost=no
 else
     use_boost=yes
@@ -752,11 +752,11 @@ if test x$use_pkgconfig = xyes; then
     [
       PKG_CHECK_MODULES([SSL], [libssl],, [AC_MSG_ERROR(openssl  not found.)])
       PKG_CHECK_MODULES([CRYPTO], [libcrypto],,[AC_MSG_ERROR(libcrypto  not found.)])
-      SILK_QT_CHECK([PKG_CHECK_MODULES([PROTOBUF], [protobuf], [have_protobuf=yes], [SILK_QT_FAIL(libprotobuf not found)])])
+      SEQUENCE_QT_CHECK([PKG_CHECK_MODULES([PROTOBUF], [protobuf], [have_protobuf=yes], [SEQUENCE_QT_FAIL(libprotobuf not found)])])
       if test x$use_qr != xno; then
-        SILK_QT_CHECK([PKG_CHECK_MODULES([QR], [libqrencode], [have_qrencode=yes], [have_qrencode=no])])
+        SEQUENCE_QT_CHECK([PKG_CHECK_MODULES([QR], [libqrencode], [have_qrencode=yes], [have_qrencode=no])])
       fi
-      if test x$build_silk_utils$build_silkd$silk_enable_qt$use_tests != xnononono; then
+      if test x$build_sequence_utils$build_sequenced$sequence_enable_qt$use_tests != xnononono; then
         PKG_CHECK_MODULES([EVENT], [libevent],, [AC_MSG_ERROR(libevent not found.)])
         if test x$TARGET_OS != xwindows; then
           PKG_CHECK_MODULES([EVENT_PTHREADS], [libevent_pthreads],, [AC_MSG_ERROR(libevent_pthreads not found.)])
@@ -770,17 +770,17 @@ else
 
   AC_CHECK_HEADER([openssl/ssl.h],, AC_MSG_ERROR(libssl headers missing),)
   AC_CHECK_LIB([ssl],         [main],SSL_LIBS=-lssl, AC_MSG_ERROR(libssl missing))
-  if test x$build_silk_utils$build_silkd$silk_enable_qt$use_tests != xnononono; then
+  if test x$build_sequence_utils$build_sequenced$sequence_enable_qt$use_tests != xnononono; then
     AC_CHECK_HEADER([event2/event.h],, AC_MSG_ERROR(libevent headers missing),)
     AC_CHECK_LIB([event],[main],EVENT_LIBS=-levent,AC_MSG_ERROR(libevent missing))
     if test x$TARGET_OS != xwindows; then
       AC_CHECK_LIB([event_pthreads],[main],EVENT_PTHREADS_LIBS=-levent_pthreads,AC_MSG_ERROR(libevent_pthreads missing))
     fi
   fi
-  SILK_QT_CHECK(AC_CHECK_LIB([protobuf] ,[main],[PROTOBUF_LIBS=-lprotobuf], SILK_QT_FAIL(libprotobuf not found)))
+  SEQUENCE_QT_CHECK(AC_CHECK_LIB([protobuf] ,[main],[PROTOBUF_LIBS=-lprotobuf], SEQUENCE_QT_FAIL(libprotobuf not found)))
   if test x$use_qr != xno; then
-    SILK_QT_CHECK([AC_CHECK_LIB([qrencode], [main],[QR_LIBS=-lqrencode], [have_qrencode=no])])
-    SILK_QT_CHECK([AC_CHECK_HEADER([qrencode.h],, have_qrencode=no)])
+    SEQUENCE_QT_CHECK([AC_CHECK_LIB([qrencode], [main],[QR_LIBS=-lqrencode], [have_qrencode=no])])
+    SEQUENCE_QT_CHECK([AC_CHECK_HEADER([qrencode.h],, have_qrencode=no)])
   fi
 fi
 
@@ -788,7 +788,7 @@ dnl univalue check
 
 need_bundled_univalue=yes
 
-if test x$build_silk_utils$build_silkd$silk_enable_qt$use_tests$use_bench = xnonononono; then
+if test x$build_sequence_utils$build_sequenced$sequence_enable_qt$use_tests$use_bench = xnonononono; then
   need_bundled_univalue=no
 else
 
@@ -840,22 +840,22 @@ AC_CHECK_HEADER([openssl/ec.h],, AC_MSG_ERROR(OpenSSL ec header missing),)
 CFLAGS="$CFLAGS_TEMP"
 LIBS="$LIBS_TEMP"
 
-SILK_QT_PATH_PROGS([PROTOC], [protoc],$protoc_bin_path)
+SEQUENCE_QT_PATH_PROGS([PROTOC], [protoc],$protoc_bin_path)
 
-AC_MSG_CHECKING([whether to build silkd])
-AM_CONDITIONAL([BUILD_SILKD], [test x$build_silkd = xyes])
-AC_MSG_RESULT($build_silkd)
+AC_MSG_CHECKING([whether to build sequenced])
+AM_CONDITIONAL([BUILD_SEQUENCED], [test x$build_sequenced = xyes])
+AC_MSG_RESULT($build_sequenced)
 
-AC_MSG_CHECKING([whether to build utils (silk-cli silk-tx)])
-AM_CONDITIONAL([BUILD_SILK_UTILS], [test x$build_silk_utils = xyes])
-AC_MSG_RESULT($build_silk_utils)
+AC_MSG_CHECKING([whether to build utils (sequence-cli sequence-tx)])
+AM_CONDITIONAL([BUILD_SEQUENCE_UTILS], [test x$build_sequence_utils = xyes])
+AC_MSG_RESULT($build_sequence_utils)
 
 AC_MSG_CHECKING([whether to build libraries])
-AM_CONDITIONAL([BUILD_SILK_LIBS], [test x$build_silk_libs = xyes])
-if test x$build_silk_libs = xyes; then
+AM_CONDITIONAL([BUILD_SEQUENCE_LIBS], [test x$build_sequence_libs = xyes])
+if test x$build_sequence_libs = xyes; then
   AC_DEFINE(HAVE_CONSENSUS_LIB, 1, [Define this symbol if the consensus lib has been built])   
 fi
-AC_MSG_RESULT($build_silk_libs)
+AC_MSG_RESULT($build_sequence_libs)
 
 AC_LANG_POP
 
@@ -916,14 +916,14 @@ else
 fi
 
 dnl these are only used when qt is enabled
-if test x$silk_enable_qt != xno; then
+if test x$sequence_enable_qt != xno; then
   BUILD_QT=qt
   dnl enable dbus support
   AC_MSG_CHECKING([whether to build GUI with support for D-Bus])
-  if test x$silk_enable_qt_dbus != xno; then
+  if test x$sequence_enable_qt_dbus != xno; then
     AC_DEFINE([USE_DBUS],[1],[Define if dbus support should be compiled in])
   fi
-  AC_MSG_RESULT($silk_enable_qt_dbus)
+  AC_MSG_RESULT($sequence_enable_qt_dbus)
 
   dnl enable qr support
   AC_MSG_CHECKING([whether to build GUI with support for QR codes])
@@ -946,8 +946,8 @@ if test x$silk_enable_qt != xno; then
     AC_MSG_WARN("xgettext is required to update qt translations")
   fi
 
-  AC_MSG_CHECKING([whether to build test_silk-qt])
-  if test x$use_tests$silk_enable_qt_test = xyesyes; then
+  AC_MSG_CHECKING([whether to build test_sequence-qt])
+  if test x$use_tests$sequence_enable_qt_test = xyesyes; then
     AC_MSG_RESULT([yes])
     BUILD_TEST_QT="test"
   else
@@ -955,7 +955,7 @@ if test x$silk_enable_qt != xno; then
   fi
 fi
 
-AC_MSG_CHECKING([whether to build test_silk])
+AC_MSG_CHECKING([whether to build test_sequence])
 if test x$use_tests = xyes; then
   AC_MSG_RESULT([yes])
   BUILD_TEST="test"
@@ -970,7 +970,7 @@ else
   AC_MSG_RESULT([no])
 fi
 
-if test x$build_silk_utils$build_silk_libs$build_silkd$silk_enable_qt$use_tests = xnonononono; then
+if test x$build_sequence_utils$build_sequence_libs$build_sequenced$sequence_enable_qt$use_tests = xnonononono; then
   AC_MSG_ERROR([No targets! Please specify at least one of: --with-utils --with-libs --with-daemon --with-gui or --enable-tests])
 fi
 
@@ -979,8 +979,8 @@ AM_CONDITIONAL([BUILD_DARWIN], [test x$BUILD_OS = xdarwin])
 AM_CONDITIONAL([TARGET_WINDOWS], [test x$TARGET_OS = xwindows])
 AM_CONDITIONAL([ENABLE_WALLET],[test x$enable_wallet = xyes])
 AM_CONDITIONAL([ENABLE_TESTS],[test x$use_tests = xyes])
-AM_CONDITIONAL([ENABLE_QT],[test x$silk_enable_qt = xyes])
-AM_CONDITIONAL([ENABLE_QT_TESTS],[test x$use_tests$silk_enable_qt_test = xyesyes])
+AM_CONDITIONAL([ENABLE_QT],[test x$sequence_enable_qt = xyes])
+AM_CONDITIONAL([ENABLE_QT_TESTS],[test x$use_tests$sequence_enable_qt_test = xyesyes])
 AM_CONDITIONAL([USE_QRCODE], [test x$use_qr = xyes])
 AM_CONDITIONAL([USE_LCOV],[test x$use_lcov = xyes])
 AM_CONDITIONAL([USE_COMPARISON_TOOL],[test x$use_comparison_tool != xno])
@@ -1017,7 +1017,7 @@ AC_SUBST(MINIUPNPC_LIBS)
 AC_SUBST(EVENT_LIBS)
 AC_SUBST(EVENT_PTHREADS_LIBS)
 AC_CONFIG_FILES([Makefile src/Makefile share/setup.nsi share/qt/Info.plist src/test/buildenv.py])
-AC_CONFIG_FILES([qa/pull-tester/run-silkd-for-test.sh],[chmod +x qa/pull-tester/run-silkd-for-test.sh])
+AC_CONFIG_FILES([qa/pull-tester/run-sequenced-for-test.sh],[chmod +x qa/pull-tester/run-sequenced-for-test.sh])
 AC_CONFIG_FILES([qa/pull-tester/tests-config.sh],[chmod +x qa/pull-tester/tests-config.sh])
 
 dnl boost's m4 checks do something really nasty: they export these vars. As a

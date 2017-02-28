@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -209,13 +209,13 @@ int CBase58Data::CompareTo(const CBase58Data& b58) const
 
 namespace
 {
-class CSilkAddressVisitor : public boost::static_visitor<bool>
+class CSequenceAddressVisitor : public boost::static_visitor<bool>
 {
 private:
-    CSilkAddress* addr;
+    CSequenceAddress* addr;
 
 public:
-    CSilkAddressVisitor(CSilkAddress* addrIn) : addr(addrIn) {}
+    CSequenceAddressVisitor(CSequenceAddress* addrIn) : addr(addrIn) {}
 
     bool operator()(const CKeyID& id) const { return addr->Set(id); }
     bool operator()(const CScriptID& id) const { return addr->Set(id); }
@@ -224,29 +224,29 @@ public:
 
 } // anon namespace
 
-bool CSilkAddress::Set(const CKeyID& id)
+bool CSequenceAddress::Set(const CKeyID& id)
 {
     SetData(Params().Base58Prefix(CChainParams::PUBKEY_ADDRESS), &id, 20);
     return true;
 }
 
-bool CSilkAddress::Set(const CScriptID& id)
+bool CSequenceAddress::Set(const CScriptID& id)
 {
     SetData(Params().Base58Prefix(CChainParams::SCRIPT_ADDRESS), &id, 20);
     return true;
 }
 
-bool CSilkAddress::Set(const CTxDestination& dest)
+bool CSequenceAddress::Set(const CTxDestination& dest)
 {
-    return boost::apply_visitor(CSilkAddressVisitor(this), dest);
+    return boost::apply_visitor(CSequenceAddressVisitor(this), dest);
 }
 
-bool CSilkAddress::IsValid() const
+bool CSequenceAddress::IsValid() const
 {
     return IsValid(Params());
 }
 
-bool CSilkAddress::IsValid(const CChainParams& params) const
+bool CSequenceAddress::IsValid(const CChainParams& params) const
 {
     bool fCorrectSize = vchData.size() == 20;
     bool fKnownVersion = vchVersion == params.Base58Prefix(CChainParams::PUBKEY_ADDRESS) ||
@@ -254,7 +254,7 @@ bool CSilkAddress::IsValid(const CChainParams& params) const
     return fCorrectSize && fKnownVersion;
 }
 
-CTxDestination CSilkAddress::Get() const
+CTxDestination CSequenceAddress::Get() const
 {
     if (!IsValid())
         return CNoDestination();
@@ -268,7 +268,7 @@ CTxDestination CSilkAddress::Get() const
         return CNoDestination();
 }
 
-bool CSilkAddress::GetKeyID(CKeyID& keyID) const
+bool CSequenceAddress::GetKeyID(CKeyID& keyID) const
 {
     if (!IsValid() || vchVersion != Params().Base58Prefix(CChainParams::PUBKEY_ADDRESS))
         return false;
@@ -278,12 +278,12 @@ bool CSilkAddress::GetKeyID(CKeyID& keyID) const
     return true;
 }
 
-bool CSilkAddress::IsScript() const
+bool CSequenceAddress::IsScript() const
 {
     return IsValid() && vchVersion == Params().Base58Prefix(CChainParams::SCRIPT_ADDRESS);
 }
 
-void CSilkSecret::SetKey(const CKey& vchSecret)
+void CSequenceSecret::SetKey(const CKey& vchSecret)
 {
     assert(vchSecret.IsValid());
     SetData(Params().Base58Prefix(CChainParams::SECRET_KEY), vchSecret.begin(), vchSecret.size());
@@ -291,7 +291,7 @@ void CSilkSecret::SetKey(const CKey& vchSecret)
         vchData.push_back(1);
 }
 
-CKey CSilkSecret::GetKey()
+CKey CSequenceSecret::GetKey()
 {
     CKey ret;
     assert(vchData.size() >= 32);
@@ -299,19 +299,19 @@ CKey CSilkSecret::GetKey()
     return ret;
 }
 
-bool CSilkSecret::IsValid() const
+bool CSequenceSecret::IsValid() const
 {
     bool fExpectedFormat = vchData.size() == 32 || (vchData.size() == 33 && vchData[32] == 1);
     bool fCorrectVersion = vchVersion == Params().Base58Prefix(CChainParams::SECRET_KEY);
     return fExpectedFormat && fCorrectVersion;
 }
 
-bool CSilkSecret::SetString(const char* pszSecret)
+bool CSequenceSecret::SetString(const char* pszSecret)
 {
     return CBase58Data::SetString(pszSecret) && IsValid();
 }
 
-bool CSilkSecret::SetString(const std::string& strSecret)
+bool CSequenceSecret::SetString(const std::string& strSecret)
 {
     return SetString(strSecret.c_str());
 }

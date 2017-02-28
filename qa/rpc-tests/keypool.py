@@ -5,10 +5,10 @@
 
 # Exercise the wallet keypool, and interaction with wallet encryption/locking
 
-# Add python-silkrpc to module search path:
+# Add python-sequencerpc to module search path:
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "python-silkrpc"))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "python-sequencerpc"))
 
 import json
 import shutil
@@ -16,7 +16,7 @@ import subprocess
 import tempfile
 import traceback
 
-from silkrpc.authproxy import AuthServiceProxy, JSONRPCException
+from sequencerpc.authproxy import AuthServiceProxy, JSONRPCException
 from util import *
 
 
@@ -44,7 +44,7 @@ def check_array_result(object_array, to_match, expected):
 def run_test(nodes, tmpdir):
     # Encrypt wallet and wait to terminate
     nodes[0].encryptwallet('test')
-    silkd_processes[0].wait()
+    sequenced_processes[0].wait()
     # Restart node 0
     nodes[0] = start_node(0, tmpdir)
     # Keep creating keys
@@ -81,9 +81,9 @@ def main():
 
     parser = optparse.OptionParser(usage="%prog [options]")
     parser.add_option("--nocleanup", dest="nocleanup", default=False, action="store_true",
-                      help="Leave silkds and test.* datadir on exit or error")
+                      help="Leave sequenceds and test.* datadir on exit or error")
     parser.add_option("--srcdir", dest="srcdir", default="../../src",
-                      help="Source directory containing silkd/silk-cli (default: %default%)")
+                      help="Source directory containing sequenced/sequence-cli (default: %default%)")
     parser.add_option("--tmpdir", dest="tmpdir", default=tempfile.mkdtemp(prefix="test"),
                       help="Root directory for datadirs")
     (options, args) = parser.parse_args()
@@ -118,7 +118,7 @@ def main():
     if not options.nocleanup:
         print("Cleaning up")
         stop_nodes(nodes)
-        wait_silkds()
+        wait_sequenceds()
         shutil.rmtree(options.tmpdir)
 
     if success:

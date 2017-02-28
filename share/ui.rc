@@ -1,4 +1,4 @@
-silk               ICON    "pixmaps/silk.ico"
+sequence               ICON    "pixmaps/sequence.ico"
 
 #include "wx/msw/wx.rc"
 

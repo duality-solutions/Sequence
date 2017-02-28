@@ -1,16 +1,16 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_QT_WALLETFRAME_H
-#define SILK_QT_WALLETFRAME_H
+#ifndef SEQUENCE_QT_WALLETFRAME_H
+#define SEQUENCE_QT_WALLETFRAME_H
 
 #include <QFrame>
 #include <QMap>
 
-class SilkGUI;
+class SequenceGUI;
 class ClientModel;
 class SendCoinsRecipient;
 class WalletModel;
@@ -25,7 +25,7 @@ class WalletFrame : public QFrame
     Q_OBJECT
 
 public:
-    explicit WalletFrame(SilkGUI *_gui = 0);
+    explicit WalletFrame(SequenceGUI *_gui = 0);
     ~WalletFrame();
 
     void setClientModel(ClientModel *clientModel);
@@ -41,7 +41,7 @@ public:
 
 private:
     QStackedWidget *walletStack;
-    SilkGUI *gui;
+    SequenceGUI *gui;
     ClientModel *clientModel;
     QMap<QString, WalletView*> mapWalletViews;
 
@@ -82,4 +82,4 @@ public Q_SLOTS:
     void usedReceivingAddresses();
 };
 
-#endif // SILK_QT_WALLETFRAME_H
+#endif // SEQUENCE_QT_WALLETFRAME_H

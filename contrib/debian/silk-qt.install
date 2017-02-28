@@ -1,6 +1,0 @@
-usr/local/bin/silk-qt usr/bin
-share/pixmaps/silk32.xpm usr/share/pixmaps
-share/pixmaps/silk16.xpm usr/share/pixmaps
-share/pixmaps/silk128.png usr/share/pixmaps
-debian/silk-qt.desktop usr/share/applications
-debian/silk-qt.protocol usr/share/kde4/services/

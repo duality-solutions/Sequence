@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_SCRIPT_SIGCACHE_H
-#define SILK_SCRIPT_SIGCACHE_H
+#ifndef SEQUENCE_SCRIPT_SIGCACHE_H
+#define SEQUENCE_SCRIPT_SIGCACHE_H
 
 #include "script/interpreter.h"
 
@@ -24,4 +24,4 @@ public:
     bool VerifySignature(const std::vector<unsigned char>& vchSig, const CPubKey& vchPubKey, const uint256& sighash) const;
 };
 
-#endif // SILK_SCRIPT_SIGCACHE_H
+#endif // SEQUENCE_SCRIPT_SIGCACHE_H

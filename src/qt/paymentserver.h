@@ -1,14 +1,14 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_QT_PAYMENTSERVER_H
-#define SILK_QT_PAYMENTSERVER_H
+#ifndef SEQUENCE_QT_PAYMENTSERVER_H
+#define SEQUENCE_QT_PAYMENTSERVER_H
 
 // This class handles payment requests from clicking on
-// Silk: URIs
+// Sequence: URIs
 //
 // This is somewhat tricky, because we have to deal with
 // the situation where the user clicks on a link during
@@ -143,4 +143,4 @@ private:
     OptionsModel *optionsModel;
 };
 
-#endif // SILK_QT_PAYMENTSERVER_H
+#endif // SEQUENCE_QT_PAYMENTSERVER_H

@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_REVERSELOCK_H
-#define SILK_REVERSELOCK_H
+#ifndef SEQUENCE_REVERSELOCK_H
+#define SEQUENCE_REVERSELOCK_H
 
 /**
  * An RAII-style reverse lock. Unlocks on construction and locks on destruction.
@@ -28,4 +28,4 @@ private:
     Lock& lock;
 };
 
-#endif // SILK_REVERSELOCK_H
+#endif // SEQUENCE_REVERSELOCK_H

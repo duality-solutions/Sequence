@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
 // Copyright (c) 2013-2017 Emercoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -246,7 +246,7 @@ bool CWallet::LoadCScript(const CScript& redeemScript)
      * these. Do not add them to the wallet and warn. */
     if (redeemScript.size() > MAX_SCRIPT_ELEMENT_SIZE)
     {
-        std::string strAddr = CSilkAddress(CScriptID(redeemScript)).ToString();
+        std::string strAddr = CSequenceAddress(CScriptID(redeemScript)).ToString();
         LogPrintf("%s: Warning: This wallet contains a redeemScript of size %i which exceeds maximum size %i thus can never be redeemed. Do not use address %s.\n",
             __func__, redeemScript.size(), MAX_SCRIPT_ELEMENT_SIZE, strAddr);
         return true;
@@ -2038,7 +2038,7 @@ bool CWallet::CreateTransactionInner(const vector<pair<CScript, CAmount> >& vecS
         return false;
     }
 
-    // Silk: define some values used in case of namecoin tx creation
+    // Sequence: define some values used in case of namecoin tx creation
     CAmount nNameTxInCredit = 0;
     unsigned int nNameTxOut = 0;
     if (!wtxNameIn.IsNull())
@@ -2050,12 +2050,12 @@ bool CWallet::CreateTransactionInner(const vector<pair<CScript, CAmount> >& vecS
     wtxNew.fTimeReceivedIsTxTime = true;
     wtxNew.BindWallet(this);
     CMutableTransaction txNew;
-    txNew.nVersion = wtxNew.nVersion; // Silk: important for name transactions
+    txNew.nVersion = wtxNew.nVersion; // Sequence: important for name transactions
 
     {
         LOCK2(cs_main, cs_wallet);
         {
-            nFeeRet = max(nFeeInput, MIN_TX_FEE);  // Silk: a good starting point, probably...
+            nFeeRet = max(nFeeInput, MIN_TX_FEE);  // Sequence: a good starting point, probably...
             while (true)
             {
                 txNew.vin.clear();
@@ -2098,7 +2098,7 @@ bool CWallet::CreateTransactionInner(const vector<pair<CScript, CAmount> >& vecS
                 set<pair<const CWalletTx*,unsigned int> > setCoins;
                 CAmount nValueIn = 0;
 
-                // Silk: in case of namecoin tx we have already supplied input.
+                // Sequence: in case of namecoin tx we have already supplied input.
                 // If we have enough money: skip coin selection, unless we have ordered it with coinControl.
                 if (!wtxNameIn.IsNull())
                 {
@@ -2109,7 +2109,7 @@ bool CWallet::CreateTransactionInner(const vector<pair<CScript, CAmount> >& vecS
                         return false;
                     }
                 }
-                // otherwise proceed as we normaly would in silk
+                // otherwise proceed as we normaly would in sequence
                 else
                 if (!SelectCoins(nTotalValue, wtxNew.nTime, setCoins, nValueIn, coinControl))
                 {
@@ -2117,7 +2117,7 @@ bool CWallet::CreateTransactionInner(const vector<pair<CScript, CAmount> >& vecS
                     return false;
                 }
 
-        // Silk: name tx always at first position
+        // Sequence: name tx always at first position
                 if (!wtxNameIn.IsNull())
                 {
                     setCoins.insert(setCoins.begin(), make_pair(&wtxNameIn, nNameTxOut));
@@ -2146,7 +2146,7 @@ bool CWallet::CreateTransactionInner(const vector<pair<CScript, CAmount> >& vecS
                 {
                     // Fill a vout to ourself
                     // TODO: pass in scriptChange instead of reservekey so
-                    // change transaction isn't always pay-to-silk-address
+                    // change transaction isn't always pay-to-sequence-address
                     CScript scriptChange;
 
                     // coin control: send change to custom address
@@ -2199,7 +2199,7 @@ bool CWallet::CreateTransactionInner(const vector<pair<CScript, CAmount> >& vecS
                 int nIn = 0;
                 BOOST_FOREACH(const PAIRTYPE(const CWalletTx*,unsigned int)& coin, setCoins)
                 {
-                    // Silk: we sign name tx differently.
+                    // Sequence: we sign name tx differently.
                     if (coin.first == &wtxNameIn && coin.second == nNameTxOut)
                     {
                         if (!SignNameSignature(*this, *coin.first, txNew, nIn++))
@@ -2649,9 +2649,9 @@ bool CWallet::SetAddressBook(const CTxDestination& address, const string& strNam
                              strPurpose, (fUpdated ? CT_UPDATED : CT_NEW) );
     if (!fFileBacked)
         return false;
-    if (!strPurpose.empty() && !CWalletDB(strWalletFile).WritePurpose(CSilkAddress(address).ToString(), strPurpose))
+    if (!strPurpose.empty() && !CWalletDB(strWalletFile).WritePurpose(CSequenceAddress(address).ToString(), strPurpose))
         return false;
-    return CWalletDB(strWalletFile).WriteName(CSilkAddress(address).ToString(), strName);
+    return CWalletDB(strWalletFile).WriteName(CSequenceAddress(address).ToString(), strName);
 }
 
 bool CWallet::DelAddressBook(const CTxDestination& address)
@@ -2662,7 +2662,7 @@ bool CWallet::DelAddressBook(const CTxDestination& address)
         if(fFileBacked)
         {
             // Delete destdata tuples associated with address
-            std::string strAddress = CSilkAddress(address).ToString();
+            std::string strAddress = CSequenceAddress(address).ToString();
             BOOST_FOREACH(const PAIRTYPE(string, string) &item, mapAddressBook[address].destdata)
             {
                 CWalletDB(strWalletFile).EraseDestData(strAddress, item.first);
@@ -2675,8 +2675,8 @@ bool CWallet::DelAddressBook(const CTxDestination& address)
 
     if (!fFileBacked)
         return false;
-    CWalletDB(strWalletFile).ErasePurpose(CSilkAddress(address).ToString());
-    return CWalletDB(strWalletFile).EraseName(CSilkAddress(address).ToString());
+    CWalletDB(strWalletFile).ErasePurpose(CSequenceAddress(address).ToString());
+    return CWalletDB(strWalletFile).EraseName(CSequenceAddress(address).ToString());
 }
 
 bool CWallet::SetDefaultKey(const CPubKey &vchPubKey)
@@ -3193,7 +3193,7 @@ bool CWallet::AddDestData(const CTxDestination &dest, const std::string &key, co
     mapAddressBook[dest].destdata.insert(std::make_pair(key, value));
     if (!fFileBacked)
         return true;
-    return CWalletDB(strWalletFile).WriteDestData(CSilkAddress(dest).ToString(), key, value);
+    return CWalletDB(strWalletFile).WriteDestData(CSequenceAddress(dest).ToString(), key, value);
 }
 
 bool CWallet::EraseDestData(const CTxDestination &dest, const std::string &key)
@@ -3202,7 +3202,7 @@ bool CWallet::EraseDestData(const CTxDestination &dest, const std::string &key)
         return false;
     if (!fFileBacked)
         return true;
-    return CWalletDB(strWalletFile).EraseDestData(CSilkAddress(dest).ToString(), key);
+    return CWalletDB(strWalletFile).EraseDestData(CSequenceAddress(dest).ToString(), key);
 }
 
 bool CWallet::LoadDestData(const CTxDestination &dest, const std::string &key, const std::string &value)
@@ -3365,7 +3365,7 @@ void SendMoney(const CTxDestination &address, CAmount nValue, CWalletTx& wtxNew)
 {
     SendMoneyCheck(nValue);
 
-    // Parse Silk address
+    // Parse Sequence address
     CScript scriptPubKey = GetScriptForDestination(address);
 
     // Create and send the transaction

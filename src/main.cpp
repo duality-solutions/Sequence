@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
 // Copyright (c) 2013-2017 Emercoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -41,7 +41,7 @@
 using namespace std;
 
 #if defined(NDEBUG)
-# error "Silk cannot be compiled without assertions."
+# error "Sequence cannot be compiled without assertions."
 #endif
 
 /**
@@ -92,12 +92,12 @@ void EraseOrphansFor(NodeId peer);
 static bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned nRequired, const Consensus::Params& consensusParams);
 static void CheckBlockIndex(const Consensus::Params& consensusParams);
 
-CHooks* hooks = InitHook(); //this adds namecoin hooks which allow splicing of code inside standart silk functions.
+CHooks* hooks = InitHook(); //this adds namecoin hooks which allow splicing of code inside standart sequence functions.
 
 /** Constant stuff for coinbase transactions we create: */
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "Silk Signed Message:\n";
+const string strMessageMagic = "Sequence Signed Message:\n";
 
 // Internal stuff
 namespace {
@@ -1285,7 +1285,7 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex)
 CAmount GetProofOfWorkReward()
 {
     if (chainActive.Height() == 0) {
-        CAmount nSubsidy = 44000000 * COIN; // 44,000,000 for Silkcoin Swap
+        CAmount nSubsidy = 44000000 * COIN; // 44,000,000 for Sequence Swap
         LogPrint("creation", "GetProofOfWorkReward() : create=%s nSubsidy=%d\n", FormatMoney(nSubsidy), nSubsidy);
         return nSubsidy;
     }
@@ -1704,7 +1704,7 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
         }
     }
 
-    // Silk: undo name transactions in reverse order
+    // Sequence: undo name transactions in reverse order
     if (fWriteNames)
         for (int i = block.vtx.size() - 1; i >= 0; i--)
             hooks->DisconnectInputs(block.vtx[i]);
@@ -1752,7 +1752,7 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 static CCheckQueue<CScriptCheck> scriptcheckqueue(128);
 
 void ThreadScriptCheck() {
-    RenameThread("silk-scriptch");
+    RenameThread("sequence-scriptch");
     scriptcheckqueue.Thread();
 }
 
@@ -1988,7 +1988,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     pindex->nMint = nValueOut - nValueIn + nFees;
     pindex->nMoneySupply = (pindex->pprev? pindex->pprev->nMoneySupply : 0) + nValueOut - nValueIn;
 
-    // Silk: collect valid name tx
+    // Sequence: collect valid name tx
     // NOTE: tx.UpdateCoins should not affect this loop, probably...
     vector<nameTempProxy> vName;
     if (fWriteNames)
@@ -2036,7 +2036,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     int64_t nTime4 = GetTimeMicros(); nTimeCallbacks += nTime4 - nTime3;
     LogPrint("bench", "    - Callbacks: %.2fms [%.2fs]\n", 0.001 * (nTime4 - nTime3), nTimeCallbacks * 0.000001);
 
-    // Silk: add names to nameindex.dat
+    // Sequence: add names to nameindex.dat
     if (fWriteNames)
         hooks->ConnectBlock(pindex, vName);
 
@@ -3050,7 +3050,7 @@ bool AcceptBlockHeader(const CBlockHeader& block, bool fProofOfStake, CValidatio
     if (pindex == NULL)
         pindex = AddToBlockIndex(block);
 
-    // Silk: set PoS flag for CBlockIndex. This should probably be done immediately after we added header to CBlockIndex (i.e., after or inside AddToBlockIndex),
+    // Sequence: set PoS flag for CBlockIndex. This should probably be done immediately after we added header to CBlockIndex (i.e., after or inside AddToBlockIndex),
     // since I do not know when it will flush block index to disk
     if (fProofOfStake)
         pindex->SetProofOfStake();
@@ -3132,7 +3132,7 @@ static bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned 
 bool ProcessNewBlock(CValidationState &state, const CChainParams& chainparams, CNode* pfrom, CBlock* pblock, CDiskBlockPos *dbp)
 {
     // Preliminary checks
-    //bool checked = CheckBlock(*pblock, state); // Silk: removed, since this check happens later in AcceptBlock function
+    //bool checked = CheckBlock(*pblock, state); // Sequence: removed, since this check happens later in AcceptBlock function
 
     {
         LOCK(cs_main);
@@ -4098,7 +4098,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
     }
 
 
-    // Silk: set/unset network serialization mode for new clients
+    // Sequence: set/unset network serialization mode for new clients
     if (pfrom->nVersion < 60800)
     {
         vRecv.nType         &= ~SER_POSMARKER;

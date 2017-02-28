@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_QT_OVERVIEWPAGE_H
-#define SILK_QT_OVERVIEWPAGE_H
+#ifndef SEQUENCE_QT_OVERVIEWPAGE_H
+#define SEQUENCE_QT_OVERVIEWPAGE_H
 
 #include "amount.h"
 
@@ -36,9 +36,6 @@ public:
     void setClientModel(ClientModel *clientModel);
     void setWalletModel(WalletModel *walletModel);
     void showOutOfSyncWarning(bool fShow);
-    void showCamel();
-    void hideCamel();
-    void moveCamel();
     
 public Q_SLOTS:
     void setBalance(const CAmount& balance, const CAmount& total, const CAmount& stake, const CAmount& unconfirmedBalance,
@@ -64,19 +61,11 @@ private:
     TxViewDelegate *txdelegate;
     TransactionFilterProxy *filter;
 
-    QMovie *gifCamel;
-    bool fCamelVisibile;
-    unsigned int movePixs;
-    int timerId;
-
 private Q_SLOTS:
     void updateDisplayUnit();
     void handleTransactionClicked(const QModelIndex &index);
     void updateAlerts(const QString &warnings);
     void updateWatchOnlyLabels(bool showWatchOnly);
-
-protected:
-    void timerEvent(QTimerEvent *event);
 };
 
-#endif // SILK_QT_OVERVIEWPAGE_H
+#endif // SEQUENCE_QT_OVERVIEWPAGE_H

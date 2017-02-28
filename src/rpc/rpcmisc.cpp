@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -54,7 +54,7 @@ UniValue getinfo(const UniValue& params, bool fHelp)
             "  \"version\": xxxxx,           (numeric) the server version\n"
             "  \"protocolversion\": xxxxx,   (numeric) the protocol version\n"
             "  \"walletversion\": xxxxx,     (numeric) the wallet version\n"
-            "  \"balance\": xxxxxxx,         (numeric) the total Silk balance of the wallet\n"
+            "  \"balance\": xxxxxxx,         (numeric) the total Sequence balance of the wallet\n"
             "  \"blocks\": xxxxxx,           (numeric) the current number of blocks processed in the server\n"
             "  \"timeoffset\": xxxxx,        (numeric) the time offset\n"
             "  \"connections\": xxxxx,       (numeric) the number of connections\n"
@@ -64,8 +64,8 @@ UniValue getinfo(const UniValue& params, bool fHelp)
             "  \"keypoololdest\": xxxxxx,    (numeric) the timestamp (seconds since GMT epoch) of the oldest pre-generated key in the key pool\n"
             "  \"keypoolsize\": xxxx,        (numeric) how many new keys are pre-generated\n"
             "  \"unlocked_until\": ttt,      (numeric) the timestamp in seconds since epoch (midnight Jan 1 1970 GMT) that the wallet is unlocked for transfers, or 0 if the wallet is locked\n"
-            "  \"paytxfee\": x.xxxx,         (numeric) the transaction fee set in Silk/kb\n"
-            "  \"relayfee\": x.xxxx,         (numeric) minimum relay fee for non-free transactions in Silk/kb\n"
+            "  \"paytxfee\": x.xxxx,         (numeric) the transaction fee set in Sequence/kb\n"
+            "  \"relayfee\": x.xxxx,         (numeric) minimum relay fee for non-free transactions in Sequence/kb\n"
             "  \"errors\": \"...\"           (string) any error messages\n"
             "}\n"
             "\nExamples:\n"
@@ -147,7 +147,7 @@ public:
             obj.push_back(Pair("hex", HexStr(subscript.begin(), subscript.end())));
             UniValue a(UniValue::VARR);
             BOOST_FOREACH(const CTxDestination& addr, addresses)
-                a.push_back(CSilkAddress(addr).ToString());
+                a.push_back(CSequenceAddress(addr).ToString());
             obj.push_back(Pair("addresses", a));
             if (whichType == TX_MULTISIG)
                 obj.push_back(Pair("sigsrequired", nRequired));
@@ -161,14 +161,14 @@ UniValue validateaddress(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
         throw runtime_error(
-            "validateaddress \"silkaddress\"\n"
-            "\nReturn information about the given Silk address.\n"
+            "validateaddress \"sequenceaddress\"\n"
+            "\nReturn information about the given Sequence address.\n"
             "\nArguments:\n"
-            "1. \"silkaddress\"     (string, required) The Silk address to validate\n"
+            "1. \"sequenceaddress\"     (string, required) The Sequence address to validate\n"
             "\nResult:\n"
             "{\n"
             "  \"isvalid\" : true|false,         (boolean) If the address is valid or not. If not, this is the only property returned.\n"
-            "  \"address\" : \"silkaddress\", (string) The Silk address validated\n"
+            "  \"address\" : \"sequenceaddress\", (string) The Sequence address validated\n"
             "  \"ismine\" : true|false,          (boolean) If the address is yours or not\n"
             "  \"isscript\" : true|false,        (boolean) If the key is a script\n"
             "  \"pubkey\" : \"publickeyhex\",    (string) The hex value of the raw public key\n"
@@ -180,7 +180,7 @@ UniValue validateaddress(const UniValue& params, bool fHelp)
             + HelpExampleRpc("validateaddress", "\"ShFXmBCd5Wmh3ayeecntAHUK1NpD6c6GaN\"")
         );
 
-    CSilkAddress address(params[0].get_str());
+    CSequenceAddress address(params[0].get_str());
     bool isValid = address.IsValid();
 
     UniValue ret(UniValue::VOBJ);
@@ -230,8 +230,8 @@ CScript _createmultisig_redeemScript(const UniValue& params)
     {
         const std::string& ks = keys[i].get_str();
 #ifdef ENABLE_WALLET
-        // Case 1: Silk address and we have full public key:
-        CSilkAddress address(ks);
+        // Case 1: Sequence address and we have full public key:
+        CSequenceAddress address(ks);
         if (pwalletMain && address.IsValid())
         {
             CKeyID keyID;
@@ -277,20 +277,20 @@ UniValue addmultisigaddress(const UniValue& params, bool fHelp)
     {
         string msg = "addmultisigaddress nrequired [\"key\",...] ( \"account\" )\n"
             "\nAdd a nrequired-to-sign multisignature address to the wallet.\n"
-            "Each key is a Silk address or hex-encoded public key.\n"
+            "Each key is a Sequence address or hex-encoded public key.\n"
             "If 'account' is specified, assign address to that account.\n"
 
             "\nArguments:\n"
             "1. nrequired        (numeric, required) The number of required signatures out of the n keys or addresses.\n"
-            "2. \"keysobject\"   (string, required) A json array of Silk addresses or hex-encoded public keys\n"
+            "2. \"keysobject\"   (string, required) A json array of Sequence addresses or hex-encoded public keys\n"
             "     [\n"
-            "       \"address\"  (string) Silk address or hex-encoded public key\n"
+            "       \"address\"  (string) Sequence address or hex-encoded public key\n"
             "       ...,\n"
             "     ]\n"
             "3. \"account\"      (string, optional) An account to assign the addresses to.\n"
 
             "\nResult:\n"
-            "\"silkaddress\"  (string) A Silk address associated with the keys.\n"
+            "\"sequenceaddress\"  (string) A Sequence address associated with the keys.\n"
 
             "\nExamples:\n"
             "\nAdd a multisig address from 2 addresses\n"
@@ -311,7 +311,7 @@ UniValue addmultisigaddress(const UniValue& params, bool fHelp)
     pwalletMain->AddCScript(inner);
 
     pwalletMain->SetAddressBook(innerID, strAccount, "send");
-    return CSilkAddress(innerID).ToString();
+    return CSequenceAddress(innerID).ToString();
 }
 
 UniValue createmultisig(const UniValue& params, bool fHelp)
@@ -324,9 +324,9 @@ UniValue createmultisig(const UniValue& params, bool fHelp)
 
             "\nArguments:\n"
             "1. nrequired      (numeric, required) The number of required signatures out of the n keys or addresses.\n"
-            "2. \"keys\"       (string, required) A json array of keys which are Silk addresses or hex-encoded public keys\n"
+            "2. \"keys\"       (string, required) A json array of keys which are Sequence addresses or hex-encoded public keys\n"
             "     [\n"
-            "       \"key\"    (string) Silk address or hex-encoded public key\n"
+            "       \"key\"    (string) Sequence address or hex-encoded public key\n"
             "       ,...\n"
             "     ]\n"
 
@@ -348,7 +348,7 @@ UniValue createmultisig(const UniValue& params, bool fHelp)
     // Construct using pay-to-script-hash:
     CScript inner = _createmultisig_redeemScript(params);
     CScriptID innerID(inner);
-    CSilkAddress address(innerID);
+    CSequenceAddress address(innerID);
 
     UniValue result(UniValue::VOBJ);
     result.push_back(Pair("address", address.ToString()));
@@ -361,10 +361,10 @@ UniValue verifymessage(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 3)
         throw runtime_error(
-            "verifymessage \"silkaddress\" \"signature\" \"message\"\n"
+            "verifymessage \"sequenceaddress\" \"signature\" \"message\"\n"
             "\nVerify a signed message\n"
             "\nArguments:\n"
-            "1. \"silkaddress\"  (string, required) The Silk address to use for the signature.\n"
+            "1. \"sequenceaddress\"  (string, required) The Sequence address to use for the signature.\n"
             "2. \"signature\"       (string, required) The signature provided by the signer in base 64 encoding (see signmessage).\n"
             "3. \"message\"         (string, required) The message that was signed.\n"
             "\nResult:\n"
@@ -384,7 +384,7 @@ UniValue verifymessage(const UniValue& params, bool fHelp)
     string strSign     = params[1].get_str();
     string strMessage  = params[2].get_str();
 
-    CSilkAddress addr(strAddress);
+    CSequenceAddress addr(strAddress);
     if (!addr.IsValid())
         throw JSONRPCError(RPC_TYPE_ERROR, "Invalid address");
 

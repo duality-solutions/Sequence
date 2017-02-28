@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -138,22 +138,20 @@ public:
         assert(consensus.hashGenesisBlock == uint256("0x000000251356c62e0aa14c63e2b0db2a05ac0d3316ea5000c797a281be8c9fd7"));
         assert(genesis.hashMerkleRoot == uint256("0x73d6f8c42dfa8c9175b8bf4bf75ebfd10d22b0b6b1a39a82ce0e408447418e4b"));
 
-        //vSeeds.push_back(CDNSSeedData("silknetwork.net", "slk1.silknetwork.net"));
-        //vSeeds.push_back(CDNSSeedData("silknetwork.net", "slk2.silknetwork.net"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.io", "silk.dnsseeder.io"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.com", "silk.dnsseeder.com"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.host", "silk.dnsseeder.host"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.net", "silk.dnsseeder.net"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.io", "sequence.dnsseeder.io"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.com", "sequence.dnsseeder.com"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.host", "sequence.dnsseeder.host"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.net", "sequence.dnsseeder.net"));
 
-        // Silk PUBKEY_ADDRESS addresses start with 'S'
+        // Sequence PUBKEY_ADDRESS addresses start with 'S'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);
-        // Silk SCRIPT_ADDRESS addresses start with 'S or T'
+        // Sequence SCRIPT_ADDRESS addresses start with 'S or T'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,64);
-        // Silk SECRET_KEY start with '2'
+        // Sequence SECRET_KEY start with '2'
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,170);
-        // Silk BIP32 pubkeys start with 'xpub' (Bitcoin defaults)
+        // Sequence BIP32 pubkeys start with 'xpub' (Bitcoin defaults)
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x88)(0xB2)(0x1E).convert_to_container<std::vector<unsigned char> >();
-        // Silk BIP32 prvkeys start with 'xprv' (Bitcoin defaults)
+        // Sequence BIP32 prvkeys start with 'xprv' (Bitcoin defaults)
         base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x88)(0xAD)(0xE4).convert_to_container<std::vector<unsigned char> >();
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
@@ -221,11 +219,11 @@ public:
         vFixedSeeds.clear();
         vSeeds.clear();
 
-        // Silk PUBKEY_ADDRESS addresses start with 'N'
+        // Sequence PUBKEY_ADDRESS addresses start with 'N'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,53);
-        // Silk PUBKEY_ADDRESS addresses start with 'M'
+        // Sequence PUBKEY_ADDRESS addresses start with 'M'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,50);
-        // Silk SECRET_KEY start with 'X or 7'
+        // Sequence SECRET_KEY start with 'X or 7'
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,204);
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x11)(0x35)(0xAA)(0xEE).convert_to_container<std::vector<unsigned char> >();
         base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x35)(0x11)(0xDD)(0xFF).convert_to_container<std::vector<unsigned char> >();

@@ -1,13 +1,13 @@
 // Copyright (c) 2014-2015 The Bitcoin developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_COMPAT_ENDIAN_H
-#define SILK_COMPAT_ENDIAN_H
+#ifndef SEQUENCE_COMPAT_ENDIAN_H
+#define SEQUENCE_COMPAT_ENDIAN_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/silk-config.h"
+#include "config/sequence-config.h"
 #endif
 
 #include <stdint.h>
@@ -194,4 +194,4 @@ inline uint64_t le64toh(uint64_t little_endian_64bits)
 
 #endif // WORDS_BIGENDIAN
 
-#endif // SILK_COMPAT_ENDIAN_H
+#endif // SEQUENCE_COMPAT_ENDIAN_H

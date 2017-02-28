@@ -32,12 +32,12 @@ QTabBar { alignment: left; }</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_Main">
        <item>
-        <widget class="QCheckBox" name="silkAtStartup">
+        <widget class="QCheckBox" name="sequenceAtStartup">
          <property name="toolTip">
-          <string>Automatically start Silk after logging in to the system.</string>
+          <string>Automatically start Sequence after logging in to the system.</string>
          </property>
          <property name="text">
-          <string>&amp;Start Silk on system login</string>
+          <string>&amp;Start Sequence on system login</string>
          </property>
         </widget>
        </item>
@@ -202,7 +202,7 @@ color: rgb(0, 0, 0);</string>
        <item>
         <widget class="QCheckBox" name="mapPortUpnp">
          <property name="toolTip">
-          <string>Automatically open the Silk client port on the router. This only works when your router supports UPnP and it is enabled.</string>
+          <string>Automatically open the Sequence client port on the router. This only works when your router supports UPnP and it is enabled.</string>
          </property>
          <property name="text">
           <string>Map port using &amp;UPnP</string>
@@ -222,7 +222,7 @@ color: rgb(0, 0, 0);</string>
        <item>
         <widget class="QCheckBox" name="connectSocks">
          <property name="toolTip">
-          <string>Connect to the Silk network through a SOCKS5 proxy.</string>
+          <string>Connect to the Sequence network through a SOCKS5 proxy.</string>
          </property>
          <property name="text">
           <string>&amp;Connect through SOCKS5 proxy (default proxy):</string>
@@ -388,7 +388,7 @@ color: rgb(0, 0, 0);</string>
          <item>
           <widget class="QValueComboBox" name="lang">
            <property name="toolTip">
-            <string>The user interface language can be set here. This setting will take effect after restarting Silk.</string>
+            <string>The user interface language can be set here. This setting will take effect after restarting Sequence.</string>
            </property>
           </widget>
          </item>

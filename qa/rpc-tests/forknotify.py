@@ -7,13 +7,13 @@
 # Test -alertnotify 
 #
 
-from test_framework import silkTestFramework
-from silkrpc.authproxy import AuthServiceProxy, JSONRPCException
+from test_framework import sequenceTestFramework
+from sequencerpc.authproxy import AuthServiceProxy, JSONRPCException
 from util import *
 import os
 import shutil
 
-class ForkNotifyTest(silkTestFramework):
+class ForkNotifyTest(sequenceTestFramework):
 
     alert_filename = None  # Set by setup_network
 

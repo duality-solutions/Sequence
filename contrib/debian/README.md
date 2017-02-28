@@ -1,21 +1,21 @@
 
 Debian
 ====================
-This directory contains files used to package silkd/silk-qt
-for Debian-based Linux systems. If you compile silkd/silk-qt yourself, there are some useful files here.
+This directory contains files used to package sequenced/sequence-qt
+for Debian-based Linux systems. If you compile sequenced/sequence-qt yourself, there are some useful files here.
 
-## Silk: URI support ##
+## Sequence: URI support ##
 
 
-silk-qt.desktop  (Gnome / Open Desktop)
+sequence-qt.desktop  (Gnome / Open Desktop)
 To install:
 
-	sudo desktop-file-install silk-qt.desktop
+	sudo desktop-file-install sequence-qt.desktop
 	sudo update-desktop-database
 
 If you build yourself, you will either need to modify the paths in
-the .desktop file or copy or symlink your silk-qt binary to `/usr/bin`
-and the `../../share/pixmaps/silk128.png` to `/usr/share/pixmaps`
+the .desktop file or copy or symlink your sequence-qt binary to `/usr/bin`
+and the `../../share/pixmaps/sequence128.png` to `/usr/share/pixmaps`
 
-silk-qt.protocol (KDE)
+sequence-qt.protocol (KDE)
 

@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_POW_H
-#define SILK_POW_H
+#ifndef SEQUENCE_POW_H
+#define SEQUENCE_POW_H
 
 #include "consensus/params.h"
 
@@ -22,4 +22,4 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
 bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params& params);
 uint256 GetBlockTrust(const CBlockIndex& block);
 
-#endif // SILK_POW_H
+#endif // SEQUENCE_POW_H

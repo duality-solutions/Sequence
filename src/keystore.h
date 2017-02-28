@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_KEYSTORE_H
-#define SILK_KEYSTORE_H
+#ifndef SEQUENCE_KEYSTORE_H
+#define SEQUENCE_KEYSTORE_H
 
 #include "key.h"
 #include "pubkey.h"
@@ -36,7 +36,7 @@ public:
     virtual void GetKeys(std::set<CKeyID> &setAddress) const =0;
     virtual bool GetPubKey(const CKeyID &address, CPubKey& vchPubKeyOut) const;
 
-    //! Support for BIP 0013 : see https://github.com/silk/bips/blob/master/bip-0013.mediawiki
+    //! Support for BIP 0013 : see https://github.com/sequence/bips/blob/master/bip-0013.mediawiki
     virtual bool AddCScript(const CScript& redeemScript) =0;
     virtual bool HaveCScript(const CScriptID &hash) const =0;
     virtual bool GetCScript(const CScriptID &hash, CScript& redeemScriptOut) const =0;
@@ -110,4 +110,4 @@ public:
 typedef std::vector<unsigned char, secure_allocator<unsigned char> > CKeyingMaterial;
 typedef std::map<CKeyID, std::pair<CPubKey, std::vector<unsigned char> > > CryptedKeyMap;
 
-#endif // SILK_KEYSTORE_H
+#endif // SEQUENCE_KEYSTORE_H

@@ -1,12 +1,12 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
 // Copyright (c) 2013-2017 Emercoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_PRIMITIVES_TRANSACTION_H
-#define SILK_PRIMITIVES_TRANSACTION_H
+#ifndef SEQUENCE_PRIMITIVES_TRANSACTION_H
+#define SEQUENCE_PRIMITIVES_TRANSACTION_H
 
 #include "amount.h"
 #include "script/script.h"
@@ -342,4 +342,4 @@ struct CMutableTransaction
     }
 };
 
-#endif // SILK_PRIMITIVES_TRANSACTION_H
+#endif // SEQUENCE_PRIMITIVES_TRANSACTION_H

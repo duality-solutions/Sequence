@@ -1,10 +1,10 @@
 // Copyright 20109-2010 Satoshi Nakamoto
 // Copyright 2009-2017  The Bitcoin Core Developers
-// Copyright 2015-2017 Silk Network Developers
+// Copyright 2016-2017 Duality Blockchain Solutions Developers
 // file COPYING of http://wwww.opensource.org/licences/mit-license.php.
 
-#ifndef SILK_CONSENSUS_VALIDATION_H
-#define SILK_CONSENSUS_VALIDATION_H
+#ifndef SEQUENCE_CONSENSUS_VALIDATION_H
+#define SEQUENCE_CONSENSUS_VALIDATION_H
 
 #include "main.h"
 
@@ -88,4 +88,4 @@ public:
     std::string GetDebugMessage() const { return strDebugMessage; }
 };
 
-#endif // SILK_CONSENSUS_VALIDATION_H
+#endif // SEQUENCE_CONSENSUS_VALIDATION_H

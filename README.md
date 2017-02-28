@@ -1,42 +1,42 @@
-# **Silk-Core (SLK) v1.3.0.0**
+# **Sequence (SEQ) v1.0.0.0**
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 
-[![Stories in Ready](https://badge.waffle.io/SilkNetwork/Silk-Core.png?label=ready&title=Ready)](https://waffle.io/SilkNetwork/Silk-Core)
-[![Build Status](https://travis-ci.org/SilkNetwork/Silk-Core.png?branch=master)](https://travis-ci.org/SilkNetwork/Silk-Core)
+[![Stories in Ready](https://badge.waffle.io/Duality-Solutions/Sequence.png?label=ready&title=Ready)](https://waffle.io/Duality-Solutions/Sequence)
+[![Build Status](https://travis-ci.org/Duality-Solutions/Sequence.png?branch=master)](https://travis-ci.org/Duality-Solutions/Sequence)
 
 
 Graph on Pull Request History
 ====================================
 
-[![Throughput Graph](https://graphs.waffle.io/SilkNetwork/Silk-Core/throughput.svg)](https://waffle.io/SilkNetwork/Silk-Core/metrics/throughput)
+[![Throughput Graph](https://graphs.waffle.io/Duality-Solutions/Sequence/throughput.svg)](https://waffle.io/Duality-Solutions/Sequence/metrics/throughput)
 
-Silk Integration/Staging Tree
+Sequence Integration/Staging Tree
 ================================
-![SLK logo](https://github.com/SilkNetwork/Silk-Core/blob/master/src/qt/res/icons/silk-80.png)
+![SEQ logo](https://github.com/Duality-Solutions/Sequence/blob/master/src/qt/res/icons/sequence-80.png)
 
-**Copyright (c) 2015-2017 Silk Network**
+**Copyright (c) 2016-2017 Duality Blockchain Solutions Developers**
 
-#### What is Silk?
+#### What is Sequence?
 ----------------
-* Coin Suffix: SLK
+* Coin Suffix: SEQ
 * PoW Algorithm: Scrypt
 * PoW Period: 10,000 Blocks
 * PoW Target Spacing: 60 Seconds 
 * PoW Difficulty Retarget: 10 Blocks 
-* PoW Reward per Block: 0 SLK
+* PoW Reward per Block: 0 SEQ
 * Full Confirmation: 10 Blocks
 * PoS Algorithm: Blake2b
 * PoS Target Spacing: 64 Seconds 
 * PoS Difficulty Retarget: 10 Blocks 
-* PoS Reward: 2 SLK
+* PoS Reward: 2 SEQ
 * PoS Min: 1 Hour
 * PoS Max: Unlimited
-* Total Coins: 2,000,000,000 SLK
+* Total Coins: 2,000,000,000 SEQ
 * Block Size: 4MB
 
 
-Silk is a digital currency that enables instant payments to anyone, anywhere in the world. Silk uses peer-to-peer technology over ClearNet to operate with no central authority (centralisation): managing transactions and issuing currency (SLK) are carried out collectively by the Silk network. Silk is the name of open source software which enables the use of the currency SLK.
+Sequence is a digital currency that enables instant payments to anyone, anywhere in the world. Sequence uses peer-to-peer technology over ClearNet to operate with no central authority (centralisation): managing transactions and issuing currency (SEQ) are carried out collectively by the Sequence network. Sequence is the name of open source software which enables the use of the currency SEQ.
 
 
 
@@ -52,13 +52,13 @@ RPC Port = 16665
 
 UNIX BUILD NOTES
 ====================
-Some notes on how to build Silk in Unix. 
+Some notes on how to build Sequence in Unix. 
 
 Building requirements for Unix based Systems :  3GB
 
 Note
 ---------------------
-Always use absolute paths to configure and compile Silk and the dependencies,
+Always use absolute paths to configure and compile Sequence and the dependencies,
 for example, when specifying the the path of the dependency:
 
     ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$BDB_PREFIX
@@ -76,7 +76,7 @@ make
 make install # optional
 ```
 
-This will build silk-qt as well if the dependencies are met.
+This will build sequence-qt as well if the dependencies are met.
 
 Dependencies
 ---------------------
@@ -104,7 +104,7 @@ System requirements
 --------------------
 
 C++ compilers are memory-hungry. It is recommended to have at least 1 GB of
-memory available when compiling Silk Core. With 512MB of memory or less
+memory available when compiling Sequence. With 512MB of memory or less
 compilation will take much longer due to swap thrashing.
 
 Dependency Build Instructions: Ubuntu & Debian
@@ -117,10 +117,10 @@ for Ubuntu 12.04 and later or Debian 7 and later libboost-all-dev has to be inst
 
     sudo apt-get install libboost-all-dev
 
- db4.8 packages are available [here](https://launchpad.net/~silknetwork/+archive/ubuntu/silknetwork).
+ db4.8 packages are available [here](https://launchpad.net/~bitcoin/+archive/ubuntu/bitcoin).
  You can add the repository using the following command:
 
-        sudo add-apt-repository ppa:silknetwork/silknetwork
+        sudo add-apt-repository ppa:bitcoin/bitcoin
         sudo apt-get update
 
  Ubuntu 12.04 and later have packages for libdb5.1-dev and libdb5.1++-dev,
@@ -148,7 +148,7 @@ Optional:
 Dependencies for the GUI: Ubuntu & Debian
 -----------------------------------------
 
-If you want to build Silk-Qt, make sure that the required packages for Qt development
+If you want to build Sequence-Qt, make sure that the required packages for Qt development
 are installed. Qt 5 is necessary to build the GUI.
 If both Qt 4 and Qt 5 are installed, Qt 5 will be used. Pass `--with-gui=qt5` to configure to choose Qt5.
 To build without GUI pass `--without-gui`.
@@ -161,12 +161,12 @@ libqrencode (optional) can be installed with:
 
     sudo apt-get install libqrencode-dev
 
-Once these are installed, they will be found by configure and a silk-qt executable will be
+Once these are installed, they will be found by configure and a sequence-qt executable will be
 built by default.
 
 Notes
 -----
-The release is built with GCC and then "strip silkd" to strip the debug
+The release is built with GCC and then "strip sequenced" to strip the debug
 symbols, which reduces the executable size by about 90%.
 
 
@@ -195,10 +195,10 @@ Berkeley DB
 It is recommended to use Berkeley DB 4.8. If you have to build it yourself:
 
 ```bash
-SILK_ROOT=$(pwd)
+SEQUENCE_ROOT=$(pwd)
 
-# Pick some path to install BDB to, here we create a directory within the silk directory
-BDB_PREFIX="${SILK_ROOT}/db4"
+# Pick some path to install BDB to, here we create a directory within the sequence directory
+BDB_PREFIX="${SEQUENCE_ROOT}/db4"
 mkdir -p $BDB_PREFIX
 
 # Fetch the source and verify that it is not tampered with
@@ -214,8 +214,8 @@ cd db-4.8.30.NC/build_unix/
 make 
 sudo make install
 
-# Configure Silk Core to use our own-built instance of BDB
-cd $SILK_ROOT
+# Configure Sequence to use our own-built instance of BDB
+cd $SEQUENCE_ROOT
 ./configure (other args...) LDFLAGS="-L${BDB_PREFIX}/lib/" CPPFLAGS="-I${BDB_PREFIX}/include/"
 ```
 
@@ -232,7 +232,7 @@ If you need to build Boost yourself:
 
 Security
 --------
-To help make your Silk installation more secure by making certain attacks impossible to
+To help make your Sequence installation more secure by making certain attacks impossible to
 exploit even if a vulnerability is found, binaries are hardened by default.
 This can be disabled with:
 
@@ -256,7 +256,7 @@ Hardening enables the following features:
 
     To test that you have built PIE executable, install scanelf, part of paxutils, and use:
 
-        scanelf -e ./silkd
+        scanelf -e ./sequenced
 
     The output should contain:
      TYPE
@@ -264,13 +264,13 @@ Hardening enables the following features:
 
 * Non-executable Stack
     If the stack is executable then trivial stack based buffer overflow exploits are possible if
-    vulnerable buffers are found. By default, silk should be built with a non-executable stack
+    vulnerable buffers are found. By default, sequence should be built with a non-executable stack
     but if one of the libraries it uses asks for an executable stack or someone makes a mistake
     and uses a compiler extension which requires an executable stack, it will silently build an
     executable without the non-executable stack protection.
 
     To verify that the stack is non-executable after compiling use:
-    `scanelf -e ./silkd`
+    `scanelf -e ./sequenced`
 
     the output should contain:
     STK/REL/PTL
@@ -280,7 +280,7 @@ Hardening enables the following features:
 
 Disable-wallet mode
 --------------------
-When the intention is to run only a P2P node without a wallet, silk may be compiled in
+When the intention is to run only a P2P node without a wallet, sequence may be compiled in
 disable-wallet mode with:
 
     ./configure --disable-wallet

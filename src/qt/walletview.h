@@ -1,17 +1,17 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_QT_WALLETVIEW_H
-#define SILK_QT_WALLETVIEW_H
+#ifndef SEQUENCE_QT_WALLETVIEW_H
+#define SEQUENCE_QT_WALLETVIEW_H
 
 #include "amount.h"
 
 #include <QStackedWidget>
 
-class SilkGUI;
+class SequenceGUI;
 class ClientModel;
 class OverviewPage;
 class ReceiveCoinsDialog;
@@ -41,13 +41,13 @@ public:
     explicit WalletView(QWidget *parent);
     ~WalletView();
 
-    void setSilkGUI(SilkGUI *gui);
+    void setSequenceGUI(SequenceGUI *gui);
     /** Set the client model.
         The client model represents the part of the core that communicates with the P2P network, and is wallet-agnostic.
     */
     void setClientModel(ClientModel *clientModel);
     /** Set the wallet model.
-        The wallet model represents a silk wallet, and offers access to the list of transactions, address book and sending
+        The wallet model represents a sequence wallet, and offers access to the list of transactions, address book and sending
         functionality.
     */
     void setWalletModel(WalletModel *walletModel);
@@ -130,4 +130,4 @@ Q_SIGNALS:
     void incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address);
 };
 
-#endif // SILK_QT_WALLETVIEW_H
+#endif // SEQUENCE_QT_WALLETVIEW_H

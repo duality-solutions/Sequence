@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,7 +11,7 @@
 #include "guiconstants.h"
 #include "guiutil.h"
 #include "optionsmodel.h"
-#include "silkunits.h"
+#include "sequenceunits.h"
 #include "transactionfilterproxy.h"
 #include "transactiontablemodel.h"
 #include "walletmodel.h"
@@ -28,7 +28,7 @@ class TxViewDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
 public:
-    TxViewDelegate(): QAbstractItemDelegate(), unit(SilkUnits::SLK)
+    TxViewDelegate(): QAbstractItemDelegate(), unit(SequenceUnits::SEQ)
     {
 
     }
@@ -84,7 +84,7 @@ public:
             foreground = option.palette.color(QPalette::Text);
         }
         painter->setPen(foreground);
-        QString amountText = SilkUnits::formatWithUnit(unit, amount, true, SilkUnits::separatorAlways);
+        QString amountText = SequenceUnits::formatWithUnit(unit, amount, true, SequenceUnits::separatorAlways);
         if(!confirmed)
         {
             amountText = QString("[") + amountText + QString("]");
@@ -122,10 +122,7 @@ OverviewPage::OverviewPage(QWidget *parent) :
     currentWatchImmatureBalance(-1),
     currentWatchOnlyStake(-1),
     txdelegate(new TxViewDelegate()),
-    filter(0),
-    fCamelVisibile(false),
-    movePixs(40),
-    timerId(0)
+    filter(0)
 {
     ui->setupUi(this);
 
@@ -143,10 +140,6 @@ OverviewPage::OverviewPage(QWidget *parent) :
 
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
-
-    // camel marching animation
-    gifCamel = new QMovie(":/movies/camel", "gif", this);
-    ui->labelCamel->setMovie(gifCamel);
 }
 
 void OverviewPage::handleTransactionClicked(const QModelIndex &index)
@@ -157,42 +150,7 @@ void OverviewPage::handleTransactionClicked(const QModelIndex &index)
 
 OverviewPage::~OverviewPage()
 {
-    if (timerId)
-        killTimer(timerId);
-
     delete ui;
-}
-
-void OverviewPage::showCamel()
-{
-    fCamelVisibile = false;
-    ui->labelCamel->move(QPoint(movePixs, ui->labelCamel->y()));
-    gifCamel->start();
-    ui->labelCamel->show();
-    timerId = startTimer(400);
-}
-
-void OverviewPage::hideCamel()
-{
-    fCamelVisibile = true;
-    gifCamel->stop();
-    ui->labelCamel->hide();
-}
-
-void OverviewPage::moveCamel()
-{
-    movePixs = movePixs + 10;
-    if (movePixs > 600)
-    {
-        movePixs = 40;
-        hideCamel();
-        killTimer(timerId);
-        timerId = startTimer(1);
-        killTimer(timerId);
-        timerId = 0;
-    }
-    else
-        ui->labelCamel->move(QPoint(movePixs, ui->labelCamel->y()));
 }
 
 void OverviewPage::setBalance(const CAmount& balance, const CAmount& total, const CAmount& stake, const CAmount& unconfirmedBalance,
@@ -210,15 +168,15 @@ void OverviewPage::setBalance(const CAmount& balance, const CAmount& total, cons
     currentWatchImmatureBalance = watchImmatureBalance;
     currentWatchOnlyStake = watchOnlyStake;
 
-    ui->labelBalance->setText(SilkUnits::formatWithUnit(unit, balance, false, SilkUnits::separatorAlways));
-    ui->labelTotal->setText(SilkUnits::formatWithUnit(unit, balance + unconfirmedBalance + immatureBalance + stake, false, SilkUnits::separatorAlways));
-    ui->labelStake->setText(SilkUnits::formatWithUnit(unit, stake, false, SilkUnits::separatorAlways));
-    ui->labelUnconfirmed->setText(SilkUnits::formatWithUnit(unit, unconfirmedBalance, false, SilkUnits::separatorAlways));
-    ui->labelImmature->setText(SilkUnits::formatWithUnit(unit, immatureBalance, false, SilkUnits::separatorAlways));
-    ui->labelWatchAvailable->setText(SilkUnits::formatWithUnit(unit, watchOnlyBalance, false, SilkUnits::separatorAlways));
-    ui->labelWatchPending->setText(SilkUnits::formatWithUnit(unit, watchUnconfBalance, false, SilkUnits::separatorAlways));
-    ui->labelWatchImmature->setText(SilkUnits::formatWithUnit(unit, watchImmatureBalance, false, SilkUnits::separatorAlways));
-    ui->labelWatchTotal->setText(SilkUnits::formatWithUnit(unit, watchOnlyBalance + watchUnconfBalance + watchImmatureBalance, false, SilkUnits::separatorAlways));
+    ui->labelBalance->setText(SequenceUnits::formatWithUnit(unit, balance, false, SequenceUnits::separatorAlways));
+    ui->labelTotal->setText(SequenceUnits::formatWithUnit(unit, balance + unconfirmedBalance + immatureBalance + stake, false, SequenceUnits::separatorAlways));
+    ui->labelStake->setText(SequenceUnits::formatWithUnit(unit, stake, false, SequenceUnits::separatorAlways));
+    ui->labelUnconfirmed->setText(SequenceUnits::formatWithUnit(unit, unconfirmedBalance, false, SequenceUnits::separatorAlways));
+    ui->labelImmature->setText(SequenceUnits::formatWithUnit(unit, immatureBalance, false, SequenceUnits::separatorAlways));
+    ui->labelWatchAvailable->setText(SequenceUnits::formatWithUnit(unit, watchOnlyBalance, false, SequenceUnits::separatorAlways));
+    ui->labelWatchPending->setText(SequenceUnits::formatWithUnit(unit, watchUnconfBalance, false, SequenceUnits::separatorAlways));
+    ui->labelWatchImmature->setText(SequenceUnits::formatWithUnit(unit, watchImmatureBalance, false, SequenceUnits::separatorAlways));
+    ui->labelWatchTotal->setText(SequenceUnits::formatWithUnit(unit, watchOnlyBalance + watchUnconfBalance + watchImmatureBalance, false, SequenceUnits::separatorAlways));
 
     // only show immature (newly mined) balance if it's non-zero, so as not to complicate things
     // for the non-mining users
@@ -293,7 +251,7 @@ void OverviewPage::setWalletModel(WalletModel *model)
         connect(model, SIGNAL(notifyWatchonlyChanged(bool)), this, SLOT(updateWatchOnlyLabels(bool)));
     }
 
-    // update the display unit, to not use the default ("SILK")
+    // update the display unit, to not use the default ("SEQUENCE")
     updateDisplayUnit();
 }
 
@@ -309,13 +267,6 @@ void OverviewPage::updateDisplayUnit()
         txdelegate->unit = walletModel->getOptionsModel()->getDisplayUnit();
 
         ui->listTransactions->update();
-        if (fCamelVisibile)
-        {
-            movePixs = 40;
-            showCamel(); 
-        }
-        else
-            hideCamel();
     }
 }
 
@@ -329,9 +280,4 @@ void OverviewPage::showOutOfSyncWarning(bool fShow)
 {
     ui->labelWalletStatus->setVisible(fShow);
     ui->labelTransactionsStatus->setVisible(fShow);
-}
-
-void OverviewPage::timerEvent(QTimerEvent *event)
-{
-    moveCamel();
 }

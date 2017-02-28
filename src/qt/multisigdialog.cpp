@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -185,7 +185,7 @@ void MultisigDialog::on_createAddressButton_clicked()
 
     if (IsInitialBlockDownload())
     {
-        QMessageBox::critical(this, tr("Multisig: Chain Download Incomplete!"), tr("Silk is downloading blocks..."));
+        QMessageBox::critical(this, tr("Multisig: Chain Download Incomplete!"), tr("Sequence is downloading blocks..."));
         return;
     }
 
@@ -249,7 +249,7 @@ void MultisigDialog::on_createAddressButton_clicked()
         }
         else
         {
-            CSilkAddress address(strAddressEntered);
+            CSequenceAddress address(strAddressEntered);
             if (pwalletMain && address.IsValid())
             {
                 bool fError = false;
@@ -284,7 +284,7 @@ void MultisigDialog::on_createAddressButton_clicked()
     {
         CScript script = GetScriptForMultisig(required, pubkeys);
         CScriptID scriptID = GetScriptID(script);
-        CSilkAddress multiSigAddress(scriptID);
+        CSequenceAddress multiSigAddress(scriptID);
         ui->multisigAddress->setText(multiSigAddress.ToString().c_str());
         ui->redeemScript->setText(HexStr(script.begin(), script.end()).c_str());
     }
@@ -292,7 +292,7 @@ void MultisigDialog::on_createAddressButton_clicked()
     {
         for(std::map<string,string>::iterator iter = myAddressList.begin(); iter != myAddressList.end(); ++iter)
         {
-            // TODO (Amir): If user agrees to advertise their public key using DDNS as a multisig name (fee = 0.001 SLK)
+            // TODO (Amir): If user agrees to advertise their public key using DDNS as a multisig name (fee = 0.001 SEQ)
             AdvertisePublicKeyForMultiSig(iter->first, iter->second);
         }
     }
@@ -346,9 +346,9 @@ void MultisigDialog::on_saveMultisigAddressButton_clicked()
     if(!pwalletMain->HaveCScript(scriptID))
         pwalletMain->AddCScript(script);
 
-    CSilkAddress silkMultiSigAddress(address);
-    if(!pwalletMain->mapAddressBook.count(silkMultiSigAddress.Get()))
-        pwalletMain->SetAddressBook(silkMultiSigAddress.Get(), label, "multisig address");
+    CSequenceAddress sequenceMultiSigAddress(address);
+    if(!pwalletMain->mapAddressBook.count(sequenceMultiSigAddress.Get()))
+        pwalletMain->SetAddressBook(sequenceMultiSigAddress.Get(), label, "multisig address");
 
 }
 
@@ -415,7 +415,7 @@ void MultisigDialog::on_createTransactionButton_clicked()
             if(entry->validate())
             {
                 SendCoinsRecipient recipient = entry->getValue();
-                CSilkAddress address(recipient.address.toStdString());
+                CSequenceAddress address(recipient.address.toStdString());
                 CScript scriptPubKey = GetScriptForDestination(address.Get());
                 CAmount amount = recipient.amount;
                 CTxOut output(amount, scriptPubKey);
@@ -488,7 +488,7 @@ void MultisigDialog::on_transaction_textChanged()
         CScript scriptPubKey = txout.scriptPubKey;
         CTxDestination addr;
         ExtractDestination(scriptPubKey, addr);
-        CSilkAddress address(addr);
+        CSequenceAddress address(addr);
         SendCoinsRecipient recipient;
         recipient.address = QString(address.ToString().c_str());
         recipient.amount = txout.nValue;
@@ -663,13 +663,13 @@ void MultisigDialog::on_sendTransactionButton_clicked()
     CAmount minFee = MIN_TX_FEE * (1 + (int64_t)transactionSize / 1000);
     if(fee < minFee)
     {
-        QMessageBox::StandardButton ret = QMessageBox::question(this, tr("Confirm send transaction"), tr("The fee of the transaction (%1 SLK) is smaller than the expected fee (%2 SLK). Do you want to send the transaction anyway?").arg((double) fee / COIN).arg((double) minFee / COIN), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel);
+        QMessageBox::StandardButton ret = QMessageBox::question(this, tr("Confirm send transaction"), tr("The fee of the transaction (%1 SEQ) is smaller than the expected fee (%2 SEQ). Do you want to send the transaction anyway?").arg((double) fee / COIN).arg((double) minFee / COIN), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel);
         if(ret != QMessageBox::Yes)
             return;
     }
     else if(fee > minFee)
     {
-        QMessageBox::StandardButton ret = QMessageBox::question(this, tr("Confirm send transaction"), tr("The fee of the transaction (%1 SLK) is bigger than the expected fee (%2 SLK). Do you want to send the transaction anyway?").arg((double) fee / COIN).arg((double) minFee / COIN), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel);
+        QMessageBox::StandardButton ret = QMessageBox::question(this, tr("Confirm send transaction"), tr("The fee of the transaction (%1 SEQ) is bigger than the expected fee (%2 SEQ). Do you want to send the transaction anyway?").arg((double) fee / COIN).arg((double) minFee / COIN), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel);
         if(ret != QMessageBox::Yes)
             return;
     }

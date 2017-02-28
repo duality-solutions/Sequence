@@ -11,13 +11,13 @@
   </array>
 
   <key>CFBundleIconFile</key>
-  <string>silk.icns</string>
+  <string>sequence.icns</string>
 
   <key>CFBundlePackageType</key>
   <string>APPL</string>
 
   <key>CFBundleGetInfoString</key>
-  <string>@CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@.@CLIENT_VERSION_REVISION@, Copyright © 2015-@COPYRIGHT_YEAR@ Silk Network</string>
+  <string>@CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@.@CLIENT_VERSION_REVISION@, Copyright © 2016-@COPYRIGHT_YEAR@ Duality Blockchain Solutions</string>
 
   <key>CFBundleShortVersionString</key>
   <string>@CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@.@CLIENT_VERSION_REVISION@</string>
@@ -29,10 +29,10 @@
   <string>????</string>
 
   <key>CFBundleExecutable</key>
-  <string>Silk-Qt</string>
+  <string>Sequence-Qt</string>
 
   <key>CFBundleIdentifier</key>
-  <string>com.silk.Silk-Qt</string>
+  <string>com.sequence.Sequence-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>
@@ -40,10 +40,10 @@
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>CFBundleURLName</key>
-      <string>com.silk.SilkPayment</string>
+      <string>com.sequence.SequencePayment</string>
       <key>CFBundleURLSchemes</key>
       <array>
-        <string>silk</string>
+        <string>sequence</string>
       </array>
     </dict>
   </array>
@@ -52,9 +52,9 @@
   <array>
     <dict>
       <key>UTTypeIdentifier</key>
-      <string>com.silk.paymentrequest</string>
+      <string>com.sequence.paymentrequest</string>
       <key>UTTypeDescription</key>
-      <string>Silk payment request</string>
+      <string>Sequence payment request</string>
       <key>UTTypeConformsTo</key>
       <array>
         <string>public.data</string>
@@ -62,10 +62,10 @@
       <key>UTTypeTagSpecification</key>
       <dict>
         <key>public.mime-type</key>
-        <string>application/x-silk-payment-request</string>
+        <string>application/x-sequence-payment-request</string>
         <key>public.filename-extension</key>
         <array>
-          <string>silkpaymentrequest</string>
+          <string>sequencepaymentrequest</string>
         </array>
       </dict>
     </dict>
@@ -78,7 +78,7 @@
       <string>Editor</string>
       <key>LSItemContentTypes</key>
       <array>
-        <string>com.silk.paymentrequest</string>
+        <string>com.sequence.paymentrequest</string>
       </array>
       <key>LSHandlerRank</key>
       <string>Owner</string>

@@ -1,16 +1,16 @@
-TOR SUPPORT IN SILK
+TOR SUPPORT IN SEQUENCE
 ======================
 
-It is possible to run silk as a Tor hidden service, and connect to such services.
+It is possible to run sequence as a Tor hidden service, and connect to such services.
 
 The following directions assume you have a Tor proxy running on port 9050. Many distributions default to having a SOCKS proxy listening on port 9050, but others may not. In particular, the Tor Browser Bundle defaults to listening on a random port. See [Tor Project FAQ:TBBSocksPort](https://www.torproject.org/docs/faq.html.en#TBBSocksPort) for how to properly
 configure Tor.
 
 
-1. Run silk behind a Tor proxy
+1. Run sequence behind a Tor proxy
 ---------------------------------
 
-The first step is running silk behind a Tor proxy. This will already make all
+The first step is running sequence behind a Tor proxy. This will already make all
 outgoing connections be anonymized, but more is possible.
 
 	-proxy=ip:port  Set the proxy server. If SOCKS5 is selected (default), this proxy
@@ -31,27 +31,27 @@ outgoing connections be anonymized, but more is possible.
 
 In a typical situation, this suffices to run behind a Tor proxy:
 
-	./silk -proxy=127.0.0.1:9050
+	./sequence -proxy=127.0.0.1:9050
 
 
-2. Run a silk hidden server
+2. Run a sequence hidden server
 ------------------------------
 
 If you configure your Tor system accordingly, it is possible to make your node also
 reachable from the Tor network. Add these lines to your /etc/tor/torrc (or equivalent
 config file):
 
-	HiddenServiceDir /var/lib/tor/silk-service/
+	HiddenServiceDir /var/lib/tor/sequence-service/
 	HiddenServicePort 16662 127.0.0.1:16662
 	HiddenServicePort 16664 127.0.0.1:16664
 
 The directory can be different of course, but (both) port numbers should be equal to
-your silkd's P2P listen port (16662 by default).
+your sequenced's P2P listen port (16662 by default).
 
-	-externalip=X   You can tell silk about its publicly reachable address using
+	-externalip=X   You can tell sequence about its publicly reachable address using
 	                this option, and this can be a .onion address. Given the above
 	                configuration, you can find your onion address in
-	                /var/lib/tor/silk-service/hostname. Onion addresses are given
+	                /var/lib/tor/sequence-service/hostname. Onion addresses are given
 	                preference for your node to advertize itself with, for connections
 	                coming from unroutable addresses (such as 127.0.0.1, where the
 	                Tor proxy typically runs).
@@ -68,18 +68,18 @@ your silkd's P2P listen port (16662 by default).
 
 In a typical situation, where you're only reachable via Tor, this should suffice:
 
-	./silkd -proxy=127.0.0.1:9050 -externalip=57qr3yd1nyntf5k.onion -listen
+	./sequenced -proxy=127.0.0.1:9050 -externalip=57qr3yd1nyntf5k.onion -listen
 
 (obviously, replace the Onion address with your own). If you don't care too much
 about hiding your node, and want to be reachable on IPv4 as well, additionally
 specify:
 
-	./silkd ... -discover
+	./sequenced ... -discover
 
 and open port 16662 on your firewall (or use -upnp).
 
 If you only want to use Tor to reach onion addresses, but not use it as a proxy
 for normal IPv4/IPv6 communication, use:
 
-	./silk -onion=127.0.0.1:9050 -externalip=57qr3yd1nyntf5k.onion -discover
+	./sequence -onion=127.0.0.1:9050 -externalip=57qr3yd1nyntf5k.onion -discover
 

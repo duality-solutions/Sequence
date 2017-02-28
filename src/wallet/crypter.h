@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_CRYPTER_H
-#define SILK_CRYPTER_H
+#ifndef SEQUENCE_CRYPTER_H
+#define SEQUENCE_CRYPTER_H
 
 #include "allocators.h"
 #include "keystore.h"
@@ -198,4 +198,4 @@ public:
     boost::signals2::signal<void (CCryptoKeyStore* wallet)> NotifyStatusChanged;
 };
 
-#endif // SILK_CRYPTER_H
+#endif // SEQUENCE_CRYPTER_H

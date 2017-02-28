@@ -1,14 +1,14 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_CRYPTO_COMMON_H
-#define SILK_CRYPTO_COMMON_H
+#ifndef SEQUENCE_CRYPTO_COMMON_H
+#define SEQUENCE_CRYPTO_COMMON_H
 
 #if defined(HAVE_CONFIG_H)
-#include "silk-config.h"
+#include "sequence-config.h"
 #endif
 
 #include <stdint.h>
@@ -65,4 +65,4 @@ void static inline WriteBE64(unsigned char* ptr, uint64_t x)
     *((uint64_t*)ptr) = htobe64(x);
 }
 
-#endif // SILK_CRYPTO_COMMON_H
+#endif // SEQUENCE_CRYPTO_COMMON_H

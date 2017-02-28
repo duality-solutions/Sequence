@@ -1,10 +1,10 @@
 // Copyright (c) 2015 The Bitcoin Core developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_MERKLE_H
-#define SILK_MERKLE_H
+#ifndef SEQUENCE_MERKLE_H
+#define SEQUENCE_MERKLE_H
 
 #include <stdint.h>
 #include <vector>
@@ -36,4 +36,4 @@ uint256 BlockMerkleRoot(const CBlock& block, bool* mutated = NULL);
  */
 std::vector<uint256> BlockMerkleBranch(const CBlock& block, uint32_t position);
 
-#endif // SILK_MERKLE_H
+#endif // SEQUENCE_MERKLE_H

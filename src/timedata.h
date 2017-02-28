@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_TIMEDATA_H
-#define SILK_TIMEDATA_H
+#ifndef SEQUENCE_TIMEDATA_H
+#define SEQUENCE_TIMEDATA_H
 
 #include <algorithm>
 #include <assert.h>
@@ -75,4 +75,4 @@ int64_t GetTimeOffset();
 int64_t GetAdjustedTime();
 void AddTimeData(const CNetAddr& ip, int64_t nTime);
 
-#endif // SILK_TIMEDATA_H
+#endif // SEQUENCE_TIMEDATA_H

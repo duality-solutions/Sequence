@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_QT_WALLETMODEL_H
-#define SILK_QT_WALLETMODEL_H
+#ifndef SEQUENCE_QT_WALLETMODEL_H
+#define SEQUENCE_QT_WALLETMODEL_H
 
 #include "paymentrequestplus.h"
 #include "walletmodeltransaction.h"
@@ -95,7 +95,7 @@ public:
     }
 };
 
-/** Interface to silk wallet from Qt view code. */
+/** Interface to sequence wallet from Qt view code. */
 class WalletModel : public QObject
 {
     Q_OBJECT
@@ -202,7 +202,7 @@ public:
     void lockCoin(COutPoint& output);
     void unlockCoin(COutPoint& output);
     void listLockedCoins(std::vector<COutPoint>& vOutpts);
-    bool isMine(const CSilkAddress &address);
+    bool isMine(const CSequenceAddress &address);
 
     void loadReceiveRequests(std::vector<std::string>& vReceiveRequests);
     bool saveReceiveRequest(const std::string &sAddress, const int64_t nId, const std::string &sRequest);
@@ -281,4 +281,4 @@ public Q_SLOTS:
     void pollBalanceChanged();
 };
 
-#endif // SILK_QT_WALLETMODEL_H
+#endif // SEQUENCE_QT_WALLETMODEL_H

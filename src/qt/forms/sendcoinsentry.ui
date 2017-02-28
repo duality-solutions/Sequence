@@ -51,7 +51,7 @@
       <item>
        <widget class="QValidatedLineEdit" name="payTo">
         <property name="toolTip">
-         <string>The Silk address to send the payment to</string>
+         <string>The Sequence address to send the payment to</string>
         </property>
        </widget>
       </item>
@@ -139,7 +139,7 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="SilkAmountField" name="payAmount">
+     <widget class="SequenceAmountField" name="payAmount">
       <property name="styleSheet">
        <string notr="true">color: rgb(51, 51, 51);</string>
       </property>
@@ -158,7 +158,7 @@
     <item row="3" column="1">
      <widget class="QLabel" name="messageTextLabel">
       <property name="toolTip">
-       <string>A message that was attached to the Silk: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Silk network.</string>
+       <string>A message that was attached to the Sequence: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Sequence network.</string>
       </property>
       <property name="textFormat">
        <enum>Qt::PlainText</enum>
@@ -664,7 +664,7 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="SilkAmountField" name="payAmount_is">
+     <widget class="SequenceAmountField" name="payAmount_is">
       <property name="acceptDrops">
        <bool>false</bool>
       </property>
@@ -1200,7 +1200,7 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="SilkAmountField" name="payAmount_s">
+     <widget class="SequenceAmountField" name="payAmount_s">
       <property name="acceptDrops">
        <bool>false</bool>
       </property>
@@ -1216,9 +1216,9 @@
    <header>qvalidatedlineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>SilkAmountField</class>
+   <class>SequenceAmountField</class>
    <extends>QLineEdit</extends>
-   <header>silkamountfield.h</header>
+   <header>sequenceamountfield.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -1234,7 +1234,7 @@
   <tabstop>deleteButton_s</tabstop>
  </tabstops>
  <resources>
-  <include location="../silk.qrc"/>
+  <include location="../sequence.qrc"/>
  </resources>
  <connections/>
 </ui>

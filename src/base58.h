@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -12,8 +12,8 @@
  * - E-mail usually won't line-break if there's no punctuation to break at.
  * - Double-clicking selects the whole number as one word if it's all alphanumeric.
  */
-#ifndef SILK_BASE58_H
-#define SILK_BASE58_H
+#ifndef SEQUENCE_BASE58_H
+#define SEQUENCE_BASE58_H
 
 #include "chainparams.h"
 #include "key.h"
@@ -95,13 +95,13 @@ public:
     bool operator> (const CBase58Data& b58) const { return CompareTo(b58) >  0; }
 };
 
-/** base58-encoded Silk addresses.
+/** base58-encoded Sequence addresses.
  * Public-key-hash-addresses have version 0 (or 111 testnet).
  * The data vector contains RIPEMD160(SHA256(pubkey)), where pubkey is the serialized public key.
  * Script-hash-addresses have version 5 (or 196 testnet).
  * The data vector contains RIPEMD160(SHA256(cscript)), where cscript is the serialized redemption script.
  */
-class CSilkAddress : public CBase58Data {
+class CSequenceAddress : public CBase58Data {
 public:
     bool Set(const CKeyID &id);
     bool Set(const CScriptID &id);
@@ -109,10 +109,10 @@ public:
     bool IsValid() const;
     bool IsValid(const CChainParams &params) const;
 
-    CSilkAddress() {}
-    CSilkAddress(const CTxDestination &dest) { Set(dest); }
-    CSilkAddress(const std::string& strAddress) { SetString(strAddress); }
-    CSilkAddress(const char* pszAddress) { SetString(pszAddress); }
+    CSequenceAddress() {}
+    CSequenceAddress(const CTxDestination &dest) { Set(dest); }
+    CSequenceAddress(const std::string& strAddress) { SetString(strAddress); }
+    CSequenceAddress(const char* pszAddress) { SetString(pszAddress); }
 
     CTxDestination Get() const;
     bool GetKeyID(CKeyID &keyID) const;
@@ -122,7 +122,7 @@ public:
 /**
  * A base58-encoded secret key
  */
-class CSilkSecret : public CBase58Data
+class CSequenceSecret : public CBase58Data
 {
 public:
     void SetKey(const CKey& vchSecret);
@@ -131,11 +131,11 @@ public:
     bool SetString(const char* pszSecret);
     bool SetString(const std::string& strSecret);
 
-    CSilkSecret(const CKey& vchSecret) { SetKey(vchSecret); }
-    CSilkSecret() {}
+    CSequenceSecret(const CKey& vchSecret) { SetKey(vchSecret); }
+    CSequenceSecret() {}
 };
 
-template<typename K, int Size, CChainParams::Base58Type Type> class CSilkExtKeyBase : public CBase58Data
+template<typename K, int Size, CChainParams::Base58Type Type> class CSequenceExtKeyBase : public CBase58Data
 {
 public:
     void SetKey(const K &key) {
@@ -150,14 +150,14 @@ public:
         return ret;
     }
 
-    CSilkExtKeyBase(const K &key) {
+    CSequenceExtKeyBase(const K &key) {
         SetKey(key);
     }
 
-    CSilkExtKeyBase() {}
+    CSequenceExtKeyBase() {}
 };
 
-typedef CSilkExtKeyBase<CExtKey, BIP32_EXTKEY_SIZE, CChainParams::EXT_SECRET_KEY> CSilkExtKey;
-typedef CSilkExtKeyBase<CExtPubKey, BIP32_EXTKEY_SIZE, CChainParams::EXT_PUBLIC_KEY> CSilkExtPubKey;
+typedef CSequenceExtKeyBase<CExtKey, BIP32_EXTKEY_SIZE, CChainParams::EXT_SECRET_KEY> CSequenceExtKey;
+typedef CSequenceExtKeyBase<CExtPubKey, BIP32_EXTKEY_SIZE, CChainParams::EXT_PUBLIC_KEY> CSequenceExtPubKey;
 
-#endif // SILK_BASE58_H
+#endif // SEQUENCE_BASE58_H

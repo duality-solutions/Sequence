@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -119,7 +119,7 @@ bool CECKey::SetPubKey(const unsigned char* pubkey, size_t size) {
 }
 
 bool CECKey::Verify(const uint256 &hash, const std::vector<unsigned char>& vchSigParam) {
-    // Prevent the problem described here: https://lists.linuxfoundation.org/pipermail/silk-dev/2015-July/009697.html
+    // Prevent the problem described here: https://lists.linuxfoundation.org/pipermail/sequence-dev/2015-July/009697.html
     // by removing the extra length bytes
     std::vector<unsigned char> vchSig(vchSigParam.begin(), vchSigParam.end());
     if (vchSig.size() > 1 && vchSig[1] & 0x80)

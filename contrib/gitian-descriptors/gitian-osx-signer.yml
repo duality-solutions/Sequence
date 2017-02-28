@@ -1,5 +1,5 @@
 ---
-name: "silk-dmg-signer"
+name: "sequence-dmg-signer"
 suites:
 - "trusty"
 architectures:
@@ -10,7 +10,7 @@ packages:
 reference_datetime: "2017-01-01 00:00:00"
 remotes: []
 files:
-- "silk-osx-unsigned.tar.gz"
+- "sequence-osx-unsigned.tar.gz"
 - "signature.tar.gz"
 script: |
   WRAP_DIR=$HOME/wrapped
@@ -28,10 +28,10 @@ script: |
     chmod +x ${WRAP_DIR}/${prog}
   done
 
-  UNSIGNED=silk-osx-unsigned.tar.gz
-  SIGNED=silk-osx-signed.dmg
+  UNSIGNED=sequence-osx-unsigned.tar.gz
+  SIGNED=sequence-osx-signed.dmg
 
   tar -xf ${UNSIGNED}
   ./detached-sig-apply.sh ${UNSIGNED} signature.tar.gz
-  ${WRAP_DIR}/genisoimage -no-cache-inodes -D -l -probe -V "Silk-Core" -no-pad -r -apple -o uncompressed.dmg signed-app
+  ${WRAP_DIR}/genisoimage -no-cache-inodes -D -l -probe -V "Sequence" -no-pad -r -apple -o uncompressed.dmg signed-app
   ${WRAP_DIR}/dmg dmg uncompressed.dmg ${OUTDIR}/${SIGNED}

@@ -1,9 +1,9 @@
 Gitian building
 ================
 
-*Setup instructions for a gitian build of silk using a Debian VM or physical system.*
+*Setup instructions for a gitian build of sequence using a Debian VM or physical system.*
 
-Gitian is the deterministic build process that is used to build the silk
+Gitian is the deterministic build process that is used to build the sequence
 Core executables. It provides a way to be reasonably sure that the
 executables are really built from source on GitHub. It also makes sure that
 the same, tested dependencies are used and statically built into the executable.
@@ -11,7 +11,7 @@ the same, tested dependencies are used and statically built into the executable.
 Multiple developers build the source code by following a specific descriptor
 ("recipe"), cryptographically sign the result, and upload the resulting signature.
 These results are compared and only if they match, the build is accepted and uploaded
-to silk.org.
+to sequence.org.
 
 More independent gitian builders are needed, which is why I wrote this
 guide. It is preferred to follow these steps yourself instead of using someone else's
@@ -26,7 +26,7 @@ Table of Contents
 - [Installing gitian](#installing-gitian)
 - [Setting up gitian images](#setting-up-gitian-images)
 - [Getting and building the inputs](#getting-and-building-the-inputs)
-- [Building silk](#building-silk)
+- [Building sequence](#building-sequence)
 - [Building an alternative repository](#building-an-alternative-repository)
 - [Signing externally](#signing-externally)
 - [Uploading signatures](#uploading-signatures)
@@ -41,7 +41,7 @@ Debian Linux was chosen as the host distribution because it has a lightweight in
 Any kind of virtualization can be used, for example:
 - [VirtualBox](https://www.virtualbox.org/), covered by this guide
 - [KVM](http://www.linux-kvm.org/page/Main_Page)
-- [LXC](https://linuxcontainers.org/), see also [Gitian host docker container](https://github.com/gdm85/tenku/tree/master/docker/gitian-silk-host/README.md).
+- [LXC](https://linuxcontainers.org/), see also [Gitian host docker container](https://github.com/gdm85/tenku/tree/master/docker/gitian-sequence-host/README.md).
 
 You can also install on actual hardware instead of using virtualization.
 
@@ -277,12 +277,12 @@ cd ..
 
 **Note**: When sudo asks for a password, enter the password for the user *debian* not for *root*.
 
-Clone the git repositories for silk and gitian and then checkout the silk version that you want to build.
+Clone the git repositories for sequence and gitian and then checkout the sequence version that you want to build.
 
 ```bash
 git clone https://github.com/devrandom/gitian-builder.git
-git clone https://github.com/silk/silk
-cd silk
+git clone https://github.com/sequence/sequence
+cd sequence
 git checkout v${VERSION}
 cd ..
 ```
@@ -310,16 +310,16 @@ There will be a lot of warnings printed during build of the images. These can be
 Getting and building the inputs
 --------------------------------
 
-Follow the instructions in [doc/release-process.md](release-process.md) in the silk repository
+Follow the instructions in [doc/release-process.md](release-process.md) in the sequence repository
 under 'Fetch and build inputs' to install sources which require manual intervention. Also follow
 the next step: 'Seed the Gitian sources cache', which will fetch all necessary source files allowing
 for gitian to work offline.
 
-Building silk
+Building sequence
 ----------------
 
-To build silk (for Linux, OSX and Windows) just follow the steps under 'perform
-gitian builds' in [doc/release-process.md](release-process.md) in the silk repository.
+To build sequence (for Linux, OSX and Windows) just follow the steps under 'perform
+gitian builds' in [doc/release-process.md](release-process.md) in the sequence repository.
 
 This may take a long time as it also builds the dependencies needed for each descriptor.
 These dependencies will be cached after a successful build to avoid rebuilding them when possible.
@@ -332,12 +332,12 @@ tail -f var/build.log
 
 Output from `gbuild` will look something like
 
-    Initialized empty Git repository in /home/debian/gitian-builder/inputs/silk/.git/
+    Initialized empty Git repository in /home/debian/gitian-builder/inputs/sequence/.git/
     remote: Reusing existing pack: 35606, done.
     remote: Total 35606 (delta 0), reused 0 (delta 0)
     Receiving objects: 100% (35606/35606), 26.52 MiB | 4.28 MiB/s, done.
     Resolving deltas: 100% (25724/25724), done.
-    From https://github.com/silk/silk
+    From https://github.com/sequence/sequence
     ... (new tags, new branch etc)
     --- Building for precise x86_64 ---
     Stopping target if it is up
@@ -363,11 +363,11 @@ and inputs.
 
 For example:
 ```bash
-URL=https://github.com/laanwj/silk.git
+URL=https://github.com/laanwj/sequence.git
 COMMIT=2014_03_windows_unicode_path
-./bin/gbuild --commit silk=${COMMIT} --url silk=${URL} ../silk/contrib/gitian-descriptors/gitian-linux.yml
-./bin/gbuild --commit silk=${COMMIT} --url silk=${URL} ../silk/contrib/gitian-descriptors/gitian-win.yml
-./bin/gbuild --commit silk=${COMMIT} --url silk=${URL} ../silk/contrib/gitian-descriptors/gitian-osx.yml
+./bin/gbuild --commit sequence=${COMMIT} --url sequence=${URL} ../sequence/contrib/gitian-descriptors/gitian-linux.yml
+./bin/gbuild --commit sequence=${COMMIT} --url sequence=${URL} ../sequence/contrib/gitian-descriptors/gitian-win.yml
+./bin/gbuild --commit sequence=${COMMIT} --url sequence=${URL} ../sequence/contrib/gitian-descriptors/gitian-osx.yml
 ```
 
 Signing externally
@@ -382,9 +382,9 @@ When you execute `gsign` you will get an error from GPG, which can be ignored. C
 in `gitian.sigs` to your signing machine and do
 
 ```bash
-    gpg --detach-sign ${VERSION}-linux/${SIGNER}/silk-build.assert
-    gpg --detach-sign ${VERSION}-win/${SIGNER}/silk-build.assert
-    gpg --detach-sign ${VERSION}-osx/${SIGNER}/silk-build.assert
+    gpg --detach-sign ${VERSION}-linux/${SIGNER}/sequence-build.assert
+    gpg --detach-sign ${VERSION}-win/${SIGNER}/sequence-build.assert
+    gpg --detach-sign ${VERSION}-osx/${SIGNER}/sequence-build.assert
 ```
 
 This will create the `.sig` files that can be committed together with the `.assert` files to assert your
@@ -394,5 +394,5 @@ Uploading signatures
 ---------------------
 
 After building and signing you can push your signatures (both the `.assert` and `.assert.sig` files) to the
-[silk/gitian.sigs](https://github.com/silk/gitian.sigs/) repository, or if that's not possible create a pull
+[sequence/gitian.sigs](https://github.com/sequence/gitian.sigs/) repository, or if that's not possible create a pull
 request. You can also mail the files to me (laanwj@gmail.com) and I'll commit them.

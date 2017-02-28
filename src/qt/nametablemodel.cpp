@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
 // Copyright (c) 2013-2017 Emercoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -294,11 +294,11 @@ QVariant NameTableModel::headerData(int section, Qt::Orientation orientation, in
             switch (section)
             {
             case Name:
-                return tr("Name registered using Silk.");
+                return tr("Name registered using Sequence.");
             case Value:
                 return tr("Data associated with the name.");
             case Address:
-                return tr("Silk address to which the name is registered.");
+                return tr("Sequence address to which the name is registered.");
             case ExpiresIn:
                 return tr("Number of blocks, after which the name will expire. Update name to renew it.");
             }

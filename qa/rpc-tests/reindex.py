@@ -6,12 +6,12 @@
 #
 # Test -reindex with CheckBlockIndex
 #
-from test_framework import silkTestFramework
-from silkrpc.authproxy import AuthServiceProxy, JSONRPCException
+from test_framework import sequenceTestFramework
+from sequencerpc.authproxy import AuthServiceProxy, JSONRPCException
 from util import *
 import os.path
 
-class ReindexTest(silkTestFramework):
+class ReindexTest(sequenceTestFramework):
 
     def setup_chain(self):
         print("Initializing test directory "+self.options.tmpdir)
@@ -25,7 +25,7 @@ class ReindexTest(silkTestFramework):
     def run_test(self):
         self.nodes[0].generate(3)
         stop_node(self.nodes[0], 0)
-        wait_silkds()
+        wait_sequenceds()
         self.nodes[0]=start_node(0, self.options.tmpdir, ["-debug", "-reindex", "-checkblockindex=1"])
         assert_equal(self.nodes[0].getblockcount(), 3)
         print "Success"

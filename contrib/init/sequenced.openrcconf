@@ -1,0 +1,27 @@
+# /etc/conf.d/sequenced: config file for /etc/init.d/sequenced
+
+# Config file location
+#SEQUENCED_CONFIGFILE="/etc/sequence/sequence.conf"
+
+# What directory to write pidfile to?  (created and owned by $SEQUENCED_USER)
+#SEQUENCED_PIDDIR="/var/run/sequenced"
+
+# What filename to give the pidfile
+#SEQUENCED_PIDFILE="${SEQUENCED_PIDDIR}/sequenced.pid"
+
+# Where to write sequenced data (be mindful that the blockchain is large)
+#SEQUENCED_DATADIR="/var/lib/sequenced"
+
+# User and group to own sequenced process
+#SEQUENCED_USER="sequence"
+#SEQUENCED_GROUP="sequence"
+
+# Path to sequenced executable
+#SEQUENCED_BIN="/usr/bin/sequenced"
+
+# Nice value to run sequenced under
+#SEQUENCED_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+SEQUENCED_OPTS="-disablewallet"
+

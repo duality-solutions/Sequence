@@ -1,22 +1,22 @@
 Multiwallet Qt Development and Integration Strategy
 ===================================================
 
-In order to support loading of multiple wallets in silk-qt, a few changes in the UI architecture will be needed.
+In order to support loading of multiple wallets in sequence-qt, a few changes in the UI architecture will be needed.
 Fortunately, only four of the files in the existing project are affected by this change.
 
 Two new classes have been implemented in two new .h/.cpp file pairs, with much of the functionality that was previously
-implemented in the SilkGUI class moved over to these new classes.
+implemented in the SequenceGUI class moved over to these new classes.
 
-The two existing files most affected, by far, are silkgui.h and silkgui.cpp, as the SilkGUI class will require
+The two existing files most affected, by far, are sequencegui.h and sequencegui.cpp, as the SequenceGUI class will require
 some major retrofitting.
 
-Only requiring some minor changes is silk.cpp.
+Only requiring some minor changes is sequence.cpp.
 
-Finally, two new headers and source files will have to be added to silk-qt.pro.
+Finally, two new headers and source files will have to be added to sequence-qt.pro.
 
-Changes to class SilkGUI
+Changes to class SequenceGUI
 ---------------------------
-The principal change to the SilkGUI class concerns the QStackedWidget instance called centralWidget.
+The principal change to the SequenceGUI class concerns the QStackedWidget instance called centralWidget.
 This widget owns five page views: overviewPage, transactionsPage, addressBookPage, receiveCoinsPage, and sendCoinsPage.
 
 A new class called *WalletView* inheriting from QStackedWidget has been written to handle all renderings and updates of
@@ -24,17 +24,17 @@ these page views. In addition to owning these five page views, a WalletView also
 This allows the construction of multiple WalletView objects, each rendering a distinct wallet.
 
 A second class called *WalletFrame* inheriting from QFrame has been written as a container for embedding all wallet-related
-controls into SilkGUI. At present it contains the WalletView instances for the wallets and does little more than passing on messages
-from SilkGUI to the currently selected WalletView. It is a WalletFrame instance
-that takes the place of what used to be centralWidget in SilkGUI. The purpose of this class is to allow future
-refinements of the wallet controls with minimal need for further modifications to SilkGUI, thus greatly simplifying
+controls into SequenceGUI. At present it contains the WalletView instances for the wallets and does little more than passing on messages
+from SequenceGUI to the currently selected WalletView. It is a WalletFrame instance
+that takes the place of what used to be centralWidget in SequenceGUI. The purpose of this class is to allow future
+refinements of the wallet controls with minimal need for further modifications to SequenceGUI, thus greatly simplifying
 merges while reducing the risk of breaking top-level stuff.
 
-Changes to silk.cpp
+Changes to sequence.cpp
 ----------------------
-silk.cpp is the entry point into silk-qt, and as such, will require some minor modifications to provide hooks for
+sequence.cpp is the entry point into sequence-qt, and as such, will require some minor modifications to provide hooks for
 multiple wallet support. Most importantly will be the way it instantiates WalletModels and passes them to the
-singleton SilkGUI instance called window. Formerly, SilkGUI kept a pointer to a single instance of a WalletModel.
+singleton SequenceGUI instance called window. Formerly, SequenceGUI kept a pointer to a single instance of a WalletModel.
 The initial change required is very simple: rather than calling `window.setWalletModel(&walletModel);` we perform the
 following two steps:
 

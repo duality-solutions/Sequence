@@ -1,5 +1,5 @@
 // Copyright (c) 2012-2017 The Bitcoin Core developers
-// Copyright (c) 2015-2017 Silk Network developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -342,11 +342,11 @@ BOOST_AUTO_TEST_CASE(test_IsStandard)
     string reason;
     BOOST_CHECK(IsStandardTx(t, reason));
 
-    // Silk minRelayTxFee is 10000, typical tx is dust below 5460 sat    
+    // Sequence minRelayTxFee is 10000, typical tx is dust below 5460 sat    
     t.vout[0].nValue = 5010; // dust
     BOOST_CHECK(!IsStandardTx(t, reason));
 
-    // Silk minRelayTxFee is 10000, typical tx is dust below 5460 sat
+    // Sequence minRelayTxFee is 10000, typical tx is dust below 5460 sat
     t.vout[0].nValue = 6010; // not dust
     BOOST_CHECK(IsStandardTx(t, reason));
 

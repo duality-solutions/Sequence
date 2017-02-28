@@ -7,13 +7,13 @@
 # Test the BIP66 changeover logic
 #
 
-from test_framework import silkTestFramework
-from silkrpc.authproxy import AuthServiceProxy, JSONRPCException
+from test_framework import sequenceTestFramework
+from sequencerpc.authproxy import AuthServiceProxy, JSONRPCException
 from util import *
 import os
 import shutil
 
-class BIP66Test(silkTestFramework):
+class BIP66Test(sequenceTestFramework):
 
     def setup_network(self):
         self.nodes = []

@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_QT_SPLASHSCREEN_H
-#define SILK_QT_SPLASHSCREEN_H
+#ifndef SEQUENCE_QT_SPLASHSCREEN_H
+#define SEQUENCE_QT_SPLASHSCREEN_H
 
 #include <QSplashScreen>
 
@@ -13,7 +13,7 @@ class NetworkStyle;
 
 /** Class for the splashscreen with information of the running client.
  *
- * @note this is intentionally not a QSplashScreen. Silk Core initialization
+ * @note this is intentionally not a QSplashScreen. Sequence initialization
  * can take a long time, and in that case a progress window that cannot be
  * moved around and minimized has turned out to be frustrating to the user.
  */
@@ -48,4 +48,4 @@ private:
     int curAlignment;
 };
 
-#endif // SILK_QT_SPLASHSCREEN_H
+#endif // SEQUENCE_QT_SPLASHSCREEN_H

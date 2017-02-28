@@ -1,5 +1,5 @@
-// Copyright (c) 2017 The Silk Core developers
-// Copyright (c) 2017 The Silk Network developers
+// Copyright (c) 2017 The Sequence developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 

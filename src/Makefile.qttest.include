@@ -1,5 +1,5 @@
-bin_PROGRAMS += qt/test/test_silk-qt
-TESTS += qt/test/test_silk-qt
+bin_PROGRAMS += qt/test/test_sequence-qt
+TESTS += qt/test/test_sequence-qt
 
 TEST_QT_MOC_CPP = qt/test/moc_uritests.cpp
 
@@ -12,37 +12,37 @@ TEST_QT_H = \
   qt/test/paymentrequestdata.h \
   qt/test/paymentservertests.h
 
-qt_test_test_silk_qt_CPPFLAGS = $(SILK_INCLUDES) $(SILK_QT_INCLUDES) \
+qt_test_test_sequence_qt_CPPFLAGS = $(SEQUENCE_INCLUDES) $(SEQUENCE_QT_INCLUDES) \
   $(QT_INCLUDES) $(QT_TEST_INCLUDES) $(PROTOBUF_CFLAGS)
 
-qt_test_test_silk_qt_SOURCES = \
+qt_test_test_sequence_qt_SOURCES = \
   qt/test/test_main.cpp \
   qt/test/uritests.cpp \
   $(TEST_QT_H)
 if ENABLE_WALLET
-qt_test_test_silk_qt_SOURCES += \
+qt_test_test_sequence_qt_SOURCES += \
   qt/test/paymentservertests.cpp
 endif
 
-nodist_qt_test_test_silk_qt_SOURCES = $(TEST_QT_MOC_CPP)
+nodist_qt_test_test_sequence_qt_SOURCES = $(TEST_QT_MOC_CPP)
 
-qt_test_test_silk_qt_LDADD = $(LIBSILKQT) $(LIBSILK_SERVER)
+qt_test_test_sequence_qt_LDADD = $(LIBSEQUENCEQT) $(LIBSEQUENCE_SERVER)
 if ENABLE_WALLET
-qt_test_test_silk_qt_LDADD += $(LIBSILK_WALLET)
+qt_test_test_sequence_qt_LDADD += $(LIBSEQUENCE_WALLET)
 endif
-qt_test_test_silk_qt_LDADD += $(LIBSILK_CLI) $(LIBSILK_COMMON) $(LIBSILK_UTIL) $(LIBSILK_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) \
+qt_test_test_sequence_qt_LDADD += $(LIBSEQUENCE_CLI) $(LIBSEQUENCE_COMMON) $(LIBSEQUENCE_UTIL) $(LIBSEQUENCE_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) \
   $(LIBMEMENV) $(BOOST_LIBS) $(QT_DBUS_LIBS) $(QT_TEST_LIBS) $(QT_LIBS) \
   $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(LIBSECP256K1)
-qt_test_test_silk_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+qt_test_test_sequence_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
-CLEAN_SILK_QT_TEST = $(TEST_QT_MOC_CPP) qt/test/*.gcda qt/test/*.gcno
+CLEAN_SEQUENCE_QT_TEST = $(TEST_QT_MOC_CPP) qt/test/*.gcda qt/test/*.gcno
 
-CLEANFILES += $(CLEAN_SILK_QT_TEST)
+CLEANFILES += $(CLEAN_SEQUENCE_QT_TEST)
 
-test_silk_qt : qt/test/test_silk-qt$(EXEEXT)
+test_sequence_qt : qt/test/test_sequence-qt$(EXEEXT)
 
-test_silk_qt_check : qt/test/test_silk-qt$(EXEEXT) FORCE
+test_sequence_qt_check : qt/test/test_sequence-qt$(EXEEXT) FORCE
 	$(MAKE) check-TESTS TESTS=$^
 
-test_silk_qt_clean: FORCE
-	rm -f $(CLEAN_SILK_QT_TEST) $(qt_test_test_silk_qt_OBJECTS)
+test_sequence_qt_clean: FORCE
+	rm -f $(CLEAN_SEQUENCE_QT_TEST) $(qt_test_test_sequence_qt_OBJECTS)

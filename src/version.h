@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_VERSION_H
-#define SILK_VERSION_H
+#ifndef SEQUENCE_VERSION_H
+#define SEQUENCE_VERSION_H
 
 /**
  * network protocol versioning
@@ -36,4 +36,4 @@ static const int BIP0031_VERSION = 60200;
 //! "mempool" command, enhanced "getdata" behavior starts with this version
 static const int MEMPOOL_GD_VERSION = 60200;
 
-#endif // SILK_VERSION_H
+#endif // SEQUENCE_VERSION_H

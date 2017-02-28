@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_CONSENSUS_PARAMS_H
-#define SILK_CONSENSUS_PARAMS_H
+#ifndef SEQUENCE_CONSENSUS_PARAMS_H
+#define SEQUENCE_CONSENSUS_PARAMS_H
 
 #include "uint256.h"
 
@@ -51,4 +51,4 @@ struct Params {
 };
 } // namespace Consensus
 
-#endif // SILK_CONSENSUS_PARAMS_H
+#endif // SEQUENCE_CONSENSUS_PARAMS_H

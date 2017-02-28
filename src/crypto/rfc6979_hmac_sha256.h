@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_RFC6979_HMAC_SHA256_H
-#define SILK_RFC6979_HMAC_SHA256_H
+#ifndef SEQUENCE_RFC6979_HMAC_SHA256_H
+#define SEQUENCE_RFC6979_HMAC_SHA256_H
 
 #include "crypto/hmac_sha256.h"
 
@@ -35,4 +35,4 @@ public:
     ~RFC6979_HMAC_SHA256();
 };
 
-#endif // SILK_RFC6979_HMAC_SHA256_H
+#endif // SEQUENCE_RFC6979_HMAC_SHA256_H

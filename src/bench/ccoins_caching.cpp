@@ -1,4 +1,4 @@
-// Copyright (c) 2017 The Silk Network developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Copyright (c) 2017 The BitCoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -53,7 +53,7 @@ SetupDummyInputs(CBasicKeyStore& keystoreRet, CCoinsViewCache& coinsRet)
 // many times micro-benchmarks of the database showed completely different
 // characteristics than e.g. reindex timings. But that's not a requirement of
 // every benchmark."
-// (https://github.com/silk/silk/issues/7883#issuecomment-224807484)
+// (https://github.com/sequence/sequence/issues/7883#issuecomment-224807484)
 static void CCoinsCaching(benchmark::State& state)
 {
     CBasicKeyStore keystore;

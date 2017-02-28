@@ -6,13 +6,13 @@ and tests weren't explicitly disabled.
 
 After configuring, they can be run with 'make check'.
 
-To run the silkd tests manually, launch src/test/test_silk .
+To run the sequenced tests manually, launch src/test/test_sequence .
 
-To add more silkd tests, add `BOOST_AUTO_TEST_CASE` functions to the existing
+To add more sequenced tests, add `BOOST_AUTO_TEST_CASE` functions to the existing
 .cpp files in the test/ directory or add new .cpp files that
 implement new BOOST_AUTO_TEST_SUITE sections.
 
-To run the silk-qt tests manually, launch src/qt/test/silk-qt_test
+To run the sequence-qt tests manually, launch src/qt/test/sequence-qt_test
 
-To add more silk-qt tests, add them to the `src/qt/test/` directory and
+To add more sequence-qt tests, add them to the `src/qt/test/` directory and
 the `src/qt/test/test_main.cpp` file.

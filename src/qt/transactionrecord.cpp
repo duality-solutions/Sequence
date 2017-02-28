@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -45,7 +45,7 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
     uint256 hash = wtx.GetHash();
     std::map<std::string, std::string> mapValue = wtx.mapValue;
 
-    if (wtx.nVersion == NAMECOIN_TX_VERSION) // Silk: name transaction
+    if (wtx.nVersion == NAMECOIN_TX_VERSION) // Sequence: name transaction
     {
         std::string address = "failed to get address";
         for (unsigned int nOut = 0; nOut < wtx.vout.size(); nOut++)
@@ -63,7 +63,7 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
         CTxDestination address;
         if (ExtractDestination(wtx.vout[1].scriptPubKey, address))
         {
-            txrCoinStake.address = CSilkAddress(address).ToString();
+            txrCoinStake.address = CSequenceAddress(address).ToString();
         }
 
         parts.append(txrCoinStake); // Stake generation
@@ -85,9 +85,9 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
                 sub.involvesWatchAddress = mine == ISMINE_WATCH_ONLY;
                 if (ExtractDestination(txout.scriptPubKey, address) && IsMine(*wallet, address))
                 {
-                    // Received by silk Address
+                    // Received by sequence Address
                     sub.type = TransactionRecord::RecvWithAddress;
-                    sub.address = CSilkAddress(address).ToString();
+                    sub.address = CSequenceAddress(address).ToString();
                 }
                 else
                 {
@@ -157,9 +157,9 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
                 CTxDestination address;
                 if (ExtractDestination(txout.scriptPubKey, address))
                 {
-                    // Sent to silk Address
+                    // Sent to sequence Address
                     sub.type = TransactionRecord::SendToAddress;
-                    sub.address = CSilkAddress(address).ToString();
+                    sub.address = CSequenceAddress(address).ToString();
                 }
                 else
                 {

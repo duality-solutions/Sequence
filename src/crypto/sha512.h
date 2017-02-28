@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_CRYPTO_SHA512_H
-#define SILK_CRYPTO_SHA512_H
+#ifndef SEQUENCE_CRYPTO_SHA512_H
+#define SEQUENCE_CRYPTO_SHA512_H
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -27,4 +27,4 @@ public:
     CSHA512& Reset();
 };
 
-#endif // SILK_CRYPTO_SHA512_H
+#endif // SEQUENCE_CRYPTO_SHA512_H

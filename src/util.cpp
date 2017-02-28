@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "config/silk-config.h"
+#include "config/sequence-config.h"
 #endif
 
 #include "util.h"
@@ -368,7 +368,7 @@ static std::string FormatException(const std::exception* pex, const char* pszThr
     char pszModule[MAX_PATH] = "";
     GetModuleFileNameA(NULL, pszModule, sizeof(pszModule));
 #else
-    const char* pszModule = "silk";
+    const char* pszModule = "sequence";
 #endif
     if (pex)
         return strprintf(
@@ -389,13 +389,13 @@ void PrintExceptionContinue(const std::exception* pex, const char* pszThread)
 boost::filesystem::path GetDefaultDataDir()
 {
     namespace fs = boost::filesystem;
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\silk
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\silk
-    // Mac: ~/Library/Application Support/silk
-    // Unix: ~/.silk
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\sequence
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\sequence
+    // Mac: ~/Library/Application Support/sequence
+    // Unix: ~/.sequence
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "Silk";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "Sequence";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -407,10 +407,10 @@ boost::filesystem::path GetDefaultDataDir()
     // Mac
     pathRet /= "Library/Application Support";
     TryCreateDirectory(pathRet);
-    return pathRet / "Silk";
+    return pathRet / "Sequence";
 #else
     // Unix
-    return pathRet / ".silk";
+    return pathRet / ".sequence";
 #endif
 #endif
 }
@@ -520,7 +520,7 @@ void ClearDatadirCache()
 
 boost::filesystem::path GetConfigFile()
 {
-    boost::filesystem::path pathConfigFile(GetArg("-conf", "silk.conf"));
+    boost::filesystem::path pathConfigFile(GetArg("-conf", "sequence.conf"));
     if (!pathConfigFile.is_complete())
         pathConfigFile = GetDataDir(false) / pathConfigFile;
 
@@ -533,12 +533,12 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
     boost::filesystem::ifstream streamConfig(GetConfigFile());
 
     if (!streamConfig.good()){
-        // Create silk.conf if it does not exist
+        // Create sequence.conf if it does not exist
         FILE* configFile = fopen(GetConfigFile().string().c_str(), "a");
         if (configFile != NULL) {
-            // Write silk.conf file with random username and password.
+            // Write sequence.conf file with random username and password.
             WriteConfigFile(configFile);
-            // New silk.conf file written, now read it.
+            // New sequence.conf file written, now read it.
         }
     }
 
@@ -547,7 +547,7 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
 
     for (boost::program_options::detail::config_file_iterator it(streamConfig, setOptions), end; it != end; ++it)
     {
-        // Don't overwrite existing settings so command line settings override silk.conf
+        // Don't overwrite existing settings so command line settings override sequence.conf
         string strKey = string("-") + it->string_key;
         if (mapSettingsRet.count(strKey) == 0)
         {
@@ -564,7 +564,7 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
 #ifndef WIN32
 boost::filesystem::path GetPidFile()
 {
-    boost::filesystem::path pathPidFile(GetArg("-pid", "silkd.pid"));
+    boost::filesystem::path pathPidFile(GetArg("-pid", "sequenced.pid"));
     if (!pathPidFile.is_complete()) pathPidFile = GetDataDir() / pathPidFile;
     return pathPidFile;
 }

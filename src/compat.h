@@ -1,14 +1,14 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_COMPAT_H
-#define SILK_COMPAT_H
+#ifndef SEQUENCE_COMPAT_H
+#define SEQUENCE_COMPAT_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/silk-config.h"
+#include "config/sequence-config.h"
 #endif
 
 #ifdef WIN32
@@ -100,4 +100,4 @@ bool static inline IsSelectableSocket(SOCKET s) {
 #endif
 }
 
-#endif // SILK_COMPAT_H
+#endif // SEQUENCE_COMPAT_H

@@ -1,15 +1,15 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
 // Copyright (c) 2013-2017 Emercoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_MAIN_H
-#define SILK_MAIN_H
+#ifndef SEQUENCE_MAIN_H
+#define SEQUENCE_MAIN_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/silk-config.h"
+#include "config/sequence-config.h"
 #endif
 
 #include "amount.h"
@@ -124,7 +124,7 @@ static const bool DEFAULT_CHECKPOINTS_ENABLED = true;
 /** Maximum number of headers to announce when relaying blocks with headers message.*/
 static const unsigned int MAX_BLOCKS_TO_ANNOUNCE = 12;
 
-/** silk constants */
+/** sequence constants */
 static const CAmount STATIC_POW_REWARD = 0 * COIN;
 static const CAmount STATIC_POS_REWARD = 2 * COIN;
 static const CAmount MIN_TXOUT_AMOUNT = MIN_TX_FEE;
@@ -229,7 +229,7 @@ bool GetTransaction(const uint256 &hash, CTransaction &tx, const Consensus::Para
 /** Find the best known block, and make it the tip of the block chain */
 bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams, CBlock *pblock = NULL, CBlockIndex *pindexSwitchTo = NULL);
 
-// Silk: reward for blocks
+// Sequence: reward for blocks
 CAmount GetProofOfWorkReward();
 CAmount GetProofOfStakeReward();
 
@@ -517,4 +517,4 @@ extern CCoinsViewCache *pcoinsTip;
 /** Global variable that points to the active block tree (protected by cs_main) */
 extern CBlockTreeDB *pblocktree;
 
-#endif // SILK_MAIN_H
+#endif // SEQUENCE_MAIN_H

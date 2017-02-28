@@ -1,12 +1,12 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
 // Copyright (c) 2013-2017 Emercoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_PRIMITIVES_BLOCK_H
-#define SILK_PRIMITIVES_BLOCK_H
+#ifndef SEQUENCE_PRIMITIVES_BLOCK_H
+#define SEQUENCE_PRIMITIVES_BLOCK_H
 
 #include "hash.h"
 #include "serialize.h"
@@ -44,7 +44,7 @@ public:
     uint32_t nBits;
     uint32_t nNonce;
 
-    // Silk: copy from CBlockIndex.nFlags from other clients. We need this information because we are using headers-first syncronization.
+    // Sequence: copy from CBlockIndex.nFlags from other clients. We need this information because we are using headers-first syncronization.
     int32_t nFlags;
 
 
@@ -226,4 +226,4 @@ struct CBlockLocator
     }
 };
 
-#endif // SILK_PRIMITIVES_BLOCK_H
+#endif // SEQUENCE_PRIMITIVES_BLOCK_H

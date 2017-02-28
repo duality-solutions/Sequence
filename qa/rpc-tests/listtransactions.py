@@ -5,8 +5,8 @@
 
 # Exercise the listtransactions API
 
-from test_framework import silkTestFramework
-from silkrpc.authproxy import AuthServiceProxy, JSONRPCException
+from test_framework import sequenceTestFramework
+from sequencerpc.authproxy import AuthServiceProxy, JSONRPCException
 from util import *
 
 
@@ -31,7 +31,7 @@ def check_array_result(object_array, to_match, expected):
     if num_matched == 0:
         raise AssertionError("No objects matched %s"%(str(to_match)))
 
-class ListTransactionsTest(silkTestFramework):
+class ListTransactionsTest(sequenceTestFramework):
 
     def run_test(self):
         # Simple send, 0 to 1:

@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -101,7 +101,7 @@ namespace Checkpoints {
 } // namespace Checkpoints
 
 
-// Silk: check if we have a chain of blocks from pindex to chainActive.Tip()
+// Sequence: check if we have a chain of blocks from pindex to chainActive.Tip()
 static bool haveBlocksUpTo(const CBlockIndex* pindex)
 {
     const CBlockIndex* pindexEnd = chainActive.Tip();
@@ -398,7 +398,7 @@ bool SendSyncCheckpoint(uint256 hashCheckpoint)
 
 
 
-// Silk: sync-checkpoint master key
+// Sequence: sync-checkpoint master key
 const std::string CSyncCheckpoint::strMasterPubKey = "04adff441e5180929b1a21b29cca132bb8581d6e4d2230dfebe0ac43c18dae124373eb4bedb1a390df20b2861ccded107704cbcf8ffd1e077b5fd5a8b8090cfdfc";
 std::string CSyncCheckpoint::strMasterPrivKey = "";
 

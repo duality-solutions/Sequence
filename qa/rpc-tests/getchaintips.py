@@ -7,13 +7,13 @@
 # on chains of different lengths, and join the network together again.
 # This gives us two tips, verify that it works.
 
-from test_framework import silkTestFramework
+from test_framework import sequenceTestFramework
 from util import assert_equal
 
-class GetChainTipsTest (silkTestFramework):
+class GetChainTipsTest (sequenceTestFramework):
 
     def run_test (self):
-        silkTestFramework.run_test (self)
+        sequenceTestFramework.run_test (self)
 
         tips = self.nodes[0].getchaintips ()
         assert_equal (len (tips), 1)

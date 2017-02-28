@@ -1,5 +1,5 @@
 // Copyright (c) 2015 The BitCoin Core developers
-// Copyright (c) 2017 The Silk Network developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -348,7 +348,7 @@ static bool WriteBinaryFile(const std::string &filename, const std::string &data
     return true;
 }
 
-/****** Silk specific TorController implementation ********/
+/****** Sequence specific TorController implementation ********/
 
 /** Controller that connects to Tor control socket, authenticate, then create
  * and maintain a ephemeral hidden service.

@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_CHAIN_H
-#define SILK_CHAIN_H
+#ifndef SEQUENCE_CHAIN_H
+#define SEQUENCE_CHAIN_H
 
 #include "primitives/block.h"
 #include "pow.h"
@@ -490,4 +490,4 @@ public:
     const CBlockIndex *FindFork(const CBlockIndex *pindex) const;
 };
 
-#endif // SILK_CHAIN_H
+#endif // SEQUENCE_CHAIN_H

@@ -9,10 +9,10 @@ A small script to automate merging pull-requests securely and sign them with GPG
 
 For example:
 
-  ./github-merge.sh silk/silk 3077
+  ./github-merge.sh sequence/sequence 3077
 
 (in any git repository) will help you merge pull request #3077 for the
-silk/silk repository.
+sequence/sequence repository.
 
 What it does:
 * Fetch master and the pull request.
@@ -30,9 +30,9 @@ couldn't mess with the sources.
 
 Setup
 ---------
-Configuring the github-merge tool for the silk repository is done in the following way:
+Configuring the github-merge tool for the sequence repository is done in the following way:
 
-    git config githubmerge.repository silk/silk
+    git config githubmerge.repository sequence/sequence
     git config githubmerge.testcmd "make -j4 check" (adapt to whatever you want to use for testing)
     git config --global user.signingkey mykeyid (if you want to GPG sign)
 
@@ -64,10 +64,10 @@ If only supported symbols are used the return value will be 0 and the output wil
 
 If there are 'unsupported' symbols, the return value will be 1 a list like this will be printed:
 
-    .../64/test_Silk: symbol memcpy from unsupported version GLIBC_2.14
-    .../64/test_Silk: symbol __fdelt_chk from unsupported version GLIBC_2.15
-    .../64/test_Silk: symbol std::out_of_range::~out_of_range() from unsupported version GLIBCXX_3.4.15
-    .../64/test_Silk: symbol _ZNSt8__detail15_List_nod from unsupported version GLIBCXX_3.4.15
+    .../64/test_Sequence: symbol memcpy from unsupported version GLIBC_2.14
+    .../64/test_Sequence: symbol __fdelt_chk from unsupported version GLIBC_2.15
+    .../64/test_Sequence: symbol std::out_of_range::~out_of_range() from unsupported version GLIBCXX_3.4.15
+    .../64/test_Sequence: symbol _ZNSt8__detail15_List_nod from unsupported version GLIBCXX_3.4.15
 
 update-translations.py
 =======================

@@ -1,12 +1,12 @@
 // Copyright (c) 2012-2017 Pieter Wuille
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_ADDRMAN_H
-#define SILK_ADDRMAN_H
+#ifndef SEQUENCE_ADDRMAN_H
+#define SEQUENCE_ADDRMAN_H
 
 #include "netbase.h"
 #include "protocol.h"
@@ -581,4 +581,4 @@ public:
     
 };
 
-#endif // SILK_ADDRMAN_H
+#endif // SEQUENCE_ADDRMAN_H

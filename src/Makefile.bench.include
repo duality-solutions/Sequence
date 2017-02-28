@@ -1,15 +1,15 @@
 # Copyright (c) 2015-2017 The Bitcoin Core developers
-# Copyright (c) 2015-2017 The Silk Network developers
+# Copyright (c) 2016-2017 The Duality Blockchain Solutions developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-bin_PROGRAMS += bench/bench_silk
+bin_PROGRAMS += bench/bench_sequence
 BENCH_SRCDIR = bench
-BENCH_BINARY = bench/bench_silk$(EXEEXT)
+BENCH_BINARY = bench/bench_sequence$(EXEEXT)
 
 
-bench_bench_silk_SOURCES = \
-  bench/bench_silk.cpp \
+bench_bench_sequence_SOURCES = \
+  bench/bench_sequence.cpp \
   bench/bench.cpp \
   bench/bench.h \
   bench/Examples.cpp \
@@ -20,39 +20,39 @@ bench_bench_silk_SOURCES = \
   bench/verify_script.cpp \
   bench/base58.cpp
 
-bench_bench_silk_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES) $(EVENT_CLFAGS) $(EVENT_PTHREADS_CFLAGS) -I$(builddir)/bench/
-bench_bench_silk_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-bench_bench_silk_LDADD = \
-  $(LIBSILK_SERVER) \
-  $(LIBSILK_COMMON) \
-  $(LIBSILK_UTIL) \
-  $(LIBSILK_CONSENSUS) \
-  $(LIBSILK_CRYPTO) \
+bench_bench_sequence_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES) $(EVENT_CLFAGS) $(EVENT_PTHREADS_CFLAGS) -I$(builddir)/bench/
+bench_bench_sequence_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+bench_bench_sequence_LDADD = \
+  $(LIBSEQUENCE_SERVER) \
+  $(LIBSEQUENCE_COMMON) \
+  $(LIBSEQUENCE_UTIL) \
+  $(LIBSEQUENCE_CONSENSUS) \
+  $(LIBSEQUENCE_CRYPTO) \
   $(LIBLEVELDB) \
   $(LIBMEMENV) \
   $(LIBSECP256K1) \
   $(LIBUNIVALUE)
 
 if ENABLE_ZMQ
-bench_bench_silk_LDADD += $(LIBSILK_ZMQ) $(ZMQ_LIBS)
+bench_bench_sequence_LDADD += $(LIBSEQUENCE_ZMQ) $(ZMQ_LIBS)
 endif
 
 if ENABLE_WALLET
-bench_bench_silk_SOURCES += bench/coin_selection.cpp
-bench_bench_silk_LDADD += $(LIBSILK_WALLET) $(LIBSILK_CRYPTO)
+bench_bench_sequence_SOURCES += bench/coin_selection.cpp
+bench_bench_sequence_LDADD += $(LIBSEQUENCE_WALLET) $(LIBSEQUENCE_CRYPTO)
 endif
 
-bench_bench_silk_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
-bench_bench_silk_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+bench_bench_sequence_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
+bench_bench_sequence_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
-CLEAN_SILK_BENCH = bench/*.gcda bench/*.gcno
+CLEAN_SEQUENCE_BENCH = bench/*.gcda bench/*.gcno
 
-CLEANFILES += $(CLEAN_SILK_BENCH)
+CLEANFILES += $(CLEAN_SEQUENCE_BENCH)
 
-silk_bench: $(BENCH_BINARY)
+sequence_bench: $(BENCH_BINARY)
 
 bench: $(BENCH_BINARY) FORCE
 	$(BENCH_BINARY)
 
-silk_bench_clean : FORCE
-	rm -f $(CLEAN_SILK_BENCH) $(bench_bench_silk_OBJECTS) $(BENCH_BINARY)
+sequence_bench_clean : FORCE
+	rm -f $(CLEAN_SEQUENCE_BENCH) $(bench_bench_sequence_OBJECTS) $(BENCH_BINARY)

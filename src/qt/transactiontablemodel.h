@@ -1,13 +1,13 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_QT_TRANSACTIONTABLEMODEL_H
-#define SILK_QT_TRANSACTIONTABLEMODEL_H
+#ifndef SEQUENCE_QT_TRANSACTIONTABLEMODEL_H
+#define SEQUENCE_QT_TRANSACTIONTABLEMODEL_H
 
-#include "silkunits.h"
+#include "sequenceunits.h"
 
 #include <QAbstractTableModel>
 #include <QStringList>
@@ -92,7 +92,7 @@ private:
     QString formatTxDate(const TransactionRecord *wtx) const;
     QString formatTxType(const TransactionRecord *wtx) const;
     QString formatTxToAddress(const TransactionRecord *wtx, bool tooltip) const;
-    QString formatTxAmount(const TransactionRecord *wtx, bool showUnconfirmed=true, SilkUnits::SeparatorStyle separators=SilkUnits::separatorStandard) const;
+    QString formatTxAmount(const TransactionRecord *wtx, bool showUnconfirmed=true, SequenceUnits::SeparatorStyle separators=SequenceUnits::separatorStandard) const;
     QString formatTooltip(const TransactionRecord *rec) const;
     QVariant txStatusDecoration(const TransactionRecord *wtx) const;
     QVariant txWatchonlyDecoration(const TransactionRecord *wtx) const;
@@ -111,4 +111,4 @@ public Q_SLOTS:
     friend class TransactionTablePriv;
 };
 
-#endif // SILK_QT_TRANSACTIONTABLEMODEL_H
+#endif // SEQUENCE_QT_TRANSACTIONTABLEMODEL_H

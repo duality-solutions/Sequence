@@ -1,0 +1,22 @@
+[Unit]
+Description=sequence's distributed currency daemon
+After=network.target
+
+[Service]
+User=sequence
+Group=sequence
+
+Type=forking
+PIDFile=/var/lib/sequenced/sequenced.pid
+ExecStart=/usr/bin/sequenced -daemon -pid=/var/lib/sequenced/sequenced.pid \
+-conf=/etc/sequence/sequence.conf -datadir=/var/lib/sequenced -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

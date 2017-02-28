@@ -1,7 +1,7 @@
-# **Silk-Core Changelog**
+# **Sequence Changelog**
 -------------------------
 
-**v1.3.0.0**
+**v1.0.0.0**
 
 * Fix and re-enable ResetSyncCheckpoint()
 * Fix checkpoint locks
@@ -18,11 +18,6 @@
 * Fixed Gitian script files
 * Upgraded dependency packages
 * Windows installer creator script
-
-
-
-**v1.2.0.0**
-
 * Wallet Autobackup Added
 * Refactored chainparams
 * moved g.signals into validation interface
@@ -30,18 +25,13 @@
 * SanitizeString implemented
 * params.h introduced and consensus parameters from chainparams added
 * Bantablemodel and peers table contextual menu to enable UI elements for node banning
-* Open silk.conf via UI added
+* Open sequence.conf via UI added
 * Mempool usage display fix
 * Fix QMetaObject::invokeMethod for ClientModel::numBlocksChanged(int)
 * Fix CPU utilisation caused by network issues
 * Implement HD Wallet
 * Change all public, private and protected slots in src/qt/ to Q_SLOTS
 * Fixed missing icons in Qt Makefile
-
-
-
-**v1.1.1.0**
-
 * Timedata: Added lock-free time-diff extraction
 * Fix Possible Deadlocks
 * Fix AND/OR bug
@@ -56,31 +46,21 @@
 * Updated byteswap.h
 * Make connection icon clickable
 * Fix amount discrepancies (%08d -> %06d)
-
-
-
-**v1.1.0.0**
-
 * Increase block version to 2 for CheckLockTimeVerify OP. 
 * ENUM for dDNS.
 * Increased DAP limit 10x, and activate DAP only when public GW.
 * net.cpp and netbase.cpp fixes. 
-* minfee sending fix for Silk-Core Qt. 
+* minfee sending fix for Sequence Qt. 
 * Currency display fix. 
 * Gitian descriptor fixes.
 * Addition of needed function in dDNS for Windows builds. 
-* Suppression/Fixes of warnings in slkdns.cpp
+* Suppression/Fixes of warnings in seqdns.cpp
 * Update protobuf version.
-* [RPC]add legacy json mode (enabled by default, enable unicode by adding -legacyrpc=0 to silk.conf).
+* [RPC]add legacy json mode (enabled by default, enable unicode by adding -legacyrpc=0 to sequence.conf).
 * [RPC]add hex and base64 output to the rest on name commands.
 * [RPC]add hex and base64 input/output to name_show, name_new, name_update.
 * Fix Crash in GetStake().
 * Add checkpoints and stake modifier checkpoints.
-
-
-
-**v1.0.1.1**
-
 * Fix MacOSX build error
 * Add block and stake modifier checkpoints
 * Set minimum required Boost to 1.47.0
@@ -92,12 +72,7 @@
 * Implement C++11 Compiling Capabilities
 * Fix Qt project file so we can run the debugger with the UI
 * mapNextTx: Use pointer as key, simplify value
-* Add RPCConsole to SilkGUI::closeEvent
-
-
-
-**v1.0.1.0**
-
+* Add RPCConsole to SequenceGUI::closeEvent
 * Update OSX Build Instructions
 * Move CAddrDB out of net.h/.cpp
 * Add conf file if file is not found
@@ -108,14 +83,8 @@
 * New Kernel Stake Modifier
 * Add Qt project for degugging in Qt Creator
 * Update to base58prefixes to vectors
-* Adds Silk Network PPA
 * Addition of Checkpoint for Block 4000
 * Add stake modifier checkpoint for block 2000
-
-
-
-**v1.0.0.0**
-
 * Add v1.0.0.0 release notes
 * Add Windows build document
 * Change menu font color for more contrast
@@ -125,6 +94,8 @@
 * Make Travis-CI test with Qt5, not Qt4
 * Update to latest leveldb code
 * Fixes sync height in peer table while chain downloading.
-* Update Silk-Core readme.
+* Update Sequence readme.
 * Updates PRT.
 * Adds issue template to repo.
+
+** Initial Fork from Emercoin 

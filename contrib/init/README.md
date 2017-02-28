@@ -1,9 +1,9 @@
 Sample configuration files for:
 
-SystemD: silkd.service
-Upstart: silkd.conf
-OpenRC:  silkd.openrc
-         silkd.openrcconf
+SystemD: sequenced.service
+Upstart: sequenced.conf
+OpenRC:  sequenced.openrc
+         sequenced.openrcconf
 
 have been made available to assist packagers in creating node packages here.
 

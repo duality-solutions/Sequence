@@ -2,15 +2,15 @@
 set -e
 
 CURDIR=$(cd $(dirname "$0"); pwd)
-# Get BUILDDIR and REAL_SILKD
+# Get BUILDDIR and REAL_SEQUENCED
 . "${CURDIR}/tests-config.sh"
 
-export SILKCLI=${BUILDDIR}/qa/pull-tester/run-silk-cli
-export SILKD=${REAL_SILKD}
+export SEQUENCECLI=${BUILDDIR}/qa/pull-tester/run-sequence-cli
+export SEQUENCED=${REAL_SEQUENCED}
 
 #Run the tests
 
-if [ "x${ENABLE_SILKD}${ENABLE_UTILS}${ENABLE_WALLET}" = "x111" ]; then
+if [ "x${ENABLE_SEQUENCED}${ENABLE_UTILS}${ENABLE_WALLET}" = "x111" ]; then
   ${BUILDDIR}/qa/rpc-tests/wallet.py --srcdir "${BUILDDIR}/src"
   ${BUILDDIR}/qa/rpc-tests/listtransactions.py --srcdir "${BUILDDIR}/src"
   ${BUILDDIR}/qa/rpc-tests/mempool_resurrect_test.py --srcdir "${BUILDDIR}/src"
@@ -24,5 +24,5 @@ if [ "x${ENABLE_SILKD}${ENABLE_UTILS}${ENABLE_WALLET}" = "x111" ]; then
   ${BUILDDIR}/qa/rpc-tests/mempool_packages.py --srcdir "${BUILDDIR}/src"
   #${BUILDDIR}/qa/rpc-tests/forknotify.py --srcdir "${BUILDDIR}/src"
 else
-  echo "No rpc tests to run. Wallet, utils, and silkd must all be enabled"
+  echo "No rpc tests to run. Wallet, utils, and sequenced must all be enabled"
 fi

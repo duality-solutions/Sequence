@@ -6,12 +6,12 @@ reset-files.bash
 *.tar.gz
 
 *.exe
-src/silk
-src/silkd
-src/silk-cli
-src/silk-tx
-src/test/test_silk
-src/qt/test/test_silk-qt
+src/sequence
+src/sequenced
+src/sequence-cli
+src/sequence-tx
+src/test/test_sequence
+src/qt/test/test_sequence-qt
 
 # autoreconf
 Makefile.in
@@ -34,10 +34,10 @@ config.log
 config.status
 configure
 libtool
-src/config/silk-config.h
-src/config/silk-config.h.in
+src/config/sequence-config.h
+src/config/sequence-config.h.in
 src/config/stamp-h1
-qa/pull-tester/run-silkd-for-test.sh
+qa/pull-tester/run-sequenced-for-test.sh
 qa/pull-tester/tests-config.sh
 share/setup.nsi
 share/qt/Info.plist
@@ -63,7 +63,7 @@ src/qt/test/moc*.cpp
 *.o
 *.o-*
 *.patch
-.silk
+.sequence
 *.a
 *.pb.cc
 *.pb.h
@@ -82,12 +82,12 @@ src/qt/test/moc*.cpp
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-silk-qt
-Silk-Qt.app
+sequence-qt
+Sequence-Qt.app
 
 # Unit-tests
 Makefile.test
-silk-qt_test
+sequence-qt_test
 src/test/buildenv.py
 
 # Resources cpp
@@ -103,7 +103,7 @@ build
 #lcov
 *.gcno
 /*.info
-test_silk.coverage/
+test_sequence.coverage/
 total.coverage/
 coverage_percent.txt
 
@@ -111,7 +111,7 @@ coverage_percent.txt
 linux-coverage-build
 linux-build
 win32-build
-qa/pull-tester/run-silkd-for-test.sh
+qa/pull-tester/run-sequenced-for-test.sh
 qa/pull-tester/tests-config.sh
 qa/pull-tester/cache/*
 qa/pull-tester/test.*/*
@@ -122,4 +122,4 @@ qa/pull-tester/test.*/*
 .project
 /doc/doxygen/
 
-libsilkconsensus.pc
+libsequenceconsensus.pc

@@ -1,12 +1,12 @@
-Silk Core version 1.3.0.0 is now available from:
+Sequence version 1.0.0.0 is now available from:
 
-  <https://github.com/SilkNetwork/Silk-Core/releases/tag/1.1.1.0>
+  <https://github.com/Duality-Solutions/Sequence/releases/tag/1.0.0.0>
 
 This is the first release.
 
 Please report bugs using the issue tracker at github:
 
-  <https://github.com/SilkNetwork/Silk-Core/issues>
+  <https://github.com/Duality-Solutions/Sequence/issues>
 
 
 Compatibility
@@ -14,7 +14,7 @@ Compatibility
 
 Microsoft ended support for Windows XP on [April 8th, 2014](https://www.microsoft.com/en-us/WindowsForBusiness/end-of-xp-support),
 an OS initially released in 2001. This means that not even critical security
-updates will be released anymore. Without security updates, using a Silkcoin
+updates will be released anymore. Without security updates, using a Sequence
 wallet on a XP machine is irresponsible at least.
 
 We do not have time nor resources to provide support for an OS that is

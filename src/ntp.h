@@ -1,10 +1,10 @@
 // Copyright (c) 2013-2017 The NovaCoin developers
-// Copyright (c) 2015-2017 The Silk Network developers
+// Copyright (c) 2016-2017 The Duality Blockchain Solutions developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or https://opensource.org/licenses/mit-license.php
 
-#ifndef SILK_NTP_H
-#define SILK_NTP_H
+#ifndef SEQUENCE_NTP_H
+#define SEQUENCE_NTP_H
 
 #include "net.h"
 
@@ -22,4 +22,4 @@ void ThreadNtpSamples(void* parg);
 // NTP offset
 int64_t GetNtpOffset();
 
-#endif // SILK_NTP_H
+#endif // SEQUENCE_NTP_H

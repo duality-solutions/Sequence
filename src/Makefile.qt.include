@@ -1,79 +1,79 @@
-bin_PROGRAMS += qt/silk-qt
-EXTRA_LIBRARIES += qt/libsilkqt.a
+bin_PROGRAMS += qt/sequence-qt
+EXTRA_LIBRARIES += qt/libsequenceqt.a
 
-# silk qt core #
+# sequence qt core #
 QT_TS = \
-  qt/locale/silk_ach.ts \
-  qt/locale/silk_af_ZA.ts \
-  qt/locale/silk_ar.ts \
-  qt/locale/silk_be_BY.ts \
-  qt/locale/silk_bg.ts \
-  qt/locale/silk_bs.ts \
-  qt/locale/silk_ca_ES.ts \
-  qt/locale/silk_ca.ts \
-  qt/locale/silk_ca@valencia.ts \
-  qt/locale/silk_cmn.ts \
-  qt/locale/silk_cs.ts \
-  qt/locale/silk_cy.ts \
-  qt/locale/silk_da.ts \
-  qt/locale/silk_de.ts \
-  qt/locale/silk_el_GR.ts \
-  qt/locale/silk_en.ts \
-  qt/locale/silk_eo.ts \
-  qt/locale/silk_es_CL.ts \
-  qt/locale/silk_es_DO.ts \
-  qt/locale/silk_es_MX.ts \
-  qt/locale/silk_es.ts \
-  qt/locale/silk_es_UY.ts \
-  qt/locale/silk_et.ts \
-  qt/locale/silk_eu_ES.ts \
-  qt/locale/silk_fa_IR.ts \
-  qt/locale/silk_fa.ts \
-  qt/locale/silk_fi.ts \
-  qt/locale/silk_fr_CA.ts \
-  qt/locale/silk_fr.ts \
-  qt/locale/silk_gl.ts \
-  qt/locale/silk_gu_IN.ts \
-  qt/locale/silk_he.ts \
-  qt/locale/silk_hi_IN.ts \
-  qt/locale/silk_hr.ts \
-  qt/locale/silk_hu.ts \
-  qt/locale/silk_id_ID.ts \
-  qt/locale/silk_it.ts \
-  qt/locale/silk_ja.ts \
-  qt/locale/silk_ka.ts \
-  qt/locale/silk_kk_KZ.ts \
-  qt/locale/silk_ko_KR.ts \
-  qt/locale/silk_ky.ts \
-  qt/locale/silk_la.ts \
-  qt/locale/silk_lt.ts \
-  qt/locale/silk_lv_LV.ts \
-  qt/locale/silk_mn.ts \
-  qt/locale/silk_ms_MY.ts \
-  qt/locale/silk_nb.ts \
-  qt/locale/silk_nl.ts \
-  qt/locale/silk_pam.ts \
-  qt/locale/silk_pl.ts \
-  qt/locale/silk_pt_BR.ts \
-  qt/locale/silk_pt_PT.ts \
-  qt/locale/silk_ro_RO.ts \
-  qt/locale/silk_ru.ts \
-  qt/locale/silk_sah.ts \
-  qt/locale/silk_sk.ts \
-  qt/locale/silk_sl_SI.ts \
-  qt/locale/silk_sq.ts \
-  qt/locale/silk_sr.ts \
-  qt/locale/silk_sv.ts \
-  qt/locale/silk_th_TH.ts \
-  qt/locale/silk_tr.ts \
-  qt/locale/silk_uk.ts \
-  qt/locale/silk_ur_PK.ts \
-  qt/locale/silk_uz@Cyrl.ts \
-  qt/locale/silk_vi.ts \
-  qt/locale/silk_vi_VN.ts \
-  qt/locale/silk_zh_CN.ts \
-  qt/locale/silk_zh_HK.ts \
-  qt/locale/silk_zh_TW.ts
+  qt/locale/sequence_ach.ts \
+  qt/locale/sequence_af_ZA.ts \
+  qt/locale/sequence_ar.ts \
+  qt/locale/sequence_be_BY.ts \
+  qt/locale/sequence_bg.ts \
+  qt/locale/sequence_bs.ts \
+  qt/locale/sequence_ca_ES.ts \
+  qt/locale/sequence_ca.ts \
+  qt/locale/sequence_ca@valencia.ts \
+  qt/locale/sequence_cmn.ts \
+  qt/locale/sequence_cs.ts \
+  qt/locale/sequence_cy.ts \
+  qt/locale/sequence_da.ts \
+  qt/locale/sequence_de.ts \
+  qt/locale/sequence_el_GR.ts \
+  qt/locale/sequence_en.ts \
+  qt/locale/sequence_eo.ts \
+  qt/locale/sequence_es_CL.ts \
+  qt/locale/sequence_es_DO.ts \
+  qt/locale/sequence_es_MX.ts \
+  qt/locale/sequence_es.ts \
+  qt/locale/sequence_es_UY.ts \
+  qt/locale/sequence_et.ts \
+  qt/locale/sequence_eu_ES.ts \
+  qt/locale/sequence_fa_IR.ts \
+  qt/locale/sequence_fa.ts \
+  qt/locale/sequence_fi.ts \
+  qt/locale/sequence_fr_CA.ts \
+  qt/locale/sequence_fr.ts \
+  qt/locale/sequence_gl.ts \
+  qt/locale/sequence_gu_IN.ts \
+  qt/locale/sequence_he.ts \
+  qt/locale/sequence_hi_IN.ts \
+  qt/locale/sequence_hr.ts \
+  qt/locale/sequence_hu.ts \
+  qt/locale/sequence_id_ID.ts \
+  qt/locale/sequence_it.ts \
+  qt/locale/sequence_ja.ts \
+  qt/locale/sequence_ka.ts \
+  qt/locale/sequence_kk_KZ.ts \
+  qt/locale/sequence_ko_KR.ts \
+  qt/locale/sequence_ky.ts \
+  qt/locale/sequence_la.ts \
+  qt/locale/sequence_lt.ts \
+  qt/locale/sequence_lv_LV.ts \
+  qt/locale/sequence_mn.ts \
+  qt/locale/sequence_ms_MY.ts \
+  qt/locale/sequence_nb.ts \
+  qt/locale/sequence_nl.ts \
+  qt/locale/sequence_pam.ts \
+  qt/locale/sequence_pl.ts \
+  qt/locale/sequence_pt_BR.ts \
+  qt/locale/sequence_pt_PT.ts \
+  qt/locale/sequence_ro_RO.ts \
+  qt/locale/sequence_ru.ts \
+  qt/locale/sequence_sah.ts \
+  qt/locale/sequence_sk.ts \
+  qt/locale/sequence_sl_SI.ts \
+  qt/locale/sequence_sq.ts \
+  qt/locale/sequence_sr.ts \
+  qt/locale/sequence_sv.ts \
+  qt/locale/sequence_th_TH.ts \
+  qt/locale/sequence_tr.ts \
+  qt/locale/sequence_uk.ts \
+  qt/locale/sequence_ur_PK.ts \
+  qt/locale/sequence_uz@Cyrl.ts \
+  qt/locale/sequence_vi.ts \
+  qt/locale/sequence_vi_VN.ts \
+  qt/locale/sequence_zh_CN.ts \
+  qt/locale/sequence_zh_HK.ts \
+  qt/locale/sequence_zh_TW.ts
 
 QT_FORMS_UI = \
   qt/forms/addressbookpage.ui \
@@ -103,10 +103,10 @@ QT_MOC_CPP = \
   qt/moc_addresstablemodel.cpp \
   qt/moc_askpassphrasedialog.cpp \
   qt/moc_bantablemodel.cpp \
-  qt/moc_silkaddressvalidator.cpp \
-  qt/moc_silkamountfield.cpp \
-  qt/moc_silkgui.cpp \
-  qt/moc_silkunits.cpp \
+  qt/moc_sequenceaddressvalidator.cpp \
+  qt/moc_sequenceamountfield.cpp \
+  qt/moc_sequencegui.cpp \
+  qt/moc_sequenceunits.cpp \
   qt/moc_calcdialog.cpp \
   qt/moc_clientmodel.cpp \
   qt/moc_coincontroldialog.cpp \
@@ -150,35 +150,35 @@ QT_MOC_CPP = \
   qt/moc_multisigdialog.cpp \
   qt/moc_multisiginputentry.cpp
 
-SILK_MM = \
+SEQUENCE_MM = \
   qt/macdockiconhandler.mm \
   qt/macnotificationhandler.mm
 
 QT_MOC = \
-  qt/silk.moc \
-  qt/silkamountfield.moc \
+  qt/sequence.moc \
+  qt/sequenceamountfield.moc \
   qt/intro.moc \
   qt/overviewpage.moc \
   qt/rpcconsole.moc
 
-QT_QRC_CPP = qt/qrc_silk.cpp
-QT_QRC = qt/silk.qrc
-QT_QRC_LOCALE_CPP = qt/qrc_silk_locale.cpp
-QT_QRC_LOCALE = qt/silk_locale.qrc
+QT_QRC_CPP = qt/qrc_sequence.cpp
+QT_QRC = qt/sequence.qrc
+QT_QRC_LOCALE_CPP = qt/qrc_sequence_locale.cpp
+QT_QRC_LOCALE = qt/sequence_locale.qrc
 
 PROTOBUF_CC = qt/paymentrequest.pb.cc
 PROTOBUF_H = qt/paymentrequest.pb.h
 PROTOBUF_PROTO = qt/paymentrequest.proto
 
-SILK_QT_H = \
+SEQUENCE_QT_H = \
   qt/addressbookpage.h \
   qt/addresstablemodel.h \
   qt/askpassphrasedialog.h \
   qt/bantablemodel.h \
-  qt/silkaddressvalidator.h \
-  qt/silkamountfield.h \
-  qt/silkgui.h \
-  qt/silkunits.h \
+  qt/sequenceaddressvalidator.h \
+  qt/sequenceamountfield.h \
+  qt/sequencegui.h \
+  qt/sequenceunits.h \
   qt/calcdialog.h \
   qt/clientmodel.h \
   qt/coincontroldialog.h \
@@ -231,10 +231,10 @@ SILK_QT_H = \
 RES_ICONS = \
   qt/res/icons/add.png \
   qt/res/icons/address-book.png \
-  qt/res/icons/silk.ico \
-  qt/res/icons/silk.png \
-  qt/res/icons/silk_testnet.ico \
-  qt/res/icons/silk_testnet.png \
+  qt/res/icons/sequence.ico \
+  qt/res/icons/sequence.png \
+  qt/res/icons/sequence_testnet.ico \
+  qt/res/icons/sequence_testnet.png \
   qt/res/icons/clock1.png \
   qt/res/icons/clock2.png \
   qt/res/icons/clock3.png \
@@ -281,15 +281,15 @@ RES_ICONS = \
   qt/res/icons/tx_input.png \
   qt/res/icons/tx_output.png \
   qt/res/icons/tx_mined.png \
-  qt/res/icons/unit_slk.png \
-  qt/res/icons/unit_mslk.png \
-  qt/res/icons/unit_uslk.png
+  qt/res/icons/unit_seq.png \
+  qt/res/icons/unit_mseq.png \
+  qt/res/icons/unit_useq.png
 
-SILK_QT_CPP = \
-  qt/silkaddressvalidator.cpp \
-  qt/silkamountfield.cpp \
-  qt/silkgui.cpp \
-  qt/silkunits.cpp \
+SEQUENCE_QT_CPP = \
+  qt/sequenceaddressvalidator.cpp \
+  qt/sequenceamountfield.cpp \
+  qt/sequencegui.cpp \
+  qt/sequenceunits.cpp \
   qt/calcdialog.cpp \
   qt/clientmodel.cpp \
   qt/csvmodelwriter.cpp \
@@ -313,7 +313,7 @@ SILK_QT_CPP = \
   qt/multisiginputentry.cpp
 
 if ENABLE_WALLET
-SILK_QT_CPP += \
+SEQUENCE_QT_CPP += \
   qt/addressbookpage.cpp \
   qt/addresstablemodel.cpp \
   qt/askpassphrasedialog.cpp \
@@ -347,7 +347,7 @@ endif
 
 RES_IMAGES = \
   qt/res/images/about.png \
-  qt/res/images/silk_logo_horizontal.png \
+  qt/res/images/sequence_logo_horizontal.png \
   qt/res/images/splash.png \
   qt/res/images/splash_testnet.png \
   qt/res/images/silver_downArrow.png \
@@ -363,21 +363,20 @@ RES_CSS = \
   qt/res/css/silver.css
 
 RES_MOVIES = \
-  $(wildcard qt/res/movies/spinner-*.png) \
-  qt/res/movies/camel.gif
+  $(wildcard qt/res/movies/spinner-*.png)
 
-SILK_RC = qt/res/silk-qt-res.rc
+SEQUENCE_RC = qt/res/sequence-qt-res.rc
 
-SILK_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
+SEQUENCE_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
   -I$(builddir)/qt/forms
 
-qt_libsilkqt_a_CPPFLAGS = $(SILK_INCLUDES) $(SILK_QT_INCLUDES) \
+qt_libsequenceqt_a_CPPFLAGS = $(SEQUENCE_INCLUDES) $(SEQUENCE_QT_INCLUDES) \
   $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
 
-qt_libsilkqt_a_SOURCES = $(SILK_QT_CPP) $(SILK_QT_H) $(QT_FORMS_UI) \
+qt_libsequenceqt_a_SOURCES = $(SEQUENCE_QT_CPP) $(SEQUENCE_QT_H) $(QT_FORMS_UI) \
   $(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS) $(RES_MOVIES)
 
-nodist_qt_libsilkqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
+nodist_qt_libsequenceqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
   $(PROTOBUF_H) $(QT_QRC_CPP) $(QT_QRC_LOCALE_CPP)
 
 # forms/foo.h -> forms/ui_foo.h
@@ -386,66 +385,66 @@ QT_FORMS_H=$(join $(dir $(QT_FORMS_UI)),$(addprefix ui_, $(notdir $(QT_FORMS_UI:
 # Most files will depend on the forms and moc files as includes. Generate them
 # before anything else.
 $(QT_MOC): $(QT_FORMS_H)
-$(qt_libsilkqt_a_OBJECTS) $(qt_silk_qt_OBJECTS) : | $(QT_MOC)
+$(qt_libsequenceqt_a_OBJECTS) $(qt_sequence_qt_OBJECTS) : | $(QT_MOC)
 
 #Generating these with a half-written protobuf header leads to wacky results.
 #This makes sure it's done.
 $(QT_MOC): $(PROTOBUF_H)
 $(QT_MOC_CPP): $(PROTOBUF_H)
 
-# silk-qt binary #
-qt_silk_qt_CPPFLAGS = $(SILK_INCLUDES) $(SILK_QT_INCLUDES) \
+# sequence-qt binary #
+qt_sequence_qt_CPPFLAGS = $(SEQUENCE_INCLUDES) $(SEQUENCE_QT_INCLUDES) \
   $(QT_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS)
 
-qt_silk_qt_SOURCES = qt/silk.cpp
+qt_sequence_qt_SOURCES = qt/sequence.cpp
 if TARGET_DARWIN
-  qt_silk_qt_SOURCES += $(SILK_MM)
+  qt_sequence_qt_SOURCES += $(SEQUENCE_MM)
 endif
 if TARGET_WINDOWS
-  qt_silk_qt_SOURCES += $(SILK_RC)
+  qt_sequence_qt_SOURCES += $(SEQUENCE_RC)
 endif
-qt_silk_qt_LDADD = qt/libsilkqt.a $(LIBSILK_SERVER)
+qt_sequence_qt_LDADD = qt/libsequenceqt.a $(LIBSEQUENCE_SERVER)
 if ENABLE_WALLET
-qt_silk_qt_LDADD += $(LIBSILK_WALLET)
+qt_sequence_qt_LDADD += $(LIBSEQUENCE_WALLET)
 endif
-qt_silk_qt_LDADD += $(LIBSILK_CLI) $(LIBSILK_COMMON) $(LIBSILK_UTIL) $(LIBSILK_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBMEMENV) \
+qt_sequence_qt_LDADD += $(LIBSEQUENCE_CLI) $(LIBSEQUENCE_COMMON) $(LIBSEQUENCE_UTIL) $(LIBSEQUENCE_CRYPTO) $(LIBUNIVALUE) $(LIBLEVELDB) $(LIBMEMENV) \
   $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(PROTOBUF_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(LIBSECP256K1) \
   $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
-qt_silk_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
-qt_silk_qt_LIBTOOLFLAGS = --tag CXX
+qt_sequence_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+qt_sequence_qt_LIBTOOLFLAGS = --tag CXX
 
 #locale/foo.ts -> locale/foo.qm
 QT_QM=$(QT_TS:.ts=.qm)
 
 .SECONDARY: $(QT_QM)
 
-qt/silkstrings.cpp: $(libsilk_server_a_SOURCES) $(libsilk_wallet_a_SOURCES)
+qt/sequencestrings.cpp: $(libsequence_server_a_SOURCES) $(libsequence_wallet_a_SOURCES)
 	@test -n $(XGETTEXT) || echo "xgettext is required for updating translations"
 	$(AM_V_GEN) cd $(srcdir); XGETTEXT=$(XGETTEXT) ../share/qt/extract_strings_qt.py $^
 
-translate: qt/silkstrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(SILK_QT_CPP) $(SILK_QT_H) $(SILK_MM)
+translate: qt/sequencestrings.cpp $(QT_FORMS_UI) $(QT_FORMS_UI) $(SEQUENCE_QT_CPP) $(SEQUENCE_QT_H) $(SEQUENCE_MM)
 	@test -n $(LUPDATE) || echo "lupdate is required for updating translations"
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts qt/locale/silk_en.ts
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(LUPDATE) $^ -locations relative -no-obsolete -ts qt/locale/sequence_en.ts
 
 $(QT_QRC_LOCALE_CPP): $(QT_QRC_LOCALE) $(QT_QM)
 	@test -f $(RCC)
 	@test -f $(@D)/$(<F) || cp -f $< $(@D)
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name silk_locale $(@D)/$(<F) | \
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name sequence_locale $(@D)/$(<F) | \
 	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 
 $(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS) $(RES_MOVIES) $(PROTOBUF_H)
 	@test -f $(RCC)
-	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name silk $< | \
+	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name sequence $< | \
 	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 
-CLEAN_QT = $(nodist_qt_libsilkqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno
+CLEAN_QT = $(nodist_qt_libsequenceqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno
 
 CLEANFILES += $(CLEAN_QT)
 
-silk_qt_clean: FORCE
-	rm -f $(CLEAN_QT) $(qt_libsilkqt_a_OBJECTS) $(qt_silk_qt_OBJECTS) qt/silk-qt$(EXEEXT) $(LIBSILKQT)
+sequence_qt_clean: FORCE
+	rm -f $(CLEAN_QT) $(qt_libsequenceqt_a_OBJECTS) $(qt_sequence_qt_OBJECTS) qt/sequence-qt$(EXEEXT) $(LIBSEQUENCEQT)
 
-silk_qt : qt/silk-qt$(EXEEXT)
+sequence_qt : qt/sequence-qt$(EXEEXT)
 
 ui_%.h: %.ui
 	@test -f $(UIC)

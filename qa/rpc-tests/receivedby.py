@@ -5,8 +5,8 @@
 
 # Exercise the listreceivedbyaddress API
 
-from test_framework import silkTestFramework
-from silkrpc.authproxy import AuthServiceProxy, JSONRPCException
+from test_framework import sequenceTestFramework
+from sequencerpc.authproxy import AuthServiceProxy, JSONRPCException
 from util import *
 
 
@@ -52,7 +52,7 @@ def check_array_result(object_array, to_match, expected, should_not_find = False
     if num_matched > 0 and should_not_find == True:
         raise AssertionError("Objects was matched %s"%(str(to_match)))
 
-class ReceivedByTest(silkTestFramework):
+class ReceivedByTest(sequenceTestFramework):
 
     def run_test(self):
         '''

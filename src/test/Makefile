@@ -1,6 +1,6 @@
 all:
-	$(MAKE) -C .. silk_test
+	$(MAKE) -C .. sequence_test
 clean:
-	$(MAKE) -C .. silk_test_clean
+	$(MAKE) -C .. sequence_test_clean
 check:
-	$(MAKE) -C .. silk_test_check
+	$(MAKE) -C .. sequence_test_check

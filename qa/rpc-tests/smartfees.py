@@ -7,11 +7,11 @@
 # Test fee estimation code
 #
 
-from test_framework import silkTestFramework
-from silkrpc.authproxy import AuthServiceProxy, JSONRPCException
+from test_framework import sequenceTestFramework
+from sequencerpc.authproxy import AuthServiceProxy, JSONRPCException
 from util import *
 
-class EstimateFeeTest(silkTestFramework):
+class EstimateFeeTest(sequenceTestFramework):
 
     def setup_network(self):
         self.nodes = []

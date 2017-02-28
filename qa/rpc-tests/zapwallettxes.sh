@@ -8,14 +8,14 @@
 if [ $# -lt 1 ]; then
         echo "Usage: $0 path_to_binaries"
         echo "e.g. $0 ../../src"
-        echo "Env vars SILKD and SILKCLI may be used to specify the exact binaries used"
+        echo "Env vars SEQUENCED and SEQUENCECLI may be used to specify the exact binaries used"
         exit 1
 fi
 
 set -f
 
-SILKD=${SILKD:-${1}/silkd}
-CLI=${SILKCLI:-${1}/silk-cli}
+SEQUENCED=${SEQUENCED:-${1}/sequenced}
+CLI=${SEQUENCECLI:-${1}/sequence-cli}
 
 DIR="${BASH_SOURCE%/*}"
 SENDANDWAIT="${DIR}/send.sh"
@@ -27,13 +27,13 @@ D=$(mktemp -d test.XXXXX)
 D1=${D}/node1
 CreateDataDir "$D1" port=11000 rpcport=11001
 B1ARGS="-datadir=$D1"
-$SILKD $B1ARGS &
+$SEQUENCED $B1ARGS &
 B1PID=$!
 
 D2=${D}/node2
 CreateDataDir "$D2" port=11010 rpcport=11011
 B2ARGS="-datadir=$D2"
-$SILKD $B2ARGS &
+$SEQUENCED $B2ARGS &
 B2PID=$!
 
 function CleanUp {
@@ -109,9 +109,9 @@ $CLI $B1ARGS stop > /dev/null 2>&1
 wait $B1PID
 
 # restart nodes with -zapwallettxes
-$SILKD -zapwallettxes=1 $B1ARGS &
+$SEQUENCED -zapwallettxes=1 $B1ARGS &
 B1PID=$!
-$SILKD -zapwallettxes=2 $B2ARGS &
+$SEQUENCED -zapwallettxes=2 $B2ARGS &
 B2PID=$!
 
 # check if confirmed transactions are there

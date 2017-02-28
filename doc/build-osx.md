@@ -1,6 +1,6 @@
 Mac OS X Build Instructions and Notes
 ====================================
-This guide will show you how to build silkd (headless client) for OSX.
+This guide will show you how to build sequenced (headless client) for OSX.
 
 Notes
 -----
@@ -65,14 +65,14 @@ After exiting you will want to symlink berkeley-db4 and qt:
     $ brew link boost160 --c++11 --force
 
 
-### Building `silkd`
+### Building `sequenced`
 
 1. Clone the github tree to get the source code and go into the directory.
 
-        git clone https://github.com/silknetwork/silk-core.git
-        cd silk
+        git clone https://github.com/duality-solutions/sequence.git
+        cd sequence
 
-2.  Build silkd:
+2.  Build sequenced:
 
         ./autogen.sh
         ./configure
@@ -82,7 +82,7 @@ After exiting you will want to symlink berkeley-db4 and qt:
 
         make check
 
-4.  (Optional) You can also install silkd to your path:
+4.  (Optional) You can also install sequenced to your path:
 
         make install
 
@@ -94,7 +94,7 @@ Download Qt Creator from http://www.qt.io/download/. Download the "community edi
 1. Make sure you installed everything through homebrew mentioned above 
 2. Do a proper ./configure --with-gui=qt5 --enable-debug
 3. In Qt Creator do "New Project" -> Import Project -> Import Existing Project
-4. Enter "silk-qt" as project name, enter src/qt as location
+4. Enter "sequence-qt" as project name, enter src/qt as location
 5. Leave the file selection as it is
 6. Confirm the "summary page"
 7. In the "Projects" tab select "Manage Kits..."
@@ -104,11 +104,11 @@ Download Qt Creator from http://www.qt.io/download/. Download the "community edi
 
 Creating a release build
 ------------------------
-You can ignore this section if you are building `silkd` for your own use.
+You can ignore this section if you are building `sequenced` for your own use.
 
-silkd/silk-cli binaries are not included in the Silk-Qt.app bundle.
+sequenced/sequence-cli binaries are not included in the Sequence-Qt.app bundle.
 
-If you are building `silkd` or `Silk-Qt` for others, your build machine should be set up
+If you are building `sequenced` or `Sequence-Qt` for others, your build machine should be set up
 as follows for maximum compatibility:
 
 All dependencies should be compiled with these flags:
@@ -117,30 +117,30 @@ All dependencies should be compiled with these flags:
  -arch x86_64
  -isysroot $(xcode-select --print-path)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk
 
-Once dependencies are compiled, see release-process.md for how the Silk-Qt.app
+Once dependencies are compiled, see release-process.md for how the Sequence-Qt.app
 bundle is packaged and signed to create the .dmg disk image that is distributed.
 
 Running
 -------
 
-It's now available at `./silkd`, provided that you are still in the `src`
+It's now available at `./sequenced`, provided that you are still in the `src`
 directory. We have to first create the RPC configuration file, though.
 
-Run `./silkd` to get the filename where it should be put, or just try these
+Run `./sequenced` to get the filename where it should be put, or just try these
 commands:
 
-    echo -e "rpcuser=silkrpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/Silk/silk.conf"
-    chmod 600 "/Users/${USER}/Library/Application Support/Silk/silk.conf"
+    echo -e "rpcuser=sequencerpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/Sequence/sequence.conf"
+    chmod 600 "/Users/${USER}/Library/Application Support/Sequence/sequence.conf"
 
 The next time you run it, it will start downloading the blockchain, but it won't
 output anything while it's doing this. This process may take several hours;
 you can monitor its process by looking at the debug.log file, like this:
 
-    tail -f $HOME/Library/Application\ Support/Silk/debug.log
+    tail -f $HOME/Library/Application\ Support/Sequence/debug.log
 
 Other commands:
 -------
 
-    ./silkd -daemon # to start the silk daemon.
-    ./silk-cli --help  # for a list of command-line options.
-    ./silk-cli help    # When the daemon is running, to get a list of RPC commands
+    ./sequenced -daemon # to start the sequence daemon.
+    ./sequence-cli --help  # for a list of command-line options.
+    ./sequence-cli help    # When the daemon is running, to get a list of RPC commands

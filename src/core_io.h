@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_CORE_IO_H
-#define SILK_CORE_IO_H
+#ifndef SEQUENCE_CORE_IO_H
+#define SEQUENCE_CORE_IO_H
 
 #include <string>
 #include <vector>
@@ -31,4 +31,4 @@ extern void ScriptPubKeyToUniv(const CScript& scriptPubKey,
                         UniValue& out, bool fIncludeHex);
 extern void TxToUniv(const CTransaction& tx, const uint256& hashBlock, UniValue& entry);
 
-#endif // SILK_CORE_IO_H
+#endif // SEQUENCE_CORE_IO_H

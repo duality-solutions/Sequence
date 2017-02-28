@@ -29,20 +29,20 @@ $(LIBLEVELDB) $(LIBMEMENV):
           OPT="$(CXXFLAGS) $(CPPFLAGS)"
 endif
 
-SILK_CONFIG_INCLUDES=-I$(builddir)/config
-SILK_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BDB_CPPFLAGS) $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
+SEQUENCE_CONFIG_INCLUDES=-I$(builddir)/config
+SEQUENCE_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BDB_CPPFLAGS) $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
 
-SILK_INCLUDES += -I$(srcdir)/secp256k1/include
-SILK_INCLUDES += $(UNIVALUE_CFLAGS)
+SEQUENCE_INCLUDES += -I$(srcdir)/secp256k1/include
+SEQUENCE_INCLUDES += $(UNIVALUE_CFLAGS)
 
-LIBSILK_SERVER=libsilk_server.a
-LIBSILK_WALLET=libsilk_wallet.a
-LIBSILK_COMMON=libsilk_common.a
-LIBSILK_CLI=libsilk_cli.a
-LIBSILK_UTIL=libsilk_util.a
-LIBSILK_CRYPTO=crypto/libsilk_crypto.a
-LIBSILK_UNIVALUE=univalue/libsilk_univalue.a
-LIBSILKQT=qt/libsilkqt.a
+LIBSEQUENCE_SERVER=libsequence_server.a
+LIBSEQUENCE_WALLET=libsequence_wallet.a
+LIBSEQUENCE_COMMON=libsequence_common.a
+LIBSEQUENCE_CLI=libsequence_cli.a
+LIBSEQUENCE_UTIL=libsequence_util.a
+LIBSEQUENCE_CRYPTO=crypto/libsequence_crypto.a
+LIBSEQUENCE_UNIVALUE=univalue/libsequence_univalue.a
+LIBSEQUENCEQT=qt/libsequenceqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
@@ -51,36 +51,36 @@ $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
 # Make is not made aware of per-object dependencies to avoid limiting building parallelization
 # But to build the less dependent modules first, we manually select their order here:
 EXTRA_LIBRARIES = \
-  crypto/libsilk_crypto.a \
-  libsilk_util.a \
-  libsilk_common.a \
-  libsilk_server.a \
-  libsilk_cli.a
+  crypto/libsequence_crypto.a \
+  libsequence_util.a \
+  libsequence_common.a \
+  libsequence_server.a \
+  libsequence_cli.a
 if ENABLE_WALLET
-EXTRA_LIBRARIES += libsilk_wallet.a
+EXTRA_LIBRARIES += libsequence_wallet.a
 endif
 
-if BUILD_SILK_LIBS
-lib_LTLIBRARIES = libsilkconsensus.la
-LIBSILK_CONSENSUS=libsilkconsensus.la
+if BUILD_SEQUENCE_LIBS
+lib_LTLIBRARIES = libsequenceconsensus.la
+LIBSEQUENCE_CONSENSUS=libsequenceconsensus.la
 else
-LIBSILK_CONSENSUS=
+LIBSEQUENCE_CONSENSUS=
 endif
 
 bin_PROGRAMS =
 TESTS =
 
-if BUILD_SILKD
-  bin_PROGRAMS += silkd
+if BUILD_SEQUENCED
+  bin_PROGRAMS += sequenced
 endif
 
-if BUILD_SILK_UTILS
-  bin_PROGRAMS += silk-cli silk-tx
+if BUILD_SEQUENCE_UTILS
+  bin_PROGRAMS += sequence-cli sequence-tx
 endif
 
 .PHONY: FORCE
-# Silk Core #
-SILK_CORE_H = \
+# Sequence #
+SEQUENCE_CORE_H = \
   addrman.h \
   alert.h \
   allocators.h \
@@ -166,24 +166,24 @@ SILK_CORE_H = \
   wallet/walletdb.h \
   compat/sanity.h \
   reverselock.h \
-## --- ppcoin and silk headers start from this line --- ##
+## --- ppcoin and sequence headers start from this line --- ##
   uint256hm.h \
   kernel.h \
   dns/dns.h \
   hooks.h \
-  dns/slkdns.h \
+  dns/seqdns.h \
   torcontrol.h
 
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
 	@$(top_srcdir)/share/genbuild.sh $(abs_top_builddir)/src/obj/build.h \
 	  $(abs_top_srcdir)
-libsilk_util_a-clientversion.$(OBJEXT): obj/build.h
+libsequence_util_a-clientversion.$(OBJEXT): obj/build.h
 
-# server: shared between silkd and silk-qt
-libsilk_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
-libsilk_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libsilk_server_a_SOURCES = \
+# server: shared between sequenced and sequence-qt
+libsequence_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
+libsequence_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libsequence_server_a_SOURCES = \
   addrman.cpp \
   alert.cpp \
   bloom.cpp \
@@ -209,18 +209,18 @@ libsilk_server_a_SOURCES = \
   txdb.cpp \
   txmempool.cpp \
   validationinterface.cpp \
-## --- ppcoin and silk sources start from this line --- ##
+## --- ppcoin and sequence sources start from this line --- ##
   kernel.cpp \
   dns/dns.cpp \
-  dns/slkdns.cpp \
+  dns/seqdns.cpp \
   torcontrol.cpp \
-  $(SILK_CORE_H)
+  $(SEQUENCE_CORE_H)
 
-# wallet: shared between silkd and silk-qt, but only linked
+# wallet: shared between sequenced and sequence-qt, but only linked
 # when wallet enabled
-libsilk_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
-libsilk_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libsilk_wallet_a_SOURCES = \
+libsequence_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
+libsequence_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libsequence_wallet_a_SOURCES = \
   wallet/db.cpp \
   wallet/crypter.cpp \
   wallet/rpcdump.cpp \
@@ -229,12 +229,12 @@ libsilk_wallet_a_SOURCES = \
   wallet/wallet_ismine.cpp \
   wallet/walletdb.cpp \
   dns/dns.cpp \
-  $(SILK_CORE_H)
+  $(SEQUENCE_CORE_H)
 
 # crypto primitives library
-crypto_libsilk_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_CONFIG_INCLUDES)
-crypto_libsilk_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-crypto_libsilk_crypto_a_SOURCES = \
+crypto_libsequence_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_CONFIG_INCLUDES)
+crypto_libsequence_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+crypto_libsequence_crypto_a_SOURCES = \
   crypto/aes.cpp \
   crypto/aes.h \
   crypto/sha1.cpp \
@@ -253,10 +253,10 @@ crypto_libsilk_crypto_a_SOURCES = \
   crypto/sha1.h \
   crypto/ripemd160.h
 
-# common: shared between silkd, and silk-qt and non-server tools
-libsilk_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
-libsilk_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libsilk_common_a_SOURCES = \
+# common: shared between sequenced, and sequence-qt and non-server tools
+libsequence_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
+libsequence_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libsequence_common_a_SOURCES = \
   allocators.cpp \
   amount.cpp \
   base58.cpp \
@@ -282,14 +282,14 @@ libsilk_common_a_SOURCES = \
   script/sign.cpp \
   script/standard.cpp \
   script/script_error.cpp \
-  $(SILK_CORE_H)
+  $(SEQUENCE_CORE_H)
 
 # util: shared between all executables.
 # This library *must* be included to make sure that the glibc
 # backward-compatibility objects and their sanity checks are linked.
-libsilk_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
-libsilk_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libsilk_util_a_SOURCES = \
+libsequence_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
+libsequence_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libsequence_util_a_SOURCES = \
   compat/strnlen.cpp \
   compat/glibc_sanity.cpp \
   compat/glibcxx_sanity.cpp \
@@ -304,90 +304,90 @@ libsilk_util_a_SOURCES = \
   utilstrencodings.cpp \
   utilmoneystr.cpp \
   utiltime.cpp \
-  $(SILK_CORE_H)
+  $(SEQUENCE_CORE_H)
 
 if GLIBC_BACK_COMPAT
-libsilk_util_a_SOURCES += compat/glibc_compat.cpp
+libsequence_util_a_SOURCES += compat/glibc_compat.cpp
 endif
 
-# cli: shared between silk-cli and silk-qt
-libsilk_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
-libsilk_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libsilk_cli_a_SOURCES = \
+# cli: shared between sequence-cli and sequence-qt
+libsequence_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
+libsequence_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libsequence_cli_a_SOURCES = \
   rpc/rpcclient.cpp \
-  $(SILK_CORE_H)
+  $(SEQUENCE_CORE_H)
 
-nodist_libsilk_util_a_SOURCES = $(srcdir)/obj/build.h
+nodist_libsequence_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
-# silkd binary #
-silkd_SOURCES = silkd.cpp
-silkd_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
-silkd_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-silkd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# sequenced binary #
+sequenced_SOURCES = sequenced.cpp
+sequenced_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
+sequenced_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+sequenced_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-silkd_SOURCES += silkd-res.rc
+sequenced_SOURCES += sequenced-res.rc
 endif
 
-silkd_LDADD = \
-  $(LIBSILK_SERVER) \
-  $(LIBSILK_COMMON) \
+sequenced_LDADD = \
+  $(LIBSEQUENCE_SERVER) \
+  $(LIBSEQUENCE_COMMON) \
   $(LIBUNIVALUE) \
-  $(LIBSILK_UTIL) \
-  $(LIBSILK_CRYPTO) \
+  $(LIBSEQUENCE_UTIL) \
+  $(LIBSEQUENCE_CRYPTO) \
   $(LIBLEVELDB) \
   $(LIBMEMENV) \
   $(LIBSECP256K1)
 
 if ENABLE_WALLET
-silkd_LDADD += libsilk_wallet.a
+sequenced_LDADD += libsequence_wallet.a
 endif
 
-silkd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
+sequenced_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
 #
 
-# silk-cli binary #
-silk_cli_SOURCES = silk-cli.cpp
-silk_cli_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES) $(EVENT_CFLAGS)
-silk_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-silk_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# sequence-cli binary #
+sequence_cli_SOURCES = sequence-cli.cpp
+sequence_cli_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES) $(EVENT_CFLAGS)
+sequence_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+sequence_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 
 if TARGET_WINDOWS
-silk_cli_SOURCES += silk-cli-res.rc
+sequence_cli_SOURCES += sequence-cli-res.rc
 endif
 
-silk_cli_LDADD = \
-  $(LIBSILK_CLI) \
-  $(LIBSILK_UTIL) \
+sequence_cli_LDADD = \
+  $(LIBSEQUENCE_CLI) \
+  $(LIBSEQUENCE_UTIL) \
   $(LIBUNIVALUE) \
   $(EVENT_LIBS)
 
-silk_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS)
+sequence_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS)
 #
 
-# silk-tx binary #
-silk_tx_SOURCES = silk-tx.cpp
-silk_tx_CPPFLAGS = $(AM_CPPFLAGS) $(SILK_INCLUDES)
-silk_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-silk_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# sequence-tx binary #
+sequence_tx_SOURCES = sequence-tx.cpp
+sequence_tx_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
+sequence_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+sequence_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
-silk_tx_LDADD = \
+sequence_tx_LDADD = \
   $(LIBUNIVALUE) \
-  $(LIBSILK_COMMON) \
-  $(LIBSILK_UTIL) \
-  $(LIBSILK_CRYPTO) \
+  $(LIBSEQUENCE_COMMON) \
+  $(LIBSEQUENCE_UTIL) \
+  $(LIBSEQUENCE_CRYPTO) \
   $(LIBSECP256K1)
 
-silk_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
+sequence_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
-# silkconsensus library #
-if BUILD_SILK_LIBS
-include_HEADERS = script/silkconsensus.h
-libsilkconsensus_la_SOURCES = \
-  script/silkconsensus_dummy.cpp \
+# sequenceconsensus library #
+if BUILD_SEQUENCE_LIBS
+include_HEADERS = script/sequenceconsensus.h
+libsequenceconsensus_la_SOURCES = \
+  script/sequenceconsensus_dummy.cpp \
   primitives/transaction.cpp \
   crypto/hmac_sha512.cpp \
   crypto/sha1.cpp \
@@ -400,19 +400,19 @@ libsilkconsensus_la_SOURCES = \
   pubkey.cpp \
   script/script.cpp \
   script/interpreter.cpp \
-  script/silkconsensus.cpp \
+  script/sequenceconsensus.cpp \
   uint256.cpp \
   utilstrencodings.cpp
 
 if GLIBC_BACK_COMPAT
-  libsilkconsensus_la_SOURCES += compat/glibc_compat.cpp
+  libsequenceconsensus_la_SOURCES += compat/glibc_compat.cpp
 endif
 
-libsilkconsensus_la_LDFLAGS = -no-undefined $(RELDFLAGS)		
-libsilkconsensus_la_LIBADD = $(CRYPTO_LIBS)		
-libsilkconsensus_la_CPPFLAGS = $(CRYPTO_CFLAGS) -I$(builddir)/obj -DBUILD_SILK_INTERNAL		
+libsequenceconsensus_la_LDFLAGS = -no-undefined $(RELDFLAGS)		
+libsequenceconsensus_la_LIBADD = $(CRYPTO_LIBS)		
+libsequenceconsensus_la_CPPFLAGS = $(CRYPTO_CFLAGS) -I$(builddir)/obj -DBUILD_SEQUENCE_INTERNAL		
 if USE_LIBSECP256K1		
-libsilkconsensus_la_LIBADD += secp256k1/libsecp256k1.la		
+libsequenceconsensus_la_LIBADD += secp256k1/libsecp256k1.la		
 endif		
 endif
 
@@ -452,7 +452,7 @@ clean-local:
 	-rm -rf test/.deps && rm -rf test/.libs && rm -f test/.dirstamp && rm	-f test/buildenv.py
 	-rm -rf secp256k1/.deps && rm -rf secp256k1/.libs && rm -f secp256k1/.dirstamp
 	-rm -f Makefile && rm -f Makefile.in
-	-rm -f config/silk-config.h && rm -f config/silk-config.* && rm -f config/stamp-h1
+	-rm -f config/sequence-config.h && rm -f config/sequence-config.* && rm -f config/stamp-h1
 .rc.o:
 	@test -f $(WINDRES)
 	$(AM_V_GEN) $(WINDRES) -DWINDRES_PREPROC -i $< -o $@

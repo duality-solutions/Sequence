@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -34,9 +34,9 @@ SendCoinsEntry::SendCoinsEntry(QWidget *parent) :
     ui->addAsLabel->setPlaceholderText(tr("Enter a label for this address to add it to your address book"));
 #endif
 
-    // normal Silk address field
+    // normal Sequence address field
     GUIUtil::setupAddressWidget(ui->payTo, this);
-    // just a label for displaying Silk address(es)
+    // just a label for displaying Sequence address(es)
     ui->payTo_is->setFont(GUIUtil::fixedPitchFont());
 
     // Connect signals
@@ -44,7 +44,7 @@ SendCoinsEntry::SendCoinsEntry(QWidget *parent) :
     connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deleteClicked()));
     connect(ui->deleteButton_is, SIGNAL(clicked()), this, SLOT(deleteClicked()));
     connect(ui->deleteButton_s, SIGNAL(clicked()), this, SLOT(deleteClicked()));
-    ui->payTo->setValidator(0);  // Silk: disable validator so that we can type names
+    ui->payTo->setValidator(0);  // Sequence: disable validator so that we can type names
 }
 
 SendCoinsEntry::~SendCoinsEntry()
@@ -117,7 +117,7 @@ void SendCoinsEntry::clear()
     ui->memoTextLabel_s->clear();
     ui->payAmount_s->clear();
 
-    // update the display unit, to not use the default ("SILK")
+    // update the display unit, to not use the default ("SEQUENCE")
     updateDisplayUnit();
 }
 
@@ -282,7 +282,7 @@ void SendCoinsEntry::on_payTo_editingFinished()
     std::vector<unsigned char> vchName(strName.begin(), strName.end());
 
     std::string error;
-    CSilkAddress address;
+    CSequenceAddress address;
     if (!GetNameCurrentAddress(vchName, address, error))
         return;
 

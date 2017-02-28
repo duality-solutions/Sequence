@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,7 +16,7 @@
 
 using namespace std;
 
-#define SILK_TIMEDATA_MAX_SAMPLES 200
+#define SEQUENCE_TIMEDATA_MAX_SAMPLES 200
 
 static volatile int64_t nTimeOffset =  0;
 static volatile int nUpdCount   = ~0;
@@ -56,7 +56,7 @@ void AddTimeData(const CNetAddr& ip, int64_t nTime)
     // Ignore duplicates
 
     static std::set<CNetAddr> setKnown;
-    if (setKnown.size() == SILK_TIMEDATA_MAX_SAMPLES)
+    if (setKnown.size() == SEQUENCE_TIMEDATA_MAX_SAMPLES)
         return;
     if (!setKnown.insert(ip).second)
         return;
@@ -64,7 +64,7 @@ void AddTimeData(const CNetAddr& ip, int64_t nTime)
     int64_t nOffsetSample = nTime - GetTime();
     
     // Add data
-    static CMedianFilter<int64_t> vTimeOffsets(SILK_TIMEDATA_MAX_SAMPLES, 0);
+    static CMedianFilter<int64_t> vTimeOffsets(SEQUENCE_TIMEDATA_MAX_SAMPLES, 0);
     vTimeOffsets.input(nOffsetSample);
     LogPrint("net","added time data, samples %d, offset %+d (%+d minutes)\n", vTimeOffsets.size(), nOffsetSample, nOffsetSample/60);
 
@@ -110,7 +110,7 @@ void AddTimeData(const CNetAddr& ip, int64_t nTime)
                 if (!fMatch)
                 {
                     fDone = true;
-                    string strMessage = _("Please check that your computer's date and time are correct! If your clock is wrong Silk Core will not work properly.");
+                    string strMessage = _("Please check that your computer's date and time are correct! If your clock is wrong Sequence will not work properly.");
                     strMiscWarning = strMessage;
                     uiInterface.ThreadSafeMessageBox(strMessage, "", CClientUIInterface::MSG_WARNING);
                 }

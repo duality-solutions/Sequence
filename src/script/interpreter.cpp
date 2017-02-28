@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
 // Copyright (c) 2013-2017 Emercoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -96,7 +96,7 @@ bool static IsCompressedOrUncompressedPubKey(const valtype &vchPubKey) {
  * excessively padded (do not start with a 0 byte, unless an otherwise negative number follows,
  * in which case a single 0 byte is necessary and even required).
  * 
- * See https://silktalk.org/index.php?topic=8392.msg127623#msg127623
+ * See https://sequencetalk.org/index.php?topic=8392.msg127623#msg127623
  *
  * This function is consensus-critical since BIP66.
  */
@@ -1172,7 +1172,7 @@ bool VerifyScript(const CScript& scriptSig, const CScript& scriptPubKey, unsigne
 {
     set_error(serror, SCRIPT_ERR_UNKNOWN_ERROR);
 
-    // Silk: for backward compatability namecoin script should not be checked for minimaldata
+    // Sequence: for backward compatability namecoin script should not be checked for minimaldata
     if (fNamecoin)
         flags &= ~SCRIPT_VERIFY_MINIMALDATA;
 
@@ -1270,9 +1270,9 @@ bool AddressMatchesPubKey(const CNameVal& name, const CNameVal& value, std::stri
     }
 
     CKeyID keyID = vchPubKey.GetID();
-    if (CSilkAddress(keyID).ToString() != strAddress)
+    if (CSequenceAddress(keyID).ToString() != strAddress)
     {
-        strError = CSilkAddress(keyID).ToString() + " != Base58(SHA256(" + strAddress + "))";
+        strError = CSequenceAddress(keyID).ToString() + " != Base58(SHA256(" + strAddress + "))";
         return false;
     }
     return true;

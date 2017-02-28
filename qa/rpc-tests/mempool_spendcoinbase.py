@@ -13,14 +13,14 @@
 # but less mature coinbase spends are NOT.
 #
 
-from test_framework import silkTestFramework
-from silkrpc.authproxy import AuthServiceProxy, JSONRPCException
+from test_framework import sequenceTestFramework
+from sequencerpc.authproxy import AuthServiceProxy, JSONRPCException
 from util import *
 import os
 import shutil
 
 # Create one-input, one-output, no-fee transaction:
-class MempoolSpendCoinbaseTest(silkTestFramework):
+class MempoolSpendCoinbaseTest(sequenceTestFramework):
 
     def setup_network(self):
         # Just need one node for this test

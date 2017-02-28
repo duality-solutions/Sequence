@@ -1,0 +1,86 @@
+#!/sbin/runscript
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/sequence/.sequence" ]; then
+	SEQUENCED_DEFAULT_DATADIR="/var/lib/sequence/.sequence"
+else
+	SEQUENCED_DEFAULT_DATADIR="/var/lib/sequenced"
+fi
+
+SEQUENCED_CONFIGFILE=${SEQUENCED_CONFIGFILE:-/etc/sequence/sequence.conf}
+SEQUENCED_PIDDIR=${SEQUENCED_PIDDIR:-/var/run/sequenced}
+SEQUENCED_PIDFILE=${SEQUENCED_PIDFILE:-${SEQUENCED_PIDDIR}/sequenced.pid}
+SEQUENCED_DATADIR=${SEQUENCED_DATADIR:-${SEQUENCED_DEFAULT_DATADIR}}
+SEQUENCED_USER=${SEQUENCED_USER:-sequence}
+SEQUENCED_GROUP=${SEQUENCED_GROUP:-sequence}
+SEQUENCED_BIN=${SEQUENCED_BIN:-/usr/bin/sequenced}
+
+name="Sequence Daemon"
+description="sequence crypto-currency p2p network daemon"
+
+command="/usr/bin/sequenced"
+command_args="-pid=\"${SEQUENCED_PIDFILE}\" \
+		-conf=\"${SEQUENCED_CONFIGFILE}\" \
+		-datadir=\"${SEQUENCED_DATADIR}\" \
+		-daemon \
+		${SEQUENCED_OPTS}"
+
+required_files="${SEQUENCED_CONFIGFILE}"
+start_stop_daemon_args="-u ${SEQUENCED_USER} \
+			-N ${SEQUENCED_NICE:-0} -w 2000"
+pidfile="${SEQUENCED_PIDFILE}"
+retry=60
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${SEQUENCED_USER}:${SEQUENCED_GROUP}" \
+	"${SEQUENCED_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${SEQUENCED_USER}:${SEQUENCED_GROUP}" \
+	"${SEQUENCED_PIDDIR}"
+
+	checkpath -f \
+	-o ${SEQUENCED_USER}:${SEQUENCED_GROUP} \
+	-m 0660 \
+	${SEQUENCED_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${SEQUENCED_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run sequenced."
+		eerror "The setting must appear in ${SEQUENCED_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following"
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is also recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"sequence Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

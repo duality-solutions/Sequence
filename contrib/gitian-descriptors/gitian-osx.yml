@@ -1,5 +1,5 @@
 ---
-name: "silk-osx-1.3.0.0"
+name: "sequence-osx-1.0.0.0"
 enable_cache: true
 suites:
 - "trusty"
@@ -21,8 +21,8 @@ packages:
 - "libbz2-dev"
 reference_datetime: "2017-01-01 00:00:00"
 remotes:
-- "url": "https://github.com/silknetwork/silk-core.git"
-  "dir": "silk"
+- "url": "https://github.com/duality-solutions/sequence.git"
+  "dir": "sequence"
 files:
 - "MacOSX10.7.sdk.tar.gz"
 script: |
@@ -69,7 +69,7 @@ script: |
   done
   export PATH=${WRAP_DIR}:${PATH}
 
-  cd silk
+  cd sequence
   BASEPREFIX=`pwd`/depends
 
   mkdir -p ${BASEPREFIX}/SDKs
@@ -84,14 +84,14 @@ script: |
   ./autogen.sh
   ./configure --prefix=${BASEPREFIX}/`echo "${HOSTS}" | awk '{print $1;}'`
   make dist
-  SOURCEDIST=`echo silk-*.tar.gz`
+  SOURCEDIST=`echo sequence-*.tar.gz`
   DISTNAME=`echo ${SOURCEDIST} | sed 's/.tar.*//'`
 
   # Correct tar file order
   mkdir -p temp
   pushd temp
   tar xf ../$SOURCEDIST
-  find silk-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
+  find sequence-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
   popd
 
   ORIGPATH="$PATH"
@@ -121,7 +121,7 @@ script: |
     popd
 
     make deploy
-    ${WRAP_DIR}/dmg dmg Silk-Core.dmg ${OUTDIR}/${DISTNAME}-osx-unsigned.dmg
+    ${WRAP_DIR}/dmg dmg Sequence.dmg ${OUTDIR}/${DISTNAME}-osx-unsigned.dmg
 
     cd installed
     find . -name "lib*.la" -delete

@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_RANDOM_H
-#define SILK_RANDOM_H
+#ifndef SEQUENCE_RANDOM_H
+#define SEQUENCE_RANDOM_H
 
 #include "uint256.h"
 
@@ -47,4 +47,4 @@ static inline uint32_t insecure_rand(void)
     return (insecure_rand_Rw << 16) + insecure_rand_Rz;
 }
 
-#endif // SILK_RANDOM_H
+#endif // SEQUENCE_RANDOM_H

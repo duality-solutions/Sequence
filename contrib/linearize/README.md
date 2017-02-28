@@ -17,7 +17,7 @@ Optional config file setting for linearize-hashes:
    $ ./linearize-data.py linearize.cfg
 
 Required configuration file settings:
-* "input": silkd blocks/ directory containing blkNNNNN.dat
+* "input": sequenced blocks/ directory containing blkNNNNN.dat
 * "hashlist": text file containing list of block hashes, linearized-hashes.py
 output.
 * "output_file": bootstrap.dat

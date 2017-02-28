@@ -5,10 +5,10 @@
 
 # Test for -rpcbind, as well as -rpcallowip and -rpcconnect
 
-# Add python-silkrpc to module search path:
+# Add python-sequencerpc to module search path:
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "python-silkrpc"))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "python-sequencerpc"))
 
 import json
 import shutil
@@ -16,7 +16,7 @@ import subprocess
 import tempfile
 import traceback
 
-from silkrpc.authproxy import AuthServiceProxy, JSONRPCException
+from sequencerpc.authproxy import AuthServiceProxy, JSONRPCException
 from util import *
 from netutil import *
 
@@ -33,11 +33,11 @@ def run_bind_test(tmpdir, allow_ips, connect_to, addresses, expected):
     binds = ['-rpcbind='+addr for addr in addresses]
     nodes = start_nodes(1, tmpdir, [base_args + binds], connect_to)
     try:
-        pid = silkd_processes[0].pid
+        pid = sequenced_processes[0].pid
         assert_equal(set(get_bind_addrs(pid)), set(expected))
     finally:
         stop_nodes(nodes)
-        wait_silkds()
+        wait_sequenceds()
 
 def run_allowip_test(tmpdir, allow_ips, rpchost, rpcport):
     '''
@@ -54,7 +54,7 @@ def run_allowip_test(tmpdir, allow_ips, rpchost, rpcport):
     finally:
         node = None # make sure connection will be garbage collected and closed
         stop_nodes(nodes)
-        wait_silkds()
+        wait_sequenceds()
 
 
 def run_test(tmpdir):
@@ -109,9 +109,9 @@ def main():
 
     parser = optparse.OptionParser(usage="%prog [options]")
     parser.add_option("--nocleanup", dest="nocleanup", default=False, action="store_true",
-                      help="Leave silkds and test.* datadir on exit or error")
+                      help="Leave sequenceds and test.* datadir on exit or error")
     parser.add_option("--srcdir", dest="srcdir", default="../../src",
-                      help="Source directory containing silkd/silk-cli (default: %default%)")
+                      help="Source directory containing sequenced/sequence-cli (default: %default%)")
     parser.add_option("--tmpdir", dest="tmpdir", default=tempfile.mkdtemp(prefix="test"),
                       help="Root directory for datadirs")
     (options, args) = parser.parse_args()
@@ -140,7 +140,7 @@ def main():
 
     if not options.nocleanup:
         print("Cleaning up")
-        wait_silkds()
+        wait_sequenceds()
         shutil.rmtree(options.tmpdir)
 
     if success:

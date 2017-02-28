@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,7 +8,7 @@
 
 #include "guiutil.h"
 #include "optionsmodel.h"
-#include "silkunits.h"
+#include "sequenceunits.h"
 
 #include "base58.h"
 #include "chainparams.h"
@@ -52,15 +52,15 @@
 using namespace boost;
 using namespace std;
 
-const int SILK_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
-const QString SILK_IPC_PREFIX("Silk:");
+const int SEQUENCE_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
+const QString SEQUENCE_IPC_PREFIX("Sequence:");
 // BIP70 payment protocol messages
 const char* BIP70_MESSAGE_PAYMENTACK = "PaymentACK";
 const char* BIP70_MESSAGE_PAYMENTREQUEST = "PaymentRequest";
 // BIP71 payment protocol media types
-const char* BIP71_MIMETYPE_PAYMENT = "application/silk-payment";
-const char* BIP71_MIMETYPE_PAYMENTACK = "application/silk-paymentack";
-const char* BIP71_MIMETYPE_PAYMENTREQUEST = "application/silk-paymentrequest";
+const char* BIP71_MIMETYPE_PAYMENT = "application/sequence-payment";
+const char* BIP71_MIMETYPE_PAYMENTACK = "application/sequence-paymentack";
+const char* BIP71_MIMETYPE_PAYMENTREQUEST = "application/sequence-paymentrequest";
 // BIP70 max payment request size in bytes (DoS protection)
 const qint64 BIP70_MAX_PAYMENTREQUEST_SIZE = 50000;
 
@@ -81,7 +81,7 @@ void PaymentServer::freeCertStore()
 //
 static QString ipcServerName()
 {
-    QString name("SilkQt");
+    QString name("SequenceQt");
 
     // Append a simple hash of the datadir
     // Note that GetDataDir(true) returns a different path
@@ -201,18 +201,18 @@ void PaymentServer::ipcParseCommandLine(int argc, char* argv[])
         if (arg.startsWith("-"))
             continue;
 
-        // If the Silk: URI contains a payment request, we are not able to detect the
+        // If the Sequence: URI contains a payment request, we are not able to detect the
         // network as that would require fetching and parsing the payment request.
         // That means clicking such an URI which contains a testnet payment request
         // will start a mainnet instance and throw a "wrong network" error.
-        if (arg.startsWith(SILK_IPC_PREFIX, Qt::CaseInsensitive)) // Silk: URI
+        if (arg.startsWith(SEQUENCE_IPC_PREFIX, Qt::CaseInsensitive)) // Sequence: URI
         {
             savedPaymentRequests.append(arg);
 
             SendCoinsRecipient r;
-            if (GUIUtil::parsesilkURI(arg, &r) && !r.address.isEmpty())
+            if (GUIUtil::parsesequenceURI(arg, &r) && !r.address.isEmpty())
             {
-                CSilkAddress address(r.address.toStdString());
+                CSequenceAddress address(r.address.toStdString());
 
                 if (address.IsValid(Params(CBaseChainParams::MAIN)))
                 {
@@ -263,7 +263,7 @@ bool PaymentServer::ipcSendCommandLine()
     {
         QLocalSocket* socket = new QLocalSocket();
         socket->connectToServer(ipcServerName(), QIODevice::WriteOnly);
-        if (!socket->waitForConnected(SILK_IPC_CONNECT_TIMEOUT))
+        if (!socket->waitForConnected(SEQUENCE_IPC_CONNECT_TIMEOUT))
         {
             delete socket;
             socket = NULL;
@@ -278,7 +278,7 @@ bool PaymentServer::ipcSendCommandLine()
 
         socket->write(block);
         socket->flush();
-        socket->waitForBytesWritten(SILK_IPC_CONNECT_TIMEOUT);
+        socket->waitForBytesWritten(SEQUENCE_IPC_CONNECT_TIMEOUT);
         socket->disconnectFromServer();
 
         delete socket;
@@ -301,7 +301,7 @@ PaymentServer::PaymentServer(QObject* parent, bool startLocalServer) :
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
     // Install global event filter to catch QFileOpenEvents
-    // on Mac: sent when you click Silk: links
+    // on Mac: sent when you click Sequence: links
     // other OSes: helpful when dealing with payment request files (in the future)
     if (parent)
         parent->installEventFilter(this);
@@ -318,7 +318,7 @@ PaymentServer::PaymentServer(QObject* parent, bool startLocalServer) :
         if (!uriServer->listen(name)) {
             // constructor is called early in init, so don't use "emit message()" here
             QMessageBox::critical(0, tr("Payment request error"),
-                tr("Cannot start Silk: click-to-pay handler"));
+                tr("Cannot start Sequence: click-to-pay handler"));
         }
         else {
             connect(uriServer, SIGNAL(newConnection()), this, SLOT(handleURIConnection()));
@@ -333,12 +333,12 @@ PaymentServer::~PaymentServer()
 }
 
 //
-// OSX-specific way of handling Silk: URIs and
+// OSX-specific way of handling Sequence: URIs and
 // PaymentRequest mime types
 //
 bool PaymentServer::eventFilter(QObject *object, QEvent *event)
 {
-    // clicking on Silk: URIs creates FileOpen events on the Mac
+    // clicking on Sequence: URIs creates FileOpen events on the Mac
     if (event->type() == QEvent::FileOpen)
     {
         QFileOpenEvent *fileEvent = static_cast<QFileOpenEvent*>(event);
@@ -360,7 +360,7 @@ void PaymentServer::initNetManager()
     if (netManager != NULL)
         delete netManager;
 
-    // netManager is used to fetch paymentrequests given in Silk: URIs
+    // netManager is used to fetch paymentrequests given in Sequence: URIs
     netManager = new QNetworkAccessManager(this);
 
     QNetworkProxy proxy;
@@ -400,7 +400,7 @@ void PaymentServer::handleURIOrFile(const QString& s)
         return;
     }
 
-    if (s.startsWith(SILK_IPC_PREFIX, Qt::CaseInsensitive)) // Silk: URI
+    if (s.startsWith(SEQUENCE_IPC_PREFIX, Qt::CaseInsensitive)) // Sequence: URI
     {
 #if QT_VERSION < 0x050000
         QUrl uri(s);
@@ -432,9 +432,9 @@ void PaymentServer::handleURIOrFile(const QString& s)
         else // normal URI
         {
             SendCoinsRecipient recipient;
-            if (GUIUtil::parsesilkURI(s, &recipient))
+            if (GUIUtil::parsesequenceURI(s, &recipient))
             {
-                CSilkAddress address(recipient.address.toStdString());
+                CSequenceAddress address(recipient.address.toStdString());
                 if (!address.IsValid()) {
                     Q_EMIT message(tr("URI handling"), tr("Invalid payment address %1").arg(recipient.address),
                         CClientUIInterface::MSG_ERROR);
@@ -444,7 +444,7 @@ void PaymentServer::handleURIOrFile(const QString& s)
             }
             else
                 Q_EMIT message(tr("URI handling"),
-                    tr("URI cannot be parsed! This can be caused by an invalid Silk address or malformed URI parameters."),
+                    tr("URI cannot be parsed! This can be caused by an invalid Sequence address or malformed URI parameters."),
                     CClientUIInterface::ICON_WARNING);
 
             return;
@@ -562,10 +562,10 @@ bool PaymentServer::processPaymentRequest(PaymentRequestPlus& request, SendCoins
         CTxDestination dest;
         if (ExtractDestination(sendingTo.first, dest)) {
             // Append destination address
-            addresses.append(QString::fromStdString(CSilkAddress(dest).ToString()));
+            addresses.append(QString::fromStdString(CSequenceAddress(dest).ToString()));
         }
         else if (!recipient.authenticatedMerchant.isEmpty()) {
-            // Insecure payments to custom Silk addresses are not supported
+            // Insecure payments to custom Sequence addresses are not supported
             // (there is no good way to tell the user where they are paying in a way
             // they'd have a chance of understanding).
             Q_EMIT message(tr("Payment request rejected"),
@@ -578,7 +578,7 @@ bool PaymentServer::processPaymentRequest(PaymentRequestPlus& request, SendCoins
         CTxOut txOut(sendingTo.second, sendingTo.first);
         if (txOut.IsDust(::minRelayTxFee)) {
             Q_EMIT message(tr("Payment request error"), tr("Requested payment amount of %1 is too small (considered dust).")
-                .arg(SilkUnits::formatWithUnit(optionsModel->getDisplayUnit(), sendingTo.second)),
+                .arg(SequenceUnits::formatWithUnit(optionsModel->getDisplayUnit(), sendingTo.second)),
                 CClientUIInterface::MSG_ERROR);
 
             return false;

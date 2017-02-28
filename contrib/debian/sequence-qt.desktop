@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=sequence
+Comment=sequence P2P Cryptocurrency
+Comment[fr]=sequence, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=sequence, eşten eşe kriptografik sanal para birimi
+Exec=sequence-qt %u
+Terminal=false
+Type=Application
+Icon=sequence128
+MimeType=x-scheme-handler/sequence;
+Categories=Office;Finance;

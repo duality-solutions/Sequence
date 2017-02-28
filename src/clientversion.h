@@ -1,23 +1,23 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_CLIENTVERSION_H
-#define SILK_CLIENTVERSION_H
+#ifndef SEQUENCE_CLIENTVERSION_H
+#define SEQUENCE_CLIENTVERSION_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/silk-config.h"
+#include "config/sequence-config.h"
 #else
 
 /**
  * client versioning and copyright year
  */
 
-//! These need to be macros, as clientversion.cpp's and silk*-res.rc's voodoo requires it
+//! These need to be macros, as clientversion.cpp's and sequence*-res.rc's voodoo requires it
 #define CLIENT_VERSION_MAJOR 1
-#define CLIENT_VERSION_MINOR 3
+#define CLIENT_VERSION_MINOR 0
 #define CLIENT_VERSION_REVISION 0
 #define CLIENT_VERSION_BUILD 0
 
@@ -40,10 +40,10 @@
 #define DO_STRINGIZE(X) #X
 
 //! Copyright string used in Windows .rc files
-#define COPYRIGHT_STR "2015-" STRINGIZE(COPYRIGHT_YEAR) " Silk Network Developers"
+#define COPYRIGHT_STR "2016-" STRINGIZE(COPYRIGHT_YEAR) " Duality Blockchain Solutions Developers"
 
 /**
- * silkd-res.rc includes this file, but it cannot cope with real c++ code.
+ * sequenced-res.rc includes this file, but it cannot cope with real c++ code.
  * WINDRES_PREPROC is defined to indicate that its pre-processor is running.
  * Anything other than a define should be guarded below.
  */
@@ -69,4 +69,4 @@ std::string FormatSubVersion(const std::string& name, int nClientVersion, const 
 
 #endif // WINDRES_PREPROC
 
-#endif // SILK_CLIENTVERSION_H
+#endif // SEQUENCE_CLIENTVERSION_H

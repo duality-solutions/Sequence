@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_QT_RECENTREQUESTSTABLEMODEL_H
-#define SILK_QT_RECENTREQUESTSTABLEMODEL_H
+#ifndef SEQUENCE_QT_RECENTREQUESTSTABLEMODEL_H
+#define SEQUENCE_QT_RECENTREQUESTSTABLEMODEL_H
 
 #include "walletmodel.h"
 
@@ -55,7 +55,7 @@ private:
     Qt::SortOrder order;
 };
 
-/** Model for list of recently generated payment requests / Silk: URIs.
+/** Model for list of recently generated payment requests / Sequence: URIs.
  * Part of wallet model.
  */
 class RecentRequestsTableModel: public QAbstractTableModel
@@ -108,4 +108,4 @@ private:
     QString getAmountTitle();
 };
 
-#endif // SILK_QT_RECENTREQUESTSTABLEMODEL_H
+#endif // SEQUENCE_QT_RECENTREQUESTSTABLEMODEL_H

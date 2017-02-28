@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -216,7 +216,7 @@ void WalletModel::updateWatchOnlyFlag(bool fHaveWatchonly)
 
 bool WalletModel::validateAddress(const QString &address)
 {
-    CSilkAddress addressParsed(address.toStdString());
+    CSequenceAddress addressParsed(address.toStdString());
     return addressParsed.IsValid();
 }
 
@@ -260,7 +260,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
             total += subtotal;
         }
         else
-        {   // User-entered Silk address / amount:
+        {   // User-entered Sequence address / amount:
             if(!validateAddress(rcp.address))
             {
                 return InvalidAddress;
@@ -272,7 +272,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
             setAddress.insert(rcp.address);
             ++nAddresses;
 
-            CScript scriptPubKey = GetScriptForDestination(CSilkAddress(rcp.address.toStdString()).Get());
+            CScript scriptPubKey = GetScriptForDestination(CSequenceAddress(rcp.address.toStdString()).Get());
             vecSend.push_back(std::pair<CScript, CAmount>(scriptPubKey, rcp.amount));
 
             total += rcp.amount;
@@ -313,7 +313,7 @@ WalletModel::SendCoinsReturn WalletModel::prepareTransaction(WalletModelTransact
             return TransactionCreationFailed;
         }
 
-        // reject insane fee > 0.1 Silk
+        // reject insane fee > 0.1 Sequence
         if (nFeeRequired > 10000000)
             return InsaneFee;
     }
@@ -339,7 +339,7 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(WalletModelTransaction &tran
                 rcp.paymentRequest.SerializeToString(&value);
                 newTx->vOrderForm.push_back(make_pair(key, value));
             }
-            else if (!rcp.message.isEmpty()) // Message from normal Silk:URI (Silk:123...?message=example)
+            else if (!rcp.message.isEmpty()) // Message from normal Sequence:URI (Sequence:123...?message=example)
                 newTx->vOrderForm.push_back(make_pair("Message", rcp.message.toStdString()));
         }
 
@@ -361,7 +361,7 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(WalletModelTransaction &tran
         if (!rcp.paymentRequest.IsInitialized())
         {
             std::string strAddress = rcp.address.toStdString();
-            CTxDestination dest = CSilkAddress(strAddress).Get();
+            CTxDestination dest = CSequenceAddress(strAddress).Get();
             std::string strLabel = rcp.label.toStdString();
             {
                 LOCK(wallet->cs_wallet);
@@ -500,7 +500,7 @@ static void NotifyAddressBookChanged(WalletModel *walletmodel, CWallet *wallet,
         const CTxDestination &address, const std::string &label, bool isMine,
         const std::string &purpose, ChangeType status)
 {
-    QString strAddress = QString::fromStdString(CSilkAddress(address).ToString());
+    QString strAddress = QString::fromStdString(CSequenceAddress(address).ToString());
     QString strLabel = QString::fromStdString(label);
     QString strPurpose = QString::fromStdString(purpose);
 
@@ -651,7 +651,7 @@ void WalletModel::listCoins(std::map<QString, std::vector<COutput> >& mapCoins) 
         CTxDestination address;
         if(!out.fSpendable || !ExtractDestination(cout.tx->vout[cout.i].scriptPubKey, address))
             continue;
-        mapCoins[QString::fromStdString(CSilkAddress(address).ToString())].push_back(out);
+        mapCoins[QString::fromStdString(CSequenceAddress(address).ToString())].push_back(out);
     }
 }
 
@@ -695,7 +695,7 @@ bool WalletModel::hdEnabled() const
 
 bool WalletModel::saveReceiveRequest(const std::string &sAddress, const int64_t nId, const std::string &sRequest)
 {
-    CTxDestination dest = CSilkAddress(sAddress).Get();
+    CTxDestination dest = CSequenceAddress(sAddress).Get();
 
     std::stringstream ss;
     ss << nId;
@@ -708,7 +708,7 @@ bool WalletModel::saveReceiveRequest(const std::string &sAddress, const int64_t 
         return wallet->AddDestData(dest, key, sRequest);
 }
 
-bool WalletModel::isMine(const CSilkAddress &address)
+bool WalletModel::isMine(const CSequenceAddress &address)
 {
     return IsMine(*wallet, address.Get());
 }

@@ -1,14 +1,14 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "guiutil.h"
 
 #include "qvalidatedlineedit.h"
-#include "silkaddressvalidator.h"
-#include "silkunits.h"
+#include "sequenceaddressvalidator.h"
+#include "sequenceunits.h"
 #include "walletmodel.h"
 
 #include "init.h"
@@ -93,7 +93,7 @@ QString dateTimeStr(qint64 nTime)
     return dateTimeStr(QDateTime::fromTime_t((qint32)nTime));
 }
 
-QFont SilkAddressFont()
+QFont SequenceAddressFont()
 {
     QFont font("Monospace");
 #if QT_VERSION >= 0x040800
@@ -123,14 +123,14 @@ void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent)
 {
     parent->setFocusProxy(widget);
 
-    widget->setFont(SilkAddressFont());
+    widget->setFont(SequenceAddressFont());
 #if QT_VERSION >= 0x040700
     // We don't want translators to use own addresses in translations
     // and this is the only place, where this address is supplied.
-    widget->setPlaceholderText(QObject::tr("Enter a Silk Address or Name Registered on the dDNS."));
+    widget->setPlaceholderText(QObject::tr("Enter a Sequence Address or Name Registered on the dDNS."));
 #endif
-    widget->setValidator(new SilkAddressEntryValidator(parent));
-    widget->setCheckValidator(new SilkAddressCheckValidator(parent));
+    widget->setValidator(new SequenceAddressEntryValidator(parent));
+    widget->setCheckValidator(new SequenceAddressCheckValidator(parent));
 }
 
 void setupAmountWidget(QLineEdit *widget, QWidget *parent)
@@ -142,10 +142,10 @@ void setupAmountWidget(QLineEdit *widget, QWidget *parent)
     widget->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
 }
 
-bool parsesilkURI(const QUrl &uri, SendCoinsRecipient *out)
+bool parsesequenceURI(const QUrl &uri, SendCoinsRecipient *out)
 {
-    // return if URI is not valid or is no Silk: URI
-    if(!uri.isValid() || uri.scheme() != QString("silk"))
+    // return if URI is not valid or is no Sequence: URI
+    if(!uri.isValid() || uri.scheme() != QString("sequence"))
         return false;
 
     SendCoinsRecipient rv;
@@ -185,7 +185,7 @@ bool parsesilkURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if(!SilkUnits::parse(SilkUnits::SLK, i->second, &rv.amount))
+                if(!SequenceUnits::parse(SequenceUnits::SEQ, i->second, &rv.amount))
                 {
                     return false;
                 }
@@ -203,28 +203,28 @@ bool parsesilkURI(const QUrl &uri, SendCoinsRecipient *out)
     return true;
 }
 
-bool parsesilkURI(QString uri, SendCoinsRecipient *out)
+bool parsesequenceURI(QString uri, SendCoinsRecipient *out)
 {
-    // Convert Silk:// to Silk:
+    // Convert Sequence:// to Sequence:
     //
-    //    Cannot handle this later, because Silk:// will cause Qt to see the part after // as host,
+    //    Cannot handle this later, because Sequence:// will cause Qt to see the part after // as host,
     //    which will lower-case it (and thus invalidate the address).
-    if(uri.startsWith("Silk://", Qt::CaseInsensitive))
+    if(uri.startsWith("Sequence://", Qt::CaseInsensitive))
     {
-        uri.replace(0, 11, "Silk:");
+        uri.replace(0, 11, "Sequence:");
     }
     QUrl uriInstance(uri);
-    return parsesilkURI(uriInstance, out);
+    return parsesequenceURI(uriInstance, out);
 }
 
-QString formatsilkURI(const SendCoinsRecipient &info)
+QString formatsequenceURI(const SendCoinsRecipient &info)
 {
-    QString ret = QString("Silk:%1").arg(info.address);
+    QString ret = QString("Sequence:%1").arg(info.address);
     int paramCount = 0;
 
     if (info.amount)
     {
-        ret += QString("?amount=%1").arg(SilkUnits::format(SilkUnits::SLK, info.amount, false, SilkUnits::separatorNever));
+        ret += QString("?amount=%1").arg(SequenceUnits::format(SequenceUnits::SEQ, info.amount, false, SequenceUnits::separatorNever));
         paramCount++;
     }
 
@@ -247,7 +247,7 @@ QString formatsilkURI(const SendCoinsRecipient &info)
 
 bool isDust(const QString& address, const CAmount& amount)
 {
-    CTxDestination dest = CSilkAddress(address.toStdString()).Get();
+    CTxDestination dest = CSequenceAddress(address.toStdString()).Get();
     CScript script = GetScriptForDestination(dest);
     CTxOut txOut(amount, script);
     return txOut.IsDust(::minRelayTxFee);
@@ -424,7 +424,7 @@ void openConfigfile()
 {
     boost::filesystem::path pathConfig = GetConfigFile();
 
-    /* Open silk.conf with the associated application */
+    /* Open sequence.conf with the associated application */
     if (boost::filesystem::exists(pathConfig))
         QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathConfig)));
 }
@@ -621,15 +621,15 @@ boost::filesystem::path static StartupShortcutPath()
 {
     std::string chain = ChainNameFromCommandLine();
     if (chain == CBaseChainParams::MAIN)
-        return GetSpecialFolderPath(CSIDL_STARTUP) / "Silk.lnk";
+        return GetSpecialFolderPath(CSIDL_STARTUP) / "Sequence.lnk";
     if (chain == CBaseChainParams::TESTNET) // Remove this special case when CBaseChainParams::TESTNET = "testnet4"
-        return GetSpecialFolderPath(CSIDL_STARTUP) / "Silk (testnet).lnk";
-    return GetSpecialFolderPath(CSIDL_STARTUP) / strprintf("Silk (%s).lnk", chain);
+        return GetSpecialFolderPath(CSIDL_STARTUP) / "Sequence (testnet).lnk";
+    return GetSpecialFolderPath(CSIDL_STARTUP) / strprintf("Sequence (%s).lnk", chain);
 }
 
 bool GetStartOnSystemStartup()
 {
-    // check for silk.lnk
+    // check for sequence.lnk
     return boost::filesystem::exists(StartupShortcutPath());
 }
 
@@ -706,7 +706,7 @@ boost::filesystem::path static GetAutostartDir()
 
 boost::filesystem::path static GetAutostartFilePath()
 {
-    return GetAutostartDir() / "silk.desktop";
+    return GetAutostartDir() / "sequence.desktop";
 }
 
 bool GetStartOnSystemStartup()
@@ -744,10 +744,10 @@ bool SetStartOnSystemStartup(bool fAutoStart)
         boost::filesystem::ofstream optionFile(GetAutostartFilePath(), std::ios_base::out|std::ios_base::trunc);
         if (!optionFile.good())
             return false;
-        // Write a silk.desktop file to the autostart directory:
+        // Write a sequence.desktop file to the autostart directory:
         optionFile << "[Desktop Entry]\n";
         optionFile << "Type=Application\n";
-        optionFile << "Name=Silk\n";
+        optionFile << "Name=Sequence\n";
         optionFile << "Exec=" << pszExePath << " -min\n";
         optionFile << "Terminal=false\n";
         optionFile << "Hidden=false\n";
@@ -766,7 +766,7 @@ bool SetStartOnSystemStartup(bool fAutoStart)
 LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef findUrl);
 LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef findUrl)
 {
-    // loop through the list of startup items and try to find the silk app
+    // loop through the list of startup items and try to find the sequence app
     CFArrayRef listSnapshot = LSSharedFileListCopySnapshot(list, NULL);
     for(int i = 0; i < CFArrayGetCount(listSnapshot); i++) {
         LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(listSnapshot, i);
@@ -787,21 +787,21 @@ LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef
 
 bool GetStartOnSystemStartup()
 {
-    CFURLRef silkAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    CFURLRef sequenceAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
-    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, silkAppUrl);
+    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, sequenceAppUrl);
     return !!foundItem; // return boolified object
 }
 
 bool SetStartOnSystemStartup(bool fAutoStart)
 {
-    CFURLRef silkAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
+    CFURLRef sequenceAppUrl = CFBundleCopyBundleURL(CFBundleGetMainBundle());
     LSSharedFileListRef loginItems = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
-    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, silkAppUrl);
+    LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, sequenceAppUrl);
 
     if(fAutoStart && !foundItem) {
-        // add silk app to startup item list
-        LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, NULL, NULL, silkAppUrl, NULL, NULL);
+        // add sequence app to startup item list
+        LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, NULL, NULL, sequenceAppUrl, NULL, NULL);
     }
     else if(!fAutoStart && foundItem) {
         // remove item

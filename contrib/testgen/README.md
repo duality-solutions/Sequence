@@ -1,6 +1,6 @@
 ### TestGen ###
 
-Utilities to generate test vectors for the data-driven silk tests.
+Utilities to generate test vectors for the data-driven sequence tests.
 
 Usage: 
 

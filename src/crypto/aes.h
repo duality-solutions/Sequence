@@ -1,12 +1,12 @@
 // Copyright (c) 2015 The BitCoin Core developers
-// Copyright (c) 2017 The Silk Network developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 //
 // C++ wrapper around ctaes, a constant-time AES implementation
 
-#ifndef SILK_CRYPTO_AES_H
-#define SILK_CRYPTO_AES_H
+#ifndef SEQUENCE_CRYPTO_AES_H
+#define SEQUENCE_CRYPTO_AES_H
 
 extern "C" {
 #include "crypto/ctaes/ctaes.h"
@@ -116,4 +116,4 @@ private:
     unsigned char iv[AES_BLOCKSIZE];
 };
 
-#endif // SILK_CRYPTO_AES_H
+#endif // SEQUENCE_CRYPTO_AES_H

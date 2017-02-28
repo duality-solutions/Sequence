@@ -1,10 +1,10 @@
 // Copyright (c) 2009-2017 The Bitcoin Core developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_RPCREGISTER_H
-#define SILK_RPCREGISTER_H
+#ifndef SEQUENCE_RPCREGISTER_H
+#define SEQUENCE_RPCREGISTER_H
 
 // These are in one header file to avoid creating tons of single-function
 // headers for everything under src/rpc/*
@@ -35,4 +35,4 @@ static inline void RegisterAllCoreRPCCommands(CRPCTable &tableRPC)
     RegisterWalletRPCCommands(tableRPC);
 }
 
-#endif // SILK_RPCREGISTER_H
+#endif // SEQUENCE_RPCREGISTER_H

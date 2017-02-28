@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -103,7 +103,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "reservebalance", 0 },
     { "reservebalance", 1 },
 
-    // Silk:
+    // Sequence:
     { "name_new", 2 },
     { "name_update", 2 },
     { "name_filter", 1 },
@@ -111,7 +111,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "name_filter", 3 },
     { "name_history", 1 },
     { "sendtoname", 1 },
-//silk    { "gettxlistfor", 0 },
+//sequence    { "gettxlistfor", 0 },
 //    { "gettxlistfor", 1 },
 //    { "gettxlistfor", 3 },
 //    { "gettxlistfor", 4 },

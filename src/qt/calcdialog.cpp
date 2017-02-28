@@ -1,11 +1,11 @@
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "calcdialog.h"
 #include "ui_calcdialog.h"
 
-#include "silkunits.h"
+#include "sequenceunits.h"
 #include "transactiontablemodel.h"
 #include "transactiondesc.h"
 #include "transactionrecord.h"
@@ -57,7 +57,7 @@ void calcDialog::pushButtonClicked()
 			{
 				days = (tx.nTime - ptx.nTime) / 86400.0f;
 
-				strRewardSize += "\n" + tr("%1% SLK staked in %2 days").arg(rate).arg(days);
+				strRewardSize += "\n" + tr("%1% SEQ staked in %2 days").arg(rate).arg(days);
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-The following is a list of assets used in the silk source and their proper attribution.
+The following is a list of assets used in the sequence source and their proper attribution.
 
 [Wladimir van der Laan](https://github.com/laanwj)
 -----------------------
@@ -97,7 +97,7 @@ Jan Fox
 * License: Copyrighted Images
 
 ### Assets Used
-	src/qt/res/icons/silk.icns, src/qt/res/src/silk.svg,
-	src/qt/res/src/silk.ico, src/qt/res/src/silk.png,
-	src/qt/res/src/silk_testnet.png, docs/silk_logo_doxygen.png,
+	src/qt/res/icons/sequence.icns, src/qt/res/src/sequence.svg,
+	src/qt/res/src/sequence.ico, src/qt/res/src/sequence.png,
+	src/qt/res/src/sequence_testnet.png, docs/sequence_logo_doxygen.png,
 	src/qt/res/images/splash.png, src/qt/res/images/splash_testnet.png

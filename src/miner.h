@@ -1,12 +1,12 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
 // Copyright (c) 2013-2017 Emercoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_MINER_H
-#define SILK_MINER_H
+#ifndef SEQUENCE_MINER_H
+#define SEQUENCE_MINER_H
 
 #include "primitives/block.h"
 #include "consensus/params.h"
@@ -36,7 +36,7 @@ struct CBlockTemplate
 };
 
 /** Run the miner threads */
-void GenerateSilks(bool fGenerate, CWallet* pwallet, int nThreads, const CChainParams& chainparams);
+void GenerateSequences(bool fGenerate, CWallet* pwallet, int nThreads, const CChainParams& chainparams);
 /** Run the stake minter thread */
 void MintStake(boost::thread_group& threadGroup, CWallet* pwallet);
 /** Generate a new block, without valid proof-of-work */
@@ -57,4 +57,4 @@ void SHA256Transform(void* pstate, void* pinput, const void* pinit);
 extern double dHashesPerSec;
 extern int64_t nHPSTimerStart;
 
-#endif // SILK_MINER_H
+#endif // SEQUENCE_MINER_H

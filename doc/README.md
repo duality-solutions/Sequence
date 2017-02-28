@@ -1,34 +1,34 @@
-Silk Core 1.3.0.0
+Sequence 1.0.0.0
 =====================
 
 Setup
 ---------------------
-[Silk Core](http://github.com/silknetwork/silk-core) is the original Silk client and it builds the backbone of the network. However, it downloads and stores the entire history of Silk transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more. Thankfully you only have to do this once. If you would like the process to go faster you can [download the blockchain directly](bootstrap.md).
+[Sequence](http://github.com/duality-solutions/sequence) is the original Sequence client and it builds the backbone of the network. However, it downloads and stores the entire history of Sequence transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more. Thankfully you only have to do this once. If you would like the process to go faster you can [download the blockchain directly](bootstrap.md).
 
 Running
 ---------------------
-The following are some helpful notes on how to run Silk on your native platform.
+The following are some helpful notes on how to run Sequence on your native platform.
 
 ### Unix
 
-You need the Qt4 run-time libraries to run Silk-Qt. On Debian or Ubuntu:
+You need the Qt4 run-time libraries to run Sequence-Qt. On Debian or Ubuntu:
 
 	sudo apt-get install libqtgui4
 
 Unpack the files into a directory and run:
 
-- bin/32/silk-qt (GUI, 32-bit) or bin/32/silkd (headless, 32-bit)
-- bin/64/silk-qt (GUI, 64-bit) or bin/64/silkd (headless, 64-bit)
+- bin/32/sequence-qt (GUI, 32-bit) or bin/32/sequenced (headless, 32-bit)
+- bin/64/sequence-qt (GUI, 64-bit) or bin/64/sequenced (headless, 64-bit)
 
 
 
 ### Windows
 
-Unpack the files into a directory, and then run silk-qt.exe.
+Unpack the files into a directory, and then run sequence-qt.exe.
 
 ### OSX
 
-Drag Silk-Qt to your applications folder, and then run Silk-Qt.
+Drag Sequence-Qt to your applications folder, and then run Sequence-Qt.
 
 ### Need Help?
 
@@ -36,20 +36,20 @@ Drag Silk-Qt to your applications folder, and then run Silk-Qt.
 
 Building
 ---------------------
-The following are developer notes on how to build Silk on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
+The following are developer notes on how to build Sequence on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
 - [OSX Build Notes](build-osx.md)
 - [Unix Build Notes](build-unix.md)
 
 Development
 ---------------------
-The Silk repo's [root README](https://github.com/silknetwork/silk-core/blob/master/README.md) contains relevant information on the development process and automated testing.
+The Sequence repo's [root README](https://github.com/duality-solutions/sequence/blob/master/README.md) contains relevant information on the development process and automated testing.
 
 - [Coding Guidelines](coding.md)
 - [Multiwallet Qt Development](multiwallet-qt.md)
 - [Release Notes](release-notes.md)
 - [Release Process](release-process.md)
-- [Source Code Documentation (External Link)](https://dev.visucore.com/silk/doxygen/) ***TODO***
+- [Source Code Documentation (External Link)](https://dev.visucore.com/sequence/doxygen/) ***TODO***
 - [Translation Process](translation_process.md)
 - [Unit Tests](unit-tests.md)
 

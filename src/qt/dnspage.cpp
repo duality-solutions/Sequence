@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
 // Copyright (c) 2013-2017 Emercoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -312,7 +312,7 @@ void DNSPage::on_submitNameButton_clicked()
     }
 
     if (QMessageBox::Yes != QMessageBox::question(this, tr("Confirm name registration"),
-          tr("This will issue a %1. Tx fee is at least %2 Silk.").arg(txType).arg(txFee / (float)COIN, 0, 'f', 2),
+          tr("This will issue a %1. Tx fee is at least %2 Sequence.").arg(txType).arg(txFee / (float)COIN, 0, 'f', 2),
           QMessageBox::Yes | QMessageBox::Cancel,
           QMessageBox::Cancel))
     {

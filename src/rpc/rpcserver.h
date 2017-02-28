@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_RPCSERVER_H
-#define SILK_RPCSERVER_H
+#ifndef SEQUENCE_RPCSERVER_H
+#define SEQUENCE_RPCSERVER_H
 
 #include "amount.h"
 #include "rpc/rpcprotocol.h"
@@ -102,7 +102,7 @@ public:
 };
 
 /**
- * Silk RPC command dispatcher.
+ * Sequence RPC command dispatcher.
  */
 class CRPCTable
 {
@@ -171,4 +171,4 @@ extern bool HTTPReq_REST(AcceptedConnection *conn,
                   std::map<std::string, std::string>& mapHeaders,
                   bool fRun);
 
-#endif // SILK_RPCSERVER_H
+#endif // SEQUENCE_RPCSERVER_H

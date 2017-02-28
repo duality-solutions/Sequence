@@ -1,17 +1,17 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 /*
  * HashMap container for uint256 index -> value
- * Part of Silk project.
+ * Part of Sequence project.
  *
  */
 
-#ifndef SLK_UINT256HM_H
-#define SLK_UINT256HM_H
+#ifndef SEQ_UINT256HM_H
+#define SEQ_UINT256HM_H
 
 #include "uint256.h"
 #include "random.h"

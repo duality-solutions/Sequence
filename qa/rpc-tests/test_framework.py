@@ -5,20 +5,20 @@
 
 # Base class for RPC testing
 
-# Add python-silkrpc to module search path:
+# Add python-sequencerpc to module search path:
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "python-silkrpc"))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "python-sequencerpc"))
 
 import shutil
 import tempfile
 import traceback
 
-from silkrpc.authproxy import AuthServiceProxy, JSONRPCException
+from sequencerpc.authproxy import AuthServiceProxy, JSONRPCException
 from util import *
 
 
-class silkTestFramework(object):
+class sequenceTestFramework(object):
 
     # These may be over-ridden by subclasses:
     def run_test(self):
@@ -61,7 +61,7 @@ class silkTestFramework(object):
         """
         assert not self.is_network_split
         stop_nodes(self.nodes)
-        wait_silkds()
+        wait_sequenceds()
         self.setup_network(True)
 
     def sync_all(self):
@@ -80,7 +80,7 @@ class silkTestFramework(object):
         """
         assert self.is_network_split
         stop_nodes(self.nodes)
-        wait_silkds()
+        wait_sequenceds()
         self.setup_network(False)
 
     def main(self):
@@ -88,9 +88,9 @@ class silkTestFramework(object):
 
         parser = optparse.OptionParser(usage="%prog [options]")
         parser.add_option("--nocleanup", dest="nocleanup", default=False, action="store_true",
-                          help="Leave silkds and test.* datadir on exit or error")
+                          help="Leave sequenceds and test.* datadir on exit or error")
         parser.add_option("--srcdir", dest="srcdir", default="../../src",
-                          help="Source directory containing silkd/silk-cli (default: %default%)")
+                          help="Source directory containing sequenced/sequence-cli (default: %default%)")
         parser.add_option("--tmpdir", dest="tmpdir", default=tempfile.mkdtemp(prefix="test"),
                           help="Root directory for datadirs")
         parser.add_option("--tracerpc", dest="trace_rpc", default=False, action="store_true",
@@ -131,7 +131,7 @@ class silkTestFramework(object):
         if not self.options.nocleanup:
             print("Cleaning up")
             stop_nodes(self.nodes)
-            wait_silkds()
+            wait_sequenceds()
             shutil.rmtree(self.options.tmpdir)
 
         if success:

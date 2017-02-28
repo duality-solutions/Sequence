@@ -2,11 +2,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_COMPAT_BYTESWAP_H
-#define SILK_COMPAT_BYTESWAP_H
+#ifndef SEQUENCE_COMPAT_BYTESWAP_H
+#define SEQUENCE_COMPAT_BYTESWAP_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/silk-config.h"
+#include "config/sequence-config.h"
 #endif
 
 #include <stdint.h>
@@ -63,4 +63,4 @@ inline uint64_t bswap_64(uint64_t x)
 
 #endif // defined(__APPLE__)
 
-#endif // SILK_COMPAT_BYTESWAP_H
+#endif // SEQUENCE_COMPAT_BYTESWAP_H

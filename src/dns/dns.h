@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
 // Copyright (c) 2013-2017 Emercoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,7 +16,7 @@
 
 static const unsigned int NAMEINDEX_CHAIN_SIZE = 1000;
 static const int RELEASE_HEIGHT = 1<<16;
-static const unsigned int NAME_REGISTRATION_DAILY_FEE = 1000000; // Current set to 0.3 SLK per month or 3.65 SLK per year.
+static const unsigned int NAME_REGISTRATION_DAILY_FEE = 1000000; // Current set to 0.3 SEQ per month or 3.65 SEQ per year.
 
 class CNameIndex
 {
@@ -104,7 +104,7 @@ public:
 extern std::map<CNameVal, std::set<uint256> > mapNamePending;
 
 int IndexOfNameOutput(const CTransaction& tx);
-bool GetNameCurrentAddress(const CNameVal& name, CSilkAddress& address, std::string& error);
+bool GetNameCurrentAddress(const CNameVal& name, CSequenceAddress& address, std::string& error);
 CNameVal nameValFromString(const std::string& str);
 std::string stringFromOp(int op);
 

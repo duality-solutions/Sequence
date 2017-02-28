@@ -133,6 +133,6 @@ Threads
 
 - ThreadRPCServer : Remote procedure call handler, listens on port 16663 for connections and services them.
 
-- SilkMiner : Generates silks (if wallet is enabled).
+- SequenceMiner : Generates sequences (if wallet is enabled).
 
 - Shutdown : Does an orderly shutdown of everything.

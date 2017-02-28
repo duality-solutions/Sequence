@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -120,8 +120,8 @@ BOOST_AUTO_TEST_CASE(AlertApplies)
 {
     SetMockTime(11);
 
-    // Silk: TODO: sign alerts with silk key
-    // currently CheckSignature() will fail because alerts were signed with silk key
+    // Sequence: TODO: sign alerts with sequence key
+    // currently CheckSignature() will fail because alerts were signed with sequence key
 //    BOOST_FOREACH(const CAlert& alert, alerts)
 //    {
 //        BOOST_CHECK(alert.CheckSignature());
@@ -130,7 +130,7 @@ BOOST_AUTO_TEST_CASE(AlertApplies)
     BOOST_CHECK(alerts.size() >= 3);
 
     // Matches:
-    // Silk: for some silk test alerts are read with nExpiration == 0, making following tests fail.
+    // Sequence: for some sequence test alerts are read with nExpiration == 0, making following tests fail.
 //    BOOST_CHECK(alerts[0].AppliesTo(1, ""));
 //    BOOST_CHECK(alerts[0].AppliesTo(999001, ""));
 //    BOOST_CHECK(alerts[0].AppliesTo(1, "/Satoshi:11.11.11/"));
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE(AlertNotify)
         alert.ProcessAlert(alertKey, false);
 
     std::vector<std::string> r = read_lines(temp);
-    // Silk: following tests requires alertnotify.txt to exist, but for some reason this file is deleted at next instruction...
+    // Sequence: following tests requires alertnotify.txt to exist, but for some reason this file is deleted at next instruction...
     //BOOST_CHECK_EQUAL(r.size(), 4u);
 
 // Windows built-in echo semantics are different than posixy shells. Quotes and

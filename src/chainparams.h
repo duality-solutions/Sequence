@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef SILK_CHAINPARAMS_H
-#define SILK_CHAINPARAMS_H
+#ifndef SEQUENCE_CHAINPARAMS_H
+#define SEQUENCE_CHAINPARAMS_H
 
 #include "primitives/block.h"
 #include "chainparamsbase.h"
@@ -35,7 +35,7 @@ struct CCheckpointData {
 
 /**
  * CChainParams defines various tweakable parameters of a given instance of the
- * silk system. There are three: the main network on which people trade goods
+ * sequence system. There are three: the main network on which people trade goods
  * and services, the public test network which gets reset from time to time and
  * a regression test mode which is intended for private networks only. It has
  * minimal difficulty to ensure that blocks can be found instantly.
@@ -126,4 +126,4 @@ CChainParams& Params(const std::string& chain);
  */
 void SelectParams(const std::string& chain);
 
-#endif // SILK_CHAINPARAMS_H
+#endif // SEQUENCE_CHAINPARAMS_H

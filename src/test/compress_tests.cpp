@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2015-2017 Silk Network Developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -18,10 +18,10 @@
 #define NUM_MULTIPLES_CENT 10000
 
 // amounts 1 .. 10000
-#define NUM_MULTIPLES_1SILK 10000
+#define NUM_MULTIPLES_1SEQUENCE 10000
 
 // amounts 50 .. 21000000
-#define NUM_MULTIPLES_50SILK 420000
+#define NUM_MULTIPLES_50SEQUENCE 420000
 
 BOOST_AUTO_TEST_SUITE(compress_tests)
 
@@ -53,10 +53,10 @@ BOOST_AUTO_TEST_CASE(compress_amounts)
     for (uint64_t i = 1; i <= NUM_MULTIPLES_CENT; i++)
         BOOST_CHECK(TestEncode(i * CENT));
 
-    for (uint64_t i = 1; i <= NUM_MULTIPLES_1SILK; i++)
+    for (uint64_t i = 1; i <= NUM_MULTIPLES_1SEQUENCE; i++)
         BOOST_CHECK(TestEncode(i * COIN));
 
-    for (uint64_t i = 1; i <= NUM_MULTIPLES_50SILK; i++)
+    for (uint64_t i = 1; i <= NUM_MULTIPLES_50SEQUENCE; i++)
         BOOST_CHECK(TestEncode(i * 50 * COIN));
 
     for (uint64_t i = 0; i < 100000; i++)

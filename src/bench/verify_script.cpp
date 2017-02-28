@@ -1,4 +1,4 @@
-// Copyright (c) 2017 The Silk Network developers
+// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
 // Copyright (c) 2017 The BitCoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -6,7 +6,7 @@
 #include "bench.h"
 #include "key.h"
 #if defined(HAVE_CONSENSUS_LIB)
-#include "script/silkconsensus.h"
+#include "script/sequenceconsensus.h"
 #endif
 #include "script/script.h"
 #include "script/sign.h"
@@ -91,7 +91,7 @@ static void VerifyScriptBench(benchmark::State& state)
 #if defined(HAVE_CONSENSUS_LIB)
         CDataStream stream(SER_NETWORK, PROTOCOL_VERSION);
         stream << txSpend;
-        int csuccess = silkconsensus_verify_script_with_amount(
+        int csuccess = sequenceconsensus_verify_script_with_amount(
             begin_ptr(txCredit.vout[0].scriptPubKey),
             txCredit.vout[0].scriptPubKey.size(),
             txCredit.vout[0].nValue,

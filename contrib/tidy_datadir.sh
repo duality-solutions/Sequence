@@ -4,7 +4,7 @@ if [ -d "$1" ]; then
   cd "$1"
 else
   echo "Usage: $0 <datadir>" >&2
-  echo "Removes obsolete silk database files" >&2
+  echo "Removes obsolete sequence database files" >&2
   exit 1
 fi
 
@@ -16,22 +16,22 @@ if [ -f wallet.dat -a -f peers.dat -a -f chainstate/CURRENT -a -f blocks/index/C
 
 case $LEVEL in
   0)
-    echo "Error: no silk datadir detected."
+    echo "Error: no sequence datadir detected."
     exit 1
     ;;
   1)
-    echo "Detected old silk datadir (before 0.7)."
+    echo "Detected old sequence datadir (before 0.7)."
     echo "Nothing to do."
     exit 0
     ;;
   2)
-    echo "Detected silk 0.7 datadir."
+    echo "Detected sequence 0.7 datadir."
     ;;
   3)
-    echo "Detected silk pre-0.8 datadir."
+    echo "Detected sequence pre-0.8 datadir."
     ;;
   4)
-    echo "Detected silk 0.8 datadir."
+    echo "Detected sequence 0.8 datadir."
     ;;
 esac
 
