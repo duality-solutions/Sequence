@@ -32,6 +32,11 @@
 * Fix CPU utilisation caused by network issues
 * Implement HD Wallet
 * Change all public, private and protected slots in src/qt/ to Q_SLOTS
+* Fixed missing icons in Qt Makefile
+* Fixed libraries for Gitian
+* Fixed Gitian script files
+* Upgraded dependency packages
+* Fixed Gitian Windows script
 
 
 
