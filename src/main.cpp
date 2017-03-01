@@ -97,7 +97,7 @@ CHooks* hooks = InitHook(); //this adds namecoin hooks which allow splicing of c
 /** Constant stuff for coinbase transactions we create: */
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "Sequence Signed Message:\n";
+const string strMessageMagic = "Silk Signed Message:\n";
 
 // Internal stuff
 namespace {
