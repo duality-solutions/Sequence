@@ -37,6 +37,7 @@
 
 #include <algorithm>
 #include <fcntl.h>
+#include <pwd.h>
 #include <sys/resource.h>
 #include <sys/stat.h>
 
@@ -397,12 +398,9 @@ boost::filesystem::path GetDefaultDataDir()
     // Windows
     return GetSpecialFolderPath(CSIDL_APPDATA) / "Sequence";
 #else
-    fs::path pathRet;
-    char* pszHome = getenv("HOME");
-    if (pszHome == NULL || strlen(pszHome) == 0)
-        pathRet = fs::path("/");
-    else
-        pathRet = fs::path(pszHome);
+    struct passwd *pw_ptr = getpwuid(geteuid());
+    const char *pszHome = pw_ptr? pw_ptr->pw_dir : getenv("HOME"); 
+    fs::path pathRet((pszHome == NULL || *pszHome == 0)? "/" : pszHome);
 #ifdef MAC_OSX
     // Mac
     pathRet /= "Library/Application Support";
