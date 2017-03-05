@@ -84,6 +84,8 @@ src/qt/test/moc*.cpp
 Makefile
 sequence-qt
 Sequence-Qt.app
+/dist/
+/dist/*.*
 
 # Unit-tests
 Makefile.test
