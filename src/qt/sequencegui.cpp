@@ -1326,6 +1326,15 @@ UnitDisplayStatusBarControl::UnitDisplayStatusBarControl() :
 {
     createContextMenu();
     setToolTip(tr("Unit to show amounts in. Click to select another unit."));
+    QList<SequenceUnits::Unit> units = SequenceUnits::availableUnits();
+    int max_width = 0;
+    const QFontMetrics fm(font());
+    Q_FOREACH (const SequenceUnits::Unit unit, units)
+    {
+        max_width = qMax(max_width, fm.width(SequenceUnits::name(unit)));
+    }
+    setMinimumSize(max_width, 0);
+    setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 }
 
 /** So that it responds to button clicks */
