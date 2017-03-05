@@ -47,6 +47,10 @@ color: rgb(255, 255, 255);</string>
        <property name="toolTip">
         <string>The public wallet address</string>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);</string>
+       </property>
        <property name="placeholderText">
         <string>Enter a public wallet address</string>
        </property>
@@ -119,6 +123,10 @@ color: rgb(255, 255, 255);</string>
      </property>
      <property name="toolTip">
       <string>Address associated to the public key</string>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);</string>
      </property>
      <property name="readOnly">
       <bool>true</bool>
