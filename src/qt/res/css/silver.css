@@ -1480,3 +1480,7 @@ color:#F7F7F7;
 QDialog#TransactionDescDialog QTextEdit { /* Contents of Receive Coin Dialog */
 border:1px solid #C0C0C0;
 }
+
+QWidget#MultiSigAddressEntry .QToolButton#deleteButton {
+background-color: transparent;
+}
