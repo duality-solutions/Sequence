@@ -1503,7 +1503,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         string tf      = GetArg("-enumtollfree", "");
         seqdns = new SeqDns(bind_ip.c_str(), port,
         suffix.c_str(), allowed.c_str(), localcf.c_str(), enums.c_str(), tf.c_str(), verbose);
-        LogPrintf("DNS server started\n");
+        LogPrintf("dDNS server started\n");
     }
 
     return !fRequestShutdown;
