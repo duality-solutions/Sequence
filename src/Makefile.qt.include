@@ -231,6 +231,7 @@ SEQUENCE_QT_H = \
 RES_ICONS = \
   qt/res/icons/add.png \
   qt/res/icons/address-book.png \
+  qt/res/icons/browse.png \
   qt/res/icons/sequence.ico \
   qt/res/icons/sequence.png \
   qt/res/icons/sequence_testnet.ico \
@@ -347,19 +348,20 @@ endif
 
 RES_IMAGES = \
   qt/res/images/about.png \
-  qt/res/images/sequence_logo_horizontal.png \
-  qt/res/images/unchecked.png \
   qt/res/images/checked.png \
-  qt/res/images/splash.png \
-  qt/res/images/splash_testnet.png \
-  qt/res/images/silver_downArrow.png \
-  qt/res/images/silver_downArrow_small.png \
-  qt/res/images/silver_upArrow_small.png \
-  qt/res/images/silver_leftArrow_small.png \
-  qt/res/images/silver_rightArrow_small.png \
-  qt/res/images/silver_qtreeview_selected.png \
   qt/res/images/drk_walletFrame_bg.png \
-  qt/res/images/drk_walletFrame.png
+  qt/res/images/drk_walletFrame.png \
+  qt/res/images/header.png \
+  qt/res/images/sequence_logo_horizontal.png \
+  qt/res/images/silver_downArrow_small.png \
+  qt/res/images/silver_downArrow.png \
+  qt/res/images/silver_leftArrow_small.png \
+  qt/res/images/silver_qtreeview_selected.png \
+  qt/res/images/silver_rightArrow_small.png \
+  qt/res/images/silver_upArrow_small.png \
+  qt/res/images/splash_testnet.png \
+  qt/res/images/splash.png \
+  qt/res/images/unchecked.png
 
 RES_CSS = \
   qt/res/css/silver.css

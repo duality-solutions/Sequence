@@ -478,7 +478,7 @@ QTabBar { alignment: left; }</string>
            </property>
            <property name="icon">
             <iconset resource="../sequence.qrc">   
-             <normaloff>:/icons/drk/remove</normaloff>:/icons/drk/remove</iconset>
+             <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
            </property>
            <property name="shortcut">
             <string notr="true">Ctrl+L</string>
