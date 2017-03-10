@@ -1,6 +1,12 @@
 Sequence 1.0.0.0
 =====================
 
+Intro
+---------------------
+The Sequence(SEQ) blockchain exists in the Duality binary architecture as an asset and in turn for [Dynamic(DYN)](https://github.com/duality-solutions/dynamic) is its real world interface.
+
+Sequence is a digital currency that enables instant payments to anyone, anywhere in the world. Sequence uses peer-to-peer technology to operate with no central authority (centralisation): managing transactions and issuing currency (SEQ) are carried out collectively by the Sequence network. Sequence is the name of open source software which enables the use of the currency SEQ.
+
 Setup
 ---------------------
 [Sequence](http://github.com/duality-solutions/sequence) is the original Sequence client and it builds the backbone of the network. However, it downloads and stores the entire history of Sequence transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more. Thankfully you only have to do this once. If you would like the process to go faster you can [download the blockchain directly](bootstrap.md).
