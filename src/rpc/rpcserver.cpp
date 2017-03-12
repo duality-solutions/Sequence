@@ -33,7 +33,6 @@
 
 using namespace boost;
 using namespace boost::asio;
-using namespace std;
 
 static std::string strRPCUserColonPass;
 
@@ -44,7 +43,7 @@ static CCriticalSection cs_rpcWarmup;
 
 //! These are created by StartRPCThreads, destroyed in StopRPCThreads
 static asio::io_service* rpc_io_service = NULL;
-static map<string, boost::shared_ptr<deadline_timer> > deadlineTimers;
+static std::map<std::string, boost::shared_ptr<deadline_timer> > deadlineTimers;
 static ssl::context* rpc_ssl_context = NULL;
 static boost::thread_group* rpc_worker_group = NULL;
 static boost::asio::io_service::work *rpc_dummy_work = NULL;
@@ -52,7 +51,7 @@ static std::vector<CSubNet> rpc_allow_subnets; //!< List of subnets to allow RPC
 static std::vector< boost::shared_ptr<ip::tcp::acceptor> > rpc_acceptors;
 
 void RPCTypeCheck(const UniValue& params,
-                  const list<UniValue::VType>& typesExpected,
+                  const std::list<UniValue::VType>& typesExpected,
                   bool fAllowNull)
 {
     unsigned int i = 0;
@@ -64,7 +63,7 @@ void RPCTypeCheck(const UniValue& params,
         const UniValue& v = params[i];
         if (!((v.type() == t) || (fAllowNull && (v.isNull()))))
         {
-            string err = strprintf("Expected type %s, got %s",
+            std::string err = strprintf("Expected type %s, got %s",
                                    uvTypeName(t), uvTypeName(v.type()));
             throw JSONRPCError(RPC_TYPE_ERROR, err);
         }
@@ -73,10 +72,10 @@ void RPCTypeCheck(const UniValue& params,
 }
 
 void RPCTypeCheckObj(const UniValue& o,
-                  const map<string, UniValue::VType>& typesExpected,
+                  const std::map<std::string, UniValue::VType>& typesExpected,
                   bool fAllowNull)
 {
-    BOOST_FOREACH(const PAIRTYPE(string, UniValue::VType)& t, typesExpected)
+    BOOST_FOREACH(const PAIRTYPE(std::string, UniValue::VType)& t, typesExpected)
     {
         const UniValue& v = find_value(o, t.first);
         if (!fAllowNull && v.isNull())
@@ -84,7 +83,7 @@ void RPCTypeCheckObj(const UniValue& o,
 
         if (!((v.type() == t.second) || (fAllowNull && (v.isNull()))))
         {
-            string err = strprintf("Expected type %s for %s, got %s",
+            std::string err = strprintf("Expected type %s for %s, got %s",
                                    uvTypeName(t.second), t.first, uvTypeName(v.type()));
             throw JSONRPCError(RPC_TYPE_ERROR, err);
         }
@@ -119,9 +118,9 @@ UniValue ValueFromAmount(const CAmount& amount)
             strprintf("%s%d.%06d", sign ? "-" : "", quotient, remainder));
 }
 
-uint256 ParseHashV(const UniValue& v, string strName)
+uint256 ParseHashV(const UniValue& v, std::string strName)
 {
-    string strHex;
+    std::string strHex;
     if (v.isStr())
         strHex = v.get_str();
     if (!IsHex(strHex)) // Note: IsHex("") is false
@@ -130,20 +129,20 @@ uint256 ParseHashV(const UniValue& v, string strName)
     result.SetHex(strHex);
     return result;
 }
-uint256 ParseHashO(const UniValue& o, string strKey)
+uint256 ParseHashO(const UniValue& o, std::string strKey)
 {
     return ParseHashV(find_value(o, strKey), strKey);
 }
-vector<unsigned char> ParseHexV(const UniValue& v, string strName)
+std::vector<unsigned char> ParseHexV(const UniValue& v, std::string strName)
 {
-    string strHex;
+    std::string strHex;
     if (v.isStr())
         strHex = v.get_str();
     if (!IsHex(strHex))
         throw JSONRPCError(RPC_INVALID_PARAMETER, strName+" must be hexadecimal string (not '"+strHex+"')");
     return ParseHex(strHex);
 }
-vector<unsigned char> ParseHexO(const UniValue& o, string strKey)
+std::vector<unsigned char> ParseHexO(const UniValue& o, std::string strKey)
 {
     return ParseHexV(find_value(o, strKey), strKey);
 }
@@ -154,21 +153,21 @@ vector<unsigned char> ParseHexO(const UniValue& o, string strKey)
 
 std::string CRPCTable::help(const std::string& strCommand) const
 {
-    string strRet;
-    string category;
-    set<rpcfn_type> setDone;
-    vector<pair<string, const CRPCCommand*> > vCommands;
+    std::string strRet;
+    std::string category;
+    std::set<rpcfn_type> setDone;
+    std::vector<std::pair<std::string, const CRPCCommand*> > vCommands;
 
-    for (map<string, const CRPCCommand*>::const_iterator mi = mapCommands.begin(); mi != mapCommands.end(); ++mi)
+    for (std::map<std::string, const CRPCCommand*>::const_iterator mi = mapCommands.begin(); mi != mapCommands.end(); ++mi)
         vCommands.push_back(make_pair(mi->second->category + mi->first, mi->second));
     sort(vCommands.begin(), vCommands.end());
 
-    BOOST_FOREACH(const PAIRTYPE(string, const CRPCCommand*)& command, vCommands)
+    BOOST_FOREACH(const PAIRTYPE(std::string, const CRPCCommand*)& command, vCommands)
     {
         const CRPCCommand *pcmd = command.second;
-        string strMethod = pcmd->name;
+        std::string strMethod = pcmd->name;
         // We already filter duplicates, but these deprecated screw up the sort order
-        if (strMethod.find("label") != string::npos)
+        if (strMethod.find("label") != std::string::npos)
             continue;
         if ((strCommand != "" || pcmd->category == "hidden") && strMethod != strCommand)
             continue;
@@ -187,10 +186,10 @@ std::string CRPCTable::help(const std::string& strCommand) const
         catch (const std::exception& e)
         {
             // Help text is returned in an exception
-            string strHelp = string(e.what());
+            std::string strHelp = std::string(e.what());
             if (strCommand == "")
             {
-                if (strHelp.find('\n') != string::npos)
+                if (strHelp.find('\n') != std::string::npos)
                     strHelp = strHelp.substr(0, strHelp.find('\n'));
 
                 if (category != pcmd->category)
@@ -198,7 +197,7 @@ std::string CRPCTable::help(const std::string& strCommand) const
                     if (!category.empty())
                         strRet += "\n";
                     category = pcmd->category;
-                    string firstLetter = category.substr(0,1);
+                    std::string firstLetter = category.substr(0,1);
                     boost::to_upper(firstLetter);
                     strRet += "== " + firstLetter + category.substr(1) + " ==\n";
                 }
@@ -215,7 +214,7 @@ std::string CRPCTable::help(const std::string& strCommand) const
 UniValue help(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() > 1)
-        throw runtime_error(
+        throw std::runtime_error(
             "help ( \"command\" )\n"
             "\nList all commands, or get help for a specified command.\n"
             "\nArguments:\n"
@@ -224,7 +223,7 @@ UniValue help(const UniValue& params, bool fHelp)
             "\"text\"     (string) The help text\n"
         );
 
-    string strCommand;
+    std::string strCommand;
     if (params.size() > 0)
         strCommand = params[0].get_str();
 
@@ -236,7 +235,7 @@ UniValue stop(const UniValue& params, bool fHelp)
 {
     // Accept the deprecated and ignored 'detach' boolean argument
     if (fHelp || params.size() > 1)
-        throw runtime_error(
+        throw std::runtime_error(
             "stop\n"
             "\nStop Sequence server.");
     // Shutdown will take long enough that the response should get back
@@ -271,7 +270,7 @@ CRPCTable::CRPCTable()
 
 const CRPCCommand *CRPCTable::operator[](const std::string &name) const
 {
-    map<string, const CRPCCommand*>::const_iterator it = mapCommands.find(name);
+    std::map<std::string, const CRPCCommand*>::const_iterator it = mapCommands.find(name);
     if (it == mapCommands.end())
         return NULL;
     return (*it).second;
@@ -283,7 +282,7 @@ bool CRPCTable::appendCommand(const std::string& name, const CRPCCommand* pcmd)
         return false;
 
     // don't allow overwriting for now
-    map<string, const CRPCCommand*>::const_iterator it = mapCommands.find(name);
+    std::map<std::string, const CRPCCommand*>::const_iterator it = mapCommands.find(name);
     if (it != mapCommands.end())
         return false;
 
@@ -291,13 +290,13 @@ bool CRPCTable::appendCommand(const std::string& name, const CRPCCommand* pcmd)
     return true;
 }
 
-bool HTTPAuthorized(map<string, string>& mapHeaders)
+bool HTTPAuthorized(std::map<std::string, std::string>& mapHeaders)
 {
-    string strAuth = mapHeaders["authorization"];
+    std::string strAuth = mapHeaders["authorization"];
     if (strAuth.substr(0,6) != "Basic ")
         return false;
-    string strUserPass64 = strAuth.substr(6); boost::trim(strUserPass64);
-    string strUserPass = DecodeBase64(strUserPass64);
+    std::string strUserPass64 = strAuth.substr(6); boost::trim(strUserPass64);
+    std::string strUserPass = DecodeBase64(strUserPass64);
     return TimingResistantEqual(strUserPass, strRPCUserColonPass);
 }
 
@@ -308,7 +307,7 @@ void ErrorReply(std::ostream& stream, const UniValue& objError, const UniValue& 
     int code = find_value(objError, "code").get_int();
     if (code == RPC_INVALID_REQUEST) nStatus = HTTP_BAD_REQUEST;
     else if (code == RPC_METHOD_NOT_FOUND) nStatus = HTTP_NOT_FOUND;
-    string strReply = JSONRPCReply(NullUniValue, objError, id);
+    std::string strReply = JSONRPCReply(NullUniValue, objError, id);
     stream << HTTPReply(nStatus, strReply, false) << std::flush;
 }
 
@@ -465,8 +464,8 @@ void StartRPCThreads()
     rpc_allow_subnets.push_back(CSubNet("::1")); // always allow IPv6 localhost
     if (mapMultiArgs.count("-rpcallowip"))
     {
-        const vector<string>& vAllow = mapMultiArgs["-rpcallowip"];
-        BOOST_FOREACH(string strAllow, vAllow)
+        const std::vector<std::string>& vAllow = mapMultiArgs["-rpcallowip"];
+        BOOST_FOREACH(std::string strAllow, vAllow)
         {
             CSubNet subnet(strAllow);
             if(!subnet.IsValid())
@@ -529,7 +528,7 @@ void StartRPCThreads()
         if (filesystem::exists(pathPKFile)) rpc_ssl_context->use_private_key_file(pathPKFile.string(), ssl::context::pem);
         else LogPrintf("ThreadRPCServer ERROR: missing server private key file %s\n", pathPKFile.string());
 
-        string strCiphers = GetArg("-rpcsslciphers", "TLSv1.2+HIGH:TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!3DES:@STRENGTH");
+        std::string strCiphers = GetArg("-rpcsslciphers", "TLSv1.2+HIGH:TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!3DES:@STRENGTH");
         SSL_CTX_set_cipher_list(rpc_ssl_context->impl(), strCiphers.c_str());
     }
 
@@ -766,7 +765,7 @@ static UniValue JSONRPCExecOne(const UniValue& req)
     return rpc_result;
 }
 
-static string JSONRPCExecBatch(const UniValue& vReq)
+static std::string JSONRPCExecBatch(const UniValue& vReq)
 {
     UniValue ret(UniValue::VARR);
     for (unsigned int reqIdx = 0; reqIdx < vReq.size(); reqIdx++)
@@ -777,8 +776,8 @@ static string JSONRPCExecBatch(const UniValue& vReq)
 }
 
 static bool HTTPReq_JSONRPC(AcceptedConnection *conn,
-                            string& strRequest,
-                            map<string, string>& mapHeaders,
+                            std::string& strRequest,
+                            std::map<std::string, std::string>& mapHeaders,
                             bool fRun)
 {
     // Check authorization
@@ -816,7 +815,7 @@ static bool HTTPReq_JSONRPC(AcceptedConnection *conn,
                 throw JSONRPCError(RPC_IN_WARMUP, rpcWarmupStatus);
         }
 
-        string strReply;
+        std::string strReply;
 
         // singleton request
         if (valRequest.isObject()) {
@@ -854,8 +853,8 @@ void ServiceConnection(AcceptedConnection *conn)
     while (fRun && !ShutdownRequested())
     {
         int nProto = 0;
-        map<string, string> mapHeaders;
-        string strRequest, strMethod, strURI;
+        std::map<std::string, std::string> mapHeaders;
+        std::string strRequest, strMethod, strURI;
 
         // Read HTTP request line
         if (!ReadHTTPRequestLine(conn->stream(), nProto, strMethod, strURI))
@@ -897,10 +896,10 @@ UniValue CRPCTable::execute(const std::string &strMethod, const UniValue &params
 #endif
 
     // Observe safe mode
-    string strWarning = GetWarnings("rpc");
+    std::string strWarning = GetWarnings("rpc");
     if (strWarning != "" && !GetBoolArg("-disablesafemode", false) &&
         !pcmd->okSafeMode)
-        throw JSONRPCError(RPC_FORBIDDEN_BY_SAFE_MODE, string("Safe mode: ") + strWarning);
+        throw JSONRPCError(RPC_FORBIDDEN_BY_SAFE_MODE, std::string("Safe mode: ") + strWarning);
 
     try
     {

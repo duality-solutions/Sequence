@@ -13,9 +13,7 @@
 
 #include <boost/foreach.hpp>
 
-using namespace std;
-
-typedef vector<unsigned char> valtype;
+typedef std::vector<unsigned char> valtype;
 
 unsigned nMaxDatacarrierBytes = MAX_OP_RETURN_RELAY;
 
@@ -39,10 +37,10 @@ const char* GetTxnOutputType(txnouttype t)
 /**
  * Return public keys or hashes from scriptPubKey, for 'standard' transaction types.
  */
-bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsigned char> >& vSolutionsRet)
+bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, std::vector<std::vector<unsigned char> >& vSolutionsRet)
 {
     // Templates
-    static multimap<txnouttype, CScript> mTemplates;
+    static std::multimap<txnouttype, CScript> mTemplates;
     if (mTemplates.empty())
     {
         // Standard tx, sender provides pubkey, receiver adds signature
@@ -65,7 +63,7 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
     if (scriptPubKey.IsPayToScriptHash())
     {
         typeRet = TX_SCRIPTHASH;
-        vector<unsigned char> hashBytes(scriptPubKey.begin()+2, scriptPubKey.begin()+22);
+        std::vector<unsigned char> hashBytes(scriptPubKey.begin()+2, scriptPubKey.begin()+22);
         vSolutionsRet.push_back(hashBytes);
         return true;
     }
@@ -78,7 +76,7 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
         vSolutionsRet.clear();
 
         opcodetype opcode1, opcode2;
-        vector<unsigned char> vch1, vch2;
+        std::vector<unsigned char> vch1, vch2;
 
         // Compare
         CScript::const_iterator pc1 = script1.begin();
@@ -167,7 +165,7 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
         typeRet = TX_NAME;
 
         opcodetype opcode1, opcode2;
-        vector<unsigned char> vch1, vch2;
+        std::vector<unsigned char> vch1, vch2;
 
         // Compare
         CScript::const_iterator pc1 = scriptOut.begin();
@@ -224,7 +222,7 @@ int ScriptSigArgsExpected(txnouttype t, const std::vector<std::vector<unsigned c
 
 bool IsStandard(const CScript& scriptPubKey, txnouttype& whichType)
 {
-    vector<valtype> vSolutions;
+    std::vector<valtype> vSolutions;
     if (!Solver(scriptPubKey, whichType, vSolutions))
         return false;
 
@@ -244,7 +242,7 @@ bool IsStandard(const CScript& scriptPubKey, txnouttype& whichType)
 
 bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
 {
-    vector<valtype> vSolutions;
+    std::vector<valtype> vSolutions;
     txnouttype whichType;
     if (!Solver(scriptPubKey, whichType, vSolutions))
         return false;
@@ -272,11 +270,11 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
     return false;
 }
 
-bool ExtractDestinations(const CScript& scriptPubKey, txnouttype& typeRet, vector<CTxDestination>& addressRet, int& nRequiredRet)
+bool ExtractDestinations(const CScript& scriptPubKey, txnouttype& typeRet, std::vector<CTxDestination>& addressRet, int& nRequiredRet)
 {
     addressRet.clear();
     typeRet = TX_NONSTANDARD;
-    vector<valtype> vSolutions;
+    std::vector<valtype> vSolutions;
     if (!Solver(scriptPubKey, typeRet, vSolutions))
         return false;
     if (typeRet == TX_NULL_DATA){
