@@ -19,7 +19,6 @@
 #include "util.h"
 #include "version.h"
 
-#include <boost/foreach.hpp>
 
 #include <univalue.h>
 
@@ -55,7 +54,7 @@ UniValue ping(const UniValue& params, bool fHelp)
 
     // Request that each node send a ping during next message processing pass
     LOCK(cs_vNodes);
-    BOOST_FOREACH(CNode* pNode, vNodes) {
+    for(CNode* pNode : vNodes) {
         pNode->fPingQueued = true;
     }
 
@@ -68,7 +67,7 @@ static void CopyNodeStats(std::vector<CNodeStats>& vstats)
 
     LOCK(cs_vNodes);
     vstats.reserve(vNodes.size());
-    BOOST_FOREACH(CNode* pnode, vNodes) {
+    for(CNode* pnode : vNodes) {
         CNodeStats stats;
         pnode->copyStats(stats);
         vstats.push_back(stats);
@@ -119,7 +118,7 @@ UniValue getpeerinfo(const UniValue& params, bool fHelp)
 
     UniValue ret(UniValue::VARR);
 
-    BOOST_FOREACH(const CNodeStats& stats, vstats) {
+    for(const CNodeStats& stats : vstats) {
         UniValue obj(UniValue::VOBJ);
         CNodeStateStats statestats;
         bool fStateStats = GetNodeStateStats(stats.nodeid, statestats);
@@ -148,7 +147,7 @@ UniValue getpeerinfo(const UniValue& params, bool fHelp)
             obj.push_back(Pair("synced_headers", statestats.nSyncHeight));
             obj.push_back(Pair("synced_blocks", statestats.nCommonHeight));
             UniValue heights(UniValue::VARR);
-            BOOST_FOREACH(int height, statestats.vHeightInFlight) {
+            for(int height : statestats.vHeightInFlight) {
                 heights.push_back(height);
             }
             obj.push_back(Pair("inflight", heights));
@@ -250,14 +249,14 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
     if (params.size() == 1)
     {
         LOCK(cs_vAddedNodes);
-        BOOST_FOREACH(std::string& strAddNode, vAddedNodes)
+        for(std::string& strAddNode : vAddedNodes)
             laddedNodes.push_back(strAddNode);
     }
     else
     {
         std::string strNode = params[1].get_str();
         LOCK(cs_vAddedNodes);
-        BOOST_FOREACH(std::string& strAddNode, vAddedNodes)
+        for(std::string& strAddNode : vAddedNodes)
             if (strAddNode == strNode)
             {
                 laddedNodes.push_back(strAddNode);
@@ -270,7 +269,7 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
     UniValue ret(UniValue::VARR);
     if (!fDns)
     {
-        BOOST_FOREACH(std::string& strAddNode, laddedNodes)
+        for(std::string& strAddNode : laddedNodes)
         {
             UniValue obj(UniValue::VOBJ);
             obj.push_back(Pair("addednode", strAddNode));
@@ -280,7 +279,7 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
     }
 
     std::list<std::pair<std::string, std::vector<CService> > > laddedAddreses(0);
-    BOOST_FOREACH(std::string& strAddNode, laddedNodes)
+    for(std::string& strAddNode : laddedNodes)
     {
         std::vector<CService> vservNode(0);
         if(Lookup(strAddNode.c_str(), vservNode, Params().GetDefaultPort(), fNameLookup, 0))
@@ -303,12 +302,12 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
 
         UniValue addresses(UniValue::VARR);
         bool fConnected = false;
-        BOOST_FOREACH(CService& addrNode, it->second)
+        for(CService& addrNode : it->second)
         {
             bool fFound = false;
             UniValue node(UniValue::VOBJ);
             node.push_back(Pair("address", addrNode.ToString()));
-            BOOST_FOREACH(CNode* pnode, vNodes)
+            for(CNode* pnode : vNodes)
                 if (pnode->addr == addrNode)
                 {
                     fFound = true;
@@ -424,7 +423,7 @@ UniValue getnetworkinfo(const UniValue& params, bool fHelp)
     UniValue localAddresses(UniValue::VARR);
     {
         LOCK(cs_mapLocalHost);
-        BOOST_FOREACH(const PAIRTYPE(CNetAddr, LocalServiceInfo) &item, mapLocalHost)
+        for(const PAIRTYPE(CNetAddr, LocalServiceInfo) &item : mapLocalHost)
         {
             UniValue rec(UniValue::VOBJ);
             rec.push_back(Pair("address", item.first.ToString()));

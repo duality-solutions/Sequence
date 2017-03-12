@@ -395,7 +395,7 @@ UniValue name_list(const UniValue& params, bool fHelp)
     GetNameList(nameUniq, mapNames, mapPending);
 
     UniValue oRes(UniValue::VARR);
-    BOOST_FOREACH(const PAIRTYPE(CNameVal, NameTxInfo)& item, mapNames)
+    for(const PAIRTYPE(CNameVal, NameTxInfo)& item : mapNames)
     {
         UniValue oName(UniValue::VOBJ);
         oName.push_back(Pair("name", stringFromNameVal(item.second.name)));
@@ -427,7 +427,7 @@ void GetNameList(const CNameVal& nameUniq, std::map<CNameVal, NameTxInfo>& mapNa
         return; // throw JSONRPCError(RPC_WALLET_ERROR, "scan failed");
 
     pair<CNameVal, pair<CNameIndex,int> > pairScan;
-    BOOST_FOREACH(pairScan, nameScan)
+    for(pairScan : nameScan)
     {
         CNameVal name = pairScan.first;
         CNameIndex txName = pairScan.second.first;
@@ -452,7 +452,7 @@ void GetNameList(const CNameVal& nameUniq, std::map<CNameVal, NameTxInfo>& mapNa
     }
 
     // add all pending names
-    BOOST_FOREACH(const PAIRTYPE(CNameVal, set<uint256>) &item, mapNamePending)
+    for(const PAIRTYPE(CNameVal, set<uint256>) &item : mapNamePending)
     {
         if (!item.second.size())
             continue;
@@ -461,7 +461,7 @@ void GetNameList(const CNameVal& nameUniq, std::map<CNameVal, NameTxInfo>& mapNa
         CTransaction tx;
         uint32_t nTime = 0;
         bool found = false;
-        BOOST_FOREACH(const uint256& hash, item.second)
+        for(const uint256& hash : item.second)
         {
             if (!mempool.exists(hash))
                 continue;
@@ -498,12 +498,12 @@ UniValue name_debug(const UniValue& params, bool fHelp)
 
     {
         LOCK(cs_main);
-        BOOST_FOREACH(const PAIRTYPE(CNameVal, set<uint256>) &pairPending, mapNamePending)
+        for(const PAIRTYPE(CNameVal, set<uint256>) &pairPending : mapNamePending)
         {
             string name = stringFromNameVal(pairPending.first);
             LogPrintf("%s :\n", name);
             uint256 hash;
-            BOOST_FOREACH(hash, pairPending.second)
+            for(hash : pairPending.second)
             {
                 LogPrintf("    ");
                 if (!pwalletMain->mapWallet.count(hash))
@@ -690,10 +690,10 @@ UniValue name_mempool (const UniValue& params, bool fHelp)
     string outputType = params.size() > 0 ? params[0].get_str() : "";
 
     UniValue res(UniValue::VARR);
-    BOOST_FOREACH(const PAIRTYPE(CNameVal, set<uint256>) &pairPending, mapNamePending)
+    for(const PAIRTYPE(CNameVal, set<uint256>) &pairPending : mapNamePending)
     {
         string sName = stringFromNameVal(pairPending.first);
-        BOOST_FOREACH(const uint256& hash, pairPending.second)
+        for(const uint256& hash : pairPending.second)
         {
             if (!mempool.exists(hash))
                 continue;
@@ -775,7 +775,7 @@ UniValue name_filter(const UniValue& params, bool fHelp)
     sregex cregex = sregex::compile(strRegexp);
 
     pair<CNameVal, pair<CNameIndex,int> > pairScan;
-    BOOST_FOREACH(pairScan, nameScan)
+    for(pairScan : nameScan)
     {
         string name = stringFromNameVal(pairScan.first);
 
@@ -831,7 +831,7 @@ UniValue name_filter(const UniValue& params, bool fHelp)
     if (!fStat)
     {
         std::sort(oRes.begin(), oRes.end(), mycompare2); //sort by nHeight
-        BOOST_FOREACH(const UniValue& res, oRes)
+        for(const UniValue& res : oRes)
             oRes2.push_back(res);
     }
     else
@@ -873,7 +873,7 @@ UniValue name_scan(const UniValue& params, bool fHelp)
         throw JSONRPCError(RPC_WALLET_ERROR, "scan failed");
 
     pair<CNameVal, pair<CNameIndex,int> > pairScan;
-    BOOST_FOREACH(pairScan, nameScan)
+    for(pairScan : nameScan)
     {
         string ddnsName = stringFromNameVal(pairScan.first);
         // search for input string
@@ -1302,7 +1302,7 @@ bool createNameIndexFile()
 
             // calculate tx fee
             CAmount input = 0;
-            BOOST_FOREACH(const CTxIn& txin, tx.vin)
+            for(const CTxIn& txin : tx.vin)
             {
                 CTransaction txPrev;
                 uint256 hashBlock = 0;
@@ -1633,7 +1633,7 @@ bool CNamecoinHooks::ConnectBlock(CBlockIndex* pindex, const vector<nameTempProx
     CNameDB dbName("r+");
     set<CNameVal> sNameNew;
 
-    BOOST_FOREACH(const nameTempProxy& i, vName)
+    for(const nameTempProxy& i : vName)
     {
         CNameRecord nameRec;
         if (dbName.ExistsName(i.name) && !dbName.ReadName(i.name, nameRec))
@@ -1836,7 +1836,7 @@ std::string MultiSigGetPubKeyFromAddress(const std::string& strAddress)
         throw JSONRPCError(RPC_WALLET_ERROR, "scan failed");
 
     pair<CNameVal, pair<CNameIndex,int> > pairScan;
-    BOOST_FOREACH(pairScan, nameScan)
+    for(pairScan : nameScan)
     {
         CNameIndex nameIndex = pairScan.second.first;
         CNameVal name = pairScan.first;
