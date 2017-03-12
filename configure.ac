@@ -53,7 +53,7 @@ dnl Check if -latomic is required for <std::atomic>
 CHECK_ATOMIC
 
 dnl Require C++11 compiler (no GNU extensions)
-AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory])
+AX_CXX_COMPILE_STDCXX([11], [noext], [mandatory], [nodefault])
 
 dnl Libtool init checks.
 LT_INIT([pic-only])
