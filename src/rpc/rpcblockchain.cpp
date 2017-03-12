@@ -6,7 +6,7 @@
 
 #include "chainparams.h"
 #include "checkpoints.h"
-#include "kernel.h"
+#include "stake.h"
 #include "main.h"
 #include "rpc/rpcserver.h"
 #include "sync.h"

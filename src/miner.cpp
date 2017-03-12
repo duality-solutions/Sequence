@@ -14,7 +14,7 @@
 #include "main.h"
 #include "consensus/merkle.h"
 #include "net.h"
-#include "pow.h"
+#include "work.h"
 #include "timedata.h"
 #include "primitives/transaction.h"
 #include "txmempool.h"

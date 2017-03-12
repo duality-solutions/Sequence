@@ -17,7 +17,7 @@
 #include "crypto/common.h"
 #include "dns/dns.h"
 #include "init.h"
-#include "kernel.h"
+#include "stake.h"
 #include "keystore.h"
 #include "consensus/merkle.h"
 #include "merkleblock.h"

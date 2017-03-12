@@ -13,7 +13,7 @@
 #include "wallet/coincontrol.h"
 #include "consensus/consensus.h"
 #include "dns/dns.h"
-#include "kernel.h"
+#include "stake.h"
 #include "net.h"
 #include "script/script.h"
 #include "script/sign.h"

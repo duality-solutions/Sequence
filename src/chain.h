@@ -8,7 +8,7 @@
 #define SEQUENCE_CHAIN_H
 
 #include "primitives/block.h"
-#include "pow.h"
+#include "work.h"
 #include "tinyformat.h"
 #include "uint256.h"
 #include "utilmoneystr.h"

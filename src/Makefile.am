@@ -129,7 +129,7 @@ SEQUENCE_CORE_H = \
   net.h \
   noui.h \
   ntp.h \    
-  pow.h \
+  work.h \
   protocol.h \
   pubkey.h \
   random.h \
@@ -168,7 +168,7 @@ SEQUENCE_CORE_H = \
   reverselock.h \
 ## --- ppcoin and sequence headers start from this line --- ##
   uint256hm.h \
-  kernel.h \
+  stake.h \
   dns/dns.h \
   hooks.h \
   dns/seqdns.h \
@@ -197,7 +197,7 @@ libsequence_server_a_SOURCES = \
   net.cpp \
   noui.cpp \
   ntp.cpp \    
-  pow.cpp \
+  work.cpp \
   rest.cpp \
   rpc/rpcblockchain.cpp \
   rpc/rpcmining.cpp \
@@ -210,7 +210,7 @@ libsequence_server_a_SOURCES = \
   txmempool.cpp \
   validationinterface.cpp \
 ## --- ppcoin and sequence sources start from this line --- ##
-  kernel.cpp \
+  stake.cpp \
   dns/dns.cpp \
   dns/seqdns.cpp \
   torcontrol.cpp \

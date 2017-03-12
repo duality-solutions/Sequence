@@ -14,7 +14,7 @@
 #include "miner.h"
 #include "net.h"
 #include "consensus/params.h"
-#include "pow.h"
+#include "work.h"
 #include "rpc/rpcserver.h"
 #include "txmempool.h"
 #include "util.h"
