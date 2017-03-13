@@ -26,18 +26,18 @@ using namespace std;
 static const bool fDebugPoS = false;
 
 // Hard checkpoints of stake modifiers to ensure they are deterministic
-static std::map<int, unsigned int> mapStakeModifierCheckpoints =
-    boost::assign::map_list_of
-    ( 0, 0x0e00670bu )
-    ( 100, 0x153b2c3au )
-    ( 500, 0xe311f3e5u )
-    ( 2000, 0xf1bc2587u )
-    ( 8000, 0x481e05e4u )
-    ( 16000, 0xd6f5eccbu )
-    ( 32000, 0x7f331195u )
-    ( 64000, 0xa9ee80a2u )
-    ( 128000, 0xed217450u )
-    ( 196000, 0x29d48eaau )
+static std::map<int, unsigned int> mapStakeModifierCheckpoints = {
+		{ 0, 0x0e00670bu },
+		{ 100, 0x153b2c3au },
+		{ 500, 0xe311f3e5u },
+		{ 2000, 0xf1bc2587u },
+		{ 8000, 0x481e05e4u },
+		{ 16000, 0xd6f5eccbu },
+		{ 32000, 0x7f331195u },
+		{ 64000, 0xa9ee80a2u },
+		{ 128000, 0xed217450u },
+		{ 196000, 0x29d48eaau }
+	}
     ;
 
 // Get time weight

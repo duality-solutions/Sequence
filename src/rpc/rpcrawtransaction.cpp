@@ -25,8 +25,6 @@
 
 #include <stdint.h>
 
-#include <boost/assign/list_of.hpp>
-
 #include <univalue.h>
 
 void ScriptPubKeyToJSON(const CScript& scriptPubKey, UniValue& out, bool fIncludeHex)
@@ -231,7 +229,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
         );
 
     LOCK(cs_main);
-    RPCTypeCheck(params, boost::assign::list_of(UniValue::VARR)(UniValue::VOBJ)(UniValue::VNUM), true);
+    RPCTypeCheck(params, {UniValue::VARR, UniValue::VOBJ, UniValue::VNUM}, true);
     if (params[0].isNull() || params[1].isNull())
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter, arguments 1 and 2 must be non-null");
 
@@ -347,7 +345,7 @@ UniValue decoderawtransaction(const UniValue& params, bool fHelp)
         );
 
     LOCK(cs_main);
-    RPCTypeCheck(params, boost::assign::list_of(UniValue::VSTR));
+    RPCTypeCheck(params, {UniValue::VSTR});
 
     CTransaction tx;
 
@@ -385,7 +383,7 @@ UniValue decodescript(const UniValue& params, bool fHelp)
             + HelpExampleRpc("decodescript", "\"hexstring\"")
         );
 
-    RPCTypeCheck(params, boost::assign::list_of(UniValue::VSTR));
+    RPCTypeCheck(params, {UniValue::VSTR});
 
     UniValue r(UniValue::VOBJ);
     CScript script;
@@ -463,7 +461,7 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
             + HelpExampleRpc("signrawtransaction", "\"myhex\"")
         );
 
-    RPCTypeCheck(params, boost::assign::list_of(UniValue::VSTR)(UniValue::VARR)(UniValue::VARR)(UniValue::VSTR), true);
+    RPCTypeCheck(params, {UniValue::VSTR, UniValue::VARR, UniValue::VARR, UniValue::VSTR}, true);
 
     std::vector<unsigned char> txData(ParseHexV(params[0], "argument 1"));
     CDataStream ssData(txData, SER_NETWORK, PROTOCOL_VERSION);
@@ -536,7 +534,7 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
 
             UniValue prevOut = p.get_obj();
 
-            RPCTypeCheckObj(prevOut, boost::assign::map_list_of("txid", UniValue::VSTR)("vout", UniValue::VNUM)("scriptPubKey", UniValue::VSTR));
+            RPCTypeCheckObj(prevOut, {{"txid", UniValue::VSTR}, {"vout", UniValue::VNUM}, {"scriptPubKey", UniValue::VSTR}});
 
             uint256 txid = ParseHashO(prevOut, "txid");
 
@@ -564,7 +562,7 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
             // if redeemScript given and not using the local wallet (private keys
             // given), add redeemScript to the tempKeystore so it can be signed:
             if (fGivenKeys && scriptPubKey.IsPayToScriptHash()) {
-                RPCTypeCheckObj(prevOut, boost::assign::map_list_of("txid", UniValue::VSTR)("vout", UniValue::VNUM)("scriptPubKey", UniValue::VSTR)("redeemScript",UniValue::VSTR));
+                RPCTypeCheckObj(prevOut, {{"txid", UniValue::VSTR}, {"vout", UniValue::VNUM}, {"scriptPubKey", UniValue::VSTR}, {"redeemScript",UniValue::VSTR}});
                 UniValue v = find_value(prevOut, "redeemScript");
                 if (!v.isNull()) {
                     std::vector<unsigned char> rsData(ParseHexV(v, "redeemScript"));
@@ -583,14 +581,14 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
 
     int nHashType = SIGHASH_ALL;
     if (params.size() > 3 && !params[3].isNull()) {
-        static std::map<std::string, int> mapSigHashValues =
-            boost::assign::map_list_of
-            (std::string("ALL"), int(SIGHASH_ALL))
-            (std::string("ALL|ANYONECANPAY"), int(SIGHASH_ALL|SIGHASH_ANYONECANPAY))
-            (std::string("NONE"), int(SIGHASH_NONE))
-            (std::string("NONE|ANYONECANPAY"), int(SIGHASH_NONE|SIGHASH_ANYONECANPAY))
-            (std::string("SINGLE"), int(SIGHASH_SINGLE))
-            (std::string("SINGLE|ANYONECANPAY"), int(SIGHASH_SINGLE|SIGHASH_ANYONECANPAY))
+        static std::map<std::string, int> mapSigHashValues = {
+				{std::string("ALL"), SIGHASH_ALL},
+				{std::string("ALL|ANYONECANPAY"), SIGHASH_ALL|SIGHASH_ANYONECANPAY},
+				{std::string("NONE"), SIGHASH_NONE},
+				{std::string("NONE|ANYONECANPAY"), SIGHASH_NONE|SIGHASH_ANYONECANPAY},
+				{std::string("SINGLE"), SIGHASH_SINGLE},
+				{std::string("SINGLE|ANYONECANPAY"), SIGHASH_SINGLE|SIGHASH_ANYONECANPAY}
+			}
             ;
         std::string strHashType = params[3].get_str();
         if (mapSigHashValues.count(strHashType))
@@ -666,7 +664,7 @@ UniValue sendrawtransaction(const UniValue& params, bool fHelp)
             + HelpExampleRpc("sendrawtransaction", "\"signedhex\"")
         );
 
-    RPCTypeCheck(params, boost::assign::list_of(UniValue::VSTR)(UniValue::VBOOL));
+    RPCTypeCheck(params, {UniValue::VSTR, UniValue::VBOOL});
 
     // parse hex string from parameter
     CTransaction tx;

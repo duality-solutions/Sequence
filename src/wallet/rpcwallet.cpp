@@ -24,7 +24,6 @@
 #include <univalue.h>
 
 using namespace boost;
-using namespace boost::assign;
 
 int64_t nWalletUnlockTime;
 static CCriticalSection cs_nWalletUnlockTime;
@@ -1833,7 +1832,7 @@ UniValue listunspent(const UniValue& params, bool fHelp)
             + HelpExampleRpc("listunspent", "10, 9999999 \"[\\\"SPGFqEzfmQch1gKD3ra4k18PNj3tTUUSqg\\\",\\\"SIfcnUremQch1gKD3ra4k18PNj3tTUUSqg\\\"]\"")
         );
 
-    RPCTypeCheck(params, boost::assign::list_of(UniValue::VNUM)(UniValue::VNUM)(UniValue::VARR));
+    RPCTypeCheck(params, {UniValue::VNUM, UniValue::VNUM, UniValue::VARR});
 
     int nMinDepth = 1;
     if (params.size() > 0)
@@ -1944,9 +1943,9 @@ UniValue lockunspent(const UniValue& params, bool fHelp)
         );
 
     if (params.size() == 1)
-        RPCTypeCheck(params, boost::assign::list_of(UniValue::VBOOL));
+        RPCTypeCheck(params, {UniValue::VBOOL});
     else
-        RPCTypeCheck(params, boost::assign::list_of(UniValue::VBOOL)(UniValue::VARR));
+        RPCTypeCheck(params, {UniValue::VBOOL, UniValue::VARR});
 
     bool fUnlock = params[0].get_bool();
 
@@ -1964,7 +1963,7 @@ UniValue lockunspent(const UniValue& params, bool fHelp)
             throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter, expected object");
         const UniValue& o = output.get_obj();
 
-        RPCTypeCheckObj(o, boost::assign::map_list_of("txid", UniValue::VSTR)("vout", UniValue::VNUM));
+        RPCTypeCheckObj(o,{{"txid", UniValue::VSTR}, {"vout", UniValue::VNUM}});
 
         std::string txid = find_value(o, "txid").get_str();
         if (!IsHex(txid))

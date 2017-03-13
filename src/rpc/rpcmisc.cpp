@@ -24,10 +24,7 @@
 
 #include <stdint.h>
 
-#include <boost/assign/list_of.hpp>
-
 using namespace boost;
-using namespace boost::assign;
 
 /**
  * @note Do not add or change anything in the information returned by this
@@ -422,7 +419,7 @@ UniValue setmocktime(const UniValue& params, bool fHelp)
     if (!Params().MineBlocksOnDemand())
         throw std::runtime_error("setmocktime for regression testing (-regtest mode) only");
 
-    RPCTypeCheck(params, boost::assign::list_of(UniValue::VNUM));
+    RPCTypeCheck(params, {UniValue::VNUM});
     SetMockTime(params[0].get_int64());
 
     return NullUniValue;
