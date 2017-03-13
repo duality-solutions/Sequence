@@ -395,7 +395,7 @@ UniValue name_list(const UniValue& params, bool fHelp)
     GetNameList(nameUniq, mapNames, mapPending);
 
     UniValue oRes(UniValue::VARR);
-    for(const PAIRTYPE(CNameVal, NameTxInfo)& item : mapNames)
+    for(const std::pair<CNameVal, NameTxInfo>& item : mapNames)
     {
         UniValue oName(UniValue::VOBJ);
         oName.push_back(Pair("name", stringFromNameVal(item.second.name)));
@@ -451,7 +451,7 @@ void GetNameList(const CNameVal& nameUniq, std::map<CNameVal, NameTxInfo>& mapNa
     }
 
     // add all pending names
-    for(const PAIRTYPE(CNameVal, set<uint256>) &item : mapNamePending)
+    for(const std::pair<CNameVal, set<uint256>> &item : mapNamePending)
     {
         if (!item.second.size())
             continue;
@@ -497,7 +497,7 @@ UniValue name_debug(const UniValue& params, bool fHelp)
 
     {
         LOCK(cs_main);
-        for(const PAIRTYPE(CNameVal, set<uint256>) &pairPending : mapNamePending)
+        for(const std::pair<CNameVal, set<uint256>> &pairPending : mapNamePending)
         {
             string name = stringFromNameVal(pairPending.first);
             LogPrintf("%s :\n", name);
@@ -688,7 +688,7 @@ UniValue name_mempool (const UniValue& params, bool fHelp)
     string outputType = params.size() > 0 ? params[0].get_str() : "";
 
     UniValue res(UniValue::VARR);
-    for(const PAIRTYPE(CNameVal, set<uint256>) &pairPending : mapNamePending)
+    for(const std::pair<CNameVal, set<uint256>> &pairPending : mapNamePending)
     {
         string sName = stringFromNameVal(pairPending.first);
         for(const uint256& hash : pairPending.second)
