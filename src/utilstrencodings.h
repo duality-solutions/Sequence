@@ -14,6 +14,9 @@
 #include <string>
 #include <vector>
 
+/** This is needed because the foreach macro can't get over the comma in pair<t1, t2> */		
+#define PAIRTYPE(t1, t2)    std::pair<t1, t2>
+
 #define BEGIN(a)            ((char*)&(a))
 #define END(a)              ((char*)&((&(a))[1]))
 #define UBEGIN(a)           ((unsigned char*)&(a))
