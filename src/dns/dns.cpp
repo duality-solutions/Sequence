@@ -426,8 +426,7 @@ void GetNameList(const CNameVal& nameUniq, std::map<CNameVal, NameTxInfo>& mapNa
     if (!dbName.ScanNames(name, 100000000, nameScan))
         return; // throw JSONRPCError(RPC_WALLET_ERROR, "scan failed");
 
-    pair<CNameVal, pair<CNameIndex,int> > pairScan;
-    for(pairScan : nameScan)
+    for(pair<CNameVal, pair<CNameIndex,int> > pairScan : nameScan)
     {
         CNameVal name = pairScan.first;
         CNameIndex txName = pairScan.second.first;
@@ -502,8 +501,7 @@ UniValue name_debug(const UniValue& params, bool fHelp)
         {
             string name = stringFromNameVal(pairPending.first);
             LogPrintf("%s :\n", name);
-            uint256 hash;
-            for(hash : pairPending.second)
+            for(uint256 hash : pairPending.second)
             {
                 LogPrintf("    ");
                 if (!pwalletMain->mapWallet.count(hash))
@@ -774,8 +772,7 @@ UniValue name_filter(const UniValue& params, bool fHelp)
     smatch nameparts;
     sregex cregex = sregex::compile(strRegexp);
 
-    pair<CNameVal, pair<CNameIndex,int> > pairScan;
-    for(pairScan : nameScan)
+    for(pair<CNameVal, pair<CNameIndex,int> > pairScan : nameScan)
     {
         string name = stringFromNameVal(pairScan.first);
 
@@ -871,9 +868,8 @@ UniValue name_scan(const UniValue& params, bool fHelp)
     vector<pair<CNameVal, pair<CNameIndex,int> > > nameScan;
     if (!dbName.ScanNames(name, nMax, nameScan))
         throw JSONRPCError(RPC_WALLET_ERROR, "scan failed");
-
-    pair<CNameVal, pair<CNameIndex,int> > pairScan;
-    for(pairScan : nameScan)
+    
+    for(pair<CNameVal, pair<CNameIndex,int> > pairScan : nameScan)
     {
         string ddnsName = stringFromNameVal(pairScan.first);
         // search for input string
@@ -1835,8 +1831,7 @@ std::string MultiSigGetPubKeyFromAddress(const std::string& strAddress)
     if (!dbName.ScanNames(nameVal, nMax, nameScan))
         throw JSONRPCError(RPC_WALLET_ERROR, "scan failed");
 
-    pair<CNameVal, pair<CNameIndex,int> > pairScan;
-    for(pairScan : nameScan)
+    for(pair<CNameVal, pair<CNameIndex,int> > pairScan : nameScan)
     {
         CNameIndex nameIndex = pairScan.second.first;
         CNameVal name = pairScan.first;
