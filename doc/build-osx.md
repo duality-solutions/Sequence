@@ -44,7 +44,7 @@ Instructions: Homebrew
 
 #### Install dependencies using Homebrew
 
-    $ brew install git autoconf automake libevent libtool boost160 --c++11 miniupnpc openssl pkg-config qt berkeley-db4
+    $ brew install git autoconf automake libevent libtool boost --c++11 miniupnpc openssl pkg-config qt berkeley-db4
     $ brew install homebrew/versions/protobuf260 --c++11
 
 Because of OS X having LibreSSL installed we have to tell the compiler where OpenSSL is located:
@@ -62,7 +62,7 @@ After exiting you will want to symlink berkeley-db4 and qt:
 
     $ brew link berkeley-db4 --force
     $ brew link qt --force
-    $ brew link boost160 --c++11 --force
+    $ brew link boost --c++11 --force
 
 
 ### Building `sequenced`
