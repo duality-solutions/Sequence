@@ -31,7 +31,7 @@ Graph on Pull Request History
 * PoS Max: Unlimited
 * Total Coins: 2<sup>63</sup> - 1
 * Block Size: 4MB
-
+* Min TX Fee: 0.001 SEQ
 
 The Sequence(SEQ) blockchain exists in the Duality binary architecture as an asset and in turn for [Dynamic(DYN)](https://github.com/duality-solutions/dynamic) is its real world interface.
 
