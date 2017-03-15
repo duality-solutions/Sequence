@@ -151,6 +151,7 @@ SEQUENCE_CORE_H = \
   support/pagelocker.h \
   sync.h \
   threadsafety.h \
+  threadinterrupt.h \
   timedata.h \
   tinyformat.h \
   txdb.h \
@@ -302,6 +303,7 @@ libsequence_util_a_SOURCES = \
   rpc/rpcprotocol.cpp \
   support/cleanse.cpp \
   sync.cpp \
+  threadinterrupt.cpp \
   timedata.cpp \
   uint256.cpp \
   util.cpp \
