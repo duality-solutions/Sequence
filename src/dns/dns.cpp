@@ -557,7 +557,7 @@ UniValue name_show(const UniValue& params, bool fHelp)
         oName.push_back(Pair("address", nti.strAddress));
         oName.push_back(Pair("expires_in", nameRec.nExpiresAt - chainActive.Height()));
         oName.push_back(Pair("expires_at", nameRec.nExpiresAt));
-        oName.push_back(Pair("time", (boost::int64_t)tx.nTime));
+        oName.push_back(Pair("time", (int64_t)tx.nTime));
         if (nameRec.deleted())
             oName.push_back(Pair("deleted", true));
         else
@@ -642,7 +642,7 @@ UniValue name_history (const UniValue& params, bool fHelp)
 
         UniValue obj(UniValue::VOBJ);
         obj.push_back(Pair("txid",             tx.GetHash().ToString()));
-        obj.push_back(Pair("time",             (boost::int64_t)tx.nTime));
+        obj.push_back(Pair("time",             (int64_t)tx.nTime));
         obj.push_back(Pair("height",           nameRec.vtxPos[i].nHeight));
         obj.push_back(Pair("address",          nti.strAddress));
         if (nti.fIsMine)
@@ -704,7 +704,7 @@ UniValue name_mempool (const UniValue& params, bool fHelp)
             UniValue obj(UniValue::VOBJ);
             obj.push_back(Pair("name",             sName));
             obj.push_back(Pair("txid",             hash.ToString()));
-            obj.push_back(Pair("time",             (boost::int64_t)tx.nTime));
+            obj.push_back(Pair("time",             (int64_t)tx.nTime));
             obj.push_back(Pair("address",          nti.strAddress));
             if (nti.fIsMine)
                 obj.push_back(Pair("address_is_mine",  "true"));
