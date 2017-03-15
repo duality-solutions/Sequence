@@ -146,6 +146,7 @@ SEQUENCE_CORE_H = \
   script/script_error.h \
   serialize.h \
   streams.h \
+  support/cleanse.h \
   sync.h \
   threadsafety.h \
   timedata.h \
@@ -297,6 +298,7 @@ libsequence_util_a_SOURCES = \
   clientversion.cpp \
   random.cpp \
   rpc/rpcprotocol.cpp \
+  support/cleanse.cpp \
   sync.cpp \
   timedata.cpp \
   uint256.cpp \
