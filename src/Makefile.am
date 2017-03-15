@@ -442,7 +442,7 @@ clean-local:
 	-rm -rf .libs
 	-rm -rf .deps
 	-rm -f leveldb/*/*.gcda leveldb/*/*.gcno leveldb/helpers/memenv/*.gcda leveldb/helpers/memenv/*.gcno
-	-rm -f config.h
+	-rm -f config/sequence-config.* config/stamp-h1
 	-rm -rf compat/.deps && rm -rf compat/.libs && rm -f compat/.dirstamp
 	-rm -rf crypto/.deps && rm -rf crypto/.libs && rm -f crypto/.dirstamp
 	-rm -rf primitives/.deps && rm -rf primitives/.libs && rm -f primitives/.dirstamp
