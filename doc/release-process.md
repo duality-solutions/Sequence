@@ -143,7 +143,7 @@ rm SHA256SUMS
         checks because the final release files weren't uploaded.
         Trigger a Travis CI rebuild---if it passes, merge.
 
-  - If they have not prepared a release, follow the duality-solutions.com release
+  - If they have not prepared a release, follow the duality.solutions release
     instructions: https://github.com/duality-solutions/sequence#release-notes
 
   - After the pull request is merged, the website will automatically show the newest version within 15 minutes, as well
