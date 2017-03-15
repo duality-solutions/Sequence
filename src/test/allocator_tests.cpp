@@ -6,7 +6,7 @@
 
 #include "util.h"
 
-#include "allocators.h"
+#include "support/allocators/secure.h"
 
 #include <boost/test/unit_test.hpp>
 

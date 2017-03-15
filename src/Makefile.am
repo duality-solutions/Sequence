@@ -83,7 +83,6 @@ endif
 SEQUENCE_CORE_H = \
   addrman.h \
   alert.h \
-  allocators.h \
   amount.h \
   base58.h \
   bignum.h \
@@ -146,7 +145,10 @@ SEQUENCE_CORE_H = \
   script/script_error.h \
   serialize.h \
   streams.h \
+  support/allocators/secure.h \
+  support/allocators/zeroafterfree.h \
   support/cleanse.h \
+  support/pagelocker.h \
   sync.h \
   threadsafety.h \
   timedata.h \
@@ -258,7 +260,6 @@ crypto_libsequence_crypto_a_SOURCES = \
 libsequence_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
 libsequence_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsequence_common_a_SOURCES = \
-  allocators.cpp \
   amount.cpp \
   base58.cpp \
   chainparams.cpp \
@@ -291,6 +292,7 @@ libsequence_common_a_SOURCES = \
 libsequence_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
 libsequence_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsequence_util_a_SOURCES = \
+  support/pagelocker.cpp \
   compat/strnlen.cpp \
   compat/glibc_sanity.cpp \
   compat/glibcxx_sanity.cpp \

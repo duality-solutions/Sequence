@@ -7,9 +7,9 @@
 #ifndef SEQUENCE_CRYPTER_H
 #define SEQUENCE_CRYPTER_H
 
-#include "allocators.h"
 #include "keystore.h"
 #include "serialize.h"
+#include "support/allocators/secure.h"
 
 class uint256;
 
