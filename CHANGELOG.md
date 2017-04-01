@@ -1,6 +1,11 @@
 # **Sequence Changelog**
 -------------------------
 
+**v1.1.0.0**
+
+* Update Stake Icon to show useful accurate information
+
+
 **v1.0.0.0**
 
 * Fix and re-enable ResetSyncCheckpoint()
