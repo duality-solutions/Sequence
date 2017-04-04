@@ -17,7 +17,7 @@
 #include "chain.h"
 #include "coins.h"
 #include "net.h"
-#include "pow.h"
+#include "work.h"
 #include "script/script.h"
 #include "script/sigcache.h"
 #include "script/standard.h"

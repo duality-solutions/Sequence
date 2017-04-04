@@ -7,10 +7,10 @@
 #ifndef SEQUENCE_KEY_H
 #define SEQUENCE_KEY_H
 
-#include "allocators.h"
 #include "pubkey.h"
 #include "serialize.h"
 #include "uint256.h"
+#include "support/allocators/secure.h"
 
 #include <stdexcept>
 #include <vector>

@@ -468,7 +468,7 @@ void MultisigDialog::on_transaction_textChanged()
 
     // Fill input list
     int index = -1;
-    BOOST_FOREACH(const CTxIn& txin, tx.vin)
+    for(const CTxIn& txin : tx.vin)
     {
         uint256 prevoutHash = txin.prevout.hash;
         addInput();
@@ -483,7 +483,7 @@ void MultisigDialog::on_transaction_textChanged()
 
     // Fill output list
     index = -1;
-    BOOST_FOREACH(const CTxOut& txout, tx.vout)
+    for(const CTxOut& txout : tx.vout)
     {
         CScript scriptPubKey = txout.scriptPubKey;
         CTxDestination addr;
@@ -559,7 +559,7 @@ void MultisigDialog::on_signTransactionButton_clicked()
         CCoinsViewMemPool viewMempool(&viewChain, mempool);
         view.SetBackend(viewMempool); // temporarily switch cache backend to db+mempool view
         unsigned int x = 0;
-        BOOST_FOREACH(const CTxIn& txin, mergedTx.vin) {
+        for(const CTxIn& txin : mergedTx.vin) {
             
             const uint256& prevHash = txin.prevout.hash;
             CCoins coins;
@@ -613,7 +613,7 @@ void MultisigDialog::on_signTransactionButton_clicked()
         }
         // ... and merge in other signatures:
         unsigned int sigCount = 0;
-        BOOST_FOREACH(const CMutableTransaction& txv, txVariants) {
+        for(const CMutableTransaction& txv : txVariants) {
             txin.scriptSig = CombineSignatures(prevPubKey, mergedTx, i, txin.scriptSig, txv.vin[i].scriptSig);
             sigCount = sigCount + 1;
         }

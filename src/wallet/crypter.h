@@ -7,9 +7,9 @@
 #ifndef SEQUENCE_CRYPTER_H
 #define SEQUENCE_CRYPTER_H
 
-#include "allocators.h"
 #include "keystore.h"
 #include "serialize.h"
+#include "support/allocators/secure.h"
 
 class uint256;
 
@@ -84,8 +84,8 @@ public:
 
     void CleanKey()
     {
-        OPENSSL_cleanse(chKey, sizeof(chKey));
-        OPENSSL_cleanse(chIV, sizeof(chIV));
+        memory_cleanse(chKey, sizeof(chKey));
+        memory_cleanse(chIV, sizeof(chIV));
         fKeySet = false;
     }
 

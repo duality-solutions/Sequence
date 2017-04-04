@@ -5,7 +5,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "kernel.h"
+#include "stake.h"
 
 #include "chainparams.h"
 #include "consensus/consensus.h"
@@ -26,18 +26,18 @@ using namespace std;
 static const bool fDebugPoS = false;
 
 // Hard checkpoints of stake modifiers to ensure they are deterministic
-static std::map<int, unsigned int> mapStakeModifierCheckpoints =
-    boost::assign::map_list_of
-    ( 0, 0x0e00670bu )
-    ( 100, 0x153b2c3au )
-    ( 500, 0xe311f3e5u )
-    ( 2000, 0xf1bc2587u )
-    ( 8000, 0x481e05e4u )
-    ( 16000, 0xd6f5eccbu )
-    ( 32000, 0x7f331195u )
-    ( 64000, 0xa9ee80a2u )
-    ( 128000, 0xed217450u )
-    ( 196000, 0x29d48eaau )
+static std::map<int, unsigned int> mapStakeModifierCheckpoints = {
+		{ 0, 0x0e00670bu },
+		{ 100, 0x153b2c3au },
+		{ 500, 0xe311f3e5u },
+		{ 2000, 0xf1bc2587u },
+		{ 8000, 0x481e05e4u },
+		{ 16000, 0xd6f5eccbu },
+		{ 32000, 0x7f331195u },
+		{ 64000, 0xa9ee80a2u },
+		{ 128000, 0xed217450u },
+		{ 196000, 0x29d48eaau }
+	}
     ;
 
 // Get time weight
@@ -92,7 +92,7 @@ static bool SelectBlockFromCandidates(
     bool fSelected = false;
     uint256 hashBest = 0;
     *pindexSelected = (const CBlockIndex*) 0;
-    BOOST_FOREACH(const PAIRTYPE(int64_t, uint256)& item, vSortedByTimestamp)
+    for(const std::pair<int64_t, uint256>& item : vSortedByTimestamp)
     {
         if (!mapBlockIndex.count(item.second))
             return error("SelectBlockFromCandidates: failed to find block index for candidate block %s", item.second.ToString());
@@ -235,7 +235,7 @@ bool ComputeNextStakeModifier(const CBlockIndex* pindexCurrent, uint64_t& nStake
                 strSelectionMap.replace(pindex->nHeight - nHeightFirstCandidate, 1, "=");
             pindex = pindex->pprev;
         }
-        BOOST_FOREACH(const PAIRTYPE(uint256, const CBlockIndex*)& item, mapSelectedBlocks)
+        for(const std::pair<uint256, const CBlockIndex*>& item : mapSelectedBlocks)
         {
             // 'S' indicates selected proof-of-stake blocks
             // 'W' indicates selected proof-of-work blocks
@@ -407,7 +407,7 @@ bool CheckStakeKernelHash(unsigned int nBits, const CBlock& blockFrom, unsigned 
     uint256 bnTargetPerCoinDay;
     bnTargetPerCoinDay.SetCompact(nBits);
     int64_t nValueIn = txPrev.vout[prevout.n].nValue;
-    // v0.3 protocol kernel hash weight starts from 0 at the 30-day min age
+    // v0.3 protocol stake.hash weight starts from 0 at the 30-day min age
     // this change increases active coins participating the hash and helps
     // to secure the network when proof-of-stake difficulty is low
     int64_t nTimeWeight = min((int64_t)nTimeTx - txPrev.nTime, Params().GetConsensus().nStakeMaxAge) - (Params().GetConsensus().nStakeMinAge);
@@ -458,7 +458,7 @@ bool CheckStakeKernelHash(unsigned int nBits, const CBlock& blockFrom, unsigned 
     return true;
 }
 
-// Check kernel hash target and coinstake signature
+// Check stake.hash target and coinstake signature
 bool CheckProofOfStake(CValidationState& state,const CTransaction& tx, unsigned int nBits, uint256& hashProofOfStake)
 {
     if (!tx.IsCoinStake())

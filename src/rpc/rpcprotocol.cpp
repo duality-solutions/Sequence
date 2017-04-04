@@ -20,14 +20,12 @@
 #include <boost/asio/ssl.hpp>
 #include <boost/bind.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/foreach.hpp>
 #include <boost/iostreams/concepts.hpp>
 #include <boost/iostreams/stream.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <univalue.h>
 
-using namespace std;
 using namespace boost;
 using namespace boost::asio;
 
@@ -41,9 +39,9 @@ const size_t POST_READ_SIZE = 256 * 1024;
  * and to be compatible with other JSON-RPC implementations.
  */
 
-string HTTPPost(const string& strMsg, const map<string,string>& mapRequestHeaders)
+std::string HTTPPost(const std::string& strMsg, const std::map<std::string,std::string>& mapRequestHeaders)
 {
-    ostringstream s;
+    std::ostringstream s;
     s << "POST / HTTP/1.1\r\n"
       << "User-Agent: sequence-json-rpc/" << FormatFullVersion() << "\r\n"
       << "Host: 127.0.0.1\r\n"
@@ -51,14 +49,14 @@ string HTTPPost(const string& strMsg, const map<string,string>& mapRequestHeader
       << "Content-Length: " << strMsg.size() << "\r\n"
       << "Connection: close\r\n"
       << "Accept: application/json\r\n";
-    BOOST_FOREACH(const PAIRTYPE(string, string)& item, mapRequestHeaders)
+    for(const std::pair<std::string, std::string>& item : mapRequestHeaders)
         s << item.first << ": " << item.second << "\r\n";
     s << "\r\n" << strMsg;
 
     return s.str();
 }
 
-static string rfc1123Time()
+static std::string rfc1123Time()
 {
     return DateTimeStrFormat("%a, %d %b %Y %H:%M:%S +0000", GetTime());
 }
@@ -75,7 +73,7 @@ static const char *httpStatusDescription(int nStatus)
     }
 }
 
-string HTTPError(int nStatus, bool keepalive, bool headersOnly)
+std::string HTTPError(int nStatus, bool keepalive, bool headersOnly)
 {
     if (nStatus == HTTP_UNAUTHORIZED)
         return strprintf("HTTP/1.0 401 Authorization Required\r\n"
@@ -99,7 +97,7 @@ string HTTPError(int nStatus, bool keepalive, bool headersOnly)
                      headersOnly, "text/plain");
 }
 
-string HTTPReplyHeader(int nStatus, bool keepalive, size_t contentLength, const char *contentType)
+std::string HTTPReplyHeader(int nStatus, bool keepalive, size_t contentLength, const char *contentType)
 {
     return strprintf(
             "HTTP/1.1 %d %s\r\n"
@@ -118,7 +116,7 @@ string HTTPReplyHeader(int nStatus, bool keepalive, size_t contentLength, const 
         FormatFullVersion());
 }
 
-string HTTPReply(int nStatus, const string& strMsg, bool keepalive,
+std::string HTTPReply(int nStatus, const std::string& strMsg, bool keepalive,
                  bool headersOnly, const char *contentType)
 {
     if (headersOnly)
@@ -130,13 +128,13 @@ string HTTPReply(int nStatus, const string& strMsg, bool keepalive,
 }
 
 bool ReadHTTPRequestLine(std::basic_istream<char>& stream, int &proto,
-                         string& http_method, string& http_uri)
+                         std::string& http_method, std::string& http_uri)
 {
-    string str;
+    std::string str;
     getline(stream, str);
 
     // HTTP request line is space-delimited
-    vector<string> vWords;
+    std::vector<std::string> vWords;
     boost::split(vWords, str, boost::is_any_of(" "));
     if (vWords.size() < 2)
         return false;
@@ -152,7 +150,7 @@ bool ReadHTTPRequestLine(std::basic_istream<char>& stream, int &proto,
         return false;
 
     // parse proto, if present
-    string strProto = "";
+    std::string strProto = "";
     if (vWords.size() > 2)
         strProto = vWords[2];
 
@@ -166,9 +164,9 @@ bool ReadHTTPRequestLine(std::basic_istream<char>& stream, int &proto,
 
 int ReadHTTPStatus(std::basic_istream<char>& stream, int &proto)
 {
-    string str;
+    std::string str;
     getline(stream, str);
-    vector<string> vWords;
+    std::vector<std::string> vWords;
     boost::split(vWords, str, boost::is_any_of(" "));
     if (vWords.size() < 2)
         return HTTP_INTERNAL_SERVER_ERROR;
@@ -179,22 +177,22 @@ int ReadHTTPStatus(std::basic_istream<char>& stream, int &proto)
     return atoi(vWords[1].c_str());
 }
 
-int ReadHTTPHeaders(std::basic_istream<char>& stream, map<string, string>& mapHeadersRet)
+int ReadHTTPHeaders(std::basic_istream<char>& stream, std::map<std::string, std::string>& mapHeadersRet)
 {
     int nLen = 0;
     while (true)
     {
-        string str;
+        std::string str;
         std::getline(stream, str);
         if (str.empty() || str == "\r")
             break;
-        string::size_type nColon = str.find(":");
-        if (nColon != string::npos)
+        std::string::size_type nColon = str.find(":");
+        if (nColon != std::string::npos)
         {
-            string strHeader = str.substr(0, nColon);
+            std::string strHeader = str.substr(0, nColon);
             boost::trim(strHeader);
             boost::to_lower(strHeader);
-            string strValue = str.substr(nColon+1);
+            std::string strValue = str.substr(nColon+1);
             boost::trim(strValue);
             mapHeadersRet[strHeader] = strValue;
             if (strHeader == "content-length")
@@ -205,8 +203,8 @@ int ReadHTTPHeaders(std::basic_istream<char>& stream, map<string, string>& mapHe
 }
 
 
-int ReadHTTPMessage(std::basic_istream<char>& stream, map<string,
-                    string>& mapHeadersRet, string& strMessageRet,
+int ReadHTTPMessage(std::basic_istream<char>& stream, std::map<std::string,
+                    std::string>& mapHeadersRet, std::string& strMessageRet,
                     int nProto, size_t max_size)
 {
     mapHeadersRet.clear();
@@ -220,7 +218,7 @@ int ReadHTTPMessage(std::basic_istream<char>& stream, map<string,
     // Read message
     if (nLen > 0)
     {
-        vector<char> vch;
+        std::vector<char> vch;
         size_t ptr = 0;
         while (ptr < (size_t)nLen)
         {
@@ -231,10 +229,10 @@ int ReadHTTPMessage(std::basic_istream<char>& stream, map<string,
                 return HTTP_INTERNAL_SERVER_ERROR;
             ptr += bytes_to_read;
         }
-        strMessageRet = string(vch.begin(), vch.end());
+        strMessageRet = std::string(vch.begin(), vch.end());
     }
 
-    string sConHdr = mapHeadersRet["connection"];
+    std::string sConHdr = mapHeadersRet["connection"];
 
     if ((sConHdr != "close") && (sConHdr != "keep-alive"))
     {
@@ -257,7 +255,7 @@ int ReadHTTPMessage(std::basic_istream<char>& stream, map<string,
  * http://www.codeproject.com/KB/recipes/JSON_Spirit.aspx
  */
 
-string JSONRPCRequest(const string& strMethod, const UniValue& params, const UniValue& id)
+std::string JSONRPCRequest(const std::string& strMethod, const UniValue& params, const UniValue& id)
 {
     UniValue request(UniValue::VOBJ);
     request.push_back(Pair("method", strMethod));
@@ -278,14 +276,14 @@ UniValue JSONRPCReplyObj(const UniValue& result, const UniValue& error, const Un
     return reply;
 }
 
-string JSONRPCReply(const UniValue& result, const UniValue& error, const UniValue& id)
+std::string JSONRPCReply(const UniValue& result, const UniValue& error, const UniValue& id)
 {
     UniValue reply = JSONRPCReplyObj(result, error, id);
     static bool legacy = GetBoolArg("-legacyrpc", true);
     return reply.write(0, 0, legacy) + "\n";
 }
 
-UniValue JSONRPCError(int code, const string& message)
+UniValue JSONRPCError(int code, const std::string& message)
 {
     UniValue error(UniValue::VOBJ);
     error.push_back(Pair("code", code));
