@@ -24,6 +24,7 @@
 #include <univalue.h>
 
 using namespace boost;
+using namespace std;
 
 int64_t nWalletUnlockTime;
 static CCriticalSection cs_nWalletUnlockTime;
@@ -2223,17 +2224,22 @@ int GetStakeSubTotal(vStakePeriodRange_T& aRange, const isminefilter filter)
     return nElement;
 }
 
-struct tm * localtime_r (const time_t *timer, struct tm *result)
+//     MINGW COMPILE FIX / GIVES ERRORS COMPILING ON WINDOWS ITSELF
+//     
+//     Mingw fix still needs tweaking, since the time table display in stakereport is way off
+
+/*   
+    struct tm *
+localtime_r (const time_t *timer, struct tm *result)
 {
    struct tm *local_result;
    local_result = localtime (timer);
-
    if (local_result == NULL || result == NULL)
      return NULL;
-
    memcpy (result, local_result, sizeof (result));
    return result;
 }
+*/
 
 // prepare range for stake report
 vStakePeriodRange_T PrepareRangeForStakeReport()
