@@ -7,7 +7,6 @@
 #include "sequencegui.h"
 
 #include "sequenceunits.h"
-#include "calcdialog.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
@@ -413,10 +412,6 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     toggleHideAction = new QAction(networkStyle->getAppIcon(), tr("&Show / Hide"), this);
     toggleHideAction->setStatusTip(tr("Show or hide the main Window"));
 
-    calcAction = new QAction(QIcon(":/icons/stakejournal"), tr("&Stake Calculator"), this);
-    calcAction->setToolTip(tr("Open Stake Calculator"));
-    calcAction->setMenuRole(QAction::AboutRole);
-
     encryptWalletAction = new QAction(QIcon(":/icons/lock_closed"), tr("&Encrypt Wallet..."), this);
     encryptWalletAction->setStatusTip(tr("Encrypt the private keys that belong to your wallet"));
     encryptWalletAction->setCheckable(true);
@@ -465,8 +460,6 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     connect(toggleHideAction, SIGNAL(triggered()), this, SLOT(toggleHidden()));
     connect(showHelpMessageAction, SIGNAL(triggered()), this, SLOT(showHelpMessageClicked()));
 
-    connect(calcAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
-    connect(calcAction, SIGNAL(triggered()), this, SLOT(calcClicked()));
 #ifdef ENABLE_WALLET
     if(walletFrame)
     {
@@ -512,7 +505,6 @@ void SequenceGUI::createMenuBar()
     {
         settings->addAction(encryptWalletAction);
         settings->addAction(changePassphraseAction);
-        settings->addAction(calcAction);
         settings->addSeparator();
     }
     settings->addAction(optionsAction);
@@ -1235,12 +1227,6 @@ void SequenceGUI::updateStakingIcon()
         else
             labelStakingIcon->setToolTip(tr("Staking: Off"));
     }
-}
-
-void SequenceGUI::calcClicked()
-{
-    calcDialog dlg;
-    dlg.exec();
 }
 
 void SequenceGUI::detectShutdown()

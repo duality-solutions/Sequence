@@ -427,8 +427,8 @@ QTabBar { alignment: left; }</string>
       <widget class="QWidget" name="horizontalLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>500</y>
+         <x>-5</x>
+         <y>483</y>
          <width>441</width>
          <height>32</height>
         </rect>
@@ -490,55 +490,11 @@ QTabBar { alignment: left; }</string>
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-      <widget class="QLabel" name="label_2">
-       <property name="geometry">
-        <rect>
-         <x>111</x>
-         <y>-1</y>
-         <width>200</width>
-         <height>19</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string>Earnings made by stake over time</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Sunken</enum>
-       </property>
-       <property name="lineWidth">
-        <number>2</number>
-       </property>
-       <property name="midLineWidth">
-        <number>3</number>
-       </property>
-       <property name="text">
-        <string>Stake Report</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignHCenter|Qt::AlignTop</set>
-       </property>
-      </widget>
       <widget class="Line" name="line_4">
        <property name="geometry">
         <rect>
-         <x>5</x>
-         <y>14</y>
+         <x>0</x>
+         <y>-3</y>
          <width>431</width>
          <height>16</height>
         </rect>
@@ -550,8 +506,8 @@ QTabBar { alignment: left; }</string>
       <widget class="QWidget" name="gridLayoutWidget2">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>419</y>
+         <x>-5</x>
+         <y>402</y>
          <width>442</width>
          <height>30</height>
         </rect>
@@ -634,8 +590,8 @@ QTabBar { alignment: left; }</string>
       <widget class="QWidget" name="horizontalLayoutWidget2">
        <property name="geometry">
         <rect>
-         <x>6</x>
-         <y>153</y>
+         <x>1</x>
+         <y>136</y>
          <width>431</width>
          <height>30</height>
         </rect>
@@ -681,8 +637,8 @@ QTabBar { alignment: left; }</string>
       <widget class="QTableWidget" name="StakeReportTable">
        <property name="geometry">
         <rect>
-         <x>5</x>
-         <y>187</y>
+         <x>0</x>
+         <y>170</y>
          <width>431</width>
          <height>231</height>
         </rect>
@@ -841,8 +797,8 @@ QTabBar { alignment: left; }</string>
       <widget class="QWidget" name="gridLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>5</x>
-         <y>23</y>
+         <x>0</x>
+         <y>6</y>
          <width>431</width>
          <height>132</height>
         </rect>
@@ -1176,8 +1132,8 @@ QTabBar { alignment: left; }</string>
       <widget class="QLabel" name="L_CurrentBlock">
        <property name="geometry">
         <rect>
-         <x>1</x>
-         <y>449</y>
+         <x>-4</x>
+         <y>432</y>
          <width>442</width>
          <height>51</height>
         </rect>
@@ -1238,17 +1194,6 @@ QTabBar { alignment: left; }</string>
         <number>2</number>
        </property>
       </widget>
-      <zorder>horizontalLayoutWidget</zorder>
-      <zorder>line_3</zorder>
-      <zorder>label_2</zorder>
-      <zorder>line_4</zorder>
-      <zorder>gridLayoutWidget2</zorder>
-      <zorder>horizontalLayoutWidget2</zorder>
-      <zorder>StakeReportTable</zorder>
-      <zorder>gridLayoutWidget</zorder>
-      <zorder>L_CurrentBlock</zorder>
-      <zorder>TimeTook_2</zorder>
-      <zorder>Amount_Last</zorder>
      </widget>
      <widget class="QWidget" name="tab_console">
       <attribute name="title">

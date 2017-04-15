@@ -78,7 +78,6 @@ QT_TS = \
 QT_FORMS_UI = \
   qt/forms/addressbookpage.ui \
   qt/forms/askpassphrasedialog.ui \
-  qt/forms/calcdialog.ui \
   qt/forms/coincontroldialog.ui \
   qt/forms/dnspage.ui \
   qt/forms/editaddressdialog.ui \
@@ -107,7 +106,6 @@ QT_MOC_CPP = \
   qt/moc_sequenceamountfield.cpp \
   qt/moc_sequencegui.cpp \
   qt/moc_sequenceunits.cpp \
-  qt/moc_calcdialog.cpp \
   qt/moc_clientmodel.cpp \
   qt/moc_coincontroldialog.cpp \
   qt/moc_coincontroltreewidget.cpp \
@@ -180,7 +178,6 @@ SEQUENCE_QT_H = \
   qt/sequenceamountfield.h \
   qt/sequencegui.h \
   qt/sequenceunits.h \
-  qt/calcdialog.h \
   qt/clientmodel.h \
   qt/coincontroldialog.h \
   qt/coincontroltreewidget.h \
@@ -293,7 +290,6 @@ SEQUENCE_QT_CPP = \
   qt/sequenceamountfield.cpp \
   qt/sequencegui.cpp \
   qt/sequenceunits.cpp \
-  qt/calcdialog.cpp \
   qt/clientmodel.cpp \
   qt/csvmodelwriter.cpp \
   qt/guiutil.cpp \
@@ -308,6 +304,7 @@ SEQUENCE_QT_CPP = \
   qt/rpcconsole.cpp \
   qt/splashscreen.cpp \
   qt/trafficgraphwidget.cpp \
+  qt/stakereportdialog.cpp \
   qt/utilitydialog.cpp \
   qt/winshutdownmonitor.cpp \
   qt/multisigaddressentry.cpp \
@@ -335,7 +332,6 @@ SEQUENCE_QT_CPP += \
   qt/recentrequeststablemodel.cpp \
   qt/sendcoinsdialog.cpp \
   qt/sendcoinsentry.cpp \
-  qt/stakereportdialog.cpp \
   qt/signverifymessagedialog.cpp \
   qt/transactiondesc.cpp \
   qt/transactiondescdialog.cpp \

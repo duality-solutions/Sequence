@@ -251,8 +251,6 @@ private Q_SLOTS:
     void showBackups();
     /** Show help message dialog */
     void showHelpMessageClicked();
-    /** Show Stake Calculator Dialog */
-    void calcClicked();
 #ifndef Q_OS_MAC
     /** Handle tray icon clicked */
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);

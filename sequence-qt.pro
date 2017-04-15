@@ -514,7 +514,6 @@ HEADERS += \
     src/qt/coincontroltreewidget.h \
     src/qt/coincontroldialog.h \
     src/qt/clientmodel.h \
-    src/qt/calcdialog.h \
     src/qt/bantablemodel.h \
     src/qt/askpassphrasedialog.h \
     src/qt/addresstablemodel.h \
@@ -533,7 +532,6 @@ FORMS += \
     src/qt/forms/askpassphrasedialog.ui \
     src/qt/forms/coincontroldialog.ui \
     src/qt/forms/createmultisigaddrdialog.ui \
-    src/qt/forms/calcdialog.ui \
     src/qt/forms/dnspage.ui \
     src/qt/forms/editaddressdialog.ui \
     src/qt/forms/helpmessagedialog.ui \
@@ -639,7 +637,6 @@ SOURCES += \
     src/qt/addresstablemodel.cpp \
     src/qt/askpassphrasedialog.cpp \
     src/qt/bantablemodel.cpp \
-    src/qt/calcdialog.cpp \
     src/qt/clientmodel.cpp \
     src/qt/coincontroldialog.cpp \
     src/qt/coincontroltreewidget.cpp \
