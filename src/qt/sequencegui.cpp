@@ -431,7 +431,7 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
 
     openInfoAction = new QAction(QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation), tr("&Information"), this);
     openInfoAction->setStatusTip(tr("Show diagnostic information"));
-    openStakeReportAction = new QAction(QIcon(":/icons/stakejournal"), tr("&Stake Journal"), this);
+    openStakeReportAction = new QAction(QIcon(":/icons/stakereport"), tr("&Stake Report"), this);
     openStakeReportAction->setStatusTip(tr("Show Stake Report"));
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug console"), this);
     openRPCConsoleAction->setStatusTip(tr("Open debugging console"));
