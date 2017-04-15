@@ -412,7 +412,7 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     toggleHideAction = new QAction(networkStyle->getAppIcon(), tr("&Show / Hide"), this);
     toggleHideAction->setStatusTip(tr("Show or hide the main Window"));
 
-    calcAction = new QAction(QIcon(":/icons/sequence"), tr("&Stake Calculator"), this);
+    calcAction = new QAction(QIcon(":/icons/stakejournal"), tr("&Stake Calculator"), this);
     calcAction->setToolTip(tr("Open Stake Calculator"));
     calcAction->setMenuRole(QAction::AboutRole);
 
