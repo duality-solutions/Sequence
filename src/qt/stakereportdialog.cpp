@@ -203,16 +203,16 @@ void StakeReportDialog::updateStakeReport(bool fImmediate=false)
     }
     TableW->setSortingEnabled(true);
 
-    ui->Amount_24H->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" PIO"));
+    ui->Amount_24H->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" DYN"));
     ui->Stake_24H->setText(QString::number(aRange[i++].Count));
-    ui->Amount_7D->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" PIO"));
+    ui->Amount_7D->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" DYN"));
     ui->Stake_7D->setText(QString::number(aRange[i++].Count));
-    ui->Amount_30D->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" PIO"));
+    ui->Amount_30D->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" DYN"));
     ui->Stake_30D->setText(QString::number(aRange[i++].Count));
-    ui->Amount_365D->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" PIO"));
+    ui->Amount_365D->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" DYN"));
     ui->Stake_365D->setText(QString::number(aRange[i++].Count));
 
-    ui->Amount_Last->setText(tr("Amount: ") + Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" PIO"));
+    ui->Amount_Last->setText(tr("Amount: ") + Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" DYN"));
     ui->L_LastStakeTime->setText(tr("Latest stake date: ") + HalfDate(aRange[i].Start, "hh:mm"));
 
     ui->Stake_Counted->setText(tr("Stakes analysed: ") + QString::number(nItemCounted));
@@ -245,7 +245,7 @@ void StakeReportDialog::CopyAllToClipboard()
 {
     QString Repo;
 
-    Repo += "           Silk Stake Mini Report\n";
+    Repo += "           Sequence Stake Mini Report\n";
     Repo += "           ----------------------\n";
 
     QString  RowForm = "%1 %2 %3\n";
