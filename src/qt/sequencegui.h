@@ -141,6 +141,7 @@ private:
     QAction *openAction;
     QAction *showHelpMessageAction;
     QAction *calcAction;
+    QAction *stakeReportAction;
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
@@ -235,6 +236,8 @@ private Q_SLOTS:
     void gotoSignMessageTab(QString addr = "");
     /** Show Sign/Verify Message dialog and switch to verify message tab */
     void gotoVerifyMessageTab(QString addr = "");
+    /** Show stake reporting (from PioneerShares) */
+    void stakeReportClicked(); 
 
     /** Show open dialog */
     void openClicked();
