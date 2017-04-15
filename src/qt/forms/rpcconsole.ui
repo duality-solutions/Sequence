@@ -596,72 +596,13 @@ QTabBar { alignment: left; }</string>
          <height>30</height>
         </rect>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout2" stretch="0,0">
+       <layout class="QHBoxLayout" name="horizontalLayout2" stretch="">
         <property name="sizeConstraint">
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
         <property name="rightMargin">
          <number>35</number>
         </property>
-        <item>
-         <widget class="QLabel" name="L_LastStakeTime">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-            <weight>50</weight>
-            <bold>false</bold>
-           </font>
-          </property>
-          <property name="toolTip">
-           <string>Date of the last mature Stake</string>
-          </property>
-          <property name="text">
-           <string>Never</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-          </property>
-          <property name="margin">
-           <number>2</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="Amount_Last">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-            <weight>50</weight>
-            <bold>false</bold>
-            <kerning>false</kerning>
-           </font>
-          </property>
-          <property name="toolTip">
-           <string>Coin Earned in last mature Stake</string>
-          </property>
-          <property name="text">
-           <string>0.00</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-          </property>
-          <property name="margin">
-           <number>2</number>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
       <widget class="QTableWidget" name="StakeReportTable">
@@ -830,7 +771,7 @@ QTabBar { alignment: left; }</string>
          <x>14</x>
          <y>14</y>
          <width>431</width>
-         <height>132</height>
+         <height>141</height>
         </rect>
        </property>
        <property name="font">
@@ -842,40 +783,21 @@ QTabBar { alignment: left; }</string>
         <property name="verticalSpacing">
          <number>5</number>
         </property>
-        <item row="0" column="1">
-         <widget class="QLabel" name="L_Coin">
+        <item row="1" column="2">
+         <widget class="QLabel" name="Stake_24H">
           <property name="font">
            <font>
             <pointsize>9</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="text">
-           <string>Coin SubTotal</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-          <property name="margin">
-           <number>4</number>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_11">
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
+            <weight>50</weight>
+            <bold>false</bold>
+            <kerning>false</kerning>
            </font>
           </property>
           <property name="toolTip">
-           <string>Blocks Staked</string>
+           <string>Stake Made in last 24H</string>
           </property>
           <property name="text">
-           <string>Stakes</string>
+           <string>0</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -929,8 +851,48 @@ QTabBar { alignment: left; }</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="2">
-         <widget class="QLabel" name="Stake_24H">
+        <item row="0" column="1">
+         <widget class="QLabel" name="L_Coin">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Coin SubTotal</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="margin">
+           <number>4</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="L3_30D">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Last 30 Days</string>
+          </property>
+          <property name="margin">
+           <number>4</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QLabel" name="Stake_365D">
           <property name="font">
            <font>
             <pointsize>9</pointsize>
@@ -940,10 +902,33 @@ QTabBar { alignment: left; }</string>
            </font>
           </property>
           <property name="toolTip">
-           <string>Stake Made in last 24H</string>
+           <string>Stake Made in last 365 Days</string>
           </property>
           <property name="text">
            <string>0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="margin">
+           <number>4</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_11">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Blocks Staked</string>
+          </property>
+          <property name="text">
+           <string>Stakes</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1021,20 +1006,24 @@ QTabBar { alignment: left; }</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="L3_30D">
+        <item row="3" column="2">
+         <widget class="QLabel" name="Stake_30D">
           <property name="font">
            <font>
             <pointsize>9</pointsize>
             <weight>50</weight>
             <bold>false</bold>
+            <kerning>false</kerning>
            </font>
           </property>
           <property name="toolTip">
-           <string/>
+           <string>Stake Made in last 30 Days</string>
           </property>
           <property name="text">
-           <string>Last 30 Days</string>
+           <string>0</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
           <property name="margin">
            <number>4</number>
@@ -1056,30 +1045,6 @@ QTabBar { alignment: left; }</string>
           </property>
           <property name="text">
            <string>0.00</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-          <property name="margin">
-           <number>4</number>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <widget class="QLabel" name="Stake_30D">
-          <property name="font">
-           <font>
-            <pointsize>9</pointsize>
-            <weight>50</weight>
-            <bold>false</bold>
-            <kerning>false</kerning>
-           </font>
-          </property>
-          <property name="toolTip">
-           <string>Stake Made in last 30 Days</string>
-          </property>
-          <property name="text">
-           <string>0</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1133,8 +1098,43 @@ QTabBar { alignment: left; }</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="2">
-         <widget class="QLabel" name="Stake_365D">
+        <item row="5" column="0">
+         <widget class="QLabel" name="L_LastStakeTime">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Date of the last mature Stake</string>
+          </property>
+          <property name="text">
+           <string>Never</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <property name="margin">
+           <number>2</number>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLabel" name="Amount_Last">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="font">
            <font>
             <pointsize>9</pointsize>
@@ -1144,10 +1144,10 @@ QTabBar { alignment: left; }</string>
            </font>
           </property>
           <property name="toolTip">
-           <string>Stake Made in last 365 Days</string>
+           <string>Coin Earned in last mature Stake</string>
           </property>
           <property name="text">
-           <string>0</string>
+           <string>0.00</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
