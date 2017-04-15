@@ -5,7 +5,7 @@
 //
 
 #include "stakereportdialog.h"
-#include "ui_stakereportdialog.h"
+#include "ui_rpcconsole.h"
 
 #include "guiconstants.h"
 #include "walletmodel.h"
@@ -203,16 +203,16 @@ void StakeReportDialog::updateStakeReport(bool fImmediate=false)
     }
     TableW->setSortingEnabled(true);
 
-    ui->Amount_24H->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" DYN"));
+    ui->Amount_24H->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" SEQ"));
     ui->Stake_24H->setText(QString::number(aRange[i++].Count));
-    ui->Amount_7D->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" DYN"));
+    ui->Amount_7D->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" SEQ"));
     ui->Stake_7D->setText(QString::number(aRange[i++].Count));
-    ui->Amount_30D->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" DYN"));
+    ui->Amount_30D->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" SEQ"));
     ui->Stake_30D->setText(QString::number(aRange[i++].Count));
-    ui->Amount_365D->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" DYN"));
+    ui->Amount_365D->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" SEQ"));
     ui->Stake_365D->setText(QString::number(aRange[i++].Count));
 
-    ui->Amount_Last->setText(tr("Amount: ") + Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" DYN"));
+    ui->Amount_Last->setText(tr("Amount: ") + Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" SEQ"));
     ui->L_LastStakeTime->setText(tr("Latest stake date: ") + HalfDate(aRange[i].Start, "hh:mm"));
 
     ui->Stake_Counted->setText(tr("Stakes analysed: ") + QString::number(nItemCounted));
