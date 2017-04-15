@@ -5,7 +5,6 @@
 //
 
 #include "stakereportdialog.h"
-#include "ui_rpcconsole.h"
 
 #include "guiconstants.h"
 #include "walletmodel.h"
