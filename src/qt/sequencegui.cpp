@@ -21,6 +21,7 @@
 #include "multisigdialog.h"
 
 #include "init.h"
+#include "rpc/rpcserver.h"
 #include "txmempool.h"
 #include "ui_interface.h"
 #include "util.h"
@@ -1197,6 +1198,8 @@ void SequenceGUI::updateWeight()
     nWeight = pwalletMain->GetStakeWeight() / COIN;
 }
 
+extern double GetMoneySupply();
+
 void SequenceGUI::updateStakingIcon()
 {
     updateWeight();
@@ -1204,29 +1207,10 @@ void SequenceGUI::updateStakingIcon()
     if (nLastCoinStakeSearchInterval && nWeight)
     {
         uint64_t nWeight = this->nWeight;
-        uint64_t nNetworkWeight = GetPoSKernelPS();
-        uint64_t nEstimateTime = Params().GetConsensus().nPoSTargetSpacing * nNetworkWeight / nWeight;
-
-        QString text;
-        if (nEstimateTime < 60)
-        {
-            text = tr("%n second(s)", "", nEstimateTime);
-        }
-        else if (nEstimateTime < 60*60)
-        {
-            text = tr("%n minute(s)", "", nEstimateTime/60);
-        }
-        else if (nEstimateTime < 24*60*60)
-        {
-            text = tr("%n hour(s)", "", nEstimateTime/(60*60));
-        }
-        else
-        {
-            text = tr("%n day(s)", "", nEstimateTime/(60*60*24));
-        }
+        uint64_t nNetworkWeight = GetMoneySupply();
 
         labelStakingIcon->setPixmap(QIcon(":/icons/staking_on").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-        labelStakingIcon->setToolTip(tr("Staking.<br>Your weight is %1<br>Network weight is %2<br>Expected time to earn reward is %3").arg(nWeight).arg(nNetworkWeight).arg(text));
+        labelStakingIcon->setToolTip(tr("Staking.<br>Your Weight is %1<br>Money Supply is %2").arg(nWeight).arg(nNetworkWeight));
     }
     else
     {

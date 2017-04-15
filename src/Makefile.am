@@ -83,7 +83,6 @@ endif
 SEQUENCE_CORE_H = \
   addrman.h \
   alert.h \
-  allocators.h \
   amount.h \
   base58.h \
   bignum.h \
@@ -129,7 +128,7 @@ SEQUENCE_CORE_H = \
   net.h \
   noui.h \
   ntp.h \    
-  pow.h \
+  work.h \
   protocol.h \
   pubkey.h \
   random.h \
@@ -146,8 +145,13 @@ SEQUENCE_CORE_H = \
   script/script_error.h \
   serialize.h \
   streams.h \
+  support/allocators/secure.h \
+  support/allocators/zeroafterfree.h \
+  support/cleanse.h \
+  support/pagelocker.h \
   sync.h \
   threadsafety.h \
+  threadinterrupt.h \
   timedata.h \
   tinyformat.h \
   txdb.h \
@@ -168,7 +172,7 @@ SEQUENCE_CORE_H = \
   reverselock.h \
 ## --- ppcoin and sequence headers start from this line --- ##
   uint256hm.h \
-  kernel.h \
+  stake.h \
   dns/dns.h \
   hooks.h \
   dns/seqdns.h \
@@ -197,7 +201,7 @@ libsequence_server_a_SOURCES = \
   net.cpp \
   noui.cpp \
   ntp.cpp \    
-  pow.cpp \
+  work.cpp \
   rest.cpp \
   rpc/rpcblockchain.cpp \
   rpc/rpcmining.cpp \
@@ -210,7 +214,7 @@ libsequence_server_a_SOURCES = \
   txmempool.cpp \
   validationinterface.cpp \
 ## --- ppcoin and sequence sources start from this line --- ##
-  kernel.cpp \
+  stake.cpp \
   dns/dns.cpp \
   dns/seqdns.cpp \
   torcontrol.cpp \
@@ -257,7 +261,6 @@ crypto_libsequence_crypto_a_SOURCES = \
 libsequence_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
 libsequence_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsequence_common_a_SOURCES = \
-  allocators.cpp \
   amount.cpp \
   base58.cpp \
   chainparams.cpp \
@@ -290,6 +293,7 @@ libsequence_common_a_SOURCES = \
 libsequence_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
 libsequence_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsequence_util_a_SOURCES = \
+  support/pagelocker.cpp \
   compat/strnlen.cpp \
   compat/glibc_sanity.cpp \
   compat/glibcxx_sanity.cpp \
@@ -297,7 +301,9 @@ libsequence_util_a_SOURCES = \
   clientversion.cpp \
   random.cpp \
   rpc/rpcprotocol.cpp \
+  support/cleanse.cpp \
   sync.cpp \
+  threadinterrupt.cpp \
   timedata.cpp \
   uint256.cpp \
   util.cpp \
@@ -442,7 +448,7 @@ clean-local:
 	-rm -rf .libs
 	-rm -rf .deps
 	-rm -f leveldb/*/*.gcda leveldb/*/*.gcno leveldb/helpers/memenv/*.gcda leveldb/helpers/memenv/*.gcno
-	-rm -f config.h
+	-rm -f config/sequence-config.* config/stamp-h1
 	-rm -rf compat/.deps && rm -rf compat/.libs && rm -f compat/.dirstamp
 	-rm -rf crypto/.deps && rm -rf crypto/.libs && rm -f crypto/.dirstamp
 	-rm -rf primitives/.deps && rm -rf primitives/.libs && rm -f primitives/.dirstamp

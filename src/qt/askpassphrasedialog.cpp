@@ -10,7 +10,7 @@
 #include "guiconstants.h"
 #include "walletmodel.h"
 
-#include "allocators.h"
+#include "support/allocators/secure.h"
 
 #include <QKeyEvent>
 #include <QMessageBox>
@@ -138,6 +138,9 @@ void AskPassphraseDialog::accept()
         {
             if(newpass1 == newpass2)
             {
+
+                QDialog::accept(); // Success
+
                 if(model->setWalletEncrypted(true, newpass1))
                 {
                     QMessageBox::warning(this, tr("Wallet encrypted"),

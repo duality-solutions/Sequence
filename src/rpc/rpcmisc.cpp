@@ -24,11 +24,7 @@
 
 #include <stdint.h>
 
-#include <boost/assign/list_of.hpp>
-
 using namespace boost;
-using namespace boost::assign;
-using namespace std;
 
 /**
  * @note Do not add or change anything in the information returned by this
@@ -46,7 +42,7 @@ using namespace std;
 UniValue getinfo(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
-        throw runtime_error(
+        throw std::runtime_error(
             "getinfo\n"
             "Returns an object containing various state info.\n"
             "\nResult:\n"
@@ -91,7 +87,7 @@ UniValue getinfo(const UniValue& params, bool fHelp)
     obj.push_back(Pair("moneysupply",   ValueFromAmount(chainActive.Tip()->nMoneySupply)));
     obj.push_back(Pair("timeoffset",    GetTimeOffset()));
     obj.push_back(Pair("connections",   (int)vNodes.size()));
-    obj.push_back(Pair("proxy",         (proxy.IsValid() ? proxy.proxy.ToStringIPPort() : string())));
+    obj.push_back(Pair("proxy",         (proxy.IsValid() ? proxy.proxy.ToStringIPPort() : std::string())));
     obj.push_back(Pair("difficulty",    GetDifficulty(GetLastBlockIndex(chainActive.Tip(), true))));
     obj.push_back(Pair("testnet",       Params().TestnetToBeDeprecatedFieldRPC()));
 #ifdef ENABLE_WALLET
@@ -146,7 +142,7 @@ public:
             obj.push_back(Pair("script", GetTxnOutputType(whichType)));
             obj.push_back(Pair("hex", HexStr(subscript.begin(), subscript.end())));
             UniValue a(UniValue::VARR);
-            BOOST_FOREACH(const CTxDestination& addr, addresses)
+            for(const CTxDestination& addr : addresses)
                 a.push_back(CSequenceAddress(addr).ToString());
             obj.push_back(Pair("addresses", a));
             if (whichType == TX_MULTISIG)
@@ -160,7 +156,7 @@ public:
 UniValue validateaddress(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
-        throw runtime_error(
+        throw std::runtime_error(
             "validateaddress \"sequenceaddress\"\n"
             "\nReturn information about the given Sequence address.\n"
             "\nArguments:\n"
@@ -188,7 +184,7 @@ UniValue validateaddress(const UniValue& params, bool fHelp)
     if (isValid)
     {
         CTxDestination dest = address.Get();
-        string currentAddress = address.ToString();
+        std::string currentAddress = address.ToString();
         ret.push_back(Pair("address", currentAddress));
 #ifdef ENABLE_WALLET
         isminetype mine = pwalletMain ? IsMine(*pwalletMain, dest) : ISMINE_NO;
@@ -205,7 +201,7 @@ UniValue validateaddress(const UniValue& params, bool fHelp)
     return ret;
 }
 
-extern string AccountFromValue(const UniValue& value);
+extern std::string AccountFromValue(const UniValue& value);
 
 /**
  * Used by addmultisigaddress / createmultisig:
@@ -217,13 +213,13 @@ CScript _createmultisig_redeemScript(const UniValue& params)
 
     // Gather public keys
     if (nRequired < 1)
-        throw runtime_error("a multisignature address must require at least one key to redeem");
+        throw std::runtime_error("a multisignature address must require at least one key to redeem");
     if ((int)keys.size() < nRequired)
-        throw runtime_error(
+        throw std::runtime_error(
             strprintf("not enough keys supplied "
                       "(got %u keys, but need at least %d to redeem)", keys.size(), nRequired));
     if (keys.size() > 16)
-        throw runtime_error("Number of addresses involved in the multisignature address creation > 16\nReduce the number");
+        throw std::runtime_error("Number of addresses involved in the multisignature address creation > 16\nReduce the number");
     std::vector<CPubKey> pubkeys;
     pubkeys.resize(keys.size());
     for (unsigned int i = 0; i < keys.size(); i++)
@@ -236,14 +232,14 @@ CScript _createmultisig_redeemScript(const UniValue& params)
         {
             CKeyID keyID;
             if (!address.GetKeyID(keyID))
-                throw runtime_error(
+                throw std::runtime_error(
                     strprintf("%s does not refer to a key",ks));
             CPubKey vchPubKey;
             if (!pwalletMain->GetPubKey(keyID, vchPubKey))
-                throw runtime_error(
+                throw std::runtime_error(
                     strprintf("no full public key for address %s",ks));
             if (!vchPubKey.IsFullyValid())
-                throw runtime_error(" Invalid public key: "+ks);
+                throw std::runtime_error(" Invalid public key: "+ks);
             pubkeys[i] = vchPubKey;
         }
 
@@ -254,18 +250,18 @@ CScript _createmultisig_redeemScript(const UniValue& params)
         {
             CPubKey vchPubKey(ParseHex(ks));
             if (!vchPubKey.IsFullyValid())
-                throw runtime_error(" Invalid public key: "+ks);
+                throw std::runtime_error(" Invalid public key: "+ks);
             pubkeys[i] = vchPubKey;
         }
         else
         {
-            throw runtime_error(" Invalid public key: "+ks);
+            throw std::runtime_error(" Invalid public key: "+ks);
         }
     }
     CScript result = GetScriptForMultisig(nRequired, pubkeys);
 
     if (result.size() > MAX_SCRIPT_ELEMENT_SIZE)
-        throw runtime_error(
+        throw std::runtime_error(
                 strprintf("redeemScript exceeds size limit: %d > %d", result.size(), MAX_SCRIPT_ELEMENT_SIZE));
 
     return result;
@@ -275,7 +271,7 @@ UniValue addmultisigaddress(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() < 2 || params.size() > 3)
     {
-        string msg = "addmultisigaddress nrequired [\"key\",...] ( \"account\" )\n"
+        std::string msg = "addmultisigaddress nrequired [\"key\",...] ( \"account\" )\n"
             "\nAdd a nrequired-to-sign multisignature address to the wallet.\n"
             "Each key is a Sequence address or hex-encoded public key.\n"
             "If 'account' is specified, assign address to that account.\n"
@@ -298,10 +294,10 @@ UniValue addmultisigaddress(const UniValue& params, bool fHelp)
             "\nAs json rpc call\n"
             + HelpExampleRpc("addmultisigaddress", "2, \"[\\\"16sSauSf5pF2UkUwvKGq4qjNRzBZYqgEL5\\\",\\\"171sgjn4YtPu27adkKGrdDwzRTxnRkBfKV\\\"]\"")
         ;
-        throw runtime_error(msg);
+        throw std::runtime_error(msg);
     }
 
-    string strAccount;
+    std::string strAccount;
     if (params.size() > 2)
         strAccount = AccountFromValue(params[2]);
 
@@ -318,7 +314,7 @@ UniValue createmultisig(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() < 2 || params.size() > 2)
     {
-        string msg = "createmultisig nrequired [\"key\",...]\n"
+        std::string msg = "createmultisig nrequired [\"key\",...]\n"
             "\nCreates a multi-signature address with n signature of m keys required.\n"
             "It returns a json object with the address and redeemScript.\n"
 
@@ -342,7 +338,7 @@ UniValue createmultisig(const UniValue& params, bool fHelp)
             "\nAs a json rpc call\n"
             + HelpExampleRpc("createmultisig", "2, \"[\\\"ScrdxuhoAJ2KT9fW7ioKxxvG3aawCchiLc\\\",\\\"SQP8i2WdTD5bcNnXD63t9a25diw6ERg4W3\\\"]\"")
         ;
-        throw runtime_error(msg);
+        throw std::runtime_error(msg);
     }
 
     // Construct using pay-to-script-hash:
@@ -360,7 +356,7 @@ UniValue createmultisig(const UniValue& params, bool fHelp)
 UniValue verifymessage(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 3)
-        throw runtime_error(
+        throw std::runtime_error(
             "verifymessage \"sequenceaddress\" \"signature\" \"message\"\n"
             "\nVerify a signed message\n"
             "\nArguments:\n"
@@ -380,9 +376,9 @@ UniValue verifymessage(const UniValue& params, bool fHelp)
             + HelpExampleRpc("verifymessage", "\"SY75g8Ci7vg4SGV4PCX3z7JNRCNKTg6tRA\", \"signature\", \"my message\"")
         );
 
-    string strAddress  = params[0].get_str();
-    string strSign     = params[1].get_str();
-    string strMessage  = params[2].get_str();
+    std::string strAddress  = params[0].get_str();
+    std::string strSign     = params[1].get_str();
+    std::string strMessage  = params[2].get_str();
 
     CSequenceAddress addr(strAddress);
     if (!addr.IsValid())
@@ -393,7 +389,7 @@ UniValue verifymessage(const UniValue& params, bool fHelp)
         throw JSONRPCError(RPC_TYPE_ERROR, "Address does not refer to key");
 
     bool fInvalid = false;
-    vector<unsigned char> vchSig = DecodeBase64(strSign.c_str(), &fInvalid);
+    std::vector<unsigned char> vchSig = DecodeBase64(strSign.c_str(), &fInvalid);
 
     if (fInvalid)
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Malformed base64 encoding");
@@ -412,7 +408,7 @@ UniValue verifymessage(const UniValue& params, bool fHelp)
 UniValue setmocktime(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
-        throw runtime_error(
+        throw std::runtime_error(
             "setmocktime timestamp\n"
             "\nSet the local time to given timestamp (-regtest only)\n"
             "\nArguments:\n"
@@ -421,9 +417,9 @@ UniValue setmocktime(const UniValue& params, bool fHelp)
         );
 
     if (!Params().MineBlocksOnDemand())
-        throw runtime_error("setmocktime for regression testing (-regtest mode) only");
+        throw std::runtime_error("setmocktime for regression testing (-regtest mode) only");
 
-    RPCTypeCheck(params, boost::assign::list_of(UniValue::VNUM));
+    RPCTypeCheck(params, {UniValue::VNUM});
     SetMockTime(params[0].get_int64());
 
     return NullUniValue;
@@ -436,7 +432,7 @@ UniValue setmocktime(const UniValue& params, bool fHelp)
 UniValue sendalert(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() < 6)
-    throw runtime_error(
+    throw std::runtime_error(
             "sendalert <message> <privatekey> <minver> <maxver> <priority> <id> [cancelupto]\n"
             "<message> is the alert text message\n"
             "<privatekey> is hex string of alert master private key\n"
@@ -463,21 +459,21 @@ UniValue sendalert(const UniValue& params, bool fHelp)
 
     CDataStream sMsg(SER_NETWORK, PROTOCOL_VERSION);
     sMsg << (CUnsignedAlert)alert;
-    alert.vchMsg = vector<unsigned char>(sMsg.begin(), sMsg.end());
+    alert.vchMsg = std::vector<unsigned char>(sMsg.begin(), sMsg.end());
 
-    vector<unsigned char> vchPrivKey = ParseHex(params[1].get_str());
+    std::vector<unsigned char> vchPrivKey = ParseHex(params[1].get_str());
 //ppcoin - should we use true or false for SetPrivKey? I set it to false for now to simply let it compile.
     key.SetPrivKey(CPrivKey(vchPrivKey.begin(), vchPrivKey.end()), false); // if key is not correct openssl may crash
     if (!key.Sign(Hash(alert.vchMsg.begin(), alert.vchMsg.end()), alert.vchSig))
-        throw runtime_error(
+        throw std::runtime_error(
             "Unable to sign alert, check private key?\n");
     if(!alert.ProcessAlert(Params().AlertKey()))
-        throw runtime_error(
+        throw std::runtime_error(
             "Failed to process alert.\n");
     // Relay alert
     {
         LOCK(cs_vNodes);
-        BOOST_FOREACH(CNode* pnode, vNodes)
+        for(CNode* pnode : vNodes)
             alert.RelayTo(pnode);
     }
 

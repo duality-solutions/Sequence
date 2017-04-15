@@ -21,7 +21,7 @@ Build-Depends: debhelper,
  libqrencode-dev,
  libprotobuf-dev, protobuf-compiler
 Standards-Version: 3.9.2
-Homepage: http://www.duality-solutions.com/
+Homepage: http://www.duality.solutions/
 
 Package: sequenced
 Architecture: any
