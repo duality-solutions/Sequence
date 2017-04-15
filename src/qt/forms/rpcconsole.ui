@@ -427,8 +427,8 @@ QTabBar { alignment: left; }</string>
       <widget class="QWidget" name="horizontalLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>-5</x>
-         <y>483</y>
+         <x>9</x>
+         <y>491</y>
          <width>441</width>
          <height>32</height>
         </rect>
@@ -506,8 +506,8 @@ QTabBar { alignment: left; }</string>
       <widget class="QWidget" name="gridLayoutWidget2">
        <property name="geometry">
         <rect>
-         <x>-5</x>
-         <y>402</y>
+         <x>9</x>
+         <y>410</y>
          <width>442</width>
          <height>30</height>
         </rect>
@@ -590,13 +590,13 @@ QTabBar { alignment: left; }</string>
       <widget class="QWidget" name="horizontalLayoutWidget2">
        <property name="geometry">
         <rect>
-         <x>1</x>
-         <y>136</y>
+         <x>15</x>
+         <y>144</y>
          <width>431</width>
          <height>30</height>
         </rect>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout2" stretch="0">
+       <layout class="QHBoxLayout" name="horizontalLayout2" stretch="0,0">
         <property name="sizeConstraint">
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
@@ -632,13 +632,43 @@ QTabBar { alignment: left; }</string>
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QLabel" name="Amount_Last">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
+            <kerning>false</kerning>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>Coin Earned in last mature Stake</string>
+          </property>
+          <property name="text">
+           <string>0.00</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
+          <property name="margin">
+           <number>2</number>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QTableWidget" name="StakeReportTable">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>170</y>
+         <x>14</x>
+         <y>178</y>
          <width>431</width>
          <height>231</height>
         </rect>
@@ -797,8 +827,8 @@ QTabBar { alignment: left; }</string>
       <widget class="QWidget" name="gridLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>6</y>
+         <x>14</x>
+         <y>14</y>
          <width>431</width>
          <height>132</height>
         </rect>
@@ -1132,8 +1162,8 @@ QTabBar { alignment: left; }</string>
       <widget class="QLabel" name="L_CurrentBlock">
        <property name="geometry">
         <rect>
-         <x>-4</x>
-         <y>432</y>
+         <x>10</x>
+         <y>440</y>
          <width>442</width>
          <height>51</height>
         </rect>
@@ -1150,42 +1180,6 @@ QTabBar { alignment: left; }</string>
        </property>
        <property name="text">
         <string>Current Chain Block :</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-       <property name="margin">
-        <number>2</number>
-       </property>
-      </widget>
-      <widget class="QLabel" name="Amount_Last">
-       <property name="geometry">
-        <rect>
-         <x>209</x>
-         <y>155</y>
-         <width>192</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>9</pointsize>
-         <weight>50</weight>
-         <bold>false</bold>
-         <kerning>false</kerning>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string>Coin Earned in last mature Stake</string>
-       </property>
-       <property name="text">
-        <string>0.00</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
