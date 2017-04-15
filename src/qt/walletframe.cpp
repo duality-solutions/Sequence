@@ -205,8 +205,14 @@ void WalletFrame::usedReceivingAddresses()
         walletView->usedReceivingAddresses();
 }
 
+void WalletFrame::stakeReportClicked()
+{
+    QMap<QString, WalletView*>::const_iterator i;
+    for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
+        i.value()->gotostakeReportPage();
+}
+
 WalletView *WalletFrame::currentWalletView()
 {
     return qobject_cast<WalletView*>(walletStack->currentWidget());
 }
-

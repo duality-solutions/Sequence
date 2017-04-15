@@ -21,6 +21,7 @@ class DNSPage;
 class SendCoinsRecipient;
 class TransactionView;
 class WalletModel;
+class StakeReportDialog;
 
 QT_BEGIN_NAMESPACE
 class QModelIndex;
@@ -66,6 +67,7 @@ private:
     SendCoinsDialog *sendCoinsPage;
     MultisigDialog *multiSigPage;
     DNSPage *dnsPage;
+    StakeReportDialog *stakeReportPage;
 
     TransactionView *transactionView;
 
@@ -88,6 +90,8 @@ public Q_SLOTS:
     void gotoSignMessageTab(QString addr = "");
     /** Show Sign/Verify Message dialog and switch to verify message tab */
     void gotoVerifyMessageTab(QString addr = "");
+    /** Show stake reporting (from PioneerShares) */
+    void gotostakeReportPage(); 
 
     /** Show incoming transaction notification for new transactions.
 
