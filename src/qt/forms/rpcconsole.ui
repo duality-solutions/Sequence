@@ -433,7 +433,7 @@ QTabBar { alignment: left; }</string>
          <height>32</height>
         </rect>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,2,1">
+       <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,2">
         <property name="sizeConstraint">
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
@@ -472,28 +472,6 @@ QTabBar { alignment: left; }</string>
           </property>
           <property name="text">
            <string>Copy to clipboard</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QDialogButtonBox" name="buttonBox">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Close the dialog</string>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="standardButtons">
-           <set>QDialogButtonBox::Close</set>
-          </property>
-          <property name="centerButtons">
-           <bool>true</bool>
           </property>
          </widget>
         </item>
