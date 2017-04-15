@@ -420,9 +420,9 @@ QTabBar { alignment: left; }</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="tab_stakereport">
       <attribute name="title">
-       <string>Stake Report</string>
+       <string>&amp;Stake Report</string>
       </attribute>
       <widget class="QWidget" name="horizontalLayoutWidget">
        <property name="geometry">
