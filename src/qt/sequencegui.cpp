@@ -103,6 +103,7 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     backupWalletAction(0),
     changePassphraseAction(0),
     aboutQtAction(0),
+    openStakeReportAction(0),
     openRPCConsoleAction(0),
     openAction(0),
     showHelpMessageAction(0),
@@ -249,7 +250,7 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
 
     // Jump directly to tabs in RPC-console
     connect(openInfoAction, SIGNAL(triggered()), rpcConsole, SLOT(showInfo()));
-    connect(stakeReportAction, SIGNAL(triggered()), rpcConsole, SLOT(stakeReportClicked()));
+    connect(openStakeReportAction, SIGNAL(triggered()), rpcConsole, SLOT(showStakeReport()));
     connect(openRPCConsoleAction, SIGNAL(triggered()), rpcConsole, SLOT(showConsole()));
     connect(openNetworkAction, SIGNAL(triggered()), rpcConsole, SLOT(showNetwork()));
     connect(openPeersAction, SIGNAL(triggered()), rpcConsole, SLOT(showPeers()));
@@ -430,8 +431,8 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
 
     openInfoAction = new QAction(QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation), tr("&Information"), this);
     openInfoAction->setStatusTip(tr("Show diagnostic information"));
-    stakeReportAction = new QAction(QIcon(":/icons/stakejournal"), tr("Stake Journal"), this);
-    stakeReportAction->setToolTip(tr("Open the Stake Report Box"));
+    openStakeReportAction = new QAction(QIcon(":/icons/stakejournal"), tr("&Stake Journal"), this);
+    openStakeReportAction->setStatusTip(tr("Show Stake Report"));
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug console"), this);
     openRPCConsoleAction->setStatusTip(tr("Open debugging console"));
     openNetworkAction = new QAction(QIcon(":/icons/connect_4"), tr("&Network Monitor"), this);
@@ -520,7 +521,7 @@ void SequenceGUI::createMenuBar()
     {
         QMenu *tools = appMenuBar->addMenu(tr("&Tools"));
         tools->addAction(openInfoAction);
-        tools->addAction(stakeReportAction);
+        tools->addAction(openStakeReportAction);
         tools->addAction(openRPCConsoleAction);
         tools->addAction(openNetworkAction);
         tools->addAction(openPeersAction);
@@ -707,7 +708,7 @@ void SequenceGUI::createTrayIconMenu(QMenu *pmenu)
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(optionsAction);
     trayIconMenu->addAction(openInfoAction);
-    trayIconMenu->addAction(stakeReportAction);
+    trayIconMenu->addAction(openStakeReportAction);
     trayIconMenu->addAction(openRPCConsoleAction);
     trayIconMenu->addAction(openNetworkAction);
     trayIconMenu->addAction(openPeersAction);

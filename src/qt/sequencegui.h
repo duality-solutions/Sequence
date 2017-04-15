@@ -132,7 +132,7 @@ private:
     QAction *changePassphraseAction;
     QAction *aboutQtAction;
     QAction *openInfoAction;
-    QAction *stakeReportAction;
+    QAction *openStakeReportAction;
     QAction *openRPCConsoleAction;
     QAction *openNetworkAction;
     QAction *openPeersAction;
