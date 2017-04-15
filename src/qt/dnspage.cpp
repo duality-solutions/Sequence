@@ -484,7 +484,7 @@ void DNSPage::onSaveValueAsBinaryAction()
         return;
 
     QDataStream in(&file);
-    BOOST_FOREACH(const unsigned char& uch, value)
+    for(const unsigned char& uch : value)
         in << uch;
     file.close();
 }

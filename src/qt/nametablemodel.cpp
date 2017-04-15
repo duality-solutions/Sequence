@@ -63,7 +63,7 @@ public:
         GetNameList(nameUniq, mapNames, mapPending);
 
         // add info about existing names
-        BOOST_FOREACH(const PAIRTYPE(CNameVal, NameTxInfo)& item, mapNames)
+        for(const std::pair<CNameVal, NameTxInfo>& item : mapNames)
         {
             // name is mine and user asked to hide my names
             if (item.second.fIsMine && !fMyNames)
@@ -80,7 +80,7 @@ public:
         }
 
         // add pending name operations
-        BOOST_FOREACH(const PAIRTYPE(CNameVal, NameTxInfo)& item, mapPending)
+        for(const std::pair<CNameVal, NameTxInfo>& item : mapPending)
         {
             // name is mine and user asked to hide my names
             if (item.second.fIsMine && !fMyNames)
