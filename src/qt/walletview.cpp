@@ -22,7 +22,6 @@
 #include "transactionview.h"
 #include "ui_interface.h"
 #include "walletmodel.h"
-#include "stakereportdialog.h"
 
 #include <QAction>
 #include <QActionGroup>
@@ -55,7 +54,6 @@ WalletView::WalletView(QWidget *parent):
     vbox->addLayout(hbox_buttons);
     transactionsPage->setLayout(vbox);
 
-    stakeReportPage = new StakeReportDialog();
     receiveCoinsPage = new ReceiveCoinsDialog();
     sendCoinsPage = new SendCoinsDialog();
     multiSigPage = new MultisigDialog();
@@ -67,7 +65,6 @@ WalletView::WalletView(QWidget *parent):
     addWidget(sendCoinsPage);
     addWidget(multiSigPage);
     addWidget(dnsPage);
-    addWidget(stakeReportPage);
 
     // Clicking on a transaction on the overview pre-selects the transaction on the transaction history page
     connect(overviewPage, SIGNAL(transactionClicked(QModelIndex)), transactionView, SLOT(focusTransaction(QModelIndex)));
@@ -134,7 +131,6 @@ void WalletView::setWalletModel(WalletModel *walletModel)
     sendCoinsPage->setModel(walletModel);
     multiSigPage->setModel(walletModel);
     dnsPage->setModel(walletModel);
-    stakeReportPage->setModel(walletModel);
     
     if (walletModel)
     {
@@ -191,11 +187,6 @@ void WalletView::gotoHistoryPage()
 void WalletView::gotoReceiveCoinsPage()
 {
     setCurrentWidget(receiveCoinsPage);
-}
-
-void WalletView::gotostakeReportPage()
-{
-    setCurrentWidget(stakeReportPage);
 }
 
 void WalletView::gotoSendCoinsPage(QString addr)

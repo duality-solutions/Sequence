@@ -68,9 +68,6 @@ public Q_SLOTS:
     /** Show Sign/Verify Message dialog and switch to verify message tab */
     void gotoVerifyMessageTab(QString addr = "");
     
-    /** Open stake report dialog */
-    void stakeReportClicked();
-
     /** Encrypt the wallet */
     void encryptWallet(bool status);
     /** Backup the wallet */

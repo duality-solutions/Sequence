@@ -132,6 +132,7 @@ private:
     QAction *changePassphraseAction;
     QAction *aboutQtAction;
     QAction *openInfoAction;
+    QAction *stakeReportAction;
     QAction *openRPCConsoleAction;
     QAction *openNetworkAction;
     QAction *openPeersAction;
@@ -141,7 +142,6 @@ private:
     QAction *openAction;
     QAction *showHelpMessageAction;
     QAction *calcAction;
-    QAction *stakeReportAction;
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
@@ -236,8 +236,7 @@ private Q_SLOTS:
     void gotoSignMessageTab(QString addr = "");
     /** Show Sign/Verify Message dialog and switch to verify message tab */
     void gotoVerifyMessageTab(QString addr = "");
-    /** Show stake reporting (from PioneerShares) */
-    void stakeReportClicked(); 
+ 
 
     /** Show open dialog */
     void openClicked();

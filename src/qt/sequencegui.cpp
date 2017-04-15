@@ -106,7 +106,6 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     openRPCConsoleAction(0),
     openAction(0),
     showHelpMessageAction(0),
-    stakeReportAction(0),
     trayIcon(0),
     trayIconMenu(0),
     dockIconMenu(0),
@@ -250,6 +249,7 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
 
     // Jump directly to tabs in RPC-console
     connect(openInfoAction, SIGNAL(triggered()), rpcConsole, SLOT(showInfo()));
+    connect(stakeReportAction, SIGNAL(triggered()), rpcConsole, SLOT(stakeReportClicked()));
     connect(openRPCConsoleAction, SIGNAL(triggered()), rpcConsole, SLOT(showConsole()));
     connect(openNetworkAction, SIGNAL(triggered()), rpcConsole, SLOT(showNetwork()));
     connect(openPeersAction, SIGNAL(triggered()), rpcConsole, SLOT(showPeers()));
@@ -412,7 +412,7 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     toggleHideAction = new QAction(networkStyle->getAppIcon(), tr("&Show / Hide"), this);
     toggleHideAction->setStatusTip(tr("Show or hide the main Window"));
 
-    calcAction = new QAction(QIcon(":/icons/sequence"), tr("&Stake Calculator"), this);
+    calcAction = new QAction(QIcon(":/icons/stakejournal"), tr("&Stake Calculator"), this);
     calcAction->setToolTip(tr("Open Stake Calculator"));
     calcAction->setMenuRole(QAction::AboutRole);
 
@@ -427,11 +427,11 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     signMessageAction->setStatusTip(tr("Sign messages with your Sequence addresses to prove you own them"));
     verifyMessageAction = new QAction(QIcon(":/icons/transaction_0"), tr("&Verify message..."), this);
     verifyMessageAction->setStatusTip(tr("Verify messages to ensure they were signed with specified Sequence addresses"));
-    stakeReportAction = new QAction(QIcon(":/icons/stakejournal"), tr("Stake Journal"), this);
-    stakeReportAction->setToolTip(tr("Open the Stake Report Box"));
 
     openInfoAction = new QAction(QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation), tr("&Information"), this);
     openInfoAction->setStatusTip(tr("Show diagnostic information"));
+    stakeReportAction = new QAction(QIcon(":/icons/stakejournal"), tr("Stake Journal"), this);
+    stakeReportAction->setToolTip(tr("Open the Stake Report Box"));
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug console"), this);
     openRPCConsoleAction->setStatusTip(tr("Open debugging console"));
     openNetworkAction = new QAction(QIcon(":/icons/connect_4"), tr("&Network Monitor"), this);
@@ -476,7 +476,6 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
         connect(verifyMessageAction, SIGNAL(triggered()), this, SLOT(gotoVerifyMessageTab()));
         connect(usedSendingAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(usedSendingAddresses()));
         connect(usedReceivingAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(usedReceivingAddresses()));
-        connect(stakeReportAction, SIGNAL(triggered()), this, SLOT(stakeReportClicked()));
         connect(openAction, SIGNAL(triggered()), this, SLOT(openClicked()));
     }
 #endif // ENABLE_WALLET
@@ -521,6 +520,7 @@ void SequenceGUI::createMenuBar()
     {
         QMenu *tools = appMenuBar->addMenu(tr("&Tools"));
         tools->addAction(openInfoAction);
+        tools->addAction(stakeReportAction);
         tools->addAction(openRPCConsoleAction);
         tools->addAction(openNetworkAction);
         tools->addAction(openPeersAction);
@@ -528,8 +528,6 @@ void SequenceGUI::createMenuBar()
         tools->addSeparator();
         tools->addAction(openConfEditorAction);
         tools->addAction(showBackupsAction);
-        tools->addSeparator();
-        tools->addAction(stakeReportAction);
     }
 
     QMenu *help = appMenuBar->addMenu(tr("&Help"));
@@ -677,7 +675,6 @@ void SequenceGUI::setWalletActionsEnabled(bool enabled)
     verifyMessageAction->setEnabled(enabled);
     usedSendingAddressesAction->setEnabled(enabled);
     usedReceivingAddressesAction->setEnabled(enabled);
-    stakeReportAction->setEnabled(enabled);
     openAction->setEnabled(enabled);
 }
 
@@ -710,6 +707,7 @@ void SequenceGUI::createTrayIconMenu(QMenu *pmenu)
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(optionsAction);
     trayIconMenu->addAction(openInfoAction);
+    trayIconMenu->addAction(stakeReportAction);
     trayIconMenu->addAction(openRPCConsoleAction);
     trayIconMenu->addAction(openNetworkAction);
     trayIconMenu->addAction(openPeersAction);
@@ -825,12 +823,6 @@ void SequenceGUI::gotoSignMessageTab(QString addr)
 void SequenceGUI::gotoVerifyMessageTab(QString addr)
 {
     if (walletFrame) walletFrame->gotoVerifyMessageTab(addr);
-}
-
-void SequenceGUI::stakeReportClicked()
-{
-    stakeReportAction->setChecked(true);
-    if (walletFrame) walletFrame->stakeReportClicked();
 }
 
 #endif // ENABLE_WALLET
