@@ -23,6 +23,7 @@
 #include <QTimer>
 #include <QClipboard>
 
+/*
 // using namespace json_spirit;
 using namespace boost;
 using namespace std;
@@ -282,4 +283,4 @@ void StakeReportDialog::CopyAllToClipboard()
 
     QApplication::clipboard()->setText(Repo);
 
-}
+}*/

@@ -3,6 +3,7 @@
 
 #include <QDialog>
 
+/*
 namespace Ui {
     class StakeReportDialog;
 }
@@ -38,6 +39,6 @@ public slots:
     void updateStakeReportNow();
     void updateDisplayUnit(int);
     void CopyAllToClipboard();
-};
+};*/
 
 #endif // STAKEREPORTDIALOG_H
