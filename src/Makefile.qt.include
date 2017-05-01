@@ -102,10 +102,6 @@ QT_MOC_CPP = \
   qt/moc_addresstablemodel.cpp \
   qt/moc_askpassphrasedialog.cpp \
   qt/moc_bantablemodel.cpp \
-  qt/moc_sequenceaddressvalidator.cpp \
-  qt/moc_sequenceamountfield.cpp \
-  qt/moc_sequencegui.cpp \
-  qt/moc_sequenceunits.cpp \
   qt/moc_clientmodel.cpp \
   qt/moc_coincontroldialog.cpp \
   qt/moc_coincontroltreewidget.cpp \
@@ -116,6 +112,9 @@ QT_MOC_CPP = \
   qt/moc_intro.cpp \
   qt/moc_macdockiconhandler.cpp \
   qt/moc_macnotificationhandler.cpp \
+  qt/moc_multisigaddressentry.cpp \
+  qt/moc_multisigdialog.cpp \
+  qt/moc_multisiginputentry.cpp \
   qt/moc_nametablemodel.cpp \
   qt/moc_notificator.cpp \
   qt/moc_openuridialog.cpp \
@@ -132,6 +131,10 @@ QT_MOC_CPP = \
   qt/moc_rpcconsole.cpp \
   qt/moc_sendcoinsdialog.cpp \
   qt/moc_sendcoinsentry.cpp \
+  qt/moc_sequenceaddressvalidator.cpp \
+  qt/moc_sequenceamountfield.cpp \
+  qt/moc_sequencegui.cpp \
+  qt/moc_sequenceunits.cpp \
   qt/moc_signverifymessagedialog.cpp \
   qt/moc_stakereportdialog.cpp \
   qt/moc_splashscreen.cpp \
@@ -144,21 +147,18 @@ QT_MOC_CPP = \
   qt/moc_utilitydialog.cpp \
   qt/moc_walletframe.cpp \
   qt/moc_walletmodel.cpp \
-  qt/moc_walletview.cpp \
-  qt/moc_multisigaddressentry.cpp \
-  qt/moc_multisigdialog.cpp \
-  qt/moc_multisiginputentry.cpp
+  qt/moc_walletview.cpp
 
 SEQUENCE_MM = \
   qt/macdockiconhandler.mm \
   qt/macnotificationhandler.mm
 
 QT_MOC = \
-  qt/sequence.moc \
-  qt/sequenceamountfield.moc \
   qt/intro.moc \
   qt/overviewpage.moc \
-  qt/rpcconsole.moc
+  qt/rpcconsole.moc \
+  qt/sequence.moc \
+  qt/sequenceamountfield.moc
 
 QT_QRC_CPP = qt/qrc_sequence.cpp
 QT_QRC = qt/sequence.qrc
@@ -174,10 +174,6 @@ SEQUENCE_QT_H = \
   qt/addresstablemodel.h \
   qt/askpassphrasedialog.h \
   qt/bantablemodel.h \
-  qt/sequenceaddressvalidator.h \
-  qt/sequenceamountfield.h \
-  qt/sequencegui.h \
-  qt/sequenceunits.h \
   qt/clientmodel.h \
   qt/coincontroldialog.h \
   qt/coincontroltreewidget.h \
@@ -207,6 +203,10 @@ SEQUENCE_QT_H = \
   qt/rpcconsole.h \
   qt/sendcoinsdialog.h \
   qt/sendcoinsentry.h \
+  qt/sequenceaddressvalidator.h \
+  qt/sequenceamountfield.h \
+  qt/sequencegui.h \
+  qt/sequenceunits.h \
   qt/signverifymessagedialog.h \
   qt/splashscreen.h \
   qt/stakereportdialog.h \
@@ -231,10 +231,6 @@ RES_ICONS = \
   qt/res/icons/add.png \
   qt/res/icons/address-book.png \
   qt/res/icons/browse.png \
-  qt/res/icons/sequence.ico \
-  qt/res/icons/sequence.png \
-  qt/res/icons/sequence_testnet.ico \
-  qt/res/icons/sequence_testnet.png \
   qt/res/icons/clock1.png \
   qt/res/icons/clock2.png \
   qt/res/icons/clock3.png \
@@ -269,6 +265,10 @@ RES_ICONS = \
   qt/res/icons/receive.png \
   qt/res/icons/remove.png \
   qt/res/icons/send.png \
+  qt/res/icons/sequence.ico \
+  qt/res/icons/sequence.png \
+  qt/res/icons/sequence_testnet.ico \
+  qt/res/icons/sequence_testnet.png \
   qt/res/icons/staking_off.png \
   qt/res/icons/staking_on.png \
   qt/res/icons/synced.png \
@@ -286,10 +286,6 @@ RES_ICONS = \
   qt/res/icons/unit_useq.png
 
 SEQUENCE_QT_CPP = \
-  qt/sequenceaddressvalidator.cpp \
-  qt/sequenceamountfield.cpp \
-  qt/sequencegui.cpp \
-  qt/sequenceunits.cpp \
   qt/clientmodel.cpp \
   qt/csvmodelwriter.cpp \
   qt/guiutil.cpp \
@@ -302,9 +298,13 @@ SEQUENCE_QT_CPP = \
   qt/qvalidatedlineedit.cpp \
   qt/qvaluecombobox.cpp \
   qt/rpcconsole.cpp \
+  qt/sequenceaddressvalidator.cpp \
+  qt/sequenceamountfield.cpp \
+  qt/sequencegui.cpp \
+  qt/sequenceunits.cpp \
   qt/splashscreen.cpp \
-  qt/trafficgraphwidget.cpp \
   qt/stakereportdialog.cpp \
+  qt/trafficgraphwidget.cpp \
   qt/utilitydialog.cpp \
   qt/winshutdownmonitor.cpp \
   qt/multisigaddressentry.cpp \

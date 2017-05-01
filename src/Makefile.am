@@ -74,7 +74,6 @@ SEQUENCE_CORE_H = \
 	checkpoints.h \
 	checkqueue.h \
 	clientversion.h \
-	wallet/coincontrol.h \
 	coins.h \
 	compat.h \
 	compat/byteswap.h \
@@ -85,14 +84,13 @@ SEQUENCE_CORE_H = \
 	consensus/merkle.h \
 	consensus/params.h \
 	consensus/validation.h \
-	primitives/block.h \
-	primitives/transaction.h \
 	core_io.h \
-	wallet/crypter.h \
-	wallet/db.h \
+	dns/dns.h \
+	dns/seqdns.h \
 	eccryptoverify.h \
 	ecwrapper.h \
 	hash.h \
+	hooks.h \
 	indirectmap.h \
 	init.h \
 	key.h \
@@ -108,10 +106,12 @@ SEQUENCE_CORE_H = \
 	net.h \
 	noui.h \
 	ntp.h \
-	work.h \
+	primitives/block.h \
+	primitives/transaction.h \
 	protocol.h \
 	pubkey.h \
 	random.h \
+	reverselock.h \
 	rpc/rpcclient.h \
 	rpc/rpcprotocol.h \
 	rpc/rpcregister.h \
@@ -124,6 +124,7 @@ SEQUENCE_CORE_H = \
 	script/standard.h \
 	script/script_error.h \
 	serialize.h \
+	stake.h \
 	streams.h \
 	support/allocators/secure.h \
 	support/allocators/zeroafterfree.h \
@@ -134,10 +135,12 @@ SEQUENCE_CORE_H = \
 	threadinterrupt.h \
 	timedata.h \
 	tinyformat.h \
+	torcontrol.h \
 	txdb.h \
 	txmempool.h \
 	ui_interface.h \
 	uint256.h \
+	uint256hm.h \
 	undo.h \
 	util.h \
 	utilstrencodings.h \
@@ -145,17 +148,13 @@ SEQUENCE_CORE_H = \
 	utiltime.h \
 	validationinterface.h \
 	version.h \
+	wallet/coincontrol.h \
+	wallet/crypter.h \
+	wallet/db.h \
 	wallet/wallet.h \
 	wallet/wallet_ismine.h \
 	wallet/walletdb.h \
-	compat/sanity.h \
-	reverselock.h \
-	uint256hm.h \
-	stake.h \
-	dns/dns.h \
-	hooks.h \
-	dns/seqdns.h \
-	torcontrol.h
+	work.h
 
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
@@ -172,6 +171,8 @@ libsequence_server_a_SOURCES = \
 	bloom.cpp \
 	chain.cpp \
 	checkpoints.cpp \
+	dns/dns.cpp \
+	dns/seqdns.cpp \
 	init.cpp \
 	leveldbwrapper.cpp \
 	main.cpp \
@@ -180,7 +181,6 @@ libsequence_server_a_SOURCES = \
 	net.cpp \
 	noui.cpp \
 	ntp.cpp \
-	work.cpp \
 	rest.cpp \
 	rpc/rpcblockchain.cpp \
 	rpc/rpcmining.cpp \
@@ -189,13 +189,12 @@ libsequence_server_a_SOURCES = \
 	rpc/rpcrawtransaction.cpp \
 	rpc/rpcserver.cpp \
 	script/sigcache.cpp \
+	stake.cpp \
+	torcontrol.cpp \
 	txdb.cpp \
 	txmempool.cpp \
 	validationinterface.cpp \
-	stake.cpp \
-	dns/dns.cpp \
-	dns/seqdns.cpp \
-	torcontrol.cpp \
+	work.cpp \
 	$(SEQUENCE_CORE_H)
 
 # wallet: shared between sequenced and sequence-qt, but only linked
@@ -203,6 +202,7 @@ libsequence_server_a_SOURCES = \
 libsequence_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
 libsequence_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsequence_wallet_a_SOURCES = \
+	dns/dns.cpp \
 	wallet/db.cpp \
 	wallet/crypter.cpp \
 	wallet/rpcdump.cpp \
@@ -210,7 +210,6 @@ libsequence_wallet_a_SOURCES = \
 	wallet/wallet.cpp \
 	wallet/wallet_ismine.cpp \
 	wallet/walletdb.cpp \
-	dns/dns.cpp \
 	$(SEQUENCE_CORE_H)
 
 # crypto primitives library
@@ -218,22 +217,22 @@ crypto_libsequence_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_CONFIG_INCLUDES
 crypto_libsequence_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 crypto_libsequence_crypto_a_SOURCES = \
 	crypto/aes.cpp \
-	crypto/aes.h \
+	crypto/hmac_sha256.cpp \
+	crypto/hmac_sha512.cpp \
+	crypto/ripemd160.cpp \
+	crypto/rfc6979_hmac_sha256.cpp \
 	crypto/sha1.cpp \
 	crypto/sha256.cpp \
 	crypto/sha512.cpp \
-	crypto/hmac_sha256.cpp \
-	crypto/rfc6979_hmac_sha256.cpp \
-	crypto/hmac_sha512.cpp \
-	crypto/ripemd160.cpp \
+	crypto/aes.h \
 	crypto/common.h \
-	crypto/sha256.h \
-	crypto/sha512.h \
 	crypto/hmac_sha256.h \
-	crypto/rfc6979_hmac_sha256.h \
 	crypto/hmac_sha512.h \
+	crypto/ripemd160.h \
+	crypto/rfc6979_hmac_sha256.h \
 	crypto/sha1.h \
-	crypto/ripemd160.h
+	crypto/sha256.h \
+	crypto/sha512.h
 
 # common: shared between sequenced, and sequence-qt and non-server tools
 libsequence_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
@@ -245,8 +244,6 @@ libsequence_common_a_SOURCES = \
 	coins.cpp \
 	compressor.cpp \
 	consensus/merkle.cpp \
-	primitives/block.cpp \
-	primitives/transaction.cpp \
 	core_read.cpp \
 	core_write.cpp \
 	eccryptoverify.cpp \
@@ -255,6 +252,8 @@ libsequence_common_a_SOURCES = \
 	key.cpp \
 	keystore.cpp \
 	netbase.cpp \
+	primitives/block.cpp \
+	primitives/transaction.cpp \
 	protocol.cpp \
 	pubkey.cpp \
 	scheduler.cpp \
@@ -271,15 +270,15 @@ libsequence_common_a_SOURCES = \
 libsequence_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
 libsequence_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsequence_util_a_SOURCES = \
-	support/pagelocker.cpp \
+	chainparamsbase.cpp \
+	clientversion.cpp \
 	compat/strnlen.cpp \
 	compat/glibc_sanity.cpp \
 	compat/glibcxx_sanity.cpp \
-	chainparamsbase.cpp \
-	clientversion.cpp \
 	random.cpp \
 	rpc/rpcprotocol.cpp \
 	support/cleanse.cpp \
+	support/pagelocker.cpp \
 	sync.cpp \
 	threadinterrupt.cpp \
 	timedata.cpp \
@@ -371,20 +370,20 @@ sequence_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 if BUILD_SEQUENCE_LIBS
 include_HEADERS = script/sequenceconsensus.h
 libsequenceconsensus_la_SOURCES = \
-	script/sequenceconsensus_dummy.cpp \
-	primitives/transaction.cpp \
 	crypto/hmac_sha512.cpp \
+	crypto/ripemd160.cpp \
 	crypto/sha1.cpp \
 	crypto/sha256.cpp \
 	crypto/sha512.cpp \
-	crypto/ripemd160.cpp \
 	eccryptoverify.cpp \
 	ecwrapper.cpp \
 	hash.cpp \
+	primitives/transaction.cpp \
 	pubkey.cpp \
 	script/script.cpp \
 	script/interpreter.cpp \
 	script/sequenceconsensus.cpp \
+	script/sequenceconsensus_dummy.cpp \
 	uint256.cpp \
 	utilstrencodings.cpp
 
