@@ -22,6 +22,7 @@
 #include <QSystemTrayIcon>
 
 class ClientModel;
+class ModalOverlay;
 class NetworkStyle;
 class Notificator;
 class OptionsModel;
@@ -103,7 +104,6 @@ private:
 
     UnitDisplayStatusBarControl *unitDisplayControl;
     QPushButton *labelConnectionsIcon;
-    QLabel *labelWalletHDStatusIcon;
     QLabel *labelStakingIcon;
     QLabel *labelBlocksIcon;
     QLabel *progressBarLabel;
@@ -148,6 +148,7 @@ private:
     QMenu *dockIconMenu;
     Notificator *notificator;
     RPCConsole *rpcConsole;
+    ModalOverlay *modalOverlay;
 
     /** Keep track of previous number of blocks, to detect progress */
     int prevBlocks;
@@ -176,6 +177,8 @@ private:
     /** Disconnect core signals from GUI client */
     void unsubscribeFromCoreSignals();
 
+    void updateHeadersSyncProgressLabel();
+
 Q_SIGNALS:
     /** Signal raised when a URI was entered or dragged to the GUI */
     void receivedURI(const QString &uri);
@@ -186,7 +189,7 @@ public Q_SLOTS:
     /** Set number of connections shown in the UI */
     void setNumConnections(int count);
     /** Set number of blocks shown in the UI */
-    void setNumBlocks(int count);
+    void setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool headers);
     /** Get restart command-line parameters and request restart */
     void handleRestart(QStringList args);
 
@@ -205,12 +208,6 @@ public Q_SLOTS:
        @see WalletModel::EncryptionStatus
     */
     void setEncryptionStatus(int status);
-
-    /** Set the hd-enabled status as shown in the UI.
-     @param[in] status            current hd enabled status
-     @see WalletModel::EncryptionStatus
-     */
-    void setHDStatus(int hdEnabled);
 
     bool handlePaymentRequest(const SendCoinsRecipient& recipient);
 
@@ -266,6 +263,8 @@ private Q_SLOTS:
     void detectShutdown();
     /** Show progress dialog e.g. for verifychain */
     void showProgress(const QString &title, int nProgress);
+
+    void showModalOverlay();
 };
 
 class UnitDisplayStatusBarControl : public QLabel

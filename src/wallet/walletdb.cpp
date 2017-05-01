@@ -4,14 +4,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-// prevents undefined reference to boost::filesystem::detail::copy_file with C++11
-#include <boost/version.hpp>
-#if BOOST_VERSION >= 105100
-  #define BOOST_NO_CXX11_SCOPED_ENUMS
-#else
-  #define BOOST_NO_SCOPED_ENUMS // deprecated as of BOOST 1.51
-#endif
-
 #include "wallet/walletdb.h"
 
 #include "base58.h"
@@ -600,16 +592,6 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
                 return false;
             }
         }
-        else if (strType == "hdchain")
-        {
-            CHDChain chain;
-            ssValue >> chain;
-            if (!pwallet->SetHDChain(chain, true))
-            {
-                strErr = "Error reading wallet database: SetHDChain failed";
-                return false;
-            }
-        }
     } catch (...)
     {
         return false;
@@ -1115,10 +1097,3 @@ bool CWalletDB::EraseDestData(const std::string &address, const std::string &key
     nWalletDBUpdated++;
     return Erase(std::make_pair(std::string("destdata"), std::make_pair(address, key)));
 }
-
-bool CWalletDB::WriteHDChain(const CHDChain& chain)
-{
-    nWalletDBUpdated++;
-    return Write(std::string("hdchain"), chain);
-}
-
