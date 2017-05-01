@@ -213,6 +213,7 @@ SEQUENCE_QT_H = \
   qt/signverifymessagedialog.h \
   qt/splashscreen.h \
   qt/stakereportdialog.h \
+  qt/trafficgraphdata.h \
   qt/trafficgraphwidget.h \
   qt/transactiondesc.h \
   qt/transactiondescdialog.h \
@@ -310,6 +311,7 @@ SEQUENCE_QT_CPP = \
   qt/sequenceunits.cpp \
   qt/splashscreen.cpp \
   qt/stakereportdialog.cpp \
+  qt/trafficgraphdata.cpp \
   qt/trafficgraphwidget.cpp \
   qt/utilitydialog.cpp \
   qt/winshutdownmonitor.cpp \

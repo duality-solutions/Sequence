@@ -10,6 +10,7 @@
 #include "guiutil.h"
 #include "peertablemodel.h"
 #include "stakereportdialog.h"
+#include "trafficgraphdata.h"
 
 #include "net.h"
 
@@ -138,7 +139,7 @@ Q_SIGNALS:
 private:
     static QString FormatBytes(quint64 bytes);
     void startExecutor();
-    void setTrafficGraphRange(int mins);
+    void setTrafficGraphRange(TrafficGraphData::GraphRange range);
     /** Build parameter list for restart */
     void buildParameterlist(QString arg);
     /** show detailed information on ui about selected node */
