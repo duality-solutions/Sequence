@@ -4,14 +4,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-// prevents undefined reference to boost::filesystem::detail::copy_file with C++11
-#include <boost/version.hpp>
-#if BOOST_VERSION >= 105100
-  #define BOOST_NO_CXX11_SCOPED_ENUMS
-#else
-  #define BOOST_NO_SCOPED_ENUMS // deprecated as of BOOST 1.51
-#endif
-
 #include "wallet/walletdb.h"
 
 #include "base58.h"
