@@ -83,6 +83,7 @@ QT_FORMS_UI = \
   qt/forms/editaddressdialog.ui \
   qt/forms/helpmessagedialog.ui \
   qt/forms/intro.ui \
+  qt/forms/modaloverlay.ui \
   qt/forms/openuridialog.ui \
   qt/forms/optionsdialog.ui \
   qt/forms/overviewpage.ui \
@@ -112,6 +113,7 @@ QT_MOC_CPP = \
   qt/moc_intro.cpp \
   qt/moc_macdockiconhandler.cpp \
   qt/moc_macnotificationhandler.cpp \
+  qt/moc_modaloverlay.cpp \
   qt/moc_multisigaddressentry.cpp \
   qt/moc_multisigdialog.cpp \
   qt/moc_multisiginputentry.cpp \
@@ -185,6 +187,7 @@ SEQUENCE_QT_H = \
   qt/intro.h \
   qt/macdockiconhandler.h \
   qt/macnotificationhandler.h \
+  qt/modaloverlay.h \
   qt/nametablemodel.h \
   qt/networkstyle.h \
   qt/notificator.h \
@@ -283,13 +286,15 @@ RES_ICONS = \
   qt/res/icons/tx_mined.png \
   qt/res/icons/unit_seq.png \
   qt/res/icons/unit_mseq.png \
-  qt/res/icons/unit_useq.png
+  qt/res/icons/unit_useq.png \
+  qt/res/icons/warning.png
 
 SEQUENCE_QT_CPP = \
   qt/clientmodel.cpp \
   qt/csvmodelwriter.cpp \
   qt/guiutil.cpp \
   qt/intro.cpp \
+  qt/modaloverlay.cpp \
   qt/networkstyle.cpp \
   qt/notificator.cpp \
   qt/optionsdialog.cpp \

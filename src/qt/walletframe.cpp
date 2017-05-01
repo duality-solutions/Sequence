@@ -58,6 +58,8 @@ bool WalletFrame::addWallet(const QString& name, WalletModel *walletModel)
     // Ensure a walletView is able to show the main window
     connect(walletView, SIGNAL(showNormalIfMinimized()), gui, SLOT(showNormalIfMinimized()));
 
+    connect(walletView, SIGNAL(outOfSyncWarningClicked()), this, SLOT(outOfSyncWarningClicked()));
+
     return true;
 }
 
@@ -133,6 +135,11 @@ void WalletFrame::gotoSendCoinsPage(QString addr)
     QMap<QString, WalletView*>::const_iterator i;
     for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
         i.value()->gotoSendCoinsPage(addr);
+}
+
+void WalletFrame::outOfSyncWarningClicked()
+{
+    Q_EMIT requestedSyncWarningInfo();
 }
 
 void WalletFrame::gotoDNSPage()

@@ -117,6 +117,9 @@ public Q_SLOTS:
     /** Unlock|Lock wallet when clicking on icon */
     void on_labelEncryptionIcon_clicked();
 
+    /** User has requested more information about the out of sync state */
+    void requestedSyncWarningInfo();
+
 Q_SIGNALS:
     /** Signal that we want to show the main window */
     void showNormalIfMinimized();
@@ -128,6 +131,8 @@ Q_SIGNALS:
     void hdEnabledStatusChanged(int hdEnabled);
     /** Notify that a new transaction appeared */
     void incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address);
+    /** Notify that the out of sync warning icon has been pressed */
+    void outOfSyncWarningClicked();
 };
 
 #endif // SEQUENCE_QT_WALLETVIEW_H

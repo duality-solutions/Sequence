@@ -10,6 +10,7 @@
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
+#include "modaloverlay.h"
 #include "networkstyle.h"
 #include "notificator.h"
 #include "openuridialog.h"
@@ -20,6 +21,7 @@
 #include "multisigdialog.h"
 #include "stakereportdialog.h"
 
+#include "chainparams.h"
 #include "init.h"
 #include "rpc/rpcserver.h"
 #include "txmempool.h"
@@ -71,6 +73,7 @@ const QString SequenceGUI::DEFAULT_WALLET = "~Default";
 
 SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     QMainWindow(parent),
+    enableWallet(false),
     labelEncryptionIcon(0),
     clientModel(0),
     walletFrame(0),
@@ -111,6 +114,7 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     dockIconMenu(0),
     notificator(0),
     rpcConsole(0),
+    modalOverlay(0),
     prevBlocks(0),
     spinnerFrame(0)
 {
@@ -200,7 +204,7 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     labelConnectionsIcon->setStyleSheet(".QPushButton { background-color: rgba(255, 255, 255, 0);}");
     labelConnectionsIcon->setMaximumSize(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE);
 
-    labelBlocksIcon = new QLabel();
+    labelBlocksIcon = new GUIUtil::ClickableLabel();
     if(enableWallet)
     {
         frameBlocksLayout->addStretch();
@@ -272,6 +276,15 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
 
     // Subscribe to notifications from core
     subscribeToCoreSignals();
+
+    modalOverlay = new ModalOverlay(this->centralWidget());
+#ifdef ENABLE_WALLET
+    if(enableWallet) {
+        connect(walletFrame, SIGNAL(requestedSyncWarningInfo()), this, SLOT(showModalOverlay()));
+        connect(labelBlocksIcon, SIGNAL(clicked(QPoint)), this, SLOT(showModalOverlay()));
+        connect(progressBar, SIGNAL(clicked(QPoint)), this, SLOT(showModalOverlay()));
+        }
+#endif
 }
 
 SequenceGUI::~SequenceGUI()
@@ -589,8 +602,8 @@ void SequenceGUI::setClientModel(ClientModel *clientModel)
         setNumConnections(clientModel->getNumConnections());
         connect(clientModel, SIGNAL(numConnectionsChanged(int)), this, SLOT(setNumConnections(int)));
 
-        setNumBlocks(clientModel->getNumBlocks());
-        connect(clientModel, SIGNAL(numBlocksChanged(int)), this, SLOT(setNumBlocks(int)));
+        setNumBlocks(clientModel->getNumBlocks(), clientModel->getLastBlockDate(), clientModel->getVerificationProgress(NULL), false);
+        connect(clientModel, SIGNAL(numBlocksChanged(int,QDateTime,double,bool)), this, SLOT(setNumBlocks(int,QDateTime,double,bool)));
 
         // Receive and report messages from client model
         connect(clientModel, SIGNAL(message(QString,QString,unsigned int)), this, SLOT(message(QString,QString,unsigned int)));
@@ -607,6 +620,7 @@ void SequenceGUI::setClientModel(ClientModel *clientModel)
 #endif // ENABLE_WALLET
         unitDisplayControl->setOptionsModel(clientModel->getOptionsModel());
     } else {
+        modalOverlay->setKnownBestHeight(clientModel->getHeaderTipHeight(), QDateTime::fromTime_t(clientModel->getHeaderTipTime()));
         // Disable possibility to show main window via action
         toggleHideAction->setEnabled(false);
         if(trayIconMenu)
@@ -834,9 +848,25 @@ void SequenceGUI::setNumConnections(int count)
     labelConnectionsIcon->setToolTip(tr("%n active connection(s) to Sequence network", "", count));
 }
 
-void SequenceGUI::setNumBlocks(int count)
+void SequenceGUI::updateHeadersSyncProgressLabel()
 {
-    if(!clientModel)
+    int64_t headersTipTime = clientModel->getHeaderTipTime();
+    int headersTipHeight = clientModel->getHeaderTipHeight();
+    int estHeadersLeft = (GetTime() - headersTipTime) / Params().GetConsensus().nPoSTargetSpacing;
+    if (estHeadersLeft > HEADER_HEIGHT_DELTA_SYNC)
+        progressBarLabel->setText(tr("Syncing Headers (%1%)...").arg(QString::number(100.0 / (headersTipHeight+estHeadersLeft)*headersTipHeight, 'f', 1)));
+}
+
+void SequenceGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool header)
+{
+    if (modalOverlay)
+    {
+        if (header)
+            modalOverlay->setKnownBestHeight(count, blockDate);
+        else
+            modalOverlay->tipUpdate(count, blockDate, nVerificationProgress);
+    }
+    if (!clientModel)
         return;
 
     // Prevent orphan statusbar messages (e.g. hover Quit in main menu, wait until chain-sync starts -> garbelled text)
@@ -846,7 +876,12 @@ void SequenceGUI::setNumBlocks(int count)
     enum BlockSource blockSource = clientModel->getBlockSource();
     switch (blockSource) {
         case BLOCK_SOURCE_NETWORK:
+             if (header) {
+                updateHeadersSyncProgressLabel();
+                 return;
+             }
             progressBarLabel->setText(tr("Synchronizing with network..."));
+            updateHeadersSyncProgressLabel();
             break;
         case BLOCK_SOURCE_DISK:
             progressBarLabel->setText(tr("Importing blocks from disk..."));
@@ -862,9 +897,8 @@ void SequenceGUI::setNumBlocks(int count)
 
     QString tooltip;
 
-    QDateTime lastBlockDate = clientModel->getLastBlockDate();
     QDateTime currentDate = QDateTime::currentDateTime();
-    int secs = lastBlockDate.secsTo(currentDate);
+    qint64 secs = blockDate.secsTo(currentDate);
 
     tooltip = tr("Processed %n blocks of transaction history.", "", count);
 
@@ -873,14 +907,6 @@ void SequenceGUI::setNumBlocks(int count)
     {
         tooltip = tr("Up to date") + QString(".<br>") + tooltip;
         labelBlocksIcon->setPixmap(QIcon(":/icons/synced").pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
-
-#ifdef ENABLE_WALLET
-        if(walletFrame)
-            walletFrame->showOutOfSyncWarning(false);
-#endif // ENABLE_WALLET
-
-        progressBarLabel->setVisible(false);
-        progressBar->setVisible(false);
     }
     else
     {
@@ -904,15 +930,13 @@ void SequenceGUI::setNumBlocks(int count)
         }
         else
         {
-            int years = secs / YEAR_IN_SECONDS;
-            int remainder = secs % YEAR_IN_SECONDS;
-            timeBehindText = tr("%1 and %2").arg(tr("%n year(s)", "", years)).arg(tr("%n week(s)","", remainder/WEEK_IN_SECONDS));
+            QString timeBehindText = GUIUtil::formatNiceTimeOffset(secs);
         }
 
         progressBarLabel->setVisible(true);
         progressBar->setFormat(tr("%1 behind").arg(timeBehindText));
         progressBar->setMaximum(1000000000);
-        progressBar->setValue(clientModel->getVerificationProgress() * 1000000000.0 + 0.5);
+        progressBar->setValue(nVerificationProgress * 1000000000.0 + 0.5);
         progressBar->setVisible(true);
 
         tooltip = tr("Catching up...") + QString("<br>") + tooltip;
@@ -927,7 +951,10 @@ void SequenceGUI::setNumBlocks(int count)
 
 #ifdef ENABLE_WALLET
         if(walletFrame)
+        {
             walletFrame->showOutOfSyncWarning(true);
+            modalOverlay->showHide();
+        }
 #endif // ENABLE_WALLET
 
         tooltip += QString("<br>");
@@ -1258,6 +1285,12 @@ void SequenceGUI::showProgress(const QString &title, int nProgress)
     }
     else if (progressDialog)
         progressDialog->setValue(nProgress);
+}
+
+void SequenceGUI::showModalOverlay()
+{
+    if (modalOverlay)
+        modalOverlay->showHide(false, true);
 }
 
 static bool ThreadSafeMessageBox(SequenceGUI *gui, const std::string& message, const std::string& caption, unsigned int style)

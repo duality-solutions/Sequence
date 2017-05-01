@@ -53,6 +53,7 @@
         <file alias="unit_seq">res/icons/unit_seq.png</file>
         <file alias="unit_mseq">res/icons/unit_mseq.png</file>
         <file alias="unit_useq">res/icons/unit_useq.png</file>
+        <file alias="warning">res/icons/warning.png</file>
     </qresource>
     <qresource prefix="/css">
         <file alias="silver">res/css/silver.css</file>
