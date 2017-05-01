@@ -272,6 +272,7 @@ RES_ICONS = \
   qt/res/icons/sequence.png \
   qt/res/icons/sequence_testnet.ico \
   qt/res/icons/sequence_testnet.png \
+  qt/res/icons/stakereport.png \
   qt/res/icons/staking_off.png \
   qt/res/icons/staking_on.png \
   qt/res/icons/synced.png \
