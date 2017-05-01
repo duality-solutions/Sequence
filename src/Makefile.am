@@ -129,7 +129,7 @@ SEQUENCE_CORE_H = \
 	support/allocators/secure.h \
 	support/allocators/zeroafterfree.h \
 	support/cleanse.h \
-	support/pagelocker.h \
+	support/lockedpool.h \
 	sync.h \
 	threadsafety.h \
 	threadinterrupt.h \
@@ -278,7 +278,7 @@ libsequence_util_a_SOURCES = \
 	random.cpp \
 	rpc/rpcprotocol.cpp \
 	support/cleanse.cpp \
-	support/pagelocker.cpp \
+	support/lockedpool.cpp \
 	sync.cpp \
 	threadinterrupt.cpp \
 	timedata.cpp \
