@@ -402,7 +402,7 @@ UniValue decodescript(const UniValue& params, bool fHelp)
     if (type.isStr() && type.get_str() != "scripthash") {
         // P2SH cannot be wrapped in a P2SH. If this script is already a P2SH,
         // don't return the address for a P2SH of the P2SH.
-        r.push_back(Pair("p2sh", CBitcoinAddress(CScriptID(script)).ToString()));
+        r.push_back(Pair("p2sh", CSequenceAddress(CScriptID(script)).ToString()));
     }
     return r;
 }

@@ -1500,7 +1500,7 @@ void CWallet::ReacceptWalletTransactions()
 
 bool CWalletTx::RelayWalletTransaction(std::string strCommand)
 {
-    if ((!(IsCoinBase() || IsCoinStake())) && !isAbandoned() && GetDepthInMainChain() == 0)
+    if ((!(IsCoinBase() || IsCoinStake()))  && GetDepthInMainChain() == 0)
     {
         /* GetDepthInMainChain already catches known conflicts. */
         if (AcceptToMemoryPool(false)) {
