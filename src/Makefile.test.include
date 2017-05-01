@@ -57,6 +57,7 @@ SEQUENCE_TESTS =\
   test/multisig_tests.cpp \
   test/netbase_tests.cpp \
   test/pmt_tests.cpp \
+  test/prevector_tests.cpp \
   rpc/tests/rpc_tests.cpp \
   test/sanity_tests.cpp \
   test/script_P2SH_tests.cpp \

@@ -138,9 +138,10 @@ void ClientModel::updateTimer()
         Q_EMIT alertsChanged(getStatusBarWarnings());  // Sequence: redraw alerts in case of old sync checkpoint
         Q_EMIT numBlocksChanged(newNumBlocks);
     }
-
-    Q_EMIT bytesChanged(getTotalBytesRecv(), getTotalBytesSent());
+    // no locking required at this point
+    // the following calls will aquire the required lock
     Q_EMIT mempoolSizeChanged(getMempoolSize(), getMempoolDynamicUsage());
+    Q_EMIT bytesChanged(getTotalBytesRecv(), getTotalBytesSent());
 }
 
 void ClientModel::updateNumConnections(int numConnections)

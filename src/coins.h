@@ -8,6 +8,7 @@
 #define SEQUENCE_COINS_H
 
 #include "compressor.h"
+#include "core_memusage.h"
 #include "memusage.h"
 #include "random.h"
 #include "serialize.h"
@@ -17,6 +18,7 @@
 #include <assert.h>
 #include <stdint.h>
 
+#include <boost/foreach.hpp>
 #include <boost/unordered_map.hpp>
 
 /** 
@@ -293,9 +295,8 @@ public:
 
     size_t DynamicMemoryUsage() const {
         size_t ret = memusage::DynamicUsage(vout);
-        for(const CTxOut &out : vout) {
-            const std::vector<unsigned char> *script = &out.scriptPubKey;
-            ret += memusage::DynamicUsage(*script);
+        BOOST_FOREACH(const CTxOut &out, vout) {
+            ret += RecursiveDynamicUsage(out.scriptPubKey);
         }
         return ret;
     }
