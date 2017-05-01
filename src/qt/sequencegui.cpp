@@ -199,8 +199,6 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     labelConnectionsIcon->setFlat(true); // Make the button look like a label, but clickable
     labelConnectionsIcon->setStyleSheet(".QPushButton { background-color: rgba(255, 255, 255, 0);}");
     labelConnectionsIcon->setMaximumSize(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE);
-    // Jump to peers tab by clicking on connections icon
-    connect(labelConnectionsIcon, SIGNAL(clicked()), this, SLOT(showPeers()));
 
     labelBlocksIcon = new QLabel();
     if(enableWallet)
