@@ -108,6 +108,7 @@ SEQUENCE_CORE_H = \
   primitives/block.h \
   primitives/transaction.h \
   core_io.h \
+  core_memusage.h \
   wallet/crypter.h \
   wallet/db.h \
   eccryptoverify.h \
@@ -127,8 +128,9 @@ SEQUENCE_CORE_H = \
   netbase.h \
   net.h \
   noui.h \
-  ntp.h \    
+  ntp.h \
   work.h \
+  prevector.h \
   protocol.h \
   pubkey.h \
   random.h \
@@ -170,7 +172,6 @@ SEQUENCE_CORE_H = \
   wallet/walletdb.h \
   compat/sanity.h \
   reverselock.h \
-## --- ppcoin and sequence headers start from this line --- ##
   uint256hm.h \
   stake.h \
   dns/dns.h \
@@ -200,7 +201,7 @@ libsequence_server_a_SOURCES = \
   miner.cpp \
   net.cpp \
   noui.cpp \
-  ntp.cpp \    
+  ntp.cpp \
   work.cpp \
   rest.cpp \
   rpc/rpcblockchain.cpp \
@@ -213,7 +214,6 @@ libsequence_server_a_SOURCES = \
   txdb.cpp \
   txmempool.cpp \
   validationinterface.cpp \
-## --- ppcoin and sequence sources start from this line --- ##
   stake.cpp \
   dns/dns.cpp \
   dns/seqdns.cpp \

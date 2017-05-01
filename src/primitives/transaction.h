@@ -102,7 +102,7 @@ public:
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
         READWRITE(prevout);
-        READWRITE(scriptSig);
+        READWRITE(*(CScriptBase*)(&scriptSig));
         READWRITE(nSequence);
     }
 
@@ -147,7 +147,7 @@ public:
     template <typename Stream, typename Operation>
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion) {
         READWRITE(nValue);
-        READWRITE(scriptPubKey);
+        READWRITE(*(CScriptBase*)(&scriptPubKey));
     }
 
     void SetNull()
