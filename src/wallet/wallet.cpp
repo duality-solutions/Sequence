@@ -1500,9 +1500,10 @@ void CWallet::ReacceptWalletTransactions()
 
 bool CWalletTx::RelayWalletTransaction(std::string strCommand)
 {
-    if (!(IsCoinBase() || IsCoinStake()))
+    if ((!(IsCoinBase() || IsCoinStake())) && !isAbandoned() && GetDepthInMainChain() == 0)
     {
-        if (GetDepthInMainChain() == 0) {
+        /* GetDepthInMainChain already catches known conflicts. */
+        if (AcceptToMemoryPool(false)) {
             LogPrintf("Relaying wtx %s\n", GetHash().ToString());
             RelayTransaction((CTransaction)*this);
             return true;
