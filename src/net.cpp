@@ -1072,7 +1072,12 @@ void ThreadSocketHandler()
                 }
             }
         }
-        if(vNodes.size() != nPrevNodeCount) {
+       size_t vNodesSize;
+       {
+            LOCK(cs_vNodes);
+            vNodesSize = vNodes.size();
+        }
+        if(vNodesSize != nPrevNodeCount) { 
             nPrevNodeCount = vNodes.size();
             uiInterface.NotifyNumConnectionsChanged(nPrevNodeCount);
         }
