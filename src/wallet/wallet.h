@@ -50,8 +50,6 @@ static const CAmount DEFAULT_TRANSACTION_MAXFEE = 0.1 * COIN;
 static const CAmount nHighTransactionMaxFeeWarning = 100 * nHighTransactionFeeWarning;
 //! Largest (in bytes) free transaction we're willing to create
 static const unsigned int MAX_FREE_TRANSACTION_CREATE_SIZE = 1000;
-//! if set, all keys will be derived by using BIP32
-static const bool DEFAULT_USE_HD_WALLET = true;
 
 class CAccountingEntry;
 class CCoinControl;
@@ -142,9 +140,6 @@ private:
     void SyncMetaData(std::pair<TxSpends::iterator, TxSpends::iterator>);
     bool CreateTransactionInner(const std::vector<std::pair<CScript, CAmount> >& vecSend, const CWalletTx& wtxNameIn, CAmount nFeeInput,
                            CWalletTx& wtxNew, CReserveKey& reservekey, CAmount& nFeeRet, int nSplitBlock, std::string& strFailReason, const CCoinControl *coinControl = NULL);
-
-    /* the HD chain data model (external chain counters) */
-    CHDChain hdChain;
 
 public:
     /*
@@ -384,19 +379,6 @@ public:
 
     /** Watch-only address added */
     boost::signals2::signal<void (bool fHaveWatchOnly)> NotifyWatchonlyChanged;
-
-    /**
-     * HD Wallet Functions
-     */
-    const CHDChain& GetHDChain() { return hdChain; }
-    /* Returns true if HD is enabled */
-    bool IsHDEnabled();
-    /* Set the HD chain model (chain child index counters) */
-    bool SetHDChain(const CHDChain& chain, bool memonly);
-    /* Generates a new HD master key (will not be activated) */
-    CPubKey GenerateNewHDMasterKey();
-    /* Set the current HD master key (will reset the chain child index counters) */
-    bool SetHDMasterKey(const CPubKey& key);
 };
 
 /** A key allocated from the key pool. */
