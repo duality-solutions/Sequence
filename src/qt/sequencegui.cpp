@@ -1218,6 +1218,8 @@ double GetPoSKernelPS();
 
 void SequenceGUI::updateWeight()
 {
+    uint64_t nMinWeight = 0, nMaxWeight = 0, nWeight = 0;
+
     if (!pwalletMain)
         return;
 
@@ -1229,37 +1231,56 @@ void SequenceGUI::updateWeight()
     if (!lockWallet)
         return;
 
-    nWeight = pwalletMain->GetStakeWeight();
+    nWeight = pwalletMain->GetStakeWeight(*pwalletMain, nMinWeight, nMaxWeight, nWeight);
 }
 
 extern double GetMoneySupply();
 
 void SequenceGUI::updateStakingIcon()
 {
-    updateWeight();
+    uint64_t nMinWeight = 0, nMaxWeight = 0, nWeight = 0;
+    if (pwalletMain)
+        pwalletMain->GetStakeWeight(*pwalletMain, nMinWeight, nMaxWeight, nWeight);
 
     if (nLastCoinStakeSearchInterval && nWeight)
     {
-        uint64_t nWeight = this->nWeight;
-        uint64_t nNetworkWeight = GetMoneySupply();
+        uint64_t nNetworkWeight = GetPoSKernelPS();
+        unsigned nEstimateTime = Params().GetConsensus().nPoSTargetSpacing * nNetworkWeight / nWeight;
+
+        QString text;
+        if (nEstimateTime < 60)
+        {
+            text = tr("%n second(s)", "", nEstimateTime);
+        }
+        else if (nEstimateTime < 60*60)
+        {
+            text = tr("%n minute(s)", "", nEstimateTime/60);
+        }
+        else if (nEstimateTime < 24*60*60)
+        {
+            text = tr("%n hour(s)", "", nEstimateTime/(60*60));
+        }
+        else
+        {
+            text = tr("%n day(s)", "", nEstimateTime/(60*60*24));
+        }
 
         labelStakingIcon->setPixmap(QIcon(":/icons/staking_on").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-        labelStakingIcon->setToolTip(tr("Staking.<br>Your Weight is %1<br>Money Supply is %2").arg(nWeight).arg(nNetworkWeight));
+        labelStakingIcon->setToolTip(tr("Staking.<br>Your weight is %1<br>Network weight is %2<br>Expected time to earn reward is %3").arg(nWeight).arg(nNetworkWeight).arg(text));
     }
     else
     {
-
         labelStakingIcon->setPixmap(QIcon(":/icons/staking_off").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
         if (pwalletMain && pwalletMain->IsLocked())
-            labelStakingIcon->setToolTip(tr("Staking: Off (because wallet is locked)"));
+            labelStakingIcon->setToolTip(tr("Not staking because wallet is locked"));
         else if (vNodes.empty())
-            labelStakingIcon->setToolTip(tr("Staking: Off (because wallet is offline)"));
+            labelStakingIcon->setToolTip(tr("Not staking because wallet is offline"));
         else if (IsInitialBlockDownload())
-            labelStakingIcon->setToolTip(tr("Staking: Off (because wallet is syncing)"));
+            labelStakingIcon->setToolTip(tr("Not staking because wallet is syncing"));
         else if (!nWeight)
-            labelStakingIcon->setToolTip(tr("Staking: Off (because you don't have mature coins)"));
+            labelStakingIcon->setToolTip(tr("Not staking because you don't have mature coins"));
         else
-            labelStakingIcon->setToolTip(tr("Staking: Off"));
+            labelStakingIcon->setToolTip(tr("Not staking"));
     }
 }
 

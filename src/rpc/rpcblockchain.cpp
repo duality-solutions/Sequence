@@ -102,11 +102,7 @@ double GetPoSKernelPS()
         pindex = pindex->pprev;
     }
 
-    double result = 0;
-
-    result = dStakeKernelsTriedAvg / nStakesTime;
-
-    return result;
+    return nStakesTime ? dStakeKernelsTriedAvg / nStakesTime : 0;
 }
 
 UniValue blockToJSON(const CBlock& block, const CBlockIndex* blockindex, bool txDetails = false)

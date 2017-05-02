@@ -2186,10 +2186,10 @@ struct StakePeriodRange_T
     int64_t End;
     int64_t Total;
     int Count;
-    string Name;
+    std::string Name;
 };
 
-typedef vector<StakePeriodRange_T> vStakePeriodRange_T;
+typedef std::vector<StakePeriodRange_T> vStakePeriodRange_T;
 
     // **em52: Get total coins staked on given period
     // inspired from CWallet::GetStake()
@@ -2249,23 +2249,6 @@ int GetStakeSubTotal(vStakePeriodRange_T& aRange, const isminefilter filter)
     return nElement;
 }
 
-//     MINGW COMPILE FIX / GIVES ERRORS COMPILING ON WINDOWS ITSELF
-//     
-//     Mingw fix still needs tweaking, since the time table display in stakereport is way off
-
-/*   
-    struct tm *
-localtime_r (const time_t *timer, struct tm *result)
-{
-   struct tm *local_result;
-   local_result = localtime (timer);
-   if (local_result == NULL || result == NULL)
-     return NULL;
-   memcpy (result, local_result, sizeof (result));
-   return result;
-}
-*/
-
 // prepare range for stake report
 vStakePeriodRange_T PrepareRangeForStakeReport()
 {
@@ -2290,9 +2273,22 @@ vStakePeriodRange_T PrepareRangeForStakeReport()
     x.Count = 0;
     x.Total = 0;
 
+    // prepare last single 30 day Range
+    for(int i=0; i<30; i++)
+    {
+
+        x.Name = DateTimeStrFormat(x.Start);
+
+        aRange.push_back(x);
+
+        x.End    = x.Start - 1;
+        x.Start -= n1Day;
+
+    }
+
     // prepare subtotal range of last 24H, 1 week, 30 days, 1 years
-    int GroupDays[4][2] =     { {1 ,0}, {7 ,0 }, {30, 0}, {365, 0}};
-    std::string sGroupName[] = {"24H", "7 Days", "30 Days", "365 Days" };
+    int GroupDays[4][2] = { {1 ,0}, {7 ,0 }, {30, 0}, {365, 0}};
+    string sGroupName[] = {"24H", "7 Days", "30 Days", "365 Days" };
 
     nToday = GetTime();
 
@@ -2311,7 +2307,8 @@ vStakePeriodRange_T PrepareRangeForStakeReport()
     x.Name = "Latest Stake";
     aRange.push_back(x);
 
-    return aRange;
+
+return aRange;
 }
 
 // getstakereport: return SubTotal of the staked coins in last 24H, 7/30/365 days

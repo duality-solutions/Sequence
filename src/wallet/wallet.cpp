@@ -2429,13 +2429,13 @@ bool CWallet::CreateNameTx(CScript scriptPubKey, const CAmount& nValue, const CW
     return CreateTransactionInner(vecSend, wtxNameIn, nFeeInput, wtxNew, reservekey, nFeeRet, nSplitBlock, strFailReason, coinControl);
 }
 
-uint64_t CWallet::GetStakeWeight() const
+bool CWallet::GetStakeWeight(const CKeyStore& keystore, uint64_t& nMinWeight, uint64_t& nMaxWeight, uint64_t& nWeight)
 {
     // Choose coins to use
     CAmount nBalance = GetBalance();
 
     if (nBalance <= nReserveBalance)
-        return 0;
+        return false;
 
     vector<const CWalletTx*> vwtxPrev;
 
@@ -2443,12 +2443,10 @@ uint64_t CWallet::GetStakeWeight() const
     CAmount nValueIn = 0;
 
     if (!SelectCoinsForStaking(nBalance - nReserveBalance, GetTime(), setCoins, nValueIn))
-        return 0;
+        return false;
 
     if (setCoins.empty())
-        return 0;
-
-    uint64_t nWeight = 0;
+        return false;
 
     LOCK2(cs_main, cs_wallet);
     for(std::pair<const CWalletTx*, unsigned int> pcoin : setCoins)

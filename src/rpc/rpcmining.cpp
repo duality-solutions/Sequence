@@ -292,9 +292,9 @@ UniValue getmininginfo(const UniValue& params, bool fHelp)
             + HelpExampleRpc("getmininginfo", "")
         );
 
-    uint64_t nWeight = 0;
+    uint64_t nMinWeight = 0, nMaxWeight = 0, nWeight = 0;
     if (pwalletMain)
-        nWeight = pwalletMain->GetStakeWeight();
+        nWeight = pwalletMain->GetStakeWeight(*pwalletMain, nMinWeight, nMaxWeight, nWeight);
 
     UniValue obj(UniValue::VOBJ);
     obj.push_back(Pair("blocks",           (int)chainActive.Height()));
@@ -312,7 +312,7 @@ UniValue getmininginfo(const UniValue& params, bool fHelp)
     obj.push_back(Pair("hashespersec",     gethashespersec(params, false)));
 #endif
     obj.push_back(Pair("minimum",    (uint64_t)nWeight));
-    obj.push_back(Pair("maximum",    (uint64_t)0));
+    obj.push_back(Pair("maximum",    (uint64_t)nMaxWeight));
     obj.push_back(Pair("combined",  (uint64_t)nWeight));
     return obj;
 }
@@ -324,9 +324,9 @@ UniValue getstakinginfo(const UniValue& params, bool fHelp)
             "getstakinginfo\n"
             "Returns an object containing staking-related information.");
 
-    uint64_t nWeight = 0;
+    uint64_t nMinWeight = 0, nMaxWeight = 0, nWeight = 0;
     if (pwalletMain)
-        nWeight = pwalletMain->GetStakeWeight() / COIN;
+        nWeight = pwalletMain->GetStakeWeight(*pwalletMain, nMinWeight, nMaxWeight, nWeight) / COIN;
 
 
     uint64_t nNetworkWeight = GetPoSKernelPS();
@@ -384,9 +384,9 @@ UniValue getmoneysupply(const UniValue& params, bool fHelp)
 
 uint64_t GetWeight()
 {
-    uint64_t nWeight = 0;
+    uint64_t nMinWeight = 0, nMaxWeight = 0, nWeight = 0;
     if (pwalletMain)
-        nWeight = pwalletMain->GetStakeWeight() / COIN;
+        nWeight = pwalletMain->GetStakeWeight(*pwalletMain, nMinWeight, nMaxWeight, nWeight) / COIN;
 
     return nWeight;
 }
