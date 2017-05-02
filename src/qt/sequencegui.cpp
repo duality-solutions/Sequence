@@ -90,6 +90,7 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     quitAction(0),
     sendCoinsAction(0),
     sendCoinsMenuAction(0),
+    stakeReportAction(0),
     multiSigAction(0),
     dnsAction(0),
     usedSendingAddressesAction(0),
@@ -105,7 +106,6 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     backupWalletAction(0),
     changePassphraseAction(0),
     aboutQtAction(0),
-    openStakeReportAction(0),
     openRPCConsoleAction(0),
     openAction(0),
     showHelpMessageAction(0),
@@ -251,7 +251,6 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
 
     // Jump directly to tabs in RPC-console
     connect(openInfoAction, SIGNAL(triggered()), rpcConsole, SLOT(showInfo()));
-    connect(openStakeReportAction, SIGNAL(triggered()), rpcConsole, SLOT(showStakeReport()));
     connect(openRPCConsoleAction, SIGNAL(triggered()), rpcConsole, SLOT(showConsole()));
     connect(openNetworkAction, SIGNAL(triggered()), rpcConsole, SLOT(showNetwork()));
     connect(openPeersAction, SIGNAL(triggered()), rpcConsole, SLOT(showPeers()));
@@ -359,14 +358,25 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
 #endif
     tabGroup->addAction(historyAction);
 
+    stakeReportAction = new QAction(QIcon(":/icons/stakereport"), tr("&Stake Report"), this);
+    stakeReportAction->setStatusTip(tr("Open the Stake Report Box"));
+    stakeReportAction->setToolTip(stakeReportAction->statusTip());
+    stakeReportAction->setCheckable(true);
+#ifdef Q_OS_MAC
+    stakeReportAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_5));
+#else
+    stakeReportAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
+#endif
+    tabGroup->addAction(stakeReportAction);
+
     multiSigAction = new QAction(QIcon(":/icons/multisig"), tr("&MultiSig"), this);
     multiSigAction->setStatusTip(tr("Generate and Utilize Multiple Signature Addresses"));
     multiSigAction->setToolTip(multiSigAction->statusTip());
     multiSigAction->setCheckable(true);
 #ifdef Q_OS_MAC
-    multiSigAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_5));
+    multiSigAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
 #else
-    multiSigAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
+    multiSigAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
 #endif
     tabGroup->addAction(multiSigAction);
 
@@ -375,9 +385,9 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     dnsAction->setToolTip(dnsAction->statusTip());
     dnsAction->setCheckable(true);
 #ifdef Q_OS_MAC
-    dnsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
+    dnsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_7));
 #else
-    dnsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+    dnsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
 #endif
     tabGroup->addAction(dnsAction);
 
@@ -396,6 +406,8 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     connect(receiveCoinsMenuAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
+    connect(stakeReportAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(stakeReportAction, SIGNAL(triggered()), this, SLOT(gotoStakeReportPage()));
     connect(multiSigAction, SIGNAL(triggered()), this, SLOT(gotoMultiSigPage()));
     connect(multiSigAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(dnsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -437,8 +449,6 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
 
     openInfoAction = new QAction(QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation), tr("&Information"), this);
     openInfoAction->setStatusTip(tr("Show diagnostic information"));
-    openStakeReportAction = new QAction(QIcon(":/icons/stakereport"), tr("&Stake Report"), this);
-    openStakeReportAction->setStatusTip(tr("Show Stake Report"));
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug console"), this);
     openRPCConsoleAction->setStatusTip(tr("Open debugging console"));
     openNetworkAction = new QAction(QIcon(":/icons/connect_4"), tr("&Network Monitor"), this);
@@ -524,7 +534,6 @@ void SequenceGUI::createMenuBar()
     {
         QMenu *tools = appMenuBar->addMenu(tr("&Tools"));
         tools->addAction(openInfoAction);
-        tools->addAction(openStakeReportAction);
         tools->addAction(openRPCConsoleAction);
         tools->addAction(openNetworkAction);
         tools->addAction(openPeersAction);
@@ -551,6 +560,7 @@ void SequenceGUI::createToolBars()
         toolbar->addAction(sendCoinsAction);
         toolbar->addAction(receiveCoinsAction);
         toolbar->addAction(historyAction);
+        toolbar->addAction(stakeReportAction);
         toolbar->addAction(multiSigAction);
         toolbar->addAction(dnsAction);
         overviewAction->setChecked(true);
@@ -671,6 +681,7 @@ void SequenceGUI::setWalletActionsEnabled(bool enabled)
     receiveCoinsAction->setEnabled(enabled);
     receiveCoinsMenuAction->setEnabled(enabled);
     historyAction->setEnabled(enabled);
+    stakeReportAction->setEnabled(enabled);
     multiSigAction->setEnabled(enabled);
     dnsAction->setEnabled(enabled);
     encryptWalletAction->setEnabled(enabled);
@@ -707,12 +718,12 @@ void SequenceGUI::createTrayIconMenu(QMenu *pmenu)
     trayIconMenu->addAction(overviewAction);
     trayIconMenu->addAction(sendCoinsAction);
     trayIconMenu->addAction(receiveCoinsAction);
+    trayIconMenu->addAction(stakeReportAction);
     trayIconMenu->addAction(multiSigAction);
     trayIconMenu->addAction(dnsAction);
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(optionsAction);
     trayIconMenu->addAction(openInfoAction);
-    trayIconMenu->addAction(openStakeReportAction);
     trayIconMenu->addAction(openRPCConsoleAction);
     trayIconMenu->addAction(openNetworkAction);
     trayIconMenu->addAction(openPeersAction);
@@ -808,16 +819,22 @@ void SequenceGUI::gotoSendCoinsPage(QString addr)
     if (walletFrame) walletFrame->gotoSendCoinsPage(addr);
 }
 
-void SequenceGUI::gotoDNSPage()
+void SequenceGUI::gotoStakeReportPage()
 {
-    dnsAction->setChecked(true);
-    if (walletFrame) walletFrame->gotoDNSPage();
+    stakeReportAction->setChecked(true);
+    if (walletFrame) walletFrame->gotoStakeReportPage();
 }
 
 void SequenceGUI::gotoMultiSigPage()
 {
     multiSigAction->setChecked(true);
     if (walletFrame) walletFrame->gotoMultiSigPage();
+}
+
+void SequenceGUI::gotoDNSPage()
+{
+    dnsAction->setChecked(true);
+    if (walletFrame) walletFrame->gotoDNSPage();
 }
 
 void SequenceGUI::gotoSignMessageTab(QString addr)

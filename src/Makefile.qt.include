@@ -93,6 +93,7 @@ QT_FORMS_UI = \
   qt/forms/sendcoinsdialog.ui \
   qt/forms/sendcoinsentry.ui \
   qt/forms/signverifymessagedialog.ui \
+  qt/forms/stakereportdialog.ui \
   qt/forms/transactiondescdialog.ui \
   qt/forms/multisigaddressentry.ui \
   qt/forms/multisigdialog.ui \

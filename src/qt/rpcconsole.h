@@ -9,7 +9,6 @@
 
 #include "guiutil.h"
 #include "peertablemodel.h"
-#include "stakereportdialog.h"
 #include "trafficgraphdata.h"
 
 #include "net.h"
@@ -20,7 +19,6 @@
 class ClientModel;
 class PlatformStyle;
 class RPCTimerInterface;
-class StakeReportDialog;       
 
 namespace Ui {
     class RPCConsole;
@@ -51,11 +49,10 @@ public:
 
     enum TabTypes {
         TAB_INFO = 0,
-        TAB_STAKEREPORT = 1,
-        TAB_CONSOLE = 2,
-        TAB_GRAPH = 3,
-        TAB_PEERS = 4,
-        TAB_REPAIR = 5
+        TAB_CONSOLE = 1,
+        TAB_GRAPH = 2,
+        TAB_PEERS = 3,
+        TAB_REPAIR = 4
     };
 
 protected:
@@ -109,8 +106,6 @@ public Q_SLOTS:
     void peerLayoutChanged();
     /** Switch to info tab and show */
     void showInfo();
-    /** Switch to stake report tab and show */
-    void showStakeReport();
     /** Switch to console tab and show */
     void showConsole();
     /** Switch to network tab and show */

@@ -276,33 +276,27 @@ void RPCConsole::showInfo()
     show();
 }
 
-void RPCConsole::showStakeReport()
+void RPCConsole::showConsole()
 {
     ui->tabWidget->setCurrentIndex(1);
     show();
 }
 
-void RPCConsole::showConsole()
+void RPCConsole::showNetwork()
 {
     ui->tabWidget->setCurrentIndex(2);
     show();
 }
 
-void RPCConsole::showNetwork()
+void RPCConsole::showPeers()
 {
     ui->tabWidget->setCurrentIndex(3);
     show();
 }
 
-void RPCConsole::showPeers()
-{
-    ui->tabWidget->setCurrentIndex(4);
-    show();
-}
-
 void RPCConsole::showRepair()
 {
-    ui->tabWidget->setCurrentIndex(5);
+    ui->tabWidget->setCurrentIndex(4);
     show();
 }
 

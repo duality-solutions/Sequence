@@ -5,6 +5,7 @@
 //
 
 #include "stakereportdialog.h"
+#include "ui_stakereportdialog.h"      
 
 #include "guiconstants.h"
 #include "walletmodel.h"
@@ -23,7 +24,6 @@
 #include <QTimer>
 #include <QClipboard>
 
-/*
 // using namespace json_spirit;
 using namespace boost;
 using namespace std;
@@ -283,4 +283,4 @@ void StakeReportDialog::CopyAllToClipboard()
 
     QApplication::clipboard()->setText(Repo);
 
-}*/
+}

@@ -19,6 +19,7 @@ class SendCoinsDialog;
 class MultisigDialog;
 class DNSPage;
 class SendCoinsRecipient;
+class StakeReportDialog;
 class TransactionView;
 class WalletModel;
 
@@ -64,6 +65,7 @@ private:
     QWidget *transactionsPage;
     ReceiveCoinsDialog *receiveCoinsPage;
     SendCoinsDialog *sendCoinsPage;
+    StakeReportDialog *stakeReportPage;
     MultisigDialog *multiSigPage;
     DNSPage *dnsPage;
 
@@ -80,6 +82,8 @@ public Q_SLOTS:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
+    /** Show Stake Report page */
+    void gotoStakeReportPage();
     /** Switch to MultiSig page */
     void gotoMultiSigPage();
     /** Switch to DNS page */
@@ -88,6 +92,7 @@ public Q_SLOTS:
     void gotoSignMessageTab(QString addr = "");
     /** Show Sign/Verify Message dialog and switch to verify message tab */
     void gotoVerifyMessageTab(QString addr = "");
+
 
     /** Show incoming transaction notification for new transactions.
 

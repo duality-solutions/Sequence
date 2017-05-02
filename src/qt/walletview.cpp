@@ -18,6 +18,7 @@
 #include "sendcoinsdialog.h"
 #include "signverifymessagedialog.h"
 #include "sequencegui.h"
+#include "stakereportdialog.h"
 #include "transactiontablemodel.h"
 #include "transactionview.h"
 #include "ui_interface.h"
@@ -56,6 +57,7 @@ WalletView::WalletView(QWidget *parent):
 
     receiveCoinsPage = new ReceiveCoinsDialog();
     sendCoinsPage = new SendCoinsDialog();
+    stakeReportPage = new StakeReportDialog();
     multiSigPage = new MultisigDialog();
     dnsPage = new DNSPage();
 
@@ -63,6 +65,7 @@ WalletView::WalletView(QWidget *parent):
     addWidget(transactionsPage);
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
+    addWidget(stakeReportPage);
     addWidget(multiSigPage);
     addWidget(dnsPage);
 
@@ -130,9 +133,10 @@ void WalletView::setWalletModel(WalletModel *walletModel)
     overviewPage->setWalletModel(walletModel);
     receiveCoinsPage->setModel(walletModel);
     sendCoinsPage->setModel(walletModel);
+    stakeReportPage->setModel(walletModel);
     multiSigPage->setModel(walletModel);
     dnsPage->setModel(walletModel);
-    
+
     if (walletModel)
     {
         // Receive and pass through messages from wallet model
@@ -198,14 +202,19 @@ void WalletView::gotoSendCoinsPage(QString addr)
         sendCoinsPage->setAddress(addr);
 }
 
-void WalletView::gotoDNSPage()
+void WalletView::gotoStakeReportPage()
 {
-    setCurrentWidget(dnsPage);
+    setCurrentWidget(stakeReportPage);
 }
 
 void WalletView::gotoMultiSigPage()
 {
     setCurrentWidget(multiSigPage);
+}
+
+void WalletView::gotoDNSPage()
+{
+    setCurrentWidget(dnsPage);
 }
 
 void WalletView::gotoSignMessageTab(QString addr)

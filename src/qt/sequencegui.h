@@ -104,8 +104,8 @@ private:
 
     UnitDisplayStatusBarControl *unitDisplayControl;
     QLabel *labelWalletHDStatusIcon;
-    QPushButton *labelConnectionsIcon;
     QLabel *labelStakingIcon;
+    QPushButton *labelConnectionsIcon;
     QLabel *labelBlocksIcon;
     QLabel *progressBarLabel;
     QProgressBar *progressBar;
@@ -117,6 +117,7 @@ private:
     QAction *quitAction;
     QAction *sendCoinsAction;
     QAction *sendCoinsMenuAction;
+    QAction *stakeReportAction;
     QAction *multiSigAction;
     QAction *dnsAction;
     QAction *usedSendingAddressesAction;
@@ -133,7 +134,6 @@ private:
     QAction *changePassphraseAction;
     QAction *aboutQtAction;
     QAction *openInfoAction;
-    QAction *openStakeReportAction;
     QAction *openRPCConsoleAction;
     QAction *openNetworkAction;
     QAction *openPeersAction;
@@ -232,10 +232,12 @@ private Q_SLOTS:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
-    /** Switch to DNS page */
-    void gotoDNSPage();
+    /** Switch to Stake Report page */
+    void gotoStakeReportPage();
     /** Switch to MultiSig page */
     void gotoMultiSigPage();
+    /** Switch to DNS page */
+    void gotoDNSPage();
     /** Show Sign/Verify Message dialog and switch to sign message tab */
     void gotoSignMessageTab(QString addr = "");
     /** Show Sign/Verify Message dialog and switch to verify message tab */
