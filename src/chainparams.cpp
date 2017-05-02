@@ -150,6 +150,8 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         // Sequence BIP32 prvkeys start with 'xprv' (Bitcoin defaults)
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
+        // Sequence BIP44 coin type is '5'
+        nExtCoinType = 5;
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
 
@@ -226,6 +228,7 @@ public:
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,204);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x11, 0x35, 0xAA, 0xEE};
         base58Prefixes[EXT_SECRET_KEY] = {0x35, 0x11, 0xDD, 0xFF};
+        nExtCoinType = 1;
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
 
@@ -280,6 +283,8 @@ public:
 
         vFixedSeeds.clear(); //! Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();  //! Regtest mode doesn't have any DNS seeds.
+
+        nExtCoinType = 1;
 
         pchMessageStart[0] = 0x40;
         pchMessageStart[1] = 0x04;

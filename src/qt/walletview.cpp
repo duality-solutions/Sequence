@@ -107,6 +107,9 @@ void WalletView::setSequenceGUI(SequenceGUI *gui)
 
         // Sequence:
         connect(gui->labelEncryptionIcon, SIGNAL(clicked()), this, SLOT(on_labelEncryptionIcon_clicked()));
+
+        // Connect HD enabled state signal
+        connect(this, SIGNAL(hdEnabledStatusChanged(int)), gui, SLOT(setHDStatus(int)));
     }
 }
 
@@ -138,6 +141,9 @@ void WalletView::setWalletModel(WalletModel *walletModel)
         // Handle changes in encryption status
         connect(walletModel, SIGNAL(encryptionStatusChanged(int)), this, SIGNAL(encryptionStatusChanged(int)));
         updateEncryptionStatus();
+
+        // update HD status
+        Q_EMIT hdEnabledStatusChanged(walletModel->hdEnabled());
 
         // Balloon pop-up for new transaction
         connect(walletModel->getTransactionTableModel(), SIGNAL(rowsInserted(QModelIndex,int,int)),

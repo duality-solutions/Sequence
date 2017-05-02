@@ -65,6 +65,8 @@ SEQUENCE_CORE_H = \
 	alert.h \
 	amount.h \
 	base58.h \
+	bip39_english.h \
+	bip39.h \
 	bignum.h \
 	bloom.h \
 	chain.h \
@@ -90,6 +92,7 @@ SEQUENCE_CORE_H = \
 	eccryptoverify.h \
 	ecwrapper.h \
 	hash.h \
+	hdchain.h \
 	hooks.h \
 	indirectmap.h \
 	init.h \
@@ -240,6 +243,7 @@ libsequence_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsequence_common_a_SOURCES = \
 	amount.cpp \
 	base58.cpp \
+	bip39.cpp \
 	chainparams.cpp \
 	coins.cpp \
 	compressor.cpp \
@@ -249,6 +253,7 @@ libsequence_common_a_SOURCES = \
 	eccryptoverify.cpp \
 	ecwrapper.cpp \
 	hash.cpp \
+	hdchain.cpp \
 	key.cpp \
 	keystore.cpp \
 	netbase.cpp \

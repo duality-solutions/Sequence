@@ -1,7 +1,8 @@
 // Copyright (c) 2009-2017 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Developers
+// Copyright (c) 2014-2017 The Dash Core Developers
 // Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
-// Distributed under the MIT software license, see the accompanying
+// Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 /**
@@ -14,14 +15,15 @@
 #include <string>
 #include <vector>
 
-/** This is needed because the foreach macro can't get over the comma in pair<t1, t2> */		
-#define PAIRTYPE(t1, t2)    std::pair<t1, t2>
-
+#define UVOIDBEGIN(a)       ((void*)&(a))
 #define BEGIN(a)            ((char*)&(a))
 #define END(a)              ((char*)&((&(a))[1]))
 #define UBEGIN(a)           ((unsigned char*)&(a))
 #define UEND(a)             ((unsigned char*)&((&(a))[1]))
 #define ARRAYLEN(array)     (sizeof(array)/sizeof((array)[0]))
+
+/** This is needed because the foreach macro can't get over the comma in pair<t1, t2> */
+#define PAIRTYPE(t1, t2)    std::pair<t1, t2>
 
 /** Used by SanitizeString() */
 enum SafeChars
@@ -40,9 +42,8 @@ enum SafeChars
 std::string SanitizeString(const std::string& str, int rule = SAFE_CHARS_DEFAULT);
 /// Formats the network peer user agent text (or subversion)
 /// by removing the begining and ending charactors(/).
-/// example: /Sequence:1.0.0/ --> Sequence:1.0.0
+/// example: /Dynamic:1.0.0/ --> Dynamic:1.0.0
 std::string SanitizeSubVersionString(const std::string& str);
-
 std::vector<unsigned char> ParseHex(const char* psz);
 std::vector<unsigned char> ParseHex(const std::string& str);
 signed char HexDigit(char c);
@@ -108,11 +109,11 @@ inline std::string HexStr(const T& vch, bool fSpaces=false)
     return HexStr(vch.begin(), vch.end(), fSpaces);
 }
 
-/** 
+/**
  * Format a paragraph of text to a fixed width, adding spaces for
  * indentation to any added line.
  */
-std::string FormatParagraph(const std::string in, size_t width=79, size_t indent=0);
+std::string FormatParagraph(const std::string& in, size_t width = 79, size_t indent = 0);
 
 /**
  * Timing-attack-resistant comparison.
@@ -135,6 +136,5 @@ bool TimingResistantEqual(const T& a, const T& b)
  * @note The result must be in the range (-10^18,10^18), otherwise an overflow error will trigger.
  */
 bool ParseFixedPoint(const std::string &val, int decimals, int64_t *amount_out);
-
 
 #endif // SEQUENCE_UTILSTRENCODINGS_H

@@ -707,3 +707,9 @@ bool WalletModel::isMine(const CSequenceAddress &address)
 {
     return IsMine(*wallet, address.Get());
 }
+
+bool WalletModel::hdEnabled() const
+{
+    return wallet->IsHDEnabled();
+}
+

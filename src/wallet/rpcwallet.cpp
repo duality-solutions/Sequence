@@ -36,6 +36,18 @@ std::string HelpRequiringPassphrase()
         : "";
 }
 
+bool EnsureWalletIsAvailable(bool avoidException)
+{
+    if (!pwalletMain)
+    {
+        if (!avoidException)
+            throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (disabled)");
+        else
+            return false;
+    }
+    return true;
+}
+
 void EnsureWalletIsUnlocked()
 {
     if (pwalletMain->IsLocked())
@@ -105,7 +117,7 @@ UniValue getnewaddress(const UniValue& params, bool fHelp)
 
     // Generate a new key that is added to wallet
     CPubKey newKey;
-    if (!pwalletMain->GetKeyFromPool(newKey))
+    if (!pwalletMain->GetKeyFromPool(newKey, false))
         throw JSONRPCError(RPC_WALLET_KEYPOOL_RAN_OUT, "Error: Keypool ran out, please call keypoolrefill first");
     CKeyID keyID = newKey.GetID();
 
@@ -142,7 +154,7 @@ CSequenceAddress GetAccountAddress(std::string strAccount, bool bForceNew=false)
     // Generate a new key
     if (!account.vchPubKey.IsValid() || bForceNew || bKeyUsed)
     {
-        if (!pwalletMain->GetKeyFromPool(account.vchPubKey))
+        if (!pwalletMain->GetKeyFromPool(account.vchPubKey, false))
             throw JSONRPCError(RPC_WALLET_KEYPOOL_RAN_OUT, "Error: Keypool ran out, please call keypoolrefill first");
 
         pwalletMain->SetAddressBook(account.vchPubKey.GetID(), strAccount, "receive");
@@ -199,7 +211,7 @@ UniValue getrawchangeaddress(const UniValue& params, bool fHelp)
 
     CReserveKey reservekey(pwalletMain);
     CPubKey vchPubKey;
-    if (!reservekey.GetReservedKey(vchPubKey))
+    if (!reservekey.GetReservedKey(vchPubKey, true))
         throw JSONRPCError(RPC_WALLET_KEYPOOL_RAN_OUT, "Error: Keypool ran out, please call keypoolrefill first");
 
     reservekey.KeepKey();
@@ -1581,7 +1593,7 @@ UniValue keypoolrefill(const UniValue& params, bool fHelp)
     EnsureWalletIsUnlocked();
     pwalletMain->TopUpKeyPool(kpSize);
 
-    if (pwalletMain->GetKeyPoolSize() < kpSize)
+    if (pwalletMain->GetKeyPoolSize() < (pwalletMain->IsHDEnabled() ? kpSize * 2 : kpSize))
         throw JSONRPCError(RPC_WALLET_ERROR, "Error refreshing keypool.");
 
     return NullUniValue;
@@ -1791,7 +1803,7 @@ UniValue encryptwallet(const UniValue& params, bool fHelp)
     // slack space in .dat files; that is bad if the old data is
     // unencrypted private keys. So:
     StartShutdown();
-    return "wallet encrypted; Sequence server stopping, restart to run with encrypted wallet. The keypool has been flushed, you need to make a new backup.";
+    return "Wallet encrypted; Dynamic server stopping, restart to run with encrypted wallet. The keypool has been flushed and a new HD seed was generated (if you are using HD). You need to make a new backup.";
 }
 
 #ifdef ENABLE_WALLET
@@ -2063,14 +2075,22 @@ UniValue getwalletinfo(const UniValue& params, bool fHelp)
             "  \"balance\": xxxxxxx,         (numeric) the total Sequence balance of the wallet\n"
             "  \"txcount\": xxxxxxx,         (numeric) the total number of transactions in the wallet\n"
             "  \"keypoololdest\": xxxxxx,    (numeric) the timestamp (seconds since GMT epoch) of the oldest pre-generated key in the key pool\n"
-            "  \"keypoolsize\": xxxx,        (numeric) how many new keys are pre-generated\n"
+            "  \"keypoolsize\": xxxx,        (numeric) how many new keys are pre-generated (only counts external keys)\n"
+            "  \"keypoolsize_hd_internal\": xxxx, (numeric) how many new keys are pre-generated for internal use (used for change outputs, only appears if the wallet is using this feature, otherwise external keys are used)\n"
             "  \"unlocked_until\": ttt,      (numeric) the timestamp in seconds since epoch (midnight Jan 1 1970 GMT) that the wallet is unlocked for transfers, or 0 if the wallet is locked\n"
+            "  \"hdchainid\": \"<hash>\",      (string) the ID of the HD chain\n"
+            "  \"hdexternalkeyindex\": xxxx,    (numeric) current external childkey index\n"
+            "  \"hdinternalkeyindex\": xxxx,    (numeric) current internal childkey index\n"
             "}\n"
             "\nExamples:\n"
             + HelpExampleCli("getwalletinfo", "")
             + HelpExampleRpc("getwalletinfo", "")
         );
 
+    LOCK2(cs_main, pwalletMain->cs_wallet);
+
+    CHDChain hdChainCurrent;
+    bool fHDEnabled = pwalletMain->GetHDChain(hdChainCurrent);
     UniValue obj(UniValue::VOBJ);
     obj.push_back(Pair("walletversion", pwalletMain->GetVersion()));
     obj.push_back(Pair("balance",       ValueFromAmount(pwalletMain->GetBalance())));
@@ -2079,6 +2099,11 @@ UniValue getwalletinfo(const UniValue& params, bool fHelp)
     obj.push_back(Pair("keypoolsize",   (int)pwalletMain->GetKeyPoolSize()));
     if (pwalletMain->IsCrypted())
         obj.push_back(Pair("unlocked_until", nWalletUnlockTime));
+    if (fHDEnabled) {
+         obj.push_back(Pair("hdchainid", hdChainCurrent.id.GetHex()));
+         obj.push_back(Pair("hdexternalkeyindex", (int64_t)hdChainCurrent.nExternalChainCounter));
+         obj.push_back(Pair("hdinternalkeyindex", (int64_t)hdChainCurrent.nInternalChainCounter));
+    }
     return obj;
 }
 
@@ -2332,6 +2357,7 @@ extern UniValue importprivkey(const UniValue& params, bool fHelp);
 extern UniValue importaddress(const UniValue& params, bool fHelp);
 extern UniValue importpubkey(const UniValue& params, bool fHelp);
 extern UniValue dumpwallet(const UniValue& params, bool fHelp);
+extern UniValue dumphdinfo(const UniValue& params, bool fHelp);
 extern UniValue importwallet(const UniValue& params, bool fHelp);
 extern UniValue removeaddress(const UniValue& params, bool fHelp);
 
@@ -2353,6 +2379,7 @@ static const CRPCCommand commands[] =
 #ifdef ENABLE_WALLET
     { "wallet",             "backupwallet",           &backupwallet,           true,      false,      true },
     { "wallet",             "dumpprivkey",            &dumpprivkey,            true,      false,      true },
+    { "wallet",             "dumphdinfo",             &dumphdinfo,             true,       false,     true },
     { "wallet",             "dumpwallet",             &dumpwallet,             true,      false,      true },
     { "wallet",             "encryptwallet",          &encryptwallet,          true,      false,      true },
     { "wallet",             "getaccountaddress",      &getaccountaddress,      true,      false,      true },

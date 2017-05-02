@@ -30,6 +30,18 @@
 #include <boost/signals2/signal.hpp>
 #include <boost/thread/exceptions.hpp>
 
+
+// Debugging macros
+
+// Uncomment the following line to enable debugging messages
+// or enable on a per file basis prior to inclusion of util.h
+//#define ENABLE_SEQUENCE_DEBUG
+#ifdef ENABLE_SEQUENCE_DEBUG
+#define DBG( x ) x
+#else
+#define DBG( x ) 
+#endif
+
 extern int nWalletBackups;
 
 /** Signals for translation. */
