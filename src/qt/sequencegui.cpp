@@ -1229,7 +1229,7 @@ void SequenceGUI::updateWeight()
     if (!lockWallet)
         return;
 
-    nWeight = pwalletMain->GetStakeWeight() / COIN;
+    nWeight = pwalletMain->GetStakeWeight();
 }
 
 extern double GetMoneySupply();

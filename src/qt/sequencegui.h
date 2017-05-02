@@ -142,7 +142,6 @@ private:
     QAction *showBackupsAction;
     QAction *openAction;
     QAction *showHelpMessageAction;
-    QAction *calcAction;
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
