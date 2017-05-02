@@ -393,7 +393,7 @@ libsequenceconsensus_la_SOURCES = \
 	utilstrencodings.cpp
 
 if GLIBC_BACK_COMPAT
-	libsequenceconsensus_la_SOURCES += compat/glibc_compat.cpp
+  libsequenceconsensus_la_SOURCES += compat/glibc_compat.cpp
 endif
 
 libsequenceconsensus_la_LDFLAGS = -no-undefined $(RELDFLAGS)		
