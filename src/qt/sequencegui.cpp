@@ -881,11 +881,8 @@ void SequenceGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVe
             updateHeadersSyncProgressLabel();
             break;
         case BLOCK_SOURCE_DISK:
-            if (header) {
-                progressBarLabel->setText(tr("Indexing blocks on disk..."));
-            } else {
-                progressBarLabel->setText(tr("Processing blocks on disk..."));
-            }
+            if (header)
+                progressBarLabel->setText(tr("Importing blocks on disk..."));
             break;
         case BLOCK_SOURCE_REINDEX:
             progressBarLabel->setText(tr("Reindexing blocks on disk..."));
@@ -903,39 +900,28 @@ void SequenceGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVe
     QDateTime currentDate = QDateTime::currentDateTime();
     qint64 secs = blockDate.secsTo(currentDate);
 
-    tooltip = tr("Processed %n blocks of transaction history.", "", count);
+    tooltip = tr("Processed %n block(s) of transaction history.", "", count);
 
     // Set icon state: spinning if catching up, tick otherwise
     if(secs < 90*60)
     {
         tooltip = tr("Up to date") + QString(".<br>") + tooltip;
         labelBlocksIcon->setPixmap(QIcon(":/icons/synced").pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
-        progressBarLabel->setText(tr(""));
+
+#ifdef ENABLE_WALLET
+        if(walletFrame)
+        {
+            walletFrame->showOutOfSyncWarning(false);
+            modalOverlay->showHide(true, true);
+        }
+#endif // ENABLE_WALLET
+
+        progressBarLabel->setVisible(false);
+        progressBar->setVisible(false);
     }
     else
     {
-        // Represent time from last generated block in human readable text
-        QString timeBehindText;
-        const int HOUR_IN_SECONDS = 60*60;
-        const int DAY_IN_SECONDS = 24*60*60;
-        const int WEEK_IN_SECONDS = 7*24*60*60;
-        const int YEAR_IN_SECONDS = 31556952; // Average length of year in Gregorian calendar
-        if(secs < 2*DAY_IN_SECONDS)
-        {
-            timeBehindText = tr("%n hour(s)","",secs/HOUR_IN_SECONDS);
-        }
-        else if(secs < 2*WEEK_IN_SECONDS)
-        {
-            timeBehindText = tr("%n day(s)","",secs/DAY_IN_SECONDS);
-        }
-        else if(secs < YEAR_IN_SECONDS)
-        {
-            timeBehindText = tr("%n week(s)","",secs/WEEK_IN_SECONDS);
-        }
-        else
-        {
-            QString timeBehindText = GUIUtil::formatNiceTimeOffset(secs);
-        }
+        QString timeBehindText = GUIUtil::formatNiceTimeOffset(secs);
 
         progressBarLabel->setVisible(true);
         progressBar->setFormat(tr("%1 behind").arg(timeBehindText));
