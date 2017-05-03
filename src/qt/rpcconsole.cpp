@@ -561,20 +561,26 @@ void RPCConsole::clear()
 #else     
     QString ptSize = QString("%1pt").arg(QFontInfo(QFont()).pointSize() * 8.5 / 9);       
 #endif
-
-    // Set default style sheet
     ui->messagesWidget->document()->setDefaultStyleSheet(
+        QString(
                 "table { }"
-                "td.time { color: #808080; padding-top: 3px; } "
-                "td.message { font-family: monospace; font-size: 12px; } " // Todo: Remove fixed font-size
+                "td.time { color: #808080; font-size: %2; padding-top: 3px; } "
+                "td.message { font-family: %1; font-size: %2; white-space:pre-wrap; } "
                 "td.cmd-request { color: #006060; } "
                 "td.cmd-error { color: red; } "
+                ".secwarning { color: red; }"
                 "b { color: #006060; } "
-                );
+            ).arg(fixedFontInfo.family(), ptSize)
+        );
 
     message(CMD_REPLY, (tr("Welcome to the Sequence RPC console.") + "<br>" +
-                        tr("Use up and down arrows to navigate history, and <b>Ctrl-L</b> to clear screen.") + "<br>" +
-                        tr("Type <b>help</b> for an overview of available commands.")), true);
+                        tr("Use up and down arrows to navigate history") + "<br>" +
+                        tr("To clear screen use <b>Ctrl-L</b> on Windows/Linux or <b>⌘CMD-L</b> on OSX") + "<br>" +
+                        tr("Type <b>help</b> for an overview of available commands.")) +
+                        "<br><span class=\"secwarning\">" +
+                        tr("WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramification of a command.") +
+                        "</span>",
+                        true);
 }
 
 void RPCConsole::keyPressEvent(QKeyEvent *event)
