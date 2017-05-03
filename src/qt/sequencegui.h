@@ -117,8 +117,8 @@ private:
     QAction *quitAction;
     QAction *sendCoinsAction;
     QAction *sendCoinsMenuAction;
-    QAction *stakeReportAction;
     QAction *multiSigAction;
+    QAction *stakeReportAction;
     QAction *dnsAction;
     QAction *usedSendingAddressesAction;
     QAction *usedReceivingAddressesAction;

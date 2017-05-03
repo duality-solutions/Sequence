@@ -57,16 +57,16 @@ WalletView::WalletView(QWidget *parent):
 
     receiveCoinsPage = new ReceiveCoinsDialog();
     sendCoinsPage = new SendCoinsDialog();
-    stakeReportPage = new StakeReportDialog();
     multiSigPage = new MultisigDialog();
+    stakeReportPage = new StakeReportDialog();
     dnsPage = new DNSPage();
 
     addWidget(overviewPage);
     addWidget(transactionsPage);
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
-    addWidget(stakeReportPage);
     addWidget(multiSigPage);
+    addWidget(stakeReportPage);
     addWidget(dnsPage);
 
     // Clicking on a transaction on the overview pre-selects the transaction on the transaction history page
@@ -133,8 +133,8 @@ void WalletView::setWalletModel(WalletModel *walletModel)
     overviewPage->setWalletModel(walletModel);
     receiveCoinsPage->setModel(walletModel);
     sendCoinsPage->setModel(walletModel);
-    stakeReportPage->setModel(walletModel);
     multiSigPage->setModel(walletModel);
+    stakeReportPage->setModel(walletModel);
     dnsPage->setModel(walletModel);
 
     if (walletModel)
@@ -202,14 +202,14 @@ void WalletView::gotoSendCoinsPage(QString addr)
         sendCoinsPage->setAddress(addr);
 }
 
-void WalletView::gotoStakeReportPage()
-{
-    setCurrentWidget(stakeReportPage);
-}
-
 void WalletView::gotoMultiSigPage()
 {
     setCurrentWidget(multiSigPage);
+}
+
+void WalletView::gotoStakeReportPage()
+{
+    setCurrentWidget(stakeReportPage);
 }
 
 void WalletView::gotoDNSPage()
