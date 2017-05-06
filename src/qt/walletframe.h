@@ -39,6 +39,10 @@ public:
 
     void showOutOfSyncWarning(bool fShow);
 
+Q_SIGNALS:
+    /** Notify that the user has requested more information about the out-of-sync warning */
+    void requestedSyncWarningInfo();
+
 private:
     QStackedWidget *walletStack;
     SequenceGUI *gui;
@@ -50,6 +54,7 @@ private:
     WalletView *currentWalletView();
 
 public Q_SLOTS:
+ 
     /** Switch to overview (home) page */
     void gotoOverviewPage();
     /** Switch to history (transactions) page */
@@ -58,14 +63,17 @@ public Q_SLOTS:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
-    /** Switch to DNS page */
-    void gotoDNSPage();
     /** Switch to MultiSig page */
     void gotoMultiSigPage();
+    /** Open stake report page */
+    void gotoStakeReportPage();
+    /** Switch to DNS page */
+    void gotoDNSPage();
     /** Show Sign/Verify Message dialog and switch to sign message tab */
     void gotoSignMessageTab(QString addr = "");
     /** Show Sign/Verify Message dialog and switch to verify message tab */
     void gotoVerifyMessageTab(QString addr = "");
+
 
     /** Encrypt the wallet */
     void encryptWallet(bool status);
@@ -80,6 +88,9 @@ public Q_SLOTS:
     void usedSendingAddresses();
     /** Show used receiving addresses */
     void usedReceivingAddresses();
+
+    /** Pass on signal over requested out-of-sync-warning information */
+    void outOfSyncWarningClicked();
 };
 
 #endif // SEQUENCE_QT_WALLETFRAME_H

@@ -30,6 +30,18 @@
 #include <boost/signals2/signal.hpp>
 #include <boost/thread/exceptions.hpp>
 
+
+// Debugging macros
+
+// Uncomment the following line to enable debugging messages
+// or enable on a per file basis prior to inclusion of util.h
+//#define ENABLE_SEQUENCE_DEBUG
+#ifdef ENABLE_SEQUENCE_DEBUG
+#define DBG( x ) x
+#else
+#define DBG( x ) 
+#endif
+
 extern int nWalletBackups;
 
 /** Signals for translation. */
@@ -110,7 +122,7 @@ static inline bool error(const char* format)
 
 void PrintExceptionContinue(const std::exception* pex, const char* pszThread);
 void ParseParameters(int argc, const char*const argv[]);
-void FileCommit(FILE *fileout);
+void FileCommit(FILE *file);
 bool TruncateFile(FILE *file, unsigned int length);
 int RaiseFileDescriptorLimit(int nMinFD);
 void AllocateFileRange(FILE *file, unsigned int offset, unsigned int length);

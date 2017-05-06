@@ -18,6 +18,7 @@
 #include "sendcoinsdialog.h"
 #include "signverifymessagedialog.h"
 #include "sequencegui.h"
+#include "stakereportdialog.h"
 #include "transactiontablemodel.h"
 #include "transactionview.h"
 #include "ui_interface.h"
@@ -57,6 +58,7 @@ WalletView::WalletView(QWidget *parent):
     receiveCoinsPage = new ReceiveCoinsDialog();
     sendCoinsPage = new SendCoinsDialog();
     multiSigPage = new MultisigDialog();
+    stakeReportPage = new StakeReportDialog();
     dnsPage = new DNSPage();
 
     addWidget(overviewPage);
@@ -64,10 +66,12 @@ WalletView::WalletView(QWidget *parent):
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
     addWidget(multiSigPage);
+    addWidget(stakeReportPage);
     addWidget(dnsPage);
 
     // Clicking on a transaction on the overview pre-selects the transaction on the transaction history page
     connect(overviewPage, SIGNAL(transactionClicked(QModelIndex)), transactionView, SLOT(focusTransaction(QModelIndex)));
+    connect(overviewPage, SIGNAL(outOfSyncWarningClicked()), this, SLOT(requestedSyncWarningInfo()));
 
     // Double-clicking on a transaction on the transaction history page shows details
     connect(transactionView, SIGNAL(doubleClicked(QModelIndex)), transactionView, SLOT(showDetails()));
@@ -104,11 +108,11 @@ void WalletView::setSequenceGUI(SequenceGUI *gui)
         // Pass through transaction notifications
         connect(this, SIGNAL(incomingTransaction(QString,int,CAmount,QString,QString)), gui, SLOT(incomingTransaction(QString,int,CAmount,QString,QString)));
 
-        // Connect HD enabled state signal 
-        connect(this, SIGNAL(hdEnabledStatusChanged(int)), gui, SLOT(setHDStatus(int)));
-
         // Sequence:
         connect(gui->labelEncryptionIcon, SIGNAL(clicked()), this, SLOT(on_labelEncryptionIcon_clicked()));
+
+        // Connect HD enabled state signal
+        connect(this, SIGNAL(hdEnabledStatusChanged(int)), gui, SLOT(setHDStatus(int)));
     }
 }
 
@@ -130,8 +134,9 @@ void WalletView::setWalletModel(WalletModel *walletModel)
     receiveCoinsPage->setModel(walletModel);
     sendCoinsPage->setModel(walletModel);
     multiSigPage->setModel(walletModel);
+    stakeReportPage->setModel(walletModel);
     dnsPage->setModel(walletModel);
-    
+
     if (walletModel)
     {
         // Receive and pass through messages from wallet model
@@ -141,12 +146,12 @@ void WalletView::setWalletModel(WalletModel *walletModel)
         connect(walletModel, SIGNAL(encryptionStatusChanged(int)), this, SIGNAL(encryptionStatusChanged(int)));
         updateEncryptionStatus();
 
+        // update HD status
+        Q_EMIT hdEnabledStatusChanged(walletModel->hdEnabled());
+
         // Balloon pop-up for new transaction
         connect(walletModel->getTransactionTableModel(), SIGNAL(rowsInserted(QModelIndex,int,int)),
                 this, SLOT(processNewTransaction(QModelIndex,int,int)));
-
-        // update HD status
-        Q_EMIT hdEnabledStatusChanged(walletModel->hdEnabled());
 
         // Ask for passphrase if needed
         connect(walletModel, SIGNAL(requireUnlock()), this, SLOT(unlockWallet()));
@@ -197,14 +202,19 @@ void WalletView::gotoSendCoinsPage(QString addr)
         sendCoinsPage->setAddress(addr);
 }
 
-void WalletView::gotoDNSPage()
-{
-    setCurrentWidget(dnsPage);
-}
-
 void WalletView::gotoMultiSigPage()
 {
     setCurrentWidget(multiSigPage);
+}
+
+void WalletView::gotoStakeReportPage()
+{
+    setCurrentWidget(stakeReportPage);
+}
+
+void WalletView::gotoDNSPage()
+{
+    setCurrentWidget(dnsPage);
 }
 
 void WalletView::gotoSignMessageTab(QString addr)
@@ -362,4 +372,9 @@ void WalletView::on_labelEncryptionIcon_clicked()
             uiInterface.NotifyAlertChanged(0, CT_NEW);
         }
     }
+}
+
+void WalletView::requestedSyncWarningInfo()
+{
+    Q_EMIT outOfSyncWarningClicked();
 }

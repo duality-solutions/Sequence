@@ -5,30 +5,6 @@ AM_CXXFLAGS = $(HARDENED_CXXFLAGS)
 AM_CPPFLAGS = $(HARDENED_CPPFLAGS)
 EXTRA_LIBRARIES =
 
-if EMBEDDED_UNIVALUE
-LIBUNIVALUE = univalue/libunivalue.la
- 
-$(LIBUNIVALUE): $(wildcard univalue/lib/*) $(wildcard univalue/include/*)
-	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
-else
-LIBUNIVALUE = $(UNIVALUE_LIBS)
-endif
-
-if EMBEDDED_LEVELDB
-LEVELDB_CPPFLAGS += -I$(srcdir)/leveldb/include
-LEVELDB_CPPFLAGS += -I$(srcdir)/leveldb/helpers/memenv
-LIBLEVELDB += $(builddir)/leveldb/libleveldb.a
-LIBMEMENV  += $(builddir)/leveldb/libmemenv.a
-
-# NOTE: This dependency is not strictly necessary, but without it make may try to build both in parallel, which breaks the LevelDB build system in a race
-$(LIBLEVELDB): $(LIBMEMENV)
-
-$(LIBLEVELDB) $(LIBMEMENV):
-	@echo "Building LevelDB ..." && $(MAKE) -C $(@D) $(@F) CXX="$(CXX)" \
-	  CC="$(CC)" PLATFORM=$(TARGET_OS) AR="$(AR)" $(LEVELDB_TARGET_FLAGS) \
-          OPT="$(CXXFLAGS) $(CPPFLAGS)"
-endif
-
 SEQUENCE_CONFIG_INCLUDES=-I$(builddir)/config
 SEQUENCE_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BDB_CPPFLAGS) $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
 
@@ -44,18 +20,22 @@ LIBSEQUENCE_CRYPTO=crypto/libsequence_crypto.a
 LIBSEQUENCE_UNIVALUE=univalue/libsequence_univalue.a
 LIBSEQUENCEQT=qt/libsequenceqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
+LIBUNIVALUE=univalue/libunivalue.la
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
+	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
+
+$(LIBUNIVALUE): $(wildcard univalue/lib/*) $(wildcard univalue/include/*)
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
 
 # Make is not made aware of per-object dependencies to avoid limiting building parallelization
 # But to build the less dependent modules first, we manually select their order here:
 EXTRA_LIBRARIES = \
-  crypto/libsequence_crypto.a \
-  libsequence_util.a \
-  libsequence_common.a \
-  libsequence_server.a \
-  libsequence_cli.a
+	crypto/libsequence_crypto.a \
+	libsequence_util.a \
+	libsequence_common.a \
+	libsequence_server.a \
+	libsequence_cli.a
 if ENABLE_WALLET
 EXTRA_LIBRARIES += libsequence_wallet.a
 endif
@@ -81,208 +61,213 @@ endif
 .PHONY: FORCE
 # Sequence #
 SEQUENCE_CORE_H = \
-  addrman.h \
-  alert.h \
-  allocators.h \
-  amount.h \
-  base58.h \
-  bignum.h \
-  bloom.h \
-  chain.h \
-  chainparams.h \
-  chainparamsbase.h \
-  chainparamsseeds.h \
-  checkpoints.h \
-  checkqueue.h \
-  clientversion.h \
-  wallet/coincontrol.h \
-  coins.h \
-  compat.h \
-  compat/byteswap.h \
-  compat/endian.h \
-  compat/sanity.h \
-  compressor.h \
-  consensus/consensus.h \
-  consensus/merkle.h \
-  consensus/params.h \
-  consensus/validation.h \
-  primitives/block.h \
-  primitives/transaction.h \
-  core_io.h \
-  wallet/crypter.h \
-  wallet/db.h \
-  eccryptoverify.h \
-  ecwrapper.h \
-  hash.h \
-  indirectmap.h \
-  init.h \
-  key.h \
-  keystore.h \
-  leveldbwrapper.h \
-  limitedmap.h \
-  main.h \
-  memusage.h \
-  merkleblock.h \
-  miner.h \
-  mruset.h \
-  netbase.h \
-  net.h \
-  noui.h \
-  ntp.h \    
-  pow.h \
-  protocol.h \
-  pubkey.h \
-  random.h \
-  rpc/rpcclient.h \
-  rpc/rpcprotocol.h \
-  rpc/rpcregister.h \
-  rpc/rpcserver.h \
-  scheduler.h \
-  script/interpreter.h \
-  script/script.h \
-  script/sigcache.h \
-  script/sign.h \
-  script/standard.h \
-  script/script_error.h \
-  serialize.h \
-  streams.h \
-  sync.h \
-  threadsafety.h \
-  timedata.h \
-  tinyformat.h \
-  txdb.h \
-  txmempool.h \
-  ui_interface.h \
-  uint256.h \
-  undo.h \
-  util.h \
-  utilstrencodings.h \
-  utilmoneystr.h \
-  utiltime.h \
-  validationinterface.h \
-  version.h \
-  wallet/wallet.h \
-  wallet/wallet_ismine.h \
-  wallet/walletdb.h \
-  compat/sanity.h \
-  reverselock.h \
-## --- ppcoin and sequence headers start from this line --- ##
-  uint256hm.h \
-  kernel.h \
-  dns/dns.h \
-  hooks.h \
-  dns/seqdns.h \
-  torcontrol.h
+	addrman.h \
+	alert.h \
+	amount.h \
+	base58.h \
+	bip39_english.h \
+	bip39.h \
+	bignum.h \
+	bloom.h \
+	chain.h \
+	chainparams.h \
+	chainparamsbase.h \
+	chainparamsseeds.h \
+	checkpoints.h \
+	checkqueue.h \
+	clientversion.h \
+	coins.h \
+	compat.h \
+	compat/byteswap.h \
+	compat/endian.h \
+	compat/sanity.h \
+	compressor.h \
+	consensus/consensus.h \
+	consensus/merkle.h \
+	consensus/params.h \
+	consensus/validation.h \
+	core_io.h \
+	dns/dns.h \
+	dns/seqdns.h \
+	eccryptoverify.h \
+	ecwrapper.h \
+	hash.h \
+	hdchain.h \
+	hooks.h \
+	indirectmap.h \
+	init.h \
+	key.h \
+	keystore.h \
+	leveldbwrapper.h \
+	limitedmap.h \
+	main.h \
+	memusage.h \
+	merkleblock.h \
+	miner.h \
+	mruset.h \
+	netbase.h \
+	net.h \
+	noui.h \
+	ntp.h \
+	primitives/block.h \
+	primitives/transaction.h \
+	protocol.h \
+	pubkey.h \
+	random.h \
+	reverselock.h \
+	rpc/rpcclient.h \
+	rpc/rpcprotocol.h \
+	rpc/rpcregister.h \
+	rpc/rpcserver.h \
+	scheduler.h \
+	script/interpreter.h \
+	script/script.h \
+	script/sigcache.h \
+	script/sign.h \
+	script/standard.h \
+	script/script_error.h \
+	serialize.h \
+	stake.h \
+	streams.h \
+	support/allocators/secure.h \
+	support/allocators/zeroafterfree.h \
+	support/cleanse.h \
+	support/lockedpool.h \
+	sync.h \
+	threadsafety.h \
+	threadinterrupt.h \
+	timedata.h \
+	tinyformat.h \
+	torcontrol.h \
+	txdb.h \
+	txmempool.h \
+	ui_interface.h \
+	uint256.h \
+	uint256hm.h \
+	undo.h \
+	util.h \
+	utilstrencodings.h \
+	utilmoneystr.h \
+	utiltime.h \
+	validationinterface.h \
+	version.h \
+	wallet/coincontrol.h \
+	wallet/crypter.h \
+	wallet/db.h \
+	wallet/wallet.h \
+	wallet/wallet_ismine.h \
+	wallet/walletdb.h \
+	work.h
 
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
 	@$(top_srcdir)/share/genbuild.sh $(abs_top_builddir)/src/obj/build.h \
-	  $(abs_top_srcdir)
+		$(abs_top_srcdir)
 libsequence_util_a-clientversion.$(OBJEXT): obj/build.h
 
 # server: shared between sequenced and sequence-qt
 libsequence_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
 libsequence_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsequence_server_a_SOURCES = \
-  addrman.cpp \
-  alert.cpp \
-  bloom.cpp \
-  chain.cpp \
-  checkpoints.cpp \
-  init.cpp \
-  leveldbwrapper.cpp \
-  main.cpp \
-  merkleblock.cpp \
-  miner.cpp \
-  net.cpp \
-  noui.cpp \
-  ntp.cpp \    
-  pow.cpp \
-  rest.cpp \
-  rpc/rpcblockchain.cpp \
-  rpc/rpcmining.cpp \
-  rpc/rpcmisc.cpp \
-  rpc/rpcnet.cpp \
-  rpc/rpcrawtransaction.cpp \
-  rpc/rpcserver.cpp \
-  script/sigcache.cpp \
-  txdb.cpp \
-  txmempool.cpp \
-  validationinterface.cpp \
-## --- ppcoin and sequence sources start from this line --- ##
-  kernel.cpp \
-  dns/dns.cpp \
-  dns/seqdns.cpp \
-  torcontrol.cpp \
-  $(SEQUENCE_CORE_H)
+	addrman.cpp \
+	alert.cpp \
+	bloom.cpp \
+	chain.cpp \
+	checkpoints.cpp \
+	dns/dns.cpp \
+	dns/seqdns.cpp \
+	init.cpp \
+	leveldbwrapper.cpp \
+	main.cpp \
+	merkleblock.cpp \
+	miner.cpp \
+	net.cpp \
+	noui.cpp \
+	ntp.cpp \
+	rest.cpp \
+	rpc/rpcblockchain.cpp \
+	rpc/rpcmining.cpp \
+	rpc/rpcmisc.cpp \
+	rpc/rpcnet.cpp \
+	rpc/rpcrawtransaction.cpp \
+	rpc/rpcserver.cpp \
+	script/sigcache.cpp \
+	stake.cpp \
+	torcontrol.cpp \
+	txdb.cpp \
+	txmempool.cpp \
+	validationinterface.cpp \
+	work.cpp \
+	$(SEQUENCE_CORE_H)
 
 # wallet: shared between sequenced and sequence-qt, but only linked
 # when wallet enabled
 libsequence_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
 libsequence_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsequence_wallet_a_SOURCES = \
-  wallet/db.cpp \
-  wallet/crypter.cpp \
-  wallet/rpcdump.cpp \
-  wallet/rpcwallet.cpp \
-  wallet/wallet.cpp \
-  wallet/wallet_ismine.cpp \
-  wallet/walletdb.cpp \
-  dns/dns.cpp \
-  $(SEQUENCE_CORE_H)
+	dns/dns.cpp \
+	wallet/db.cpp \
+	wallet/crypter.cpp \
+	wallet/rpcdump.cpp \
+	wallet/rpcwallet.cpp \
+	wallet/wallet.cpp \
+	wallet/wallet_ismine.cpp \
+	wallet/walletdb.cpp \
+	$(SEQUENCE_CORE_H)
 
 # crypto primitives library
 crypto_libsequence_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_CONFIG_INCLUDES)
 crypto_libsequence_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 crypto_libsequence_crypto_a_SOURCES = \
-  crypto/aes.cpp \
-  crypto/aes.h \
-  crypto/sha1.cpp \
-  crypto/sha256.cpp \
-  crypto/sha512.cpp \
-  crypto/hmac_sha256.cpp \
-  crypto/rfc6979_hmac_sha256.cpp \
-  crypto/hmac_sha512.cpp \
-  crypto/ripemd160.cpp \
-  crypto/common.h \
-  crypto/sha256.h \
-  crypto/sha512.h \
-  crypto/hmac_sha256.h \
-  crypto/rfc6979_hmac_sha256.h \
-  crypto/hmac_sha512.h \
-  crypto/sha1.h \
-  crypto/ripemd160.h
+	crypto/aes.cpp \
+	crypto/hmac_sha256.cpp \
+	crypto/hmac_sha512.cpp \
+	crypto/ripemd160.cpp \
+	crypto/rfc6979_hmac_sha256.cpp \
+	crypto/sha1.cpp \
+	crypto/sha256.cpp \
+	crypto/sha512.cpp \
+	crypto/aes.h \
+	crypto/common.h \
+	crypto/hmac_sha256.h \
+	crypto/hmac_sha512.h \
+	crypto/ripemd160.h \
+	crypto/rfc6979_hmac_sha256.h \
+	crypto/sha1.h \
+	crypto/sha256.h \
+	crypto/sha512.h
 
 # common: shared between sequenced, and sequence-qt and non-server tools
 libsequence_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
 libsequence_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsequence_common_a_SOURCES = \
-  allocators.cpp \
-  amount.cpp \
-  base58.cpp \
-  chainparams.cpp \
-  coins.cpp \
-  compressor.cpp \
-  consensus/merkle.cpp \
-  primitives/block.cpp \
-  primitives/transaction.cpp \
-  core_read.cpp \
-  core_write.cpp \
-  eccryptoverify.cpp \
-  ecwrapper.cpp \
-  hash.cpp \
-  key.cpp \
-  keystore.cpp \
-  netbase.cpp \
-  protocol.cpp \
-  pubkey.cpp \
-  scheduler.cpp \
-  script/interpreter.cpp \
-  script/script.cpp \
-  script/sign.cpp \
-  script/standard.cpp \
-  script/script_error.cpp \
-  $(SEQUENCE_CORE_H)
+	amount.cpp \
+	base58.cpp \
+	bip39.cpp \
+	chainparams.cpp \
+	coins.cpp \
+	compressor.cpp \
+	consensus/merkle.cpp \
+	core_read.cpp \
+	core_write.cpp \
+	eccryptoverify.cpp \
+	ecwrapper.cpp \
+	hash.cpp \
+	hdchain.cpp \
+	key.cpp \
+	keystore.cpp \
+	netbase.cpp \
+	primitives/block.cpp \
+	primitives/transaction.cpp \
+	protocol.cpp \
+	pubkey.cpp \
+	scheduler.cpp \
+	script/interpreter.cpp \
+	script/script.cpp \
+	script/sign.cpp \
+	script/standard.cpp \
+	script/script_error.cpp \
+	$(SEQUENCE_CORE_H)
 
 # util: shared between all executables.
 # This library *must* be included to make sure that the glibc
@@ -290,21 +275,24 @@ libsequence_common_a_SOURCES = \
 libsequence_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
 libsequence_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsequence_util_a_SOURCES = \
-  compat/strnlen.cpp \
-  compat/glibc_sanity.cpp \
-  compat/glibcxx_sanity.cpp \
-  chainparamsbase.cpp \
-  clientversion.cpp \
-  random.cpp \
-  rpc/rpcprotocol.cpp \
-  sync.cpp \
-  timedata.cpp \
-  uint256.cpp \
-  util.cpp \
-  utilstrencodings.cpp \
-  utilmoneystr.cpp \
-  utiltime.cpp \
-  $(SEQUENCE_CORE_H)
+	chainparamsbase.cpp \
+	clientversion.cpp \
+	compat/strnlen.cpp \
+	compat/glibc_sanity.cpp \
+	compat/glibcxx_sanity.cpp \
+	random.cpp \
+	rpc/rpcprotocol.cpp \
+	support/cleanse.cpp \
+	support/lockedpool.cpp \
+	sync.cpp \
+	threadinterrupt.cpp \
+	timedata.cpp \
+	uint256.cpp \
+	util.cpp \
+	utilstrencodings.cpp \
+	utilmoneystr.cpp \
+	utiltime.cpp \
+	$(SEQUENCE_CORE_H)
 
 if GLIBC_BACK_COMPAT
 libsequence_util_a_SOURCES += compat/glibc_compat.cpp
@@ -314,8 +302,8 @@ endif
 libsequence_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(SEQUENCE_INCLUDES)
 libsequence_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsequence_cli_a_SOURCES = \
-  rpc/rpcclient.cpp \
-  $(SEQUENCE_CORE_H)
+	rpc/rpcclient.cpp \
+	$(SEQUENCE_CORE_H)
 
 nodist_libsequence_util_a_SOURCES = $(srcdir)/obj/build.h
 #
@@ -331,14 +319,14 @@ sequenced_SOURCES += sequenced-res.rc
 endif
 
 sequenced_LDADD = \
-  $(LIBSEQUENCE_SERVER) \
-  $(LIBSEQUENCE_COMMON) \
-  $(LIBUNIVALUE) \
-  $(LIBSEQUENCE_UTIL) \
-  $(LIBSEQUENCE_CRYPTO) \
-  $(LIBLEVELDB) \
-  $(LIBMEMENV) \
-  $(LIBSECP256K1)
+	$(LIBSEQUENCE_SERVER) \
+	$(LIBSEQUENCE_COMMON) \
+	$(LIBUNIVALUE) \
+	$(LIBSEQUENCE_UTIL) \
+	$(LIBSEQUENCE_CRYPTO) \
+	$(LIBLEVELDB) \
+	$(LIBMEMENV) \
+	$(LIBSECP256K1)
 
 if ENABLE_WALLET
 sequenced_LDADD += libsequence_wallet.a
@@ -359,10 +347,10 @@ sequence_cli_SOURCES += sequence-cli-res.rc
 endif
 
 sequence_cli_LDADD = \
-  $(LIBSEQUENCE_CLI) \
-  $(LIBSEQUENCE_UTIL) \
-  $(LIBUNIVALUE) \
-  $(EVENT_LIBS)
+	$(LIBSEQUENCE_CLI) \
+	$(LIBSEQUENCE_UTIL) \
+	$(LIBUNIVALUE) \
+	$(EVENT_LIBS)
 
 sequence_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS)
 #
@@ -374,11 +362,11 @@ sequence_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 sequence_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 sequence_tx_LDADD = \
-  $(LIBUNIVALUE) \
-  $(LIBSEQUENCE_COMMON) \
-  $(LIBSEQUENCE_UTIL) \
-  $(LIBSEQUENCE_CRYPTO) \
-  $(LIBSECP256K1)
+	$(LIBUNIVALUE) \
+	$(LIBSEQUENCE_COMMON) \
+	$(LIBSEQUENCE_UTIL) \
+	$(LIBSEQUENCE_CRYPTO) \
+	$(LIBSECP256K1)
 
 sequence_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
@@ -387,22 +375,22 @@ sequence_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 if BUILD_SEQUENCE_LIBS
 include_HEADERS = script/sequenceconsensus.h
 libsequenceconsensus_la_SOURCES = \
-  script/sequenceconsensus_dummy.cpp \
-  primitives/transaction.cpp \
-  crypto/hmac_sha512.cpp \
-  crypto/sha1.cpp \
-  crypto/sha256.cpp \
-  crypto/sha512.cpp \
-  crypto/ripemd160.cpp \
-  eccryptoverify.cpp \
-  ecwrapper.cpp \
-  hash.cpp \
-  pubkey.cpp \
-  script/script.cpp \
-  script/interpreter.cpp \
-  script/sequenceconsensus.cpp \
-  uint256.cpp \
-  utilstrencodings.cpp
+	crypto/hmac_sha512.cpp \
+	crypto/ripemd160.cpp \
+	crypto/sha1.cpp \
+	crypto/sha256.cpp \
+	crypto/sha512.cpp \
+	eccryptoverify.cpp \
+	ecwrapper.cpp \
+	hash.cpp \
+	primitives/transaction.cpp \
+	pubkey.cpp \
+	script/script.cpp \
+	script/interpreter.cpp \
+	script/sequenceconsensus.cpp \
+	script/sequenceconsensus_dummy.cpp \
+	uint256.cpp \
+	utilstrencodings.cpp
 
 if GLIBC_BACK_COMPAT
   libsequenceconsensus_la_SOURCES += compat/glibc_compat.cpp
@@ -459,7 +447,7 @@ clean-local:
 
 .mm.o:
 	$(AM_V_CXX) $(OBJCXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	  $(CPPFLAGS) $(AM_CXXFLAGS) $(QT_INCLUDES) $(CXXFLAGS)  -c -o $@ $<
+		$(CPPFLAGS) $(AM_CXXFLAGS) $(QT_INCLUDES) $(CXXFLAGS)  -c -o $@ $<
 
 %.pb.cc %.pb.h: %.proto
 	@test -f $(PROTOC)
@@ -468,6 +456,10 @@ clean-local:
 #if ENABLE_TESTS
 #include Makefile.test.include
 #endif
+
+if EMBEDDED_LEVELDB
+include Makefile.leveldb.include
+endif
 
 if ENABLE_QT
 include Makefile.qt.include

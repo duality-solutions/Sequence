@@ -7,10 +7,10 @@
 #include "sequencegui.h"
 
 #include "sequenceunits.h"
-#include "calcdialog.h"
 #include "clientmodel.h"
 #include "guiconstants.h"
 #include "guiutil.h"
+#include "modaloverlay.h"
 #include "networkstyle.h"
 #include "notificator.h"
 #include "openuridialog.h"
@@ -19,8 +19,11 @@
 #include "rpcconsole.h"
 #include "utilitydialog.h"
 #include "multisigdialog.h"
+#include "stakereportdialog.h"
 
+#include "chainparams.h"
 #include "init.h"
+#include "rpc/rpcserver.h"
 #include "txmempool.h"
 #include "ui_interface.h"
 #include "util.h"
@@ -70,12 +73,13 @@ const QString SequenceGUI::DEFAULT_WALLET = "~Default";
 
 SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     QMainWindow(parent),
+    enableWallet(false),
     labelEncryptionIcon(0),
     clientModel(0),
     walletFrame(0),
     unitDisplayControl(0),
-    labelConnectionsIcon(0),
     labelWalletHDStatusIcon(0),
+    labelConnectionsIcon(0),
     labelBlocksIcon(0),
     progressBarLabel(0),
     progressBar(0),
@@ -87,6 +91,7 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     sendCoinsAction(0),
     sendCoinsMenuAction(0),
     multiSigAction(0),
+    stakeReportAction(0),
     dnsAction(0),
     usedSendingAddressesAction(0),
     usedReceivingAddressesAction(0),
@@ -109,6 +114,7 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     dockIconMenu(0),
     notificator(0),
     rpcConsole(0),
+    modalOverlay(0),
     prevBlocks(0),
     spinnerFrame(0)
 {
@@ -197,10 +203,8 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     labelConnectionsIcon->setFlat(true); // Make the button look like a label, but clickable
     labelConnectionsIcon->setStyleSheet(".QPushButton { background-color: rgba(255, 255, 255, 0);}");
     labelConnectionsIcon->setMaximumSize(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE);
-    // Jump to peers tab by clicking on connections icon
-    connect(labelConnectionsIcon, SIGNAL(clicked()), this, SLOT(showPeers()));
 
-    labelBlocksIcon = new QLabel();
+    labelBlocksIcon = new GUIUtil::ClickableLabel();
     if(enableWallet)
     {
         frameBlocksLayout->addStretch();
@@ -271,6 +275,15 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
 
     // Subscribe to notifications from core
     subscribeToCoreSignals();
+
+    modalOverlay = new ModalOverlay(this->centralWidget());
+#ifdef ENABLE_WALLET
+    if(enableWallet) {
+        connect(walletFrame, SIGNAL(requestedSyncWarningInfo()), this, SLOT(showModalOverlay()));
+        connect(labelBlocksIcon, SIGNAL(clicked(QPoint)), this, SLOT(showModalOverlay()));
+        connect(progressBar, SIGNAL(clicked(QPoint)), this, SLOT(showModalOverlay()));
+        }
+#endif
 }
 
 SequenceGUI::~SequenceGUI()
@@ -356,14 +369,25 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
 #endif
     tabGroup->addAction(multiSigAction);
 
+    stakeReportAction = new QAction(QIcon(":/icons/stakereport"), tr("&Stake Report"), this);
+    stakeReportAction->setStatusTip(tr("Open the Stake Report Box"));
+    stakeReportAction->setToolTip(stakeReportAction->statusTip());
+    stakeReportAction->setCheckable(true);
+#ifdef Q_OS_MAC
+    stakeReportAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
+#else
+    stakeReportAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+#endif
+    tabGroup->addAction(stakeReportAction);
+
     dnsAction = new QAction(QIcon(":/icons/decentralised"), tr("&dDNS"), this);
     dnsAction->setStatusTip(tr("Manage values registered via Sequence"));
     dnsAction->setToolTip(dnsAction->statusTip());
     dnsAction->setCheckable(true);
 #ifdef Q_OS_MAC
-    dnsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
+    dnsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_7));
 #else
-    dnsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+    dnsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
 #endif
     tabGroup->addAction(dnsAction);
 
@@ -384,7 +408,9 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
     connect(multiSigAction, SIGNAL(triggered()), this, SLOT(gotoMultiSigPage()));
     connect(multiSigAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
-    connect(dnsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(stakeReportAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(stakeReportAction, SIGNAL(triggered()), this, SLOT(gotoStakeReportPage()));
+     connect(dnsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(dnsAction, SIGNAL(triggered()), this, SLOT(gotoDNSPage()));
 
 #endif // ENABLE_WALLET
@@ -408,10 +434,6 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     optionsAction->setMenuRole(QAction::PreferencesRole);
     toggleHideAction = new QAction(networkStyle->getAppIcon(), tr("&Show / Hide"), this);
     toggleHideAction->setStatusTip(tr("Show or hide the main Window"));
-
-    calcAction = new QAction(QIcon(":/icons/sequence"), tr("&Stake Calculator"), this);
-    calcAction->setToolTip(tr("Open Stake Calculator"));
-    calcAction->setMenuRole(QAction::AboutRole);
 
     encryptWalletAction = new QAction(QIcon(":/icons/lock_closed"), tr("&Encrypt Wallet..."), this);
     encryptWalletAction->setStatusTip(tr("Encrypt the private keys that belong to your wallet"));
@@ -459,8 +481,6 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     connect(toggleHideAction, SIGNAL(triggered()), this, SLOT(toggleHidden()));
     connect(showHelpMessageAction, SIGNAL(triggered()), this, SLOT(showHelpMessageClicked()));
 
-    connect(calcAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
-    connect(calcAction, SIGNAL(triggered()), this, SLOT(calcClicked()));
 #ifdef ENABLE_WALLET
     if(walletFrame)
     {
@@ -506,7 +526,6 @@ void SequenceGUI::createMenuBar()
     {
         settings->addAction(encryptWalletAction);
         settings->addAction(changePassphraseAction);
-        settings->addAction(calcAction);
         settings->addSeparator();
     }
     settings->addAction(optionsAction);
@@ -542,6 +561,7 @@ void SequenceGUI::createToolBars()
         toolbar->addAction(receiveCoinsAction);
         toolbar->addAction(historyAction);
         toolbar->addAction(multiSigAction);
+        toolbar->addAction(stakeReportAction);
         toolbar->addAction(dnsAction);
         overviewAction->setChecked(true);
 
@@ -592,8 +612,8 @@ void SequenceGUI::setClientModel(ClientModel *clientModel)
         setNumConnections(clientModel->getNumConnections());
         connect(clientModel, SIGNAL(numConnectionsChanged(int)), this, SLOT(setNumConnections(int)));
 
-        setNumBlocks(clientModel->getNumBlocks());
-        connect(clientModel, SIGNAL(numBlocksChanged(int)), this, SLOT(setNumBlocks(int)));
+        setNumBlocks(clientModel->getNumBlocks(), clientModel->getLastBlockDate(), clientModel->getVerificationProgress(NULL), false);
+        connect(clientModel, SIGNAL(numBlocksChanged(int,QDateTime,double,bool)), this, SLOT(setNumBlocks(int,QDateTime,double,bool)));
 
         // Receive and report messages from client model
         connect(clientModel, SIGNAL(message(QString,QString,unsigned int)), this, SLOT(message(QString,QString,unsigned int)));
@@ -610,6 +630,7 @@ void SequenceGUI::setClientModel(ClientModel *clientModel)
 #endif // ENABLE_WALLET
         unitDisplayControl->setOptionsModel(clientModel->getOptionsModel());
     } else {
+        modalOverlay->setKnownBestHeight(clientModel->getHeaderTipHeight(), QDateTime::fromTime_t(clientModel->getHeaderTipTime()));
         // Disable possibility to show main window via action
         toggleHideAction->setEnabled(false);
         if(trayIconMenu)
@@ -661,6 +682,7 @@ void SequenceGUI::setWalletActionsEnabled(bool enabled)
     receiveCoinsMenuAction->setEnabled(enabled);
     historyAction->setEnabled(enabled);
     multiSigAction->setEnabled(enabled);
+    stakeReportAction->setEnabled(enabled);
     dnsAction->setEnabled(enabled);
     encryptWalletAction->setEnabled(enabled);
     backupWalletAction->setEnabled(enabled);
@@ -697,6 +719,7 @@ void SequenceGUI::createTrayIconMenu(QMenu *pmenu)
     trayIconMenu->addAction(sendCoinsAction);
     trayIconMenu->addAction(receiveCoinsAction);
     trayIconMenu->addAction(multiSigAction);
+    trayIconMenu->addAction(stakeReportAction);
     trayIconMenu->addAction(dnsAction);
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(optionsAction);
@@ -796,16 +819,22 @@ void SequenceGUI::gotoSendCoinsPage(QString addr)
     if (walletFrame) walletFrame->gotoSendCoinsPage(addr);
 }
 
-void SequenceGUI::gotoDNSPage()
-{
-    dnsAction->setChecked(true);
-    if (walletFrame) walletFrame->gotoDNSPage();
-}
-
 void SequenceGUI::gotoMultiSigPage()
 {
     multiSigAction->setChecked(true);
     if (walletFrame) walletFrame->gotoMultiSigPage();
+}
+
+void SequenceGUI::gotoStakeReportPage()
+{
+    stakeReportAction->setChecked(true);
+    if (walletFrame) walletFrame->gotoStakeReportPage();
+}
+
+void SequenceGUI::gotoDNSPage()
+{
+    dnsAction->setChecked(true);
+    if (walletFrame) walletFrame->gotoDNSPage();
 }
 
 void SequenceGUI::gotoSignMessageTab(QString addr)
@@ -817,6 +846,7 @@ void SequenceGUI::gotoVerifyMessageTab(QString addr)
 {
     if (walletFrame) walletFrame->gotoVerifyMessageTab(addr);
 }
+
 #endif // ENABLE_WALLET
 
 void SequenceGUI::setNumConnections(int count)
@@ -835,9 +865,25 @@ void SequenceGUI::setNumConnections(int count)
     labelConnectionsIcon->setToolTip(tr("%n active connection(s) to Sequence network", "", count));
 }
 
-void SequenceGUI::setNumBlocks(int count)
+void SequenceGUI::updateHeadersSyncProgressLabel()
 {
-    if(!clientModel)
+    int64_t headersTipTime = clientModel->getHeaderTipTime();
+    int headersTipHeight = clientModel->getHeaderTipHeight();
+    int estHeadersLeft = (GetTime() - headersTipTime) / Params().GetConsensus().nPoSTargetSpacing;
+    if (estHeadersLeft > HEADER_HEIGHT_DELTA_SYNC)
+        progressBarLabel->setText(tr("Syncing Headers (%1%)...").arg(QString::number(100.0 / (headersTipHeight+estHeadersLeft)*headersTipHeight, 'f', 1)));
+}
+
+void SequenceGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool header)
+{
+    if (modalOverlay)
+    {
+        if (header)
+            modalOverlay->setKnownBestHeight(count, blockDate);
+        else
+            modalOverlay->tipUpdate(count, blockDate, nVerificationProgress);
+    }
+    if (!clientModel)
         return;
 
     // Prevent orphan statusbar messages (e.g. hover Quit in main menu, wait until chain-sync starts -> garbelled text)
@@ -847,27 +893,34 @@ void SequenceGUI::setNumBlocks(int count)
     enum BlockSource blockSource = clientModel->getBlockSource();
     switch (blockSource) {
         case BLOCK_SOURCE_NETWORK:
+            if (header) {
+                updateHeadersSyncProgressLabel();
+                return;
+            }
             progressBarLabel->setText(tr("Synchronizing with network..."));
+            updateHeadersSyncProgressLabel();
             break;
         case BLOCK_SOURCE_DISK:
-            progressBarLabel->setText(tr("Importing blocks from disk..."));
+            if (header)
+                progressBarLabel->setText(tr("Importing blocks on disk..."));
             break;
         case BLOCK_SOURCE_REINDEX:
             progressBarLabel->setText(tr("Reindexing blocks on disk..."));
             break;
         case BLOCK_SOURCE_NONE:
-            // Case: not Importing, not Reindexing and no network connection
-            progressBarLabel->setText(tr("No block source available..."));
+            if (header) {
+                return;
+            }
+            progressBarLabel->setText(tr("Connecting to peers..."));
             break;
     }
 
     QString tooltip;
 
-    QDateTime lastBlockDate = clientModel->getLastBlockDate();
     QDateTime currentDate = QDateTime::currentDateTime();
-    int secs = lastBlockDate.secsTo(currentDate);
+    qint64 secs = blockDate.secsTo(currentDate);
 
-    tooltip = tr("Processed %n blocks of transaction history.", "", count);
+    tooltip = tr("Processed %n block(s) of transaction history.", "", count);
 
     // Set icon state: spinning if catching up, tick otherwise
     if(secs < 90*60)
@@ -877,7 +930,10 @@ void SequenceGUI::setNumBlocks(int count)
 
 #ifdef ENABLE_WALLET
         if(walletFrame)
+        {
             walletFrame->showOutOfSyncWarning(false);
+            modalOverlay->showHide(true, true);
+        }
 #endif // ENABLE_WALLET
 
         progressBarLabel->setVisible(false);
@@ -885,35 +941,12 @@ void SequenceGUI::setNumBlocks(int count)
     }
     else
     {
-        // Represent time from last generated block in human readable text
-        QString timeBehindText;
-        const int HOUR_IN_SECONDS = 60*60;
-        const int DAY_IN_SECONDS = 24*60*60;
-        const int WEEK_IN_SECONDS = 7*24*60*60;
-        const int YEAR_IN_SECONDS = 31556952; // Average length of year in Gregorian calendar
-        if(secs < 2*DAY_IN_SECONDS)
-        {
-            timeBehindText = tr("%n hour(s)","",secs/HOUR_IN_SECONDS);
-        }
-        else if(secs < 2*WEEK_IN_SECONDS)
-        {
-            timeBehindText = tr("%n day(s)","",secs/DAY_IN_SECONDS);
-        }
-        else if(secs < YEAR_IN_SECONDS)
-        {
-            timeBehindText = tr("%n week(s)","",secs/WEEK_IN_SECONDS);
-        }
-        else
-        {
-            int years = secs / YEAR_IN_SECONDS;
-            int remainder = secs % YEAR_IN_SECONDS;
-            timeBehindText = tr("%1 and %2").arg(tr("%n year(s)", "", years)).arg(tr("%n week(s)","", remainder/WEEK_IN_SECONDS));
-        }
+        QString timeBehindText = GUIUtil::formatNiceTimeOffset(secs);
 
         progressBarLabel->setVisible(true);
         progressBar->setFormat(tr("%1 behind").arg(timeBehindText));
         progressBar->setMaximum(1000000000);
-        progressBar->setValue(clientModel->getVerificationProgress() * 1000000000.0 + 0.5);
+        progressBar->setValue(nVerificationProgress * 1000000000.0 + 0.5);
         progressBar->setVisible(true);
 
         tooltip = tr("Catching up...") + QString("<br>") + tooltip;
@@ -928,7 +961,10 @@ void SequenceGUI::setNumBlocks(int count)
 
 #ifdef ENABLE_WALLET
         if(walletFrame)
+        {
             walletFrame->showOutOfSyncWarning(true);
+            modalOverlay->showHide();
+        }
 #endif // ENABLE_WALLET
 
         tooltip += QString("<br>");
@@ -1109,11 +1145,10 @@ bool SequenceGUI::handlePaymentRequest(const SendCoinsRecipient& recipient)
 
 void SequenceGUI::setHDStatus(int hdEnabled)
 {
-   
     labelWalletHDStatusIcon->setPixmap(QIcon(hdEnabled ? ":/icons/hd_enabled" : ":/icons/hd_disabled").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
     labelWalletHDStatusIcon->setToolTip(hdEnabled ? tr("HD key generation is <b>enabled</b>") : tr("HD key generation is <b>disabled</b>"));
 
-    // eventually disable the QLabel to set its opacity to 50% 
+    // eventually disable the QLabel to set its opacity to 50%
     labelWalletHDStatusIcon->setEnabled(hdEnabled);
 }
 
@@ -1194,8 +1229,10 @@ void SequenceGUI::updateWeight()
     if (!lockWallet)
         return;
 
-    nWeight = pwalletMain->GetStakeWeight() / COIN;
+    nWeight = pwalletMain->GetStakeWeight();
 }
+
+extern double GetMoneySupply();
 
 void SequenceGUI::updateStakingIcon()
 {
@@ -1203,30 +1240,32 @@ void SequenceGUI::updateStakingIcon()
 
     if (nLastCoinStakeSearchInterval && nWeight)
     {
-        uint64_t nWeight = this->nWeight;
+        uint64_t nAccuracyAdjustment = 1; // this is a manual adjustment param if needed to make more accurate
+        uint64_t nWeight = pwalletMain->GetStakeWeight() / COIN;
+        uint64_t nMoneySupply = GetMoneySupply(); 
         uint64_t nNetworkWeight = GetPoSKernelPS();
-        uint64_t nEstimateTime = Params().GetConsensus().nPoSTargetSpacing * nNetworkWeight / nWeight;
+        uint64_t nEstimateTime = Params().GetConsensus().nPoSTargetSpacing * nNetworkWeight / nWeight / nAccuracyAdjustment;
 
-        QString text;
-        if (nEstimateTime < 60)
-        {
-            text = tr("%n second(s)", "", nEstimateTime);
-        }
-        else if (nEstimateTime < 60*60)
-        {
-            text = tr("%n minute(s)", "", nEstimateTime/60);
-        }
-        else if (nEstimateTime < 24*60*60)
-        {
-            text = tr("%n hour(s)", "", nEstimateTime/(60*60));
-        }
-        else
-        {
-            text = tr("%n day(s)", "", nEstimateTime/(60*60*24));
+        QString text;      
+        if (nEstimateTime < 60)       
+        {     
+            text = tr("%n second(s)", "", nEstimateTime);     
+        }     
+        else if (nEstimateTime < 60*60)       
+        {     
+            text = tr("%n minute(s)", "", nEstimateTime/60);      
+        }     
+        else if (nEstimateTime < 24*60*60)        
+        {     
+            text = tr("%n hour(s)", "", nEstimateTime/(60*60));       
+        }     
+        else      
+        {     
+            text = tr("%n day(s)", "", nEstimateTime/(60*60*24));     
         }
 
         labelStakingIcon->setPixmap(QIcon(":/icons/staking_on").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-        labelStakingIcon->setToolTip(tr("Staking.<br>Your weight is %1<br>Network weight is %2<br>Expected time to earn reward is %3").arg(nWeight).arg(nNetworkWeight).arg(text));
+        labelStakingIcon->setToolTip(tr("Staking.<br>Your Weight is %1<br>Money Supply is %2<br>Network Weight is %3<br>Expected time to earn reward is %4").arg(nWeight).arg(nMoneySupply).arg(nNetworkWeight).arg(text));
     }
     else
     {
@@ -1243,12 +1282,6 @@ void SequenceGUI::updateStakingIcon()
         else
             labelStakingIcon->setToolTip(tr("Staking: Off"));
     }
-}
-
-void SequenceGUI::calcClicked()
-{
-    calcDialog dlg;
-    dlg.exec();
 }
 
 void SequenceGUI::detectShutdown()
@@ -1282,6 +1315,12 @@ void SequenceGUI::showProgress(const QString &title, int nProgress)
     }
     else if (progressDialog)
         progressDialog->setValue(nProgress);
+}
+
+void SequenceGUI::showModalOverlay()
+{
+    if (modalOverlay)
+        modalOverlay->showHide(false, true);
 }
 
 static bool ThreadSafeMessageBox(SequenceGUI *gui, const std::string& message, const std::string& caption, unsigned int style)

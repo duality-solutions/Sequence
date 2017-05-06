@@ -198,7 +198,7 @@ class CScriptNum
  * The semantics are subtle, though: operands must be in the range [-2^31 +1...2^31 -1],
  * but results may overflow (and are valid as long as they are not used in a subsequent
  * numeric operation). CScriptNum enforces those semantics by storing results as
- * an int64 and allowing out-of-range values to be returned as a vector of bytes but
+ * an int64 and allowing out-of-range values to be returned as a std::vector of bytes but
  * throwing an exception if arithmetic is done or the result is interpreted as an integer.
  */
 public:
@@ -346,7 +346,7 @@ private:
       for (size_t i = 0; i != vch.size(); ++i)
           result |= static_cast<int64_t>(vch[i]) << 8*i;
 
-      // If the input vector's most significant byte is 0x80, remove it from
+      // If the input std::vector's most significant byte is 0x80, remove it from
       // the result's msb and return a negative.
       if (vch.back() & 0x80)
           return -((int64_t)(result & ~(0x80ULL << (8 * (vch.size() - 1)))));

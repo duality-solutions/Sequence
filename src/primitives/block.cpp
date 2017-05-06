@@ -7,10 +7,10 @@
 
 #include "primitives/block.h"
 
-#include "kernel.h"
+#include "stake.h"
 #include "tinyformat.h"
 #include "utilstrencodings.h"
-#include "kernel.h"
+#include "stake.h"
 
 #include <inttypes.h>
 
