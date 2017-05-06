@@ -294,7 +294,7 @@ UniValue getmininginfo(const UniValue& params, bool fHelp)
 
     uint64_t nWeight = 0;
     if (pwalletMain)
-        nWeight = pwalletMain->GetStakeWeight();
+        nWeight = pwalletMain->GetStakeWeight() / COIN;
 
     UniValue obj(UniValue::VOBJ);
     obj.push_back(Pair("blocks",           (int)chainActive.Height()));
