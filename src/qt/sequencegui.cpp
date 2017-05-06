@@ -1236,6 +1236,8 @@ extern double GetMoneySupply();
 
 void SequenceGUI::updateStakingIcon()
 {
+    updateWeight();
+
     if (nLastCoinStakeSearchInterval && nWeight)
     {
         uint64_t nWeight = pwalletMain->GetStakeWeight() / COIN;
