@@ -1214,7 +1214,8 @@ void SequenceGUI::toggleHidden()
 
 extern CWallet* pwalletMain;
 extern int64_t nLastCoinStakeSearchInterval;
-double GetPoSKernelPS();
+extern double GetPoSKernelPS(const CBlockIndex* blockindex);
+extern double GetMoneySupply();
 
 void SequenceGUI::updateWeight()
 {
@@ -1232,19 +1233,19 @@ void SequenceGUI::updateWeight()
     nWeight = pwalletMain->GetStakeWeight();
 }
 
-extern double GetMoneySupply();
-
 void SequenceGUI::updateStakingIcon()
 {
     updateWeight();
 
     if (nLastCoinStakeSearchInterval && nWeight)
-    {
+    {   
+        bool fProofOfStake = false;
+        int64_t nPoWTargetSpacing = fProofOfStake ? Params().GetConsensus().nPoSTargetSpacing : Params().GetConsensus().nPoWTargetSpacing;
         uint64_t nAccuracyAdjustment = 1; // this is a manual adjustment param if needed to make more accurate
         uint64_t nWeight = pwalletMain->GetStakeWeight() / COIN;
         uint64_t nMoneySupply = GetMoneySupply(); 
         uint64_t nNetworkWeight = GetPoSKernelPS();
-        uint64_t nEstimateTime = Params().GetConsensus().nPoSTargetSpacing * nNetworkWeight / nWeight / nAccuracyAdjustment;
+        uint64_t nEstimateTime = nPoWTargetSpacing * nNetworkWeight / nWeight / nAccuracyAdjustment;
 
         QString text;      
         if (nEstimateTime < 60)       
@@ -1265,7 +1266,7 @@ void SequenceGUI::updateStakingIcon()
         }
 
         labelStakingIcon->setPixmap(QIcon(":/icons/staking_on").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-        labelStakingIcon->setToolTip(tr("Staking.<br>Your Weight is %1<br>Money Supply is %2<br>Network Weight is %3<br>Expected time to earn reward is %4").arg(nWeight).arg(nMoneySupply).arg(nNetworkWeight).arg(text));
+        labelStakingIcon->setToolTip(tr("Staking.<br>Your Weight is %1<br>Network Weight is %2<br>Money Supply is %3<br>Next Reward within ~%4").arg(nWeight).arg(nNetworkWeight).arg(nMoneySupply).arg(text));
     }
     else
     {

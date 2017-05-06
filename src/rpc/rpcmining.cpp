@@ -317,6 +317,8 @@ UniValue getmininginfo(const UniValue& params, bool fHelp)
     return obj;
 }
 
+extern double GetPoSKernelPS(const CBlockIndex* blockindex);
+
 UniValue getstakinginfo(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
@@ -327,7 +329,6 @@ UniValue getstakinginfo(const UniValue& params, bool fHelp)
     uint64_t nWeight = 0;
     if (pwalletMain)
         nWeight = pwalletMain->GetStakeWeight() / COIN;
-
 
     uint64_t nNetworkWeight = GetPoSKernelPS();
     bool staking = nLastCoinStakeSearchInterval && nWeight;

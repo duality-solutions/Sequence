@@ -52,13 +52,13 @@ double GetDifficulty(const CBlockIndex* blockindex)
     return dDiff;
 }
 
-double GetPoWMHashPS()
+double GetPoWMHashPS(const CBlockIndex* blockindex)
 {
     int nPoWInterval = 72;
     int64_t nTargetSpacingWorkMin = 30, nTargetSpacingWork = 30;
 
-    CBlockIndex* pindex = chainActive.Genesis();
-    CBlockIndex* pindexPrevWork = chainActive.Genesis();
+    const CBlockIndex* pindex = chainActive.Genesis();
+    const CBlockIndex* pindexPrevWork = chainActive.Genesis();
 
     while (pindex)
     {
@@ -76,26 +76,26 @@ double GetPoWMHashPS()
     return GetDifficulty() * 4294.967296 / nTargetSpacingWork;
 }
 
-double GetPoSKernelPS()
+double GetPoSKernelPS(const CBlockIndex* blockindex)
 {   
     int nPoSInterval = 72;
     double dStakeKernelsTriedAvg = 0;
     int nStakesHandled = 0, nStakesTime = 0;
 
-    CBlockIndex* pindex = pindexBestHeader;
-    CBlockIndex* pindexPrevStake = NULL;
+    const CBlockIndex* pindex = chainActive.Tip();
+    const CBlockIndex* pindexPrevStake = NULL;
+
+    if (blockindex != NULL)
+        pindex = blockindex;
 
     while (pindex && nStakesHandled < nPoSInterval)
     {
         if (pindex->IsProofOfStake())
         {
-            if (pindexPrevStake)
-            {
-                dStakeKernelsTriedAvg += GetDifficulty(pindexPrevStake) * 4294967296.0;
-                nStakesTime += pindexPrevStake ? (pindexPrevStake->nTime - pindex->nTime) : 0;
-                nStakesHandled++;
-            }
+            dStakeKernelsTriedAvg += GetDifficulty(pindex) * 4294967296.0;
+            nStakesTime += pindexPrevStake ? (pindexPrevStake->nTime - pindex->nTime) : 0;
             pindexPrevStake = pindex;
+            nStakesHandled++;
         }
 
         pindex = pindex->pprev;
@@ -103,7 +103,10 @@ double GetPoSKernelPS()
 
     double result = 0;
 
-    result = nStakesTime ? dStakeKernelsTriedAvg / nStakesTime : 0;
+    if (nStakesTime)
+        result = dStakeKernelsTriedAvg / nStakesTime;
+
+    result /= 2;
 
     return result;
 }
