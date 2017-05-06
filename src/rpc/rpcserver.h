@@ -155,8 +155,8 @@ extern CAmount AmountFromValue(const UniValue& value);
 extern UniValue ValueFromAmount(const CAmount& amount);
 extern double GetDifficulty(const CBlockIndex* blockindex = NULL);
 
-extern double GetPoWMHashPS();
-extern double GetPoSKernelPS();
+extern double GetPoWMHashPS(const CBlockIndex* blockindex = NULL);
+extern double GetPoSKernelPS(const CBlockIndex* blockindex = NULL);
 
 extern std::string HelpRequiringPassphrase();
 extern std::string HelpExampleCli(const std::string& methodname, const std::string& args);
