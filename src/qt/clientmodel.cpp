@@ -27,6 +27,7 @@
 static const int64_t nClientStartupTime = GetTime();
 static int64_t nLastHeaderTipUpdateNotification = 0;
 static int64_t nLastBlockTipUpdateNotification = 0;
+double GetPoSKernelPS(const CBlockIndex* blockindex = NULL);
 
 ClientModel::ClientModel(OptionsModel *optionsModel, QObject *parent) :
     QObject(parent),
