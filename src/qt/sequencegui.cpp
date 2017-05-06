@@ -1266,7 +1266,7 @@ void SequenceGUI::updateStakingIcon()
         }
 
         labelStakingIcon->setPixmap(QIcon(":/icons/staking_on").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-        labelStakingIcon->setToolTip(tr("Staking.<br>Your Weight is %1<br>Money Supply is %2<br>Network Weight is %3<br>Expected time to earn reward is %4").arg(nWeight).arg(nMoneySupply).arg(nNetworkWeight).arg(text));
+        labelStakingIcon->setToolTip(tr("Staking.<br>Your Weight is %1<br>Network Weight is %2<br>Money Supply is %3<br>Next Reward within ~%4").arg(nWeight).arg(nNetworkWeight).arg(nMoneySupply).arg(text));
     }
     else
     {
