@@ -1240,10 +1240,32 @@ void SequenceGUI::updateStakingIcon()
 
     if (nLastCoinStakeSearchInterval && nWeight)
     {
+        uint64_t nAccuracyAdjustment = 1; // this is a manual adjustment param if needed to make more accurate
         uint64_t nWeight = pwalletMain->GetStakeWeight() / COIN;
-        uint64_t nNetworkWeight = GetMoneySupply();
+        uint64_t nMoneySupply = GetMoneySupply(); 
+        uint64_t nNetworkWeight = GetPoSKernelPS();
+        uint64_t nEstimateTime = Params().GetConsensus().nPoSTargetSpacing * nNetworkWeight / nWeight / nAccuracyAdjustment;
+
+        QString text;      
+        if (nEstimateTime < 60)       
+        {     
+            text = tr("%n second(s)", "", nEstimateTime);     
+        }     
+        else if (nEstimateTime < 60*60)       
+        {     
+            text = tr("%n minute(s)", "", nEstimateTime/60);      
+        }     
+        else if (nEstimateTime < 24*60*60)        
+        {     
+            text = tr("%n hour(s)", "", nEstimateTime/(60*60));       
+        }     
+        else      
+        {     
+            text = tr("%n day(s)", "", nEstimateTime/(60*60*24));     
+        }
+
         labelStakingIcon->setPixmap(QIcon(":/icons/staking_on").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-        labelStakingIcon->setToolTip(tr("Staking.<br>Your Weight is %1<br>Money Supply is %2").arg(nWeight).arg(nNetworkWeight));
+        labelStakingIcon->setToolTip(tr("Staking.<br>Your Weight is %1<br>Money Supply is %2<br>Network Weight is %3<br>Expected time to earn reward is %4").arg(nWeight).arg(nMoneySupply).arg(nNetworkWeight).arg(text));
     }
     else
     {
