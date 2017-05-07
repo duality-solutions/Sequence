@@ -76,7 +76,7 @@ color: rgb(0, 0, 0);</string>
     <number>1</number>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;MultiSend allows sending percentages of stake to other Sequence addresses.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;To Add: &lt;/span&gt;Enter percentage to give and Sequence address to add to the MultiSend vector. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;To Delete: &lt;/span&gt;Enter address to delete and press delete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;MultiSend allows sending percentages of stake to other Sequence addresses.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;To Add: &lt;/span&gt;Enter percentage to give and Sequence address to add to the 'MultiSend List'. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;To Delete: &lt;/span&gt;Enter address to delete and press delete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -133,7 +133,7 @@ color: rgb(0, 0, 0);</string>
     <string/>
    </property>
    <property name="statusTip">
-    <string>Add to MultiSend Vector</string>
+    <string>Add to MultiSend List</string>
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton { /* Global Button Style */
@@ -284,7 +284,7 @@ color:#616161;
     <string/>
    </property>
    <property name="statusTip">
-    <string>Delete Address From MultiSend Vector</string>
+    <string>Delete Address From MultiSend List</string>
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton { /* Global Button Style */
@@ -377,7 +377,7 @@ color:#616161;
     <string/>
    </property>
    <property name="statusTip">
-    <string>View MultiSend Vector</string>
+    <string>View MultiSend List</string>
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton { /* Global Button Style */
