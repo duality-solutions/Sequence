@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1023</width>
-    <height>365</height>
+    <width>1067</width>
+    <height>317</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,7 +46,7 @@ color: rgb(0, 0, 0);</string>
   <widget class="QLineEdit" name="multiSendAddressEdit">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>240</x>
      <y>30</y>
      <width>301</width>
      <height>31</height>
@@ -90,9 +90,12 @@ color: rgb(0, 0, 0);</string>
     <rect>
      <x>600</x>
      <y>70</y>
-     <width>411</width>
-     <height>101</height>
+     <width>451</width>
+     <height>151</height>
     </rect>
+   </property>
+   <property name="mouseTracking">
+    <bool>true</bool>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(255, 255, 255);
@@ -110,13 +113,19 @@ color: rgb(0, 0, 0);</string>
    <property name="alignment">
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
    </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+   <property name="textInteractionFlags">
+    <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+   </property>
   </widget>
   <widget class="QPushButton" name="addButton">
    <property name="geometry">
     <rect>
      <x>600</x>
      <y>30</y>
-     <width>201</width>
+     <width>221</width>
      <height>31</height>
     </rect>
    </property>
@@ -162,9 +171,9 @@ color:#616161;
   <widget class="QPushButton" name="disableButton">
    <property name="geometry">
     <rect>
-     <x>810</x>
-     <y>220</y>
-     <width>201</width>
+     <x>830</x>
+     <y>270</y>
+     <width>221</width>
      <height>31</height>
     </rect>
    </property>
@@ -207,7 +216,7 @@ color:#616161;
   <widget class="QPushButton" name="addressBookButton">
    <property name="geometry">
     <rect>
-     <x>560</x>
+     <x>540</x>
      <y>30</y>
      <width>31</width>
      <height>31</height>
@@ -265,9 +274,9 @@ color:#616161;
   <widget class="QPushButton" name="deleteButton">
    <property name="geometry">
     <rect>
-     <x>810</x>
+     <x>830</x>
      <y>30</y>
-     <width>201</width>
+     <width>221</width>
      <height>31</height>
     </rect>
    </property>
@@ -314,8 +323,8 @@ color:#616161;
    <property name="geometry">
     <rect>
      <x>600</x>
-     <y>220</y>
-     <width>201</width>
+     <y>270</y>
+     <width>221</width>
      <height>31</height>
     </rect>
    </property>
@@ -359,8 +368,8 @@ color:#616161;
    <property name="geometry">
     <rect>
      <x>600</x>
-     <y>180</y>
-     <width>411</width>
+     <y>230</y>
+     <width>451</width>
      <height>31</height>
     </rect>
    </property>
@@ -407,13 +416,16 @@ color:#616161;
    <property name="geometry">
     <rect>
      <x>600</x>
-     <y>260</y>
-     <width>421</width>
+     <y>310</y>
+     <width>451</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;MultiSend will not be activated unless you have clicked Activate&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignHCenter|Qt::AlignTop</set>
    </property>
   </widget>
  </widget>

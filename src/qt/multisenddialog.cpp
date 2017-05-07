@@ -63,9 +63,9 @@ void MultiSendDialog::on_viewButton_clicked()
     std::pair<std::string, int> pMultiSend;
     std::string strMultiSendPrint = "";
     if(pwalletMain->fMultiSend)
-        strMultiSendPrint += "MultiSend Active\n";
+        strMultiSendPrint += "<b>MultiSend Active</b><br>";
     else
-        strMultiSendPrint += "MultiSend Not Active\n";
+        strMultiSendPrint += "<b>MultiSend Not Active</b><br>";
     for(int i = 0; i < (int)pwalletMain->vMultiSend.size(); i++)
     {
         pMultiSend = pwalletMain->vMultiSend[i];
@@ -100,7 +100,7 @@ void MultiSendDialog::on_addButton_clicked()
     {
         ui->message->setProperty("status", "error");
         ui->message->style()->polish(ui->message);
-        ui->message->setText(tr("The total amount of your MultiSend vector is over 100% of your stake reward\n"));
+        ui->message->setText(tr("The listed MultiSends\n are over 100% of your stake reward\n"));
         ui->multiSendAddressEdit->setFocus();
         return;
     }
@@ -125,11 +125,11 @@ void MultiSendDialog::on_addButton_clicked()
         strMultiSendPrint += pMultiSend.first.c_str();
         strMultiSendPrint += " - ";
         strMultiSendPrint += boost::lexical_cast<string>(pMultiSend.second);
-        strMultiSendPrint += "% \n";
+        strMultiSendPrint += "% <br>";
     }
     CWalletDB walletdb(pwalletMain->strWalletFile);
     walletdb.WriteMultiSend(pwalletMain->vMultiSend);
-    ui->message->setText(tr("MultiSend Vector\n") + QString(strMultiSendPrint.c_str()));
+    ui->message->setText(tr("<b>MultiSend List</b><br>") + QString(strMultiSendPrint.c_str()));
     return;
 }
 
@@ -162,7 +162,7 @@ void MultiSendDialog::on_activateButton_clicked()
 {
     std::string strRet = "";
     if(pwalletMain->vMultiSend.size() < 1)
-        strRet = "Unable to activate MultiSend, check MultiSend vector\n";
+        strRet = "Unable to activate MultiSend, check MultiSend list\n";
     else if(CSequenceAddress(pwalletMain->vMultiSend[0].first).IsValid())
     {
         pwalletMain->fMultiSend = true;
