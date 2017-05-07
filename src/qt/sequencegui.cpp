@@ -360,7 +360,7 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
 #endif
     tabGroup->addAction(historyAction);
 
-    multiSendAction = new QAction(QIcon(":/icons/edit"), tr("&MultiSend"), this);
+    multiSendAction = new QAction(QIcon(":/icons/multisend"), tr("&MultiSend"), this);
     multiSendAction->setStatusTip(tr("MultiSend Settings"));
     multiSendAction->setToolTip(multiSendAction->statusTip());
     multiSendAction->setCheckable(true);
