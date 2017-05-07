@@ -91,9 +91,9 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     quitAction(0),
     sendCoinsAction(0),
     sendCoinsMenuAction(0),
-    multiSendAction(0),
     multiSigAction(0),
     stakeReportAction(0),
+    multiSendAction(0),
     dnsAction(0),
     usedSendingAddressesAction(0),
     usedReceivingAddressesAction(0),
@@ -123,7 +123,7 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     /* Open CSS when configured */
     this->setStyleSheet(GUIUtil::loadStyleSheet());
     
-    GUIUtil::restoreWindowGeometry("nWindow", QSize(850, 550), this);
+    GUIUtil::restoreWindowGeometry("nWindow", QSize(950, 550), this);
 
     QString windowTitle = tr("Sequence") + " - ";
 #ifdef ENABLE_WALLET
@@ -360,25 +360,14 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
 #endif
     tabGroup->addAction(historyAction);
 
-    multiSendAction = new QAction(QIcon(":/icons/multisend"), tr("&MultiSend"), this);
-    multiSendAction->setStatusTip(tr("MultiSend Settings"));
-    multiSendAction->setToolTip(multiSendAction->statusTip());
-    multiSendAction->setCheckable(true);
-#ifdef Q_OS_MAC
-    multiSendAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_5));
-#else
-    multiSendAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
-#endif
-    tabGroup->addAction(multiSendAction);
-
     multiSigAction = new QAction(QIcon(":/icons/multisig"), tr("&MultiSig"), this);
     multiSigAction->setStatusTip(tr("Generate and Utilize Multiple Signature Addresses"));
     multiSigAction->setToolTip(multiSigAction->statusTip());
     multiSigAction->setCheckable(true);
 #ifdef Q_OS_MAC
-    multiSigAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
+    multiSigAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_5));
 #else
-    multiSigAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+    multiSigAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
 #endif
     tabGroup->addAction(multiSigAction);
 
@@ -387,11 +376,22 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     stakeReportAction->setToolTip(stakeReportAction->statusTip());
     stakeReportAction->setCheckable(true);
 #ifdef Q_OS_MAC
-    stakeReportAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_7));
+    stakeReportAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
 #else
-    stakeReportAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
+    stakeReportAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
 #endif
     tabGroup->addAction(stakeReportAction);
+
+    multiSendAction = new QAction(QIcon(":/icons/multisend"), tr("&MultiSend"), this);
+    multiSendAction->setStatusTip(tr("MultiSend Settings"));
+    multiSendAction->setToolTip(multiSendAction->statusTip());
+    multiSendAction->setCheckable(true);
+#ifdef Q_OS_MAC
+    multiSendAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_7));
+#else
+    multiSendAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
+#endif
+    tabGroup->addAction(multiSendAction);
 
     dnsAction = new QAction(QIcon(":/icons/decentralised"), tr("&dDNS"), this);
     dnsAction->setStatusTip(tr("Manage values registered via Sequence"));
@@ -419,13 +419,13 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     connect(receiveCoinsMenuAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
-    connect(multiSendAction, SIGNAL(triggered()), this, SLOT(gotoMultiSendPage()));
-    connect(multiSendAction, SIGNAL(triggered()), this, SLOT(gotoMultiSendPage()));
-    connect(multiSigAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(multiSigAction, SIGNAL(triggered()), this, SLOT(gotoMultiSigPage()));
     connect(multiSigAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(stakeReportAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(stakeReportAction, SIGNAL(triggered()), this, SLOT(gotoStakeReportPage()));
-     connect(dnsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(multiSendAction, SIGNAL(triggered()), this, SLOT(gotoMultiSendPage()));
+    connect(multiSendAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(dnsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(dnsAction, SIGNAL(triggered()), this, SLOT(gotoDNSPage()));
 
 #endif // ENABLE_WALLET
@@ -575,9 +575,9 @@ void SequenceGUI::createToolBars()
         toolbar->addAction(sendCoinsAction);
         toolbar->addAction(receiveCoinsAction);
         toolbar->addAction(historyAction);
-        toolbar->addAction(multiSendAction);
         toolbar->addAction(multiSigAction);
         toolbar->addAction(stakeReportAction);
+        toolbar->addAction(multiSendAction);
         toolbar->addAction(dnsAction);
         overviewAction->setChecked(true);
 
@@ -697,9 +697,9 @@ void SequenceGUI::setWalletActionsEnabled(bool enabled)
     receiveCoinsAction->setEnabled(enabled);
     receiveCoinsMenuAction->setEnabled(enabled);
     historyAction->setEnabled(enabled);
-    multiSendAction->setEnabled(enabled);
     multiSigAction->setEnabled(enabled);
     stakeReportAction->setEnabled(enabled);
+    multiSendAction->setEnabled(enabled);
     dnsAction->setEnabled(enabled);
     encryptWalletAction->setEnabled(enabled);
     backupWalletAction->setEnabled(enabled);
@@ -735,9 +735,9 @@ void SequenceGUI::createTrayIconMenu(QMenu *pmenu)
     trayIconMenu->addAction(overviewAction);
     trayIconMenu->addAction(sendCoinsAction);
     trayIconMenu->addAction(receiveCoinsAction);
-    trayIconMenu->addAction(multiSendAction);
     trayIconMenu->addAction(multiSigAction);
     trayIconMenu->addAction(stakeReportAction);
+    trayIconMenu->addAction(multiSendAction);
     trayIconMenu->addAction(dnsAction);
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(optionsAction);
@@ -837,12 +837,6 @@ void SequenceGUI::gotoSendCoinsPage(QString addr)
     if (walletFrame) walletFrame->gotoSendCoinsPage(addr);
 }
 
-void SequenceGUI::gotoMultiSendPage()
-{
-    multiSendAction->setChecked(true);
-    if (walletFrame) walletFrame->gotoMultiSendPage();
-}
-
 void SequenceGUI::gotoMultiSigPage()
 {
     multiSigAction->setChecked(true);
@@ -853,6 +847,12 @@ void SequenceGUI::gotoStakeReportPage()
 {
     stakeReportAction->setChecked(true);
     if (walletFrame) walletFrame->gotoStakeReportPage();
+}
+
+void SequenceGUI::gotoMultiSendPage()
+{
+    multiSendAction->setChecked(true);
+    if (walletFrame) walletFrame->gotoMultiSendPage();
 }
 
 void SequenceGUI::gotoDNSPage()
