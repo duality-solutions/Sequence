@@ -204,6 +204,14 @@ public:
     //SplitBlock
     bool fSplitBlock;
 
+    //MultiSend
+    std::vector<std::pair<std::string, int> > vMultiSend;
+    bool fMultiSend;
+    bool fMultiSendNotify;
+    std::string strMultiSendChangeAddress;
+    int nLastMultiSendHeight;
+    std::vector<std::string> vDisabledAddresses;
+
     CWallet()
     {
         SetNull();
@@ -349,6 +357,7 @@ public:
     uint64_t GetStakeWeight() const;
     bool CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int64_t nSearchInterval, CMutableTransaction &txNew);
     bool CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey, std::string strCommand="tx");
+    bool MultiSend();
 
     static CFeeRate minTxFee;
 

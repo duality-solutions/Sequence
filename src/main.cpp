@@ -28,6 +28,7 @@
 #include "utilmoneystr.h"
 #include "consensus/validation.h"
 #include "validationinterface.h"
+#include "wallet/wallet.h"
 
 #include <atomic>
 #include <sstream>
@@ -3155,6 +3156,7 @@ static bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned 
     return (nFound >= nRequired);
 }
 
+extern CWallet* pwalletMain;
 bool ProcessNewBlock(CValidationState &state, const CChainParams& chainparams, CNode* pfrom, CBlock* pblock, CDiskBlockPos *dbp)
 {
     // Preliminary checks
@@ -3187,6 +3189,11 @@ bool ProcessNewBlock(CValidationState &state, const CChainParams& chainparams, C
     // ppcoin: if responsible for sync-checkpoint send it
     if (pfrom && !CSyncCheckpoint::strMasterPrivKey.empty())
         CheckpointsSync::SendSyncCheckpoint(CheckpointsSync::AutoSelectSyncCheckpoint());
+
+    // If turned on MultiSend will send a transaction (or more) on the 30th confirmation of a stake
+     if (pwalletMain->fMultiSend)
+        if (!pwalletMain->MultiSend() )
+            LogPrintf("ERROR While trying to use MultiSend \n");
 
     return true;
 }
