@@ -142,6 +142,13 @@ void WalletFrame::outOfSyncWarningClicked()
     Q_EMIT requestedSyncWarningInfo();
 }
 
+void WalletFrame::gotoMultiSendPage()
+{
+    QMap<QString, WalletView*>::const_iterator i;
+    for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
+        i.value()->gotoMultiSendPage();
+}
+
 void WalletFrame::gotoMultiSigPage()
 {
     QMap<QString, WalletView*>::const_iterator i;

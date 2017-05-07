@@ -89,6 +89,8 @@ public:
     void removeAllWallets();
 #endif // ENABLE_WALLET
     bool enableWallet;
+    bool fMultiSend;
+    bool fMultiSendNotify;
     ClickableLockLabel *labelEncryptionIcon; // Sequence: changed from private to public
 
 protected:
@@ -117,6 +119,7 @@ private:
     QAction *quitAction;
     QAction *sendCoinsAction;
     QAction *sendCoinsMenuAction;
+    QAction *multiSendAction;
     QAction *multiSigAction;
     QAction *stakeReportAction;
     QAction *dnsAction;
@@ -233,6 +236,8 @@ private Q_SLOTS:
     void gotoSendCoinsPage(QString addr = "");
     /** Switch to Stake Report page */
     void gotoStakeReportPage();
+    /** Switch to MultiSend page */
+    void gotoMultiSendPage();
     /** Switch to MultiSig page */
     void gotoMultiSigPage();
     /** Switch to DNS page */

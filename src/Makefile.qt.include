@@ -84,6 +84,10 @@ QT_FORMS_UI = \
   qt/forms/helpmessagedialog.ui \
   qt/forms/intro.ui \
   qt/forms/modaloverlay.ui \
+  qt/forms/multisenddialog.ui \
+  qt/forms/multisigaddressentry.ui \
+  qt/forms/multisigdialog.ui \
+  qt/forms/multisiginputentry.ui \
   qt/forms/openuridialog.ui \
   qt/forms/optionsdialog.ui \
   qt/forms/overviewpage.ui \
@@ -94,10 +98,7 @@ QT_FORMS_UI = \
   qt/forms/sendcoinsentry.ui \
   qt/forms/signverifymessagedialog.ui \
   qt/forms/stakereportdialog.ui \
-  qt/forms/transactiondescdialog.ui \
-  qt/forms/multisigaddressentry.ui \
-  qt/forms/multisigdialog.ui \
-  qt/forms/multisiginputentry.ui
+  qt/forms/transactiondescdialog.ui
 
 QT_MOC_CPP = \
   qt/moc_addressbookpage.cpp \
@@ -115,6 +116,7 @@ QT_MOC_CPP = \
   qt/moc_macdockiconhandler.cpp \
   qt/moc_macnotificationhandler.cpp \
   qt/moc_modaloverlay.cpp \
+  qt/moc_multisenddialog.cpp \
   qt/moc_multisigaddressentry.cpp \
   qt/moc_multisigdialog.cpp \
   qt/moc_multisiginputentry.cpp \
@@ -189,6 +191,10 @@ SEQUENCE_QT_H = \
   qt/macdockiconhandler.h \
   qt/macnotificationhandler.h \
   qt/modaloverlay.h \
+  qt/multisenddialog.h \
+  qt/multisigaddressentry.h \
+  qt/multisigdialog.h \
+  qt/multisiginputentry.h \
   qt/nametablemodel.h \
   qt/networkstyle.h \
   qt/notificator.h \
@@ -227,10 +233,7 @@ SEQUENCE_QT_H = \
   qt/walletmodel.h \
   qt/walletmodeltransaction.h \
   qt/walletview.h \
-  qt/winshutdownmonitor.h \
-  qt/multisigaddressentry.h \
-  qt/multisigdialog.h \
-  qt/multisiginputentry.h
+  qt/winshutdownmonitor.h
 
 RES_ICONS = \
   qt/res/icons/add.png \
@@ -298,6 +301,9 @@ SEQUENCE_QT_CPP = \
   qt/guiutil.cpp \
   qt/intro.cpp \
   qt/modaloverlay.cpp \
+  qt/multisigdialog.cpp \
+  qt/multisigaddressentry.cpp \
+  qt/multisiginputentry.cpp \
   qt/networkstyle.cpp \
   qt/notificator.cpp \
   qt/optionsdialog.cpp \
@@ -315,11 +321,7 @@ SEQUENCE_QT_CPP = \
   qt/trafficgraphdata.cpp \
   qt/trafficgraphwidget.cpp \
   qt/utilitydialog.cpp \
-  qt/winshutdownmonitor.cpp \
-  qt/multisigaddressentry.cpp \
-  qt/multisigdialog.cpp \
-  qt/multisigaddressentry.cpp \
-  qt/multisiginputentry.cpp
+  qt/winshutdownmonitor.cpp
 
 if ENABLE_WALLET
 SEQUENCE_QT_CPP += \
@@ -331,6 +333,7 @@ SEQUENCE_QT_CPP += \
   qt/coincontroltreewidget.cpp \
   qt/dnspage.cpp \
   qt/editaddressdialog.cpp \
+  qt/multisenddialog.cpp \
   qt/nametablemodel.cpp \
   qt/openuridialog.cpp \
   qt/overviewpage.cpp \

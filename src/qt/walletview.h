@@ -16,6 +16,7 @@ class ClientModel;
 class OverviewPage;
 class ReceiveCoinsDialog;
 class SendCoinsDialog;
+class MultiSendDialog;
 class MultisigDialog;
 class DNSPage;
 class SendCoinsRecipient;
@@ -65,6 +66,7 @@ private:
     QWidget *transactionsPage;
     ReceiveCoinsDialog *receiveCoinsPage;
     SendCoinsDialog *sendCoinsPage;
+    MultiSendDialog *multiSendPage;
     MultisigDialog *multiSigPage;
     StakeReportDialog *stakeReportPage;
     DNSPage *dnsPage;
@@ -82,6 +84,8 @@ public Q_SLOTS:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
+    /** Switch to MultiSig page */
+    void gotoMultiSendPage();
     /** Switch to MultiSig page */
     void gotoMultiSigPage();
     /** Show Stake Report page */
