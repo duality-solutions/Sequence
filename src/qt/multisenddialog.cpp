@@ -162,7 +162,7 @@ void MultiSendDialog::on_activateButton_clicked()
 {
     std::string strRet = "";
     if(pwalletMain->vMultiSend.size() < 1)
-        strRet = "Unable to activate MultiSend, check MultiSend list\n";
+        strRet = "Unable to activate MultiSend, check 'MultiSend List'\n";
     else if(CSequenceAddress(pwalletMain->vMultiSend[0].first).IsValid())
     {
         pwalletMain->fMultiSend = true;
@@ -170,7 +170,7 @@ void MultiSendDialog::on_activateButton_clicked()
         if(!walletdb.WriteMSettings(true, pwalletMain->nLastMultiSendHeight))
             strRet = "MultiSend activated but writing settings to DB failed";
         else
-            strRet = "MultiSend activated";
+            strRet = "<b>MultiSend activated</b>";
     }
     else
         strRet = "First Address Not Valid";
@@ -188,7 +188,7 @@ void MultiSendDialog::on_disableButton_clicked()
     if(!walletdb.WriteMSettings(false, pwalletMain->nLastMultiSendHeight))
         strRet = "MultiSend deactivated but writing settings to DB failed";
     else
-        strRet = "MultiSend deactivated";
+        strRet = "<b>MultiSend deactivated</b>";
     ui->message->setProperty("status", "");
     ui->message->style()->polish(ui->message);
     ui->message->setText(tr(strRet.c_str()));

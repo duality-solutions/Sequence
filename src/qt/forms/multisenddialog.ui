@@ -409,7 +409,7 @@ color:#616161;
 }</string>
    </property>
    <property name="text">
-    <string>View MultiSend</string>
+    <string>View MultiSend List</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
