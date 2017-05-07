@@ -92,10 +92,13 @@ double GetPoSKernelPS(const CBlockIndex* blockindex)
     {
         if (pindex->IsProofOfStake())
         {
-            dStakeKernelsTriedAvg += GetDifficulty(pindex) * 4294967296.0;
-            nStakesTime += pindexPrevStake ? (pindexPrevStake->nTime - pindex->nTime) : 0;
+            if (pindexPrevStake)
+            {            
+                dStakeKernelsTriedAvg += GetDifficulty(pindexPrevStake) * 4294967296.0;
+                nStakesTime += pindexPrevStake->nTime - pindex->nTime;
+                nStakesHandled++;
+            }
             pindexPrevStake = pindex;
-            nStakesHandled++;
         }
 
         pindex = pindex->pprev;
@@ -106,7 +109,7 @@ double GetPoSKernelPS(const CBlockIndex* blockindex)
     if (nStakesTime)
         result = dStakeKernelsTriedAvg / nStakesTime;
 
-    result /= 2;
+    result /= 4;
 
     return result;
 }
