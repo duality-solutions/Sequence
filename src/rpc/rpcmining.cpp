@@ -294,7 +294,7 @@ UniValue getmininginfo(const UniValue& params, bool fHelp)
 
     uint64_t nWeight = 0;
     if (pwalletMain)
-        nWeight = pwalletMain->GetStakeWeight() / COIN;
+        nWeight = pwalletMain->GetStakeWeight();
 
     UniValue obj(UniValue::VOBJ);
     obj.push_back(Pair("blocks",           (int)chainActive.Height()));
@@ -328,7 +328,7 @@ UniValue getstakinginfo(const UniValue& params, bool fHelp)
 
     uint64_t nWeight = 0;
     if (pwalletMain)
-        nWeight = pwalletMain->GetStakeWeight() / COIN;
+        nWeight = pwalletMain->GetStakeWeight();
 
     uint64_t nNetworkWeight = GetPoSKernelPS();
     bool staking = nLastCoinStakeSearchInterval && nWeight;
@@ -387,7 +387,7 @@ uint64_t GetWeight()
 {
     uint64_t nWeight = 0;
     if (pwalletMain)
-        nWeight = pwalletMain->GetStakeWeight() / COIN;
+        nWeight = pwalletMain->GetStakeWeight();
 
     return nWeight;
 }

@@ -2456,7 +2456,7 @@ uint64_t CWallet::GetStakeWeight() const
             nWeight += pcoin.first->vout[pcoin.second].nValue;
     }
 
-    return nWeight;
+    return nWeight / COIN;
 }
 
 // ppcoin: create coin stake transaction

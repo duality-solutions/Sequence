@@ -1241,11 +1241,10 @@ void SequenceGUI::updateStakingIcon()
     {   
         bool fProofOfStake = false;
         int64_t nPoWTargetSpacing = fProofOfStake ? Params().GetConsensus().nPoSTargetSpacing : Params().GetConsensus().nPoWTargetSpacing;
-        uint64_t nAccuracyAdjustment = 1; // this is a manual adjustment param if needed to make more accurate
-        uint64_t nWeight = pwalletMain->GetStakeWeight() / COIN;
+        uint64_t nWeight = pwalletMain->GetStakeWeight();
         uint64_t nMoneySupply = GetMoneySupply(); 
         uint64_t nNetworkWeight = GetPoSKernelPS();
-        uint64_t nEstimateTime = nPoWTargetSpacing * nNetworkWeight / nWeight / nAccuracyAdjustment;
+        uint64_t nEstimateTime = nPoWTargetSpacing * nNetworkWeight / nWeight;
 
         QString text;      
         if (nEstimateTime < 60)       
