@@ -18,6 +18,7 @@
 #include "optionsmodel.h"
 #include "rpcconsole.h"
 #include "utilitydialog.h"
+#include "multisenddialog.h"
 #include "multisigdialog.h"
 #include "stakereportdialog.h"
 
@@ -90,6 +91,7 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     quitAction(0),
     sendCoinsAction(0),
     sendCoinsMenuAction(0),
+    multiSendAction(0),
     multiSigAction(0),
     stakeReportAction(0),
     dnsAction(0),
@@ -358,14 +360,25 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
 #endif
     tabGroup->addAction(historyAction);
 
+    multiSendAction = new QAction(QIcon(":/icons/edit"), tr("&MultiSend"), this);
+    multiSendAction->setStatusTip(tr("MultiSend Settings"));
+    multiSendAction->setToolTip(multiSendAction->statusTip());
+    multiSendAction->setCheckable(true);
+#ifdef Q_OS_MAC
+    multiSendAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_5));
+#else
+    multiSendAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
+#endif
+    tabGroup->addAction(multiSendAction);
+
     multiSigAction = new QAction(QIcon(":/icons/multisig"), tr("&MultiSig"), this);
     multiSigAction->setStatusTip(tr("Generate and Utilize Multiple Signature Addresses"));
     multiSigAction->setToolTip(multiSigAction->statusTip());
     multiSigAction->setCheckable(true);
 #ifdef Q_OS_MAC
-    multiSigAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_5));
+    multiSigAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
 #else
-    multiSigAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
+    multiSigAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
 #endif
     tabGroup->addAction(multiSigAction);
 
@@ -374,9 +387,9 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     stakeReportAction->setToolTip(stakeReportAction->statusTip());
     stakeReportAction->setCheckable(true);
 #ifdef Q_OS_MAC
-    stakeReportAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_6));
+    stakeReportAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_7));
 #else
-    stakeReportAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+    stakeReportAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
 #endif
     tabGroup->addAction(stakeReportAction);
 
@@ -385,9 +398,9 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     dnsAction->setToolTip(dnsAction->statusTip());
     dnsAction->setCheckable(true);
 #ifdef Q_OS_MAC
-    dnsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_7));
+    dnsAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_8));
 #else
-    dnsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
+    dnsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_8));
 #endif
     tabGroup->addAction(dnsAction);
 
@@ -406,7 +419,9 @@ void SequenceGUI::createActions(const NetworkStyle *networkStyle)
     connect(receiveCoinsMenuAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
-    connect(multiSigAction, SIGNAL(triggered()), this, SLOT(gotoMultiSigPage()));
+    connect(multiSendAction, SIGNAL(triggered()), this, SLOT(gotoMultiSendPage()));
+    connect(multiSendAction, SIGNAL(triggered()), this, SLOT(gotoMultiSendPage()));
+    connect(multiSigAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(multiSigAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(stakeReportAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(stakeReportAction, SIGNAL(triggered()), this, SLOT(gotoStakeReportPage()));
@@ -560,6 +575,7 @@ void SequenceGUI::createToolBars()
         toolbar->addAction(sendCoinsAction);
         toolbar->addAction(receiveCoinsAction);
         toolbar->addAction(historyAction);
+        toolbar->addAction(multiSendAction);
         toolbar->addAction(multiSigAction);
         toolbar->addAction(stakeReportAction);
         toolbar->addAction(dnsAction);
@@ -681,6 +697,7 @@ void SequenceGUI::setWalletActionsEnabled(bool enabled)
     receiveCoinsAction->setEnabled(enabled);
     receiveCoinsMenuAction->setEnabled(enabled);
     historyAction->setEnabled(enabled);
+    multiSendAction->setEnabled(enabled);
     multiSigAction->setEnabled(enabled);
     stakeReportAction->setEnabled(enabled);
     dnsAction->setEnabled(enabled);
@@ -718,6 +735,7 @@ void SequenceGUI::createTrayIconMenu(QMenu *pmenu)
     trayIconMenu->addAction(overviewAction);
     trayIconMenu->addAction(sendCoinsAction);
     trayIconMenu->addAction(receiveCoinsAction);
+    trayIconMenu->addAction(multiSendAction);
     trayIconMenu->addAction(multiSigAction);
     trayIconMenu->addAction(stakeReportAction);
     trayIconMenu->addAction(dnsAction);
@@ -817,6 +835,12 @@ void SequenceGUI::gotoSendCoinsPage(QString addr)
 {
     sendCoinsAction->setChecked(true);
     if (walletFrame) walletFrame->gotoSendCoinsPage(addr);
+}
+
+void SequenceGUI::gotoMultiSendPage()
+{
+    multiSendAction->setChecked(true);
+    if (walletFrame) walletFrame->gotoMultiSendPage();
 }
 
 void SequenceGUI::gotoMultiSigPage()
@@ -1087,7 +1111,7 @@ void SequenceGUI::closeEvent(QCloseEvent *event)
 void SequenceGUI::incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address)
 {
     // On new transaction, make an info balloon
-    message((amount)<0 ? tr("Sent transaction") : tr("Incoming transaction"),
+    message((amount)<0 ? (fMultiSendNotify == true ? tr("Sent MultiSend transaction") : tr("Sent transaction") ) : tr("Incoming transaction"),
              tr("Date: %1\n"
                 "Amount: %2\n"
                 "Type: %3\n"
@@ -1096,6 +1120,8 @@ void SequenceGUI::incomingTransaction(const QString& date, int unit, const CAmou
                   .arg(SequenceUnits::formatWithUnit(unit, amount, true))
                   .arg(type)
                   .arg(address), CClientUIInterface::MSG_INFORMATION);
+
+    pwalletMain->fMultiSendNotify = false;
 }
 #endif // ENABLE_WALLET
 
@@ -1237,6 +1263,9 @@ void SequenceGUI::updateStakingIcon()
 {
     updateWeight();
 
+    if(pwalletMain)
+        fMultiSend = pwalletMain->fMultiSend;
+
     if (nLastCoinStakeSearchInterval && nWeight)
     {   
         bool fProofOfStake = false;
@@ -1265,20 +1294,20 @@ void SequenceGUI::updateStakingIcon()
         }
 
         labelStakingIcon->setPixmap(QIcon(":/icons/staking_on").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-        labelStakingIcon->setToolTip(tr("Staking.<br>Your Weight is %1<br>Network Weight is %2<br>Money Supply is %3<br>Next Reward within ~%4").arg(nWeight).arg(nNetworkWeight).arg(nMoneySupply).arg(text));
+        labelStakingIcon->setToolTip(tr("Staking.<br>MultiSend: %1<br>Your Weight is %2<br>Network Weight is %3<br>Money Supply is %4<br>Next Reward within ~%5").arg(fMultiSend ? tr("Active") : tr("Not Active")).arg(nWeight).arg(nNetworkWeight).arg(nMoneySupply).arg(text));
     }
     else
     {
 
         labelStakingIcon->setPixmap(QIcon(":/icons/staking_off").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
         if (pwalletMain && pwalletMain->IsLocked())
-            labelStakingIcon->setToolTip(tr("Staking: Off (because wallet is locked)"));
+            labelStakingIcon->setToolTip(tr("Staking: Off (because wallet is locked)<br>MultiSend: %1").arg(fMultiSend ? tr("Active") : tr("Not Active")));
         else if (vNodes.empty())
-            labelStakingIcon->setToolTip(tr("Staking: Off (because wallet is offline)"));
+            labelStakingIcon->setToolTip(tr("Staking: Off (because wallet is offline)<br>MultiSend: %1").arg(fMultiSend ? tr("Active") : tr("Not Active")));
         else if (IsInitialBlockDownload())
-            labelStakingIcon->setToolTip(tr("Staking: Off (because wallet is syncing)"));
+            labelStakingIcon->setToolTip(tr("Staking: Off (because wallet is syncing)<br>MultiSend: %1").arg(fMultiSend ? tr("Active") : tr("Not Active")));
         else if (!nWeight)
-            labelStakingIcon->setToolTip(tr("Staking: Off (because you don't have mature coins)"));
+            labelStakingIcon->setToolTip(tr("Staking: Off (because you don't have mature coins)<br>MultiSend: %1").arg(fMultiSend ? tr("Active") : tr("Not Active")));
         else
             labelStakingIcon->setToolTip(tr("Staking: Off"));
     }

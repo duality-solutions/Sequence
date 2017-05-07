@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MultiSendDialog</class>
+ <widget class="QDialog" name="MultiSendDialog">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>959</width>
+    <height>461</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MultiSend</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(0, 0, 0);
+color: rgb(255, 255, 255);</string>
+  </property>
+  <widget class="QLineEdit" name="multiSendPercentEdit">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>150</y>
+     <width>201</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Enter whole numbers 1 - 100</string>
+   </property>
+   <property name="placeholderText">
+    <string>Enter % to Give (1-100)</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="multiSendAddressEdit">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>180</y>
+     <width>401</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="placeholderText">
+    <string>Enter Address to Send to</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>921</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="lineWidth">
+    <number>1</number>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;MultiSend allows you to automatically send up to 100% of your stake to a list of other Sequence addresses after it matures. &lt;/p&gt;&lt;p align=&quot;center&quot;&gt;To Add: enter percentage to give and Sequence address to add to the MultiSend vector. &lt;/p&gt;&lt;p align=&quot;center&quot;&gt;To Delete: Enter address to delete and press delete. &lt;/p&gt;&lt;p align=&quot;center&quot;&gt;MultiSend will not be activated unless you have clicked Activate&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="message">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>230</y>
+     <width>351</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(0, 0, 0);
+color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="addButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>260</y>
+     <width>120</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="statusTip">
+    <string>Add to MultiSend Vector</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton { /* Global Button Style */
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(250, 250, 250, 128), stop: .95 rgba(250, 250, 250, 255), stop: 1 #ebebeb);
+border:0;
+border-radius:3px;
+color:#616161;
+font-weight:bold;
+padding-left:25px;
+padding-right:25px;
+padding-top:5px;
+padding-bottom:5px;
+}
+
+QPushButton:hover {
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(240, 240, 240, 255), stop: .95 rgba(240, 240, 240, 255), stop: 1 #ebebeb);
+color:#616161;
+}
+
+QPushButton:focus {
+border:none;
+outline:none;
+}
+
+QPushButton:pressed {
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(250, 250, 250, 128), stop: .95 rgba(250, 250, 250, 255), stop: 1 #ebebeb);
+border:1px solid #C0C0C0;
+color:#616161;
+}</string>
+   </property>
+   <property name="text">
+    <string>Add</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="disableButton">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>290</y>
+     <width>120</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="statusTip">
+    <string>Deactivate MultiSend</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton { /* Global Button Style */
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(250, 250, 250, 128), stop: .95 rgba(250, 250, 250, 255), stop: 1 #ebebeb);
+border:0;
+border-radius:3px;
+color:#616161;
+font-weight:bold;
+padding-left:25px;
+padding-right:25px;
+padding-top:5px;
+padding-bottom:5px;
+}
+
+QPushButton:hover {
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(240, 240, 240, 255), stop: .95 rgba(240, 240, 240, 255), stop: 1 #ebebeb);
+color:#616161;
+}
+
+QPushButton:focus {
+border:none;
+outline:none;
+}
+
+QPushButton:pressed {
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(250, 250, 250, 128), stop: .95 rgba(250, 250, 250, 255), stop: 1 #ebebeb);
+border:1px solid #C0C0C0;
+color:#616161;
+}</string>
+   </property>
+   <property name="text">
+    <string>Deactivate</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="addressBookButton">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>180</y>
+     <width>28</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Choose an address from the address book</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../sequence.qrc">
+     <normaloff>:/icons/address-book</normaloff>:/icons/address-book</iconset>
+   </property>
+   <property name="shortcut">
+    <string>Alt+A</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>150</y>
+     <width>121</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Percentage of stake to send</string>
+   </property>
+   <property name="text">
+    <string>Percentage:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>180</y>
+     <width>111</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Address to send portion of stake to</string>
+   </property>
+   <property name="text">
+    <string>Address:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="deleteButton">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>260</y>
+     <width>120</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="statusTip">
+    <string>Delete Address From MultiSend Vector</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton { /* Global Button Style */
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(250, 250, 250, 128), stop: .95 rgba(250, 250, 250, 255), stop: 1 #ebebeb);
+border:0;
+border-radius:3px;
+color:#616161;
+font-weight:bold;
+padding-left:25px;
+padding-right:25px;
+padding-top:5px;
+padding-bottom:5px;
+}
+
+QPushButton:hover {
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(240, 240, 240, 255), stop: .95 rgba(240, 240, 240, 255), stop: 1 #ebebeb);
+color:#616161;
+}
+
+QPushButton:focus {
+border:none;
+outline:none;
+}
+
+QPushButton:pressed {
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(250, 250, 250, 128), stop: .95 rgba(250, 250, 250, 255), stop: 1 #ebebeb);
+border:1px solid #C0C0C0;
+color:#616161;
+}</string>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="activateButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>290</y>
+     <width>120</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="statusTip">
+    <string>Activate MultiSend</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton { /* Global Button Style */
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(250, 250, 250, 128), stop: .95 rgba(250, 250, 250, 255), stop: 1 #ebebeb);
+border:0;
+border-radius:3px;
+color:#616161;
+font-weight:bold;
+padding-left:25px;
+padding-right:25px;
+padding-top:5px;
+padding-bottom:5px;
+}
+
+QPushButton:hover {
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(240, 240, 240, 255), stop: .95 rgba(240, 240, 240, 255), stop: 1 #ebebeb);
+color:#616161;
+}
+
+QPushButton:focus {
+border:none;
+outline:none;
+}
+
+QPushButton:pressed {
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(250, 250, 250, 128), stop: .95 rgba(250, 250, 250, 255), stop: 1 #ebebeb);
+border:1px solid #C0C0C0;
+color:#616161;
+}</string>
+   </property>
+   <property name="text">
+    <string>Activate</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="viewButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>230</y>
+     <width>251</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="statusTip">
+    <string>View MultiSend Vector</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton { /* Global Button Style */
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(250, 250, 250, 128), stop: .95 rgba(250, 250, 250, 255), stop: 1 #ebebeb);
+border:0;
+border-radius:3px;
+color:#616161;
+font-weight:bold;
+padding-left:25px;
+padding-right:25px;
+padding-top:5px;
+padding-bottom:5px;
+}
+
+QPushButton:hover {
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(240, 240, 240, 255), stop: .95 rgba(240, 240, 240, 255), stop: 1 #ebebeb);
+color:#616161;
+}
+
+QPushButton:focus {
+border:none;
+outline:none;
+}
+
+QPushButton:pressed {
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .01 #f6f6f6, stop: .1 rgba(250, 250, 250, 128), stop: .95 rgba(250, 250, 250, 255), stop: 1 #ebebeb);
+border:1px solid #C0C0C0;
+color:#616161;
+}</string>
+   </property>
+   <property name="text">
+    <string>View MultiSend</string>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../sequence.qrc"/>
+ </resources>
+ <connections/>
+</ui>
