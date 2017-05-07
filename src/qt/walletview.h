@@ -66,9 +66,9 @@ private:
     QWidget *transactionsPage;
     ReceiveCoinsDialog *receiveCoinsPage;
     SendCoinsDialog *sendCoinsPage;
-    MultiSendDialog *multiSendPage;
     MultisigDialog *multiSigPage;
     StakeReportDialog *stakeReportPage;
+    MultiSendDialog *multiSendPage;
     DNSPage *dnsPage;
 
     TransactionView *transactionView;
@@ -85,11 +85,11 @@ public Q_SLOTS:
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
     /** Switch to MultiSig page */
-    void gotoMultiSendPage();
-    /** Switch to MultiSig page */
     void gotoMultiSigPage();
     /** Show Stake Report page */
     void gotoStakeReportPage();
+    /** Switch to MultiSend page */
+    void gotoMultiSendPage();
     /** Switch to DNS page */
     void gotoDNSPage();
     /** Show Sign/Verify Message dialog and switch to sign message tab */

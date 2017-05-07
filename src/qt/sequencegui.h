@@ -119,9 +119,9 @@ private:
     QAction *quitAction;
     QAction *sendCoinsAction;
     QAction *sendCoinsMenuAction;
-    QAction *multiSendAction;
     QAction *multiSigAction;
     QAction *stakeReportAction;
+    QAction *multiSendAction;
     QAction *dnsAction;
     QAction *usedSendingAddressesAction;
     QAction *usedReceivingAddressesAction;
@@ -234,12 +234,12 @@ private Q_SLOTS:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
+    /** Switch to MultiSig page */
+    void gotoMultiSigPage();
     /** Switch to Stake Report page */
     void gotoStakeReportPage();
     /** Switch to MultiSend page */
     void gotoMultiSendPage();
-    /** Switch to MultiSig page */
-    void gotoMultiSigPage();
     /** Switch to DNS page */
     void gotoDNSPage();
     /** Show Sign/Verify Message dialog and switch to sign message tab */
