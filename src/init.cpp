@@ -1369,11 +1369,13 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             if (!pwalletMain->IsHDEnabled() && useHD)
                 return InitError(strprintf(_("Error loading %s: You can't enable HD on a already existing non-HD wallet"), strWalletFile));
         }
-
-        // Warn user every time he starts non-encrypted HD wallet
+	
+	// Warn user every time he starts non-encrypted HD wallet
         if (GetBoolArg("-usehd", DEFAULT_USE_HD_WALLET) && !pwalletMain->IsLocked()) {
-            InitWarning(_("Make sure to encrypt your wallet and delete all non-encrypted backups after you verified that wallet works!"));
-        }
+        	if (!GetBoolArg("-warnings", true)) {
+			InitWarning(_("Make sure to encrypt your wallet and delete all non-encrypted backups after you verified that wallet works!"));
+        	}
+	}
 
         LogPrintf("%s", strErrors.str());
         LogPrintf(" wallet      %15dms\n", GetTimeMillis() - nStart);
