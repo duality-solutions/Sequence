@@ -101,6 +101,8 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "sendalert", 6 },
     { "reservebalance", 0 },
     { "reservebalance", 1 },
+    { "autocombine", 0},
+    { "autocombine", 1},
 
     // Sequence:
     { "name_new", 2 },

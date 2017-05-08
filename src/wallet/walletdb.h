@@ -105,6 +105,8 @@ public:
 
     bool WriteOrderPosNext(int64_t nOrderPosNext);
 
+    bool WriteAutoCombineSettings(bool fEnable, CAmount nCombineThreshold);
+
     bool WriteDefaultKey(const CPubKey& vchPubKey);
 
     bool ReadPool(int64_t nPool, CKeyPool& keypool);

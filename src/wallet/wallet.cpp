@@ -94,6 +94,10 @@ void CWallet::SetNull()
     strMultiSendChangeAddress = "";
     nLastMultiSendHeight = 0;
     vDisabledAddresses.clear();
+
+    //Auto Combine Dust
+    fCombineDust = false;
+    nAutoCombineThreshold = 0;
 }
 
 const CWalletTx* CWallet::GetWalletTx(const uint256& hash) const
@@ -3661,6 +3665,78 @@ void SendName(CScript scriptPubKey, CAmount nValue, CWalletTx& wtxNew, const CWa
         throw JSONRPCError(RPC_WALLET_ERROR, "Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.");
 }
 
+void CWallet::AutoCombineDust()
+{
+    if (IsInitialBlockDownload() || IsLocked())
+    {
+        return;
+    }
+
+    std::vector<COutput> vCoins, vDustCoins;
+    AvailableCoins(vCoins);
+
+    CCoinControl* coinControl = new CCoinControl();
+
+    CAmount nAmount = 0;
+    for (const COutput& out : vCoins)
+    {
+        CAmount nValue = out.tx->vout[out.i].nValue;
+
+        if(out.tx->IsCoinStake() && out.tx->GetDepthInMainChain() < COINBASE_MATURITY + 1)
+            continue;
+
+        if(nValue > nAutoCombineThreshold * COIN)
+            continue;
+
+        COutPoint outpt(out.tx->GetHash(), out.i);
+        coinControl->Select(outpt);
+        vDustCoins.push_back(out);
+        nAmount += nValue;
+    }
+
+    //if no dust inputs found then return
+    if(!coinControl->HasSelected())
+        return;
+
+    //use the first address in the selection as the address to send to
+    CTxDestination address;
+    if(!ExtractDestination(vDustCoins[0].tx->vout[vDustCoins[0].i].scriptPubKey, address))
+    {
+        LogPrintf("AutoCombineDust: failed to extract destination\n");
+        return;
+    }
+
+    vector<pair<CScript, int64_t> > vecSend;
+    CScript scriptPubKey = GetScriptForDestination(address);
+    vecSend.push_back(make_pair(scriptPubKey, nAmount));
+
+    // Create the transaction and commit it to the network
+    CWalletTx wtx;
+    CReserveKey reservekey(this); // this change address does not end up being used, because change is returned with coin control switch
+     int64_t nFeeRet = 0;
+     int nSplitBlock = 0;
+    string strFailReason;
+
+    //get the fee amount
+    CWalletTx wtxdummy;
+    CreateTransaction(vecSend, wtxdummy, reservekey, nFeeRet, nSplitBlock, strFailReason, coinControl);
+    vecSend[0].second = nAmount - nFeeRet - 1;
+                
+    if (!CreateTransaction(vecSend, wtx, reservekey, nFeeRet, nSplitBlock, strFailReason, coinControl))
+    {
+        LogPrintf("AutoCombineDust createtransaction failed, reason: %s\n", strFailReason);
+        return;
+    }
+
+    if(!CommitTransaction(wtx, reservekey))
+    {
+        LogPrintf("AutoCombineDust transaction commit failed\n");
+        return;
+    }
+
+    delete coinControl;
+}
+
 bool CWallet::MultiSend()
 {
     if ( IsInitialBlockDownload() || IsLocked() )
@@ -3674,8 +3750,8 @@ bool CWallet::MultiSend()
         
         for (const COutput& out : vCoins)
         {
-            CTxDestination address;
-            if(!ExtractDestination(out.tx->vout[out.i].scriptPubKey, address)) continue;
+            CTxDestination destMyAddress;
+            if(!ExtractDestination(out.tx->vout[out.i].scriptPubKey, destMyAddress))
             if (chainActive.Tip()->nHeight <= nLastMultiSendHeight ) 
                     return false;   
             if (out.tx->IsCoinStake() && out.tx->GetBlocksToMaturity() == 0  && out.tx->GetDepthInMainChain() == COINBASE_MATURITY+1)
@@ -3685,7 +3761,7 @@ bool CWallet::MultiSend()
                 {
                     for(unsigned int i = 0; i < vDisabledAddresses.size(); i++)
                     {
-                        if(vDisabledAddresses[i] == CSequenceAddress(address).ToString())
+                if(vDisabledAddresses[i] == CSequenceAddress(destMyAddress).ToString())
                         {
                             return false;
                         }
@@ -3694,9 +3770,9 @@ bool CWallet::MultiSend()
                 
                 // create new coin control, populate it with the selected utxo, create sending vector
                 CCoinControl* coinControl = new CCoinControl();
-                uint256 txhash = out.tx->GetHash();
-                COutPoint outpt(txhash, out.i);
+                COutPoint outpt(out.tx->GetHash(), out.i);
                 coinControl->Select(outpt);    
+                coinControl->destChange = destMyAddress;
                 CWalletTx wtxNew;
                 CReserveKey reservekey(this); // this change address does not end up being used, because change is returned with coin control switch
                 int64_t nFeeRet = 0;
@@ -3718,6 +3794,17 @@ bool CWallet::MultiSend()
                 //make sure splitblock is off
                 fSplitBlock = false;
                 
+                //get the fee amount
+                CWalletTx wtxdummy;
+                CreateTransaction(vecSend, wtxdummy, reservekey, nFeeRet, nSplitBlock, strFailReason, coinControl);
+                CAmount nLastSendAmount = vecSend[vecSend.size() - 1].second;
+                if(nLastSendAmount < nFeeRet + 500)
+                {
+                    LogPrintf("%s: fee of %s is too large to insert into last output\n");
+                    return false;
+                }
+                vecSend[vecSend.size() - 1].second = nLastSendAmount - nFeeRet - 500;
+
                 // Create the transaction and commit it to the network
                 bool fCreated = CreateTransaction(vecSend, wtxNew, reservekey, nFeeRet, nSplitBlock, strFailReason, coinControl);
                 if (!fCreated)
