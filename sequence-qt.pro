@@ -548,7 +548,8 @@ FORMS += \
     src/qt/forms/sendcoinsdialog.ui \
     src/qt/forms/sendcoinsentry.ui \
     src/qt/forms/signverifymessagedialog.ui \
-    src/qt/forms/transactiondescdialog.ui
+    src/qt/forms/transactiondescdialog.ui \
+    src/qt/forms/stakereportdialog.ui
 
 SOURCES += \
     src/addrman.cpp \
