@@ -3674,8 +3674,8 @@ bool CWallet::MultiSend()
         
         for (const COutput& out : vCoins)
         {
-            CTxDestination address;
-            if(!ExtractDestination(out.tx->vout[out.i].scriptPubKey, address)) continue;
+            CTxDestination destMyAddress;
+            if(!ExtractDestination(out.tx->vout[out.i].scriptPubKey, destMyAddress))
             if (chainActive.Tip()->nHeight <= nLastMultiSendHeight ) 
                     return false;   
             if (out.tx->IsCoinStake() && out.tx->GetBlocksToMaturity() == 0  && out.tx->GetDepthInMainChain() == COINBASE_MATURITY+1)
@@ -3685,7 +3685,7 @@ bool CWallet::MultiSend()
                 {
                     for(unsigned int i = 0; i < vDisabledAddresses.size(); i++)
                     {
-                        if(vDisabledAddresses[i] == CSequenceAddress(address).ToString())
+                if(vDisabledAddresses[i] == CSequenceAddress(destMyAddress).ToString())
                         {
                             return false;
                         }
@@ -3694,9 +3694,9 @@ bool CWallet::MultiSend()
                 
                 // create new coin control, populate it with the selected utxo, create sending vector
                 CCoinControl* coinControl = new CCoinControl();
-                uint256 txhash = out.tx->GetHash();
-                COutPoint outpt(txhash, out.i);
+                COutPoint outpt(out.tx->GetHash(), out.i);
                 coinControl->Select(outpt);    
+                coinControl->destChange = destMyAddress;
                 CWalletTx wtxNew;
                 CReserveKey reservekey(this); // this change address does not end up being used, because change is returned with coin control switch
                 int64_t nFeeRet = 0;
@@ -3718,6 +3718,17 @@ bool CWallet::MultiSend()
                 //make sure splitblock is off
                 fSplitBlock = false;
                 
+                //get the fee amount
+                CWalletTx wtxdummy;
+                CreateTransaction(vecSend, wtxdummy, reservekey, nFeeRet, nSplitBlock, strFailReason, coinControl);
+                CAmount nLastSendAmount = vecSend[vecSend.size() - 1].second;
+                if(nLastSendAmount < nFeeRet + 500)
+                {
+                    LogPrintf("%s: fee of %s is too large to insert into last output\n");
+                    return false;
+                }
+                vecSend[vecSend.size() - 1].second = nLastSendAmount - nFeeRet - 500;
+
                 // Create the transaction and commit it to the network
                 bool fCreated = CreateTransaction(vecSend, wtxNew, reservekey, nFeeRet, nSplitBlock, strFailReason, coinControl);
                 if (!fCreated)
