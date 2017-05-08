@@ -3195,10 +3195,6 @@ bool ProcessNewBlock(CValidationState &state, const CChainParams& chainparams, C
         if (!pwalletMain->MultiSend() )
             LogPrintf("ERROR While trying to use MultiSend \n");
 
-     //If turned on Auto Combine will scan wallet for dust to combine
-     if(pwalletMain->fCombineDust)
-         pwalletMain->AutoCombineDust();
-
     return true;
 }
 
