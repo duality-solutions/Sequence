@@ -212,10 +212,6 @@ public:
     int nLastMultiSendHeight;
     std::vector<std::string> vDisabledAddresses;
 
-    //Auto Combine Inputs
-    bool fCombineDust;
-    CAmount nAutoCombineThreshold;
-
     CWallet()
     {
         SetNull();
@@ -362,7 +358,6 @@ public:
     bool CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int64_t nSearchInterval, CMutableTransaction &txNew);
     bool CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey, std::string strCommand="tx");
     bool MultiSend();
-    void AutoCombineDust();
 
     static CFeeRate minTxFee;
 

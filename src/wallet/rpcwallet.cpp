@@ -2349,35 +2349,6 @@ UniValue getstakereport(const UniValue& params, bool fHelp)
     return  result;
 }
 
-UniValue autocombine(const UniValue& params, bool fHelp)
-{
-    if (fHelp || params.size() < 1)
-        throw runtime_error(
-                "autocombine <true/false> threshold\n"
-                "Wallet will automatically monitor for coins with value below the threshold amount, and combine them\n"
-                "This will create a transaction, and therefore will be subject to transaction fees.\n");
-
-    CWalletDB walletdb(pwalletMain->strWalletFile);
-    bool fEnable = params[0].get_bool();
-    CAmount nThreshold =0;
-
-    if(fEnable)
-    {
-        if(params.size() != 2)
-            throw std::runtime_error("Input Error: use format: autocombine <true/false> threshold\n");
-
-        nThreshold = params[1].get_int();
-    }
-
-    pwalletMain->fCombineDust = fEnable;
-    pwalletMain->nAutoCombineThreshold = nThreshold;
-
-    if(!walletdb.WriteAutoCombineSettings(fEnable, nThreshold))
-        throw std::runtime_error("Changed settings in wallet but failed to save to database\n");
-
-    return "Auto Combine Threshold Set";
-}
-
 //presstab HyperStake
 UniValue printMultiSend(const UniValue& params)
 {
@@ -2633,7 +2604,6 @@ extern UniValue dumphdinfo(const UniValue& params, bool fHelp);
 extern UniValue importwallet(const UniValue& params, bool fHelp);
 extern UniValue removeaddress(const UniValue& params, bool fHelp);
 extern UniValue multisend(const UniValue& params, bool fHelp);
-extern UniValue autocombine(const UniValue& params, bool fHelp);
 
 extern UniValue name_scan(const UniValue& params, bool fHelp);
 extern UniValue name_filter(const UniValue& params, bool fHelp);
@@ -2651,7 +2621,6 @@ static const CRPCCommand commands[] =
   //  --------------------- ------------------------  -----------------------  ---------- ---------- ---------
     { "wallet",             "reservebalance",         &reservebalance,         false,     false,      false },
 #ifdef ENABLE_WALLET
-    { "wallet",             "autocombine",            &autocombine,            false,     false,      true },
     { "wallet",             "backupwallet",           &backupwallet,           true,      false,      true },
     { "wallet",             "dumpprivkey",            &dumpprivkey,            true,      false,      true },
     { "wallet",             "dumphdinfo",             &dumphdinfo,             true,       false,     true },

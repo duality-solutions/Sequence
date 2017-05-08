@@ -146,15 +146,6 @@ bool CWalletDB::WriteOrderPosNext(int64_t nOrderPosNext)
     return Write(std::string("orderposnext"), nOrderPosNext);
 }
 
-bool CWalletDB::WriteAutoCombineSettings(bool fEnable, CAmount nCombineThreshold)
-{
-    nWalletDBUpdated++;
-    std::pair<bool, CAmount> pSettings;
-    pSettings.first = fEnable;
-    pSettings.second = nCombineThreshold;
-    return Write(std::string("autocombinesettings"), pSettings, true);
-}
-
 bool CWalletDB::WriteDefaultKey(const CPubKey& vchPubKey)
 {
     nWalletDBUpdated++;
@@ -581,13 +572,6 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
         else if (strType == "orderposnext")
         {
             ssValue >> pwallet->nOrderPosNext;
-        }
-        else if(strType == "autocombinesettings")
-        {
-            std::pair<bool, CAmount> pSettings;
-            ssValue >> pSettings;
-            pwallet->fCombineDust = pSettings.first;
-            pwallet->nAutoCombineThreshold = pSettings.second;
         }
         else if (strType == "destdata")
         {
