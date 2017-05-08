@@ -65,7 +65,7 @@ DEFINES += HAVE_DECL_BE64TOH=1
 DEFINES += HAVE_DECL_LE64TOH=1
 DEFINES += HAVE_DECL_HTOBE32=1
 DEFINES += HAVE_DECL_HTOBE64=1
-
+DEFINES += PACKAGE_NAME
 # handles boost sleep error
 DEFINES += HAVE_WORKING_BOOST_SLEEP_FOR=1
 
@@ -397,7 +397,6 @@ HEADERS += \
     src/random.h \
     src/pubkey.h \
     src/protocol.h \
-    src/pow.h \
     src/noui.h \
     src/netbase.h \
     src/net.h \
@@ -411,7 +410,6 @@ HEADERS += \
     src/leveldbwrapper.h \
     src/keystore.h \
     src/key.h \
-    src/kernel.h \
     src/init.h \
     src/hooks.h \
     src/hash.h \
@@ -436,7 +434,6 @@ HEADERS += \
     src/bignum.h \
     src/base58.h \
     src/amount.h \
-    src/allocators.h \
     src/alert.h \
     src/addrman.h \
     src/torcontrol.h \
@@ -525,7 +522,20 @@ HEADERS += \
     src/zmq/zmqpublishnotifier.h \
     src/qt/paymentrequest.pb.h \
     src/compat/byteswap.h \
-    src/compat/endian.h
+    src/compat/endian.h \
+    src/support/cleanse.h \
+    src/support/lockedpool.h \
+    src/support/allocators/secure.h \
+    src/support/allocators/zeroafterfree.h \
+    src/hdchain.h \
+    src/work.h \
+    src/stake.h \
+    src/qt/modaloverlay.h \
+    src/qt/trafficgraphdata.h \
+    src/qt/multisenddialog.h \
+    src/qt/stakereportdialog.h \
+    src/bip39_english.h \
+    src/bip39.h
 
 FORMS += \
     src/qt/forms/addressbookpage.ui \
@@ -549,12 +559,14 @@ FORMS += \
     src/qt/forms/sendcoinsentry.ui \
     src/qt/forms/signverifymessagedialog.ui \
     src/qt/forms/transactiondescdialog.ui \
-    src/qt/forms/stakereportdialog.ui
+    src/qt/forms/stakereportdialog.ui \
+    src/qt/forms/test.ui \
+    src/qt/forms/modaloverlay.ui \
+    src/qt/forms/multisenddialog.ui
 
 SOURCES += \
     src/addrman.cpp \
     src/alert.cpp \
-    src/allocators.cpp \
     src/amount.cpp \
     src/base58.cpp \
     src/bloom.cpp \
@@ -575,7 +587,6 @@ SOURCES += \
     src/ecwrapper.cpp \
     src/hash.cpp \
     src/init.cpp \
-    src/kernel.cpp \
     src/key.cpp \
     src/keystore.cpp \
     src/leveldbwrapper.cpp \
@@ -586,7 +597,6 @@ SOURCES += \
     src/netbase.cpp \
     src/noui.cpp \
     src/ntp.cpp \      
-    src/pow.cpp \
     src/protocol.cpp \
     src/pubkey.cpp \
     src/random.cpp \
@@ -691,7 +701,17 @@ SOURCES += \
     src/qt/receivecoinsdialog.cpp \
     src/qt/qvaluecombobox.cpp \
     src/qt/qvalidatedlineedit.cpp \
-    src/qt/paymentrequest.pb.cc
+    src/qt/paymentrequest.pb.cc \
+    src/support/cleanse.cpp \
+    src/support/lockedpool.cpp \
+    src/hdchain.cpp \
+    src/work.cpp \
+    src/stake.cpp \
+    src/qt/modaloverlay.cpp \
+    src/qt/trafficgraphdata.cpp \
+    src/qt/multisenddialog.cpp \
+    src/qt/stakereportdialog.cpp \
+    src/bip39.cpp
 
 
 
