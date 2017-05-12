@@ -3,6 +3,7 @@
 
 **v1.1.0.0**
 
+* Fix sequence.conf read on daemon first launch
 * Overall UI Improvements
 * Staking Icon now shows Status/MultiSend Status/Weight/Network Weight/Money Supply/Next Reward within
 * MultiSend GUI/Core/RPC
