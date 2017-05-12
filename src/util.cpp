@@ -450,6 +450,7 @@ static void WriteConfigFile(FILE* configFile)
     fputs (sRPCpassword.c_str(), configFile);
     fputs ("rpcport=16663\n", configFile);
     fclose(configFile);
+    ReadConfigFile(mapArgs, mapMultiArgs);
 }
 
 const boost::filesystem::path &GetDataDir(bool fNetSpecific)
