@@ -1,6 +1,5 @@
-// Copyright (c) 2011-2017 The Bitcoin Core developers
-// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers developers
-// Distributed under the MIT/X11 software license, see the accompanying
+// Copyright (c) 2011-2015 The Bitcoin Core developers
+// Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #define BOOST_TEST_MODULE Sequence Test Suite
@@ -8,8 +7,8 @@
 #include "test_sequence.h"
 
 #include "chainparams.h"
-#include "consensus/validation.h"
 #include "consensus/consensus.h"
+#include "consensus/validation.h"
 #include "key.h"
 #include "main.h"
 #include "miner.h"
@@ -18,23 +17,26 @@
 #include "txdb.h"
 #include "txmempool.h"
 #include "ui_interface.h"
-#include "rpc/rpcserver.h"
-#include "rpc/rpcregister.h"
+#include "util.h"
+#ifdef ENABLE_WALLET
+#include "wallet/db.h"
+#include "wallet/wallet.h"
+#endif
 
-#include "test/testutil.h"
+#include <memory>
 
 #include <boost/filesystem.hpp>
 #include <boost/test/unit_test.hpp>
 #include <boost/thread.hpp>
+
+CWallet* pwalletMain;
 
 extern bool fPrintToConsole;
 extern void noui_connect();
 
 BasicTestingSetup::BasicTestingSetup(const std::string& chainName)
 {
-        ECC_Start();
         SetupEnvironment();
-        SetupNetworking();
         fPrintToDebugLog = false; // don't want to write to debug.log file
         fCheckBlockIndex = true;
         SelectParams(chainName);
@@ -43,24 +45,27 @@ BasicTestingSetup::BasicTestingSetup(const std::string& chainName)
 
 BasicTestingSetup::~BasicTestingSetup()
 {
-        ECC_Stop();
 }
 
 TestingSetup::TestingSetup(const std::string& chainName) : BasicTestingSetup(chainName)
 {
     const CChainParams& chainparams = Params();
-        // Ideally we'd move all the RPC tests to the functional testing framework
-        // instead of unit tests, but for now we need these here.
-        RegisterAllCoreRPCCommands(tableRPC);
-        ClearDatadirCache();
+#ifdef ENABLE_WALLET
+        bitdb.MakeMock();
+#endif
         pathTemp = GetTempPath() / strprintf("test_sequence_%lu_%i", (unsigned long)GetTime(), (int)(GetRand(100000)));
         boost::filesystem::create_directories(pathTemp);
         mapArgs["-datadir"] = pathTemp.string();
-        mempool.setSanityCheck(1.0);
         pblocktree = new CBlockTreeDB(1 << 20, true);
         pcoinsdbview = new CCoinsViewDB(1 << 23, true);
         pcoinsTip = new CCoinsViewCache(pcoinsdbview);
         InitBlockIndex(chainparams);
+#ifdef ENABLE_WALLET
+        bool fFirstRun;
+        pwalletMain = new CWallet("wallet.dat");
+        pwalletMain->LoadWallet(fFirstRun);
+        RegisterValidationInterface(pwalletMain);
+#endif
         {
             CValidationState state;
             bool ok = ActivateBestChain(state, chainparams);
@@ -77,10 +82,18 @@ TestingSetup::~TestingSetup()
         UnregisterNodeSignals(GetNodeSignals());
         threadGroup.interrupt_all();
         threadGroup.join_all();
+#ifdef ENABLE_WALLET
+        UnregisterValidationInterface(pwalletMain);
+        delete pwalletMain;
+        pwalletMain = NULL;
+#endif
         UnloadBlockIndex();
         delete pcoinsTip;
         delete pcoinsdbview;
         delete pblocktree;
+#ifdef ENABLE_WALLET
+        bitdb.Flush(true);
+#endif
         boost::filesystem::remove_all(pathTemp);
 }
 
@@ -105,12 +118,13 @@ CBlock
 TestChain100Setup::CreateAndProcessBlock(const std::vector<CMutableTransaction>& txns, const CScript& scriptPubKey)
 {
     const CChainParams& chainparams = Params();
-    CBlockTemplate *pblocktemplate = BlockAssembler(chainparams).CreateNewBlock(scriptPubKey);
+    std::unique_ptr<CBlockTemplate> pblocktemplate;
+    pblocktemplate = std::unique_ptr<CBlockTemplate> (CreateNewBlock(scriptPubKey));
     CBlock& block = pblocktemplate->block;
 
     // Replace mempool-selected txns with just coinbase plus passed-in txns:
     block.vtx.resize(1);
-    for(const CMutableTransaction& tx : txns)
+    for (const CMutableTransaction& tx : txns)
         block.vtx.push_back(tx);
     // IncrementExtraNonce creates a valid coinbase and merkleRoot
     unsigned int extraNonce = 0;
@@ -122,7 +136,6 @@ TestChain100Setup::CreateAndProcessBlock(const std::vector<CMutableTransaction>&
     ProcessNewBlock(state, chainparams, NULL, &block, NULL);
 
     CBlock result = block;
-    delete pblocktemplate;
     return result;
 }
 
@@ -133,16 +146,8 @@ TestChain100Setup::~TestChain100Setup()
 
 CTxMemPoolEntry TestMemPoolEntryHelper::FromTx(CMutableTransaction &tx, CTxMemPool *pool) {
     CTransaction txn(tx);
-    return FromTx(txn, pool);
-}
-
-CTxMemPoolEntry TestMemPoolEntryHelper::FromTx(CTransaction &txn, CTxMemPool *pool) {
-    bool hasNoDependencies = pool ? pool->HasNoInputsOf(txn) : hadNoDependencies;
     // Hack to assume either its completely dependent on other mempool txs or not at all
-    CAmount inChainValue = hasNoDependencies ? txn.GetValueOut() : 0;
-
-    return CTxMemPoolEntry(txn, nFee, nTime, dPriority, nHeight,
-                           hasNoDependencies, inChainValue, spendsCoinbase, sigOpCost, lp);
+    return CTxMemPoolEntry(txn, nFee, nTime, dPriority, nHeight);
 }
 
 void Shutdown(void* parg)

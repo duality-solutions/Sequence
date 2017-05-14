@@ -1,27 +1,25 @@
-// Copyright (c) 2009-2017 Satoshi Nakamoto
-// Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
+// Copyright (c) 2011-2015 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-//
 // Unit tests for denial-of-service detection/prevention code
-//
 
-
-
+#include "chainparams.h"
 #include "keystore.h"
 #include "main.h"
 #include "net.h"
-#include "work.h"
 #include "script/sign.h"
 #include "serialize.h"
 #include "util.h"
+#include "work.h"
+
+#include "test/test_sequence.h"
 
 #include <stdint.h>
 
 #include <boost/assign/list_of.hpp> // for 'map_list_of()'
 #include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <boost/foreach.hpp>
 #include <boost/test/unit_test.hpp>
 
 // Tests this internal-to-main.cpp method:
@@ -42,7 +40,7 @@ CService ip(uint32_t i)
     return CService(CNetAddr(s), Params().GetDefaultPort());
 }
 
-BOOST_AUTO_TEST_SUITE(DoS_tests)
+BOOST_FIXTURE_TEST_SUITE(DoS_tests, TestingSetup)
 
 BOOST_AUTO_TEST_CASE(DoS_banning)
 {
@@ -75,7 +73,7 @@ BOOST_AUTO_TEST_CASE(DoS_banscore)
     CNode dummyNode1(INVALID_SOCKET, addr1, "", true);
     dummyNode1.nVersion = 1;
     Misbehaving(dummyNode1.GetId(), 100);
-    SendMessages(&dummyNode);
+    SendMessages(&dummyNode1);
     BOOST_CHECK(!CNode::IsBanned(addr1));
     Misbehaving(dummyNode1.GetId(), 10);
     SendMessages(&dummyNode1);
@@ -164,7 +162,7 @@ BOOST_AUTO_TEST_CASE(DoS_mapOrphans)
         tx.vout.resize(1);
         tx.vout[0].nValue = 1*CENT;
         tx.vout[0].scriptPubKey = GetScriptForDestination(key.GetPubKey().GetID());
-        tx.vin.resize(500);
+        tx.vin.resize(2777);
         for (unsigned int j = 0; j < tx.vin.size(); j++)
         {
             tx.vin[j].prevout.n = j;
