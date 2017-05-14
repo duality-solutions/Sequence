@@ -46,7 +46,7 @@ static const int MAX_URI_LENGTH = 255;
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 35
 
-#define QAPP_ORG_NAME "Sequence"
+#define QAPP_ORG_NAME "Duality Solutions"
 #define QAPP_ORG_DOMAIN "duality.solutions"
 #define QAPP_APP_NAME_DEFAULT "Sequence-Qt"
 #define QAPP_APP_NAME_TESTNET "Sequence-Qt-testnet"
