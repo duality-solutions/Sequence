@@ -142,8 +142,8 @@ SequenceGUI::SequenceGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     if(!userWindowTitle.isEmpty()) windowTitle += " - " + userWindowTitle;
     windowTitle += " " + networkStyle->getTitleAddText();
 #ifndef Q_OS_MAC
-    QApplication::setWindowIcon(networkStyle->getAppIcon());
-    setWindowIcon(networkStyle->getAppIcon());
+    QApplication::setWindowIcon(networkStyle->getTrayAndWindowIcon());
+    setWindowIcon(networkStyle->getTrayAndWindowIcon());
 #else
     MacDockIconHandler::instance()->setIcon(networkStyle->getAppIcon());
 #endif
@@ -716,7 +716,7 @@ void SequenceGUI::createTrayIcon(const NetworkStyle *networkStyle)
     trayIcon = new QSystemTrayIcon(this);
     QString toolTip = tr("Sequence client") + " " + networkStyle->getTitleAddText();
     trayIcon->setToolTip(toolTip);
-    trayIcon->setIcon(networkStyle->getAppIcon());
+    trayIcon->setIcon(networkStyle->getTrayAndWindowIcon());
     trayIcon->show();
     notificator = new Notificator(QApplication::applicationName(), trayIcon, this);
 }

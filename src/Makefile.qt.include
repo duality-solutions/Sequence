@@ -250,49 +250,55 @@ RES_ICONS = \
   qt/res/icons/connect2_16.png \
   qt/res/icons/connect3_16.png \
   qt/res/icons/connect4_16.png \
-  qt/res/icons/decentralised.png \
   qt/res/icons/debugwindow.png \
+  qt/res/icons/decentralised.png \
   qt/res/icons/edit.png \
   qt/res/icons/editcopy.png \
   qt/res/icons/editpaste.png \
   qt/res/icons/export.png \
-  qt/res/icons/eye.png \
   qt/res/icons/eye_minus.png \
   qt/res/icons/eye_plus.png \
+  qt/res/icons/eye.png \
   qt/res/icons/filesave.png \
-  qt/res/icons/hd_enabled.png \
   qt/res/icons/hd_disabled.png \
+  qt/res/icons/hd_enabled.png \
   qt/res/icons/history.png \
   qt/res/icons/key.png \
   qt/res/icons/lock_closed.png \
   qt/res/icons/lock_open.png \
   qt/res/icons/multisend.png \
   qt/res/icons/multisig.png \
+  qt/res/icons/notsynced.png \
   qt/res/icons/overview.png \
   qt/res/icons/qrcode.png \
   qt/res/icons/quit.png \
   qt/res/icons/receive.png \
   qt/res/icons/remove.png \
   qt/res/icons/send.png \
-  qt/res/icons/sequence.ico \
-  qt/res/icons/sequence.png \
   qt/res/icons/sequence_testnet.ico \
   qt/res/icons/sequence_testnet.png \
+  qt/res/icons/sequence-16.png \
+  qt/res/icons/sequence-32.png \
+  qt/res/icons/sequence-48.png \
+  qt/res/icons/sequence-80.png \
+  qt/res/icons/sequence-128.png \
+  qt/res/icons/sequence-256.png \
+  qt/res/icons/sequence.icns \
+  qt/res/icons/sequence.ico \
+  qt/res/icons/sequence.png \
   qt/res/icons/stakereport.png \
   qt/res/icons/staking_off.png \
   qt/res/icons/staking_on.png \
   qt/res/icons/synced.png \
-  qt/res/icons/staking_off.png \
-  qt/res/icons/staking_on.png \
+  qt/res/icons/transaction_conflicted.png \
   qt/res/icons/transaction0.png \
   qt/res/icons/transaction2.png \
-  qt/res/icons/transaction_conflicted.png \
   qt/res/icons/tx_inout.png \
   qt/res/icons/tx_input.png \
-  qt/res/icons/tx_output.png \
   qt/res/icons/tx_mined.png \
-  qt/res/icons/unit_seq.png \
+  qt/res/icons/tx_output.png \
   qt/res/icons/unit_mseq.png \
+  qt/res/icons/unit_seq.png \
   qt/res/icons/unit_useq.png \
   qt/res/icons/warning.png
 
