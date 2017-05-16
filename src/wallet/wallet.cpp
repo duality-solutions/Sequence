@@ -3725,7 +3725,7 @@ bool CWallet::MultiSend()
             int64_t nFeeRet = 0;
             int nSplitBlock = 0;
             std::string strFailReason;
-            vector<pair<CScript, int64_t> > vecSend;
+            std::vector<std::pair<CScript, int64_t> > vecSend;
                 
             // loop through multisend vector and add amounts and addresses to the sending vector
             const isminefilter filter = ISMINE_SPENDABLE;
