@@ -2370,7 +2370,6 @@ UniValue getstakereport(const UniValue& params, bool fHelp)
     return  result;
 }
 
-//presstab HyperStake
 UniValue printMultiSend(const UniValue& params)
 {
     UniValue ret(UniValue::VARR);
@@ -2398,7 +2397,6 @@ UniValue printMultiSend(const UniValue& params)
     return ret;
 }
 
-//presstab HyperStake
 UniValue printAddresses(const UniValue& params)
 {
     std::vector<COutput> vCoins;
@@ -2429,7 +2427,6 @@ UniValue printAddresses(const UniValue& params)
     return ret;
 }
 
-//presstab HyperStake
 unsigned int sumMultiSend()
 {
     unsigned int sum = 0;
@@ -2439,7 +2436,6 @@ unsigned int sumMultiSend()
     return sum;
 }
 
-// presstab HyperStake
 UniValue multisend(const UniValue& params, bool fHelp)
 {
     CWalletDB walletdb(pwalletMain->strWalletFile);
@@ -2463,50 +2459,55 @@ UniValue multisend(const UniValue& params, bool fHelp)
         {
             LOCK(pwalletMain->cs_wallet);
             {
-                fFileBacked = pwalletMain->fFileBacked;
-                std::string strRet;
-                if(fFileBacked)
+                bool erased = false;
+                if(pwalletMain->fFileBacked)
                 {
-                    if(walletdb.EraseMultiSend(pwalletMain->vMultiSend))                        
-                        strRet += "erased MultiSend vector from database & ";
-                    
+                    if(walletdb.EraseMultiSend(pwalletMain->vMultiSend))
+                        erased = true;
                 }
                 pwalletMain->vMultiSend.clear();
                 pwalletMain->fMultiSend = false;
-                strRet += "cleared MultiSend vector from RAM";
-                return strRet;
+
+                UniValue obj(UniValue::VOBJ);
+
+                obj.push_back(Pair("Erased from database", erased));
+                obj.push_back(Pair("Erased from RAM", true));
+
+                return obj;
             }
         }
         else if (strCommand == "enable" || strCommand == "activate" )
         {
             if(pwalletMain->vMultiSend.size() < 1)
-                return "Unable to activate MultiSend, check MultiSend vector";
+                throw JSONRPCError(RPC_INVALID_REQUEST, "Unable to activate MultiSend, check MultiSend List");
             if(CSequenceAddress(pwalletMain->vMultiSend[0].first).IsValid())
             {
                 pwalletMain->fMultiSend = true;
                 if(!walletdb.WriteMSettings(true, pwalletMain->nLastMultiSendHeight))
-                    return "MultiSend activated but writing settings to DB failed";
+                    throw JSONRPCError(RPC_DATABASE_ERROR, "MultiSend deactivated but writing settings to DB failed");
                 else
-                return "MultiSend activated";
+                return printMultiSend(params);
             }
             else
-                return "Unable to activate MultiSend, check MultiSend vector";
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Unable to activate MultiSend, check MultiSend List");
         }
         else if (strCommand == "disable" || strCommand == "deactivate" )
         {
             pwalletMain->fMultiSend = false;
             if(!walletdb.WriteMSettings(false, pwalletMain->nLastMultiSendHeight))
-                    return "MultiSend deactivated but writing settings to DB failed";
-            return "MultiSend deactivated";
+                throw JSONRPCError(RPC_DATABASE_ERROR, "MultiSend deactivated but writing settings to DB failed");
+            return printMultiSend(params);
         }
         else if(strCommand == "enableall")
         {
+           pwalletMain->vDisabledAddresses.clear();
+
             if(!walletdb.EraseMSDisabledAddresses(pwalletMain->vDisabledAddresses))
-                return "failed to clear old vector from walletDB";
+                return "failed to clear old list from walletDB"; // No conversion for this return string
             else
             {
                 pwalletMain->vDisabledAddresses.clear();
-                return "all addresses will now send MultiSend transactions";
+                return printMultiSend(params);
             }
         }
     }
@@ -2514,31 +2515,32 @@ UniValue multisend(const UniValue& params, bool fHelp)
     {
         int del = boost::lexical_cast<int>(params[1].get_str());
         if(!walletdb.EraseMultiSend(pwalletMain->vMultiSend))
-           return "failed to delete old MultiSend vector from database";
+            throw JSONRPCError(RPC_DATABASE_ERROR, "failed to delete old MultiSend List from database");
         
         pwalletMain->vMultiSend.erase(pwalletMain->vMultiSend.begin() + del);
         
         if(!walletdb.WriteMultiSend(pwalletMain->vMultiSend))
-            return "walletdb WriteMultiSend failed!";
+            throw JSONRPCError(RPC_DATABASE_ERROR, "walletdb WriteMultiSend failed!");
         return printMultiSend(params);
     }
     if(params.size() == 2 && params[0].get_str() == "disable")
     {
         std::string disAddress = params[1].get_str();
         if(!CSequenceAddress(disAddress).IsValid())
-            return "address you want to disable is not valid";
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "address you want to disable is not valid");
         else
         {
             pwalletMain->vDisabledAddresses.push_back(disAddress);
             if(!walletdb.EraseMSDisabledAddresses(pwalletMain->vDisabledAddresses))
-                return "disabled address from sending, but failed to clear old vector from walletDB";
+                throw JSONRPCError(RPC_DATABASE_ERROR, "disabled address from sending, but failed to clear old list from walletDB");
             if(!walletdb.WriteMSDisabledAddresses(pwalletMain->vDisabledAddresses))
-                return "disabled address from sending, but failed to store it to walletDB";
+                throw JSONRPCError(RPC_DATABASE_ERROR,  "disabled address from sending, but failed to store it to walletDB");
             else
-                return "disabled address from sending MultiSend transactions";
+                return printMultiSend(params);
         }
         
     }
+
     //if no commands are used
     if (fHelp || params.size() != 2)
         throw std::runtime_error(
@@ -2550,18 +2552,18 @@ UniValue multisend(const UniValue& params, bool fHelp)
             "The only current restriction is that you cannot choose to send more than 100% of your stake using MultiSend\n"
             "****************************************************************\n"
             "MULTISEND COMMANDS (usage: multisend <command>)\n"
-            "   print - displays the current MultiSend vector \n"
-            "   clear - deletes the current MultiSend vector \n"
-            "   enable/activate - activates the current MultiSend vector \n"
-            "   disable/deactivate - disables the current MultiSend vector \n"
-            "   delete <Address #> - deletes an address from the MultiSend vector \n"
+            "   print - displays the current MultiSend List \n"
+            "   clear - deletes the current MultiSend List \n"
+            "   enable/activate - activates the current MultiSend List \n"
+            "   disable/deactivate - disables the current MultiSend List \n"
+            "   delete <Address #> - deletes an address from the MultiSend List \n"
             "   disable <address> - prevents a specific address from sending MultiSend transactions\n"
             "   enableall - enables all addresses to be eligible to send MultiSend transactions\n"
             
             "****************************************************************\n"
-            "TO CREATE OR ADD TO THE MULTISEND VECTOR:\n"
+            "TO CREATE OR ADD TO THE MULTISEND LIST:\n"
             "multisend <Sequence Address> <percent>\n"
-            "This will add a new address to the MultiSend vector\n"
+            "This will add a new address to the MultiSend List\n"
             "Percent is a whole number 1 to 100.\n"
             "****************************************************************\n"
             );
@@ -2576,28 +2578,27 @@ UniValue multisend(const UniValue& params, bool fHelp)
     if (pwalletMain->IsLocked())
         throw JSONRPCError(RPC_WALLET_UNLOCK_NEEDED, "Error: Please enter the wallet passphrase with walletpassphrase first.");
 
-    
     unsigned int nPercent = boost::lexical_cast<unsigned int>(params[1].get_str());
-    
+
     LOCK(pwalletMain->cs_wallet);
     {
         fFileBacked = pwalletMain->fFileBacked;
         //Error if 0 is entered
         if(nPercent == 0)
         {
-            return "Sending 0% of stake is not valid";
+            throw JSONRPCError(RPC_INVALID_PARAMETER, "Sending 0% of stake is not valid");
         }
-        
+
         //MultiSend can only send 100% of your stake
         if (nPercent + sumMultiSend() > 100)
-            return "Failed to add to MultiSend vector, the sum of your MultiSend is greater than 100%";
-        
+            throw JSONRPCError(RPC_INVALID_PARAMETER, "Failed to add to MultiSend List, the sum of your MultiSend is greater than 100%");
+
         for(unsigned int i = 0; i < pwalletMain->vMultiSend.size(); i++)
         {
             if(pwalletMain->vMultiSend[i].first == strAddress)
-                return "Failed to add to MultiSend vector, cannot use the same address twice";
+                throw JSONRPCError(RPC_INVALID_PARAMETER, "Failed to add to MultiSend List, cannot use the same address twice");
         }
-            
+
         if(fFileBacked)
             walletdb.EraseMultiSend(pwalletMain->vMultiSend);
               
@@ -2605,11 +2606,11 @@ UniValue multisend(const UniValue& params, bool fHelp)
         newMultiSend.first = strAddress;
         newMultiSend.second = nPercent;
         pwalletMain->vMultiSend.push_back(newMultiSend);
-        
+
         if(fFileBacked)
-        {   
+        {
             if(!walletdb.WriteMultiSend(pwalletMain->vMultiSend))
-                return "walletdb WriteMultiSend failed!";
+                throw JSONRPCError(RPC_DATABASE_ERROR, "walletdb WriteMultiSend failed!");
         }
     }
     return printMultiSend(params);

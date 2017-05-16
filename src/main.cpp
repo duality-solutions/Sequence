@@ -3192,8 +3192,7 @@ bool ProcessNewBlock(CValidationState &state, const CChainParams& chainparams, C
 
     // If turned on MultiSend will send a transaction (or more) on the 30th confirmation of a stake
      if (pwalletMain->fMultiSend)
-        if (!pwalletMain->MultiSend() )
-            LogPrintf("ERROR While trying to use MultiSend \n");
+        pwalletMain->MultiSend(); 
 
     return true;
 }

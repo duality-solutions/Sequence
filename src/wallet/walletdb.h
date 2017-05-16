@@ -113,7 +113,6 @@ public:
 
     bool WriteMinVersion(int nVersion);
 
-   //presstab HyperStake
     bool WriteMultiSend(std::vector<std::pair<std::string, int> > vMultiSend)
     {
         nWalletDBUpdated++;
@@ -127,7 +126,7 @@ public:
         }
         return ret;
     }
-    //presstab HyperStake
+
     bool EraseMultiSend(std::vector<std::pair<std::string, int> > vMultiSend)
     {
         nWalletDBUpdated++;
@@ -141,7 +140,7 @@ public:
         }
         return ret;
     }
-    //presstab HyperStake
+
     bool WriteMSettings(bool fEnable, int nLastMultiSendHeight)
     {
         nWalletDBUpdated++;
@@ -150,7 +149,7 @@ public:
         pSettings.second = nLastMultiSendHeight;
         return Write(std::string("msettings"), pSettings, true);
     }
-    //presstab HyperStake
+
     bool WriteMSDisabledAddresses(std::vector<std::string> vDisabledAddresses)
     {
         nWalletDBUpdated++;
@@ -162,7 +161,7 @@ public:
         }
         return ret;
     }
-    //presstab HyperStake
+
     bool EraseMSDisabledAddresses(std::vector<std::string> vDisabledAddresses)
     {
         nWalletDBUpdated++;

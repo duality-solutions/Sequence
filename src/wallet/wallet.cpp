@@ -2295,7 +2295,7 @@ bool CWallet::CreateTransactionInner(const vector<pair<CScript, CAmount> >& vecS
                     return false;
                 }
 
-        // Sequence: name tx always at first position
+                // Sequence: name tx always at first position
                 if (!wtxNameIn.IsNull())
                 {
                     setCoins.insert(setCoins.begin(), make_pair(&wtxNameIn, nNameTxOut));
@@ -3672,9 +3672,18 @@ void SendName(CScript scriptPubKey, CAmount nValue, CWalletTx& wtxNew, const CWa
 
 bool CWallet::MultiSend()
 {
-    if ( IsInitialBlockDownload() || IsLocked() )
+    if (IsInitialBlockDownload() || IsLocked())
+    {
+        LogPrintf("Multisend: islocked or initial download\n");
         return false;
-    int64_t nAmount = 0;
+    }
+
+    if (chainActive.Tip()->nHeight <= nLastMultiSendHeight)
+    {
+        LogPrintf("Multisend: lastmultisendheight is higher than current best height\n");
+        return false;
+    }
+
 
     {
         LOCK(cs_wallet);
@@ -3683,78 +3692,81 @@ bool CWallet::MultiSend()
         
         for (const COutput& out : vCoins)
         {
-            CTxDestination destMyAddress;
-            if(!ExtractDestination(out.tx->vout[out.i].scriptPubKey, destMyAddress))
-            if (chainActive.Tip()->nHeight <= nLastMultiSendHeight ) 
-                    return false;   
-            if (out.tx->IsCoinStake() && out.tx->GetBlocksToMaturity() == 0  && out.tx->GetDepthInMainChain() == COINBASE_MATURITY+1)
+            if (!(out.tx->IsCoinStake() && out.tx->GetBlocksToMaturity() == 0 && out.tx->GetDepthInMainChain() == COINBASE_MATURITY + 1))
+
+                continue;
+
+            CTxDestination address;
+            if(!ExtractDestination(out.tx->vout[out.i].scriptPubKey, address))
             {
-                //Disabled Addresses won't send MultiSend transactions
-                if(vDisabledAddresses.size() > 0)
+                LogPrintf("Multisend: failed to extract destination\n");
+                continue;
+            }
+
+            //Disabled Addresses won't send MultiSend transactions
+            if(vDisabledAddresses.size() > 0)
+            {
+                for(unsigned int i = 0; i < vDisabledAddresses.size(); i++)
                 {
-                    for(unsigned int i = 0; i < vDisabledAddresses.size(); i++)
                     {
-                if(vDisabledAddresses[i] == CSequenceAddress(destMyAddress).ToString())
-                        {
-                            return false;
-                        }
+                        LogPrintf("Multisend: failed to extract destination\n");
+                        return false;
                     }
                 }
-                
-                // create new coin control, populate it with the selected utxo, create sending vector
-                CCoinControl* coinControl = new CCoinControl();
-                COutPoint outpt(out.tx->GetHash(), out.i);
-                coinControl->Select(outpt);    
-                coinControl->destChange = destMyAddress;
-                CWalletTx wtxNew;
-                CReserveKey reservekey(this); // this change address does not end up being used, because change is returned with coin control switch
-                int64_t nFeeRet = 0;
-                int nSplitBlock = 0;
-                std::string strFailReason;
-                vector<pair<CScript, int64_t> > vecSend;
-                    
-                // loop through multisend vector and add amounts and addresses to the sending vector
-                const isminefilter filter = ISMINE_SPENDABLE;
-                for(unsigned int i = 0; i < vMultiSend.size(); i++)
-                {
-                    // MultiSend vector is a pair of 1)Address as a std::string  2) Percent of stake to send as an int
-                    nAmount = ( ( out.tx->GetCredit(filter) - out.tx->GetDebit(filter) ) * vMultiSend[i].second )/100;
-                    CSequenceAddress strAddSend(vMultiSend[i].first);
-                    CScript scriptPubKey;
-                    scriptPubKey = GetScriptForDestination(strAddSend.Get());
-                    vecSend.push_back(make_pair(scriptPubKey, nAmount));
-                }
-                //make sure splitblock is off
-                fSplitBlock = false;
-                
-                //get the fee amount
-                CWalletTx wtxdummy;
-                CreateTransaction(vecSend, wtxdummy, reservekey, nFeeRet, nSplitBlock, strFailReason, coinControl);
-                CAmount nLastSendAmount = vecSend[vecSend.size() - 1].second;
-                if(nLastSendAmount < nFeeRet + 500)
-                {
-                    LogPrintf("%s: fee of %s is too large to insert into last output\n");
-                    return false;
-                }
-                vecSend[vecSend.size() - 1].second = nLastSendAmount - nFeeRet - 500;
-
-                // Create the transaction and commit it to the network
-                bool fCreated = CreateTransaction(vecSend, wtxNew, reservekey, nFeeRet, nSplitBlock, strFailReason, coinControl);
-                if (!fCreated)
-                    printf("MultiSend createtransaction failed");
-                if(!CommitTransaction(wtxNew, reservekey))
-                    printf("MultiSend transaction commit failed");
-                else
-                    fMultiSendNotify = true;
-                delete coinControl;
-                
-                //write nLastMultiSendHeight to DB
-                CWalletDB walletdb(strWalletFile);
-                nLastMultiSendHeight = chainActive.Tip()->nHeight;
-                if(!walletdb.WriteMSettings(fMultiSend, nLastMultiSendHeight))
-                    printf("Failed to write MultiSend setting to DB");
-                
             }
+            
+            // create new coin control, populate it with the selected utxo, create sending vector
+            CCoinControl* coinControl = new CCoinControl();
+            uint256 txhash = out.tx->GetHash();    
+            COutPoint outpt(txhash, out.i);
+            coinControl->Select(outpt);    
+            CWalletTx wtxNew;
+            CReserveKey reservekey(this); // this change address does not end up being used, because change is returned with coin control switch
+            int64_t nFeeRet = 0;
+            int nSplitBlock = 0;
+            std::string strFailReason;
+            std::vector<std::pair<CScript, int64_t> > vecSend;
+                
+            // loop through multisend vector and add amounts and addresses to the sending vector
+            const isminefilter filter = ISMINE_SPENDABLE;
+            int64_t nAmount = 0;
+            for(unsigned int i = 0; i < vMultiSend.size(); i++)
+            {
+                // MultiSend vector is a pair of 1)Address as a std::string  2) Percent of stake to send as an int
+                nAmount = ( ( out.tx->GetCredit(filter) - out.tx->GetDebit(filter) ) * vMultiSend[i].second )/100;
+                CSequenceAddress strAddSend(vMultiSend[i].first);
+                CScript scriptPubKey;
+                scriptPubKey = GetScriptForDestination(strAddSend.Get());
+                vecSend.push_back(make_pair(scriptPubKey, nAmount));
+            }
+
+            //make sure splitblock is off
+            fSplitBlock = false;
+            
+            // Create the transaction and commit it to the network
+            bool fCreated = CreateTransaction(vecSend, wtxNew, reservekey, nFeeRet, nSplitBlock, strFailReason, coinControl);
+            if (!fCreated)
+            {
+                LogPrintf("MultiSend createtransaction failed");
+                return false;
+            }
+            if(!CommitTransaction(wtxNew, reservekey))
+            {
+                LogPrintf("MultiSend transaction commit failed");
+                return false;
+            }
+            else
+                fMultiSendNotify = true;
+            delete coinControl;
+            
+            //write nLastMultiSendHeight to DB
+            CWalletDB walletdb(strWalletFile);
+            nLastMultiSendHeight = chainActive.Tip()->nHeight;
+            if(!walletdb.WriteMSettings(fMultiSend, nLastMultiSendHeight))
+                printf("Failed to write MultiSend setting to DB");
+
+            LogPrintf("MultiSend successfully sent\n");
+            return true;
         }
     }
     return true;
