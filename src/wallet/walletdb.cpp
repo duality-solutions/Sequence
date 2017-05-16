@@ -585,7 +585,7 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
                 return false;
             }
         }
-        else if (strType == "multisend") //presstab HyperStake
+        else if (strType == "multisend")
         {
             unsigned int i;
             ssKey >> i;
@@ -596,14 +596,14 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
                 pwallet->vMultiSend.push_back(pMultiSend);
             }
         }
-        else if(strType == "msettings")//presstab HyperStake
+        else if(strType == "msettings")
         {
            std::pair<bool, int> pSettings;
            ssValue >> pSettings;
            pwallet->fMultiSend = pSettings.first;
            pwallet->nLastMultiSendHeight = pSettings.second;
         }
-        else if(strType == "mdisabled")//presstab HyperStake
+        else if(strType == "mdisabled")
         {
            std::string strDisabledAddress;
            ssValue >> strDisabledAddress;
