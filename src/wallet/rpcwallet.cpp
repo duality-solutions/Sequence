@@ -2370,7 +2370,6 @@ UniValue getstakereport(const UniValue& params, bool fHelp)
     return  result;
 }
 
-//presstab HyperStake
 UniValue printMultiSend(const UniValue& params)
 {
     UniValue ret(UniValue::VARR);
@@ -2398,7 +2397,6 @@ UniValue printMultiSend(const UniValue& params)
     return ret;
 }
 
-//presstab HyperStake
 UniValue printAddresses(const UniValue& params)
 {
     std::vector<COutput> vCoins;
@@ -2429,7 +2427,6 @@ UniValue printAddresses(const UniValue& params)
     return ret;
 }
 
-//presstab HyperStake
 unsigned int sumMultiSend()
 {
     unsigned int sum = 0;
@@ -2439,7 +2436,6 @@ unsigned int sumMultiSend()
     return sum;
 }
 
-// presstab HyperStake
 UniValue multisend(const UniValue& params, bool fHelp)
 {
     CWalletDB walletdb(pwalletMain->strWalletFile);
@@ -2501,6 +2497,8 @@ UniValue multisend(const UniValue& params, bool fHelp)
         }
         else if(strCommand == "enableall")
         {
+           pwalletMain->vDisabledAddresses.clear();
+
             if(!walletdb.EraseMSDisabledAddresses(pwalletMain->vDisabledAddresses))
                 return "failed to clear old vector from walletDB";
             else
