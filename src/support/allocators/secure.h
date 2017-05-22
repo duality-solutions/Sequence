@@ -55,6 +55,6 @@ struct secure_allocator : public std::allocator<T> {
 // This is exactly like std::string, but with a custom allocator.
 typedef std::basic_string<char, std::char_traits<char>, secure_allocator<char> > SecureString;
 
-typedef std::vector<unsigned char, secure_allocator<unsigned char> > CSecureVector;
+typedef std::vector<unsigned char, secure_allocator<unsigned char> > SecureVector;
 
 #endif // SEQUENCE_ALLOCATORS_SECURE_H
