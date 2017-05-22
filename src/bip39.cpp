@@ -47,9 +47,9 @@ SecureString mnemonic_generate(int strength)
 SecureString mnemonic_from_data(const uint8_t *data, int len)
 {
     if (len % 4 || len < 16 || len > 32) {
-        return 0;
         return SecureString();
-
+    }
+    
     uint8_t bits[32 + 1];
 
     CSHA256().Write(data, len).Finalize(bits);
