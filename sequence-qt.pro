@@ -532,7 +532,6 @@ HEADERS += \
     src/stake.h \
     src/qt/modaloverlay.h \
     src/qt/trafficgraphdata.h \
-    src/qt/multisenddialog.h \
     src/qt/stakereportdialog.h \
     src/bip39_english.h \
     src/bip39.h
@@ -561,8 +560,7 @@ FORMS += \
     src/qt/forms/transactiondescdialog.ui \
     src/qt/forms/stakereportdialog.ui \
     src/qt/forms/test.ui \
-    src/qt/forms/modaloverlay.ui \
-    src/qt/forms/multisenddialog.ui
+    src/qt/forms/modaloverlay.ui 
 
 SOURCES += \
     src/addrman.cpp \
@@ -709,7 +707,6 @@ SOURCES += \
     src/stake.cpp \
     src/qt/modaloverlay.cpp \
     src/qt/trafficgraphdata.cpp \
-    src/qt/multisenddialog.cpp \
     src/qt/stakereportdialog.cpp \
     src/bip39.cpp
 

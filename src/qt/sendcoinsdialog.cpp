@@ -761,7 +761,6 @@ void SendCoinsDialog::coinControlButtonClicked()
 }
 
 // Coin Control: split block check box
-// presstab HyperStake
 void SendCoinsDialog::coinControlSplitBlockChecked(int state)
 {
     if (model)
@@ -784,7 +783,6 @@ void SendCoinsDialog::coinControlSplitBlockChecked(int state)
     }
 }
 
-//presstab HyperStake
 void SendCoinsDialog::splitBlockLineEditChanged(const QString & text)
 {
     double nAfterFee =  ui->labelCoinControlAfterFee->text().left(ui->labelCoinControlAfterFee->text().indexOf(" ")).toDouble();

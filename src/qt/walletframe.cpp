@@ -156,13 +156,6 @@ void WalletFrame::gotoStakeReportPage()
         i.value()->gotoStakeReportPage();
 }
 
-void WalletFrame::gotoMultiSendPage()
-{
-    QMap<QString, WalletView*>::const_iterator i;
-    for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
-        i.value()->gotoMultiSendPage();
-}
-
 void WalletFrame::gotoDNSPage()
 {
     QMap<QString, WalletView*>::const_iterator i;

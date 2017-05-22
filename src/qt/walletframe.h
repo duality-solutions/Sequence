@@ -67,8 +67,6 @@ public Q_SLOTS:
     void gotoMultiSigPage();
     /** Open stake report page */
     void gotoStakeReportPage();
-    /** Switch to MultiSend page */
-    void gotoMultiSendPage();
     /** Switch to DNS page */
     void gotoDNSPage();
     /** Show Sign/Verify Message dialog and switch to sign message tab */

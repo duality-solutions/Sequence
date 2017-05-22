@@ -6,7 +6,6 @@
 * Fix sequence.conf read on daemon first launch
 * Overall UI Improvements
 * Staking Icon now shows Status/MultiSend Status/Weight/Network Weight/Money Supply/Next Reward within
-* MultiSend GUI/Core/RPC
 * Stake Network Weight Fix
 * Improtve DecodeBase58/EncodeBase58
 * Repair Signal/Slot in stakereport.cpp
