@@ -11,7 +11,6 @@
 #include "clientmodel.h"
 #include "guiutil.h"
 #include "dnspage.h"
-#include "multisenddialog.h"
 #include "multisigdialog.h"
 #include "optionsmodel.h"
 #include "overviewpage.h"
@@ -59,7 +58,6 @@ WalletView::WalletView(QWidget *parent):
     receiveCoinsPage = new ReceiveCoinsDialog();
     sendCoinsPage = new SendCoinsDialog();
     multiSigPage = new MultisigDialog();
-    multiSendPage = new MultiSendDialog();
     stakeReportPage = new StakeReportDialog();
     dnsPage = new DNSPage();
 
@@ -69,7 +67,6 @@ WalletView::WalletView(QWidget *parent):
     addWidget(sendCoinsPage);
     addWidget(multiSigPage);
     addWidget(stakeReportPage);
-    addWidget(multiSendPage);
     addWidget(dnsPage);
 
     // Clicking on a transaction on the overview pre-selects the transaction on the transaction history page
@@ -138,7 +135,6 @@ void WalletView::setWalletModel(WalletModel *walletModel)
     sendCoinsPage->setModel(walletModel);
     multiSigPage->setModel(walletModel);
     stakeReportPage->setModel(walletModel);
-    multiSendPage->setModel(walletModel);
     dnsPage->setModel(walletModel);
 
     if (walletModel)
@@ -214,11 +210,6 @@ void WalletView::gotoMultiSigPage()
 void WalletView::gotoStakeReportPage()
 {
     setCurrentWidget(stakeReportPage);
-}
-
-void WalletView::gotoMultiSendPage()
-{
-    setCurrentWidget(multiSendPage);
 }
 
 void WalletView::gotoDNSPage()

@@ -16,7 +16,6 @@ class ClientModel;
 class OverviewPage;
 class ReceiveCoinsDialog;
 class SendCoinsDialog;
-class MultiSendDialog;
 class MultisigDialog;
 class DNSPage;
 class SendCoinsRecipient;
@@ -68,7 +67,6 @@ private:
     SendCoinsDialog *sendCoinsPage;
     MultisigDialog *multiSigPage;
     StakeReportDialog *stakeReportPage;
-    MultiSendDialog *multiSendPage;
     DNSPage *dnsPage;
 
     TransactionView *transactionView;
@@ -88,8 +86,6 @@ public Q_SLOTS:
     void gotoMultiSigPage();
     /** Show Stake Report page */
     void gotoStakeReportPage();
-    /** Switch to MultiSend page */
-    void gotoMultiSendPage();
     /** Switch to DNS page */
     void gotoDNSPage();
     /** Show Sign/Verify Message dialog and switch to sign message tab */

@@ -84,7 +84,6 @@ QT_FORMS_UI = \
   qt/forms/helpmessagedialog.ui \
   qt/forms/intro.ui \
   qt/forms/modaloverlay.ui \
-  qt/forms/multisenddialog.ui \
   qt/forms/multisigaddressentry.ui \
   qt/forms/multisigdialog.ui \
   qt/forms/multisiginputentry.ui \
@@ -116,7 +115,6 @@ QT_MOC_CPP = \
   qt/moc_macdockiconhandler.cpp \
   qt/moc_macnotificationhandler.cpp \
   qt/moc_modaloverlay.cpp \
-  qt/moc_multisenddialog.cpp \
   qt/moc_multisigaddressentry.cpp \
   qt/moc_multisigdialog.cpp \
   qt/moc_multisiginputentry.cpp \
@@ -191,7 +189,6 @@ SEQUENCE_QT_H = \
   qt/macdockiconhandler.h \
   qt/macnotificationhandler.h \
   qt/modaloverlay.h \
-  qt/multisenddialog.h \
   qt/multisigaddressentry.h \
   qt/multisigdialog.h \
   qt/multisiginputentry.h \
@@ -266,7 +263,6 @@ RES_ICONS = \
   qt/res/icons/key.png \
   qt/res/icons/lock_closed.png \
   qt/res/icons/lock_open.png \
-  qt/res/icons/multisend.png \
   qt/res/icons/multisig.png \
   qt/res/icons/notsynced.png \
   qt/res/icons/overview.png \
@@ -340,7 +336,6 @@ SEQUENCE_QT_CPP += \
   qt/coincontroltreewidget.cpp \
   qt/dnspage.cpp \
   qt/editaddressdialog.cpp \
-  qt/multisenddialog.cpp \
   qt/nametablemodel.cpp \
   qt/openuridialog.cpp \
   qt/overviewpage.cpp \
