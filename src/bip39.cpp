@@ -31,7 +31,7 @@
 
 #include <openssl/evp.h>
 
-SecureString mnemonic_generate(int strength)
+SecureString CMnemonic::Generate(int strength)
 {
     if (strength % 32 || strength < 128 || strength > 256) {
         return SecureString();
@@ -39,12 +39,12 @@ SecureString mnemonic_generate(int strength)
     uint8_t data[32];
     // random_buffer(data, 32);
     GetRandBytes(data, 32);
-    SecureString mnemonic = mnemonic_from_data(data, strength / 8);
+    SecureString mnemonic = FromData(data, strength / 8);
     memory_cleanse(data, sizeof(data));
     return mnemonic;
 }
 
-SecureString mnemonic_from_data(const uint8_t *data, int len)
+SecureString CMnemonic::FromData(const uint8_t *data, int len)
 {
     if (len % 4 || len < 16 || len > 32) {
         return SecureString();
@@ -78,80 +78,78 @@ SecureString mnemonic_from_data(const uint8_t *data, int len)
     return mnemonic;
 }
 
-int mnemonic_check(SecureString mnemonic)
+int CMnemonic::Check(SecureString mnemonic)
 {
     if (mnemonic.empty()) {
         return 0;
     }
 
-    uint32_t i{}, n{};
+    uint32_t nWordCount{};
 
-    while (mnemonic[i]) {
+    for (size_t i = 0; i < mnemonic.size(); ++i) {
         if (mnemonic[i] == ' ') {
-            n++;
+            nWordCount++;
         }
-        i++;
     }
-    n++;
+    nWordCount++;
     // check number of words
-    if (n != 12 && n != 18 && n != 24) {
+    if (nWordCount != 12 && nWordCount != 18 && nWordCount != 24) {
         return 0;
     }
 
-    char current_word[10];
-    uint32_t j, k, ki, bi;
+    SecureString ssCurrentWord;
+    uint32_t nWordLetterIndex{}, nWordIndex, ki, nBitsCount{};
     uint8_t bits[32 + 1]{};
-    i = 0; bi = 0;
-    while (mnemonic[i]) {
-        j = 0;
-        while (mnemonic[i] != ' ' && mnemonic[i] != 0) {
-            if (j >= sizeof(current_word) - 1) {
+    for (size_t i = 0; i < mnemonic.size(); ++i)
+    {
+        nWordLetterIndex = 0;
+        ssCurrentWord = "";
+        while (i + ssCurrentWord.size() < mnemonic.size() && mnemonic[i + ssCurrentWord.size()] != ' ') {
+            if (ssCurrentWord.size() >= 9) {
                 return 0;
             }
-            current_word[j] = mnemonic[i];
-            i++; j++;
+            ssCurrentWord += mnemonic[i + ssCurrentWord.size()];
         }
-        current_word[j] = 0;
-        if (mnemonic[i] != 0) i++;
-        k = 0;
+        i += ssCurrentWord.size();
+        nWordIndex = 0;
         for (;;) {
-            if (!wordlist[k]) { // word not found
+            if (!wordlist[nWordIndex]) { // word not found
                 return 0;
             }
-            if (strcmp(current_word, wordlist[k]) == 0) { // word found on index k
+            if (strcmp(ssCurrentWord.c_str(), wordlist[nWordIndex]) == 0) { // word found on index nWordIndex
                 for (ki = 0; ki < 11; ki++) {
-                    if (k & (1 << (10 - ki))) {
-                        bits[bi / 8] |= 1 << (7 - (bi % 8));
+                    if (nWordIndex & (1 << (10 - ki))) {
+                        bits[nBitsCount / 8] |= 1 << (7 - (nBitsCount % 8));
                     }
-                    bi++;
+                    nBitsCount++;
                 }
                 break;
             }
-            k++;
+            nWordIndex++;
         }
     }
-    if (bi != n * 11) {
+    if (nBitsCount != nWordCount * 11) {
         return 0;
     }
-    bits[32] = bits[n * 4 / 3];
-    CSHA256().Write(bits, n * 4 / 3).Finalize(bits);
+    bits[32] = bits[nWordCount * 4 / 3];
+    CSHA256().Write(bits, nWordCount * 4 / 3).Finalize(bits);
 
-    int result = 0;
-    if (n == 12) {
-        result = (bits[0] & 0xF0) == (bits[32] & 0xF0); // compare first 4 bits
+    int nResult = 0;
+    if (nWordCount == 12) {
+        nResult = (bits[0] & 0xF0) == (bits[32] & 0xF0); // compare first 4 bits
     } else
-    if (n == 18) {
-        result = (bits[0] & 0xFC) == (bits[32] & 0xFC); // compare first 6 bits
+    if (nWordCount == 18) {
+        nResult = (bits[0] & 0xFC) == (bits[32] & 0xFC); // compare first 6 bits
     } else
-    if (n == 24) {
-        result = bits[0] == bits[32]; // compare 8 bits
+    if (nWordCount == 24) {
+        nResult = bits[0] == bits[32]; // compare 8 bits
     }
     memory_cleanse(bits, sizeof(bits));
-    return result;
+    return nResult;
 }
 
 // passphrase must be at most 256 characters or code may crash
-void mnemonic_to_seed(SecureString mnemonic, SecureString passphrase, SecureVector& seedRet)
+void CMnemonic::ToSeed(SecureString mnemonic, SecureString passphrase, SecureVector& seedRet)
 {
     uint8_t salt[8 + 256 + 4];
     memcpy(salt, "mnemonic", 8);
