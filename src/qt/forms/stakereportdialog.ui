@@ -426,7 +426,7 @@
          <string>Date of the last mature Stake</string>
         </property>
         <property name="text">
-         <string>Never</string>
+         <string></string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -456,7 +456,7 @@
          <string>Coin Earned in last mature Stake</string>
         </property>
         <property name="text">
-         <string>0.00</string>
+         <string></string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -704,7 +704,7 @@
          <string>Time took to refresh dialog</string>
         </property>
         <property name="text">
-         <string>Wait please...</string>
+         <string></string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -727,7 +727,7 @@
          <string>Total Stakes Analyzed</string>
         </property>
         <property name="text">
-         <string>0</string>
+         <string></string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -752,7 +752,7 @@
        <string>Data of the current block.</string>
       </property>
       <property name="text">
-       <string>Current Chain Block :</string>
+       <string></string>
       </property>
       <property name="alignment">
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
