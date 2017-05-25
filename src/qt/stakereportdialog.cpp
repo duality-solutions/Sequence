@@ -159,11 +159,22 @@ void StakeReportDialog::updateStakeReport(bool fImmediate=false)
 
     int64_t nTook = GetTimeMillis();
 
+    // Skip report recalc if initially downloading the blockchain
+    if (IsInitialBlockDownload())
+    {
+        QApplication::processEvents();
+
+        ui->TimeTook->setText(tr("Please wait downloading blocks..."));
+        ui->TimeTook->repaint();
+        QApplication::processEvents();
+
+        return;
+    }
+
     // Skip report recalc if not immediate or before 5 minutes from last
     if (GetTime() - nLastReportUpdate > 300)
     {
         QApplication::processEvents();
-
         ui->TimeTook->setText(tr("Please wait..."));
         ui->TimeTook->repaint();
         QApplication::processEvents();
@@ -212,15 +223,6 @@ void StakeReportDialog::updateStakeReport(bool fImmediate=false)
     ui->Amount_365D->setText(Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" SEQ"));
     ui->Stake_365D->setText(QString::number(aRange[i++].Count));
 
-    ui->Amount_Last->setText(tr("Amount: ") + Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" SEQ"));
-    ui->L_LastStakeTime->setText(tr("Latest stake date: ") + HalfDate(aRange[i].Start, "hh:mm"));
-
-    ui->Stake_Counted->setText(tr("Stakes analysed: ") + QString::number(nItemCounted));
-    if (nItemCounted)
-        ui->TimeTook->setText(tr("Last Recalc took ") + QString::number(nTook) +  "ms");
-
-    ui->TimeTook_2->setText(tr("Refresh took ") + QString::number(GetTimeMillis() -nTook2) +  "ms");
-
     string sRefreshType = disablereportupdate ? "Manual refresh" : "Auto refresh";
 
     string strCurr_block_info = strprintf("%s  -  %s : %6d @ %s\nhash %s\n",
@@ -228,8 +230,22 @@ void StakeReportDialog::updateStakeReport(bool fImmediate=false)
            HalfDate((chainActive.Tip()->GetMedianTimePast()+1), "hh:mm:ss").toStdString().c_str(),
            chainActive.Tip()->GetBlockHash().ToString());
 
-    ui->L_CurrentBlock->setText(strCurr_block_info.c_str() );
+    if (IsInitialBlockDownload())
+    {
+        ui->L_CurrentBlock->setText(tr(""));
+        ui->TimeTook_2->setText(tr(""));
+        ui->Amount_Last->setText(tr(""));
+        ui->L_LastStakeTime->setText(tr("Syncing Blockchain"));
+    } else {
+        ui->L_CurrentBlock->setText(strCurr_block_info.c_str() );
+        ui->TimeTook_2->setText(tr("Refresh took ") + QString::number(GetTimeMillis() -nTook2) +  "ms");
+        ui->Amount_Last->setText(tr("Amount: ") + Coin_0Pad(nDisplayUnit, aRange[i].Total) + tr(" SEQ"));
+        ui->L_LastStakeTime->setText(tr("Latest stake date: ") + HalfDate(aRange[i].Start, "hh:mm"));
+    }
 
+    ui->Stake_Counted->setText(tr("Stakes analysed: ") + QString::number(nItemCounted));
+    if (nItemCounted)
+        ui->TimeTook->setText(tr("Last Recalc took ") + QString::number(nTook) +  "ms");
 }
 
 QString GridGetLabelTextAt(QGridLayout * Grid, int row, int column, QString Empty = "")
