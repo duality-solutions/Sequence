@@ -20,16 +20,20 @@ public:
 
     const QString &getAppName() const { return appName; }
     const QIcon &getAppIcon() const { return appIcon; }
-    const QString &getTitleAddText() const { return titleAddText; }
     const QPixmap &getSplashImage() const { return splashImage; }
+    const QIcon &getTrayAndWindowIcon() const { return trayAndWindowIcon; }
+    const QString &getTitleAddText() const { return titleAddText; }
 
 private:
-    NetworkStyle(const QString &appName, const QString &appIcon, const char *titleAddText, const QString &splashImage);
+    NetworkStyle(const QString &appName, const int iconColorHueShift, const int iconColorSaturationReduction, const char *titleAddText);
 
     QString appName;
     QIcon appIcon;
-    QString titleAddText;
     QPixmap splashImage;
+    QIcon trayAndWindowIcon;
+    QString titleAddText;
+
+    void rotateColors(QImage& img, const int iconColorHueShift, const int iconColorSaturationReduction);
 };
 
 #endif // SEQUENCE_QT_NETWORKSTYLE_H

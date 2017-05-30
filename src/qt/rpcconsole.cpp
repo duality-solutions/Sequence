@@ -45,7 +45,7 @@
 const int CONSOLE_HISTORY = 50;
 const QSize ICON_SIZE(24, 24);
 
-const int INITIAL_TRAFFIC_GRAPH_MINS = 30;
+const TrafficGraphData::GraphRange INITIAL_TRAFFIC_GRAPH_SETTING = TrafficGraphData::Range_30m;
 
 // Repair parameters
 const QString SALVAGEWALLET("-salvagewallet");
@@ -255,7 +255,7 @@ RPCConsole::RPCConsole(QWidget *parent) :
 #endif
 
     startExecutor();
-    setTrafficGraphRange(INITIAL_TRAFFIC_GRAPH_MINS);
+    setTrafficGraphRange(INITIAL_TRAFFIC_GRAPH_SETTING);
 
     ui->detailWidget->hide();
     ui->peerHeading->setText(tr("Select a peer to view detailed information."));
@@ -354,8 +354,8 @@ void RPCConsole::setClientModel(ClientModel *model)
         setNumConnections(model->getNumConnections());
         connect(model, SIGNAL(numConnectionsChanged(int)), this, SLOT(setNumConnections(int)));
 
-        setNumBlocks(model->getNumBlocks());
-        connect(model, SIGNAL(numBlocksChanged(int)), this, SLOT(setNumBlocks(int)));
+        setNumBlocks(model->getNumBlocks(), model->getLastBlockDate(), model->getVerificationProgress(NULL), false);
+        connect(model, SIGNAL(numBlocksChanged(int,QDateTime,double,bool)), this, SLOT(setNumBlocks(int,QDateTime,double,bool)));
 
         updateTrafficStats(model->getTotalBytesRecv(), model->getTotalBytesSent());
         connect(model, SIGNAL(bytesChanged(quint64,quint64)), this, SLOT(updateTrafficStats(quint64, quint64)));
@@ -561,20 +561,31 @@ void RPCConsole::clear()
 #else     
     QString ptSize = QString("%1pt").arg(QFontInfo(QFont()).pointSize() * 8.5 / 9);       
 #endif
-
-    // Set default style sheet
     ui->messagesWidget->document()->setDefaultStyleSheet(
+        QString(
                 "table { }"
-                "td.time { color: #808080; padding-top: 3px; } "
-                "td.message { font-family: monospace; font-size: 12px; } " // Todo: Remove fixed font-size
+                "td.time { color: #808080; font-size: %2; padding-top: 3px; } "
+                "td.message { font-family: %1; font-size: %2; white-space:pre-wrap; } "
                 "td.cmd-request { color: #006060; } "
                 "td.cmd-error { color: red; } "
+                ".secwarning { color: red; }"
                 "b { color: #006060; } "
-                );
+            ).arg(fixedFontInfo.family(), ptSize)
+        );
 
-    message(CMD_REPLY, (tr("Welcome to the Sequence RPC console.") + "<br>" +
-                        tr("Use up and down arrows to navigate history, and <b>Ctrl-L</b> to clear screen.") + "<br>" +
-                        tr("Type <b>help</b> for an overview of available commands.")), true);
+#ifdef Q_OS_MAC
+    QString clsKey = "<b>(⌘)-L</b>";
+#else
+    QString clsKey = "<b>Ctrl-L</b>";
+#endif
+    
+    message(CMD_REPLY, (tr("Welcome to the %1 RPC console.").arg(tr(PACKAGE_NAME)) + "<br>" +
+                        tr("Use up and down arrows to navigate history, and %1 to clear screen.").arg("<b>"+clsKey+"</b>") + "<br>" +
+                        tr("Type <b>help</b> for an overview of available commands.")) +
+                        "<br><span class=\"secwarning\">" +
+                        tr("WARNING: Scammers have been active, telling users to type commands here, stealing their wallet contents. Do not use this console without fully understanding the ramification of a command.") +
+                        "</span>",
+                        true);
 }
 
 void RPCConsole::keyPressEvent(QKeyEvent *event)
@@ -613,12 +624,14 @@ void RPCConsole::setNumConnections(int count)
     ui->numberOfConnections->setText(connections);
 }
 
-void RPCConsole::setNumBlocks(int count)
+void RPCConsole::setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool headers)
 {
-    ui->numberOfBlocks->setText(QString::number(count));
-    if(clientModel)
-        ui->lastBlockTime->setText(clientModel->getLastBlockDate().toString());
+    if (!headers) {
+        ui->numberOfBlocks->setText(QString::number(count));
+        ui->lastBlockTime->setText(blockDate.toString());
+    }
 }
+
 
 void RPCConsole::on_lineEdit_returnPressed()
 {
@@ -701,9 +714,7 @@ void RPCConsole::scrollToEnd()
 
 void RPCConsole::on_sldGraphRange_valueChanged(int value)
 {
-    const int multiplier = 5; // each position on the slider represents 5 min
-    int mins = value * multiplier;
-    setTrafficGraphRange(mins);
+    setTrafficGraphRange(static_cast<TrafficGraphData::GraphRange>(value));
 }
 
 QString RPCConsole::FormatBytes(quint64 bytes)
@@ -718,10 +729,10 @@ QString RPCConsole::FormatBytes(quint64 bytes)
     return QString(tr("%1 GB")).arg(bytes / 1024 / 1024 / 1024);
 }
 
-void RPCConsole::setTrafficGraphRange(int mins)
+void RPCConsole::setTrafficGraphRange(TrafficGraphData::GraphRange range)
 {
-    ui->trafficGraph->setGraphRangeMins(mins);
-    ui->lblGraphRange->setText(GUIUtil::formatDurationStr(mins * 60));
+    ui->trafficGraph->setGraphRangeMins(range);
+    ui->lblGraphRange->setText(GUIUtil::formatDurationStr(TrafficGraphData::RangeMinutes[range] * 60));
 }
 
 void RPCConsole::updateTrafficStats(quint64 totalBytesIn, quint64 totalBytesOut)

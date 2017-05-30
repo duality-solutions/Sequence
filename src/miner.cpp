@@ -14,7 +14,7 @@
 #include "main.h"
 #include "consensus/merkle.h"
 #include "net.h"
-#include "pow.h"
+#include "work.h"
 #include "timedata.h"
 #include "primitives/transaction.h"
 #include "txmempool.h"
@@ -203,7 +203,7 @@ CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProo
             double dPriority = 0;
             CAmount nTotalIn = 0;
             bool fMissingInputs = false;
-            BOOST_FOREACH(const CTxIn& txin, tx.vin)
+            for(const CTxIn& txin : tx.vin)
             {
                 // Read prev transaction
                 if (!view.HaveCoins(txin.prevout.hash))
@@ -355,7 +355,7 @@ CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProo
             // Add transactions that depend on this one to the priority queue
             if (mapDependers.count(hash))
             {
-                BOOST_FOREACH(COrphan* porphan, mapDependers[hash])
+                for(COrphan* porphan : mapDependers[hash])
                 {
                     if (!porphan->setDependsOn.empty())
                     {
@@ -474,7 +474,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
 CBlockTemplate* CreateNewBlockWithKey(CReserveKey& reservekey)
 {
     CPubKey pubkey;
-    if (!reservekey.GetReservedKey(pubkey))
+    if (!reservekey.GetReservedKey(pubkey, false))
         return NULL;
 
     CScript scriptPubKey = CScript() << ToByteVector(pubkey) << OP_CHECKSIG;
@@ -485,7 +485,7 @@ CBlockTemplate* CreateNewBlockWithKey(CReserveKey& reservekey)
 CBlockTemplate* CreateNewPoSBlockWithKey(CReserveKey& reservekey, bool& fPoSCancel, CWallet* pwallet)
 {
     CPubKey pubkey;
-    if (!reservekey.GetReservedKey(pubkey))
+    if (!reservekey.GetReservedKey(pubkey, false))
         return NULL;
 
     CScript scriptPubKey = CScript() << ToByteVector(pubkey) << OP_CHECKSIG;

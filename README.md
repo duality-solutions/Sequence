@@ -8,7 +8,7 @@ Graph on Pull Request History
 
 [![Throughput Graph](https://graphs.waffle.io/Duality-Solutions/Sequence/throughput.svg)](https://waffle.io/Duality-Solutions/Sequence/metrics/throughput)
 
-# **Sequence (SEQ) v1.0.0.0**
+# **Sequence (SEQ) v1.1.0.0**
 
 ![SEQ logo](https://github.com/Duality-Solutions/Sequence/blob/master/src/qt/res/icons/sequence-128.png)
 

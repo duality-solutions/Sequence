@@ -9,6 +9,7 @@
 
 #include "guiutil.h"
 #include "peertablemodel.h"
+#include "trafficgraphdata.h"
 
 #include "net.h"
 
@@ -94,7 +95,7 @@ public Q_SLOTS:
     /** Set number of connections shown in the UI */
     void setNumConnections(int count);
     /** Set number of blocks shown in the UI */
-    void setNumBlocks(int count);
+    void setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool headers);
     /** Go forward or back in history */
     void browseHistory(int offset);
     /** Scroll console view to end */
@@ -133,7 +134,7 @@ Q_SIGNALS:
 private:
     static QString FormatBytes(quint64 bytes);
     void startExecutor();
-    void setTrafficGraphRange(int mins);
+    void setTrafficGraphRange(TrafficGraphData::GraphRange range);
     /** Build parameter list for restart */
     void buildParameterlist(QString arg);
     /** show detailed information on ui about selected node */

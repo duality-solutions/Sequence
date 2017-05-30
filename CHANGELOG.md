@@ -1,6 +1,54 @@
 # **Sequence Changelog**
 -------------------------
 
+**v1.1.0.0**
+
+* Fix sequence.conf read on daemon first launch
+* Overall UI Improvements
+* Staking Icon now shows Status/MultiSend Status/Weight/Network Weight/Money Supply/Next Reward within
+* Stake Network Weight Fix
+* Improtve DecodeBase58/EncodeBase58
+* Repair Signal/Slot in stakereport.cpp
+* Add Checkpoint/Stake Modifier
+* Add Scammer Warning
+* Add OSX keystroke to clear RPCConsole
+* Fix tabs
+* Remove unused functions
+* Stake Report
+* net: Avoid duplicate getheaders requests.
+* Update DB_CORRUPT message
+* HD Wallet
+* Improve modaloverlay and messages
+* Change pause progresslabel to clear once synced
+* Repair SendCoinsDialog::setClientModel Signal Slot
+* Upgrade Crypter and implement LockedPool
+* Repair Traffic Graph
+* Fully implement indirectmap
+* Alphabetically sort all makefiles and qrc
+* Update LevelDB to 1.19 and implement makefile.leveldb.include
+* Fix Signal/Slot errors
+* Remove embedded colour profiles from all images
+* c++11:Backport from bitcoin-core: don't throw from the reverselock destructor
+* Fix LOCK in LOCK
+* Update net.cpp/h and implement CopyNodeVector/ReleaseNodeVector
+* Do not shadow global variable
+* Do not shadow upper local variable 'send', prevent -Wshadow compiler 
+* Fix Locks and Do not add random inbound peers to addrman
+* Fix calculation of number of bound sockets to use
+* Fix races
+* Add/Repair LOCK's
+* Fix parameter naming inconsistencies
+* Fix torcontrol.cpp unused private field warning
+* Fix unlocked access to vNodes.size()
+* Don't return the address of a P2SH of a P2SH
+* trivial: fix bloom filter init to isEmpty = true
+* Avoid ugly exception in log on unknown inv type
+* Make strWalletFile const
+* Make RelayWalletTransaction attempt to AcceptToMemoryPool.
+* Locking for Misbehave() and other cs_main locking fixes
+* Update Stake Icon to show useful accurate information
+
+
 **v1.0.0.0**
 
 * Fix and re-enable ResetSyncCheckpoint()

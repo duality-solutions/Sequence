@@ -11,7 +11,6 @@
 #include "script/standard.h"
 #include "util.h"
 
-#include <boost/foreach.hpp>
 
 bool CKeyStore::GetPubKey(const CKeyID &address, CPubKey &vchPubKeyOut) const
 {
@@ -85,4 +84,10 @@ bool CBasicKeyStore::HaveWatchOnly() const
 {
     LOCK(cs_KeyStore);
     return (!setWatchOnly.empty());
+}
+
+bool CBasicKeyStore::GetHDChain(CHDChain& hdChainRet) const
+{
+    hdChainRet = hdChain;
+    return !hdChain.IsNull();
 }

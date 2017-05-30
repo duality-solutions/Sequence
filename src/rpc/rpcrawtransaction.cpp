@@ -25,16 +25,12 @@
 
 #include <stdint.h>
 
-#include <boost/assign/list_of.hpp>
-
 #include <univalue.h>
-
-using namespace std;
 
 void ScriptPubKeyToJSON(const CScript& scriptPubKey, UniValue& out, bool fIncludeHex)
 {
     txnouttype type;
-    vector<CTxDestination> addresses;
+    std::vector<CTxDestination> addresses;
     int nRequired;
 
     out.push_back(Pair("asm", scriptPubKey.ToString()));
@@ -50,7 +46,7 @@ void ScriptPubKeyToJSON(const CScript& scriptPubKey, UniValue& out, bool fInclud
     out.push_back(Pair("type", GetTxnOutputType(type)));
 
     UniValue a(UniValue::VARR);
-    BOOST_FOREACH(const CTxDestination& addr, addresses)
+    for(const CTxDestination& addr : addresses)
         a.push_back(CSequenceAddress(addr).ToString());
     out.push_back(Pair("addresses", a));
 }
@@ -62,7 +58,7 @@ void TxToJSON(const CTransaction& tx, const uint256 hashBlock, UniValue& entry)
     entry.push_back(Pair("locktime", (int64_t)tx.nLockTime));
     entry.push_back(Pair("time", (int64_t)tx.nTime));
     UniValue vin(UniValue::VARR);
-    BOOST_FOREACH(const CTxIn& txin, tx.vin) {
+    for(const CTxIn& txin : tx.vin) {
         UniValue in(UniValue::VOBJ);
         if (tx.IsCoinBase())
             in.push_back(Pair("coinbase", HexStr(txin.scriptSig.begin(), txin.scriptSig.end())));
@@ -110,7 +106,7 @@ void TxToJSON(const CTransaction& tx, const uint256 hashBlock, UniValue& entry)
 UniValue getrawtransaction(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 2)
-        throw runtime_error(
+        throw std::runtime_error(
             "getrawtransaction \"txid\" ( verbose )\n"
             "\nNOTE: By default this function only works sometimes. This is when the tx is in the mempool\n"
             "or there is an unspent output in the utxo for this transaction. To make it always work,\n"
@@ -184,7 +180,7 @@ UniValue getrawtransaction(const UniValue& params, bool fHelp)
     if (!GetTransaction(hash, tx, Params().GetConsensus(), hashBlock, true))
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available about transaction");
 
-    string strHex = EncodeHexTx(tx);
+    std::string strHex = EncodeHexTx(tx);
 
     if (!fVerbose)
         return strHex;
@@ -198,7 +194,7 @@ UniValue getrawtransaction(const UniValue& params, bool fHelp)
 UniValue createrawtransaction(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() < 2 || params.size() > 3)
-        throw runtime_error(
+        throw std::runtime_error(
             "createrawtransaction [{\"txid\":\"id\",\"vout\":n},...] {\"address\":amount,\"data\":\"hex\",...} ( locktime )\n"
             "\nCreate a transaction spending the given inputs and creating new outputs.\n"
             "Outputs can be addresses or data.\n"
@@ -217,7 +213,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
             "     ]\n"
             "2. \"outputs\"             (string, required) a json object with outputs\n"
             "    {\n"
-            "      \"address\": x.xxx   (numeric or string, required) The key is the Sequence address, the numeric value (can be string) is the " + CURRENCY_UNIT + " amount\n"
+            "      \"address\": x.xxx   (numeric or std::string, required) The key is the Sequence address, the numeric value (can be string) is the " + CURRENCY_UNIT + " amount\n"
             "      \"data\": \"hex\",     (string, required) The key is \"data\", the value is hex encoded data\n"
             "      ...\n"
             "    }\n"
@@ -233,7 +229,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
         );
 
     LOCK(cs_main);
-    RPCTypeCheck(params, boost::assign::list_of(UniValue::VARR)(UniValue::VOBJ)(UniValue::VNUM), true);
+    RPCTypeCheck(params, {UniValue::VARR, UniValue::VOBJ, UniValue::VNUM}, true);
     if (params[0].isNull() || params[1].isNull())
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter, arguments 1 and 2 must be non-null");
 
@@ -268,9 +264,9 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
         rawTx.vin.push_back(in);
     }
 
-    set<CSequenceAddress> setAddress;
-    vector<string> addrList = sendTo.getKeys();
-    BOOST_FOREACH(const string& name_, addrList) {
+    std::set<CSequenceAddress> setAddress;
+    std::vector<std::string> addrList = sendTo.getKeys();
+    for(const std::string& name_ : addrList) {
 
         if (name_ == "data") {
             std::vector<unsigned char> data = ParseHexV(sendTo[name_].getValStr(),"Data");
@@ -280,10 +276,10 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
         } else {
             CSequenceAddress address(name_);
             if (!address.IsValid())
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Sequence address: ")+name_);
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Sequence address: ")+name_);
 
             if (setAddress.count(address))
-                throw JSONRPCError(RPC_INVALID_PARAMETER, string("Invalid parameter, duplicated address: ")+name_);
+                throw JSONRPCError(RPC_INVALID_PARAMETER, std::string("Invalid parameter, duplicated address: ")+name_);
             setAddress.insert(address);
 
             CScript scriptPubKey = GetScriptForDestination(address.Get());
@@ -300,7 +296,7 @@ UniValue createrawtransaction(const UniValue& params, bool fHelp)
 UniValue decoderawtransaction(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
-        throw runtime_error(
+        throw std::runtime_error(
             "decoderawtransaction \"hexstring\"\n"
             "\nReturn a JSON object representing the serialized, hex-encoded transaction.\n"
 
@@ -349,7 +345,7 @@ UniValue decoderawtransaction(const UniValue& params, bool fHelp)
         );
 
     LOCK(cs_main);
-    RPCTypeCheck(params, boost::assign::list_of(UniValue::VSTR));
+    RPCTypeCheck(params, {UniValue::VSTR});
 
     CTransaction tx;
 
@@ -365,7 +361,7 @@ UniValue decoderawtransaction(const UniValue& params, bool fHelp)
 UniValue decodescript(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
-        throw runtime_error(
+        throw std::runtime_error(
             "decodescript \"hex\"\n"
             "\nDecode a hex-encoded script.\n"
             "\nArguments:\n"
@@ -380,26 +376,34 @@ UniValue decodescript(const UniValue& params, bool fHelp)
             "     \"address\"     (string) Sequence address\n"
             "     ,...\n"
             "  ],\n"
-            "  \"p2sh\",\"address\" (string) script address\n"
+            "  \"p2sh\",\"address\" (string) address of P2SH script wrapping this redeem script (not returned if the script is already a P2SH).\n"
             "}\n"
             "\nExamples:\n"
             + HelpExampleCli("decodescript", "\"hexstring\"")
             + HelpExampleRpc("decodescript", "\"hexstring\"")
         );
 
-    RPCTypeCheck(params, boost::assign::list_of(UniValue::VSTR));
+    RPCTypeCheck(params, {UniValue::VSTR});
 
     UniValue r(UniValue::VOBJ);
     CScript script;
     if (params[0].get_str().size() > 0){
-        vector<unsigned char> scriptData(ParseHexV(params[0], "argument"));
+        std::vector<unsigned char> scriptData(ParseHexV(params[0], "argument"));
         script = CScript(scriptData.begin(), scriptData.end());
     } else {
         // Empty scripts are valid
     }
     ScriptPubKeyToJSON(script, r, false);
 
-    r.push_back(Pair("p2sh", CSequenceAddress(CScriptID(script)).ToString()));
+    UniValue type;
+
+    type = find_value(r, "type");
+
+    if (type.isStr() && type.get_str() != "scripthash") {
+        // P2SH cannot be wrapped in a P2SH. If this script is already a P2SH,
+        // don't return the address for a P2SH of the P2SH.
+        r.push_back(Pair("p2sh", CSequenceAddress(CScriptID(script)).ToString()));
+    }
     return r;
 }
 
@@ -418,7 +422,7 @@ static void TxInErrorToJSON(const CTxIn& txin, UniValue& vErrorsRet, const std::
 UniValue signrawtransaction(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 4)
-        throw runtime_error(
+        throw std::runtime_error(
             "signrawtransaction \"hexstring\" ( [{\"txid\":\"id\",\"vout\":n,\"scriptPubKey\":\"hex\",\"redeemScript\":\"hex\"},...] [\"privatekey1\",...] sighashtype )\n"
             "\nSign inputs for raw transaction (serialized, hex-encoded).\n"
             "The second optional argument (may be null) is an array of previous transaction outputs that\n"
@@ -465,11 +469,11 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
             + HelpExampleRpc("signrawtransaction", "\"myhex\"")
         );
 
-    RPCTypeCheck(params, boost::assign::list_of(UniValue::VSTR)(UniValue::VARR)(UniValue::VARR)(UniValue::VSTR), true);
+    RPCTypeCheck(params, {UniValue::VSTR, UniValue::VARR, UniValue::VARR, UniValue::VSTR}, true);
 
-    vector<unsigned char> txData(ParseHexV(params[0], "argument 1"));
+    std::vector<unsigned char> txData(ParseHexV(params[0], "argument 1"));
     CDataStream ssData(txData, SER_NETWORK, PROTOCOL_VERSION);
-    vector<CMutableTransaction> txVariants;
+    std::vector<CMutableTransaction> txVariants;
     while (!ssData.empty()) {
         try {
             CMutableTransaction tx;
@@ -497,7 +501,7 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
         CCoinsViewMemPool viewMempool(&viewChain, mempool);
         view.SetBackend(viewMempool); // temporarily switch cache backend to db+mempool view
 
-        BOOST_FOREACH(const CTxIn& txin, mergedTx.vin) {
+        for(const CTxIn& txin : mergedTx.vin) {
             const uint256& prevHash = txin.prevout.hash;
             CCoins coins;
             view.AccessCoins(prevHash); // this is certainly allowed to fail
@@ -538,7 +542,7 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
 
             UniValue prevOut = p.get_obj();
 
-            RPCTypeCheckObj(prevOut, boost::assign::map_list_of("txid", UniValue::VSTR)("vout", UniValue::VNUM)("scriptPubKey", UniValue::VSTR));
+            RPCTypeCheckObj(prevOut, {{"txid", UniValue::VSTR}, {"vout", UniValue::VNUM}, {"scriptPubKey", UniValue::VSTR}});
 
             uint256 txid = ParseHashO(prevOut, "txid");
 
@@ -546,13 +550,13 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
             if (nOut < 0)
                 throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "vout must be positive");
 
-            vector<unsigned char> pkData(ParseHexO(prevOut, "scriptPubKey"));
+            std::vector<unsigned char> pkData(ParseHexO(prevOut, "scriptPubKey"));
             CScript scriptPubKey(pkData.begin(), pkData.end());
 
             {
                 CCoinsModifier coins = view.ModifyCoins(txid);
                 if (coins->IsAvailable(nOut) && coins->vout[nOut].scriptPubKey != scriptPubKey) {
-                    string err("Previous output scriptPubKey mismatch:\n");
+                    std::string err("Previous output scriptPubKey mismatch:\n");
                     err = err + coins->vout[nOut].scriptPubKey.ToString() + "\nvs:\n"+
                         scriptPubKey.ToString();
                     throw JSONRPCError(RPC_DESERIALIZATION_ERROR, err);
@@ -566,10 +570,10 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
             // if redeemScript given and not using the local wallet (private keys
             // given), add redeemScript to the tempKeystore so it can be signed:
             if (fGivenKeys && scriptPubKey.IsPayToScriptHash()) {
-                RPCTypeCheckObj(prevOut, boost::assign::map_list_of("txid", UniValue::VSTR)("vout", UniValue::VNUM)("scriptPubKey", UniValue::VSTR)("redeemScript",UniValue::VSTR));
+                RPCTypeCheckObj(prevOut, {{"txid", UniValue::VSTR}, {"vout", UniValue::VNUM}, {"scriptPubKey", UniValue::VSTR}, {"redeemScript",UniValue::VSTR}});
                 UniValue v = find_value(prevOut, "redeemScript");
                 if (!v.isNull()) {
-                    vector<unsigned char> rsData(ParseHexV(v, "redeemScript"));
+                    std::vector<unsigned char> rsData(ParseHexV(v, "redeemScript"));
                     CScript redeemScript(rsData.begin(), rsData.end());
                     tempKeystore.AddCScript(redeemScript);
                 }
@@ -585,16 +589,16 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
 
     int nHashType = SIGHASH_ALL;
     if (params.size() > 3 && !params[3].isNull()) {
-        static map<string, int> mapSigHashValues =
-            boost::assign::map_list_of
-            (string("ALL"), int(SIGHASH_ALL))
-            (string("ALL|ANYONECANPAY"), int(SIGHASH_ALL|SIGHASH_ANYONECANPAY))
-            (string("NONE"), int(SIGHASH_NONE))
-            (string("NONE|ANYONECANPAY"), int(SIGHASH_NONE|SIGHASH_ANYONECANPAY))
-            (string("SINGLE"), int(SIGHASH_SINGLE))
-            (string("SINGLE|ANYONECANPAY"), int(SIGHASH_SINGLE|SIGHASH_ANYONECANPAY))
+        static std::map<std::string, int> mapSigHashValues = {
+				{std::string("ALL"), SIGHASH_ALL},
+				{std::string("ALL|ANYONECANPAY"), SIGHASH_ALL|SIGHASH_ANYONECANPAY},
+				{std::string("NONE"), SIGHASH_NONE},
+				{std::string("NONE|ANYONECANPAY"), SIGHASH_NONE|SIGHASH_ANYONECANPAY},
+				{std::string("SINGLE"), SIGHASH_SINGLE},
+				{std::string("SINGLE|ANYONECANPAY"), SIGHASH_SINGLE|SIGHASH_ANYONECANPAY}
+			}
             ;
-        string strHashType = params[3].get_str();
+        std::string strHashType = params[3].get_str();
         if (mapSigHashValues.count(strHashType))
             nHashType = mapSigHashValues[strHashType];
         else
@@ -626,7 +630,7 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
             SignSignature(keystore, prevPubKey, mergedTx, i, nHashType);
 
         // ... and merge in other signatures:
-        BOOST_FOREACH(const CMutableTransaction& txv, txVariants) {
+        for(const CMutableTransaction& txv : txVariants) {
             txin.scriptSig = CombineSignatures(prevPubKey, mergedTx, i, txin.scriptSig, txv.vin[i].scriptSig);
         }
         if (!VerifyScript(txin.scriptSig, prevPubKey, STANDARD_SCRIPT_VERIFY_FLAGS, MutableTransactionSignatureChecker(&mergedTx, i)))
@@ -648,7 +652,7 @@ UniValue signrawtransaction(const UniValue& params, bool fHelp)
 UniValue sendrawtransaction(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 2)
-        throw runtime_error(
+        throw std::runtime_error(
             "sendrawtransaction \"hexstring\" ( allowhighfees )\n"
             "\nSubmits raw transaction (serialized, hex-encoded) to local node and network.\n"
             "\nAlso see createrawtransaction and signrawtransaction calls.\n"
@@ -668,7 +672,7 @@ UniValue sendrawtransaction(const UniValue& params, bool fHelp)
             + HelpExampleRpc("sendrawtransaction", "\"signedhex\"")
         );
 
-    RPCTypeCheck(params, boost::assign::list_of(UniValue::VSTR)(UniValue::VBOOL));
+    RPCTypeCheck(params, {UniValue::VSTR, UniValue::VBOOL});
 
     // parse hex string from parameter
     CTransaction tx;

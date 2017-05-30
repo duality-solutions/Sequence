@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_STREAMS_H
 #define SEQUENCE_STREAMS_H
 
-#include "allocators.h"
+#include "support/allocators/zeroafterfree.h"
 #include "serialize.h"
 
 #include <algorithm>
@@ -17,6 +17,7 @@
 #include <map>
 #include <set>
 #include <stdint.h>
+#include <stdio.h>
 #include <string>
 #include <string.h>
 #include <utility>

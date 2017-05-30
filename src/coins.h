@@ -17,8 +17,8 @@
 #include <assert.h>
 #include <stdint.h>
 
-#include <boost/foreach.hpp>
 #include <boost/unordered_map.hpp>
+#include <unordered_map>
 
 /** 
  * Pruned version of CTransaction: only retains metadata and unspent transaction outputs
@@ -128,7 +128,7 @@ public:
     }
 
     void ClearUnspendable() {
-        BOOST_FOREACH(CTxOut &txout, vout) {
+        for(CTxOut &txout : vout) {
             if (txout.scriptPubKey.IsUnspendable())
                 txout.SetNull();
         }
@@ -286,7 +286,7 @@ public:
     //! check whether the entire CCoins is spent
     //! note that only !IsPruned() CCoins can be serialized
     bool IsPruned() const {
-        BOOST_FOREACH(const CTxOut &out, vout)
+        for(const CTxOut &out : vout)
             if (!out.IsNull())
                 return false;
         return true;
@@ -294,7 +294,7 @@ public:
 
     size_t DynamicMemoryUsage() const {
         size_t ret = memusage::DynamicUsage(vout);
-        BOOST_FOREACH(const CTxOut &out, vout) {
+        for(const CTxOut &out : vout) {
             const std::vector<unsigned char> *script = &out.scriptPubKey;
             ret += memusage::DynamicUsage(*script);
         }
@@ -333,7 +333,7 @@ struct CCoinsCacheEntry
     CCoinsCacheEntry() : coins(), flags(0) {}
 };
 
-typedef boost::unordered_map<uint256, CCoinsCacheEntry, CCoinsKeyHasher> CCoinsMap;
+typedef std::unordered_map<uint256, CCoinsCacheEntry, CCoinsKeyHasher> CCoinsMap;
 
 struct CCoinsStats
 {

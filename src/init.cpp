@@ -363,7 +363,10 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += "  -spendzeroconfchange   " + strprintf(_("Spend unconfirmed change when sending transactions (default: %u)"), 1) + "\n";
     strUsage += "  -txconfirmtarget=<n>   " + strprintf(_("If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)"), 1) + "\n";
     strUsage += "  -maxtxfee=<amt>        " + strprintf(_("Maximum total fees to use in a single wallet transaction, setting too low may abort large transactions (default: %s)"), FormatMoney(maxTxFee)) + "\n";
-    strUsage += "  -usehd                 " + strprintf("Use hierarchical deterministic key generation (HD) after bip32. Only has effect during wallet creation/first start (default: %u).", DEFAULT_USE_HD_WALLET); 
+    strUsage += "  -usehd                 " + _("Use hierarchical deterministic key generation (HD) after bip32. Only has effect during wallet creation/first start") + " " + strprintf(_("(default: %u)"), DEFAULT_USE_HD_WALLET);
+    strUsage += "  -mnemonic              " + _("User defined mnemonic for HD wallet (bip39). Only has effect during wallet creation/first start (default: randomly generated)");
+    strUsage += "  -mnemonicpassphrase    " + _("User defined memonic passphrase for HD wallet (bip39). Only has effect during wallet creation/first start (default: randomly generated)");
+    strUsage += "  -hdseed                " + _("User defined seed for HD wallet (should be in hex). Only has effect during wallet creation/first start (default: randomly generated)");
     strUsage += "  -upgradewallet         " + _("Upgrade wallet to latest format") + " " + _("on startup") + "\n";
     strUsage += "  -wallet=<file>         " + _("Specify wallet file (within data directory)") + " " + strprintf(_("(default: %s)"), "wallet.dat") + "\n";
     strUsage += "  -walletnotify=<cmd>    " + _("Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)") + "\n";
@@ -538,7 +541,7 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
     }
 
     // -loadblock=
-    BOOST_FOREACH(boost::filesystem::path &path, vImportFiles) {
+    for(boost::filesystem::path &path : vImportFiles) {
         FILE *file = fopen(path.string().c_str(), "rb");
         if (file) {
             CImportingNow imp;
@@ -716,8 +719,16 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             LogPrintf("%s: parameter interaction: -whitelistforcerelay=1 -> setting -whitelistrelay=1\n", __func__);
     }
 
+    if (mapArgs.count("-hdseed") && IsHex(GetArg("-hdseed", "not hex")) && (mapArgs.count("-mnemonic") || mapArgs.count("-mnemonicpassphrase"))) {
+        mapArgs.erase("-mnemonic");
+        mapArgs.erase("-mnemonicpassphrase");
+        LogPrintf("%s: parameter interaction: can't use -hdseed and -mnemonic/-mnemonicpassphrase together, will prefer -seed\n", __func__);
+    }
+
     // Make sure enough file descriptors are available
-    int nBind = std::max((int)mapArgs.count("-bind") + (int)mapArgs.count("-whitebind"), 1);
+    int nBind = std::max(
+                (mapMultiArgs.count("-bind") ? mapMultiArgs.at("-bind").size() : 0) +
+                (mapMultiArgs.count("-whitebind") ? mapMultiArgs.at("-whitebind").size() : 0), size_t(1));
     nMaxConnections = GetArg("-maxconnections", 125);
     nMaxConnections = std::max(std::min(nMaxConnections, (int)(FD_SETSIZE - nBind - MIN_CORE_FILEDESCRIPTORS)), 0);
     int nFD = RaiseFileDescriptorLimit(nMaxConnections + MIN_CORE_FILEDESCRIPTORS);
@@ -990,7 +1001,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     // sanitize comments per BIP-0014, format user agent and check total size
     std::vector<string> uacomments;
-    BOOST_FOREACH(string cmt, mapMultiArgs["-uacomment"])
+    for(string cmt : mapMultiArgs["-uacomment"])
     {
         if (cmt != SanitizeString(cmt, SAFE_CHARS_UA_COMMENT))
             return InitError(strprintf(_("User Agent comment (%s) contains unsafe characters."), cmt));
@@ -1004,7 +1015,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     if (mapArgs.count("-onlynet")) {
         std::set<enum Network> nets;
-        BOOST_FOREACH(std::string snet, mapMultiArgs["-onlynet"]) {
+        for(std::string snet : mapMultiArgs["-onlynet"]) {
             enum Network net = ParseNetwork(snet);
             if (net == NET_UNROUTABLE)
                 return InitError(strprintf(_("Unknown network specified in -onlynet: '%s'"), snet));
@@ -1018,7 +1029,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     }
 
     if (mapArgs.count("-whitelist")) {
-        BOOST_FOREACH(const std::string& net, mapMultiArgs["-whitelist"]) {
+        for(const std::string& net : mapMultiArgs["-whitelist"]) {
             CSubNet subnet(net);
             if (!subnet.IsValid())
                 return InitError(strprintf(_("Invalid netmask specified in -whitelist: '%s'"), net));
@@ -1067,13 +1078,13 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     bool fBound = false;
     if (fListen) {
         if (mapArgs.count("-bind") || mapArgs.count("-whitebind")) {
-            BOOST_FOREACH(std::string strBind, mapMultiArgs["-bind"]) {
+            for(std::string strBind : mapMultiArgs["-bind"]) {
                 CService addrBind;
                 if (!Lookup(strBind.c_str(), addrBind, GetListenPort(), false))
                     return InitError(strprintf(_("Cannot resolve -bind address: '%s'"), strBind));
                 fBound |= Bind(addrBind, (BF_EXPLICIT | BF_REPORT_ERROR));
             }
-            BOOST_FOREACH(std::string strBind, mapMultiArgs["-whitebind"]) {
+            for(std::string strBind : mapMultiArgs["-whitebind"]) {
                 CService addrBind;
                 if (!Lookup(strBind.c_str(), addrBind, 0, false))
                     return InitError(strprintf(_("Cannot resolve -whitebind address: '%s'"), strBind));
@@ -1093,7 +1104,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     }
 
     if (mapArgs.count("-externalip")) {
-        BOOST_FOREACH(string strAddr, mapMultiArgs["-externalip"]) {
+        for(string strAddr : mapMultiArgs["-externalip"]) {
             CService addrLocal(strAddr, GetListenPort(), fNameLookup);
             if (!addrLocal.IsValid())
                 return InitError(strprintf(_("Cannot resolve -externalip address: '%s'"), strAddr));
@@ -1101,7 +1112,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         }
     }
 
-    BOOST_FOREACH(string strDest, mapMultiArgs["-seednode"])
+    for(string strDest : mapMultiArgs["-seednode"])
         AddOneShot(strDest);
 
     // ********************************************************* Step 7: load block chain
@@ -1291,10 +1302,13 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         bool fFirstRun = true;
         pwalletMain = new CWallet(strWalletFile);
         DBErrors nLoadWalletRet = pwalletMain->LoadWallet(fFirstRun);
+        
         if (nLoadWalletRet != DB_LOAD_OK)
         {
             if (nLoadWalletRet == DB_CORRUPT)
-                strErrors << _("Error loading wallet.dat: Wallet corrupted") << "\n";
+                strErrors << _("Error loading wallet.dat: Wallet is either corrupted OR you need to use your previous client to dump ALL private keys for ALL addresses."
+                               " BACKUP your backups folder and wallet.dat to a safe place i.e. USB storage or Paper Wallet."
+                               " Allow Sequence to build a new wallet.dat, fully sync and then import the private keys to the newly created wallet") << "\n";
             else if (nLoadWalletRet == DB_NONCRITICAL_ERROR)
             {
                 string msg(_("Warning: error reading wallet.dat! All keys read correctly, but transaction data"
@@ -1334,16 +1348,15 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             // Create new keyUser and set as default key
             RandAddSeedPerfmon();
 
-            // Create new keyUser and set as default key
             if (GetBoolArg("-usehd", DEFAULT_USE_HD_WALLET) && !pwalletMain->IsHDEnabled()) {
+                if (GetArg("-mnemonicpassphrase", "").size() > 256)
+                    return InitError(_("Mnemonic passphrase is too long, must be at most 256 characters"));
                 // generate a new master key
-                CPubKey masterPubKey = pwalletMain->GenerateNewHDMasterKey();
-                if (!pwalletMain->SetHDMasterKey(masterPubKey))
-                    throw std::runtime_error(std::string(__func__) + ": Storing master key failed");
+                pwalletMain->GenerateNewHDChain();
             }
 
             CPubKey newDefaultKey;
-            if (pwalletMain->GetKeyFromPool(newDefaultKey)) {
+            if (pwalletMain->GetKeyFromPool(newDefaultKey, false)) {
                 pwalletMain->SetDefaultKey(newDefaultKey);
                 if (!pwalletMain->SetAddressBook(pwalletMain->vchDefaultKey.GetID(), "", "receive"))
                     strErrors << _("Cannot write default address") << "\n";
@@ -1352,11 +1365,16 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             pwalletMain->SetBestChain(chainActive.GetLocator());
         }
         else if (mapArgs.count("-usehd")) {
-            bool useHD = GetBoolArg("-usehd", DEFAULT_USE_HD_WALLET);
+           bool useHD = GetBoolArg("-usehd", DEFAULT_USE_HD_WALLET);
             if (pwalletMain->IsHDEnabled() && !useHD)
                 return InitError(strprintf(_("Error loading %s: You can't disable HD on a already existing HD wallet"), strWalletFile));
             if (!pwalletMain->IsHDEnabled() && useHD)
                 return InitError(strprintf(_("Error loading %s: You can't enable HD on a already existing non-HD wallet"), strWalletFile));
+        }
+
+        // Warn user every time he starts non-encrypted HD wallet
+        if (GetBoolArg("-usehd", DEFAULT_USE_HD_WALLET) && !pwalletMain->IsLocked()) {
+            InitWarning(_("Make sure to encrypt your wallet and delete all non-encrypted backups after you verified that wallet works!"));
         }
 
         LogPrintf("%s", strErrors.str());
@@ -1391,7 +1409,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             {
                 CWalletDB walletdb(strWalletFile);
 
-                BOOST_FOREACH(const CWalletTx& wtxOld, vWtx)
+                for(const CWalletTx& wtxOld : vWtx)
                 {
                     uint256 hash = wtxOld.GetHash();
                     std::map<uint256, CWalletTx>::iterator mi = pwalletMain->mapWallet.find(hash);
@@ -1423,7 +1441,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     std::vector<boost::filesystem::path> vImportFiles;
     if (mapArgs.count("-loadblock"))
     {
-        BOOST_FOREACH(string strFile, mapMultiArgs["-loadblock"])
+        for(string strFile : mapMultiArgs["-loadblock"])
             vImportFiles.push_back(strFile);
     }
     threadGroup.create_thread(boost::bind(&ThreadImport, vImportFiles));
@@ -1445,11 +1463,17 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     //// debug print
     LogPrintf("mapBlockIndex.size() = %u\n",   mapBlockIndex.size());
-    LogPrintf("nBestHeight = %d\n",                   chainActive.Height());
+    LogPrintf("chainActive.Height() = %d\n",                   chainActive.Height());
 #ifdef ENABLE_WALLET
-    LogPrintf("setKeyPool.size() = %u\n",      pwalletMain ? pwalletMain->setKeyPool.size() : 0);
-    LogPrintf("mapWallet.size() = %u\n",       pwalletMain ? pwalletMain->mapWallet.size() : 0);
-    LogPrintf("mapAddressBook.size() = %u\n",  pwalletMain ? pwalletMain->mapAddressBook.size() : 0);
+    if (pwalletMain) {
+        LOCK(pwalletMain->cs_wallet);
+        LogPrintf("setExternalKeyPool.size() = %u\n",   pwalletMain->KeypoolCountExternalKeys());
+        LogPrintf("setInternalKeyPool.size() = %u\n",   pwalletMain->KeypoolCountInternalKeys());
+        LogPrintf("mapWallet.size() = %u\n",            pwalletMain->mapWallet.size());
+        LogPrintf("mapAddressBook.size() = %u\n",       pwalletMain->mapAddressBook.size());
+    } else {
+        LogPrintf("wallet is NULL\n");
+    }
 #endif
     if (GetBoolArg("-listenonion", DEFAULT_LISTEN_ONION))
         StartTorControl(threadGroup, scheduler);

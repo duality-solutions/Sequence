@@ -22,6 +22,7 @@
 #include <QSystemTrayIcon>
 
 class ClientModel;
+class ModalOverlay;
 class NetworkStyle;
 class Notificator;
 class OptionsModel;
@@ -102,9 +103,9 @@ private:
     WalletFrame *walletFrame;
 
     UnitDisplayStatusBarControl *unitDisplayControl;
-    QPushButton *labelConnectionsIcon;
     QLabel *labelWalletHDStatusIcon;
     QLabel *labelStakingIcon;
+    QPushButton *labelConnectionsIcon;
     QLabel *labelBlocksIcon;
     QLabel *progressBarLabel;
     QProgressBar *progressBar;
@@ -117,6 +118,7 @@ private:
     QAction *sendCoinsAction;
     QAction *sendCoinsMenuAction;
     QAction *multiSigAction;
+    QAction *stakeReportAction;
     QAction *dnsAction;
     QAction *usedSendingAddressesAction;
     QAction *usedReceivingAddressesAction;
@@ -140,13 +142,13 @@ private:
     QAction *showBackupsAction;
     QAction *openAction;
     QAction *showHelpMessageAction;
-    QAction *calcAction;
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
     QMenu *dockIconMenu;
     Notificator *notificator;
     RPCConsole *rpcConsole;
+    ModalOverlay *modalOverlay;
 
     /** Keep track of previous number of blocks, to detect progress */
     int prevBlocks;
@@ -175,6 +177,8 @@ private:
     /** Disconnect core signals from GUI client */
     void unsubscribeFromCoreSignals();
 
+    void updateHeadersSyncProgressLabel();
+
 Q_SIGNALS:
     /** Signal raised when a URI was entered or dragged to the GUI */
     void receivedURI(const QString &uri);
@@ -185,7 +189,7 @@ public Q_SLOTS:
     /** Set number of connections shown in the UI */
     void setNumConnections(int count);
     /** Set number of blocks shown in the UI */
-    void setNumBlocks(int count);
+    void setNumBlocks(int count, const QDateTime& blockDate, double nVerificationProgress, bool headers);
     /** Get restart command-line parameters and request restart */
     void handleRestart(QStringList args);
 
@@ -199,17 +203,17 @@ public Q_SLOTS:
     void message(const QString &title, const QString &message, unsigned int style, bool *ret = NULL);
 
 #ifdef ENABLE_WALLET
-    /** Set the encryption status as shown in the UI.
-       @param[in] status            current encryption status
-       @see WalletModel::EncryptionStatus
-    */
-    void setEncryptionStatus(int status);
-
     /** Set the hd-enabled status as shown in the UI.
      @param[in] status            current hd enabled status
      @see WalletModel::EncryptionStatus
      */
     void setHDStatus(int hdEnabled);
+
+    /** Set the encryption status as shown in the UI.
+       @param[in] status            current encryption status
+       @see WalletModel::EncryptionStatus
+    */
+    void setEncryptionStatus(int status);
 
     bool handlePaymentRequest(const SendCoinsRecipient& recipient);
 
@@ -227,14 +231,17 @@ private Q_SLOTS:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
-    /** Switch to DNS page */
-    void gotoDNSPage();
     /** Switch to MultiSig page */
     void gotoMultiSigPage();
+    /** Switch to Stake Report page */
+    void gotoStakeReportPage();
+    /** Switch to DNS page */
+    void gotoDNSPage();
     /** Show Sign/Verify Message dialog and switch to sign message tab */
     void gotoSignMessageTab(QString addr = "");
     /** Show Sign/Verify Message dialog and switch to verify message tab */
     void gotoVerifyMessageTab(QString addr = "");
+ 
 
     /** Show open dialog */
     void openClicked();
@@ -249,8 +256,6 @@ private Q_SLOTS:
     void showBackups();
     /** Show help message dialog */
     void showHelpMessageClicked();
-    /** Show Stake Calculator Dialog */
-    void calcClicked();
 #ifndef Q_OS_MAC
     /** Handle tray icon clicked */
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
@@ -266,6 +271,8 @@ private Q_SLOTS:
     void detectShutdown();
     /** Show progress dialog e.g. for verifychain */
     void showProgress(const QString &title, int nProgress);
+
+    void showModalOverlay();
 };
 
 class UnitDisplayStatusBarControl : public QLabel

@@ -19,16 +19,13 @@
 #include "util.h"
 #include "version.h"
 
-#include <boost/foreach.hpp>
 
 #include <univalue.h>
-
-using namespace std;
 
 UniValue getconnectioncount(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
-        throw runtime_error(
+        throw std::runtime_error(
             "getconnectioncount\n"
             "\nReturns the number of connections to other nodes.\n"
             "\nbResult:\n"
@@ -45,7 +42,7 @@ UniValue getconnectioncount(const UniValue& params, bool fHelp)
 UniValue ping(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
-        throw runtime_error(
+        throw std::runtime_error(
             "ping\n"
             "\nRequests that a ping be sent to all other nodes, to measure ping time.\n"
             "Results provided in getpeerinfo, pingtime and pingwait fields are decimal seconds.\n"
@@ -57,7 +54,7 @@ UniValue ping(const UniValue& params, bool fHelp)
 
     // Request that each node send a ping during next message processing pass
     LOCK(cs_vNodes);
-    BOOST_FOREACH(CNode* pNode, vNodes) {
+    for(CNode* pNode : vNodes) {
         pNode->fPingQueued = true;
     }
 
@@ -70,7 +67,7 @@ static void CopyNodeStats(std::vector<CNodeStats>& vstats)
 
     LOCK(cs_vNodes);
     vstats.reserve(vNodes.size());
-    BOOST_FOREACH(CNode* pnode, vNodes) {
+    for(CNode* pnode : vNodes) {
         CNodeStats stats;
         pnode->copyStats(stats);
         vstats.push_back(stats);
@@ -80,7 +77,7 @@ static void CopyNodeStats(std::vector<CNodeStats>& vstats)
 UniValue getpeerinfo(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
-        throw runtime_error(
+        throw std::runtime_error(
             "getpeerinfo\n"
             "\nReturns data about each connected network node as a json array of objects.\n"
             "\nbResult:\n"
@@ -116,12 +113,12 @@ UniValue getpeerinfo(const UniValue& params, bool fHelp)
             + HelpExampleRpc("getpeerinfo", "")
         );
 
-    vector<CNodeStats> vstats;
+    std::vector<CNodeStats> vstats;
     CopyNodeStats(vstats);
 
     UniValue ret(UniValue::VARR);
 
-    BOOST_FOREACH(const CNodeStats& stats, vstats) {
+    for(const CNodeStats& stats : vstats) {
         UniValue obj(UniValue::VOBJ);
         CNodeStateStats statestats;
         bool fStateStats = GetNodeStateStats(stats.nodeid, statestats);
@@ -150,7 +147,7 @@ UniValue getpeerinfo(const UniValue& params, bool fHelp)
             obj.push_back(Pair("synced_headers", statestats.nSyncHeight));
             obj.push_back(Pair("synced_blocks", statestats.nCommonHeight));
             UniValue heights(UniValue::VARR);
-            BOOST_FOREACH(int height, statestats.vHeightInFlight) {
+            for(int height : statestats.vHeightInFlight) {
                 heights.push_back(height);
             }
             obj.push_back(Pair("inflight", heights));
@@ -165,12 +162,12 @@ UniValue getpeerinfo(const UniValue& params, bool fHelp)
 
 UniValue addnode(const UniValue& params, bool fHelp)
 {
-    string strCommand;
+    std::string strCommand;
     if (params.size() == 2)
         strCommand = params[1].get_str();
     if (fHelp || params.size() != 2 ||
         (strCommand != "onetry" && strCommand != "add" && strCommand != "remove"))
-        throw runtime_error(
+        throw std::runtime_error(
             "addnode \"node\" \"add|remove|onetry\"\n"
             "\nAttempts add or remove a node from the addnode list.\n"
             "Or try a connection to a node once.\n"
@@ -182,7 +179,7 @@ UniValue addnode(const UniValue& params, bool fHelp)
             + HelpExampleRpc("addnode", "\"192.168.0.6:16662\", \"onetry\"")
         );
 
-    string strNode = params[0].get_str();
+    std::string strNode = params[0].get_str();
 
     if (strCommand == "onetry")
     {
@@ -192,7 +189,7 @@ UniValue addnode(const UniValue& params, bool fHelp)
     }
 
     LOCK(cs_vAddedNodes);
-    vector<string>::iterator it = vAddedNodes.begin();
+    std::vector<std::string>::iterator it = vAddedNodes.begin();
     for(; it != vAddedNodes.end(); it++)
         if (strNode == *it)
             break;
@@ -216,7 +213,7 @@ UniValue addnode(const UniValue& params, bool fHelp)
 UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 2)
-        throw runtime_error(
+        throw std::runtime_error(
             "getaddednodeinfo dns ( \"node\" )\n"
             "\nReturns information about the given added node, or all added nodes\n"
             "(note that onetry addnodes are not listed here)\n"
@@ -248,18 +245,18 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
 
     bool fDns = params[0].get_bool();
 
-    list<string> laddedNodes(0);
+    std::list<std::string> laddedNodes(0);
     if (params.size() == 1)
     {
         LOCK(cs_vAddedNodes);
-        BOOST_FOREACH(string& strAddNode, vAddedNodes)
+        for(std::string& strAddNode : vAddedNodes)
             laddedNodes.push_back(strAddNode);
     }
     else
     {
-        string strNode = params[1].get_str();
+        std::string strNode = params[1].get_str();
         LOCK(cs_vAddedNodes);
-        BOOST_FOREACH(string& strAddNode, vAddedNodes)
+        for(std::string& strAddNode : vAddedNodes)
             if (strAddNode == strNode)
             {
                 laddedNodes.push_back(strAddNode);
@@ -272,7 +269,7 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
     UniValue ret(UniValue::VARR);
     if (!fDns)
     {
-        BOOST_FOREACH(string& strAddNode, laddedNodes)
+        for(std::string& strAddNode : laddedNodes)
         {
             UniValue obj(UniValue::VOBJ);
             obj.push_back(Pair("addednode", strAddNode));
@@ -281,10 +278,10 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
         return ret;
     }
 
-    list<pair<string, vector<CService> > > laddedAddreses(0);
-    BOOST_FOREACH(string& strAddNode, laddedNodes)
+    std::list<std::pair<std::string, std::vector<CService> > > laddedAddreses(0);
+    for(std::string& strAddNode : laddedNodes)
     {
-        vector<CService> vservNode(0);
+        std::vector<CService> vservNode(0);
         if(Lookup(strAddNode.c_str(), vservNode, Params().GetDefaultPort(), fNameLookup, 0))
             laddedAddreses.push_back(make_pair(strAddNode, vservNode));
         else
@@ -298,19 +295,19 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
     }
 
     LOCK(cs_vNodes);
-    for (list<pair<string, vector<CService> > >::iterator it = laddedAddreses.begin(); it != laddedAddreses.end(); it++)
+    for (std::list<std::pair<std::string, std::vector<CService> > >::iterator it = laddedAddreses.begin(); it != laddedAddreses.end(); it++)
     {
         UniValue obj(UniValue::VOBJ);
         obj.push_back(Pair("addednode", it->first));
 
         UniValue addresses(UniValue::VARR);
         bool fConnected = false;
-        BOOST_FOREACH(CService& addrNode, it->second)
+        for(CService& addrNode : it->second)
         {
             bool fFound = false;
             UniValue node(UniValue::VOBJ);
             node.push_back(Pair("address", addrNode.ToString()));
-            BOOST_FOREACH(CNode* pnode, vNodes)
+            for(CNode* pnode : vNodes)
                 if (pnode->addr == addrNode)
                 {
                     fFound = true;
@@ -333,7 +330,7 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
 UniValue getnettotals(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() > 0)
-        throw runtime_error(
+        throw std::runtime_error(
             "getnettotals\n"
             "\nReturns information about network traffic, including bytes in, bytes out,\n"
             "and current time.\n"
@@ -369,7 +366,7 @@ static UniValue GetNetworksInfo()
         obj.push_back(Pair("name", GetNetworkName(network)));
         obj.push_back(Pair("limited", IsLimited(network)));
         obj.push_back(Pair("reachable", IsReachable(network)));
-        obj.push_back(Pair("proxy", proxy.IsValid() ? proxy.proxy.ToStringIPPort() : string()));
+        obj.push_back(Pair("proxy", proxy.IsValid() ? proxy.proxy.ToStringIPPort() : std::string()));
         obj.push_back(Pair("proxy_randomize_credentials", proxy.randomize_credentials));
         networks.push_back(obj);
     }
@@ -379,13 +376,13 @@ static UniValue GetNetworksInfo()
 UniValue getnetworkinfo(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
-        throw runtime_error(
+        throw std::runtime_error(
             "getnetworkinfo\n"
             "Returns an object containing various state info regarding P2P networking.\n"
             "\nResult:\n"
             "{\n"
             "  \"version\": xxxxx,                      (numeric) the server version\n"
-            "  \"subversion\": \"/Sequence:x.x.x/\",   (string) the server subversion string\n"
+            "  \"subversion\": \"/Sequence:x.x.x/\",   (string) the server subversion std::string\n"
             "  \"protocolversion\": xxxxx,              (numeric) the protocol version\n"
             "  \"localservices\": \"xxxxxxxxxxxxxxxx\", (string) the services we offer to the network\n"
             "  \"timeoffset\": xxxxx,                   (numeric) the time offset\n"
@@ -426,7 +423,7 @@ UniValue getnetworkinfo(const UniValue& params, bool fHelp)
     UniValue localAddresses(UniValue::VARR);
     {
         LOCK(cs_mapLocalHost);
-        BOOST_FOREACH(const PAIRTYPE(CNetAddr, LocalServiceInfo) &item, mapLocalHost)
+        for(const std::pair<CNetAddr, LocalServiceInfo> &item : mapLocalHost)
         {
             UniValue rec(UniValue::VOBJ);
             rec.push_back(Pair("address", item.first.ToString()));
@@ -443,7 +440,7 @@ UniValue getnetworkinfo(const UniValue& params, bool fHelp)
 UniValue getcheckpoint(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
-        throw runtime_error(
+        throw std::runtime_error(
             "getcheckpoint\n"
             "Show info of synchronized checkpoint.\n");
 
@@ -462,12 +459,12 @@ UniValue getcheckpoint(const UniValue& params, bool fHelp)
 
 UniValue setban(const UniValue& params, bool fHelp)
 {
-    string strCommand;
+    std::string strCommand;
     if (params.size() >= 2)
         strCommand = params[1].get_str();
     if (fHelp || params.size() < 2 ||
         (strCommand != "add" && strCommand != "remove"))
-        throw runtime_error(
+        throw std::runtime_error(
                             "setban \"ip(/netmask)\" \"add|remove\" (bantime) (absolute)\n"
                             "\nAttempts add or remove a IP/Subnet from the banned list.\n"
                             "\nArguments:\n"
@@ -485,7 +482,7 @@ UniValue setban(const UniValue& params, bool fHelp)
     CNetAddr netAddr;
     bool isSubnet = false;
 
-    if (params[0].get_str().find("/") != string::npos)
+    if (params[0].get_str().find("/") != std::string::npos)
         isSubnet = true;
 
     if (!isSubnet)
@@ -530,7 +527,7 @@ UniValue setban(const UniValue& params, bool fHelp)
 UniValue listbanned(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
-        throw runtime_error(
+        throw std::runtime_error(
                             "listbanned\n"
                             "\nList all banned IPs/Subnets.\n"
                             "\nExamples:\n"
@@ -560,7 +557,7 @@ UniValue listbanned(const UniValue& params, bool fHelp)
 UniValue clearbanned(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
-        throw runtime_error(
+        throw std::runtime_error(
                             "clearbanned\n"
                             "\nClear all banned IPs.\n"
                             "\nExamples:\n"
@@ -578,7 +575,7 @@ UniValue clearbanned(const UniValue& params, bool fHelp)
 UniValue ntptime(const UniValue& params, bool fHelp)       
 {     
     if (fHelp || params.size() > 1)       
-        throw runtime_error(      
+        throw std::runtime_error(      
             "ntptime [ntpserver]\n"       
             "Returns current time from specific or random NTP server.");      
       
@@ -592,7 +589,7 @@ UniValue ntptime(const UniValue& params, bool fHelp)
         nTime = NtpGetTime(nullptr);      
       
     if (nTime < 0)        
-        throw runtime_error("Request error");     
+        throw std::runtime_error("Request error");     
       
     UniValue obj(UniValue::VOBJ);     
     obj.push_back(Pair("epoch", nTime));      

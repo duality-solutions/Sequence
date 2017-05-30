@@ -8,6 +8,8 @@
 
 #include "wallet/wallet.h"
 
+extern CWallet* pwalletMain;
+
 WalletModelTransaction::WalletModelTransaction(const QList<SendCoinsRecipient> &recipients) :
     recipients(recipients),
     walletTransaction(0),
