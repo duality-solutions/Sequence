@@ -363,6 +363,7 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += "  -spendzeroconfchange   " + strprintf(_("Spend unconfirmed change when sending transactions (default: %u)"), 1) + "\n";
     strUsage += "  -txconfirmtarget=<n>   " + strprintf(_("If paytxfee is not set, include enough fee so transactions begin confirmation on average within n blocks (default: %u)"), 1) + "\n";
     strUsage += "  -maxtxfee=<amt>        " + strprintf(_("Maximum total fees to use in a single wallet transaction, setting too low may abort large transactions (default: %s)"), FormatMoney(maxTxFee)) + "\n";
+    strUsage += "  -warnings              " + _("Do not show warnings") + "\n";
     strUsage += "  -usehd                 " + _("Use hierarchical deterministic key generation (HD) after bip32. Only has effect during wallet creation/first start") + " " + strprintf(_("(default: %u)"), DEFAULT_USE_HD_WALLET);
     strUsage += "  -mnemonic              " + _("User defined mnemonic for HD wallet (bip39). Only has effect during wallet creation/first start (default: randomly generated)");
     strUsage += "  -mnemonicpassphrase    " + _("User defined memonic passphrase for HD wallet (bip39). Only has effect during wallet creation/first start (default: randomly generated)");
@@ -1373,8 +1374,11 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         }
 
         // Warn user every time he starts non-encrypted HD wallet
-        if (GetBoolArg("-usehd", DEFAULT_USE_HD_WALLET) && !pwalletMain->IsLocked()) {
-            InitWarning(_("Make sure to encrypt your wallet and delete all non-encrypted backups after you verified that wallet works!"));
+        if (GetBoolArg("-usehd", DEFAULT_USE_HD_WALLET) && !pwalletMain->IsLocked()) 
+        {
+            if (!GetBoolArg("-warnings", true)) {
+               InitWarning(_("Make sure to encrypt your wallet and delete all non-encrypted backups after you verified that wallet works!"));
+           }
         }
 
         LogPrintf("%s", strErrors.str());
