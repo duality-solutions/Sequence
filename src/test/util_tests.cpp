@@ -1,6 +1,5 @@
-// Copyright (c) 2012-2017 The Bitcoin Core developers
-// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers developers
-// Distributed under the MIT/X11 software license, see the accompanying
+// Copyright (c) 2011-2015 The Bitcoin Core developers
+// Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "util.h"
@@ -11,17 +10,14 @@
 #include "sync.h"
 #include "utilstrencodings.h"
 #include "utilmoneystr.h"
+#include "test/test_sequence.h"
 
 #include <stdint.h>
 #include <vector>
 
-#include <univalue.h>
-
 #include <boost/test/unit_test.hpp>
 
-using namespace std;
-
-BOOST_AUTO_TEST_SUITE(util_tests)
+BOOST_FIXTURE_TEST_SUITE(util_tests, BasicTestingSetup)
 
 BOOST_AUTO_TEST_CASE(util_criticalsection)
 {
@@ -148,29 +144,27 @@ BOOST_AUTO_TEST_CASE(util_GetArg)
 
 BOOST_AUTO_TEST_CASE(util_FormatMoney)
 {
-    BOOST_CHECK_EQUAL(FormatMoney(0, false), "0.00");
-    BOOST_CHECK_EQUAL(FormatMoney((COIN/10000)*123456789, false), "12345.6789");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN, true), "+1.00");
-    BOOST_CHECK_EQUAL(FormatMoney(-COIN, false), "-1.00");
-    BOOST_CHECK_EQUAL(FormatMoney(-COIN, true), "-1.00");
+    BOOST_CHECK_EQUAL(FormatMoney(0), "0.00");
+    BOOST_CHECK_EQUAL(FormatMoney((COIN/10000)*123456789), "12345.6789");
+    BOOST_CHECK_EQUAL(FormatMoney(-COIN), "-1.00");
 
-    BOOST_CHECK_EQUAL(FormatMoney(COIN*100000000, false), "100000000.00");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN*10000000, false), "10000000.00");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN*1000000, false), "1000000.00");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN*100000, false), "100000.00");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN*10000, false), "10000.00");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN*1000, false), "1000.00");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN*100, false), "100.00");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN*10, false), "10.00");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN, false), "1.00");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN/10, false), "0.10");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN/100, false), "0.01");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN/1000, false), "0.001");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN/10000, false), "0.0001");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN/100000, false), "0.00001");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN/1000000, false), "0.000001");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN/10000000, false), "0.0000001");
-    BOOST_CHECK_EQUAL(FormatMoney(COIN/100000000, false), "0.00000001");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN*100000000), "100000000.00");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN*10000000), "10000000.00");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN*1000000), "1000000.00");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN*100000), "100000.00");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN*10000), "10000.00");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN*1000), "1000.00");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN*100), "100.00");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN*10), "10.00");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN), "1.00");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN/10), "0.10");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN/100), "0.01");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN/1000), "0.001");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN/10000), "0.0001");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN/100000), "0.00001");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN/1000000), "0.000001");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN/10000000), "0.0000001");
+    BOOST_CHECK_EQUAL(FormatMoney(COIN/100000000), "0.00000001");
 }
 
 BOOST_AUTO_TEST_CASE(util_ParseMoney)
@@ -200,6 +194,8 @@ BOOST_AUTO_TEST_CASE(util_ParseMoney)
     BOOST_CHECK_EQUAL(ret, COIN*10);
     BOOST_CHECK(ParseMoney("1.00", ret));
     BOOST_CHECK_EQUAL(ret, COIN);
+    BOOST_CHECK(ParseMoney("1", ret));
+    BOOST_CHECK_EQUAL(ret, COIN);
     BOOST_CHECK(ParseMoney("0.1", ret));
     BOOST_CHECK_EQUAL(ret, COIN/10);
     BOOST_CHECK(ParseMoney("0.01", ret));
@@ -219,6 +215,9 @@ BOOST_AUTO_TEST_CASE(util_ParseMoney)
 
     // Attempted 63 bit overflow should fail
     BOOST_CHECK(!ParseMoney("92233720368.54775808", ret));
+
+    // Parsing negative amounts must fail
+    BOOST_CHECK(!ParseMoney("-1", ret));
 }
 
 BOOST_AUTO_TEST_CASE(util_IsHex)
@@ -285,21 +284,21 @@ BOOST_AUTO_TEST_CASE(strprintf_numbers)
 {
     int64_t s64t = -9223372036854775807LL; /* signed 64 bit test value */
     uint64_t u64t = 18446744073709551615ULL; /* unsigned 64 bit test value */
-    BOOST_CHECK(strprintf("%s %d %s", B, s64t, E) == B" -9223372036854775807 "E);
-    BOOST_CHECK(strprintf("%s %u %s", B, u64t, E) == B" 18446744073709551615 "E);
-    BOOST_CHECK(strprintf("%s %x %s", B, u64t, E) == B" ffffffffffffffff "E);
+    BOOST_CHECK(strprintf("%s %d %s", B, s64t, E) == B" -9223372036854775807 " E);
+    BOOST_CHECK(strprintf("%s %u %s", B, u64t, E) == B" 18446744073709551615 " E);
+    BOOST_CHECK(strprintf("%s %x %s", B, u64t, E) == B" ffffffffffffffff " E);
 
     size_t st = 12345678; /* unsigned size_t test value */
     ssize_t sst = -12345678; /* signed size_t test value */
-    BOOST_CHECK(strprintf("%s %d %s", B, sst, E) == B" -12345678 "E);
-    BOOST_CHECK(strprintf("%s %u %s", B, st, E) == B" 12345678 "E);
-    BOOST_CHECK(strprintf("%s %x %s", B, st, E) == B" bc614e "E);
+    BOOST_CHECK(strprintf("%s %d %s", B, sst, E) == B" -12345678 " E);
+    BOOST_CHECK(strprintf("%s %u %s", B, st, E) == B" 12345678 " E);
+    BOOST_CHECK(strprintf("%s %x %s", B, st, E) == B" bc614e " E);
 
     ptrdiff_t pt = 87654321; /* positive ptrdiff_t test value */
     ptrdiff_t spt = -87654321; /* negative ptrdiff_t test value */
-    BOOST_CHECK(strprintf("%s %d %s", B, spt, E) == B" -87654321 "E);
-    BOOST_CHECK(strprintf("%s %u %s", B, pt, E) == B" 87654321 "E);
-    BOOST_CHECK(strprintf("%s %x %s", B, pt, E) == B" 5397fb1 "E);
+    BOOST_CHECK(strprintf("%s %d %s", B, spt, E) == B" -87654321 " E);
+    BOOST_CHECK(strprintf("%s %u %s", B, pt, E) == B" 87654321 " E);
+    BOOST_CHECK(strprintf("%s %x %s", B, pt, E) == B" 5397fb1 " E);
 }
 #undef B
 #undef E
@@ -351,8 +350,8 @@ BOOST_AUTO_TEST_CASE(test_ParseInt64)
     BOOST_CHECK(ParseInt64("01234", &n) && n == 1234LL); // no octal
     BOOST_CHECK(ParseInt64("2147483647", &n) && n == 2147483647LL);
     BOOST_CHECK(ParseInt64("-2147483648", &n) && n == -2147483648LL);
-    BOOST_CHECK(ParseInt64("9223372036854775807", &n) && n == 9223372036854775807LL);
-    BOOST_CHECK(ParseInt64("-9223372036854775808", &n) && n == 9223372036854775808LL);
+    BOOST_CHECK(ParseInt64("9223372036854775807", &n) && n == (int64_t)9223372036854775807);
+    BOOST_CHECK(ParseInt64("-9223372036854775808", &n) && n == (int64_t)-9223372036854775807-1);
     BOOST_CHECK(ParseInt64("-1234", &n) && n == -1234LL);
     // Invalid values
     BOOST_CHECK(!ParseInt64("", &n));
@@ -417,9 +416,75 @@ BOOST_AUTO_TEST_CASE(test_FormatSubVersion)
     comments.push_back(std::string("comment1"));
     std::vector<std::string> comments2;
     comments2.push_back(std::string("comment1"));
-    comments2.push_back(std::string("comment2"));
+    comments2.push_back(SanitizeString(std::string("Comment2; .,_?@-; !\"#$%&'()*+/<=>[]\\^`{|}~"), SAFE_CHARS_UA_COMMENT)); // Semicolon is discouraged but not forbidden by BIP-0014
     BOOST_CHECK_EQUAL(FormatSubVersion("Test", 99900, std::vector<std::string>()),std::string("/Test:0.9.99/"));
     BOOST_CHECK_EQUAL(FormatSubVersion("Test", 99900, comments),std::string("/Test:0.9.99(comment1)/"));
-    BOOST_CHECK_EQUAL(FormatSubVersion("Test", 99900, comments2),std::string("/Test:0.9.99(comment1; comment2)/"));
+    BOOST_CHECK_EQUAL(FormatSubVersion("Test", 99900, comments2),std::string("/Test:0.9.99(comment1; Comment2; .,_?@-; )/"));
 }
+
+BOOST_AUTO_TEST_CASE(test_ParseFixedPoint)
+{
+    int64_t amount = 0;
+    BOOST_CHECK(ParseFixedPoint("0", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, 0LL);
+    BOOST_CHECK(ParseFixedPoint("1", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, 100000000LL);
+    BOOST_CHECK(ParseFixedPoint("0.0", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, 0LL);
+    BOOST_CHECK(ParseFixedPoint("-0.1", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, -10000000LL);
+    BOOST_CHECK(ParseFixedPoint("1.1", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, 110000000LL);
+    BOOST_CHECK(ParseFixedPoint("1.10000000000000000", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, 110000000LL);
+    BOOST_CHECK(ParseFixedPoint("1.1e1", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, 1100000000LL);
+    BOOST_CHECK(ParseFixedPoint("1.1e-1", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, 11000000LL);
+    BOOST_CHECK(ParseFixedPoint("1000", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, 100000000000LL);
+    BOOST_CHECK(ParseFixedPoint("-1000", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, -100000000000LL);
+    BOOST_CHECK(ParseFixedPoint("0.00000001", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, 1LL);
+    BOOST_CHECK(ParseFixedPoint("0.0000000100000000", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, 1LL);
+    BOOST_CHECK(ParseFixedPoint("-0.00000001", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, -1LL);
+    BOOST_CHECK(ParseFixedPoint("1000000000.00000001", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, 100000000000000001LL);
+    BOOST_CHECK(ParseFixedPoint("9999999999.99999999", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, 999999999999999999LL);
+    BOOST_CHECK(ParseFixedPoint("-9999999999.99999999", 8, &amount));
+    BOOST_CHECK_EQUAL(amount, -999999999999999999LL);
+
+    BOOST_CHECK(!ParseFixedPoint("", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("-", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("a-1000", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("-a1000", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("-1000a", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("-01000", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("00.1", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint(".1", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("--0.1", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("0.000000001", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("-0.000000001", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("0.00000001000000001", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("-10000000000.00000000", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("10000000000.00000000", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("-10000000000.00000001", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("10000000000.00000001", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("-10000000000.00000009", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("10000000000.00000009", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("-99999999999.99999999", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("99999909999.09999999", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("92233720368.54775807", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("92233720368.54775808", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("-92233720368.54775808", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("-92233720368.54775809", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("1.1e", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("1.1e-", 8, &amount));
+    BOOST_CHECK(!ParseFixedPoint("1.", 8, &amount));
+}
+
 BOOST_AUTO_TEST_SUITE_END()

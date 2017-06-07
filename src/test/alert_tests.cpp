@@ -9,6 +9,7 @@
 //
 
 #include "alert.h"
+#include "chainparams.h"
 #include "clientversion.h"
 #include "data/alertTests.raw.h"
 
@@ -168,7 +169,7 @@ BOOST_AUTO_TEST_CASE(AlertNotify)
     mapArgs["-alertnotify"] = std::string("echo %s >> ") + temp.string();
 
     for(CAlert alert : alerts)
-        alert.ProcessAlert(alertKey, false);
+        alert.ProcessAlert(Params().AlertKey(), false);
 
     std::vector<std::string> r = read_lines(temp);
     // Sequence: following tests requires alertnotify.txt to exist, but for some reason this file is deleted at next instruction...

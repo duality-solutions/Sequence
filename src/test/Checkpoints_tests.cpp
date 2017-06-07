@@ -11,30 +11,17 @@
 #include "checkpoints.h"
 
 #include "uint256.h"
+#include "test/test_sequence.h"
+#include "chainparams.h"
 
 #include <boost/test/unit_test.hpp>
 
-using namespace std;
-
-BOOST_AUTO_TEST_SUITE(Checkpoints_tests)
+BOOST_FIXTURE_TEST_SUITE(Checkpoints_tests, BasicTestingSetup)
 
 BOOST_AUTO_TEST_CASE(sanity)
 {
-    uint256 p25000 = uint256("0x20cc6639e9593e4e9344e1d40a234c552da81cb90b991aed6200ff0f72a69719");
-    uint256 p100000 = uint256("0x0000000000000071c614fefb88072459cced7b9d9a9cffd04064d3c3d539ecaf");
-    BOOST_CHECK(Checkpoints::CheckBlock(25000, p25000));
-    BOOST_CHECK(Checkpoints::CheckBlock(100000, p100000));
-
-    
-    // Wrong hashes at checkpoints should fail:
-    BOOST_CHECK(!Checkpoints::CheckBlock(25000, p100000));
-    BOOST_CHECK(!Checkpoints::CheckBlock(100000, p25000));
-
-    // ... but any hash not at a checkpoint should succeed:
-    BOOST_CHECK(Checkpoints::CheckBlock(25000+1, p100000));
-    BOOST_CHECK(Checkpoints::CheckBlock(100000+1, p25000));
-
-    BOOST_CHECK(Checkpoints::GetTotalBlocksEstimate() >= 100000);
-}    
+    const CCheckpointData& checkpoints = Params(CBaseChainParams::MAIN).Checkpoints();
+    BOOST_CHECK(Checkpoints::GetTotalBlocksEstimate(checkpoints) >= 107996);
+}
 
 BOOST_AUTO_TEST_SUITE_END()
