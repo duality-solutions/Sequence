@@ -165,6 +165,19 @@ extern std::string HelpExampleRpc(const std::string& methodname, const std::stri
 extern void EnsureWalletIsUnlocked();
 extern void relockWalletAfterDuration(CWallet *wallet, int64_t nSeconds);
 
+// Forgive me sensi, but there is no other choice
+extern UniValue getstakesplitthreshold(const UniValue & params, bool fHelp);
+extern UniValue setstakesplitthreshold(const UniValue & params, bool fHelp);
+extern UniValue getstaketx(const UniValue & params, bool fHelp);
+extern UniValue ccsend(const UniValue & params, bool fHelp);
+extern UniValue ccreset(const UniValue & params, bool fHelp);
+extern UniValue cccustomchange(const UniValue & params, bool fHelp);
+extern UniValue ccreturnchange(const UniValue & params, bool fHelp);
+extern UniValue cclistselected(const UniValue & params, bool fHelp);
+extern UniValue ccselect(const UniValue & params, bool fHelp);
+extern UniValue cclistcoins(const UniValue & params, bool fHelp);
+extern UniValue detailedmoneysupply(const UniValue & params, bool fHelp);
+
 // in rest.cpp
 extern bool HTTPReq_REST(AcceptedConnection *conn,
                   std::string& strURI,

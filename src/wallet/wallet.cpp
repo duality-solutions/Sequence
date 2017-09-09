@@ -86,6 +86,9 @@ void CWallet::SetNull()
     nNextResend = 0;
     nLastResend = 0;
     nTimeFirstKey = 0;
+    
+    nStakeSplitThreshold = GetStakeSplitThreshold();
+    fSplitBlock = false;
 }
 
 const CWalletTx* CWallet::GetWalletTx(const uint256& hash) const
@@ -2231,6 +2234,10 @@ bool CWallet::CreateTransactionInner(const vector<pair<CScript, CAmount> >& vecS
         LOCK2(cs_main, cs_wallet);
         {
             nFeeRet = max(nFeeInput, MIN_TX_FEE);  // Sequence: a good starting point, probably...
+            
+            if(fSplitBlock)
+				nFeeRet = COIN;
+            
             while (true)
             {
                 txNew.vin.clear();
@@ -2244,16 +2251,16 @@ bool CWallet::CreateTransactionInner(const vector<pair<CScript, CAmount> >& vecS
 
                 if (!fSplitBlock)
                 {
-                for(const std::pair<CScript, CAmount>& s : vecSend)
-                {
-                    CTxOut txout(s.second, s.first);
-                    if (txout.IsDust(::minRelayTxFee))
-                    {
-                        strFailReason = _("Transaction amount too small");
-                        return false;
-                    }
-                    txNew.vout.push_back(txout);
-                }
+					for (const std::pair<CScript, CAmount>& s : vecSend)
+					{
+						CTxOut txout(s.second, s.first);
+						if (txout.IsDust(::minRelayTxFee))
+						{
+							strFailReason = _("Transaction amount too small");
+							return false;
+						}
+						txNew.vout.push_back(txout);
+					}
                 }
                 else for(const std::pair<CScript, CAmount>& s : vecSend)
                 {
@@ -2604,8 +2611,11 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
                 nCredit += pcoin.first->vout[pcoin.second].nValue;
                 vwtxPrev.push_back(pcoin.first);
                 txNew.vout.push_back(CTxOut(0, scriptPubKeyOut));
-                if (nCredit >= GetStakeSplitThreshold())
-                    txNew.vout.push_back(CTxOut(0, txNew.vout[1].scriptPubKey)); //split stake
+
+				uint64_t nTotalSize = pcoin.first->vout[pcoin.second].nValue * (1+((txNew.nTime - header.GetBlockTime()) / (60*60*24)) * (STATIC_POS_REWARD / COIN / 365));
+
+				if (nTotalSize / 2 > nStakeSplitThreshold)
+					txNew.vout.push_back(CTxOut(0, scriptPubKeyOut)); //split stake
 
                 LogPrint("coinstake", "CreateCoinStake : added kernel type=%d\n", whichType);
                 fKernelFound = true;
