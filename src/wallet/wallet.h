@@ -201,9 +201,6 @@ public:
     MasterKeyMap mapMasterKeys;
     unsigned int nMasterKeyMaxID;
 
-    //SplitBlock
-    bool fSplitBlock;
-
     CWallet()
     {
         SetNull();
@@ -446,6 +443,15 @@ public:
     bool SetHDChain(const CHDChain& chain, bool memonly);
     bool SetCryptedHDChain(const CHDChain& chain, bool memonly);
     bool GetDecryptedHDChain(CHDChain& hdChainRet);
+    
+    /**
+     * SplitStake Functionality
+     * Credits to Presstab
+     * 
+     **/
+     
+    bool fSplitBlock;
+    uint64_t nStakeSplitThreshold;
 };
 
 /** A key allocated from the key pool. */

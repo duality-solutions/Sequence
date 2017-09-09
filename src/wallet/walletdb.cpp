@@ -146,6 +146,12 @@ bool CWalletDB::WriteOrderPosNext(int64_t nOrderPosNext)
     return Write(std::string("orderposnext"), nOrderPosNext);
 }
 
+bool CWalletDB::WriteStakeSplitThreshold(uint64_t nStakeSplitThreshold)
+{
+	nWalletDBUpdated++;
+	return Write(std::string("stakeSplitThreshold"), nStakeSplitThreshold);
+}
+
 bool CWalletDB::WriteDefaultKey(const CPubKey& vchPubKey)
 {
     nWalletDBUpdated++;
@@ -573,6 +579,11 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
         {
             ssValue >> pwallet->nOrderPosNext;
         }
+
+		else if (strType == "stakeSplitThreshold")
+		{
+            ssValue >> pwallet->nStakeSplitThreshold;
+		}
         else if (strType == "destdata")
         {
             std::string strAddress, strKey, strValue;

@@ -243,7 +243,6 @@ UniValue stop(const UniValue& params, bool fHelp)
 }
 
 
-
 /**
  * Call Table
  */
@@ -253,6 +252,18 @@ static const CRPCCommand vRPCCommands[] =
     /* Overall control/query calls */
     { "control",            "help",                   &help,                   true,      true,       false },
     { "control",            "stop",                   &stop,                   true,      true,       false },
+    
+    { "stake",            "getstakesplitthreshold", &getstakesplitthreshold, true,      true,       false },
+    { "stake",            "setstakesplitthreshold", &setstakesplitthreshold, true,      true,       false },
+    { "stake",            "getstaketx",             &getstaketx,             true,      true,       false },
+    
+    { "coincontrol",            "ccsend",                 &ccsend,                 true,      true,       false },
+    { "coincontrol",            "ccreset",                &ccreset,                true,      true,       false },
+    { "coincontrol",            "cccustomchange",         &cccustomchange,         true,      true,       false },
+    { "coincontrol",            "ccreturnchange",         &ccreturnchange,         true,      true,       false },
+    { "coincontrol",            "cclistselected",         &cclistselected,         true,      true,       false },
+    { "coincontrol",            "ccselect",               &ccselect,               true,      true,       false },
+    { "coincontrol",            "cclistcoins",            &cclistcoins,            true,      true,       false },
 };
 
 CRPCTable::CRPCTable()

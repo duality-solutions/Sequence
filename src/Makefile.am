@@ -209,7 +209,7 @@ libsequence_wallet_a_SOURCES = \
 	wallet/db.cpp \
 	wallet/crypter.cpp \
 	wallet/rpcdump.cpp \
-	wallet/rpcwallet.cpp \
+	wallet/rpcwallet.cpp rpc/rpccontrol.cpp \
 	wallet/wallet.cpp \
 	wallet/wallet_ismine.cpp \
 	wallet/walletdb.cpp \
