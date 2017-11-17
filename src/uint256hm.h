@@ -13,8 +13,8 @@
 #ifndef SEQ_UINT256HM_H
 #define SEQ_UINT256HM_H
 
-#include "uint256.h"
-#include "random.h"
+#include <uint256.h>
+#include <random.h>
 
 // Container - debug version
 template<class DATA>

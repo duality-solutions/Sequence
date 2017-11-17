@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_SERIALIZE_H
 #define SEQUENCE_SERIALIZE_H
 
-#include "compat/endian.h"
+#include <compat/endian.h>
 
 #include <algorithm>
 #include <assert.h>

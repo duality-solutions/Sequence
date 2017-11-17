@@ -7,12 +7,12 @@
 #ifndef SEQUENCE_COINS_H
 #define SEQUENCE_COINS_H
 
-#include "compressor.h"
-#include "memusage.h"
-#include "random.h"
-#include "serialize.h"
-#include "uint256.h"
-#include "undo.h"
+#include <compressor.h>
+#include <memusage.h>
+#include <random.h>
+#include <serialize.h>
+#include <uint256.h>
+#include <undo.h>
 
 #include <assert.h>
 #include <stdint.h>

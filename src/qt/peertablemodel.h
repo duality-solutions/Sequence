@@ -7,8 +7,8 @@
 #ifndef SEQUENCE_QT_PEERTABLEMODEL_H
 #define SEQUENCE_QT_PEERTABLEMODEL_H
 
-#include "main.h"
-#include "net.h"
+#include <main.h>
+#include <net.h>
 
 #include <QAbstractTableModel>
 #include <QStringList>

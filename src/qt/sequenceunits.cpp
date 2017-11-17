@@ -4,10 +4,10 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "sequenceunits.h"
+#include <qt/sequenceunits.h>
 
-#include "chainparams.h"
-#include "primitives/transaction.h"
+#include <chainparams.h>
+#include <primitives/transaction.h>
 
 #include <QSettings>
 #include <QStringList>

@@ -4,8 +4,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "compat/sanity.h"
-#include "key.h"
+#include <compat/sanity.h>
+#include <key.h>
 
 #include <boost/test/unit_test.hpp>
 BOOST_AUTO_TEST_SUITE(sanity_tests)

@@ -5,8 +5,8 @@
 #ifndef MULTISIGINPUTENTRY_H
 #define MULTISIGINPUTENTRY_H
 
-#include "amount.h"
-#include "uint256.h"
+#include <amount.h>
+#include <uint256.h>
 
 #include <QFrame>
 

@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_SYNC_H
 #define SEQUENCE_SYNC_H
 
-#include "threadsafety.h"
+#include <threadsafety.h>
 
 #include <boost/thread/condition_variable.hpp>
 #include <boost/thread/locks.hpp>

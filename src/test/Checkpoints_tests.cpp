@@ -8,9 +8,9 @@
 // Unit tests for block-chain checkpoints
 //
 
-#include "checkpoints.h"
+#include <checkpoints.h>
 
-#include "uint256.h"
+#include <uint256.h>
 
 #include <boost/test/unit_test.hpp>
 

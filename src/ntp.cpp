@@ -1,10 +1,10 @@
-#include "init.h"
-#include "netbase.h"
-#include "net.h"
-#include "timedata.h"
-#include "threadsafety.h"
-#include "utiltime.h"
-#include "ui_interface.h"
+#include <init.h>
+#include <netbase.h>
+#include <net.h>
+#include <timedata.h>
+#include <threadsafety.h>
+#include <utiltime.h>
+#include <ui_interface.h>
 
 #ifdef WIN32
 #include <winsock2.h>

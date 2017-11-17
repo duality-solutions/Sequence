@@ -4,23 +4,23 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "walletmodel.h"
+#include <qt/walletmodel.h>
 
-#include "addresstablemodel.h"
-#include "guiconstants.h"
-#include "nametablemodel.h"
-#include "recentrequeststablemodel.h"
-#include "transactiontablemodel.h"
+#include <qt/addresstablemodel.h>
+#include <qt/guiconstants.h>
+#include <qt/nametablemodel.h>
+#include <qt/recentrequeststablemodel.h>
+#include <qt/transactiontablemodel.h>
 
-#include "base58.h"
-#include "wallet/db.h"
-#include "keystore.h"
-#include "main.h"
-#include "rpc/rpcserver.h"
-#include "sync.h"
-#include "ui_interface.h"
-#include "wallet/wallet.h"
-#include "wallet/walletdb.h" // for BackupWallet
+#include <base58.h>
+#include <wallet/db.h>
+#include <keystore.h>
+#include <main.h>
+#include <rpc/rpcserver.h>
+#include <sync.h>
+#include <ui_interface.h>
+#include <wallet/wallet.h>
+#include <wallet/walletdb.h> // for BackupWallet
 
 #include <stdint.h>
 

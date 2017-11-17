@@ -8,10 +8,10 @@
 #define SEQUENCE_QT_SEQUENCEGUI_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/sequence-config.h"
+#include <config/sequence-config.h>
 #endif
 
-#include "amount.h"
+#include <amount.h>
 
 #include <QLabel>
 #include <QMainWindow>

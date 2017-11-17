@@ -4,19 +4,19 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "rpcconsole.h"
-#include "ui_rpcconsole.h"
+#include <qt/rpcconsole.h>
+#include <ui_rpcconsole.h>
 
-#include "bantablemodel.h"
-#include "clientmodel.h"
-#include "guiutil.h"
-#include "peertablemodel.h"
+#include <qt/bantablemodel.h>
+#include <qt/clientmodel.h>
+#include <qt/guiutil.h>
+#include <qt/peertablemodel.h>
 
-#include "main.h"
-#include "chainparams.h"
-#include "rpc/rpcserver.h"
-#include "rpc/rpcclient.h"
-#include "util.h"
+#include <main.h>
+#include <chainparams.h>
+#include <rpc/rpcserver.h>
+#include <rpc/rpcclient.h>
+#include <util.h>
 
 #include <univalue.h>
 
@@ -79,7 +79,7 @@ Q_SIGNALS:
     void reply(int category, const QString &command);
 };
 
-#include "rpcconsole.moc"
+#include <rpcconsole.moc>
 
 /**
  * Split shell command line into a list of arguments. Aims to emulate \c bash and friends.

@@ -4,11 +4,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "sequenceconsensus.h"
+#include <script/sequenceconsensus.h>
 
-#include "script/interpreter.h"
-#include "primitives/transaction.h"
-#include "version.h"
+#include <script/interpreter.h>
+#include <primitives/transaction.h>
+#include <version.h>
 
 namespace {
 

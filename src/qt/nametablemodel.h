@@ -8,7 +8,7 @@
 #ifndef NAMETABLEMODEL_H
 #define NAMETABLEMODEL_H
 
-#include "uint256.h"
+#include <uint256.h>
 
 #include <QAbstractTableModel>
 #include <QStringList>

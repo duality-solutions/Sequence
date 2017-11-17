@@ -4,27 +4,27 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "amount.h"
-#include "chainparams.h"
-#include "consensus/consensus.h"
-#include "core_io.h"
-#include "init.h"
-#include "main.h"
-#include "consensus/merkle.h"
-#include "miner.h"
-#include "net.h"
-#include "consensus/params.h"
-#include "work.h"
-#include "rpc/rpcserver.h"
-#include "txmempool.h"
-#include "util.h"
-#include "consensus/validation.h"
+#include <amount.h>
+#include <chainparams.h>
+#include <consensus/consensus.h>
+#include <core_io.h>
+#include <init.h>
+#include <main.h>
+#include <consensus/merkle.h>
+#include <miner.h>
+#include <net.h>
+#include <consensus/params.h>
+#include <work.h>
+#include <rpc/rpcserver.h>
+#include <txmempool.h>
+#include <util.h>
+#include <consensus/validation.h>
 #ifdef ENABLE_WALLET
-#include "wallet/db.h"
-#include "wallet/wallet.h"
+#include <wallet/db.h>
+#include <wallet/wallet.h>
 #endif
-#include "utilstrencodings.h"
-#include "validationinterface.h"
+#include <utilstrencodings.h>
+#include <validationinterface.h>
 
 #include <stdint.h>
 

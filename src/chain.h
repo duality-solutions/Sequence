@@ -7,11 +7,11 @@
 #ifndef SEQUENCE_CHAIN_H
 #define SEQUENCE_CHAIN_H
 
-#include "primitives/block.h"
-#include "work.h"
-#include "tinyformat.h"
-#include "uint256.h"
-#include "utilmoneystr.h"
+#include <primitives/block.h>
+#include <work.h>
+#include <tinyformat.h>
+#include <uint256.h>
+#include <utilmoneystr.h>
 
 #include <vector>
 

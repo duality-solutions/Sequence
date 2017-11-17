@@ -4,19 +4,19 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "coincontroldialog.h"
-#include "ui_coincontroldialog.h"
+#include <qt/coincontroldialog.h>
+#include <ui_coincontroldialog.h>
 
-#include "addresstablemodel.h"
-#include "guiutil.h"
-#include "optionsmodel.h"
-#include "sequenceunits.h"
-#include "walletmodel.h"
+#include <qt/addresstablemodel.h>
+#include <qt/guiutil.h>
+#include <qt/optionsmodel.h>
+#include <qt/sequenceunits.h>
+#include <qt/walletmodel.h>
 
-#include "wallet/coincontrol.h"
-#include "init.h"
-#include "main.h"
-#include "wallet/wallet.h"
+#include <wallet/coincontrol.h>
+#include <init.h>
+#include <main.h>
+#include <wallet/wallet.h>
 
 #include <boost/assign/list_of.hpp> // for 'map_list_of()'
 

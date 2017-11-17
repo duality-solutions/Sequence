@@ -5,12 +5,12 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "config/sequence-config.h"
+#include <config/sequence-config.h>
 #endif
 
-#include "utiltime.h"
+#include <utiltime.h>
 
-#include "ntp.h"       
+#include <ntp.h>       
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/thread.hpp>

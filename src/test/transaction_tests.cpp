@@ -3,16 +3,16 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "data/tx_invalid.json.h"
-#include "data/tx_valid.json.h"
+#include <data/tx_invalid.json.h>
+#include <data/tx_valid.json.h>
 
-#include "clientversion.h"
-#include "key.h"
-#include "keystore.h"
-#include "main.h"
-#include "script/script.h"
-#include "script/script_error.h"
-#include "core_io.h"
+#include <clientversion.h>
+#include <key.h>
+#include <keystore.h>
+#include <main.h>
+#include <script/script.h>
+#include <script/script_error.h>
+#include <core_io.h>
 
 #include <map>
 #include <string>

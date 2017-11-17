@@ -4,12 +4,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "chainparamsbase.h"
-#include "clientversion.h"
-#include "rpc/rpcclient.h"
-#include "rpc/rpcprotocol.h"
-#include "util.h"
-#include "utilstrencodings.h"
+#include <chainparamsbase.h>
+#include <clientversion.h>
+#include <rpc/rpcclient.h>
+#include <rpc/rpcprotocol.h>
+#include <util.h>
+#include <utilstrencodings.h>
 
 #include <boost/filesystem/operations.hpp>
 

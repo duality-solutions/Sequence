@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_RANDOM_H
 #define SEQUENCE_RANDOM_H
 
-#include "uint256.h"
+#include <uint256.h>
 
 #include <stdint.h>
 

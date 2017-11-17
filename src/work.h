@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_POW_H
 #define SEQUENCE_POW_H
 
-#include "consensus/params.h"
+#include <consensus/params.h>
 
 #include <stdint.h>
 

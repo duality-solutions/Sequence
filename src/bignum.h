@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_BIGNUM_H
 #define SEQUENCE_BIGNUM_H
 
-#include "uint256.h"
+#include <uint256.h>
 
 #include <algorithm>
 #include <limits>

@@ -4,15 +4,15 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "chainparams.h"
+#include <chainparams.h>
 
-#include "chainparamsseeds.h"
-#include "consensus/merkle.h"
-#include "random.h"
-#include "tinyformat.h"
-#include "util.h"
-#include "utilstrencodings.h"
-#include "uint256.h"
+#include <chainparamsseeds.h>
+#include <consensus/merkle.h>
+#include <random.h>
+#include <tinyformat.h>
+#include <util.h>
+#include <utilstrencodings.h>
+#include <uint256.h>
 
 #include <assert.h>
 #include <limits.h>

@@ -8,11 +8,11 @@
 #ifndef SEQUENCE_PRIMITIVES_BLOCK_H
 #define SEQUENCE_PRIMITIVES_BLOCK_H
 
-#include "hash.h"
-#include "serialize.h"
-#include "primitives/transaction.h"
-#include "uint256.h"
-#include "util.h"
+#include <hash.h>
+#include <serialize.h>
+#include <primitives/transaction.h>
+#include <uint256.h>
+#include <util.h>
 
 
 enum

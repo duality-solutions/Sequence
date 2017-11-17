@@ -7,19 +7,19 @@
 #ifndef SEQUENCE_NET_H
 #define SEQUENCE_NET_H
 
-#include "bloom.h"
-#include "compat.h"
-#include "hash.h"
-#include "limitedmap.h"
-#include "mruset.h"
-#include "netbase.h"
-#include "protocol.h"
-#include "random.h"
-#include "streams.h"
-#include "sync.h"
-#include "uint256.h"
-#include "util.h"
-#include "utilstrencodings.h"
+#include <bloom.h>
+#include <compat.h>
+#include <hash.h>
+#include <limitedmap.h>
+#include <mruset.h>
+#include <netbase.h>
+#include <protocol.h>
+#include <random.h>
+#include <streams.h>
+#include <sync.h>
+#include <uint256.h>
+#include <util.h>
+#include <utilstrencodings.h>
 
 #include <atomic>
 #include <deque>

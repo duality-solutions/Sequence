@@ -4,14 +4,14 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "chainparams.h"
-#include "checkpoints.h"
-#include "stake.h"
-#include "main.h"
-#include "rpc/rpcserver.h"
-#include "sync.h"
-#include "util.h"
-#include "consensus/validation.h"
+#include <chainparams.h>
+#include <checkpoints.h>
+#include <stake.h>
+#include <main.h>
+#include <rpc/rpcserver.h>
+#include <sync.h>
+#include <util.h>
+#include <consensus/validation.h>
 
 #include <stdint.h>
 

@@ -4,10 +4,10 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "ecwrapper.h"
+#include <ecwrapper.h>
 
-#include "serialize.h"
-#include "uint256.h"
+#include <serialize.h>
+#include <uint256.h>
 
 #include <openssl/bn.h>
 #include <openssl/ecdsa.h>

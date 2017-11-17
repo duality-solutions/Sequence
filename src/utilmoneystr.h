@@ -10,7 +10,7 @@
 #ifndef SEQUENCE_UTILMONEYSTR_H
 #define SEQUENCE_UTILMONEYSTR_H
 
-#include "amount.h"
+#include <amount.h>
 
 #include <stdint.h>
 #include <string>

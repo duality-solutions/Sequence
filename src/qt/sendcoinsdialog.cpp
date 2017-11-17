@@ -4,22 +4,22 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "sendcoinsdialog.h"
-#include "ui_sendcoinsdialog.h"
+#include <qt/sendcoinsdialog.h>
+#include <ui_sendcoinsdialog.h>
 
-#include "addresstablemodel.h"
-#include "clientmodel.h"
-#include "coincontroldialog.h"
-#include "guiutil.h"
-#include "optionsmodel.h"
-#include "sendcoinsentry.h"
-#include "sequenceunits.h"
-#include "walletmodel.h"
+#include <qt/addresstablemodel.h>
+#include <qt/clientmodel.h>
+#include <qt/coincontroldialog.h>
+#include <qt/guiutil.h>
+#include <qt/optionsmodel.h>
+#include <qt/sendcoinsentry.h>
+#include <qt/sequenceunits.h>
+#include <qt/walletmodel.h>
 
-#include "base58.h"
-#include "wallet/coincontrol.h"
-#include "ui_interface.h"
-#include "wallet/wallet.h"
+#include <base58.h>
+#include <wallet/coincontrol.h>
+#include <ui_interface.h>
+#include <wallet/wallet.h>
 
 #include <QMessageBox>
 #include <QScrollBar>

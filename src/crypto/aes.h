@@ -9,7 +9,7 @@
 #define SEQUENCE_CRYPTO_AES_H
 
 extern "C" {
-#include "crypto/ctaes/ctaes.h"
+#include <crypto/ctaes/ctaes.h>
 }
 
 static const int AES_BLOCKSIZE = 16;

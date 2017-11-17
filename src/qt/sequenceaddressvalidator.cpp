@@ -4,11 +4,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "sequenceaddressvalidator.h"
+#include <qt/sequenceaddressvalidator.h>
 
-#include "base58.h"
-#include "pubkey.h"
-#include "utilstrencodings.h"
+#include <base58.h>
+#include <pubkey.h>
+#include <utilstrencodings.h>
 
 /* Base58 characters are:
      "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"

@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_BLOOM_H
 #define SEQUENCE_BLOOM_H
 
-#include "serialize.h"
+#include <serialize.h>
 
 #include <vector>
 

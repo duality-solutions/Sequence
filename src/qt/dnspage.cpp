@@ -5,20 +5,20 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "dnspage.h"
-#include "ui_dnspage.h"
+#include <qt/dnspage.h>
+#include <ui_dnspage.h>
 
-#include "csvmodelwriter.h"
-#include "guiconstants.h"
-#include "guiutil.h"
-#include "nametablemodel.h"
-#include "ui_interface.h"
-#include "walletmodel.h"
+#include <qt/csvmodelwriter.h>
+#include <qt/guiconstants.h>
+#include <qt/guiutil.h>
+#include <qt/nametablemodel.h>
+#include <ui_interface.h>
+#include <qt/walletmodel.h>
 
-#include "base58.h"
-#include "dns/dns.h"
-#include "main.h"
-#include "wallet/wallet.h"
+#include <base58.h>
+#include <dns/dns.h>
+#include <main.h>
+#include <wallet/wallet.h>
 
 #include <QSortFilterProxyModel>
 #include <QMessageBox>

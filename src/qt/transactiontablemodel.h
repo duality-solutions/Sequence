@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_QT_TRANSACTIONTABLEMODEL_H
 #define SEQUENCE_QT_TRANSACTIONTABLEMODEL_H
 
-#include "sequenceunits.h"
+#include <qt/sequenceunits.h>
 
 #include <QAbstractTableModel>
 #include <QStringList>

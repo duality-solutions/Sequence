@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 
-#include "indirectmap.h"
+#include <indirectmap.h>
 
 #include <map>
 #include <set>

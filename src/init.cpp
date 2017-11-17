@@ -5,40 +5,40 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "config/sequence-config.h"
+#include <config/sequence-config.h>
 #endif
 
-#include "init.h"
+#include <init.h>
 
-#include "addrman.h"
-#include "amount.h"
-#include "chainparams.h"
-#include "checkpoints.h"
-#include "consensus/consensus.h"
-#include "hooks.h"
-#include "key.h"
-#include "main.h"
-#include "miner.h"
-#include "net.h"
-#include "ntp.h"       
-#include "rpc/rpcregister.h"
-#include "rpc/rpcserver.h"
-#include "compat/sanity.h"
-#include "scheduler.h"
-#include "dns/seqdns.h"
-#include "script/standard.h"
-#include "torcontrol.h"
-#include "txdb.h"
-#include "ui_interface.h"
-#include "util.h"
-#include "utilmoneystr.h"
-#include "consensus/validation.h"
-#include "validationinterface.h"
+#include <addrman.h>
+#include <amount.h>
+#include <chainparams.h>
+#include <checkpoints.h>
+#include <consensus/consensus.h>
+#include <hooks.h>
+#include <key.h>
+#include <main.h>
+#include <miner.h>
+#include <net.h>
+#include <ntp.h>       
+#include <rpc/rpcregister.h>
+#include <rpc/rpcserver.h>
+#include <compat/sanity.h>
+#include <scheduler.h>
+#include <dns/seqdns.h>
+#include <script/standard.h>
+#include <torcontrol.h>
+#include <txdb.h>
+#include <ui_interface.h>
+#include <util.h>
+#include <utilmoneystr.h>
+#include <consensus/validation.h>
+#include <validationinterface.h>
 
 #ifdef ENABLE_WALLET
-#include "wallet/db.h"
-#include "wallet/wallet.h"
-#include "wallet/walletdb.h"
+#include <wallet/db.h>
+#include <wallet/wallet.h>
+#include <wallet/walletdb.h>
 #endif
 
 #include <stdint.h>

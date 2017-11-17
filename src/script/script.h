@@ -16,7 +16,7 @@
 #include <string>
 #include <vector>
 
-#include "crypto/common.h"
+#include <crypto/common.h>
 
 typedef std::vector<unsigned char> valtype;
 static const unsigned int MAX_SCRIPT_ELEMENT_SIZE = 520; // bytes

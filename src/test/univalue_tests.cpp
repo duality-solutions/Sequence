@@ -10,7 +10,7 @@
 #include <string>
 #include <map>
 
-#include "test/test_sequence.h"
+#include <test/test_sequence.h>
 
 #include <boost/test/unit_test.hpp>
 

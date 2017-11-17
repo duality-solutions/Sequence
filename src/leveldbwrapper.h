@@ -7,11 +7,11 @@
 #ifndef SEQUENCE_LEVELDBWRAPPER_H
 #define SEQUENCE_LEVELDBWRAPPER_H
 
-#include "clientversion.h"
-#include "serialize.h"
-#include "streams.h"
-#include "util.h"
-#include "version.h"
+#include <clientversion.h>
+#include <serialize.h>
+#include <streams.h>
+#include <util.h>
+#include <version.h>
 
 #include <boost/filesystem/path.hpp>
 

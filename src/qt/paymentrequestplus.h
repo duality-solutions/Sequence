@@ -7,10 +7,10 @@
 #ifndef SEQUENCE_QT_PAYMENTREQUESTPLUS_H
 #define SEQUENCE_QT_PAYMENTREQUESTPLUS_H
 
-#include "paymentrequest.pb.h"
+#include <paymentrequest.pb.h>
 
-#include "base58.h"
-#include "txmempool.h"
+#include <base58.h>
+#include <txmempool.h>
 
 #include <openssl/x509.h>
 

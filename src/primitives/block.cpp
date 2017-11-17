@@ -5,12 +5,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "primitives/block.h"
+#include <primitives/block.h>
 
-#include "stake.h"
-#include "tinyformat.h"
-#include "utilstrencodings.h"
-#include "stake.h"
+#include <stake.h>
+#include <tinyformat.h>
+#include <utilstrencodings.h>
+#include <stake.h>
 
 #include <inttypes.h>
 

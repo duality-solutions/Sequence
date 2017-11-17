@@ -4,23 +4,23 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "base58.h"
-#include "core_io.h"
-#include "init.h"
-#include "keystore.h"
-#include "main.h"
-#include "net.h"
-#include "rpc/rpcserver.h"
-#include "script/script.h"
-#include "script/script_error.h"
-#include "script/sign.h"
-#include "script/standard.h"
-#include "primitives/transaction.h"
-#include "uint256.h"
-#include "utilstrencodings.h"
-#include "consensus/validation.h"
+#include <base58.h>
+#include <core_io.h>
+#include <init.h>
+#include <keystore.h>
+#include <main.h>
+#include <net.h>
+#include <rpc/rpcserver.h>
+#include <script/script.h>
+#include <script/script_error.h>
+#include <script/sign.h>
+#include <script/standard.h>
+#include <primitives/transaction.h>
+#include <uint256.h>
+#include <utilstrencodings.h>
+#include <consensus/validation.h>
 #ifdef ENABLE_WALLET
-#include "wallet/wallet.h"
+#include <wallet/wallet.h>
 #endif
 
 #include <stdint.h>

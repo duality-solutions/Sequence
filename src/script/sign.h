@@ -7,8 +7,8 @@
 #ifndef SEQUENCE_SCRIPT_SIGN_H
 #define SEQUENCE_SCRIPT_SIGN_H
 
-#include "script/interpreter.h"
-#include "script/standard.h"
+#include <script/interpreter.h>
+#include <script/standard.h>
 
 class CKeyStore;
 class CScript;

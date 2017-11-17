@@ -7,11 +7,11 @@
 #ifndef SEQUENCE_QT_RPCCONSOLE_H
 #define SEQUENCE_QT_RPCCONSOLE_H
 
-#include "guiutil.h"
-#include "peertablemodel.h"
-#include "trafficgraphdata.h"
+#include <qt/guiutil.h>
+#include <qt/peertablemodel.h>
+#include <qt/trafficgraphdata.h>
 
-#include "net.h"
+#include <net.h>
 
 #include <QDialog>
 #include <QCompleter>

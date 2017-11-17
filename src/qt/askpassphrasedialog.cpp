@@ -4,13 +4,13 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "askpassphrasedialog.h"
-#include "ui_askpassphrasedialog.h"
+#include <qt/askpassphrasedialog.h>
+#include <ui_askpassphrasedialog.h>
 
-#include "guiconstants.h"
-#include "walletmodel.h"
+#include <qt/guiconstants.h>
+#include <qt/walletmodel.h>
 
-#include "support/allocators/secure.h"
+#include <support/allocators/secure.h>
 
 #include <QKeyEvent>
 #include <QMessageBox>

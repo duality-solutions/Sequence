@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_QT_SENDCOINSENTRY_H
 #define SEQUENCE_QT_SENDCOINSENTRY_H
 
-#include "walletmodel.h"
+#include <qt/walletmodel.h>
 
 #include <QStackedWidget>
 

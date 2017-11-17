@@ -6,13 +6,13 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "wallet/wallet.h"
-#include "wallet/walletdb.h"
-#include "rpcserver.h"
-#include "main.h"
-#include "init.h"
-#include "base58.h"
-#include "coincontrol.h"
+#include <wallet/wallet.h>
+#include <wallet/walletdb.h>
+#include <rpc/rpcserver.h>
+#include <main.h>
+#include <init.h>
+#include <base58.h>
+#include <coincontrol.h>
 
 #include <sstream>
 #include <boost/lexical_cast.hpp>

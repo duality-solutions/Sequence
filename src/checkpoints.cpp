@@ -4,15 +4,15 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "checkpoints.h"
+#include <checkpoints.h>
 
-#include "chainparams.h"
-#include "key.h"
-#include "main.h"
-#include "pubkey.h"
-#include "timedata.h"
-#include "txdb.h"
-#include "consensus/validation.h"
+#include <chainparams.h>
+#include <key.h>
+#include <main.h>
+#include <pubkey.h>
+#include <timedata.h>
+#include <txdb.h>
+#include <consensus/validation.h>
 
 #include <stdint.h>
 

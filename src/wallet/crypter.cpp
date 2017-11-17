@@ -4,11 +4,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "wallet/crypter.h"
+#include <wallet/crypter.h>
 
-#include "script/script.h"
-#include "script/standard.h"
-#include "util.h"
+#include <script/script.h>
+#include <script/standard.h>
+#include <util.h>
 
 #include <string>
 #include <vector>

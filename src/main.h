@@ -9,24 +9,24 @@
 #define SEQUENCE_MAIN_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/sequence-config.h"
+#include <config/sequence-config.h>
 #endif
 
-#include "amount.h"
-#include "primitives/block.h"
-#include "chain.h"
-#include "coins.h"
-#include "net.h"
-#include "work.h"
-#include "script/script.h"
-#include "script/sigcache.h"
-#include "script/standard.h"
-#include "sync.h"
-#include "tinyformat.h"
-#include "primitives/transaction.h"
-#include "txmempool.h"
-#include "uint256.h"
-#include "undo.h"
+#include <amount.h>
+#include <primitives/block.h>
+#include <chain.h>
+#include <coins.h>
+#include <net.h>
+#include <work.h>
+#include <script/script.h>
+#include <script/sigcache.h>
+#include <script/standard.h>
+#include <sync.h>
+#include <tinyformat.h>
+#include <primitives/transaction.h>
+#include <txmempool.h>
+#include <uint256.h>
+#include <undo.h>
 
 #include <algorithm>
 #include <exception>

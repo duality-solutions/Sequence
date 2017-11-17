@@ -5,9 +5,9 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "utilstrencodings.h"
+#include <utilstrencodings.h>
 
-#include "tinyformat.h"
+#include <tinyformat.h>
 
 #include <cstdlib>
 #include <cstring>

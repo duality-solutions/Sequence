@@ -9,11 +9,11 @@
 #define SEQUENCE_NETBASE_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/sequence-config.h"
+#include <config/sequence-config.h>
 #endif
 
-#include "compat.h"
-#include "serialize.h"
+#include <compat.h>
+#include <serialize.h>
 
 #include <stdint.h>
 #include <string>

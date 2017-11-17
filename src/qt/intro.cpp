@@ -4,12 +4,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "intro.h"
-#include "ui_intro.h"
+#include <qt/intro.h>
+#include <ui_intro.h>
 
-#include "guiutil.h"
+#include <qt/guiutil.h>
 
-#include "util.h"
+#include <util.h>
 
 #include <boost/filesystem.hpp>
 
@@ -53,7 +53,7 @@ private:
     Intro *intro;
 };
 
-#include "intro.moc"
+#include <intro.moc>
 
 FreespaceChecker::FreespaceChecker(Intro *intro)
 {

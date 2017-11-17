@@ -5,23 +5,23 @@
 
 #define BOOST_TEST_MODULE Sequence Test Suite
 
-#include "test_sequence.h"
+#include <test_sequence.h>
 
-#include "chainparams.h"
-#include "consensus/validation.h"
-#include "consensus/consensus.h"
-#include "key.h"
-#include "main.h"
-#include "miner.h"
-#include "pubkey.h"
-#include "random.h"
-#include "txdb.h"
-#include "txmempool.h"
-#include "ui_interface.h"
-#include "rpc/rpcserver.h"
-#include "rpc/rpcregister.h"
+#include <chainparams.h>
+#include <consensus/validation.h>
+#include <consensus/consensus.h>
+#include <key.h>
+#include <main.h>
+#include <miner.h>
+#include <pubkey.h>
+#include <random.h>
+#include <txdb.h>
+#include <txmempool.h>
+#include <ui_interface.h>
+#include <rpc/rpcserver.h>
+#include <rpc/rpcregister.h>
 
-#include "test/testutil.h"
+#include <test/testutil.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/test/unit_test.hpp>

@@ -7,11 +7,11 @@
 #ifndef SEQUENCE_WALLETDB_H
 #define SEQUENCE_WALLETDB_H
 
-#include "amount.h"
-#include "wallet/db.h"
-#include "hdchain.h"
-#include "key.h"
-#include "keystore.h"
+#include <amount.h>
+#include <wallet/db.h>
+#include <hdchain.h>
+#include <key.h>
+#include <keystore.h>
 
 #include <list>
 #include <stdint.h>

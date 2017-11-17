@@ -8,17 +8,17 @@
 
 #if 0
 
-#include "bloom.h"
+#include <bloom.h>
 
-#include "base58.h"
-#include "clientversion.h"
-#include "key.h"
-#include "merkleblock.h"
-#include "serialize.h"
-#include "streams.h"
-#include "uint256.h"
-#include "util.h"
-#include "utilstrencodings.h"
+#include <base58.h>
+#include <clientversion.h>
+#include <key.h>
+#include <merkleblock.h>
+#include <serialize.h>
+#include <streams.h>
+#include <uint256.h>
+#include <util.h>
+#include <utilstrencodings.h>
 
 #include <vector>
 

@@ -5,30 +5,30 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "main.h"
+#include <main.h>
 
-#include "addrman.h"
-#include "alert.h"
-#include "bignum.h"
-#include "chainparams.h"
-#include "checkpoints.h"
-#include "checkqueue.h"
-#include "consensus/consensus.h"
-#include "crypto/common.h"
-#include "dns/dns.h"
-#include "init.h"
-#include "stake.h"
-#include "keystore.h"
-#include "consensus/merkle.h"
-#include "merkleblock.h"
-#include "rpc/rpcserver.h"
-#include "txdb.h"
-#include "ui_interface.h"
-#include "util.h"
-#include "utilmoneystr.h"
-#include "consensus/validation.h"
-#include "validationinterface.h"
-#include "wallet/wallet.h"
+#include <addrman.h>
+#include <alert.h>
+#include <bignum.h>
+#include <chainparams.h>
+#include <checkpoints.h>
+#include <checkqueue.h>
+#include <consensus/consensus.h>
+#include <crypto/common.h>
+#include <dns/dns.h>
+#include <init.h>
+#include <stake.h>
+#include <keystore.h>
+#include <consensus/merkle.h>
+#include <merkleblock.h>
+#include <rpc/rpcserver.h>
+#include <txdb.h>
+#include <ui_interface.h>
+#include <util.h>
+#include <utilmoneystr.h>
+#include <consensus/validation.h>
+#include <validationinterface.h>
+#include <wallet/wallet.h>
 
 #include <atomic>
 #include <sstream>

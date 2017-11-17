@@ -8,7 +8,7 @@
 #define SEQUENCE_SEQUENCECONSENSUS_H
 
 #if defined(BUILD_SEQUENCE_INTERNAL) && defined(HAVE_CONFIG_H)
-#include "config/sequence-config.h"
+#include <config/sequence-config.h>
   #if defined(_WIN32)
     #if defined(DLL_EXPORT)
       #if defined(HAVE_FUNC_ATTRIBUTE_DLLEXPORT)

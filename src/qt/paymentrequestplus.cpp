@@ -9,7 +9,7 @@
 // with some extra methods
 //
 
-#include "paymentrequestplus.h"
+#include <qt/paymentrequestplus.h>
 
 #include <stdexcept>
 

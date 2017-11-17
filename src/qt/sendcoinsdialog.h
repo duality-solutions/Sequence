@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_QT_SENDCOINSDIALOG_H
 #define SEQUENCE_QT_SENDCOINSDIALOG_H
 
-#include "walletmodel.h"
+#include <qt/walletmodel.h>
 
 #include <QDialog>
 #include <QString>

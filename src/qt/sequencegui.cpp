@@ -4,38 +4,38 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "sequencegui.h"
+#include <qt/sequencegui.h>
 
-#include "sequenceunits.h"
-#include "clientmodel.h"
-#include "guiconstants.h"
-#include "guiutil.h"
-#include "modaloverlay.h"
-#include "networkstyle.h"
-#include "notificator.h"
-#include "openuridialog.h"
-#include "optionsdialog.h"
-#include "optionsmodel.h"
-#include "rpcconsole.h"
-#include "utilitydialog.h"
-#include "multisigdialog.h"
-#include "stakereportdialog.h"
+#include <qt/sequenceunits.h>
+#include <qt/clientmodel.h>
+#include <qt/guiconstants.h>
+#include <qt/guiutil.h>
+#include <qt/modaloverlay.h>
+#include <qt/networkstyle.h>
+#include <qt/notificator.h>
+#include <qt/openuridialog.h>
+#include <qt/optionsdialog.h>
+#include <qt/optionsmodel.h>
+#include <qt/rpcconsole.h>
+#include <qt/utilitydialog.h>
+#include <qt/multisigdialog.h>
+#include <qt/stakereportdialog.h>
 
-#include "chainparams.h"
-#include "init.h"
-#include "rpc/rpcserver.h"
-#include "txmempool.h"
-#include "ui_interface.h"
-#include "util.h"
-#include "wallet/wallet.h"
+#include <chainparams.h>
+#include <init.h>
+#include <rpc/rpcserver.h>
+#include <txmempool.h>
+#include <ui_interface.h>
+#include <util.h>
+#include <wallet/wallet.h>
 
 #ifdef ENABLE_WALLET
-#include "walletframe.h"
-#include "walletmodel.h"
+#include <qt/walletframe.h>
+#include <qt/walletmodel.h>
 #endif // ENABLE_WALLET
 
 #ifdef Q_OS_MAC
-#include "macdockiconhandler.h"
+#include <qt/macdockiconhandler.h>
 #endif
 
 #include <iostream>

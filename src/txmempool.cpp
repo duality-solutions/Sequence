@@ -4,18 +4,18 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "txmempool.h"
+#include <txmempool.h>
 
-#include "clientversion.h"
-#include "consensus/consensus.h"
-#include "main.h"
-#include "streams.h"
-#include "timedata.h"
-#include "util.h"
-#include "utilmoneystr.h"
-#include "utiltime.h"
-#include "consensus/validation.h"
-#include "version.h"
+#include <clientversion.h>
+#include <consensus/consensus.h>
+#include <main.h>
+#include <streams.h>
+#include <timedata.h>
+#include <util.h>
+#include <utilmoneystr.h>
+#include <utiltime.h>
+#include <consensus/validation.h>
+#include <version.h>
 
 #include <boost/foreach.hpp>
 #include <boost/circular_buffer.hpp>

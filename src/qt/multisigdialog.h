@@ -5,10 +5,10 @@
 #ifndef MULTISIGDIALOG_H
 #define MULTISIGDIALOG_H
 
-#include "multisigaddressentry.h"
-#include "multisiginputentry.h"
-#include "sendcoinsentry.h"
-#include "walletmodel.h"
+#include <qt/multisigaddressentry.h>
+#include <qt/multisiginputentry.h>
+#include <qt/sendcoinsentry.h>
+#include <qt/walletmodel.h>
 
 #include <QDialog>
 #include <vector>

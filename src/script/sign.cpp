@@ -4,12 +4,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "script/sign.h"
+#include <script/sign.h>
 
-#include "key.h"
-#include "keystore.h"
-#include "primitives/transaction.h"
-#include "uint256.h"
+#include <key.h>
+#include <keystore.h>
+#include <primitives/transaction.h>
+#include <uint256.h>
 
 
 typedef std::vector<unsigned char> valtype;

@@ -12,13 +12,13 @@
 #define SEQUENCE_UTIL_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/sequence-config.h"
+#include <config/sequence-config.h>
 #endif
 
-#include "amount.h"
-#include "compat.h"
-#include "tinyformat.h"
-#include "utiltime.h"
+#include <amount.h>
+#include <compat.h>
+#include <tinyformat.h>
+#include <utiltime.h>
 
 #include <exception>
 #include <map>

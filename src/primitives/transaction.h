@@ -8,11 +8,11 @@
 #ifndef SEQUENCE_PRIMITIVES_TRANSACTION_H
 #define SEQUENCE_PRIMITIVES_TRANSACTION_H
 
-#include "amount.h"
-#include "script/script.h"
-#include "serialize.h"
-#include "uint256.h"
-#include "version.h"
+#include <amount.h>
+#include <script/script.h>
+#include <serialize.h>
+#include <uint256.h>
+#include <version.h>
 
 struct CDiskTxPos;
 

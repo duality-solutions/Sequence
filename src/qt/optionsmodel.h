@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_QT_OPTIONSMODEL_H
 #define SEQUENCE_QT_OPTIONSMODEL_H
 
-#include "amount.h"
+#include <amount.h>
 
 #include <QAbstractListModel>
 

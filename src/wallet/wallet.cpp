@@ -5,25 +5,25 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "wallet/wallet.h"
+#include <wallet/wallet.h>
 
-#include "base58.h"
-#include "chainparams.h"
-#include "checkpoints.h"
-#include "wallet/coincontrol.h"
-#include "consensus/consensus.h"
-#include "dns/dns.h"
-#include "stake.h"
-#include "net.h"
-#include "script/script.h"
-#include "script/sign.h"
-#include "timedata.h"
-#include "txdb.h"
-#include "txmempool.h"
-#include "uint256hm.h"
-#include "util.h"
-#include "utilmoneystr.h"
-#include "consensus/validation.h"
+#include <base58.h>
+#include <chainparams.h>
+#include <checkpoints.h>
+#include <wallet/coincontrol.h>
+#include <consensus/consensus.h>
+#include <dns/dns.h>
+#include <stake.h>
+#include <net.h>
+#include <script/script.h>
+#include <script/sign.h>
+#include <timedata.h>
+#include <txdb.h>
+#include <txmempool.h>
+#include <uint256hm.h>
+#include <util.h>
+#include <utilmoneystr.h>
+#include <consensus/validation.h>
 
 #include <assert.h>
 

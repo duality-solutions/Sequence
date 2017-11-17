@@ -4,20 +4,20 @@
 // Original coding by Remy5
 //
 
-#include "stakereportdialog.h"
-#include "ui_stakereportdialog.h"      
+#include <qt/stakereportdialog.h>
+#include <ui_stakereportdialog.h>      
 
-#include "guiconstants.h"
-#include "walletmodel.h"
-#include "sequenceunits.h"
-#include "rpc/rpcserver.h"
-#include "optionsmodel.h"
-#include "main.h"
-#include "chain.h"
-#include "util.h"
+#include <qt/guiconstants.h>
+#include <qt/walletmodel.h>
+#include <qt/sequenceunits.h>
+#include <rpc/rpcserver.h>
+#include <qt/optionsmodel.h>
+#include <main.h>
+#include <chain.h>
+#include <util.h>
 
-#include "wallet/wallet.h"
-#include "wallet/walletdb.h"
+#include <wallet/wallet.h>
+#include <wallet/walletdb.h>
 
 #include <QWidget>
 #include <QDateTime>

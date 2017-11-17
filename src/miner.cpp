@@ -5,24 +5,24 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "miner.h"
+#include <miner.h>
 
-#include "amount.h"
-#include "chainparams.h"
-#include "consensus/consensus.h"
-#include "hash.h"
-#include "main.h"
-#include "consensus/merkle.h"
-#include "net.h"
-#include "work.h"
-#include "timedata.h"
-#include "primitives/transaction.h"
-#include "txmempool.h"
-#include "util.h"
-#include "utilmoneystr.h"
-#include "consensus/validation.h"
-#include "validationinterface.h"
-#include "wallet/wallet.h"
+#include <amount.h>
+#include <chainparams.h>
+#include <consensus/consensus.h>
+#include <hash.h>
+#include <main.h>
+#include <consensus/merkle.h>
+#include <net.h>
+#include <work.h>
+#include <timedata.h>
+#include <primitives/transaction.h>
+#include <txmempool.h>
+#include <util.h>
+#include <utilmoneystr.h>
+#include <consensus/validation.h>
+#include <validationinterface.h>
+#include <wallet/wallet.h>
 
 #include <boost/thread.hpp>
 #include <boost/tuple/tuple.hpp>

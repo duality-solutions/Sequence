@@ -7,11 +7,11 @@
 #ifndef SEQUENCE_DB_H
 #define SEQUENCE_DB_H
 
-#include "clientversion.h"
-#include "serialize.h"
-#include "streams.h"
-#include "sync.h"
-#include "version.h"
+#include <clientversion.h>
+#include <serialize.h>
+#include <streams.h>
+#include <sync.h>
+#include <version.h>
 
 #include <map>
 #include <string>

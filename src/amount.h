@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_AMOUNT_H
 #define SEQUENCE_AMOUNT_H
 
-#include "serialize.h"
+#include <serialize.h>
 
 #include <limits>
 #include <stdlib.h>

@@ -2,27 +2,27 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "multisigdialog.h"
-#include "ui_multisigdialog.h"
+#include <qt/multisigdialog.h>
+#include <ui_multisigdialog.h>
 
-#include "addresstablemodel.h"
-#include "multisigaddressentry.h"
-#include "multisiginputentry.h"
-#include "sendcoinsentry.h"
-#include "walletmodel.h"
+#include <qt/addresstablemodel.h>
+#include <qt/multisigaddressentry.h>
+#include <qt/multisiginputentry.h>
+#include <qt/sendcoinsentry.h>
+#include <qt/walletmodel.h>
 
-#include "base58.h"
-#include "core_io.h"
-#include "dns/dns.h"
-#include "key.h"
-#include "main.h"
-#include "rpc/rpcserver.h"
-#include "script/script.h"
-#include "script/sign.h"
-#include "script/standard.h"
-#include "util.h"
-#include "consensus/validation.h"
-#include "wallet/wallet.h"
+#include <base58.h>
+#include <core_io.h>
+#include <dns/dns.h>
+#include <key.h>
+#include <main.h>
+#include <rpc/rpcserver.h>
+#include <script/script.h>
+#include <script/sign.h>
+#include <script/standard.h>
+#include <util.h>
+#include <consensus/validation.h>
+#include <wallet/wallet.h>
 
 #include <QClipboard>
 #include <QWidget>

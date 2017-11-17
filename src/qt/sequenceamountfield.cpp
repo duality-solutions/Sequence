@@ -4,11 +4,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "sequenceamountfield.h"
+#include <qt/sequenceamountfield.h>
 
-#include "sequenceunits.h"
-#include "guiconstants.h"
-#include "qvaluecombobox.h"
+#include <qt/sequenceunits.h>
+#include <qt/guiconstants.h>
+#include <qt/qvaluecombobox.h>
 
 #include <QApplication>
 #include <QAbstractSpinBox>
@@ -189,7 +189,7 @@ Q_SIGNALS:
     void valueChanged();
 };
 
-#include "sequenceamountfield.moc"
+#include <sequenceamountfield.moc>
 
 SequenceAmountField::SequenceAmountField(QWidget *parent) :
     QWidget(parent),

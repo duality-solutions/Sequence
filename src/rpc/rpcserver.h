@@ -7,9 +7,9 @@
 #ifndef SEQUENCE_RPCSERVER_H
 #define SEQUENCE_RPCSERVER_H
 
-#include "amount.h"
-#include "rpc/rpcprotocol.h"
-#include "uint256.h"
+#include <amount.h>
+#include <rpc/rpcprotocol.h>
+#include <uint256.h>
 
 #include <list>
 #include <map>
