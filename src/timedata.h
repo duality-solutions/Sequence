@@ -8,8 +8,8 @@
 #define SEQUENCE_TIMEDATA_H
 
 #include <algorithm>
-#include <assert.h>
-#include <stdint.h>
+#include <cassert>
+#include <cstdint>
 #include <vector>
 
 class CNetAddr;

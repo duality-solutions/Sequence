@@ -14,9 +14,9 @@
 #include <utilstrencodings.h>
 #include <uint256.h>
 
-#include <assert.h>
-#include <limits.h>
-#include <stdio.h>
+#include <cassert>
+#include <climits>
+#include <cstdio>
 
 using namespace std;
 

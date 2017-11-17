@@ -11,7 +11,7 @@
 #include <sequence-config.h>
 #endif
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <compat/endian.h>
 

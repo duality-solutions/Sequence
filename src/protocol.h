@@ -16,7 +16,7 @@
 #include <uint256.h>
 #include <version.h>
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 #define MESSAGE_START_SIZE 4

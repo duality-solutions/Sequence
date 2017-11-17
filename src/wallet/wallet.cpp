@@ -25,7 +25,7 @@
 #include <utilmoneystr.h>
 #include <consensus/validation.h>
 
-#include <assert.h>
+#include <cassert>
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>

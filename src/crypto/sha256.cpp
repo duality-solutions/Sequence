@@ -8,7 +8,7 @@
 
 #include <crypto/common.h>
 
-#include <string.h>
+#include <cstring>
 
 // Internal implementation code.
 namespace

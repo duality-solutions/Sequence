@@ -13,7 +13,7 @@
 #include <timedata.h>
 #include <wallet/wallet.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 
 /* Return positive answer if transaction should be shown in list.

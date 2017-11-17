@@ -18,7 +18,7 @@
 #include <utilmoneystr.h>
 #include <utilstrencodings.h>
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <univalue.h>
 

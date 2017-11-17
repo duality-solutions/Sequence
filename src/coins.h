@@ -14,8 +14,8 @@
 #include <uint256.h>
 #include <undo.h>
 
-#include <assert.h>
-#include <stdint.h>
+#include <cassert>
+#include <cstdint>
 
 #include <boost/unordered_map.hpp>
 #include <unordered_map>

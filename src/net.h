@@ -23,7 +23,7 @@
 
 #include <atomic>
 #include <deque>
-#include <stdint.h>
+#include <cstdint>
 
 #ifndef WIN32
 #include <arpa/inet.h>

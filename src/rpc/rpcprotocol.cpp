@@ -13,7 +13,7 @@
 #include <utiltime.h>
 #include <version.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/asio.hpp>

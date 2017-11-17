@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_CONSENSUS_CONSENSUS_H
 #define SEQUENCE_CONSENSUS_CONSENSUS_H
 
-#include <stdint.h>
+#include <cstdint>
 
 /** The maximum allowed size for a serialized block, in bytes (network rule) */
 static const unsigned int MAX_BLOCK_SIZE = 4194304; //4MB Maximum Blocksize

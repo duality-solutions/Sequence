@@ -16,7 +16,7 @@
 #include <sync.h>
 #include <utilstrencodings.h>
 
-#include <stdarg.h>
+#include <cstdarg>
 
 #if (defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__DragonFly__))
 #include <pthread.h>

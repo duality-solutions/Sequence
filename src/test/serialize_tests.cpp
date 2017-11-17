@@ -8,7 +8,7 @@
 #include <streams.h>
 #include <hash.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <boost/test/unit_test.hpp>
 

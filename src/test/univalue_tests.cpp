@@ -5,7 +5,7 @@
 
 #include <univalue.h>
 
-#include <stdint.h>
+#include <cstdint>
 #include <vector>
 #include <string>
 #include <map>

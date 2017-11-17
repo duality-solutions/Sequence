@@ -9,7 +9,7 @@
 #include <work.h>
 #include <uint256.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <boost/thread.hpp>
 

@@ -7,8 +7,8 @@
 #ifndef SEQUENCE_CRYPTO_SHA1_H
 #define SEQUENCE_CRYPTO_SHA1_H
 
-#include <stdint.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdlib>
 
 /** A hasher class for SHA1. */
 class CSHA1

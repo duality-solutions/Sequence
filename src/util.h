@@ -22,7 +22,7 @@
 
 #include <exception>
 #include <map>
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include <vector>
 

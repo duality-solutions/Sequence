@@ -7,7 +7,7 @@
 
 #include <reverselock.h>
 
-#include <assert.h>
+#include <cassert>
 #include <boost/bind.hpp>
 #include <utility>
 

@@ -10,14 +10,14 @@
 #include <compat/endian.h>
 
 #include <algorithm>
-#include <assert.h>
+#include <cassert>
 #include <ios>
 #include <limits>
 #include <map>
 #include <set>
-#include <stdint.h>
+#include <cstdint>
 #include <string>
-#include <string.h>
+#include <cstring>
 #include <utility>
 #include <vector>
 

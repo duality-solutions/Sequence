@@ -6,7 +6,7 @@
 #ifndef SEQUENCE_MERKLE_H
 #define SEQUENCE_MERKLE_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <vector>
 
 #include <primitives/block.h>

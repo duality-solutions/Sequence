@@ -13,7 +13,7 @@
 #include <util.h>
 #include <consensus/validation.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <univalue.h>
 

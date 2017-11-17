@@ -6,7 +6,7 @@
 
 #include <coins.h>
 
-#include <assert.h>
+#include <cassert>
 
 /**
  * calculate number of bytes for the bitmask, and its number of non-zero bytes

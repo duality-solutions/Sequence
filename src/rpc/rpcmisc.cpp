@@ -22,7 +22,7 @@
 
 #include <univalue.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 using namespace boost;
 

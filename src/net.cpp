@@ -21,7 +21,7 @@
 #include <wallet/wallet.h>
 
 #ifdef WIN32
-#include <string.h>
+#include <cstring>
 #else
 #include <fcntl.h>
 #endif
@@ -36,7 +36,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
 
-#include <math.h>
+#include <cmath>
 
 // Dump addresses to peers.dat every 15 minutes (900s)
 #define DUMP_ADDRESSES_INTERVAL 900

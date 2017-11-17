@@ -7,8 +7,8 @@
 #include <test/bignum.h>
 #include <script/script.h>
 #include <boost/test/unit_test.hpp>
-#include <limits.h>
-#include <stdint.h>
+#include <climits>
+#include <cstdint>
 BOOST_AUTO_TEST_SUITE(scriptnum_tests)
 
 static const int64_t values[] = \

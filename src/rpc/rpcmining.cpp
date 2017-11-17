@@ -26,7 +26,7 @@
 #include <utilstrencodings.h>
 #include <validationinterface.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <boost/shared_ptr.hpp>
 

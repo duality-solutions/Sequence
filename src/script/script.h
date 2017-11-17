@@ -7,12 +7,12 @@
 #ifndef SEQUENCE_SCRIPT_SCRIPT_H
 #define SEQUENCE_SCRIPT_SCRIPT_H
 
-#include <assert.h>
+#include <cassert>
 #include <climits>
 #include <limits>
 #include <stdexcept>
-#include <stdint.h>
-#include <string.h>
+#include <cstdint>
+#include <cstring>
 #include <string>
 #include <vector>
 

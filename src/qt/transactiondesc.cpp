@@ -21,7 +21,7 @@
 #include <util.h>
 #include <wallet/wallet.h>
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 using namespace std;

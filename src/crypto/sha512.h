@@ -7,8 +7,8 @@
 #ifndef SEQUENCE_CRYPTO_SHA512_H
 #define SEQUENCE_CRYPTO_SHA512_H
 
-#include <stdint.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdlib>
 
 /** A hasher class for SHA-512. */
 class CSHA512

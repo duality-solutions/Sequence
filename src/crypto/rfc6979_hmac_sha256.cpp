@@ -6,7 +6,7 @@
 
 #include <crypto/rfc6979_hmac_sha256.h>
 
-#include <string.h>
+#include <cstring>
 
 #include <algorithm>
 

@@ -14,7 +14,7 @@
 #include <vector>
 #include <deque>
 #include <set>
-#include <stdlib.h>
+#include <cstdlib>
 
 #include <boost/function.hpp>
 #include <boost/bind.hpp>

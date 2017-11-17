@@ -12,7 +12,7 @@
 #include <utilstrencodings.h>
 #include <utilmoneystr.h>
 
-#include <stdint.h>
+#include <cstdint>
 #include <vector>
 
 #include <univalue.h>

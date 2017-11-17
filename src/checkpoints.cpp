@@ -14,7 +14,7 @@
 #include <txdb.h>
 #include <consensus/validation.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <boost/foreach.hpp>
 

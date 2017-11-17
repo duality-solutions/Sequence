@@ -11,7 +11,7 @@
 #ifndef SEQUENCE_UTILSTRENCODINGS_H
 #define SEQUENCE_UTILSTRENCODINGS_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 #include <vector>
 

@@ -12,7 +12,7 @@
 
 #include <boost/variant.hpp>
 
-#include <stdint.h>
+#include <cstdint>
 
 class CKeyID;
 class CScript;

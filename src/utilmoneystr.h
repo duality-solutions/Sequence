@@ -12,7 +12,7 @@
 
 #include <amount.h>
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 std::string FormatMoney(const CAmount& n, bool fPlus=false);

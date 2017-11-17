@@ -17,7 +17,7 @@
 #include <wallet/wallet.h>
 #include <wallet/walletdb.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <boost/lexical_cast.hpp>
 #include <boost/assign/list_of.hpp>

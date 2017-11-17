@@ -9,7 +9,7 @@
 
 #include <consensus/params.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 class CBlockHeader;
 class CBlockIndex;

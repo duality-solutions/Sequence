@@ -14,7 +14,7 @@
 #include <clientversion.h>
 #include <init.h>
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <QCloseEvent>
 #include <QLabel>

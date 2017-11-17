@@ -11,7 +11,7 @@
 #include <primitives/block.h>
 #include <consensus/params.h>
 
-#include <stdint.h>
+#include <cstdint>
 #include <cstddef>
 
 class CBlockHeader;
