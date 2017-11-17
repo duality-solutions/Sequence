@@ -1023,7 +1023,7 @@ bool AutoBackupWallet (CWallet* wallet, std::string strWalletFile, std::string& 
 
         // Loop backward through backup files and keep the N newest ones (1 <= N <= 10)
         int counter = 0;
-        BOOST_REVERSE_FOREACH(PAIRTYPE(const std::time_t, fs::path) file, folder_set)
+        for (PAIRTYPE(const std::time_t, fs::path) file : reverse_iterate(folder_set))
         {
             counter++;
             if (counter > nWalletBackups)

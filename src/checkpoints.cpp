@@ -83,7 +83,7 @@ namespace Checkpoints {
     {
         const MapCheckpoints& checkpoints = data.mapCheckpoints;
 
-        BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type& i, checkpoints)
+        for (const MapCheckpoints::value_type& i : reverse_iterate(checkpoints))
         {
             const uint256& hash = i.second;
             BlockMap::const_iterator t = mapBlockIndex.find(hash);
@@ -314,7 +314,7 @@ bool ResetSyncCheckpoint(const CCheckpointData& data)
 
     const MapCheckpoints& checkpoints = data.mapCheckpoints;
 
-    BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type& i, checkpoints)
+    for (const MapCheckpoints::value_type& i : reverse_iterate(checkpoints))
     {
         const uint256& hash = i.second;
         if (mapBlockIndex.count(hash) && chainActive.Contains(mapBlockIndex[hash]))

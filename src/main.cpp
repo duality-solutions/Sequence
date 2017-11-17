@@ -2419,7 +2419,7 @@ static bool ActivateBestChainStep(CValidationState &state, const CChainParams& c
     nHeight = nTargetHeight;
 
     // Connect new blocks.
-    BOOST_REVERSE_FOREACH(CBlockIndex *pindexConnect, vpindexToConnect) {
+    for (CBlockIndex *pindexConnect : reverse_iterate(vpindexToConnect)) {
         if (!ConnectTip(state, chainparams, pindexConnect, pindexConnect == pindexMostWork ? pblock : nullptr)) {
             if (state.IsInvalid()) {
                 // The block violates a consensus rule.
@@ -2515,7 +2515,7 @@ bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams,
                     LOCK(cs_vNodes);
                     for(CNode* pnode : vNodes) {
                         if (nNewHeight > (pnode->nStartingHeight != -1 ? pnode->nStartingHeight - 2000 : nBlockEstimate)) {
-                            BOOST_REVERSE_FOREACH(const uint256& hash, vHashes) {
+                            for (const uint256& hash : reverse_iterate(vHashes)) {
                                 pnode->PushBlockHash(hash);
                             }
                         }
