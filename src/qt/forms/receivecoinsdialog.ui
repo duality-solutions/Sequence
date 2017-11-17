@@ -319,7 +319,7 @@
   <customwidget>
    <class>SequenceAmountField</class>
    <extends>QLineEdit</extends>
-   <header>sequenceamountfield.h</header>
+   <header>qt/sequenceamountfield.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
