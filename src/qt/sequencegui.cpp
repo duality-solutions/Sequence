@@ -1110,7 +1110,7 @@ void SequenceGUI::dropEvent(QDropEvent *event)
 {
     if(event->mimeData()->hasUrls())
     {
-        Q_FOREACH(const QUrl &uri, event->mimeData()->urls())
+        for (const QUrl &uri : event->mimeData()->urls())
         {
             Q_EMIT receivedURI(uri.toString());
         }
@@ -1368,7 +1368,7 @@ UnitDisplayStatusBarControl::UnitDisplayStatusBarControl() :
     QList<SequenceUnits::Unit> units = SequenceUnits::availableUnits();
     int max_width = 0;
     const QFontMetrics fm(font());
-    Q_FOREACH (const SequenceUnits::Unit unit, units)
+    for (const SequenceUnits::Unit unit : units)
     {
         max_width = qMax(max_width, fm.width(SequenceUnits::name(unit)));
     }
@@ -1386,7 +1386,7 @@ void UnitDisplayStatusBarControl::mousePressEvent(QMouseEvent *event)
 void UnitDisplayStatusBarControl::createContextMenu()
 {
     menu = new QMenu();
-    Q_FOREACH(SequenceUnits::Unit u, SequenceUnits::availableUnits())
+    for (SequenceUnits::Unit u : SequenceUnits::availableUnits())
     {
         QAction *menuAction = new QAction(QString(SequenceUnits::name(u)), this);
         menuAction->setData(QVariant(u));

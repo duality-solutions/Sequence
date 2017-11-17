@@ -80,7 +80,7 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
     /* Language Selector */
     QDir translations(":translations");
     ui->lang->addItem(QString("(") + tr("default") + QString(")"), QVariant(""));
-    Q_FOREACH(const QString &langStr, translations.entryList())
+    for (const QString &langStr : translations.entryList())
     {
         QLocale locale(langStr);
 
