@@ -8,7 +8,7 @@
 #include <vector>
 
 #include <qt/multisigaddressentry.h>
-#include <ui_multisigaddressentry.h>
+#include <qt/forms/ui_multisigaddressentry.h>
 
 #include <qt/addressbookpage.h>
 #include <qt/addresstablemodel.h>

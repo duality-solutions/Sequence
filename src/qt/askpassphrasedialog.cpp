@@ -5,7 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/askpassphrasedialog.h>
-#include <ui_askpassphrasedialog.h>
+#include <qt/forms/ui_askpassphrasedialog.h>
 
 #include <qt/guiconstants.h>
 #include <qt/walletmodel.h>

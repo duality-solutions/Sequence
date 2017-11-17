@@ -5,7 +5,7 @@
 //
 
 #include <qt/stakereportdialog.h>
-#include <ui_stakereportdialog.h>      
+#include <qt/forms/ui_stakereportdialog.h>      
 
 #include <qt/guiconstants.h>
 #include <qt/walletmodel.h>

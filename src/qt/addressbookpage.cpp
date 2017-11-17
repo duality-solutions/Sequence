@@ -9,7 +9,7 @@
 #endif
 
 #include <qt/addressbookpage.h>
-#include <ui_addressbookpage.h>
+#include <qt/forms/ui_addressbookpage.h>
 
 #include <qt/addresstablemodel.h>
 #include <qt/csvmodelwriter.h>

@@ -5,7 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/overviewpage.h>
-#include <ui_overviewpage.h>
+#include <qt/forms/ui_overviewpage.h>
 
 #include <qt/clientmodel.h>
 #include <qt/guiconstants.h>
@@ -107,7 +107,7 @@ public:
     int unit;
 
 };
-#include <overviewpage.moc>
+#include <qt/overviewpage.moc>
 
 OverviewPage::OverviewPage(QWidget *parent) :
     QWidget(parent),

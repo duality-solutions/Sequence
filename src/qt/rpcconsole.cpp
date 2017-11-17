@@ -5,7 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/rpcconsole.h>
-#include <ui_rpcconsole.h>
+#include <qt/forms/ui_rpcconsole.h>
 
 #include <qt/bantablemodel.h>
 #include <qt/clientmodel.h>
@@ -79,7 +79,7 @@ Q_SIGNALS:
     void reply(int category, const QString &command);
 };
 
-#include <rpcconsole.moc>
+#include <qt/rpcconsole.moc>
 
 /**
  * Split shell command line into a list of arguments. Aims to emulate \c bash and friends.

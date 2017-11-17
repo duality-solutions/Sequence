@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/multisiginputentry.h>
-#include <ui_multisiginputentry.h>
+#include <qt/forms/ui_multisiginputentry.h>
 
 #include <qt/walletmodel.h>
 

@@ -189,7 +189,7 @@ Q_SIGNALS:
     void valueChanged();
 };
 
-#include <sequenceamountfield.moc>
+#include <qt/sequenceamountfield.moc>
 
 SequenceAmountField::SequenceAmountField(QWidget *parent) :
     QWidget(parent),

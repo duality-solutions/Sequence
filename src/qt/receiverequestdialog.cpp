@@ -5,7 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/receiverequestdialog.h>
-#include <ui_receiverequestdialog.h>
+#include <qt/forms/ui_receiverequestdialog.h>
 
 #include <qt/guiconstants.h>
 #include <qt/guiutil.h>

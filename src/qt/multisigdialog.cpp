@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/multisigdialog.h>
-#include <ui_multisigdialog.h>
+#include <qt/forms/ui_multisigdialog.h>
 
 #include <qt/addresstablemodel.h>
 #include <qt/multisigaddressentry.h>

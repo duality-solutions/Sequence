@@ -6,7 +6,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <qt/dnspage.h>
-#include <ui_dnspage.h>
+#include <qt/forms/ui_dnspage.h>
 
 #include <qt/csvmodelwriter.h>
 #include <qt/guiconstants.h>

@@ -251,7 +251,7 @@ private:
     void startThread();
 };
 
-#include <sequence.moc>
+#include <qt/sequence.moc>
 
 SequenceCore::SequenceCore():
     QObject()
