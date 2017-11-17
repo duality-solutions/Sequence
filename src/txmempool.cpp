@@ -541,7 +541,7 @@ public:
         if (nBlocksToConfirm < 0 || nBlocksToConfirm >= (int)history.size())
             return CFeeRate(0);
 
-        if (sortedFeeSamples.size() == 0)
+        if (sortedFeeSamples.empty())
         {
             for (size_t i = 0; i < history.size(); i++)
                 history.at(i).GetFeeSamples(sortedFeeSamples);
@@ -576,7 +576,7 @@ public:
         if (nBlocksToConfirm < 0 || nBlocksToConfirm >= (int)history.size())
             return -1;
 
-        if (sortedPrioritySamples.size() == 0)
+        if (sortedPrioritySamples.empty())
         {
             for (size_t i = 0; i < history.size(); i++)
                 history.at(i).GetPrioritySamples(sortedPrioritySamples);

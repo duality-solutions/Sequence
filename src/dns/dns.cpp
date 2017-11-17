@@ -1564,7 +1564,7 @@ bool CNamecoinHooks::DisconnectInputs(const CTransaction& tx)
             // remove tx
             nameRec.vtxPos.pop_back();
 
-            if (nameRec.vtxPos.size() == 0) // delete empty record
+            if (nameRec.vtxPos.empty()) // delete empty record
                 return dbName.EraseName(nti.name);
 
             // if we have deleted name_new - recalculate Last Active Chain Index

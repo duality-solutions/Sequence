@@ -633,7 +633,7 @@ UniValue getbalance(const UniValue& params, bool fHelp)
             + HelpExampleRpc("getbalance", "\"tabby\", 10")
         );
 
-    if (params.size() == 0)
+    if (params.empty())
         return  ValueFromAmount(pwalletMain->GetBalance());
 
     int nMinDepth = 1;

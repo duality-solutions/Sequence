@@ -262,7 +262,7 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
                 laddedNodes.push_back(strAddNode);
                 break;
             }
-        if (laddedNodes.size() == 0)
+        if (laddedNodes.empty())
             throw JSONRPCError(RPC_CLIENT_NODE_NOT_ADDED, "Error: Node has not been added.");
     }
 

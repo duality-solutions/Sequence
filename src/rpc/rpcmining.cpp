@@ -489,7 +489,7 @@ UniValue getwork(const UniValue& params, bool fHelp)
     static mapNewBlock_t mapNewBlock;    // FIXME: thread safety
     static std::vector<CBlockTemplate*> vNewBlockTemplate;
 
-    if (params.size() == 0)
+    if (params.empty())
     {
         // Update block
         static unsigned int nTransactionsUpdatedLast;

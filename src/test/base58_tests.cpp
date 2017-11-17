@@ -114,7 +114,7 @@ public:
     }
     bool operator()(const CNoDestination &no) const
     {
-        return exp_payload.size() == 0;
+        return exp_payload.empty();
     }
 };
 

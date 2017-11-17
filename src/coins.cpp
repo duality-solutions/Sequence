@@ -39,7 +39,7 @@ bool CCoins::Spend(const COutPoint &out, CTxInUndo &undo) {
     undo = CTxInUndo(vout[out.n]);
     vout[out.n].SetNull();
     Cleanup();
-    if (vout.size() == 0) {
+    if (vout.empty()) {
         undo.nHeight = nHeight;
         undo.fCoinBase = fCoinBase;
         undo.nVersion = this->nVersion;

@@ -146,7 +146,7 @@ bool ReadHTTPRequestLine(std::basic_istream<char>& stream, int &proto,
 
     // HTTP URI must be an absolute path, relative to current host
     http_uri = vWords[1];
-    if (http_uri.size() == 0 || http_uri[0] != '/')
+    if (http_uri.empty() || http_uri[0] != '/')
         return false;
 
     // parse proto, if present
