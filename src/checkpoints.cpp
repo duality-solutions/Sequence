@@ -13,6 +13,7 @@
 #include <timedata.h>
 #include <txdb.h>
 #include <consensus/validation.h>
+#include <reverse_iterator.h>
 
 #include <cstdint>
 

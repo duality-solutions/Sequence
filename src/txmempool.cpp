@@ -16,6 +16,7 @@
 #include <utiltime.h>
 #include <consensus/validation.h>
 #include <version.h>
+#include <reverse_iterator.h>
 
 #include <boost/foreach.hpp>
 #include <boost/circular_buffer.hpp>

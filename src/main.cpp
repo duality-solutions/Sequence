@@ -29,6 +29,7 @@
 #include <consensus/validation.h>
 #include <validationinterface.h>
 #include <wallet/wallet.h>
+#include <reverse_iterator.h>
 
 #include <atomic>
 #include <sstream>
