@@ -1060,7 +1060,7 @@ bool CWalletDB::Recover(CDBEnv& dbenv, std::string filename, bool fOnlyKeys)
     int64_t now = GetTime();
     std::string newFilename = strprintf("wallet.%d.bak", now);
 
-    int result = dbenv.dbenv.dbrename(NULL, filename.c_str(), NULL,
+    int result = dbenv.dbenv.dbrename(nullptr, filename.c_str(), nullptr,
                                       newFilename.c_str(), DB_AUTO_COMMIT);
     if (result == 0)
         LogPrintf("Renamed %s to %s\n", filename, newFilename);
@@ -1081,7 +1081,7 @@ bool CWalletDB::Recover(CDBEnv& dbenv, std::string filename, bool fOnlyKeys)
 
     bool fSuccess = allOK;
     std::unique_ptr<Db> pdbCopy(new Db(&dbenv.dbenv, 0));
-    int ret = pdbCopy->open(NULL,               // Txn pointer
+    int ret = pdbCopy->open(nullptr,               // Txn pointer
                             filename.c_str(),   // Filename
                             "main",             // Logical db name
                             DB_BTREE,           // Database type

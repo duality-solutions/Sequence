@@ -34,7 +34,7 @@
 
 // Key used by getwork/getblocktemplate miners.
 // Allocated in InitRPCMining, free'd in ShutdownRPCMining
-static CReserveKey* pMiningKey = NULL;
+static CReserveKey* pMiningKey = nullptr;
 
 void InitRPCMining()
 {
@@ -50,7 +50,7 @@ void ShutdownRPCMining()
     if (!pMiningKey)
         return;
 
-    delete pMiningKey; pMiningKey = NULL;
+    delete pMiningKey; pMiningKey = nullptr;
 }
 
 UniValue getsubsidy(const UniValue& params, bool fHelp)
@@ -84,7 +84,7 @@ UniValue GetNetworkHashPS(int lookup, int height) {
     if (height >= 0 && height < chainActive.Height())
         pb = chainActive[height];
 
-    if (pb == NULL || !pb->nHeight)
+    if (pb == nullptr || !pb->nHeight)
         return 0;
 
     // If lookup is -1, then use blocks since last difficulty change.
@@ -181,7 +181,7 @@ UniValue setgenerate(const UniValue& params, bool fHelp)
             + HelpExampleRpc("setgenerate", "true, 1")
         );
 
-    if (pwalletMain == NULL)
+    if (pwalletMain == nullptr)
         throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Method not found (disabled)");
 
     bool fGenerate = true;
@@ -229,7 +229,7 @@ UniValue setgenerate(const UniValue& params, bool fHelp)
                 ++pblock->nNonce;
             }
             CValidationState state;
-            if (!ProcessNewBlock(state, Params(), NULL, pblock))
+            if (!ProcessNewBlock(state, Params(), nullptr, pblock))
                 throw JSONRPCError(RPC_INTERNAL_ERROR, "ProcessNewBlock, block not accepted");
             ++nHeight;
             blockHashes.push_back(pblock->GetHash().GetHex());
@@ -509,7 +509,7 @@ UniValue getwork(const UniValue& params, bool fHelp)
             }
 
             // Clear pindexPrev so future getworks make a new block, despite any failures from here on
-            pindexPrev = NULL;
+            pindexPrev = nullptr;
 
             // Store the pindexBest used before CreateNewBlock, to avoid races
             nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
@@ -578,7 +578,7 @@ UniValue getwork(const UniValue& params, bool fHelp)
         pblock->vtx[0] = tx;
         pblock->hashMerkleRoot = pblock->BuildMerkleTree();
 
-        assert(pwalletMain != NULL);
+        assert(pwalletMain != nullptr);
         const CChainParams& chainParams = Params();
         return CheckWork(chainParams, pblock, *pwalletMain, *pMiningKey);
     }
@@ -770,7 +770,7 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
         (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast && GetTime() - nStart > 5))
     {
         // Clear pindexPrev so future calls make a new block, despite any failures from here on
-        pindexPrev = NULL;
+        pindexPrev = nullptr;
 
         // Store the pindexBest used before CreateNewBlock, to avoid races
         nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
@@ -781,7 +781,7 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
         if(pblocktemplate)
         {
             delete pblocktemplate;
-            pblocktemplate = NULL;
+            pblocktemplate = nullptr;
         }
         CScript scriptDummy = CScript() << OP_TRUE;
         pblocktemplate = CreateNewBlock(scriptDummy);
@@ -939,7 +939,7 @@ UniValue submitblock(const UniValue& params, bool fHelp)
     CValidationState state;
     submitblock_StateCatcher sc(block.GetHash());
     RegisterValidationInterface(&sc);
-    bool fAccepted = ProcessNewBlock(state, Params(), NULL, &block);
+    bool fAccepted = ProcessNewBlock(state, Params(), nullptr, &block);
     UnregisterValidationInterface(&sc);
     if (fBlockPresent)
     {

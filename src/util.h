@@ -81,14 +81,14 @@ bool LogAcceptCategory(const char* category);
 /** Send a string to the log output */
 int LogPrintStr(const std::string &str);
 
-#define LogPrintf(...) LogPrint(NULL, __VA_ARGS__)
+#define LogPrintf(...) LogPrint(nullptr, __VA_ARGS__)
 
 /**
  * When we switch to C++11, this can be switched to variadic templates instead
  * of this macro-based construction (see tinyformat.h).
  */
 #define MAKE_ERROR_AND_LOG_FUNC(n)                                        \
-    /**   Print to debug.log if -debug=category switch is given OR category is NULL. */ \
+    /**   Print to debug.log if -debug=category switch is given OR category is nullptr. */ \
     template<TINYFORMAT_ARGTYPES(n)>                                          \
     static inline int LogPrint(const char* category, const char* format, TINYFORMAT_VARARGS(n))  \
     {                                                                         \
@@ -240,7 +240,7 @@ template <typename Callable> void LoopForever(const char* name,  Callable func, 
         throw;
     }
     catch (...) {
-        PrintExceptionContinue(NULL, name);
+        PrintExceptionContinue(nullptr, name);
         throw;
     }
 }
@@ -268,7 +268,7 @@ template <typename Callable> void TraceThread(const char* name,  Callable func)
         throw;
     }
     catch (...) {
-        PrintExceptionContinue(NULL, name);
+        PrintExceptionContinue(nullptr, name);
         throw;
     }
 }

@@ -63,13 +63,13 @@ const char* BIP71_MIMETYPE_PAYMENTREQUEST = "application/sequence-paymentrequest
 // BIP70 max payment request size in bytes (DoS protection)
 const qint64 BIP70_MAX_PAYMENTREQUEST_SIZE = 50000;
 
-X509_STORE* PaymentServer::certStore = NULL;
+X509_STORE* PaymentServer::certStore = nullptr;
 void PaymentServer::freeCertStore()
 {
-    if (PaymentServer::certStore != NULL)
+    if (PaymentServer::certStore != nullptr)
     {
         X509_STORE_free(PaymentServer::certStore);
-        PaymentServer::certStore = NULL;
+        PaymentServer::certStore = nullptr;
     }
 }
 
@@ -108,7 +108,7 @@ static void ReportInvalidCertificate(const QSslCertificate& cert)
 //
 void PaymentServer::LoadRootCAs(X509_STORE* _store)
 {
-    if (PaymentServer::certStore == NULL)
+    if (PaymentServer::certStore == nullptr)
         atexit(PaymentServer::freeCertStore);
     else
         freeCertStore();
@@ -265,7 +265,7 @@ bool PaymentServer::ipcSendCommandLine()
         if (!socket->waitForConnected(SEQUENCE_IPC_CONNECT_TIMEOUT))
         {
             delete socket;
-            socket = NULL;
+            socket = nullptr;
             return false;
         }
 
@@ -281,7 +281,7 @@ bool PaymentServer::ipcSendCommandLine()
         socket->disconnectFromServer();
 
         delete socket;
-        socket = NULL;
+        socket = nullptr;
         fResult = true;
     }
 
@@ -356,7 +356,7 @@ void PaymentServer::initNetManager()
 {
     if (!optionsModel)
         return;
-    if (netManager != NULL)
+    if (netManager != nullptr)
         delete netManager;
 
     // netManager is used to fetch paymentrequests given in Sequence: URIs

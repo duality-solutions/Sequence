@@ -1816,7 +1816,7 @@ bool SignNameSignature(const CKeyStore& keystore, const CTransaction& txFrom, CM
         return false;
 
     // Test solution
-    return VerifyScript(txin.scriptSig, txout.scriptPubKey, STANDARD_SCRIPT_VERIFY_FLAGS, MutableTransactionSignatureChecker(&txTo, nIn), NULL, txTo.nVersion == NAMECOIN_TX_VERSION);
+    return VerifyScript(txin.scriptSig, txout.scriptPubKey, STANDARD_SCRIPT_VERIFY_FLAGS, MutableTransactionSignatureChecker(&txTo, nIn), nullptr, txTo.nVersion == NAMECOIN_TX_VERSION);
 }
 
 std::string MultiSigGetPubKeyFromAddress(const std::string& strAddress)

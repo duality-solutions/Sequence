@@ -596,7 +596,7 @@ void MultisigDialog::on_signTransactionButton_clicked()
         CScript redeemScript = redeemScripts[i];
         CTxIn& txin = mergedTx.vin[i];
         const CCoins* coins = view.AccessCoins(txin.prevout.hash);
-        if (coins == NULL || !coins->IsAvailable(txin.prevout.n)) {
+        if (coins == nullptr || !coins->IsAvailable(txin.prevout.n)) {
             QMessageBox::critical(this, tr("Multisig: Sign Button failed!"), tr("Input not found or already spent in coins"));
             fComplete = false;
             continue;
@@ -700,9 +700,9 @@ void MultisigDialog::on_sendTransactionButton_clicked()
     CValidationState state;
     // Send the transaction to the local node
     //   CTxDB txdb("r");
-    if(!AcceptToMemoryPool(mempool, state, tx, false, NULL))
+    if(!AcceptToMemoryPool(mempool, state, tx, false, nullptr))
         return;
-    SyncWithWallets(tx, NULL);
+    SyncWithWallets(tx, nullptr);
     //(CInv(MSG_TX, txHash), tx);
     RelayTransaction(tx);
 }

@@ -242,7 +242,7 @@ int CommandLineRPC(int argc, char *argv[])
         nRet = EXIT_FAILURE;
     }
     catch (...) {
-        PrintExceptionContinue(NULL, "CommandLineRPC()");
+        PrintExceptionContinue(nullptr, "CommandLineRPC()");
         throw;
     }
 
@@ -264,7 +264,7 @@ int main(int argc, char* argv[])
         PrintExceptionContinue(&e, "AppInitRPC()");
         return EXIT_FAILURE;
     } catch (...) {
-        PrintExceptionContinue(NULL, "AppInitRPC()");
+        PrintExceptionContinue(nullptr, "AppInitRPC()");
         return EXIT_FAILURE;
     }
 
@@ -275,7 +275,7 @@ int main(int argc, char* argv[])
     catch (const std::exception& e) {
         PrintExceptionContinue(&e, "CommandLineRPC()");
     } catch (...) {
-        PrintExceptionContinue(NULL, "CommandLineRPC()");
+        PrintExceptionContinue(nullptr, "CommandLineRPC()");
     }
     return ret;
 }

@@ -133,7 +133,7 @@ public:
 
     std::vector<unsigned char> getvch() const
     {
-        unsigned int nSize = BN_bn2mpi(this, NULL);
+        unsigned int nSize = BN_bn2mpi(this, nullptr);
         if (nSize <= 4)
             return std::vector<unsigned char>();
         std::vector<unsigned char> vch(nSize);

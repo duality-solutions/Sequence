@@ -495,7 +495,7 @@ void DNSPage::exportClicked()
     QString filename = GUIUtil::getSaveFileName(
             this,
             tr("Export Registered Names Data"), QString(),
-            tr("Comma separated file (*.csv)"), NULL);
+            tr("Comma separated file (*.csv)"), nullptr);
 
     if (filename.isNull())
         return;

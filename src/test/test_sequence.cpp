@@ -119,7 +119,7 @@ TestChain100Setup::CreateAndProcessBlock(const std::vector<CMutableTransaction>&
     while (!CheckProofOfWork(block.GetHash(), block.nBits, chainparams.GetConsensus())) ++block.nNonce;
 
     CValidationState state;
-    ProcessNewBlock(state, chainparams, NULL, &block, NULL);
+    ProcessNewBlock(state, chainparams, nullptr, &block, nullptr);
 
     CBlock result = block;
     delete pblocktemplate;

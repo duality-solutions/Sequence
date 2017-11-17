@@ -109,7 +109,7 @@ CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProo
     // Create new block
     unique_ptr<CBlockTemplate> pblocktemplate(new CBlockTemplate());
     if(!pblocktemplate.get())
-        return NULL;
+        return nullptr;
     CBlock *pblock = &pblocktemplate->block; // pointer for convenience
 
     // -regtest only: allow overriding block.nVersion with
@@ -171,7 +171,7 @@ CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProo
             nLastCoinStakeSearchTime = nSearchTime;
         }
         if (fPoSCancel)
-            return NULL; // Sequence: there is no point to continue if we failed to create coinstake
+            return nullptr; // Sequence: there is no point to continue if we failed to create coinstake
     }
     else
         pblock->nBits = GetNextTargetRequired(pindexPrev, false, consensusParams);
@@ -199,7 +199,7 @@ CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProo
             if (tx.IsCoinBase() || tx.IsCoinStake() || !IsFinalTx(tx, nHeight))
                 continue;
 
-            COrphan* porphan = NULL;
+            COrphan* porphan = nullptr;
             double dPriority = 0;
             CAmount nTotalIn = 0;
             bool fMissingInputs = false;
@@ -467,7 +467,7 @@ bool static ScanHash(const CBlockHeader *pblock, uint32_t& nNonce, uint256 *phas
 CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
 {
     bool fPoSCancel;
-    return CreateNewBlockInner(scriptPubKeyIn, false, fPoSCancel, NULL);
+    return CreateNewBlockInner(scriptPubKeyIn, false, fPoSCancel, nullptr);
 }
 
 // create PoW block with key
@@ -475,7 +475,7 @@ CBlockTemplate* CreateNewBlockWithKey(CReserveKey& reservekey)
 {
     CPubKey pubkey;
     if (!reservekey.GetReservedKey(pubkey, false))
-        return NULL;
+        return nullptr;
 
     CScript scriptPubKey = CScript() << ToByteVector(pubkey) << OP_CHECKSIG;
     return CreateNewBlock(scriptPubKey);
@@ -486,7 +486,7 @@ CBlockTemplate* CreateNewPoSBlockWithKey(CReserveKey& reservekey, bool& fPoSCanc
 {
     CPubKey pubkey;
     if (!reservekey.GetReservedKey(pubkey, false))
-        return NULL;
+        return nullptr;
 
     CScript scriptPubKey = CScript() << ToByteVector(pubkey) << OP_CHECKSIG;
     return CreateNewBlockInner(scriptPubKey, true, fPoSCancel, pwallet);
@@ -515,7 +515,7 @@ bool ProcessBlockFound(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
 
     // Process this block the same as if we had received it from another node
     CValidationState state;
-    if (!ProcessNewBlock(state, Params(), NULL, pblock))
+    if (!ProcessNewBlock(state, Params(), nullptr, pblock))
         return error("SequenceMiner : ProcessNewBlock, block not accepted");
 
     return true;
@@ -572,7 +572,7 @@ void SequenceMiner(CWallet *pwallet, bool fProofOfStake)
             unsigned int nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
             CBlockIndex* pindexPrev = chainActive.Tip();
 
-            bool fPoSCancel = false;  // fPoSCancel == true means that we failed to create coinstake and exited without going further (by returning NULL)
+            bool fPoSCancel = false;  // fPoSCancel == true means that we failed to create coinstake and exited without going further (by returning nullptr)
             unique_ptr<CBlockTemplate> pblocktemplate;
             if (fProofOfStake)
                 pblocktemplate = unique_ptr<CBlockTemplate> (CreateNewPoSBlockWithKey(reservekey, fPoSCancel, pwallet));
@@ -733,16 +733,16 @@ void SequenceMiner(CWallet *pwallet, bool fProofOfStake)
 
 void GenerateSequences(bool fGenerate, CWallet* pwallet, int nThreads, const CChainParams& chainparams)
 {
-    static boost::thread_group* minerThreads = NULL;
+    static boost::thread_group* minerThreads = nullptr;
 
     if (nThreads < 0)
         nThreads = GetNumCores();
 
-    if (minerThreads != NULL)
+    if (minerThreads != nullptr)
     {
         minerThreads->interrupt_all();
         delete minerThreads;
-        minerThreads = NULL;
+        minerThreads = nullptr;
     }
 
     if (nThreads == 0 || !fGenerate)
@@ -765,7 +765,7 @@ void static ThreadStakeMinter(void* parg)
     catch (const std::exception& e) {
         PrintExceptionContinue(&e, "ThreadStakeMinter()");
     } catch (...) {
-        PrintExceptionContinue(NULL, "ThreadStakeMinter()");
+        PrintExceptionContinue(nullptr, "ThreadStakeMinter()");
     }
     LogPrintf("ThreadStakeMinter exiting\n");
 }

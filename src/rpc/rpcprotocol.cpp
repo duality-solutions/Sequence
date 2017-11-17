@@ -156,7 +156,7 @@ bool ReadHTTPRequestLine(std::basic_istream<char>& stream, int &proto,
 
     proto = 0;
     const char *ver = strstr(strProto.c_str(), "HTTP/1.");
-    if (ver != NULL)
+    if (ver != nullptr)
         proto = atoi(ver+7);
 
     return true;
@@ -172,7 +172,7 @@ int ReadHTTPStatus(std::basic_istream<char>& stream, int &proto)
         return HTTP_INTERNAL_SERVER_ERROR;
     proto = 0;
     const char *ver = strstr(str.c_str(), "HTTP/1.");
-    if (ver != NULL)
+    if (ver != nullptr)
         proto = atoi(ver+7);
     return atoi(vWords[1].c_str());
 }

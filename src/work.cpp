@@ -29,14 +29,14 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
 
     uint256 bnTargetLimit = fProofOfStake ? consensusParams.bnProofOfStakeLimit : consensusParams.bnProofOfWorkLimit;
 
-    if (pindexLast == NULL)
+    if (pindexLast == nullptr)
         return bnTargetLimit.GetCompact(); // genesis block
 
     const CBlockIndex* pindexPrev = GetLastBlockIndex(pindexLast, fProofOfStake);
-    if (pindexPrev->pprev == NULL)
+    if (pindexPrev->pprev == nullptr)
         return bnTargetLimit.GetCompact(); // first block
     const CBlockIndex* pindexPrevPrev = GetLastBlockIndex(pindexPrev->pprev, fProofOfStake);
-    if (pindexPrevPrev->pprev == NULL)
+    if (pindexPrevPrev->pprev == nullptr)
         return bnTargetLimit.GetCompact(); // second block
 
     int64_t nPoWTargetSpacing = fProofOfStake ? consensusParams.nPoSTargetSpacing : consensusParams.nPoWTargetSpacing;

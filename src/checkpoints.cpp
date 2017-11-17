@@ -40,10 +40,10 @@ namespace Checkpoints {
 
     //! Guess how far we are in the verification process at the given block index
     double GuessVerificationProgress(const CCheckpointData& data, CBlockIndex *pindex, bool fSigchecks) {
-        if (pindex==NULL)
+        if (pindex==nullptr)
             return 0.0;
 
-        int64_t nNow = time(NULL);
+        int64_t nNow = time(nullptr);
 
         double fSigcheckVerificationFactor = fSigchecks ? SIGCHECK_VERIFICATION_FACTOR : 1.0;
         double fWorkBefore = 0.0; // Amount of work done before pindex
@@ -89,7 +89,7 @@ namespace Checkpoints {
             if (t != mapBlockIndex.end())
                 return t->second;
         }
-        return NULL;
+        return nullptr;
     }
 
     uint256 GetLatestHardenedCheckpoint(const CCheckpointData& data)
@@ -197,7 +197,7 @@ bool AcceptPendingSyncCheckpoint()
 
             CValidationState state;
             const CChainParams& chainparams = Params();
-            if (!ActivateBestChain(state, chainparams, NULL, pindexCheckpoint))
+            if (!ActivateBestChain(state, chainparams, nullptr, pindexCheckpoint))
             {
                 hashInvalidCheckpoint = hashPendingCheckpoint;
                 return error("AcceptPendingSyncCheckpoint: SetBestChain failed for sync checkpoint %s", hashPendingCheckpoint.ToString());
@@ -269,7 +269,7 @@ uint256 AutoSelectSyncCheckpoint()
 bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev)
 {
     LOCK(cs_main);
-    assert(pindexPrev != NULL);
+    assert(pindexPrev != nullptr);
     static bool fMain = Params().NetworkIDString() == "main";
     if (!fMain) return true; // Testnet has no checkpoints
     int nHeight = pindexPrev->nHeight + 1;

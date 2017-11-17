@@ -25,9 +25,9 @@ double GetDifficulty(const CBlockIndex* blockindex)
 {
     // Floating point number that is a multiple of the minimum difficulty,
     // minimum difficulty = 1.0.
-    if (blockindex == NULL)
+    if (blockindex == nullptr)
     {
-        if (chainActive.Tip() == NULL)
+        if (chainActive.Tip() == nullptr)
             return 1.0;
         else
             blockindex = GetLastBlockIndex(chainActive.Tip(), false);
@@ -83,9 +83,9 @@ double GetPoSKernelPS(const CBlockIndex* blockindex)
     int nStakesHandled = 0, nStakesTime = 0;
 
     const CBlockIndex* pindex = chainActive.Tip();
-    const CBlockIndex* pindexPrevStake = NULL;
+    const CBlockIndex* pindexPrevStake = nullptr;
 
-    if (blockindex != NULL)
+    if (blockindex != nullptr)
         pindex = blockindex;
 
     while (pindex && nStakesHandled < nPoSInterval)

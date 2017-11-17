@@ -1427,7 +1427,7 @@ UniValue listsinceblock(const UniValue& params, bool fHelp)
             + HelpExampleRpc("listsinceblock", "\"000000000000000bacf66f7497b7dc45ef753ee9a7d38571037cdb1a57f663ad\", 10")
         );
 
-    CBlockIndex *pindex = NULL;
+    CBlockIndex *pindex = nullptr;
     int target_confirms = 1;
     isminefilter filter = ISMINE_SPENDABLE;
 
@@ -1872,7 +1872,7 @@ UniValue listunspent(const UniValue& params, bool fHelp)
 
     UniValue results(UniValue::VARR);
     std::vector<COutput> vecOutputs;
-    assert(pwalletMain != NULL);
+    assert(pwalletMain != nullptr);
     pwalletMain->AvailableCoins(vecOutputs, false);
     for(const COutput& out : vecOutputs) {
         if (out.nDepth < nMinDepth || out.nDepth > nMaxDepth)

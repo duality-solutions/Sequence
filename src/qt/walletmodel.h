@@ -131,7 +131,7 @@ public:
     RecentRequestsTableModel *getRecentRequestsTableModel();
     NameTableModel *getNameTableModel();
 
-    CAmount getBalance(const CCoinControl *coinControl = NULL) const;
+    CAmount getBalance(const CCoinControl *coinControl = nullptr) const;
     CAmount getTotal() const;
     CAmount getStake() const;
     CAmount getUnconfirmedBalance() const;
@@ -155,7 +155,7 @@ public:
     };
 
     // prepare transaction for getting txfee before sending coins
-    SendCoinsReturn prepareTransaction(WalletModelTransaction &transaction, int nSplitBlock, const CCoinControl *coinControl = NULL);
+    SendCoinsReturn prepareTransaction(WalletModelTransaction &transaction, int nSplitBlock, const CCoinControl *coinControl = nullptr);
 
     // Send coins to a list of recipients
     SendCoinsReturn sendCoins(WalletModelTransaction &transaction);

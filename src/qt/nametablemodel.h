@@ -62,7 +62,7 @@ private:
     void emitDataChanged(int index);
 
 public Q_SLOTS:
-    void updateEntry(const QString &name, const QString &value, const QString &address, int nHeight, int status, int *outNewRowIndex = NULL);
+    void updateEntry(const QString &name, const QString &value, const QString &address, int nHeight, int status, int *outNewRowIndex = nullptr);
     void update(bool forced = false);
 
     friend class NameTablePriv;

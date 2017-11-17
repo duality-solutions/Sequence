@@ -157,7 +157,7 @@ public:
         // Securely erase the memory used by the PRNG
         RAND_cleanup();
         // Shutdown OpenSSL library multithreading support
-        CRYPTO_set_locking_callback(NULL);
+        CRYPTO_set_locking_callback(nullptr);
         for (int i = 0; i < CRYPTO_num_locks(); i++)
             delete ppmutexOpenSSL[i];
         OPENSSL_free(ppmutexOpenSSL);
@@ -181,24 +181,24 @@ static boost::once_flag debugPrintInitFlag = BOOST_ONCE_INIT;
  * We use boost::call_once() to make sure these are initialized
  * in a thread-safe manner the first time called:
  */
-static FILE* fileout = NULL;
-static boost::mutex* mutexDebugLog = NULL;
+static FILE* fileout = nullptr;
+static boost::mutex* mutexDebugLog = nullptr;
 
 static void DebugPrintInit()
 {
-    assert(fileout == NULL);
-    assert(mutexDebugLog == NULL);
+    assert(fileout == nullptr);
+    assert(mutexDebugLog == nullptr);
 
     boost::filesystem::path pathDebug = GetDataDir() / "debug.log";
     fileout = fopen(pathDebug.string().c_str(), "a");
-    if (fileout) setbuf(fileout, NULL); // unbuffered
+    if (fileout) setbuf(fileout, nullptr); // unbuffered
 
     mutexDebugLog = new boost::mutex();
 }
 
 bool LogAcceptCategory(const char* category)
 {
-    if (category != NULL)
+    if (category != nullptr)
     {
         if (!fDebug)
             return false;
@@ -208,7 +208,7 @@ bool LogAcceptCategory(const char* category)
         // where mapMultiArgs might be deleted before another
         // global destructor calls LogPrint()
         static boost::thread_specific_ptr<set<string> > ptrCategory;
-        if (ptrCategory.get() == NULL)
+        if (ptrCategory.get() == nullptr)
         {
             const vector<string>& categories = mapMultiArgs["-debug"];
             ptrCategory.reset(new set<string>(categories.begin(), categories.end()));
@@ -238,7 +238,7 @@ int LogPrintStr(const std::string &str)
         static bool fStartedNewLine = true;
         boost::call_once(&DebugPrintInit, debugPrintInitFlag);
 
-        if (fileout == NULL)
+        if (fileout == nullptr)
             return ret;
 
         boost::mutex::scoped_lock scoped_lock(*mutexDebugLog);
@@ -247,8 +247,8 @@ int LogPrintStr(const std::string &str)
         if (fReopenDebugLog) {
             fReopenDebugLog = false;
             boost::filesystem::path pathDebug = GetDataDir() / "debug.log";
-            if (freopen(pathDebug.string().c_str(),"a",fileout) != NULL)
-                setbuf(fileout, NULL); // unbuffered
+            if (freopen(pathDebug.string().c_str(),"a",fileout) != nullptr)
+                setbuf(fileout, nullptr); // unbuffered
         }
 
         // Debug print useful for profiling
@@ -366,7 +366,7 @@ static std::string FormatException(const std::exception* pex, const char* pszThr
 {
 #ifdef WIN32
     char pszModule[MAX_PATH] = "";
-    GetModuleFileNameA(NULL, pszModule, sizeof(pszModule));
+    GetModuleFileNameA(nullptr, pszModule, sizeof(pszModule));
 #else
     const char* pszModule = "sequence";
 #endif
@@ -399,7 +399,7 @@ boost::filesystem::path GetDefaultDataDir()
 #else
     struct passwd *pw_ptr = getpwuid(geteuid());
     const char *pszHome = pw_ptr? pw_ptr->pw_dir : getenv("HOME"); 
-    fs::path pathRet((pszHome == NULL || *pszHome == 0)? "/" : pszHome);
+    fs::path pathRet((pszHome == nullptr || *pszHome == 0)? "/" : pszHome);
 #ifdef MAC_OSX
     // Mac
     pathRet /= "Library/Application Support";
@@ -420,7 +420,7 @@ static std::string GenerateRandomString(unsigned int len) {
     if (len == 0){
         len = 24;
     }
-    srand(time(NULL) + len); //seed srand before using
+    srand(time(nullptr) + len); //seed srand before using
     char s[len];
     static const char alphanum[] =
         "0123456789"
@@ -438,7 +438,7 @@ static std::string GenerateRandomString(unsigned int len) {
 
 static unsigned int RandomIntegerRange(unsigned int nMin, unsigned int nMax)
 {
-  srand(time(NULL) + nMax); //seed srand before using
+  srand(time(nullptr) + nMax); //seed srand before using
   return nMin + rand() % (nMax - nMin) + 1;
 }
 
@@ -533,7 +533,7 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
     if (!streamConfig.good()){
         // Create sequence.conf if it does not exist
         FILE* configFile = fopen(GetConfigFile().string().c_str(), "a");
-        if (configFile != NULL) {
+        if (configFile != nullptr) {
             // Write sequence.conf file with random username and password.
             WriteConfigFile(configFile);
             // New sequence.conf file written, now read it.
@@ -722,7 +722,7 @@ void ShrinkDebugFile()
             fclose(file);
         }
     }
-    else if (file != NULL)
+    else if (file != nullptr)
         fclose(file);
 }
 
@@ -733,7 +733,7 @@ boost::filesystem::path GetSpecialFolderPath(int nFolder, bool fCreate)
 
     char pszPath[MAX_PATH] = "";
 
-    if(SHGetSpecialFolderPathA(NULL, pszPath, nFolder, fCreate))
+    if(SHGetSpecialFolderPathA(nullptr, pszPath, nFolder, fCreate))
     {
         return fs::path(pszPath);
     }

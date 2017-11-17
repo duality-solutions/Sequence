@@ -153,10 +153,10 @@ extern void ShutdownRPCMining();
 extern int64_t nWalletUnlockTime;
 extern CAmount AmountFromValue(const UniValue& value);
 extern UniValue ValueFromAmount(const CAmount& amount);
-extern double GetDifficulty(const CBlockIndex* blockindex = NULL);
+extern double GetDifficulty(const CBlockIndex* blockindex = nullptr);
 
-extern double GetPoWMHashPS(const CBlockIndex* blockindex = NULL);
-extern double GetPoSKernelPS(const CBlockIndex* blockindex = NULL);
+extern double GetPoWMHashPS(const CBlockIndex* blockindex = nullptr);
+extern double GetPoSKernelPS(const CBlockIndex* blockindex = nullptr);
 
 extern std::string HelpRequiringPassphrase();
 extern std::string HelpExampleCli(const std::string& methodname, const std::string& args);

@@ -41,11 +41,11 @@ static std::string rpcWarmupStatus("RPC server started");
 static CCriticalSection cs_rpcWarmup;
 
 //! These are created by StartRPCThreads, destroyed in StopRPCThreads
-static asio::io_service* rpc_io_service = NULL;
+static asio::io_service* rpc_io_service = nullptr;
 static std::map<std::string, boost::shared_ptr<deadline_timer> > deadlineTimers;
-static ssl::context* rpc_ssl_context = NULL;
-static boost::thread_group* rpc_worker_group = NULL;
-static boost::asio::io_service::work *rpc_dummy_work = NULL;
+static ssl::context* rpc_ssl_context = nullptr;
+static boost::thread_group* rpc_worker_group = nullptr;
+static boost::asio::io_service::work *rpc_dummy_work = nullptr;
 static std::vector<CSubNet> rpc_allow_subnets; //!< List of subnets to allow RPC connections from
 static std::vector< boost::shared_ptr<ip::tcp::acceptor> > rpc_acceptors;
 
@@ -282,7 +282,7 @@ const CRPCCommand *CRPCTable::operator[](const std::string &name) const
 {
     std::map<std::string, const CRPCCommand*>::const_iterator it = mapCommands.find(name);
     if (it == mapCommands.end())
-        return NULL;
+        return nullptr;
     return (*it).second;
 }
 
@@ -518,7 +518,7 @@ void StartRPCThreads()
         return;
     }
 
-    assert(rpc_io_service == NULL);
+    assert(rpc_io_service == nullptr);
     rpc_io_service = new asio::io_service();
     rpc_ssl_context = new ssl::context(*rpc_io_service, ssl::context::sslv23);
 
@@ -628,7 +628,7 @@ void StartRPCThreads()
 
 void StartDummyRPCThread()
 {
-    if(rpc_io_service == NULL)
+    if(rpc_io_service == nullptr)
     {
         rpc_io_service = new asio::io_service();
         /* Create dummy "work" to keep the thread from exiting when no timeouts active,
@@ -642,7 +642,7 @@ void StartDummyRPCThread()
 
 void StopRPCThreads()
 {
-    if (rpc_io_service == NULL) return;
+    if (rpc_io_service == nullptr) return;
     // Set this to false first, so that longpolling loops will exit when woken up
     fRPCRunning = false;
 
@@ -667,12 +667,12 @@ void StopRPCThreads()
 
     rpc_io_service->stop();
     cvBlockChange.notify_all();
-    if (rpc_worker_group != NULL)
+    if (rpc_worker_group != nullptr)
         rpc_worker_group->join_all();
-    delete rpc_dummy_work; rpc_dummy_work = NULL;
-    delete rpc_worker_group; rpc_worker_group = NULL;
-    delete rpc_ssl_context; rpc_ssl_context = NULL;
-    delete rpc_io_service; rpc_io_service = NULL;
+    delete rpc_dummy_work; rpc_dummy_work = nullptr;
+    delete rpc_worker_group; rpc_worker_group = nullptr;
+    delete rpc_ssl_context; rpc_ssl_context = nullptr;
+    delete rpc_io_service; rpc_io_service = nullptr;
 }
 
 bool IsRPCRunning()
@@ -709,7 +709,7 @@ void RPCRunHandler(const boost::system::error_code& err, boost::function<void(vo
 
 void RPCRunLater(const std::string& name, boost::function<void(void)> func, int64_t nSeconds)
 {
-    assert(rpc_io_service != NULL);
+    assert(rpc_io_service != nullptr);
 
     if (deadlineTimers.count(name) == 0)
     {

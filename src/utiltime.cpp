@@ -22,7 +22,7 @@ static int64_t nMockTime = 0; //! For unit testing
 // System Clock
 int64_t GetTime()
 {
-    return time(NULL);
+    return time(nullptr);
 }
 
 void SetMockTime(int64_t nMockTimeIn)

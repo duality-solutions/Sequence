@@ -101,7 +101,7 @@ class SeqDns {
     bool CheckEnumSig(const char *q_str, char *sig_str);
     void AddTF(char *tf_tok);
 
-    // Returns x = hash index to update size; x==NULL = disable;
+    // Returns x = hash index to update size; x==nullptr = disable;
     DNSAP  *CheckDAP(uint32_t ip_addr);
 
     inline void Out2(uint16_t x) { x = htons(x); memcpy(m_snd, &x, 2); m_snd += 2; }

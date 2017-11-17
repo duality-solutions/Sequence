@@ -26,7 +26,7 @@
 #include <unistd.h> // for sysconf
 #endif
 
-LockedPoolManager* LockedPoolManager::_instance = NULL;
+LockedPoolManager* LockedPoolManager::_instance = nullptr;
 std::once_flag LockedPoolManager::init_flag;
 
 /*******************************************************************************/
@@ -79,7 +79,7 @@ void* Arena::alloc(size_t size)
 
 void Arena::free(void *ptr)
 {
-    // Freeing the NULL pointer is OK.
+    // Freeing the nullptr pointer is OK.
     if (ptr == nullptr) {
         return;
     }

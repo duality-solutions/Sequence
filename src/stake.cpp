@@ -291,7 +291,7 @@ static bool GetKernelStakeModifier(uint256 hashBlockFrom, uint64_t& nStakeModifi
 	else
 	{
 		uint256HashMap<StakeMod>::Data *pcache = StakeModCache.Search(hashBlockFrom);
-		if (pcache != NULL)
+		if (pcache != nullptr)
 		{
 			nStakeModifier = pcache->value.nStakeModifier;
 			nStakeModifierHeight = pcache->value.nStakeModifierHeight;
