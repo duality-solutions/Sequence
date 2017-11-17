@@ -17,7 +17,6 @@
 
 #include <cstdint>
 
-#include <boost/foreach.hpp>
 
 namespace Checkpoints {
 

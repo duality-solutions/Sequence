@@ -18,7 +18,6 @@
 #include <version.h>
 #include <reverse_iterator.h>
 
-#include <boost/foreach.hpp>
 #include <boost/circular_buffer.hpp>
 
 using namespace std;
