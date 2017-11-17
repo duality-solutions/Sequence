@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_UNDO_H
 #define SEQUENCE_UNDO_H
 
-#include <compressor.h> 
+#include <compressor.h>
 #include <serialize.h>
 #include <primitives/transaction.h>
 
