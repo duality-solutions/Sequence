@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "trafficgraphwidget.h"
-#include "clientmodel.h"
+#include <qt/trafficgraphwidget.h>
+#include <qt/clientmodel.h>
 
 #include <boost/bind.hpp>
 
@@ -140,7 +140,7 @@ void TrafficGraphWidget::updateRates()
 
     if (updated){
         float tmax = DEFAULT_SAMPLE_HEIGHT;
-        Q_FOREACH(const TrafficSample& sample, trafficGraphData.getCurrentRangeQueue()) {
+        for (const TrafficSample& sample : trafficGraphData.getCurrentRangeQueue()) {
             if(sample.in > tmax) tmax = sample.in;
             if(sample.out > tmax) tmax = sample.out;
         }

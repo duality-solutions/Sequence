@@ -4,9 +4,9 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "coins.h"
+#include <coins.h>
 
-#include <assert.h>
+#include <cassert>
 
 /**
  * calculate number of bytes for the bitmask, and its number of non-zero bytes
@@ -39,7 +39,7 @@ bool CCoins::Spend(const COutPoint &out, CTxInUndo &undo) {
     undo = CTxInUndo(vout[out.n]);
     vout[out.n].SetNull();
     Cleanup();
-    if (vout.size() == 0) {
+    if (vout.empty()) {
         undo.nHeight = nHeight;
         undo.fCoinBase = fCoinBase;
         undo.nVersion = this->nVersion;
@@ -135,7 +135,7 @@ CCoinsModifier CCoinsViewCache::ModifyCoins(const uint256 &txid) {
 const CCoins* CCoinsViewCache::AccessCoins(const uint256 &txid) const {
     CCoinsMap::const_iterator it = FetchCoins(txid);
     if (it == cacheCoins.end()) {
-        return NULL;
+        return nullptr;
     } else {
         return &it->second.coins;
     }

@@ -7,10 +7,10 @@
 #ifndef SEQUENCE_CRYPTO_HMAC_SHA256_H
 #define SEQUENCE_CRYPTO_HMAC_SHA256_H
 
-#include "crypto/sha256.h"
+#include <crypto/sha256.h>
 
-#include <stdint.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdlib>
 
 /** A hasher class for HMAC-SHA-512. */
 class CHMAC_SHA256

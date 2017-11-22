@@ -5,18 +5,18 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "stake.h"
+#include <stake.h>
 
-#include "chainparams.h"
-#include "consensus/consensus.h"
-#include "wallet/db.h"
-#include "init.h"
-#include "timedata.h"
-#include "txdb.h"
-#include "uint256hm.h"
-#include "util.h"
-#include "consensus/validation.h"
-#include "wallet/wallet.h"
+#include <chainparams.h>
+#include <consensus/consensus.h>
+#include <wallet/db.h>
+#include <init.h>
+#include <timedata.h>
+#include <txdb.h>
+#include <uint256hm.h>
+#include <util.h>
+#include <consensus/validation.h>
+#include <wallet/wallet.h>
 
 
 #include <boost/assign/list_of.hpp>
@@ -291,7 +291,7 @@ static bool GetKernelStakeModifier(uint256 hashBlockFrom, uint64_t& nStakeModifi
 	else
 	{
 		uint256HashMap<StakeMod>::Data *pcache = StakeModCache.Search(hashBlockFrom);
-		if (pcache != NULL)
+		if (pcache != nullptr)
 		{
 			nStakeModifier = pcache->value.nStakeModifier;
 			nStakeModifierHeight = pcache->value.nStakeModifierHeight;

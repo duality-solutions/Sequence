@@ -7,9 +7,9 @@
 #ifndef SEQUENCE_CHECKPOINTS_H
 #define SEQUENCE_CHECKPOINTS_H
 
-#include "serialize.h"
-#include "sync.h"
-#include "uint256.h"
+#include <serialize.h>
+#include <sync.h>
+#include <uint256.h>
 
 #include <map>
 

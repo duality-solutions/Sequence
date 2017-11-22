@@ -7,12 +7,12 @@
 #ifndef SEQUENCE_ALERT_H
 #define SEQUENCE_ALERT_H
 
-#include "serialize.h"
-#include "sync.h"
+#include <serialize.h>
+#include <sync.h>
 
 #include <map>
 #include <set>
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 class CAlert;

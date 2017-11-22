@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_UTILTIME_H
 #define SEQUENCE_UTILTIME_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 int64_t GetTime();

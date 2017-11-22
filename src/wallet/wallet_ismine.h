@@ -7,8 +7,8 @@
 #ifndef SEQUENCE_WALLET_ISMINE_H
 #define SEQUENCE_WALLET_ISMINE_H
 
-#include "key.h"
-#include "script/standard.h"
+#include <key.h>
+#include <script/standard.h>
 
 class CKeyStore;
 class CScript;

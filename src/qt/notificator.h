@@ -8,7 +8,7 @@
 #define SEQUENCE_QT_NOTIFICATOR_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/sequence-config.h"
+#include <config/sequence-config.h>
 #endif
 
 #include <QIcon>

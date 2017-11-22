@@ -4,14 +4,14 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "pubkey.h"
+#include <pubkey.h>
 
-#include "eccryptoverify.h"
+#include <eccryptoverify.h>
 
 #ifdef USE_SECP256K1
 #include <secp256k1.h>
 #else
-#include "ecwrapper.h"
+#include <ecwrapper.h>
 #endif
 
 bool CPubKey::Verify(const uint256 &hash, const std::vector<unsigned char>& vchSig) const {

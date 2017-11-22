@@ -7,11 +7,11 @@
 #ifndef SEQUENCE_LEVELDBWRAPPER_H
 #define SEQUENCE_LEVELDBWRAPPER_H
 
-#include "clientversion.h"
-#include "serialize.h"
-#include "streams.h"
-#include "util.h"
-#include "version.h"
+#include <clientversion.h>
+#include <serialize.h>
+#include <streams.h>
+#include <util.h>
+#include <version.h>
 
 #include <boost/filesystem/path.hpp>
 
@@ -66,7 +66,7 @@ public:
 class CLevelDBWrapper
 {
 private:
-    //! custom environment this database is using (may be NULL in case of default environment)
+    //! custom environment this database is using (may be nullptr in case of default environment)
     leveldb::Env* penv;
 
     //! database options used

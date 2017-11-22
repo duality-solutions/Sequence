@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_QT_OVERVIEWPAGE_H
 #define SEQUENCE_QT_OVERVIEWPAGE_H
 
-#include "amount.h"
+#include <amount.h>
 
 #include <QWidget>
 

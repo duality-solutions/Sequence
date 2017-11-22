@@ -2,16 +2,16 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "multisiginputentry.h"
-#include "ui_multisiginputentry.h"
+#include <qt/multisiginputentry.h>
+#include <qt/forms/ui_multisiginputentry.h>
 
-#include "walletmodel.h"
+#include <qt/walletmodel.h>
 
-#include "base58.h"
-#include "main.h"
-#include "script/script.h"
-#include "util.h"
-#include "wallet/wallet.h"
+#include <base58.h>
+#include <main.h>
+#include <script/script.h>
+#include <util.h>
+#include <wallet/wallet.h>
 
 #include <QApplication>
 #include <QClipboard>

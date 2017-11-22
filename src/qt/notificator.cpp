@@ -4,7 +4,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "notificator.h"
+#include <qt/notificator.h>
 
 #include <QApplication>
 #include <QByteArray>
@@ -17,7 +17,7 @@
 #include <QTemporaryFile>
 #include <QVariant>
 #ifdef USE_DBUS
-#include <stdint.h>
+#include <cstdint>
 #include <QtDBus>
 #endif
 // Include ApplicationServices.h after QtDbus to avoid redefinition of check().
@@ -26,7 +26,7 @@
 // #define __ASSERT_MACROS_DEFINE_VERSIONS_WITHOUT_UNDERSCORES 0
 #ifdef Q_OS_MAC
 #include <ApplicationServices/ApplicationServices.h>
-#include "macnotificationhandler.h"
+#include <qt/macnotificationhandler.h>
 #endif
 
 

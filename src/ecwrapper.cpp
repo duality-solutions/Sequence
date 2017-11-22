@@ -4,10 +4,10 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "ecwrapper.h"
+#include <ecwrapper.h>
 
-#include "serialize.h"
-#include "uint256.h"
+#include <serialize.h>
+#include <uint256.h>
 
 #include <openssl/bn.h>
 #include <openssl/ecdsa.h>
@@ -25,24 +25,24 @@ int ECDSA_SIG_recover_key_GFp(EC_KEY *eckey, ECDSA_SIG *ecsig, const unsigned ch
     if (!eckey) return 0;
 
     int ret = 0;
-    BN_CTX *ctx = NULL;
+    BN_CTX *ctx = nullptr;
 
-    BIGNUM *x = NULL;
-    BIGNUM *e = NULL;
-    BIGNUM *order = NULL;
-    BIGNUM *sor = NULL;
-    BIGNUM *eor = NULL;
-    BIGNUM *field = NULL;
-    EC_POINT *R = NULL;
-    EC_POINT *O = NULL;
-    EC_POINT *Q = NULL;
-    BIGNUM *rr = NULL;
-    BIGNUM *zero = NULL;
+    BIGNUM *x = nullptr;
+    BIGNUM *e = nullptr;
+    BIGNUM *order = nullptr;
+    BIGNUM *sor = nullptr;
+    BIGNUM *eor = nullptr;
+    BIGNUM *field = nullptr;
+    EC_POINT *R = nullptr;
+    EC_POINT *O = nullptr;
+    EC_POINT *Q = nullptr;
+    BIGNUM *rr = nullptr;
+    BIGNUM *zero = nullptr;
     int n = 0;
     int i = recid / 2;
 
     const EC_GROUP *group = EC_KEY_get0_group(eckey);
-    if ((ctx = BN_CTX_new()) == NULL) { ret = -1; goto err; }
+    if ((ctx = BN_CTX_new()) == nullptr) { ret = -1; goto err; }
     BN_CTX_start(ctx);
     order = BN_CTX_get(ctx);
     if (!EC_GROUP_get_order(group, order, ctx)) { ret = -2; goto err; }
@@ -51,17 +51,17 @@ int ECDSA_SIG_recover_key_GFp(EC_KEY *eckey, ECDSA_SIG *ecsig, const unsigned ch
     if (!BN_mul_word(x, i)) { ret=-1; goto err; }
     if (!BN_add(x, x, ecsig->r)) { ret=-1; goto err; }
     field = BN_CTX_get(ctx);
-    if (!EC_GROUP_get_curve_GFp(group, field, NULL, NULL, ctx)) { ret=-2; goto err; }
+    if (!EC_GROUP_get_curve_GFp(group, field, nullptr, nullptr, ctx)) { ret=-2; goto err; }
     if (BN_cmp(x, field) >= 0) { ret=0; goto err; }
-    if ((R = EC_POINT_new(group)) == NULL) { ret = -2; goto err; }
+    if ((R = EC_POINT_new(group)) == nullptr) { ret = -2; goto err; }
     if (!EC_POINT_set_compressed_coordinates_GFp(group, R, x, recid % 2, ctx)) { ret=0; goto err; }
     if (check)
     {
-        if ((O = EC_POINT_new(group)) == NULL) { ret = -2; goto err; }
-        if (!EC_POINT_mul(group, O, NULL, R, order, ctx)) { ret=-2; goto err; }
+        if ((O = EC_POINT_new(group)) == nullptr) { ret = -2; goto err; }
+        if (!EC_POINT_mul(group, O, nullptr, R, order, ctx)) { ret=-2; goto err; }
         if (!EC_POINT_is_at_infinity(group, O)) { ret = 0; goto err; }
     }
-    if ((Q = EC_POINT_new(group)) == NULL) { ret = -2; goto err; }
+    if ((Q = EC_POINT_new(group)) == nullptr) { ret = -2; goto err; }
     n = EC_GROUP_get_degree(group);
     e = BN_CTX_get(ctx);
     if (!BN_bin2bn(msg, msglen, e)) { ret=-1; goto err; }
@@ -85,9 +85,9 @@ err:
         BN_CTX_end(ctx);
         BN_CTX_free(ctx);
     }
-    if (R != NULL) EC_POINT_free(R);
-    if (O != NULL) EC_POINT_free(O);
-    if (Q != NULL) EC_POINT_free(Q);
+    if (R != nullptr) EC_POINT_free(R);
+    if (O != nullptr) EC_POINT_free(O);
+    if (Q != nullptr) EC_POINT_free(Q);
     return ret;
 }
 
@@ -95,7 +95,7 @@ err:
 
 CECKey::CECKey() {
     pkey = EC_KEY_new_by_curve_name(NID_secp256k1);
-    assert(pkey != NULL);
+    assert(pkey != nullptr);
 }
 
 CECKey::~CECKey() {
@@ -104,7 +104,7 @@ CECKey::~CECKey() {
 
 void CECKey::GetPubKey(std::vector<unsigned char> &pubkey, bool fCompressed) {
     EC_KEY_set_conv_form(pkey, fCompressed ? POINT_CONVERSION_COMPRESSED : POINT_CONVERSION_UNCOMPRESSED);
-    int nSize = i2o_ECPublicKey(pkey, NULL);
+    int nSize = i2o_ECPublicKey(pkey, nullptr);
     assert(nSize);
     assert(nSize <= 65);
     pubkey.clear();
@@ -115,7 +115,7 @@ void CECKey::GetPubKey(std::vector<unsigned char> &pubkey, bool fCompressed) {
 }
 
 bool CECKey::SetPubKey(const unsigned char* pubkey, size_t size) {
-    return o2i_ECPublicKey(&pkey, &pubkey, size) != NULL;
+    return o2i_ECPublicKey(&pkey, &pubkey, size) != nullptr;
 }
 
 bool CECKey::Verify(const uint256 &hash, const std::vector<unsigned char>& vchSigParam) {
@@ -144,15 +144,15 @@ bool CECKey::Verify(const uint256 &hash, const std::vector<unsigned char>& vchSi
         return false;
 
     // New versions of OpenSSL will reject non-canonical DER signatures. de/re-serialize first.
-    unsigned char *norm_der = NULL;
+    unsigned char *norm_der = nullptr;
     ECDSA_SIG *norm_sig = ECDSA_SIG_new();
     const unsigned char* sigptr = &vchSig[0];
     assert(norm_sig);
-    if (d2i_ECDSA_SIG(&norm_sig, &sigptr, vchSig.size()) == NULL)
+    if (d2i_ECDSA_SIG(&norm_sig, &sigptr, vchSig.size()) == nullptr)
     {
         /* As of OpenSSL 1.0.0p d2i_ECDSA_SIG frees and nulls the pointer on
          * error. But OpenSSL's own use of this function redundantly frees the
-         * result. As ECDSA_SIG_free(NULL) is a no-op, and in the absence of a
+         * result. As ECDSA_SIG_free(nullptr) is a no-op, and in the absence of a
          * clear contract for the function behaving the same way is more
          * conservative.
          */
@@ -209,7 +209,7 @@ bool CECKey::TweakPublic(const unsigned char vchTweak[32]) {
 bool CECKey::SanityCheck()
 {
     EC_KEY *pkey = EC_KEY_new_by_curve_name(NID_secp256k1);
-    if(pkey == NULL)
+    if(pkey == nullptr)
         return false;
     EC_KEY_free(pkey);
 

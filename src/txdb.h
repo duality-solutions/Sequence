@@ -7,9 +7,9 @@
 #ifndef SEQUENCE_TXDB_H
 #define SEQUENCE_TXDB_H
 
-#include "chainparams.h"
-#include "leveldbwrapper.h"
-#include "main.h"
+#include <chainparams.h>
+#include <leveldbwrapper.h>
+#include <main.h>
 
 #include <map>
 #include <string>

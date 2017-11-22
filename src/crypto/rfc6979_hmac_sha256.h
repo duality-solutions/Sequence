@@ -7,10 +7,10 @@
 #ifndef SEQUENCE_RFC6979_HMAC_SHA256_H
 #define SEQUENCE_RFC6979_HMAC_SHA256_H
 
-#include "crypto/hmac_sha256.h"
+#include <crypto/hmac_sha256.h>
 
-#include <stdint.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdlib>
 
 /** The RFC 6979 PRNG using HMAC-SHA256. */
 class RFC6979_HMAC_SHA256

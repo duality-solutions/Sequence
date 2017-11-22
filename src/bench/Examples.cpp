@@ -2,9 +2,9 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "bench.h"
-#include "main.h"
-#include "utiltime.h"
+#include <bench/bench.h>
+#include <main.h>
+#include <utiltime.h>
 
 // Sanity test: this should loop ten times, and
 // min/max/average should be close to 100ms.
@@ -18,7 +18,7 @@ static void Sleep100ms(benchmark::State& state)
 BENCHMARK(Sleep100ms);
 
 // Extremely fast-running benchmark:
-#include <math.h>
+#include <cmath>
 
 volatile double sum = 0.0; // volatile, global so not optimized away
 

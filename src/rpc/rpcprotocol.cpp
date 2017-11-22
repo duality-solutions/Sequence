@@ -4,16 +4,16 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "rpc/rpcprotocol.h"
+#include <rpc/rpcprotocol.h>
 
-#include "clientversion.h"
-#include "tinyformat.h"
-#include "util.h"
-#include "utilstrencodings.h"
-#include "utiltime.h"
-#include "version.h"
+#include <clientversion.h>
+#include <tinyformat.h>
+#include <util.h>
+#include <utilstrencodings.h>
+#include <utiltime.h>
+#include <version.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/asio.hpp>
@@ -146,7 +146,7 @@ bool ReadHTTPRequestLine(std::basic_istream<char>& stream, int &proto,
 
     // HTTP URI must be an absolute path, relative to current host
     http_uri = vWords[1];
-    if (http_uri.size() == 0 || http_uri[0] != '/')
+    if (http_uri.empty() || http_uri[0] != '/')
         return false;
 
     // parse proto, if present
@@ -156,7 +156,7 @@ bool ReadHTTPRequestLine(std::basic_istream<char>& stream, int &proto,
 
     proto = 0;
     const char *ver = strstr(strProto.c_str(), "HTTP/1.");
-    if (ver != NULL)
+    if (ver != nullptr)
         proto = atoi(ver+7);
 
     return true;
@@ -172,7 +172,7 @@ int ReadHTTPStatus(std::basic_istream<char>& stream, int &proto)
         return HTTP_INTERNAL_SERVER_ERROR;
     proto = 0;
     const char *ver = strstr(str.c_str(), "HTTP/1.");
-    if (ver != NULL)
+    if (ver != nullptr)
         proto = atoi(ver+7);
     return atoi(vWords[1].c_str());
 }

@@ -4,24 +4,24 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "transactiondesc.h"
+#include <qt/transactiondesc.h>
 
-#include "guiutil.h"
-#include "paymentserver.h"
-#include "sequenceunits.h"
-#include "transactionrecord.h"
+#include <qt/guiutil.h>
+#include <qt/paymentserver.h>
+#include <qt/sequenceunits.h>
+#include <qt/transactionrecord.h>
 
-#include "base58.h"
-#include "consensus/consensus.h"
-#include "wallet/db.h"
-#include "main.h"
-#include "script/script.h"
-#include "timedata.h"
-#include "ui_interface.h"
-#include "util.h"
-#include "wallet/wallet.h"
+#include <base58.h>
+#include <consensus/consensus.h>
+#include <wallet/db.h>
+#include <main.h>
+#include <script/script.h>
+#include <timedata.h>
+#include <ui_interface.h>
+#include <util.h>
+#include <wallet/wallet.h>
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 using namespace std;
@@ -246,14 +246,14 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, TransactionReco
     strHTML += "<b>" + tr("Transaction ID") + ":</b> " + TransactionRecord::formatSubTxId(wtx.GetHash(), rec->idx) + "<br>";
 
     // Message from normal Sequence:URI (Sequence:123...?message=example)
-    foreach (const PAIRTYPE(string, string)& r, wtx.vOrderForm)
+    for (const std::pair<string, string>& r : wtx.vOrderForm)
         if (r.first == "Message")
             strHTML += "<br><b>" + tr("Message") + ":</b><br>" + GUIUtil::HtmlEscape(r.second, true) + "<br>";
 
     //
     // PaymentRequest info:
     //
-    foreach (const PAIRTYPE(string, string)& r, wtx.vOrderForm)
+    for (const std::pair<string, string>& r : wtx.vOrderForm)
     {
         if (r.first == "PaymentRequest")
         {

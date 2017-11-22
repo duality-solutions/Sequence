@@ -3,17 +3,17 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "base58.h"
+#include <base58.h>
 
-#include "data/base58_encode_decode.json.h"
-#include "data/base58_keys_invalid.json.h"
-#include "data/base58_keys_valid.json.h"
+#include <test/data/base58_encode_decode.json.h>
+#include <test/data/base58_keys_invalid.json.h>
+#include <test/data/base58_keys_valid.json.h>
 
-#include "key.h"
-#include "script/script.h"
-#include "uint256.h"
-#include "util.h"
-#include "utilstrencodings.h"
+#include <key.h>
+#include <script/script.h>
+#include <uint256.h>
+#include <util.h>
+#include <utilstrencodings.h>
 
 #include <boost/test/unit_test.hpp>
 
@@ -114,7 +114,7 @@ public:
     }
     bool operator()(const CNoDestination &no) const
     {
-        return exp_payload.size() == 0;
+        return exp_payload.empty();
     }
 };
 

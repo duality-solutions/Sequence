@@ -76,7 +76,7 @@ int inet_pton(int af, const char *src, void *dst)
   strncpy (src_copy, src, INET6_ADDRSTRLEN+1);
   src_copy[INET6_ADDRSTRLEN] = 0;
 
-  if (WSAStringToAddress(src_copy, af, NULL, (struct sockaddr *)&ss, &size) == 0) {
+  if (WSAStringToAddress(src_copy, af, nullptr, (struct sockaddr *)&ss, &size) == 0) {
     switch(af) {
       case AF_INET:
     *(struct in_addr *)dst = ((struct sockaddr_in *)&ss)->sin_addr;
@@ -94,8 +94,8 @@ char *strsep(char **s, const char *ct)
     char *sstart = *s;
     char *end;
 
-    if (sstart == NULL)
-        return NULL;
+    if (sstart == nullptr)
+        return nullptr;
 
     end = strpbrk(sstart, ct);
     if (end)
@@ -140,13 +140,13 @@ SeqDns::SeqDns(const char *bind_ip, uint16_t port_no,
     char local_tmp[1 << 15]; // max 32Kb
     FILE *flocal;
     uint8_t local_qty = 0;
-    if(local_fname != NULL && (flocal = fopen(local_fname, "r")) != NULL) {
+    if(local_fname != nullptr && (flocal = fopen(local_fname, "r")) != nullptr) {
       char *rd = local_tmp;
       while(rd < local_tmp + (1 << 15) - 200 && fgets(rd, 200, flocal)) {
 	if(*rd < '0' || *rd == ';')
 	  continue;
 	char *p = strchr(rd, '=');
-	if(p == NULL)
+	if(p == nullptr)
 	  continue;
 	rd = strchr(p, 0);
         while(*--rd < 040) 
@@ -159,8 +159,8 @@ SeqDns::SeqDns(const char *bind_ip, uint16_t port_no,
     }
 
     // Allocate memory
-    int allowed_len = allowed_suff == NULL? 0 : strlen(allowed_suff);
-    m_gw_suf_len    = gw_suffix    == NULL? 0 : strlen(gw_suffix);
+    int allowed_len = allowed_suff == nullptr? 0 : strlen(allowed_suff);
+    m_gw_suf_len    = gw_suffix    == nullptr? 0 : strlen(gw_suffix);
 
     // Compute dots in the gw-suffix
     m_gw_suf_dots = 0;
@@ -171,13 +171,13 @@ SeqDns::SeqDns(const char *bind_ip, uint16_t port_no,
 
     // Activate DAP only on the public gateways, with some suffixes, like .emergate.net
     // If no memory, DAP inactive - this is not critical problem
-    m_dap_ht  = (allowed_len && m_gw_suf_len)? (DNSAP*)calloc(SEQDNS_DAPSIZE, sizeof(DNSAP)) : NULL; 
+    m_dap_ht  = (allowed_len && m_gw_suf_len)? (DNSAP*)calloc(SEQDNS_DAPSIZE, sizeof(DNSAP)) : nullptr; 
     m_daprand = GetRand(0xffffffff) | 1; 
 
     m_value  = (char *)malloc(VAL_SIZE + BUF_SIZE + 2 + 
 	    m_gw_suf_len + allowed_len + local_len + 4);
  
-    if(m_value == NULL) 
+    if(m_value == nullptr) 
       throw runtime_error("SeqDns::SeqDns: Cannot allocate buffer");
 
     // Temporary use m_value for parse enum-verifiers and toll-free lists, if exist
@@ -198,7 +198,7 @@ SeqDns::SeqDns(const char *bind_ip, uint16_t port_no,
     char *varbufs = m_value + VAL_SIZE + BUF_SIZE + 2;
 
     m_gw_suffix = m_gw_suf_len?
-      strcpy(varbufs, gw_suffix) : NULL;
+      strcpy(varbufs, gw_suffix) : nullptr;
     
     // Create array of allowed TLD-suffixes
     if(allowed_len) {
@@ -244,7 +244,7 @@ SeqDns::SeqDns(const char *bind_ip, uint16_t port_no,
       // and populate hashtable with offsets
       while(++p < m_local_base + local_len) {
 	char *p_eq = strchr(p, '=');
-	if(p_eq == NULL)
+	if(p_eq == nullptr)
 	  break;
         char *p_h = p_eq;
         *p_eq++ = 0; // CLR = and go to data
@@ -345,16 +345,16 @@ void SeqDns::Run() {
     if(m_rcvlen <= 0)
 	break;
 
-    DNSAP *dap = NULL;
+    DNSAP *dap = nullptr;
 
-    if(m_dap_ht == NULL || (dap = CheckDAP(m_clientAddress.sin_addr.s_addr)) != NULL) {
+    if(m_dap_ht == nullptr || (dap = CheckDAP(m_clientAddress.sin_addr.s_addr)) != nullptr) {
       m_buf[BUF_SIZE] = 0; // Set terminal for infinity QNAME
       HandlePacket();
 
       sendto(m_sockfd, (const char *)m_buf, m_snd - m_buf, MSG_NOSIGNAL,
 	             (struct sockaddr *) &m_clientAddress, m_addrLen);
 
-      if(dap != NULL)
+      if(dap != nullptr)
         dap->ed_size += (m_snd - m_buf) >> 6;
     } // dap check
   } // for
@@ -426,7 +426,7 @@ void SeqDns::HandlePacket() {
       }
           } else { // This is file
       FILE *tf = fopen(tf_fname, "r");
-      if(tf != NULL) {
+      if(tf != nullptr) {
         while(fgets(m_value, VAL_SIZE, tf))
           AddTF(m_value);
         fclose(tf);
@@ -549,10 +549,10 @@ uint16_t SeqDns::HandleQuery() {
 
   step |= 1; // Set even step for 2-hashing
 
-  if(p == key && m_local_base != NULL) {
+  if(p == key && m_local_base != nullptr) {
     // no TLD suffix, try to search local 1st
     if(LocalSearch(p, pos, step) > 0)
-      p = NULL; // local search is OK, do not perform nameindex search
+      p = nullptr; // local search is OK, do not perform nameindex search
   }
 
   // If local search is unsuccessful, try to search in the nameindex DB.
@@ -623,7 +623,7 @@ uint16_t SeqDns::HandleQuery() {
   { // Extract TTL
     char val2[VAL_SIZE];
     char *tokens[MAX_TOK];
-    int ttlqty = Tokenize("TTL", NULL, tokens, strcpy(val2, m_value));
+    int ttlqty = Tokenize("TTL", nullptr, tokens, strcpy(val2, m_value));
     m_ttl = ttlqty? atoi(tokens[0]) : 24 * 3600;
   }
   
@@ -642,7 +642,7 @@ uint16_t SeqDns::HandleQuery() {
 int SeqDns::TryMakeref(uint16_t label_ref) {
   char val2[VAL_SIZE];
   char *tokens[MAX_TOK];
-  int ttlqty = Tokenize("TTL", NULL, tokens, strcpy(val2, m_value));
+  int ttlqty = Tokenize("TTL", nullptr, tokens, strcpy(val2, m_value));
   m_ttl = ttlqty? atoi(tokens[0]) : 24 * 3600;
   uint16_t orig_label_ref = m_label_ref;
   m_label_ref = label_ref;
@@ -668,11 +668,11 @@ int SeqDns::Tokenize(const char *key, const char *sep2, char **tokens, char *buf
   mainsep[1] = 0;
 
   for(char *token = strtok(buf, mainsep);
-    token != NULL; 
-      token = strtok(NULL, mainsep)) {
+    token != nullptr; 
+      token = strtok(nullptr, mainsep)) {
       // LogPrintf("Token:%s\n", token);
       char *val = strchr(token, '=');
-      if(val == NULL)
+      if(val == nullptr)
 	  continue;
       *val = 0;
       if(strcmp(key, token)) {
@@ -682,7 +682,7 @@ int SeqDns::Tokenize(const char *key, const char *sep2, char **tokens, char *buf
       val++;
       // Uplevel token found, tokenize value if needed
       // LogPrintf("Found: key=%s; val=%s\n", key, val);
-      if(sep2 == NULL || *sep2 == 0) {
+      if(sep2 == nullptr || *sep2 == 0) {
 	tokens[tokensN++] = val;
 	break;
       }
@@ -697,8 +697,8 @@ int SeqDns::Tokenize(const char *key, const char *sep2, char **tokens, char *buf
       }
       // Tokenize value
       for(token = strtok(val, sep2); 
-	 token != NULL && tokensN < MAX_TOK; 
-	   token = strtok(NULL, sep2)) {
+	 token != nullptr && tokensN < MAX_TOK; 
+	   token = strtok(nullptr, sep2)) {
 	  // LogPrintf("Subtoken=%s\n", token);
 	  tokens[tokensN++] = token;
       }
@@ -855,11 +855,11 @@ DNSAP *SeqDns::CheckDAP(uint32_t ip_addr) {
   hash ^= hash >> 16;
   hash += hash >> 8;
   DNSAP *dap = m_dap_ht + (hash & (SEQDNS_DAPSIZE - 1));
-  uint16_t timestamp = time(NULL) >> 6; // time in 64s ticks
+  uint16_t timestamp = time(nullptr) >> 6; // time in 64s ticks
   uint16_t dt = timestamp - dap->timestamp;
   dap->ed_size = (dt > 15? 0 : dap->ed_size >> dt) + 1;
   dap->timestamp = timestamp;
-  return (dap->ed_size <= SEQDNS_DAPTRESHOLD)? dap : NULL;
+  return (dap->ed_size <= SEQDNS_DAPTRESHOLD)? dap : nullptr;
 } // SeqDns::CheckDAP 
 
 
@@ -996,7 +996,7 @@ void SeqDns::OutS(const char *p) {
  // E2U+sip=100|10|!^(.*)$!sip:17771234567@in.callcentric.com!
 void SeqDns::HandleE2U(char *e2u) {
   char *data = strchr(e2u, '=');
-  if(data == NULL) 
+  if(data == nullptr) 
     return;
 
   // Cleanum sufix for service; Service started from E2U
@@ -1037,14 +1037,14 @@ void SeqDns::HandleE2U(char *e2u) {
 
 /*---------------------------------------------------*/
 bool SeqDns::CheckEnumSig(const char *q_str, char *sig_str) {
-    if(sig_str == NULL)
+    if(sig_str == nullptr)
       return false;
 
     // skip SP/TABs in signature
     while(*++sig_str <= ' ');
 
     char *signature = strchr(sig_str, '|');
-    if(signature == NULL)
+    if(signature == nullptr)
       return false;
     
     for(char *p = signature; *--p <= 040; *p = 0) {}
@@ -1094,15 +1094,15 @@ bool SeqDns::CheckEnumSig(const char *q_str, char *sig_str) {
             if(nbits > 30) nbits = 30;
      ///mask = (1 << mask) - 1;
       tok = strchr(tok, '|');
-      if(tok != NULL) {
+      if(tok != nullptr) {
    do {
      if(*++tok == 0)
        break; // empty SRL, thus keep VERMASK_NOSRL
      char *pp = strchr(tok, '%');
-      if(pp != NULL) {
+      if(pp != nullptr) {
         if(*++pp == '0')
           do ++pp; while(*pp >= '0' && *pp <= '9');
-                    if(strchr("diouXx", *pp) == NULL)
+                    if(strchr("diouXx", *pp) == nullptr)
       break; // Invalid char in the template
         if(strchr(pp, '%'))
       break; // Not allowed 2nd % symbol
@@ -1112,7 +1112,7 @@ bool SeqDns::CheckEnumSig(const char *q_str, char *sig_str) {
                   ver.srl_tpl.assign(tok);
       ver.mask = (1 << nbits) - 1;
     } while(false);
-      } // if(tok != NULL)
+      } // if(tok != nullptr)
       if(ver.mask != VERMASK_NOSRL)
         break; // Mask found
    } // while + if

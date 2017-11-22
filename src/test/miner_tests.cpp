@@ -8,12 +8,12 @@
 
 #if 0
 
-#include "consensus/validation.h"
-#include "main.h"
-#include "miner.h"
-#include "pubkey.h"
-#include "uint256.h"
-#include "util.h"
+#include <consensus/validation.h>
+#include <main.h>
+#include <miner.h>
+#include <pubkey.h>
+#include <uint256.h>
+#include <util.h>
 
 #include <boost/test/unit_test.hpp>
 
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
         pblock->hashMerkleRoot = pblock->BuildMerkleTree();
         pblock->nNonce = blockinfo[i].nonce;
         CValidationState state;
-        BOOST_CHECK(ProcessNewBlock(state, chainparams, NULL, pblock));
+        BOOST_CHECK(ProcessNewBlock(state, chainparams, nullptr, pblock));
         BOOST_CHECK(state.IsValid());
         pblock->hashPrevBlock = pblock->GetHash();
     }

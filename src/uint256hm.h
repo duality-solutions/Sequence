@@ -13,8 +13,8 @@
 #ifndef SEQ_UINT256HM_H
 #define SEQ_UINT256HM_H
 
-#include "uint256.h"
-#include "random.h"
+#include <uint256.h>
+#include <random.h>
 
 // Container - debug version
 template<class DATA>
@@ -27,14 +27,14 @@ public:
 	DATA     value;
     };
 
-   uint256HashMap() : m_head(-2), m_mask(0), m_allowed(0), m_randseed((uint32_t)GetRand(1 << 30)), m_data(NULL) {};
+   uint256HashMap() : m_head(-2), m_mask(0), m_allowed(0), m_randseed((uint32_t)GetRand(1 << 30)), m_data(nullptr) {};
   ~uint256HashMap() { Set(0); };
 
   void Set(uint32_t size) {
     // delete data if exist and needed
     if(size == 0) {
       delete [] m_data;
-      m_data = NULL;
+      m_data = nullptr;
       m_head = -2;
       return;
     }
@@ -76,16 +76,16 @@ public:
 
    Data *Search(const uint256 &key) const {
      Data *rc = Lookup(key);
-     return rc->next == -1? NULL : rc;
+     return rc->next == -1? nullptr : rc;
    } // Search
 
    Data *First() const {
-       return m_head < 0? NULL : m_data + m_head;
+       return m_head < 0? nullptr : m_data + m_head;
    }
 
    Data *Next(Data *cur) const {
-     // return cur->next < 0? NULL : m_data + cur->next;
-     return (uint32_t)cur->next >= (uint32_t)-2? NULL : 
+     // return cur->next < 0? nullptr : m_data + cur->next;
+     return (uint32_t)cur->next >= (uint32_t)-2? nullptr : 
 	 m_data + (cur->next & 0x7fffffff);
    } // Next
 
@@ -100,7 +100,7 @@ public:
          uint256HashMap<DATA> rehashed;
 	 rehashed.Set(m_mask << 1);
 	 Data *p;
-	 for(p = First(); p != NULL; p = Next(p))
+	 for(p = First(); p != nullptr; p = Next(p))
 	   if(p->next >= -2)
 	     rehashed.Insert(p->key, p->value);
          p = m_data;

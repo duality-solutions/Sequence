@@ -8,10 +8,10 @@
 #ifndef SEQUENCE_MINER_H
 #define SEQUENCE_MINER_H
 
-#include "primitives/block.h"
-#include "consensus/params.h"
+#include <primitives/block.h>
+#include <consensus/params.h>
 
-#include <stdint.h>
+#include <cstdint>
 #include <cstddef>
 
 class CBlockHeader;

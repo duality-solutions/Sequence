@@ -4,13 +4,13 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "key.h"
+#include <key.h>
 
-#include "crypto/hmac_sha512.h"
-#include "eccryptoverify.h"
-#include "ecwrapper.h"
-#include "random.h"
-#include "crypto/rfc6979_hmac_sha256.h"
+#include <crypto/hmac_sha512.h>
+#include <eccryptoverify.h>
+#include <ecwrapper.h>
+#include <random.h>
+#include <crypto/rfc6979_hmac_sha256.h>
 
 #include <secp256k1.h>
 

@@ -2,27 +2,27 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "multisigdialog.h"
-#include "ui_multisigdialog.h"
+#include <qt/multisigdialog.h>
+#include <qt/forms/ui_multisigdialog.h>
 
-#include "addresstablemodel.h"
-#include "multisigaddressentry.h"
-#include "multisiginputentry.h"
-#include "sendcoinsentry.h"
-#include "walletmodel.h"
+#include <qt/addresstablemodel.h>
+#include <qt/multisigaddressentry.h>
+#include <qt/multisiginputentry.h>
+#include <qt/sendcoinsentry.h>
+#include <qt/walletmodel.h>
 
-#include "base58.h"
-#include "core_io.h"
-#include "dns/dns.h"
-#include "key.h"
-#include "main.h"
-#include "rpc/rpcserver.h"
-#include "script/script.h"
-#include "script/sign.h"
-#include "script/standard.h"
-#include "util.h"
-#include "consensus/validation.h"
-#include "wallet/wallet.h"
+#include <base58.h>
+#include <core_io.h>
+#include <dns/dns.h>
+#include <key.h>
+#include <main.h>
+#include <rpc/rpcserver.h>
+#include <script/script.h>
+#include <script/sign.h>
+#include <script/standard.h>
+#include <util.h>
+#include <consensus/validation.h>
+#include <wallet/wallet.h>
 
 #include <QClipboard>
 #include <QWidget>
@@ -596,7 +596,7 @@ void MultisigDialog::on_signTransactionButton_clicked()
         CScript redeemScript = redeemScripts[i];
         CTxIn& txin = mergedTx.vin[i];
         const CCoins* coins = view.AccessCoins(txin.prevout.hash);
-        if (coins == NULL || !coins->IsAvailable(txin.prevout.n)) {
+        if (coins == nullptr || !coins->IsAvailable(txin.prevout.n)) {
             QMessageBox::critical(this, tr("Multisig: Sign Button failed!"), tr("Input not found or already spent in coins"));
             fComplete = false;
             continue;
@@ -700,9 +700,9 @@ void MultisigDialog::on_sendTransactionButton_clicked()
     CValidationState state;
     // Send the transaction to the local node
     //   CTxDB txdb("r");
-    if(!AcceptToMemoryPool(mempool, state, tx, false, NULL))
+    if(!AcceptToMemoryPool(mempool, state, tx, false, nullptr))
         return;
-    SyncWithWallets(tx, NULL);
+    SyncWithWallets(tx, nullptr);
     //(CInv(MSG_TX, txHash), tx);
     RelayTransaction(tx);
 }

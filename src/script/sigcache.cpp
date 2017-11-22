@@ -4,12 +4,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "sigcache.h"
+#include <script/sigcache.h>
 
-#include "pubkey.h"
-#include "random.h"
-#include "uint256.h"
-#include "util.h"
+#include <pubkey.h>
+#include <random.h>
+#include <uint256.h>
+#include <util.h>
 
 #include <boost/thread.hpp>
 #include <boost/tuple/tuple_comparison.hpp>

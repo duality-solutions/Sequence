@@ -5,14 +5,14 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <boost/test/unit_test.hpp>
-#include <stdint.h>
+#include <cstdint>
 #include <sstream>
 #include <iomanip>
 #include <limits>
 #include <cmath>
-#include "uint256.h"
+#include <uint256.h>
 #include <string>
-#include "version.h"
+#include <version.h>
 
 BOOST_AUTO_TEST_SUITE(uint256_tests)
  

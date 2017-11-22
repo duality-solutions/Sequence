@@ -5,27 +5,27 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "wallet/wallet.h"
+#include <wallet/wallet.h>
 
-#include "base58.h"
-#include "chainparams.h"
-#include "checkpoints.h"
-#include "wallet/coincontrol.h"
-#include "consensus/consensus.h"
-#include "dns/dns.h"
-#include "stake.h"
-#include "net.h"
-#include "script/script.h"
-#include "script/sign.h"
-#include "timedata.h"
-#include "txdb.h"
-#include "txmempool.h"
-#include "uint256hm.h"
-#include "util.h"
-#include "utilmoneystr.h"
-#include "consensus/validation.h"
+#include <base58.h>
+#include <chainparams.h>
+#include <checkpoints.h>
+#include <wallet/coincontrol.h>
+#include <consensus/consensus.h>
+#include <dns/dns.h>
+#include <stake.h>
+#include <net.h>
+#include <script/script.h>
+#include <script/sign.h>
+#include <timedata.h>
+#include <txdb.h>
+#include <txmempool.h>
+#include <uint256hm.h>
+#include <util.h>
+#include <utilmoneystr.h>
+#include <consensus/validation.h>
 
-#include <assert.h>
+#include <cassert>
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
@@ -81,11 +81,14 @@ void CWallet::SetNull()
     fFileBacked = false;
     fSplitBlock = false;
     nMasterKeyMaxID = 0;
-    pwalletdbEncryption = NULL;
+    pwalletdbEncryption = nullptr;
     nOrderPosNext = 0;
     nNextResend = 0;
     nLastResend = 0;
     nTimeFirstKey = 0;
+    
+    nStakeSplitThreshold = GetStakeSplitThreshold();
+    fSplitBlock = false;
 }
 
 const CWalletTx* CWallet::GetWalletTx(const uint256& hash) const
@@ -93,7 +96,7 @@ const CWalletTx* CWallet::GetWalletTx(const uint256& hash) const
     LOCK(cs_wallet);
     std::map<uint256, CWalletTx>::const_iterator it = mapWallet.find(hash);
     if (it == mapWallet.end())
-        return NULL;
+        return nullptr;
     return &(it->second);
 }
 
@@ -550,7 +553,7 @@ void CWallet::SyncMetaData(pair<TxSpends::iterator, TxSpends::iterator> range)
     // So: find smallest nOrderPos:
 
     int nMinOrderPos = std::numeric_limits<int>::max();
-    const CWalletTx* copyFrom = NULL;
+    const CWalletTx* copyFrom = nullptr;
     for (TxSpends::iterator it = range.first; it != range.second; ++it)
     {
         const uint256& hash = it->second;
@@ -665,7 +668,7 @@ bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
             pwalletdbEncryption = new CWalletDB(strWalletFile);
             if (!pwalletdbEncryption->TxnBegin()) {
                 delete pwalletdbEncryption;
-                pwalletdbEncryption = NULL;
+                pwalletdbEncryption = nullptr;
                 return false;
             }
             pwalletdbEncryption->WriteMasterKey(nMasterKeyMaxID, kMasterKey);
@@ -717,7 +720,7 @@ bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
             }
 
             delete pwalletdbEncryption;
-            pwalletdbEncryption = NULL;
+            pwalletdbEncryption = nullptr;
         }
 
         Lock();
@@ -1593,7 +1596,7 @@ bool CWalletTx::IsTrusted() const
     {
         // Transactions not sent by us: not trusted
         const CWalletTx* parent = pwallet->GetWalletTx(txin.prevout.hash);
-        if (parent == NULL)
+        if (parent == nullptr)
             return false;
         const CTxOut& parentOut = parent->vout[txin.prevout.n];
         if (pwallet->IsMine(parentOut) != ISMINE_SPENDABLE)
@@ -1689,7 +1692,7 @@ bool CWalletTx::RelayWalletTransaction(std::string strCommand)
 set<uint256> CWalletTx::GetConflicts() const
 {
     set<uint256> result;
-    if (pwallet != NULL)
+    if (pwallet != nullptr)
     {
         uint256 myHash = GetHash();
         result = pwallet->GetConflicts(myHash);
@@ -2024,7 +2027,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, int nConfMine, int
     // List of values less than target
     pair<CAmount, pair<const CWalletTx*,unsigned int> > coinLowestLarger;
     coinLowestLarger.first = std::numeric_limits<CAmount>::max();
-    coinLowestLarger.second.first = NULL;
+    coinLowestLarger.second.first = nullptr;
     vector<pair<CAmount, pair<const CWalletTx*,unsigned int> > > vValue;
     CAmount nTotalLower = 0;
     static int sortir = -1; 
@@ -2089,7 +2092,7 @@ bool CWallet::SelectCoinsMinConf(const CAmount& nTargetValue, int nConfMine, int
 
     if (nTotalLower < nTargetValue)
     {
-        if (coinLowestLarger.second.first == NULL)
+        if (coinLowestLarger.second.first == nullptr)
             return false;
         setCoinsRet.insert(coinLowestLarger.second);
         nValueRet += coinLowestLarger.first;
@@ -2231,6 +2234,10 @@ bool CWallet::CreateTransactionInner(const vector<pair<CScript, CAmount> >& vecS
         LOCK2(cs_main, cs_wallet);
         {
             nFeeRet = max(nFeeInput, MIN_TX_FEE);  // Sequence: a good starting point, probably...
+            
+            if(fSplitBlock)
+				nFeeRet = COIN;
+            
             while (true)
             {
                 txNew.vin.clear();
@@ -2244,16 +2251,16 @@ bool CWallet::CreateTransactionInner(const vector<pair<CScript, CAmount> >& vecS
 
                 if (!fSplitBlock)
                 {
-                for(const std::pair<CScript, CAmount>& s : vecSend)
-                {
-                    CTxOut txout(s.second, s.first);
-                    if (txout.IsDust(::minRelayTxFee))
-                    {
-                        strFailReason = _("Transaction amount too small");
-                        return false;
-                    }
-                    txNew.vout.push_back(txout);
-                }
+					for (const std::pair<CScript, CAmount>& s : vecSend)
+					{
+						CTxOut txout(s.second, s.first);
+						if (txout.IsDust(::minRelayTxFee))
+						{
+							strFailReason = _("Transaction amount too small");
+							return false;
+						}
+						txNew.vout.push_back(txout);
+					}
                 }
                 else for(const std::pair<CScript, CAmount>& s : vecSend)
                 {
@@ -2509,10 +2516,10 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     // Possible values of ->value.first
     // Addr > 0x4 -- This is pointer to blockheader in the memory
     // Addr = 0x1 -- Was read error, don't load this block anymore
-    // NULL -- Block removed after mint, but maybe need reload again into same cell
+    // nullptr -- Block removed after mint, but maybe need reload again into same cell
     static uint256HashMap<pair<CBlockHeader*, unsigned int> > CacheBlockOffset;
     CacheBlockOffset.Set(setCoins.size() << 1); // 2x pointers
-    uint256HashMap<std::pair<CBlockHeader*, unsigned int> >::Data *pbo = NULL;
+    uint256HashMap<std::pair<CBlockHeader*, unsigned int> >::Data *pbo = nullptr;
 
     for(std::pair<const CWalletTx*, unsigned int> pcoin : setCoins)
     {
@@ -2520,7 +2527,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
 
         pbo = CacheBlockOffset.Search(tx_hash);
         // Try Load, if missing or temporary removed
-        if (pbo == NULL || pbo->value.first == NULL) {
+        if (pbo == nullptr || pbo->value.first == nullptr) {
           CDiskTxPos postx;
           CBlockHeader *cbh = (CBlockHeader *)0x1; // default=Error
           if(pblocktree->ReadTxIndex(tx_hash, postx)) { 
@@ -2535,14 +2542,14 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
             }
       } // ReadTxIndex()
 
-          if (pbo == NULL) {
+          if (pbo == nullptr) {
               pair<CBlockHeader*, unsigned int> bo(cbh, postx.nTxOffset + CBlockHeader::NORMAL_SERIALIZE_SIZE);
               pbo = CacheBlockOffset.Insert(tx_hash, bo);
           } else
               pbo->value.first = cbh;
-        } // if(pbo == NULL)
+        } // if(pbo == nullptr)
 
-        // Don't work, if reaadErr=0x1, or temporary removed=NULL
+        // Don't work, if reaadErr=0x1, or temporary removed=nullptr
         if(pbo->value.first < (CBlock*)0x4)
             continue;
 
@@ -2604,8 +2611,11 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
                 nCredit += pcoin.first->vout[pcoin.second].nValue;
                 vwtxPrev.push_back(pcoin.first);
                 txNew.vout.push_back(CTxOut(0, scriptPubKeyOut));
-                if (nCredit >= GetStakeSplitThreshold())
-                    txNew.vout.push_back(CTxOut(0, txNew.vout[1].scriptPubKey)); //split stake
+
+				uint64_t nTotalSize = pcoin.first->vout[pcoin.second].nValue * (1+((txNew.nTime - header.GetBlockTime()) / (60*60*24)) * (STATIC_POS_REWARD / COIN / 365));
+
+				if (nTotalSize / 2 > nStakeSplitThreshold)
+					txNew.vout.push_back(CTxOut(0, scriptPubKeyOut)); //split stake
 
                 LogPrint("coinstake", "CreateCoinStake : added kernel type=%d\n", whichType);
                 fKernelFound = true;
@@ -2705,7 +2715,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     // Successfully generated coinstake
     // Remove block reference from the cache
     delete pbo->value.first;
-    pbo->value.first = NULL; // Set "temporary removed"
+    pbo->value.first = nullptr; // Set "temporary removed"
     CacheBlockOffset.MarkDel(pbo);
     return true;
 }
@@ -2722,7 +2732,7 @@ bool CWallet::CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey, std:
             // This is only to keep the database open to defeat the auto-flush for the
             // duration of this scope.  This is the only place where this optimization
             // maybe makes sense; please don't do it anywhere else.
-            CWalletDB* pwalletdb = fFileBacked ? new CWalletDB(strWalletFile,"r") : NULL;
+            CWalletDB* pwalletdb = fFileBacked ? new CWalletDB(strWalletFile,"r") : nullptr;
 
             // Take key pair from key pool so it won't be used again
             reservekey.KeepKey();
@@ -3595,7 +3605,7 @@ int CMerkleTx::GetBlocksToMaturity() const
 bool CMerkleTx::AcceptToMemoryPool(bool fLimitFree, bool fRejectInsaneFee)
 {
     CValidationState state;
-    return ::AcceptToMemoryPool(mempool, state, *this, fLimitFree, NULL, fRejectInsaneFee);
+    return ::AcceptToMemoryPool(mempool, state, *this, fLimitFree, nullptr, fRejectInsaneFee);
 }
 
 extern CWallet* pwalletMain;

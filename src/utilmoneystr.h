@@ -10,9 +10,9 @@
 #ifndef SEQUENCE_UTILMONEYSTR_H
 #define SEQUENCE_UTILMONEYSTR_H
 
-#include "amount.h"
+#include <amount.h>
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 std::string FormatMoney(const CAmount& n, bool fPlus=false);

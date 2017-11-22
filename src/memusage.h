@@ -6,9 +6,9 @@
 #ifndef SEQUENCE_MEMUSAGE_H
 #define SEQUENCE_MEMUSAGE_H
 
-#include <stdlib.h>
+#include <cstdlib>
 
-#include "indirectmap.h"
+#include <indirectmap.h>
 
 #include <map>
 #include <set>

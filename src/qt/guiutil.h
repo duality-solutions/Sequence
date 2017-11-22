@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_QT_GUIUTIL_H
 #define SEQUENCE_QT_GUIUTIL_H
 
-#include "amount.h"
+#include <amount.h>
 
 #include <QEvent>
 #include <QHeaderView>

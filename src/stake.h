@@ -8,7 +8,7 @@
 #ifndef SEQUENCE_KERNEL_H
 #define SEQUENCE_KERNEL_H
 
-#include "main.h"
+#include <main.h>
 
 // MODIFIER_INTERVAL_RATIO:
 // ratio of group interval length between the last group and the first group

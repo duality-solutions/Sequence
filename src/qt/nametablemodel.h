@@ -8,7 +8,7 @@
 #ifndef NAMETABLEMODEL_H
 #define NAMETABLEMODEL_H
 
-#include "uint256.h"
+#include <uint256.h>
 
 #include <QAbstractTableModel>
 #include <QStringList>
@@ -62,7 +62,7 @@ private:
     void emitDataChanged(int index);
 
 public Q_SLOTS:
-    void updateEntry(const QString &name, const QString &value, const QString &address, int nHeight, int status, int *outNewRowIndex = NULL);
+    void updateEntry(const QString &name, const QString &value, const QString &address, int nHeight, int status, int *outNewRowIndex = nullptr);
     void update(bool forced = false);
 
     friend class NameTablePriv;

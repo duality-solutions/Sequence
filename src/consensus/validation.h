@@ -6,7 +6,7 @@
 #ifndef SEQUENCE_CONSENSUS_VALIDATION_H
 #define SEQUENCE_CONSENSUS_VALIDATION_H
 
-#include "main.h"
+#include <main.h>
 
 #include <string>
 

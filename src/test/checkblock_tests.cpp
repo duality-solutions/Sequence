@@ -10,9 +10,9 @@
 
 
 
-#include "clientversion.h"
-#include "main.h"
-#include "utiltime.h"
+#include <clientversion.h>
+#include <main.h>
+#include <utiltime.h>
 
 #include <cstdio>
 

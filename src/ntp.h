@@ -6,7 +6,7 @@
 #ifndef SEQUENCE_NTP_H
 #define SEQUENCE_NTP_H
 
-#include "net.h"
+#include <net.h>
 
 // Get time from random server and return server address.
 int64_t NtpGetTime(CNetAddr& ip);

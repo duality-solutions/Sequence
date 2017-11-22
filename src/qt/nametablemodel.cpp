@@ -5,14 +5,14 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "nametablemodel.h"
+#include <qt/nametablemodel.h>
 
-#include "guiconstants.h"
-#include "guiutil.h"
-#include "walletmodel.h"
+#include <qt/guiconstants.h>
+#include <qt/guiutil.h>
+#include <qt/walletmodel.h>
 
-#include "dns/dns.h"
-#include "wallet/wallet.h"
+#include <dns/dns.h>
+#include <wallet/wallet.h>
 
 #include <vector>
 
@@ -106,12 +106,12 @@ public:
         parent->endResetModel();
     }
 
-    void updateEntry(const NameTableEntry &nameObj, int status, int *outNewRowIndex = NULL)
+    void updateEntry(const NameTableEntry &nameObj, int status, int *outNewRowIndex = nullptr)
     {
         updateEntry(nameObj.name, nameObj.value, nameObj.address, nameObj.nExpiresAt, status, outNewRowIndex);
     }
 
-    void updateEntry(const QString &name, const QString &value, const QString &address, int nExpiresAt, int status, int *outNewRowIndex = NULL)
+    void updateEntry(const QString &name, const QString &value, const QString &address, int nExpiresAt, int status, int *outNewRowIndex = nullptr)
     {
         // Find name in model
         QList<NameTableEntry>::iterator lower = qLowerBound(
@@ -181,7 +181,7 @@ public:
         }
         else
         {
-            return NULL;
+            return nullptr;
         }
     }
 };
@@ -330,7 +330,7 @@ QModelIndex NameTableModel::index(int row, int column, const QModelIndex &parent
     }
 }
 
-void NameTableModel::updateEntry(const QString &name, const QString &value, const QString &address, int nHeight, int status, int *outNewRowIndex /* = NULL*/)
+void NameTableModel::updateEntry(const QString &name, const QString &value, const QString &address, int nHeight, int status, int *outNewRowIndex /* = nullptr*/)
 {
     priv->updateEntry(name, value, address, nHeight, status, outNewRowIndex);
 }

@@ -7,8 +7,8 @@
 #ifndef SEQUENCE_CRYPTO_SHA256_H
 #define SEQUENCE_CRYPTO_SHA256_H
 
-#include <stdint.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdlib>
 
 /** A hasher class for SHA-256. */
 class CSHA256

@@ -4,12 +4,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "uint256.h"
+#include <uint256.h>
 
-#include "utilstrencodings.h"
+#include <utilstrencodings.h>
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
 template <unsigned int BITS>
 base_uint<BITS>::base_uint(const std::string& str)

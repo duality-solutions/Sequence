@@ -4,14 +4,14 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "recentrequeststablemodel.h"
+#include <qt/recentrequeststablemodel.h>
 
-#include "clientversion.h"
-#include "guiutil.h"
-#include "optionsmodel.h"
-#include "sequenceunits.h"
+#include <clientversion.h>
+#include <qt/guiutil.h>
+#include <qt/optionsmodel.h>
+#include <qt/sequenceunits.h>
 
-#include "streams.h"
+#include <streams.h>
 
 
 RecentRequestsTableModel::RecentRequestsTableModel(CWallet *wallet, WalletModel *parent) :
@@ -136,7 +136,7 @@ void RecentRequestsTableModel::updateAmountColumnTitle()
 QString RecentRequestsTableModel::getAmountTitle()
 {
     QString amountTitle = tr("Amount");
-    if (this->walletModel->getOptionsModel() != NULL)
+    if (this->walletModel->getOptionsModel() != nullptr)
     {
         amountTitle += " ("+SequenceUnits::name(this->walletModel->getOptionsModel()->getDisplayUnit()) + ")";
     }

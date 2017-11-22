@@ -7,10 +7,10 @@
 #ifndef SEQUENCE_CHAINPARAMS_H
 #define SEQUENCE_CHAINPARAMS_H
 
-#include "primitives/block.h"
-#include "chainparamsbase.h"
-#include "consensus/params.h"
-#include "protocol.h"
+#include <primitives/block.h>
+#include <chainparamsbase.h>
+#include <consensus/params.h>
+#include <protocol.h>
 
 #include <vector>
 

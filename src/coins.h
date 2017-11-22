@@ -7,15 +7,15 @@
 #ifndef SEQUENCE_COINS_H
 #define SEQUENCE_COINS_H
 
-#include "compressor.h"
-#include "memusage.h"
-#include "random.h"
-#include "serialize.h"
-#include "uint256.h"
-#include "undo.h"
+#include <compressor.h>
+#include <memusage.h>
+#include <random.h>
+#include <serialize.h>
+#include <uint256.h>
+#include <undo.h>
 
-#include <assert.h>
-#include <stdint.h>
+#include <cassert>
+#include <cstdint>
 
 #include <boost/unordered_map.hpp>
 #include <unordered_map>
@@ -444,7 +444,7 @@ public:
     bool BatchWrite(CCoinsMap &mapCoins, const uint256 &hashBlock);
 
     /**
-     * Return a pointer to CCoins in the cache, or NULL if not found. This is
+     * Return a pointer to CCoins in the cache, or nullptr if not found. This is
      * more efficient than GetCoins. Modifications to other cache entries are
      * allowed while accessing the returned pointer.
      */

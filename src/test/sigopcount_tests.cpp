@@ -4,11 +4,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "pubkey.h"
-#include "key.h"
-#include "script/script.h"
-#include "script/standard.h"
-#include "uint256.h"
+#include <pubkey.h>
+#include <key.h>
+#include <script/script.h>
+#include <script/standard.h>
+#include <uint256.h>
 
 #include <vector>
 

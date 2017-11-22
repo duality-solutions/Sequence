@@ -4,20 +4,20 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "amount.h"
-#include "base58.h"
-#include "core_io.h"
-#include "init.h"
-#include "net.h"
-#include "netbase.h"
-#include "rpc/rpcserver.h"
-#include "timedata.h"
-#include "util.h"
-#include "utilmoneystr.h"
-#include "wallet/wallet.h"
-#include "wallet/walletdb.h"
+#include <amount.h>
+#include <base58.h>
+#include <core_io.h>
+#include <init.h>
+#include <net.h>
+#include <netbase.h>
+#include <rpc/rpcserver.h>
+#include <timedata.h>
+#include <util.h>
+#include <utilmoneystr.h>
+#include <wallet/wallet.h>
+#include <wallet/walletdb.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <boost/lexical_cast.hpp>
 #include <boost/assign/list_of.hpp>
@@ -633,7 +633,7 @@ UniValue getbalance(const UniValue& params, bool fHelp)
             + HelpExampleRpc("getbalance", "\"tabby\", 10")
         );
 
-    if (params.size() == 0)
+    if (params.empty())
         return  ValueFromAmount(pwalletMain->GetBalance());
 
     int nMinDepth = 1;
@@ -1427,7 +1427,7 @@ UniValue listsinceblock(const UniValue& params, bool fHelp)
             + HelpExampleRpc("listsinceblock", "\"000000000000000bacf66f7497b7dc45ef753ee9a7d38571037cdb1a57f663ad\", 10")
         );
 
-    CBlockIndex *pindex = NULL;
+    CBlockIndex *pindex = nullptr;
     int target_confirms = 1;
     isminefilter filter = ISMINE_SPENDABLE;
 
@@ -1872,7 +1872,7 @@ UniValue listunspent(const UniValue& params, bool fHelp)
 
     UniValue results(UniValue::VARR);
     std::vector<COutput> vecOutputs;
-    assert(pwalletMain != NULL);
+    assert(pwalletMain != nullptr);
     pwalletMain->AvailableCoins(vecOutputs, false);
     for(const COutput& out : vecOutputs) {
         if (out.nDepth < nMinDepth || out.nDepth > nMaxDepth)

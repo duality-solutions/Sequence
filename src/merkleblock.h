@@ -7,10 +7,10 @@
 #ifndef SEQUENCE_MERKLEBLOCK_H
 #define SEQUENCE_MERKLEBLOCK_H
 
-#include "primitives/block.h"
-#include "bloom.h"
-#include "serialize.h"
-#include "uint256.h"
+#include <primitives/block.h>
+#include <bloom.h>
+#include <serialize.h>
+#include <uint256.h>
 
 #include <vector>
 

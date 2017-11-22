@@ -7,7 +7,7 @@
 #ifndef SEQUENCE_QT_TRANSACTIONVIEW_H
 #define SEQUENCE_QT_TRANSACTIONVIEW_H
 
-#include "guiutil.h"
+#include <qt/guiutil.h>
 
 #include <QWidget>
 #include <QKeyEvent>

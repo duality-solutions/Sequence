@@ -4,14 +4,14 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "work.h"
+#include <work.h>
 
-#include "bignum.h"
-#include "primitives/block.h"
-#include "chain.h"
-#include "chainparams.h"
-#include "uint256.h"
-#include "util.h"
+#include <bignum.h>
+#include <primitives/block.h>
+#include <chain.h>
+#include <chainparams.h>
+#include <uint256.h>
+#include <util.h>
 
 #include <algorithm>
 
@@ -29,14 +29,14 @@ unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfS
 
     uint256 bnTargetLimit = fProofOfStake ? consensusParams.bnProofOfStakeLimit : consensusParams.bnProofOfWorkLimit;
 
-    if (pindexLast == NULL)
+    if (pindexLast == nullptr)
         return bnTargetLimit.GetCompact(); // genesis block
 
     const CBlockIndex* pindexPrev = GetLastBlockIndex(pindexLast, fProofOfStake);
-    if (pindexPrev->pprev == NULL)
+    if (pindexPrev->pprev == nullptr)
         return bnTargetLimit.GetCompact(); // first block
     const CBlockIndex* pindexPrevPrev = GetLastBlockIndex(pindexPrev->pprev, fProofOfStake);
-    if (pindexPrevPrev->pprev == NULL)
+    if (pindexPrevPrev->pprev == nullptr)
         return bnTargetLimit.GetCompact(); // second block
 
     int64_t nPoWTargetSpacing = fProofOfStake ? consensusParams.nPoSTargetSpacing : consensusParams.nPoWTargetSpacing;

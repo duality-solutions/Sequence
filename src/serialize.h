@@ -7,17 +7,17 @@
 #ifndef SEQUENCE_SERIALIZE_H
 #define SEQUENCE_SERIALIZE_H
 
-#include "compat/endian.h"
+#include <compat/endian.h>
 
 #include <algorithm>
-#include <assert.h>
+#include <cassert>
 #include <ios>
 #include <limits>
 #include <map>
 #include <set>
-#include <stdint.h>
+#include <cstdint>
 #include <string>
-#include <string.h>
+#include <cstring>
 #include <utility>
 #include <vector>
 
@@ -53,25 +53,25 @@ inline T* NCONST_PTR(const T* val)
 template <class T, class TAl>
 inline T* begin_ptr(std::vector<T,TAl>& v)
 {
-    return v.empty() ? NULL : &v[0];
+    return v.empty() ? nullptr : &v[0];
 }
 /** Get begin pointer of vector (const version) */
 template <class T, class TAl>
 inline const T* begin_ptr(const std::vector<T,TAl>& v)
 {
-    return v.empty() ? NULL : &v[0];
+    return v.empty() ? nullptr : &v[0];
 }
 /** Get end pointer of vector (non-const version) */
 template <class T, class TAl>
 inline T* end_ptr(std::vector<T,TAl>& v)
 {
-    return v.empty() ? NULL : (&v[0] + v.size());
+    return v.empty() ? nullptr : (&v[0] + v.size());
 }
 /** Get end pointer of vector (const version) */
 template <class T, class TAl>
 inline const T* end_ptr(const std::vector<T,TAl>& v)
 {
-    return v.empty() ? NULL : (&v[0] + v.size());
+    return v.empty() ? nullptr : (&v[0] + v.size());
 }
 
 /*

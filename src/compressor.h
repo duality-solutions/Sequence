@@ -7,9 +7,9 @@
 #ifndef SEQUENCE_COMPRESSOR_H
 #define SEQUENCE_COMPRESSOR_H
 
-#include "script/script.h"
-#include "serialize.h"
-#include "primitives/transaction.h"
+#include <script/script.h>
+#include <serialize.h>
+#include <primitives/transaction.h>
 
 class CKeyID;
 class CPubKey;

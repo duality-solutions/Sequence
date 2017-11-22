@@ -4,15 +4,15 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "chainparams.h"
-#include "clientversion.h"
-#include "init.h"
-#include "main.h"
-#include "noui.h"
-#include "rpc/rpcserver.h"
-#include "scheduler.h"
-#include "ui_interface.h"
-#include "util.h"
+#include <chainparams.h>
+#include <clientversion.h>
+#include <init.h>
+#include <main.h>
+#include <noui.h>
+#include <rpc/rpcserver.h>
+#include <scheduler.h>
+#include <ui_interface.h>
+#include <util.h>
 
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/filesystem.hpp>
@@ -59,7 +59,7 @@ void DetectShutdownThread(boost::thread_group* threadGroup)
 bool AppInit(int argc, char* argv[])
 {
     boost::thread_group threadGroup;
-    boost::thread* detectShutdownThread = NULL;
+    boost::thread* detectShutdownThread = nullptr;
     CScheduler scheduler;
 
     bool fRet = false;
@@ -156,7 +156,7 @@ bool AppInit(int argc, char* argv[])
     catch (const std::exception& e) {
         PrintExceptionContinue(&e, "AppInit()");
     } catch (...) {
-        PrintExceptionContinue(NULL, "AppInit()");
+        PrintExceptionContinue(nullptr, "AppInit()");
     }
 
     if (!fRet)
@@ -174,7 +174,7 @@ bool AppInit(int argc, char* argv[])
     {
         detectShutdownThread->join();
         delete detectShutdownThread;
-        detectShutdownThread = NULL;
+        detectShutdownThread = nullptr;
     }
     Shutdown();
 

@@ -4,16 +4,16 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "chainparams.h"
-#include "checkpoints.h"
-#include "stake.h"
-#include "main.h"
-#include "rpc/rpcserver.h"
-#include "sync.h"
-#include "util.h"
-#include "consensus/validation.h"
+#include <chainparams.h>
+#include <checkpoints.h>
+#include <stake.h>
+#include <main.h>
+#include <rpc/rpcserver.h>
+#include <sync.h>
+#include <util.h>
+#include <consensus/validation.h>
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <univalue.h>
 
@@ -25,9 +25,9 @@ double GetDifficulty(const CBlockIndex* blockindex)
 {
     // Floating point number that is a multiple of the minimum difficulty,
     // minimum difficulty = 1.0.
-    if (blockindex == NULL)
+    if (blockindex == nullptr)
     {
-        if (chainActive.Tip() == NULL)
+        if (chainActive.Tip() == nullptr)
             return 1.0;
         else
             blockindex = GetLastBlockIndex(chainActive.Tip(), false);
@@ -83,9 +83,9 @@ double GetPoSKernelPS(const CBlockIndex* blockindex)
     int nStakesHandled = 0, nStakesTime = 0;
 
     const CBlockIndex* pindex = chainActive.Tip();
-    const CBlockIndex* pindexPrevStake = NULL;
+    const CBlockIndex* pindexPrevStake = nullptr;
 
-    if (blockindex != NULL)
+    if (blockindex != nullptr)
         pindex = blockindex;
 
     while (pindex && nStakesHandled < nPoSInterval)
@@ -780,6 +780,7 @@ static const CRPCCommand commands[] =
     { "blockchain",         "gettxout",               &gettxout,               true,      false,      false },
     { "blockchain",         "gettxoutsetinfo",        &gettxoutsetinfo,        true,      false,      false },
     { "blockchain",         "verifychain",            &verifychain,            true,      false,      false },
+    { "blockchain",         "detailedmoneysupply",    &detailedmoneysupply,    true,      true,       false },
 
     /* Not shown in help */
     { "hidden",             "invalidateblock",        &invalidateblock,        true,      true,       false },

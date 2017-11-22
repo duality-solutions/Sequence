@@ -7,12 +7,12 @@
 #define SEQUENCE_COMPAT_ENDIAN_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/sequence-config.h"
+#include <config/sequence-config.h>
 #endif
 
-#include <stdint.h>
+#include <cstdint>
 
-#include "compat/byteswap.h"
+#include <compat/byteswap.h>
 
 #if defined(HAVE_ENDIAN_H)
 #include <endian.h>

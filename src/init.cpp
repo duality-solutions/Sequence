@@ -5,47 +5,47 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "config/sequence-config.h"
+#include <config/sequence-config.h>
 #endif
 
-#include "init.h"
+#include <init.h>
 
-#include "addrman.h"
-#include "amount.h"
-#include "chainparams.h"
-#include "checkpoints.h"
-#include "consensus/consensus.h"
-#include "hooks.h"
-#include "key.h"
-#include "main.h"
-#include "miner.h"
-#include "net.h"
-#include "ntp.h"       
-#include "rpc/rpcregister.h"
-#include "rpc/rpcserver.h"
-#include "compat/sanity.h"
-#include "scheduler.h"
-#include "dns/seqdns.h"
-#include "script/standard.h"
-#include "torcontrol.h"
-#include "txdb.h"
-#include "ui_interface.h"
-#include "util.h"
-#include "utilmoneystr.h"
-#include "consensus/validation.h"
-#include "validationinterface.h"
+#include <addrman.h>
+#include <amount.h>
+#include <chainparams.h>
+#include <checkpoints.h>
+#include <consensus/consensus.h>
+#include <hooks.h>
+#include <key.h>
+#include <main.h>
+#include <miner.h>
+#include <net.h>
+#include <ntp.h>       
+#include <rpc/rpcregister.h>
+#include <rpc/rpcserver.h>
+#include <compat/sanity.h>
+#include <scheduler.h>
+#include <dns/seqdns.h>
+#include <script/standard.h>
+#include <torcontrol.h>
+#include <txdb.h>
+#include <ui_interface.h>
+#include <util.h>
+#include <utilmoneystr.h>
+#include <consensus/validation.h>
+#include <validationinterface.h>
 
 #ifdef ENABLE_WALLET
-#include "wallet/db.h"
-#include "wallet/wallet.h"
-#include "wallet/walletdb.h"
+#include <wallet/db.h>
+#include <wallet/wallet.h>
+#include <wallet/walletdb.h>
 #endif
 
-#include <stdint.h>
-#include <stdio.h>
+#include <cstdint>
+#include <cstdio>
 
 #ifndef WIN32
-#include <signal.h>
+#include <csignal>
 #endif
 
 #include <boost/algorithm/string/predicate.hpp>
@@ -59,11 +59,11 @@ using namespace boost;
 using namespace std;
 
 #ifdef ENABLE_WALLET
-CWallet* pwalletMain = NULL;
+CWallet* pwalletMain = nullptr;
 #endif
 bool fFeeEstimatesInitialized = false;
 bool fRestartRequested = false; // true: restart, false: shutdown
-SeqDns* seqdns = NULL;
+SeqDns* seqdns = nullptr;
 
 static const bool DEFAULT_PROXYRANDOMIZE = true;
 
@@ -148,8 +148,8 @@ public:
     // Writes do not need similar protection, as failure to write is handled by the caller.
 };
 
-static CCoinsViewDB *pcoinsdbview = NULL;
-static CCoinsViewErrorCatcher *pcoinscatcher = NULL;
+static CCoinsViewDB *pcoinsdbview = nullptr;
+static CCoinsViewErrorCatcher *pcoinscatcher = nullptr;
 
 /** Preparing steps before shutting down or restarting the wallet */
 void PrepareShutdown()
@@ -176,7 +176,7 @@ void PrepareShutdown()
         bitdb.Flush(false);
     ShutdownRPCMining();
 #endif
-    GenerateSequences(false, NULL, 0, Params());
+    GenerateSequences(false, nullptr, 0, Params());
     StopNode();
 	StopTorControl();
 
@@ -195,17 +195,17 @@ void PrepareShutdown()
 
     {
         LOCK(cs_main);
-        if (pcoinsTip != NULL) {
+        if (pcoinsTip != nullptr) {
             FlushStateToDisk();
         }
         delete pcoinsTip;
-        pcoinsTip = NULL;
+        pcoinsTip = nullptr;
         delete pcoinscatcher;
-        pcoinscatcher = NULL;
+        pcoinscatcher = nullptr;
         delete pcoinsdbview;
-        pcoinsdbview = NULL;
+        pcoinsdbview = nullptr;
         delete pblocktree;
-        pblocktree = NULL;
+        pblocktree = nullptr;
     }
 #ifdef ENABLE_WALLET
     if (pwalletMain)
@@ -236,7 +236,7 @@ void Shutdown()
    // Shutdown part 2: delete wallet instance
 #ifdef ENABLE_WALLET
     delete pwalletMain;
-    pwalletMain = NULL;
+    pwalletMain = nullptr;
 #endif
     LogPrintf("%s: done\n", __func__);
 }
@@ -591,7 +591,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 #ifdef _MSC_VER
     // Turn off Microsoft heap dump noise
     _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
-    _CrtSetReportFile(_CRT_WARN, CreateFileA("NUL", GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, 0));
+    _CrtSetReportFile(_CRT_WARN, CreateFileA("NUL", GENERIC_WRITE, 0, nullptr, OPEN_EXISTING, 0, 0));
 #endif
 #if _MSC_VER >= 1400
     // Disable confusing "helpful" text message on abort, Ctrl-C
@@ -608,7 +608,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 #endif
     typedef BOOL (WINAPI *PSETPROCDEPPOL)(DWORD);
     PSETPROCDEPPOL setProcDEPPol = (PSETPROCDEPPOL)GetProcAddress(GetModuleHandleA("Kernel32.dll"), "SetProcessDEPPolicy");
-    if (setProcDEPPol != NULL) setProcDEPPol(PROCESS_DEP_ENABLE);
+    if (setProcDEPPol != nullptr) setProcDEPPol(PROCESS_DEP_ENABLE);
 
     // Initialize Windows Sockets
     WSADATA wsadata;
@@ -634,15 +634,15 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     sa.sa_handler = HandleSIGTERM;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = 0;
-    sigaction(SIGTERM, &sa, NULL);
-    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGTERM, &sa, nullptr);
+    sigaction(SIGINT, &sa, nullptr);
 
     // Reopen debug.log on SIGHUP
     struct sigaction sa_hup;
     sa_hup.sa_handler = HandleSIGHUP;
     sigemptyset(&sa_hup.sa_mask);
     sa_hup.sa_flags = 0;
-    sigaction(SIGHUP, &sa_hup, NULL);
+    sigaction(SIGHUP, &sa_hup, nullptr);
 
 #if defined (__SVR4) && defined (__sun)
     // ignore SIGPIPE on Solaris
@@ -939,7 +939,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         nWalletBackups = GetArg("-createwalletbackups", 10);
         nWalletBackups = std::max(0, std::min(10, nWalletBackups));
 
-        if(!AutoBackupWallet(NULL, strWalletFile, strWarning, strError)) {
+        if(!AutoBackupWallet(nullptr, strWalletFile, strWarning, strError)) {
             if (!strWarning.empty())
                 InitWarning(strWarning);
             if (!strError.empty())
@@ -1275,7 +1275,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     // ********************************************************* Step 8: load wallet
 #ifdef ENABLE_WALLET
     if (fDisableWallet) {
-        pwalletMain = NULL;
+        pwalletMain = nullptr;
         LogPrintf("Wallet disabled!\n");
     } else {
 
@@ -1293,7 +1293,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             }
 
             delete pwalletMain;
-            pwalletMain = NULL;
+            pwalletMain = nullptr;
         }
 
         uiInterface.InitMessage(_("Loading wallet..."));
@@ -1445,9 +1445,9 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
             vImportFiles.push_back(strFile);
     }
     threadGroup.create_thread(boost::bind(&ThreadImport, vImportFiles));
-    if (chainActive.Tip() == NULL) {
+    if (chainActive.Tip() == nullptr) {
         LogPrintf("Waiting for genesis block to be imported...\n");
-        while (!fRequestShutdown && chainActive.Tip() == NULL)
+        while (!fRequestShutdown && chainActive.Tip() == nullptr)
             MilliSleep(10);
     }
 
@@ -1472,7 +1472,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         LogPrintf("mapWallet.size() = %u\n",            pwalletMain->mapWallet.size());
         LogPrintf("mapAddressBook.size() = %u\n",       pwalletMain->mapAddressBook.size());
     } else {
-        LogPrintf("wallet is NULL\n");
+        LogPrintf("wallet is nullptr\n");
     }
 #endif
     if (GetBoolArg("-listenonion", DEFAULT_LISTEN_ONION))

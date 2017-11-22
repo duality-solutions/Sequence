@@ -7,16 +7,16 @@
 #ifndef SEQUENCE_SCRIPT_SCRIPT_H
 #define SEQUENCE_SCRIPT_SCRIPT_H
 
-#include <assert.h>
+#include <cassert>
 #include <climits>
 #include <limits>
 #include <stdexcept>
-#include <stdint.h>
-#include <string.h>
+#include <cstdint>
+#include <cstring>
 #include <string>
 #include <vector>
 
-#include "crypto/common.h"
+#include <crypto/common.h>
 
 typedef std::vector<unsigned char> valtype;
 static const unsigned int MAX_SCRIPT_ELEMENT_SIZE = 520; // bytes
@@ -469,7 +469,7 @@ public:
     bool GetOp(iterator& pc, opcodetype& opcodeRet)
     {
          const_iterator pc2 = pc;
-         bool fRet = GetOp2(pc2, opcodeRet, NULL);
+         bool fRet = GetOp2(pc2, opcodeRet, nullptr);
          pc = begin() + (pc2 - begin());
          return fRet;
     }
@@ -481,7 +481,7 @@ public:
 
     bool GetOp(const_iterator& pc, opcodetype& opcodeRet) const
     {
-        return GetOp2(pc, opcodeRet, NULL);
+        return GetOp2(pc, opcodeRet, nullptr);
     }
 
     bool GetOp2(const_iterator& pc, opcodetype& opcodeRet, std::vector<unsigned char>* pvchRet) const

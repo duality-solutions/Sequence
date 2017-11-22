@@ -7,13 +7,13 @@
 #ifndef SEQUENCE_RPCSERVER_H
 #define SEQUENCE_RPCSERVER_H
 
-#include "amount.h"
-#include "rpc/rpcprotocol.h"
-#include "uint256.h"
+#include <amount.h>
+#include <rpc/rpcprotocol.h>
+#include <uint256.h>
 
 #include <list>
 #include <map>
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 #include <boost/function.hpp>
@@ -153,10 +153,10 @@ extern void ShutdownRPCMining();
 extern int64_t nWalletUnlockTime;
 extern CAmount AmountFromValue(const UniValue& value);
 extern UniValue ValueFromAmount(const CAmount& amount);
-extern double GetDifficulty(const CBlockIndex* blockindex = NULL);
+extern double GetDifficulty(const CBlockIndex* blockindex = nullptr);
 
-extern double GetPoWMHashPS(const CBlockIndex* blockindex = NULL);
-extern double GetPoSKernelPS(const CBlockIndex* blockindex = NULL);
+extern double GetPoWMHashPS(const CBlockIndex* blockindex = nullptr);
+extern double GetPoSKernelPS(const CBlockIndex* blockindex = nullptr);
 
 extern std::string HelpRequiringPassphrase();
 extern std::string HelpExampleCli(const std::string& methodname, const std::string& args);
@@ -164,6 +164,19 @@ extern std::string HelpExampleRpc(const std::string& methodname, const std::stri
 
 extern void EnsureWalletIsUnlocked();
 extern void relockWalletAfterDuration(CWallet *wallet, int64_t nSeconds);
+
+// Forgive me sensi, but there is no other choice
+extern UniValue getstakesplitthreshold(const UniValue & params, bool fHelp);
+extern UniValue setstakesplitthreshold(const UniValue & params, bool fHelp);
+extern UniValue getstaketx(const UniValue & params, bool fHelp);
+extern UniValue ccsend(const UniValue & params, bool fHelp);
+extern UniValue ccreset(const UniValue & params, bool fHelp);
+extern UniValue cccustomchange(const UniValue & params, bool fHelp);
+extern UniValue ccreturnchange(const UniValue & params, bool fHelp);
+extern UniValue cclistselected(const UniValue & params, bool fHelp);
+extern UniValue ccselect(const UniValue & params, bool fHelp);
+extern UniValue cclistcoins(const UniValue & params, bool fHelp);
+extern UniValue detailedmoneysupply(const UniValue & params, bool fHelp);
 
 // in rest.cpp
 extern bool HTTPReq_REST(AcceptedConnection *conn,

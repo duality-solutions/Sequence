@@ -4,11 +4,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "bignum.h"
-#include "script/script.h"
+#include <test/bignum.h>
+#include <script/script.h>
 #include <boost/test/unit_test.hpp>
-#include <limits.h>
-#include <stdint.h>
+#include <climits>
+#include <cstdint>
 BOOST_AUTO_TEST_SUITE(scriptnum_tests)
 
 static const int64_t values[] = \

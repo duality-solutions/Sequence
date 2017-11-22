@@ -5,12 +5,12 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "config/sequence-config.h"
+#include <config/sequence-config.h>
 #endif
 
-#include "utiltime.h"
+#include <utiltime.h>
 
-#include "ntp.h"       
+#include <ntp.h>       
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/thread.hpp>
@@ -22,7 +22,7 @@ static int64_t nMockTime = 0; //! For unit testing
 // System Clock
 int64_t GetTime()
 {
-    return time(NULL);
+    return time(nullptr);
 }
 
 void SetMockTime(int64_t nMockTimeIn)

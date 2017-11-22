@@ -4,17 +4,17 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "utilitydialog.h"
-#include "ui_helpmessagedialog.h"
+#include <qt/utilitydialog.h>
+#include <qt/forms/ui_helpmessagedialog.h>
 
-#include "clientmodel.h"
-#include "guiutil.h"
-#include "sequencegui.h"
+#include <qt/clientmodel.h>
+#include <qt/guiutil.h>
+#include <qt/sequencegui.h>
 
-#include "clientversion.h"
-#include "init.h"
+#include <clientversion.h>
+#include <init.h>
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <QCloseEvent>
 #include <QLabel>

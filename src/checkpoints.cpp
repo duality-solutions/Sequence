@@ -4,19 +4,19 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "checkpoints.h"
+#include <checkpoints.h>
 
-#include "chainparams.h"
-#include "key.h"
-#include "main.h"
-#include "pubkey.h"
-#include "timedata.h"
-#include "txdb.h"
-#include "consensus/validation.h"
+#include <chainparams.h>
+#include <key.h>
+#include <main.h>
+#include <pubkey.h>
+#include <timedata.h>
+#include <txdb.h>
+#include <consensus/validation.h>
+#include <reverse_iterator.h>
 
-#include <stdint.h>
+#include <cstdint>
 
-#include <boost/foreach.hpp>
 
 namespace Checkpoints {
 
@@ -40,10 +40,10 @@ namespace Checkpoints {
 
     //! Guess how far we are in the verification process at the given block index
     double GuessVerificationProgress(const CCheckpointData& data, CBlockIndex *pindex, bool fSigchecks) {
-        if (pindex==NULL)
+        if (pindex==nullptr)
             return 0.0;
 
-        int64_t nNow = time(NULL);
+        int64_t nNow = time(nullptr);
 
         double fSigcheckVerificationFactor = fSigchecks ? SIGCHECK_VERIFICATION_FACTOR : 1.0;
         double fWorkBefore = 0.0; // Amount of work done before pindex
@@ -82,14 +82,14 @@ namespace Checkpoints {
     {
         const MapCheckpoints& checkpoints = data.mapCheckpoints;
 
-        BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type& i, checkpoints)
+        for (const MapCheckpoints::value_type& i : reverse_iterate(checkpoints))
         {
             const uint256& hash = i.second;
             BlockMap::const_iterator t = mapBlockIndex.find(hash);
             if (t != mapBlockIndex.end())
                 return t->second;
         }
-        return NULL;
+        return nullptr;
     }
 
     uint256 GetLatestHardenedCheckpoint(const CCheckpointData& data)
@@ -197,7 +197,7 @@ bool AcceptPendingSyncCheckpoint()
 
             CValidationState state;
             const CChainParams& chainparams = Params();
-            if (!ActivateBestChain(state, chainparams, NULL, pindexCheckpoint))
+            if (!ActivateBestChain(state, chainparams, nullptr, pindexCheckpoint))
             {
                 hashInvalidCheckpoint = hashPendingCheckpoint;
                 return error("AcceptPendingSyncCheckpoint: SetBestChain failed for sync checkpoint %s", hashPendingCheckpoint.ToString());
@@ -269,7 +269,7 @@ uint256 AutoSelectSyncCheckpoint()
 bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev)
 {
     LOCK(cs_main);
-    assert(pindexPrev != NULL);
+    assert(pindexPrev != nullptr);
     static bool fMain = Params().NetworkIDString() == "main";
     if (!fMain) return true; // Testnet has no checkpoints
     int nHeight = pindexPrev->nHeight + 1;
@@ -313,7 +313,7 @@ bool ResetSyncCheckpoint(const CCheckpointData& data)
 
     const MapCheckpoints& checkpoints = data.mapCheckpoints;
 
-    BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type& i, checkpoints)
+    for (const MapCheckpoints::value_type& i : reverse_iterate(checkpoints))
     {
         const uint256& hash = i.second;
         if (mapBlockIndex.count(hash) && chainActive.Contains(mapBlockIndex[hash]))

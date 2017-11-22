@@ -9,7 +9,7 @@
 #ifndef SEQUENCE_TORCONTROL_H
 #define SEQUENCE_TORCONTROL_H
 
-#include "scheduler.h"
+#include <scheduler.h>
 
 extern const std::string DEFAULT_TOR_CONTROL;
 static const bool DEFAULT_LISTEN_ONION = false;

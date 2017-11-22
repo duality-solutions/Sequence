@@ -5,22 +5,22 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "config/sequence-config.h"
+#include <config/sequence-config.h>
 #endif
 
-#include "optionsdialog.h"
-#include "ui_optionsdialog.h"
+#include <qt/optionsdialog.h>
+#include <qt/forms/ui_optionsdialog.h>
 
-#include "sequenceunits.h"
-#include "guiutil.h"
-#include "optionsmodel.h"
+#include <qt/sequenceunits.h>
+#include <qt/guiutil.h>
+#include <qt/optionsmodel.h>
 
-#include "main.h" // for MAX_SCRIPTCHECK_THREADS
-#include "netbase.h"
-#include "txdb.h" // for -dbcache defaults
+#include <main.h> // for MAX_SCRIPTCHECK_THREADS
+#include <netbase.h>
+#include <txdb.h> // for -dbcache defaults
 
 #ifdef ENABLE_WALLET
-#include "wallet/wallet.h" // for CWallet::minTxFee
+#include <wallet/wallet.h> // for CWallet::minTxFee
 #endif
 
 #include <boost/thread.hpp>
@@ -80,7 +80,7 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
     /* Language Selector */
     QDir translations(":translations");
     ui->lang->addItem(QString("(") + tr("default") + QString(")"), QVariant(""));
-    Q_FOREACH(const QString &langStr, translations.entryList())
+    for (const QString &langStr : translations.entryList())
     {
         QLocale locale(langStr);
 

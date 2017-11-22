@@ -4,38 +4,38 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "sequencegui.h"
+#include <qt/sequencegui.h>
 
-#include "sequenceunits.h"
-#include "clientmodel.h"
-#include "guiconstants.h"
-#include "guiutil.h"
-#include "modaloverlay.h"
-#include "networkstyle.h"
-#include "notificator.h"
-#include "openuridialog.h"
-#include "optionsdialog.h"
-#include "optionsmodel.h"
-#include "rpcconsole.h"
-#include "utilitydialog.h"
-#include "multisigdialog.h"
-#include "stakereportdialog.h"
+#include <qt/sequenceunits.h>
+#include <qt/clientmodel.h>
+#include <qt/guiconstants.h>
+#include <qt/guiutil.h>
+#include <qt/modaloverlay.h>
+#include <qt/networkstyle.h>
+#include <qt/notificator.h>
+#include <qt/openuridialog.h>
+#include <qt/optionsdialog.h>
+#include <qt/optionsmodel.h>
+#include <qt/rpcconsole.h>
+#include <qt/utilitydialog.h>
+#include <qt/multisigdialog.h>
+#include <qt/stakereportdialog.h>
 
-#include "chainparams.h"
-#include "init.h"
-#include "rpc/rpcserver.h"
-#include "txmempool.h"
-#include "ui_interface.h"
-#include "util.h"
-#include "wallet/wallet.h"
+#include <chainparams.h>
+#include <init.h>
+#include <rpc/rpcserver.h>
+#include <txmempool.h>
+#include <ui_interface.h>
+#include <util.h>
+#include <wallet/wallet.h>
 
 #ifdef ENABLE_WALLET
-#include "walletframe.h"
-#include "walletmodel.h"
+#include <qt/walletframe.h>
+#include <qt/walletmodel.h>
 #endif // ENABLE_WALLET
 
 #ifdef Q_OS_MAC
-#include "macdockiconhandler.h"
+#include <qt/macdockiconhandler.h>
 #endif
 
 #include <iostream>
@@ -612,7 +612,7 @@ void SequenceGUI::setClientModel(ClientModel *clientModel)
         setNumConnections(clientModel->getNumConnections());
         connect(clientModel, SIGNAL(numConnectionsChanged(int)), this, SLOT(setNumConnections(int)));
 
-        setNumBlocks(clientModel->getNumBlocks(), clientModel->getLastBlockDate(), clientModel->getVerificationProgress(NULL), false);
+        setNumBlocks(clientModel->getNumBlocks(), clientModel->getLastBlockDate(), clientModel->getVerificationProgress(nullptr), false);
         connect(clientModel, SIGNAL(numBlocksChanged(int,QDateTime,double,bool)), this, SLOT(setNumBlocks(int,QDateTime,double,bool)));
 
         // Receive and report messages from client model
@@ -1033,7 +1033,7 @@ void SequenceGUI::message(const QString &title, const QString &message, unsigned
         showNormalIfMinimized();
         QMessageBox mBox((QMessageBox::Icon)nMBoxIcon, strTitle, message, buttons, this);
         int r = mBox.exec();
-        if (ret != NULL)
+        if (ret != nullptr)
             *ret = r == QMessageBox::Ok;
     }
     else
@@ -1110,7 +1110,7 @@ void SequenceGUI::dropEvent(QDropEvent *event)
 {
     if(event->mimeData()->hasUrls())
     {
-        Q_FOREACH(const QUrl &uri, event->mimeData()->urls())
+        for (const QUrl &uri : event->mimeData()->urls())
         {
             Q_EMIT receivedURI(uri.toString());
         }
@@ -1368,7 +1368,7 @@ UnitDisplayStatusBarControl::UnitDisplayStatusBarControl() :
     QList<SequenceUnits::Unit> units = SequenceUnits::availableUnits();
     int max_width = 0;
     const QFontMetrics fm(font());
-    Q_FOREACH (const SequenceUnits::Unit unit, units)
+    for (const SequenceUnits::Unit unit : units)
     {
         max_width = qMax(max_width, fm.width(SequenceUnits::name(unit)));
     }
@@ -1386,7 +1386,7 @@ void UnitDisplayStatusBarControl::mousePressEvent(QMouseEvent *event)
 void UnitDisplayStatusBarControl::createContextMenu()
 {
     menu = new QMenu();
-    Q_FOREACH(SequenceUnits::Unit u, SequenceUnits::availableUnits())
+    for (SequenceUnits::Unit u : SequenceUnits::availableUnits())
     {
         QAction *menuAction = new QAction(QString(SequenceUnits::name(u)), this);
         menuAction->setData(QVariant(u));

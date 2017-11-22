@@ -4,20 +4,20 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "txmempool.h"
+#include <txmempool.h>
 
-#include "clientversion.h"
-#include "consensus/consensus.h"
-#include "main.h"
-#include "streams.h"
-#include "timedata.h"
-#include "util.h"
-#include "utilmoneystr.h"
-#include "utiltime.h"
-#include "consensus/validation.h"
-#include "version.h"
+#include <clientversion.h>
+#include <consensus/consensus.h>
+#include <main.h>
+#include <streams.h>
+#include <timedata.h>
+#include <util.h>
+#include <utilmoneystr.h>
+#include <utiltime.h>
+#include <consensus/validation.h>
+#include <version.h>
+#include <reverse_iterator.h>
 
-#include <boost/foreach.hpp>
 #include <boost/circular_buffer.hpp>
 
 using namespace std;
@@ -135,7 +135,7 @@ void CTxMemPool::UpdateTransactionsFromBlock(const std::vector<uint256> &vHashes
     // This maximizes the benefit of the descendant cache and guarantees that
     // setMemPoolChildren will be updated, an assumption made in
     // UpdateForDescendants.
-    BOOST_REVERSE_FOREACH(const uint256 &hash, vHashesToUpdate) {
+    for (const uint256 &hash : reverse_iterate(vHashesToUpdate)) {
         // we cache the in-mempool children to avoid duplicate updates
         setEntries setChildren;
         // calculate children from mapNextTx
@@ -541,7 +541,7 @@ public:
         if (nBlocksToConfirm < 0 || nBlocksToConfirm >= (int)history.size())
             return CFeeRate(0);
 
-        if (sortedFeeSamples.size() == 0)
+        if (sortedFeeSamples.empty())
         {
             for (size_t i = 0; i < history.size(); i++)
                 history.at(i).GetFeeSamples(sortedFeeSamples);
@@ -576,7 +576,7 @@ public:
         if (nBlocksToConfirm < 0 || nBlocksToConfirm >= (int)history.size())
             return -1;
 
-        if (sortedPrioritySamples.size() == 0)
+        if (sortedPrioritySamples.empty())
         {
             for (size_t i = 0; i < history.size(); i++)
                 history.at(i).GetPrioritySamples(sortedPrioritySamples);
@@ -960,7 +960,7 @@ void CTxMemPool::check(const CCoinsViewCache *pcoins) const
             waitingOnDependants.push_back(&(*it));
         else {
             CValidationState state; CTxUndo undo;
-            assert(CheckInputs(tx, state, mempoolDuplicate, false, 0, false, NULL));
+            assert(CheckInputs(tx, state, mempoolDuplicate, false, 0, false, nullptr));
             UpdateCoins(tx, state, mempoolDuplicate, undo, 1000000);
         }
     }
@@ -974,7 +974,7 @@ void CTxMemPool::check(const CCoinsViewCache *pcoins) const
             stepsSinceLastRemove++;
             assert(stepsSinceLastRemove < waitingOnDependants.size());
         } else {
-            assert(CheckInputs(entry->GetTx(), state, mempoolDuplicate, false, 0, false, NULL));
+            assert(CheckInputs(entry->GetTx(), state, mempoolDuplicate, false, 0, false, nullptr));
             CTxUndo undo;
             UpdateCoins(entry->GetTx(), state, mempoolDuplicate, undo, 1000000);
             stepsSinceLastRemove = 0;

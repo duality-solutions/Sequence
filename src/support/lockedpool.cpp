@@ -2,11 +2,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "support/lockedpool.h"
-#include "support/cleanse.h"
+#include <support/lockedpool.h>
+#include <support/cleanse.h>
 
 #if defined(HAVE_CONFIG_H)
-#include "config/sequence-config.h"
+#include <config/sequence-config.h>
 #endif
 
 #ifdef WIN32
@@ -22,11 +22,11 @@
 #else
 #include <sys/mman.h> // for mmap
 #include <sys/resource.h> // for getrlimit
-#include <limits.h> // for PAGESIZE
+#include <climits> // for PAGESIZE
 #include <unistd.h> // for sysconf
 #endif
 
-LockedPoolManager* LockedPoolManager::_instance = NULL;
+LockedPoolManager* LockedPoolManager::_instance = nullptr;
 std::once_flag LockedPoolManager::init_flag;
 
 /*******************************************************************************/
@@ -79,7 +79,7 @@ void* Arena::alloc(size_t size)
 
 void Arena::free(void *ptr)
 {
-    // Freeing the NULL pointer is OK.
+    // Freeing the nullptr pointer is OK.
     if (ptr == nullptr) {
         return;
     }

@@ -3,11 +3,11 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "scheduler.h"
+#include <scheduler.h>
 
-#include "reverselock.h"
+#include <reverselock.h>
 
-#include <assert.h>
+#include <cassert>
 #include <boost/bind.hpp>
 #include <utility>
 

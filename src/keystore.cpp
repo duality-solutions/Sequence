@@ -4,12 +4,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "keystore.h"
+#include <keystore.h>
 
-#include "wallet/crypter.h"
-#include "script/script.h"
-#include "script/standard.h"
-#include "util.h"
+#include <wallet/crypter.h>
+#include <script/script.h>
+#include <script/standard.h>
+#include <util.h>
 
 
 bool CKeyStore::GetPubKey(const CKeyID &address, CPubKey &vchPubKeyOut) const

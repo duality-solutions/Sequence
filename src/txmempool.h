@@ -7,11 +7,11 @@
 #ifndef SEQUENCE_TXMEMPOOL_H
 #define SEQUENCE_TXMEMPOOL_H
 
-#include "amount.h"
-#include "coins.h"
-#include "indirectmap.h"
-#include "sync.h"
-#include "primitives/transaction.h"
+#include <amount.h>
+#include <coins.h>
+#include <indirectmap.h>
+#include <sync.h>
+#include <primitives/transaction.h>
 
 #include <list>
 #include <memory>

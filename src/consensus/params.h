@@ -6,7 +6,7 @@
 #ifndef SEQUENCE_CONSENSUS_PARAMS_H
 #define SEQUENCE_CONSENSUS_PARAMS_H
 
-#include "uint256.h"
+#include <uint256.h>
 
 #include <map>
 #include <string>

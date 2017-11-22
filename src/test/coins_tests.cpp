@@ -4,10 +4,10 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "coins.h"
-#include "consensus/validation.h"
-#include "random.h"
-#include "uint256.h"
+#include <coins.h>
+#include <consensus/validation.h>
+#include <random.h>
+#include <uint256.h>
 
 #include <vector>
 #include <map>
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE(coins_cache_simulation_test)
                 delete stack.back();
                 stack.pop_back();
             }
-            if (stack.size() == 0 || (stack.size() < 4 && insecure_rand() % 2)) {
+            if (stack.empty() || (stack.size() < 4 && insecure_rand() % 2)) {
                 CCoinsView* tip = &base;
                 if (stack.size() > 0) {
                     tip = stack.back();
