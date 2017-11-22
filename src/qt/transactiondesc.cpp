@@ -246,14 +246,14 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx, TransactionReco
     strHTML += "<b>" + tr("Transaction ID") + ":</b> " + TransactionRecord::formatSubTxId(wtx.GetHash(), rec->idx) + "<br>";
 
     // Message from normal Sequence:URI (Sequence:123...?message=example)
-    foreach (const std::pair<string, string>& r, wtx.vOrderForm)
+    for (const std::pair<string, string>& r : wtx.vOrderForm)
         if (r.first == "Message")
             strHTML += "<br><b>" + tr("Message") + ":</b><br>" + GUIUtil::HtmlEscape(r.second, true) + "<br>";
 
     //
     // PaymentRequest info:
     //
-    foreach (const std::pair<string, string>& r, wtx.vOrderForm)
+    for (const std::pair<string, string>& r : wtx.vOrderForm)
     {
         if (r.first == "PaymentRequest")
         {
