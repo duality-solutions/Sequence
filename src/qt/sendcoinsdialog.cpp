@@ -260,48 +260,35 @@ void SendCoinsDialog::on_sendButton_clicked()
 
     // Format confirmation message
     QStringList formatted;
-    Q_FOREACH(const SendCoinsRecipient &rcp, recipients)
+    foreach(const SendCoinsRecipient &rcp, recipients)
     {
-        if (!model->getSplitBlock())
-        {
-            // generate bold amount string
-            QString::number(nSplitBlock);
-            QString amount = "<b>" + SequenceUnits::formatHtmlWithUnit(model->getOptionsModel()->getDisplayUnit(), rcp.amount / nSplitBlock);
-            amount.append("</b>");
-            // generate monospace address string
-            QString address = "<span style='font-family: monospace;'>" + rcp.address;
-            address.append("</span>");
+        if(!model->getSplitBlock())
+        { 
+#if QT_VERSION < 0x050000
+        formatted.append(tr("<b>%1</b> to %2 (%3)").arg(SequenceUnits::formatWithUnit(SequenceUnits::SEQ, rcp.amount), Qt::escape(rcp.label), rcp.address));
+#else
+        formatted.append(tr("<b>%1</b> to %2 (%3)").arg(SequenceUnits::formatWithUnit(SequenceUnits::SEQ, rcp.amount), rcp.label.toHtmlEscaped(), rcp.address));
+#endif
+        } 
+        else 
+        { 
+#if QT_VERSION < 0x050000 
+        formatted.append(tr("<b>%1</b> in %4 blocks of %5 SEQ each to %2 (%3)?").arg(SequenceUnits::formatWithUnit(SequenceUnits::SEQ, rcp.amount),  
+            Qt::escape(rcp.label),  
+            rcp.address,  
+            QString::number(nSplitBlock),  
+            SequenceUnits::formatWithUnit(SequenceUnits::SEQ, rcp.amount / nSplitBlock)));
+#else 
+        formatted.append(tr("<b>%1</b> in %4 blocks of %5 SEQ each to %2 (%3)?").arg(SequenceUnits::formatWithUnit(SequenceUnits::SEQ, rcp.amount),  
+            rcp.label.toHtmlEscaped(),  
+            rcp.address,  
+            QString::number(nSplitBlock),  
+            SequenceUnits::formatWithUnit(SequenceUnits::SEQ, rcp.amount / nSplitBlock)));
+#endif   
         }
-
-        QString recipientElement;
-        QString amount;
-        QString address;
-        if(!rcp.paymentRequest.IsInitialized()) // normal payment
-        {
-            if(rcp.label.length() > 0) // label with address
-            {
-                recipientElement = tr("%1 to %2").arg(amount, GUIUtil::HtmlEscape(rcp.label));
-                recipientElement.append(QString(" (%1)").arg(address));
-            }
-            else // just address
-            {
-                recipientElement = tr("%1 to %2").arg(amount, address);
-            }
-        }
-        else if(!rcp.authenticatedMerchant.isEmpty()) // secure payment request
-        {
-            recipientElement = tr("%1 to %2").arg(amount, GUIUtil::HtmlEscape(rcp.authenticatedMerchant));
-        }
-        else // insecure payment request
-        {
-            recipientElement = tr("%1 to %2").arg(amount, address);
-        }
-
-        formatted.append(recipientElement);
     }
 
     fNewRecipientAllowed = false;
-
 
     WalletModel::UnlockContext ctx(model->requestUnlock());
     if(!ctx.isValid())
