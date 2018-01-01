@@ -11,6 +11,7 @@
 * Remove MultiSigUI
 * Update CHANGELOG
 
+
 **Sequence v1.1.0.0**
 
 * Fix sequence.conf read on daemon first launch
