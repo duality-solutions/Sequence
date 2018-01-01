@@ -260,7 +260,7 @@ void SendCoinsDialog::on_sendButton_clicked()
 
     // Format confirmation message
     QStringList formatted;
-    foreach(const SendCoinsRecipient &rcp, recipients)
+    Q_FOREACH(const SendCoinsRecipient &rcp, recipients)
     {
         if(!model->getSplitBlock())
         { 
