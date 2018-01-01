@@ -77,7 +77,6 @@ public:
 
     QString formatFullVersion() const;
     QString formatSubVersion() const;
-    QString formatBuildDate() const;
     bool isReleaseVersion() const;
     QString clientName() const;
     QString formatClientStartupTime() const;
