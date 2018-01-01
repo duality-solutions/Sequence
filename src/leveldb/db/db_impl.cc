@@ -96,6 +96,7 @@ Options SanitizeOptions(const std::string& dbname,
   result.filter_policy = (src.filter_policy != NULL) ? ipolicy : NULL;
   ClipToRange(&result.max_open_files,    64 + kNumNonTableCacheFiles, 50000);
   ClipToRange(&result.write_buffer_size, 64<<10,                      1<<30);
+  ClipToRange(&result.max_file_size,     1<<20,                       1<<30);
   ClipToRange(&result.block_size,        1<<10,                       4<<20);
   if (result.info_log == NULL) {
     // Open a log file in the same directory as the db
@@ -1536,15 +1537,15 @@ Snapshot::~Snapshot() {
 Status DestroyDB(const std::string& dbname, const Options& options) {
   Env* env = options.env;
   std::vector<std::string> filenames;
-  // Ignore error in case directory does not exist
-  env->GetChildren(dbname, &filenames);
-  if (filenames.empty()) {
+  Status result = env->GetChildren(dbname, &filenames);
+  if (!result.ok()) {
+    // Ignore error in case directory does not exist
     return Status::OK();
   }
 
   FileLock* lock;
   const std::string lockname = LockFileName(dbname);
-  Status result = env->LockFile(lockname, &lock);
+  result = env->LockFile(lockname, &lock);
   if (result.ok()) {
     uint64_t number;
     FileType type;
