@@ -1,5 +1,14 @@
-# **Sequence Changelog**
+**Sequence Changelog**
 -------------------------
+
+**v1.2.0.0**
+
+* Fix Send Confirmation Window
+* Bump Proto/Version
+* Copyrights
+* Make fee more for splitblock
+* Remove CLIENT_DATE and cleanup
+* Remove MultiSigUI
 
 **v1.1.0.0**
 
