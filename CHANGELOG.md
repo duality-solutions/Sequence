@@ -1,4 +1,4 @@
-**Sequence Changelog**
+**Sequence CHANGELOG**
 -------------------------
 
 **Sequence v1.2.0.0**
