@@ -1,7 +1,7 @@
 **Sequence Changelog**
 -------------------------
 
-**v1.2.0.0**
+**Sequence v1.2.0.0**
 
 * Fix Send Confirmation Window
 * Bump Proto/Version
@@ -10,7 +10,7 @@
 * Remove CLIENT_DATE and cleanup
 * Remove MultiSigUI
 
-**v1.1.0.0**
+**Sequence v1.1.0.0**
 
 * Fix sequence.conf read on daemon first launch
 * Overall UI Improvements
@@ -58,7 +58,7 @@
 * Update Stake Icon to show useful accurate information
 
 
-**v1.0.0.0**
+** Sequence v1.0.0.0**
 
 * Fix and re-enable ResetSyncCheckpoint()
 * Fix checkpoint locks
