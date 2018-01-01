@@ -9,6 +9,7 @@
 * Make fee more for splitblock
 * Remove CLIENT_DATE and cleanup
 * Remove MultiSigUI
+* Update CHANGELOG
 
 **Sequence v1.1.0.0**
 
