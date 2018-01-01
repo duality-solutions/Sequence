@@ -117,7 +117,6 @@ private:
     QAction *quitAction;
     QAction *sendCoinsAction;
     QAction *sendCoinsMenuAction;
-    QAction *multiSigAction;
     QAction *stakeReportAction;
     QAction *dnsAction;
     QAction *usedSendingAddressesAction;
@@ -231,8 +230,6 @@ private Q_SLOTS:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
-    /** Switch to MultiSig page */
-    void gotoMultiSigPage();
     /** Switch to Stake Report page */
     void gotoStakeReportPage();
     /** Switch to DNS page */

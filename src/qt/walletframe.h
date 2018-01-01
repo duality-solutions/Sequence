@@ -63,8 +63,6 @@ public Q_SLOTS:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
-    /** Switch to MultiSig page */
-    void gotoMultiSigPage();
     /** Open stake report page */
     void gotoStakeReportPage();
     /** Switch to DNS page */
