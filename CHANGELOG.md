@@ -9,6 +9,7 @@
 * Make fee more for splitblock
 * Remove CLIENT_DATE and cleanup
 * Remove MultiSigUI
+* Update LevelDB to 1.20
 * Update CHANGELOG
 
 
@@ -58,6 +59,7 @@
 * Make RelayWalletTransaction attempt to AcceptToMemoryPool.
 * Locking for Misbehave() and other cs_main locking fixes
 * Update Stake Icon to show useful accurate information
+* Update CHANGELOG
 
 
 ** Sequence v1.0.0.0**
@@ -157,5 +159,6 @@
 * Update Sequence readme.
 * Updates PRT.
 * Adds issue template to repo.
+* Update CHANGELOG
 
 ** Initial Fork from Emercoin 
