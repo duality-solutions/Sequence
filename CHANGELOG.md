@@ -10,6 +10,7 @@
 * Remove CLIENT_DATE and cleanup
 * Remove MultiSigUI
 * Update LevelDB to 1.20
+* Update Icons for Sequence
 * Update CHANGELOG
 
 
