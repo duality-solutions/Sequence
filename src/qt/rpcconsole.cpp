@@ -253,7 +253,7 @@ RPCConsole::RPCConsole(QWidget *parent) :
     ui->label_berkeleyDBVersion->hide();
     ui->berkeleyDBVersion->hide();
 #endif
-
+    
     startExecutor();
     setTrafficGraphRange(INITIAL_TRAFFIC_GRAPH_SETTING);
 
@@ -447,6 +447,7 @@ void RPCConsole::setClientModel(ClientModel *model)
         ui->buildDate->setText(model->formatBuildDate());
         ui->startupTime->setText(model->formatClientStartupTime());
         ui->networkName->setText(QString::fromStdString(Params().NetworkIDString()));
+        ui->dataDir->setText(model->dataDir());
 
         // Setup autocomplete and attach it
         QStringList wordList;
