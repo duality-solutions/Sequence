@@ -33,7 +33,7 @@ Graph on Pull Request History
 * Block Size: 4MB
 * Min TX Fee: 0.001 SEQ
 
-The Sequence(SEQ) blockchain exists in the Duality binary architecture as an asset and in turn for [Dynamic(DYN)](https://github.com/duality-solutions/dynamic) is its real world interface.
+Sequence(SEQ) functions in many ways like Bitcoin(BTC) as a true decentralized autonomous currency. While Duality Blockchain Solutions lays claim to the blockchain, they do so to deploy a binary blockchain architecture in order to move price fluctuations away from [Dynamic(DYN)] and to Sequence(SEQ). Duality Blockchain Solutions does not have any control over the circulating supply and holds no pre-mined Sequence(SEQ).
 
 Sequence is a digital currency that enables instant payments to anyone, anywhere in the world. Sequence uses peer-to-peer technology to operate with no central authority (decentralisation): managing transactions and issuing currency (SEQ) are carried out collectively by the Sequence network. Sequence is the name of open source software which enables the use of the currency SEQ.
 
