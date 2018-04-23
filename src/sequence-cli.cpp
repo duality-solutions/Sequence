@@ -79,17 +79,17 @@ static bool AppInitRPC(int argc, char* argv[])
         }
 
         fprintf(stdout, "%s", strUsage.c_str());
-        return false;
+        return EXIT_FAILURE;
     }
     if (!boost::filesystem::is_directory(GetDataDir(false))) {
         fprintf(stderr, "Error: Specified data directory \"%s\" does not exist.\n", mapArgs["-datadir"].c_str());
-        return false;
+        return EXIT_FAILURE;
     }
     try {
         ReadConfigFile(mapArgs, mapMultiArgs);
     } catch(const std::exception& e) {
         fprintf(stderr,"Error reading configuration file: %s\n", e.what());
-        return false;
+        return EXIT_FAILURE;
     }
     // Check for -testnet or -regtest parameter (BaseParams() calls are only valid after this clause)
     try {
