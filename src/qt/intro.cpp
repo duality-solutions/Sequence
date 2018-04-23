@@ -151,24 +151,26 @@ QString Intro::getDefaultDataDirectory()
     return GUIUtil::boostPathToQString(GetDefaultDataDir());
 }
 
-void Intro::pickDataDirectory()
+bool Intro::pickDataDirectory()
 {
     namespace fs = boost::filesystem;
     QSettings settings;
     /* If data directory provided on command line, no need to look at settings
        or show a picking dialog */
     if(!GetArg("-datadir", "").empty())
-        return;
+        return true;
     /* 1) Default data directory for operating system */
-    QString dataDir = getDefaultDataDirectory();
+    QString dataDirDefaultCurrent = getDefaultDataDirectory();
     /* 2) Allow QSettings to override default dir */
-    dataDir = settings.value("strDataDir", dataDir).toString();
+    QString dataDir = settings.value("strDataDir", dataDirDefaultCurrent).toString();
+    /* 3) Check to see if default datadir is the one we expect */
+    QString dataDirDefaultSettings = settings.value("strDataDirDefault").toString();
 
     if(!fs::exists(GUIUtil::qstringToBoostPath(dataDir)) || GetBoolArg("-choosedatadir", false))
     {
         /* If current default data directory does not exist, let the user choose one */
         Intro intro;
-        intro.setDataDirectory(dataDir);
+        intro.setDataDirectory(dataDirDefaultCurrent);
         intro.setWindowIcon(QIcon(":icons/sequence"));
 
         while(true)
@@ -176,7 +178,7 @@ void Intro::pickDataDirectory()
             if(!intro.exec())
             {
                 /* Cancel clicked */
-                exit(0);
+                return false;
             }
             dataDir = intro.getDataDirectory();
             try {
@@ -190,13 +192,15 @@ void Intro::pickDataDirectory()
         }
 
         settings.setValue("strDataDir", dataDir);
+        settings.setValue("strDataDirDefault", dataDirDefaultCurrent);
     }
     /* Only override -datadir if different from the default, to make it possible to
      * override -datadir in the sequence.conf file in the default data directory
      * (to be consistent with sequenced behavior)
      */
-    if(dataDir != getDefaultDataDirectory())
+    if(dataDir != dataDirDefaultCurrent)
         SoftSetArg("-datadir", GUIUtil::qstringToBoostPath(dataDir).string()); // use OS locale for path setting
+    return true;
 }
 
 void Intro::setStatus(int status, const QString &message, quint64 bytesAvailable)
