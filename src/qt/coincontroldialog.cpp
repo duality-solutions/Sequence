@@ -1,6 +1,6 @@
-// Copyright (c) 2009-2017 Satoshi Nakamoto
-// Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
+// Copyright (c) 2009-2018 Satoshi Nakamoto
+// Copyright (c) 2009-2018 The Bitcoin Developers
+// Copyright (c) 2016-2018 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -557,6 +557,9 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
         if (fSendFreeTransactions)
             if (fAllowFree && nBytes <= MAX_FREE_TRANSACTION_CREATE_SIZE)
                 nPayFee = 0;
+
+        if(pwalletMain->fSplitBlock)
+            nPayFee = 1 * COIN; // make the fee more expensive if using splitblock
 
         if (nPayAmount > 0)
         {

@@ -1,6 +1,6 @@
-// Copyright (c) 2009-2017 Satoshi Nakamoto
-// Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
+// Copyright (c) 2009-2018 Satoshi Nakamoto
+// Copyright (c) 2009-2018 The Bitcoin Developers
+// Copyright (c) 2016-2018 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -63,8 +63,6 @@ public Q_SLOTS:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
-    /** Switch to MultiSig page */
-    void gotoMultiSigPage();
     /** Open stake report page */
     void gotoStakeReportPage();
     /** Switch to DNS page */

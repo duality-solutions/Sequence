@@ -1,6 +1,6 @@
-// Copyright (c) 2009-2017 Satoshi Nakamoto
-// Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
+// Copyright (c) 2009-2018 Satoshi Nakamoto
+// Copyright (c) 2009-2018 The Bitcoin Developers
+// Copyright (c) 2016-2018 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -140,13 +140,6 @@ void WalletFrame::gotoSendCoinsPage(QString addr)
 void WalletFrame::outOfSyncWarningClicked()
 {
     Q_EMIT requestedSyncWarningInfo();
-}
-
-void WalletFrame::gotoMultiSigPage()
-{
-    QMap<QString, WalletView*>::const_iterator i;
-    for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
-        i.value()->gotoMultiSigPage();
 }
 
 void WalletFrame::gotoStakeReportPage()

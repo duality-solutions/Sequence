@@ -8,13 +8,13 @@ Graph on Pull Request History
 
 [![Throughput Graph](https://graphs.waffle.io/Duality-Solutions/Sequence/throughput.svg)](https://waffle.io/Duality-Solutions/Sequence/metrics/throughput)
 
-# **Sequence (SEQ) v1.1.0.0**
+# **[Sequence(SEQ)](https://duality.solutions/sequence) v1.2.0.0**
 
 ![SEQ logo](https://github.com/Duality-Solutions/Sequence/blob/master/src/qt/res/icons/sequence-128.png)
 
-**Copyright (c) 2016-2017 Duality Blockchain Solutions**
+**Copyright (c) 2016-2018 Duality Blockchain Solutions**
 
-#### What is Sequence?
+#### What is [Sequence?](https://duality.solutions/sequence)
 ----------------
 * Coin Suffix: SEQ
 * PoW Algorithm: Scrypt
@@ -33,11 +33,11 @@ Graph on Pull Request History
 * Block Size: 4MB
 * Min TX Fee: 0.001 SEQ
 
-The Sequence(SEQ) blockchain exists in the Duality binary architecture as an asset and in turn for [Dynamic(DYN)](https://github.com/duality-solutions/dynamic) is its real world interface.
+[Sequence(SEQ)](https://duality.solutions/sequence/) is [Duality’s](https://duality.solutions/) tokenized-asset that provides collateral value for [Dynamic(DYN)](https://duality.solutions/dynamic) and ensures market independence through supply control. Given its collateral role within the ecosystem, [Sequence(SEQ)](https://duality.solutions/sequence/) allows for a new cooperative style of banking to emerge between [Dynamic(DYN)](https://duality.solutions/dynamic) and [Sequence(SEQ)](https://duality.solutions/sequence/)) holders.
 
-Sequence is a digital currency that enables instant payments to anyone, anywhere in the world. Sequence uses peer-to-peer technology to operate with no central authority (decentralisation): managing transactions and issuing currency (SEQ) are carried out collectively by the Sequence network. Sequence is the name of open source software which enables the use of the currency SEQ.
+[Sequence(SEQ)](https://duality.solutions/sequence/) has static Proof-of-Stake (PoS) rewards therefore the growth model is disinflationary. Given the current circulatory supply and a yearly increase of ±1 million Sequence(SEQ)](https://duality.solutions/sequence/) , the current ROI is projected at about 2.2% and is disinflationary.
 
-
+[Sequence(SEQ)](https://duality.solutions/sequence/) may be used to increase redundancy in information, a supporting role to [Dynamic(DYN)](https://duality.solutions/dynamic) in offering BaaS. The main function of [Sequence(SEQ)](https://duality.solutions/sequence/) is for it to be used as a collateral asset to preserve independence of value to [Duality](https://duality.solutions/) and the [Dynamic(DYN)](https://duality.solutions/dynamic chain.
 
 **MainNet Parameters**
 P2P Port = 16662
@@ -51,13 +51,13 @@ RPC Port = 16665
 
 UNIX BUILD NOTES
 ====================
-Some notes on how to build Sequence in Unix. 
+Some notes on how to build [Sequence](https://duality.solutions/sequence/) in Unix. 
 
 Building requirements for Unix based Systems :  3GB
 
 Note
 ---------------------
-Always use absolute paths to configure and compile Sequence and the dependencies,
+Always use absolute paths to configure and compile [Sequence](https://duality.solutions/sequence/) and the dependencies,
 for example, when specifying the the path of the dependency:
 
     ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$BDB_PREFIX

@@ -1,6 +1,6 @@
-// Copyright (c) 2009-2017 Satoshi Nakamoto
-// Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
+// Copyright (c) 2009-2018 Satoshi Nakamoto
+// Copyright (c) 2009-2018 The Bitcoin Developers
+// Copyright (c) 2016-2018 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -114,7 +114,7 @@ UniValue ValueFromAmount(const CAmount& amount)
     int64_t quotient = n_abs / COIN;
     int64_t remainder = n_abs % COIN;
     return UniValue(UniValue::VNUM,
-            strprintf("%s%d.%06d", sign ? "-" : "", quotient, remainder));
+            strprintf("%s%d.%08d", sign ? "-" : "", quotient, remainder));
 }
 
 uint256 ParseHashV(const UniValue& v, std::string strName)

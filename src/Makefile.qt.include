@@ -84,9 +84,6 @@ QT_FORMS_UI = \
   qt/forms/helpmessagedialog.ui \
   qt/forms/intro.ui \
   qt/forms/modaloverlay.ui \
-  qt/forms/multisigaddressentry.ui \
-  qt/forms/multisigdialog.ui \
-  qt/forms/multisiginputentry.ui \
   qt/forms/openuridialog.ui \
   qt/forms/optionsdialog.ui \
   qt/forms/overviewpage.ui \
@@ -115,9 +112,6 @@ QT_MOC_CPP = \
   qt/moc_macdockiconhandler.cpp \
   qt/moc_macnotificationhandler.cpp \
   qt/moc_modaloverlay.cpp \
-  qt/moc_multisigaddressentry.cpp \
-  qt/moc_multisigdialog.cpp \
-  qt/moc_multisiginputentry.cpp \
   qt/moc_nametablemodel.cpp \
   qt/moc_notificator.cpp \
   qt/moc_openuridialog.cpp \
@@ -189,9 +183,6 @@ SEQUENCE_QT_H = \
   qt/macdockiconhandler.h \
   qt/macnotificationhandler.h \
   qt/modaloverlay.h \
-  qt/multisigaddressentry.h \
-  qt/multisigdialog.h \
-  qt/multisiginputentry.h \
   qt/nametablemodel.h \
   qt/networkstyle.h \
   qt/notificator.h \
@@ -263,7 +254,6 @@ RES_ICONS = \
   qt/res/icons/key.png \
   qt/res/icons/lock_closed.png \
   qt/res/icons/lock_open.png \
-  qt/res/icons/multisig.png \
   qt/res/icons/notsynced.png \
   qt/res/icons/overview.png \
   qt/res/icons/qrcode.png \
@@ -304,9 +294,6 @@ SEQUENCE_QT_CPP = \
   qt/guiutil.cpp \
   qt/intro.cpp \
   qt/modaloverlay.cpp \
-  qt/multisigdialog.cpp \
-  qt/multisigaddressentry.cpp \
-  qt/multisiginputentry.cpp \
   qt/networkstyle.cpp \
   qt/notificator.cpp \
   qt/optionsdialog.cpp \
