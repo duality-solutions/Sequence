@@ -8,6 +8,7 @@
 
 #include "bantablemodel.h"
 #include "guiconstants.h"
+#include "guiutil.h"
 #include "peertablemodel.h"
 
 #include "alert.h"
@@ -225,6 +226,11 @@ QString ClientModel::formatClientStartupTime() const
 void ClientModel::updateBanlist()
 {
     banTableModel->refresh();
+}
+
+QString ClientModel::dataDir() const
+{
+    return GUIUtil::boostPathToQString(GetDataDir());
 }
 
 // Handlers for core signals
