@@ -171,16 +171,16 @@ public:
         fTestnetToBeDeprecatedFieldRPC = false;
 
         checkpointData = (CCheckpointData) {
-            {{ 0, uint256("0x000000251356c62e0aa14c63e2b0db2a05ac0d3316ea5000c797a281be8c9fd7")},
-			{ 200, uint256("0x000000297583f342ee3a945bfe4b7c9e30965cbfe97d0573d4a8ad3dfbd59c0c")},
-	        { 1000, uint256("0x0000000cb3d1d4589f7f4b6339ca7106c3539146ad307a80232ab09a6f6140f1")},
-	        { 4000, uint256("0x00000030b6226239a0d3b809e3b076e3a75476fe8048dc41859a6138f63a7a28")},
-	        { 10000, uint256("0x0a7589f8bdc5e49f55e4ba3ba8875b909e7ca4802a0505b94d0b42b5f55d1598")},
-	        { 40000, uint256("0xc6b43d4102098d0babf3529ebe9fc772bec026a36319b534d94f6fde64b963d9")},
-	        { 160000, uint256("0x62cf48b78e93ef09d60c83da6da1c7b3dfa6602126e36d6756706124d2fb730b")},
-	        { 200000, uint256("0xf6c0823bdede95bf0819929aa7ee5df69abccbde96a36211694312af84516b75")},
-            { 250000, uint256("0x27169d874b66cd0e04a8aa74266b0da6509cfca7aa33b80178c2873cc6e98a27")},
-            { 300000, uint256("0x4a4d4577efb1c4b8b40ddf1c9f9ae1e5c793ce102ec997772098559ae4beb299")}},
+            ( 0, uint256("0x000000251356c62e0aa14c63e2b0db2a05ac0d3316ea5000c797a281be8c9fd7"))
+			( 200, uint256("0x000000297583f342ee3a945bfe4b7c9e30965cbfe97d0573d4a8ad3dfbd59c0c"))
+	        ( 1000, uint256("0x0000000cb3d1d4589f7f4b6339ca7106c3539146ad307a80232ab09a6f6140f1"))
+	        ( 4000, uint256("0x00000030b6226239a0d3b809e3b076e3a75476fe8048dc41859a6138f63a7a28"))
+	        ( 10000, uint256("0x0a7589f8bdc5e49f55e4ba3ba8875b909e7ca4802a0505b94d0b42b5f55d1598"))
+	        ( 40000, uint256("0xc6b43d4102098d0babf3529ebe9fc772bec026a36319b534d94f6fde64b963d9"))
+	        ( 160000, uint256("0x62cf48b78e93ef09d60c83da6da1c7b3dfa6602126e36d6756706124d2fb730b"))
+	        ( 200000, uint256("0xf6c0823bdede95bf0819929aa7ee5df69abccbde96a36211694312af84516b75"))
+            ( 250000, uint256("0x27169d874b66cd0e04a8aa74266b0da6509cfca7aa33b80178c2873cc6e98a27"))
+            ( 300000, uint256("0x4a4d4577efb1c4b8b40ddf1c9f9ae1e5c793ce102ec997772098559ae4beb299")),
             1486676814, // * UNIX timestamp of last checkpoint block
             0,          // * total number of transactions between genesis and last checkpoint
 						  //   (the tx=... number in the SetBestChain debug.log lines)
@@ -247,7 +247,7 @@ public:
         fTestnetToBeDeprecatedFieldRPC = false;
         
         checkpointData = (CCheckpointData) {
-            {{ 0, uint256("0x00000009cfa952b4f748c8cf7cdf975f89bce0a26a6a7e7c8cb33968bc20848e")}},
+            ( 0, uint256("0x00000009cfa952b4f748c8cf7cdf975f89bce0a26a6a7e7c8cb33968bc20848e")),
             1478107000, // * UNIX timestamp of last checkpoint block
             0,          // * total number of transactions between genesis and last checkpoint
 						  //   (the tx=... number in the SetBestChain debug.log lines)
@@ -300,7 +300,7 @@ public:
         fTestnetToBeDeprecatedFieldRPC = false;
         
         checkpointData = (CCheckpointData) {
-            {{ 0, uint256("0x000003b8d718c47f10afdaa9b59c7d709e0bc8daf79b41dada0c411e7dc9985f")}},
+            ( 0, uint256("0x000003b8d718c47f10afdaa9b59c7d709e0bc8daf79b41dada0c411e7dc9985f")),
             1473949500, // * UNIX timestamp of last checkpoint block
             0,          // * total number of transactions between genesis and last checkpoint
 						  //   (the tx=... number in the SetBestChain debug.log lines)
