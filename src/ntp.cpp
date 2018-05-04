@@ -1,23 +1,18 @@
-#include "init.h"
-#include "netbase.h"
-#include "net.h"
-#include "timedata.h"
-#include "threadsafety.h"
-#include "utiltime.h"
-#include "ui_interface.h"
+// Copyright (c) 2016-2018 Duality Blockchain Solutions Developers
+// Copyright (c) 2013-2016 The NovaCoin developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifdef WIN32
-#include <winsock2.h>
-#else
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#endif
 #ifndef WIN32
 #include <unistd.h>
 #endif
+
+#include "netbase.h"
+#include "net.h"
+#include "ui_interface.h"
+#include "timedata.h"
+#include "utiltime.h"
+#include "init.h"
 
 extern int GetRandInt(int nMax);
 
@@ -45,11 +40,11 @@ extern int GetRandInt(int nMax);
 
 typedef struct {
   union {
-    uint32_t Xl_ui;
+    uint32_t Xl_ui=0;
     int32_t Xl_i;
   } Ul_i;
   union {
-    uint32_t Xl_uf;
+    uint32_t Xl_uf=0;
     int32_t Xl_f;
   } Ul_f;
 } l_fp;
@@ -67,20 +62,20 @@ inline void ntohl_fp(l_fp *n, l_fp *h) {
 }
 
 struct pkt {
-  uint8_t  li_vn_mode;     /* leap indicator, version and mode */
-  uint8_t  stratum;        /* peer stratum */
-  uint8_t  ppoll;          /* peer poll interval */
-  int8_t  precision;      /* peer clock precision */
-  uint32_t    rootdelay;      /* distance to primary clock */
-  uint32_t    rootdispersion; /* clock dispersion */
-  uint32_t refid;          /* reference clock ID */
+  uint8_t  li_vn_mode=227;     /* leap indicator, version and mode */
+  uint8_t  stratum=0;        /* peer stratum */
+  uint8_t  ppoll=4;          /* peer poll interval */
+  int8_t  precision=0;      /* peer clock precision */
+  uint32_t    rootdelay=0;      /* distance to primary clock */
+  uint32_t    rootdispersion=0; /* clock dispersion */
+  uint32_t refid=0;          /* reference clock ID */
   l_fp    ref;        /* time peer clock was last updated */
   l_fp    org;            /* originate time stamp */
   l_fp    rec;            /* receive time stamp */
   l_fp    xmt;            /* transmit time stamp */
 
-  uint32_t exten[1];       /* misused */
-  uint8_t  mac[5 * sizeof(uint32_t)]; /* mac */
+  uint32_t exten[1] = {0};       /* misused */
+  uint8_t  mac[5 * sizeof(uint32_t)] = {0}; /* mac */
 };
 
 const int nServersCount = 162;
@@ -342,10 +337,10 @@ int64_t DoReq(SOCKET sockfd, socklen_t servlen, struct sockaddr cliaddr) {
 #ifdef WIN32
     u_long nOne = 1;
     if (ioctlsocket(sockfd, FIONBIO, &nOne) == SOCKET_ERROR) {
-        printf("ConnectSocket() : ioctlsocket non-blocking setting failed, error %d\n", WSAGetLastError());
+        LogPrintf("ConnectSocket() : ioctlsocket non-blocking setting failed, error %d\n", WSAGetLastError());
 #else
     if (fcntl(sockfd, F_SETFL, O_NONBLOCK) == SOCKET_ERROR) {
-        printf("ConnectSocket() : fcntl non-blocking setting failed, error %d\n", errno);
+        LogPrintf("ConnectSocket() : fcntl non-blocking setting failed, error %d\n", errno);
 #endif
         return -2;
     }
@@ -356,25 +351,9 @@ int64_t DoReq(SOCKET sockfd, socklen_t servlen, struct sockaddr cliaddr) {
     time_t seconds_transmit;
     int len = 48;
 
-    msg->li_vn_mode=227;
-    msg->stratum=0;
-    msg->ppoll=4;
-    msg->precision=0;
-    msg->rootdelay=0;
-    msg->rootdispersion=0;
-
-    msg->ref.Ul_i.Xl_i=0;
-    msg->ref.Ul_f.Xl_f=0;
-    msg->org.Ul_i.Xl_i=0;
-    msg->org.Ul_f.Xl_f=0;
-    msg->rec.Ul_i.Xl_i=0;
-    msg->rec.Ul_f.Xl_f=0;
-    msg->xmt.Ul_i.Xl_i=0;
-    msg->xmt.Ul_f.Xl_f=0;
-
     int retcode = sendto(sockfd, (char *) msg, len, 0, &cliaddr, servlen);
     if (retcode < 0) {
-        printf("sendto() failed: %d\n", retcode);
+        LogPrintf("sendto() failed: %d\n", retcode);
         seconds_transmit = -3;
         goto _end;
     }
@@ -385,7 +364,7 @@ int64_t DoReq(SOCKET sockfd, socklen_t servlen, struct sockaddr cliaddr) {
 
     retcode = select(sockfd + 1, &fdset, NULL, NULL, &timeout);
     if (retcode <= 0) {
-        printf("recvfrom() error\n");
+        LogPrintf("recvfrom() error\n");
         seconds_transmit = -4;
         goto _end;
     }
@@ -436,13 +415,120 @@ int64_t NtpGetTime(const std::string &strHostName)
     return nTime;
 }
 
+int64_t NtpGetTime() {
+    struct sockaddr cliaddr;
+
+    SOCKET sockfd;
+    socklen_t servlen;
+
+    if (!InitWithRandom(sockfd, servlen, &cliaddr))
+        return -1;
+
+    CNetAddr(((sockaddr_in *)&cliaddr)->sin_addr);
+    int64_t nTime = DoReq(sockfd, servlen, cliaddr);
+
+    CloseSocket(sockfd);
+
+    return nTime;
+}
+
 // NTP server, which we unconditionally trust. This may be your own installation of ntpd somewhere, for example. 
 // "localhost" means "trust no one"
 std::string strTrustedUpstream = "localhost";
 
 // Current offset
-int64_t nNtpOffset = INT64_MAX;
+int64_t nNtpOffset = std::numeric_limits<int64_t>::max();
 
 int64_t GetNtpOffset() {
     return nNtpOffset;
+}
+
+void ThreadNtpSamples() {
+    const int64_t nMaxOffset = 86400; // Not a real limit, just sanity threshold (offset is 1 day)
+
+    LogPrintf("Trying to find NTP server at localhost...\n");
+
+    std::string strLocalHost = "127.0.0.1";
+    if (NtpGetTime(strLocalHost) == GetTime()) {
+        LogPrintf("There is NTP server active at localhost,  we don't need NTP thread.\n");
+
+        nNtpOffset = 0;
+        return;
+    }
+
+    LogPrintf("ThreadNtpSamples started\n");
+    vnThreadsRunning[THREAD_NTP]++;
+
+    // Make this thread recognisable as time synchronization thread
+    RenameThread("sequence-ntp-samples");
+
+    CMedianFilter<int64_t> vTimeOffsets(200,0);
+
+    while (!ShutdownRequested()) {
+        if (strTrustedUpstream != "localhost") {
+            // Trying to get new offset sample from trusted NTP server.
+            int64_t nClockOffset = NtpGetTime(strTrustedUpstream) - GetTime();
+
+            if (llabs(nClockOffset) < nMaxOffset) {
+                // Everything seems right, remember new trusted offset.
+                LogPrintf("ThreadNtpSamples: new offset sample from %s, offset=%u.\n", strTrustedUpstream.c_str(), nClockOffset);
+                nNtpOffset = nClockOffset;
+            }
+            else {
+                // Something went wrong, disable trusted offset sampling.
+                nNtpOffset = std::numeric_limits<int64_t>::max();
+                strTrustedUpstream = "localhost";
+
+                int nSleepMinutes = 1 + GetRandInt(9); // Sleep for 1-10 minutes.
+                for (int i = 0; i < nSleepMinutes * 60 && !ShutdownRequested(); i++)
+                    MilliSleep(1000);
+
+                continue;
+            }
+        }
+        else {
+            // Now, trying to get 2-4 samples from random NTP servers.
+            int nSamplesCount = 2 + GetRandInt(2);
+
+            for (int i = 0; i < nSamplesCount; i++) {
+                CNetAddr ip;
+                int64_t nClockOffset = NtpGetTime(ip) - GetTime();
+
+                if (llabs(nClockOffset) < nMaxOffset) { // Skip the deliberately wrong timestamps
+                    LogPrintf("ThreadNtpSamples: new offset sample from %s, offset=%u\n", ip.ToString().c_str(), nClockOffset);
+                    vTimeOffsets.input(nClockOffset);
+                }
+            }
+
+            if (vTimeOffsets.size() > 1) {
+                nNtpOffset = vTimeOffsets.median();
+            }
+            else {
+                // Not enough offsets yet, try to collect additional samples later.
+                nNtpOffset = std::numeric_limits<int64_t>::max();
+                int nSleepMinutes = 1 + GetRandInt(4); // Sleep for 1-5 minutes.
+                for (int i = 0; i < nSleepMinutes * 60 && !ShutdownRequested(); i++) 
+                    MilliSleep(1000);
+                continue;
+            }
+        }
+
+        if (GetNodesOffset() == std::numeric_limits<int64_t>::max() && std::llabs(nNtpOffset) > 40 * 60)
+        {
+            // If there is not enough node offsets data and NTP time offset is greater than 40 minutes then give a warning.
+            std::string strMessage("Warning: Please check that your computer's date and time are correct! If your clock is wrong Sequence will not work properly.");
+            strMiscWarning = strMessage;
+            LogPrintf("*** %s\n", strMessage.c_str());
+            uiInterface.ThreadSafeMessageBox(strMessage+" ", std::string("Sequence"), CClientUIInterface::BTN_OK | CClientUIInterface::ICON_WARNING);
+        }
+
+        LogPrintf("nNtpOffset = %u (+%u minutes)\n", nNtpOffset, nNtpOffset/60);
+
+        int nSleepHours = 1 + GetRandInt(5); // Sleep for 1-6 hours.
+        for (int i = 0; i < nSleepHours * 3600 && !ShutdownRequested(); i++)
+            MilliSleep(1000);
+    }
+
+    vnThreadsRunning[THREAD_NTP]--;
+    LogPrintf("ThreadNtpSamples exited\n");
 }
