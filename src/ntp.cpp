@@ -4,6 +4,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "init.h"
+#include "net.h"
 #include "netbase.h"
 #include "timedata.h"
 #include "threadsafety.h"
@@ -346,10 +347,10 @@ int64_t DoReq(SOCKET sockfd, socklen_t servlen, struct sockaddr cliaddr) {
 #ifdef WIN32
     u_long nOne = 1;
     if (ioctlsocket(sockfd, FIONBIO, &nOne) == SOCKET_ERROR) {
-        LogPrintf("ConnectSocket() : ioctlsocket non-blocking setting failed, error %d\n", WSAGetLastError());
+        printf("ConnectSocket() : ioctlsocket non-blocking setting failed, error %d\n", WSAGetLastError());
 #else
     if (fcntl(sockfd, F_SETFL, O_NONBLOCK) == SOCKET_ERROR) {
-        LogPrintf("ConnectSocket() : fcntl non-blocking setting failed, error %d\n", errno);
+        printf("ConnectSocket() : fcntl non-blocking setting failed, error %d\n", errno);
 #endif
         return -2;
     }
@@ -362,7 +363,7 @@ int64_t DoReq(SOCKET sockfd, socklen_t servlen, struct sockaddr cliaddr) {
 
     int retcode = sendto(sockfd, (char *) msg, len, 0, &cliaddr, servlen);
     if (retcode < 0) {
-        LogPrintf("sendto() failed: %d\n", retcode);
+        printf("sendto() failed: %d\n", retcode);
         seconds_transmit = -3;
         goto _end;
     }
@@ -373,7 +374,7 @@ int64_t DoReq(SOCKET sockfd, socklen_t servlen, struct sockaddr cliaddr) {
 
     retcode = select(sockfd + 1, &fdset, NULL, NULL, &timeout);
     if (retcode <= 0) {
-        LogPrintf("recvfrom() error\n");
+        printf("recvfrom() error\n");
         seconds_transmit = -4;
         goto _end;
     }
@@ -455,17 +456,17 @@ int64_t GetNtpOffset() {
 void ThreadNtpSamples() {
     const int64_t nMaxOffset = 86400; // Not a real limit, just sanity threshold (offset is 1 day)
 
-    LogPrintf("Trying to find NTP server at localhost...\n");
+    printf("Trying to find NTP server at localhost...\n");
 
     std::string strLocalHost = "127.0.0.1";
     if (NtpGetTime(strLocalHost) == GetTime()) {
-        LogPrintf("There is NTP server active at localhost,  we don't need NTP thread.\n");
+        printf("There is NTP server active at localhost,  we don't need NTP thread.\n");
 
         nNtpOffset = 0;
         return;
     }
 
-    LogPrintf("ThreadNtpSamples started\n");
+    printf("ThreadNtpSamples started\n");
     vnThreadsRunning[THREAD_NTP]++;
 
     // Make this thread recognisable as time synchronization thread
@@ -480,7 +481,7 @@ void ThreadNtpSamples() {
 
             if (llabs(nClockOffset) < nMaxOffset) {
                 // Everything seems right, remember new trusted offset.
-                LogPrintf("ThreadNtpSamples: new offset sample from %s, offset=%u.\n", strTrustedUpstream.c_str(), nClockOffset);
+                printf("ThreadNtpSamples: new offset sample from %s, offset=%lld.\n", strTrustedUpstream.c_str(), nClockOffset);
                 nNtpOffset = nClockOffset;
             }
             else {
@@ -504,7 +505,7 @@ void ThreadNtpSamples() {
                 int64_t nClockOffset = NtpGetTime(ip) - GetTime();
 
                 if (llabs(nClockOffset) < nMaxOffset) { // Skip the deliberately wrong timestamps
-                    LogPrintf("ThreadNtpSamples: new offset sample from %s, offset=%u\n", ip.ToString().c_str(), nClockOffset);
+                    printf("ThreadNtpSamples: new offset sample from %s, offset=%lld\n", ip.ToString().c_str(), nClockOffset);
                     vTimeOffsets.input(nClockOffset);
                 }
             }
@@ -527,11 +528,11 @@ void ThreadNtpSamples() {
             // If there is not enough node offsets data and NTP time offset is greater than 40 minutes then give a warning.
             std::string strMessage("Warning: Please check that your computer's date and time are correct! If your clock is wrong Sequence will not work properly.");
             strMiscWarning = strMessage;
-            LogPrintf("*** %s\n", strMessage.c_str());
+            printf("*** %s\n", strMessage.c_str());
             uiInterface.ThreadSafeMessageBox(strMessage+" ", std::string("Sequence"), CClientUIInterface::BTN_OK | CClientUIInterface::ICON_WARNING);
         }
 
-        LogPrintf("nNtpOffset = %u (+%u minutes)\n", nNtpOffset, nNtpOffset/60);
+        printf("nNtpOffset = %lld (+%lld minutes)\n", nNtpOffset, nNtpOffset/60);
 
         int nSleepHours = 1 + GetRandInt(5); // Sleep for 1-6 hours.
         for (int i = 0; i < nSleepHours * 3600 && !ShutdownRequested(); i++)
@@ -539,5 +540,5 @@ void ThreadNtpSamples() {
     }
 
     vnThreadsRunning[THREAD_NTP]--;
-    LogPrintf("ThreadNtpSamples exited\n");
+    printf("ThreadNtpSamples exited\n");
 }
