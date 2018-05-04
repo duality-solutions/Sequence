@@ -8,9 +8,10 @@
 #define SEQUENCE_TIMEDATA_H
 
 #include <algorithm>
-#include <assert.h>
-#include <stdint.h>
+#include <cassert>
 #include <vector>
+
+static const int64_t DEFAULT_MAX_TIME_ADJUSTMENT = 70 * 60;
 
 class CNetAddr;
 
@@ -73,6 +74,7 @@ public:
 /** Functions to keep track of adjusted P2P time */
 int64_t GetTimeOffset();
 int64_t GetAdjustedTime();
+int64_t GetNodesOffset();
 void AddTimeData(const CNetAddr& ip, int64_t nTime);
 
 #endif // SEQUENCE_TIMEDATA_H
