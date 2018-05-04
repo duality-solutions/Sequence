@@ -1,75 +1,300 @@
-Sequence 1.1.0.0
-=====================
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-Intro
+[![Stories in Ready](https://badge.waffle.io/Duality-Solutions/Sequence.png?label=ready&title=Ready)](https://waffle.io/Duality-Solutions/Sequence)
+[![Build Status](https://travis-ci.org/Duality-Solutions/Sequence.png?branch=master)](https://travis-ci.org/Duality-Solutions/Sequence)
+
+Graph on Pull Request History
+====================================
+
+[![Throughput Graph](https://graphs.waffle.io/Duality-Solutions/Sequence/throughput.svg)](https://waffle.io/Duality-Solutions/Sequence/metrics/throughput)
+
+# **[Sequence(SEQ)](https://duality.solutions/sequence) v1.1.0.0**
+
+![SEQ logo](https://github.com/Duality-Solutions/Sequence/blob/master/src/qt/res/icons/sequence-128.png)
+
+**Copyright (c) 2016-2018 Duality Blockchain Solutions**
+
+#### What is [Sequence?](https://duality.solutions/sequence)
+----------------
+* Coin Suffix: SEQ
+* PoW Algorithm: Scrypt
+* PoW Period: 10,000 Blocks
+* PoW Target Spacing: 60 Seconds 
+* PoW Difficulty Retarget: 10 Blocks 
+* PoW Reward per Block: 0 SEQ
+* Full Confirmation: 10 Blocks
+* PoS Algorithm: Blake2b
+* PoS Target Spacing: 64 Seconds 
+* PoS Difficulty Retarget: 10 Blocks 
+* PoS Reward: 2 SEQ
+* PoS Min: 1 Hour
+* PoS Max: Unlimited
+* Total Coins: 2<sup>63</sup> - 1
+* Block Size: 4MB
+* Min TX Fee: 0.001 SEQ
+
+[Sequence(SEQ)](https://duality.solutions/sequence/) is [Duality’s](https://duality.solutions/) tokenized-asset that provides collateral value for [Dynamic(DYN)](https://duality.solutions/dynamic) and ensures market independence through supply control. Given its collateral role within the ecosystem, [Sequence(SEQ)](https://duality.solutions/sequence/) allows for a new cooperative style of banking to emerge between [Dynamic(DYN)](https://duality.solutions/dynamic) and [Sequence(SEQ)](https://duality.solutions/sequence/)) holders.
+
+[Sequence(SEQ)](https://duality.solutions/sequence/) has static Proof-of-Stake (PoS) rewards therefore the growth model is disinflationary. Given the current circulatory supply and a yearly increase of ±1 million Sequence(SEQ)](https://duality.solutions/sequence/) , the current ROI is projected at about 2.2% and is disinflationary.
+
+[Sequence(SEQ)](https://duality.solutions/sequence/) may be used to increase redundancy in information, a supporting role to [Dynamic(DYN)](https://duality.solutions/dynamic) in offering BaaS. The main function of [Sequence(SEQ)](https://duality.solutions/sequence/) is for it to be used as a collateral asset to preserve independence of value to [Duality](https://duality.solutions/) and the [Dynamic(DYN)](https://duality.solutions/dynamic chain.
+
+**MainNet Parameters**
+P2P Port = 16662
+RPC Port = 16663
+
+
+**TestNet Parameters**
+P2P Port = 16664
+RPC Port = 16665
+
+
+UNIX BUILD NOTES
+====================
+Some notes on how to build [Sequence](https://duality.solutions/sequence/) in Unix. 
+
+Building requirements for Unix based Systems :  3GB
+
+Note
 ---------------------
-The Sequence(SEQ) blockchain exists in the Duality binary architecture as an asset and in turn for [Dynamic(DYN)](https://github.com/duality-solutions/dynamic) is its real world interface.
+Always use absolute paths to configure and compile [Sequence](https://duality.solutions/sequence/) and the dependencies,
+for example, when specifying the the path of the dependency:
 
-Sequence is a digital currency that enables instant payments to anyone, anywhere in the world. Sequence uses peer-to-peer technology to operate with no central authority (decentralisation): managing transactions and issuing currency (SEQ) are carried out collectively by the Sequence network. Sequence is the name of open source software which enables the use of the currency SEQ.
+    ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$BDB_PREFIX
 
-Setup
+Here BDB_PREFIX must absolute path - it is defined using $(pwd) which ensures
+the usage of the absolute path.
+
+To Build
 ---------------------
-[Sequence](http://github.com/duality-solutions/sequence) is the original Sequence client and it builds the backbone of the network. However, it downloads and stores the entire history of Sequence transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more. Thankfully you only have to do this once. If you would like the process to go faster you can [download the blockchain directly](bootstrap.md).
 
-Running
+```bash
+./autogen.sh
+./configure
+make
+make install # optional
+```
+
+This will build sequence-qt as well if the dependencies are met.
+
+Dependencies
 ---------------------
-The following are some helpful notes on how to run Sequence on your native platform.
 
-### Unix
+These dependencies are required:
 
-You need the Qt4 run-time libraries to run Sequence-Qt. On Debian or Ubuntu:
+ Library     | Purpose          | Description
+ ------------|------------------|----------------------
+ libssl      | SSL Support      | Secure communications
+ libboost    | Boost            | C++ Library
 
-	sudo apt-get install libqtgui4
+Optional dependencies:
 
-Unpack the files into a directory and run:
+ Library     | Purpose          | Description
+ ------------|------------------|----------------------
+ miniupnpc   | UPnP Support     | Firewall-jumping support
+ libdb4.8    | Berkeley DB      | Wallet storage (only needed when wallet enabled)
+ qt          | GUI              | GUI toolkit (only needed when GUI enabled)
+ protobuf    | Payments in GUI  | Data interchange format used for payment protocol (only needed when GUI enabled)
+ libqrencode | QR codes in GUI  | Optional for generating QR codes (only needed when GUI enabled)
 
-- bin/32/sequence-qt (GUI, 32-bit) or bin/32/sequenced (headless, 32-bit)
-- bin/64/sequence-qt (GUI, 64-bit) or bin/64/sequenced (headless, 64-bit)
+For the versions used in the release, see [release-process.md](release-process.md) under *Fetch and build inputs*.
+
+System requirements
+--------------------
+
+C++ compilers are memory-hungry. It is recommended to have at least 1 GB of
+memory available when compiling Sequence. With 512MB of memory or less
+compilation will take much longer due to swap thrashing.
+
+Dependency Build Instructions: Ubuntu & Debian
+----------------------------------------------
+Build requirements:
+
+    sudo apt-get install git build-essential libtool autotools-dev autoconf pkg-config libssl-dev libcrypto++-dev libevent-dev
+    
+for Ubuntu 12.04 and later or Debian 7 and later libboost-all-dev has to be installed:
+
+    sudo apt-get install libboost-all-dev
+
+ db4.8 packages are available [here](https://launchpad.net/~bitcoin/+archive/ubuntu/bitcoin).
+ You can add the repository using the following command:
+
+        sudo add-apt-repository ppa:bitcoin/bitcoin
+        sudo apt-get update
+
+ Ubuntu 12.04 and later have packages for libdb5.1-dev and libdb5.1++-dev,
+ but using these will break binary wallet compatibility, and is not recommended.
+
+for Debian 7 (Wheezy) and later:
+ The oldstable repository contains db4.8 packages.
+ Add the following line to /etc/apt/sources.list,
+ replacing [mirror] with any official debian mirror.
+
+    deb http://[mirror]/debian/ oldstable main
+
+To enable the change run
+
+    sudo apt-get update
+
+for other Debian & Ubuntu (with ppa):
+
+    sudo apt-get install libdb4.8-dev libdb4.8++-dev
+
+Optional:
+
+    sudo apt-get install libminiupnpc-dev (see --with-miniupnpc and --enable-upnp-default)
+
+Dependencies for the GUI: Ubuntu & Debian
+-----------------------------------------
+
+If you want to build Sequence-Qt, make sure that the required packages for Qt development
+are installed. Qt 5 is necessary to build the GUI.
+If both Qt 4 and Qt 5 are installed, Qt 5 will be used. Pass `--with-gui=qt5` to configure to choose Qt5.
+To build without GUI pass `--without-gui`.
+
+For Qt 5 you need the following:
+
+    sudo apt-get install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libcrypto++-dev
+
+libqrencode (optional) can be installed with:
+
+    sudo apt-get install libqrencode-dev
+
+Once these are installed, they will be found by configure and a sequence-qt executable will be
+built by default.
+
+Notes
+-----
+The release is built with GCC and then "strip sequenced" to strip the debug
+symbols, which reduces the executable size by about 90%.
 
 
+miniupnpc
+---------
 
-### Windows
+[miniupnpc](http://miniupnp.free.fr/) may be used for UPnP port mapping.  It can be downloaded from [here](
+http://miniupnp.tuxfamily.org/files/).  UPnP support is compiled in and
+turned off by default.  See the configure options for upnp behavior desired:
 
-Unpack the files into a directory, and then run sequence-qt.exe.
+    --without-miniupnpc      No UPnP support miniupnp not required
+    --disable-upnp-default   (the default) UPnP support turned off by default at runtime
+    --enable-upnp-default    UPnP support turned on by default at runtime
 
-### OSX
+To build:
 
-Drag Sequence-Qt to your applications folder, and then run Sequence-Qt.
+    tar -xzvf miniupnpc-1.6.tar.gz
+    cd miniupnpc-1.6
+    make
+    sudo su
+    make install
 
-### Need Help?
 
-* Ask for help on the [BitcoinTalk](https://bitcointalk.org/) forums.
+Berkeley DB
+-----------
+It is recommended to use Berkeley DB 4.8. If you have to build it yourself:
 
-Building
----------------------
-The following are developer notes on how to build Sequence on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
+```bash
+SEQUENCE_ROOT=$(pwd)
 
-- [OSX Build Notes](build-osx.md)
-- [Unix Build Notes](build-unix.md)
+# Pick some path to install BDB to, here we create a directory within the sequence directory
+BDB_PREFIX="${SEQUENCE_ROOT}/db4"
+mkdir -p $BDB_PREFIX
 
-Development
----------------------
-The Sequence repo's [root README](https://github.com/duality-solutions/sequence/blob/master/README.md) contains relevant information on the development process and automated testing.
+# Fetch the source and verify that it is not tampered with
+wget 'http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz'
+echo '12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef  db-4.8.30.NC.tar.gz' | sha256sum -c
+# -> db-4.8.30.NC.tar.gz: OK
+tar -xzvf db-4.8.30.NC.tar.gz
 
-- [Coding Guidelines](coding.md)
-- [Multiwallet Qt Development](multiwallet-qt.md)
-- [Release Notes](release-notes.md)
-- [Release Process](release-process.md)
-- [Source Code Documentation (External Link)](https://dev.visucore.com/sequence/doxygen/) ***TODO***
-- [Translation Process](translation_process.md)
-- [Unit Tests](unit-tests.md)
+# Build the library and install to our prefix
+cd db-4.8.30.NC/build_unix/
+#  Note: Do a static build so that it can be embedded into the exectuable, instead of having to find a .so at runtime
+../dist/configure --prefix=/usr/local --enable-cxx
+make 
+sudo make install
 
-### Resources
-* Discuss on the [BitcoinTalk](https://bitcointalk.org/) forums, in the Development & Technical Discussion board.
+# Configure Sequence to use our own-built instance of BDB
+cd $SEQUENCE_ROOT
+./configure (other args...) LDFLAGS="-L${BDB_PREFIX}/lib/" CPPFLAGS="-I${BDB_PREFIX}/include/"
+```
 
-### Miscellaneous
-- [Assets Attribution](assets-attribution.md)
-- [Files](files.md)
-- [Tor Support](tor.md)
-- [Init Scripts (systemd/upstart/openrc)](init.md)
+**Note**: You only need Berkeley DB if the wallet is enabled (see the section *Disable-Wallet mode* below).
 
-License
----------------------
-Distributed under the [MIT/X11 software license](http://www.opensource.org/licenses/mit-license.php).
-This product includes software developed by the OpenSSL Project for use in the [OpenSSL Toolkit](https://www.openssl.org/). This product includes
-cryptographic software written by Eric Young ([eay@cryptsoft.com](mailto:eay@cryptsoft.com)), and UPnP software written by Thomas Bernard.
+Boost
+-----
+If you need to build Boost yourself:
+
+    sudo su
+    ./bootstrap.sh
+    ./bjam install
+
+
+Security
+--------
+To help make your Sequence installation more secure by making certain attacks impossible to
+exploit even if a vulnerability is found, binaries are hardened by default.
+This can be disabled with:
+
+Hardening Flags:
+
+    ./configure --enable-hardening
+    ./configure --disable-hardening
+
+
+Hardening enables the following features:
+
+* Position Independent Executable
+    Build position independent code to take advantage of Address Space Layout Randomization
+    offered by some kernels. An attacker who is able to cause execution of code at an arbitrary
+    memory location is thwarted if he doesn't know where anything useful is located.
+    The stack and heap are randomly located by default but this allows the code section to be
+    randomly located as well.
+
+    On an Amd64 processor where a library was not compiled with -fPIC, this will cause an error
+    such as: "relocation R_X86_64_32 against `......' can not be used when making a shared object;"
+
+    To test that you have built PIE executable, install scanelf, part of paxutils, and use:
+
+        scanelf -e ./sequenced
+
+    The output should contain:
+     TYPE
+    ET_DYN
+
+* Non-executable Stack
+    If the stack is executable then trivial stack based buffer overflow exploits are possible if
+    vulnerable buffers are found. By default, sequence should be built with a non-executable stack
+    but if one of the libraries it uses asks for an executable stack or someone makes a mistake
+    and uses a compiler extension which requires an executable stack, it will silently build an
+    executable without the non-executable stack protection.
+
+    To verify that the stack is non-executable after compiling use:
+    `scanelf -e ./sequenced`
+
+    the output should contain:
+    STK/REL/PTL
+    RW- R-- RW-
+
+    The STK RW- means that the stack is readable and writeable but not executable.
+
+Disable-wallet mode
+--------------------
+When the intention is to run only a P2P node without a wallet, sequence may be compiled in
+disable-wallet mode with:
+
+    ./configure --disable-wallet
+
+In this case there is no dependency on Berkeley DB 4.8.
+
+Mining is also possible in disable-wallet mode, but only using the `getblocktemplate` RPC
+call not `getwork`.
+
+Example Build Command
+--------------------
+Qt Wallet and Deamon, CLI version build:
+
+    ./autogen.sh && ./configure --with-gui=qt5 && make
+
+CLI and Deamon Only Buld:
+
+    ./autogen.sh && ./configure --without-gui && make
