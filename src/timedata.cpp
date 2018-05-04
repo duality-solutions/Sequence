@@ -6,22 +6,20 @@
 
 #include "timedata.h"
 
-#include "net.h"
+#include "netbase.h"
 #include "sync.h"
 #include "ui_interface.h"
 #include "util.h"
 #include "utilstrencodings.h"
 
 
+using namespace std;
+
+#define SEQUENCE_TIMEDATA_MAX_SAMPLES 200
+
+static volatile int64_t nTimeOffset =  0;
+static volatile int nUpdCount   = ~0;
 static CCriticalSection cs_nTimeOffset;
-static int64_t nTimeOffset = 0;
-extern int64_t nNtpOffset;
-static int64_t nNodesOffset = std::numeric_limits<int64_t>::max();
-
-int64_t GetNodesOffset() {
-    return nNodesOffset;
-}
-
 /**
  * "Never go to sea with two chronometers; take one or three."
  * Our three time sources are:
@@ -29,21 +27,15 @@ int64_t GetNodesOffset() {
  *  - Median of other nodes clocks
  *  - The user (asking the user to fix the system clock if the first two disagree)
  */
-
-static int64_t abs64(int64_t n)
-{
-    return (n >= 0 ? n : -n);
-}
-
 int64_t GetTimeOffset()
 {
-    LOCK(cs_nTimeOffset);
-    
-    // If NTP and system clock are in agreement within 40 minutes, then use NTP.
-    if (abs64(nNtpOffset) < 40 * 60)
-        return nNtpOffset;
-
-    return nTimeOffset;
+    int64_t offset;
+    int     cnt1;
+    do {
+        cnt1    = nUpdCount;
+        offset  = nTimeOffset;
+    } while(cnt1 != nUpdCount || cnt1 > 0);
+    return offset;
 }
 
 int64_t GetAdjustedTime()
@@ -51,20 +43,27 @@ int64_t GetAdjustedTime()
     return GetTime() + GetTimeOffset();
 }
 
-#define DYNAMIC_TIMEDATA_MAX_SAMPLES 200
+static int64_t abs64(int64_t n)
+{
+    return (n >= 0 ? n : -n);
+}
 
-void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
+
+void AddTimeData(const CNetAddr& ip, int64_t nTime)
 {
     LOCK(cs_nTimeOffset);
     // Ignore duplicates
+
     static std::set<CNetAddr> setKnown;
-    if (setKnown.size() == DYNAMIC_TIMEDATA_MAX_SAMPLES)
+    if (setKnown.size() == SEQUENCE_TIMEDATA_MAX_SAMPLES)
         return;
     if (!setKnown.insert(ip).second)
         return;
 
+    int64_t nOffsetSample = nTime - GetTime();
+    
     // Add data
-    static CMedianFilter<int64_t> vTimeOffsets(DYNAMIC_TIMEDATA_MAX_SAMPLES, 0);
+    static CMedianFilter<int64_t> vTimeOffsets(SEQUENCE_TIMEDATA_MAX_SAMPLES, 0);
     vTimeOffsets.input(nOffsetSample);
     LogPrint("net","added time data, samples %d, offset %+d (%+d minutes)\n", vTimeOffsets.size(), nOffsetSample, nOffsetSample/60);
 
@@ -90,7 +89,7 @@ void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
         int64_t nMedian = vTimeOffsets.median();
         std::vector<int64_t> vSorted = vTimeOffsets.sorted();
         // Only let other nodes change our time by so much
-        if (abs64(nMedian) <= std::max<int64_t>(0, GetArg("-maxtimeadjustment", DEFAULT_MAX_TIME_ADJUSTMENT)))
+        if (abs64(nMedian) < 70 * 60)
         {
             nTimeOffset = nMedian;
         }
@@ -103,24 +102,30 @@ void AddTimeData(const CNetAddr& ip, int64_t nOffsetSample)
             {
                 // If nobody has a time different than ours but within 5 minutes of ours, give a warning
                 bool fMatch = false;
-                for (int64_t nOffset : vSorted)
+                for(int64_t nOffset : vSorted)
                     if (nOffset != 0 && abs64(nOffset) < 5 * 60)
                         fMatch = true;
 
                 if (!fMatch)
                 {
                     fDone = true;
-                    std::string strMessage = _("Please check that your computer's date and time are correct! If your clock is wrong Sequence will not work properly.");
+                    string strMessage = _("Please check that your computer's date and time are correct! If your clock is wrong Sequence will not work properly.");
                     strMiscWarning = strMessage;
                     uiInterface.ThreadSafeMessageBox(strMessage, "", CClientUIInterface::MSG_WARNING);
                 }
             }
         }
-        
-        for (int64_t n : vSorted)
+ 
+
+        // Lock-free update nTimeOffset
+        nUpdCount = -nUpdCount;
+        nTimeOffset = nMedian;
+        nUpdCount = ~nUpdCount | 0xe0000000;    
+
+        for(int64_t n : vSorted)
             LogPrint("net", "%+d  ", n);
         LogPrint("net", "|  ");
         
         LogPrint("net", "nTimeOffset = %+d  (%+d minutes)\n", nTimeOffset, nTimeOffset/60);
     }
-}
+} // void AddTimeData
