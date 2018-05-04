@@ -86,6 +86,7 @@ CAddrMan addrman;
 int nMaxConnections = DEFAULT_MAX_PEER_CONNECTIONS;
 bool fAddressesInitialized = false;
 std::string strSubVersion;
+boost::array<int, 10> vnThreadsRunning;
 
 vector<CNode*> vNodes;
 CCriticalSection cs_vNodes;
