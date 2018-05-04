@@ -3,16 +3,25 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "init.h"
+#include "netbase.h"
+#include "timedata.h"
+#include "threadsafety.h"
+#include "utiltime.h"
+#include "ui_interface.h"
+
+#ifdef WIN32
+#include <winsock2.h>
+#else
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#endif
 #ifndef WIN32
 #include <unistd.h>
 #endif
-
-#include "netbase.h"
-#include "net.h"
-#include "ui_interface.h"
-#include "timedata.h"
-#include "utiltime.h"
-#include "init.h"
 
 extern int GetRandInt(int nMax);
 
