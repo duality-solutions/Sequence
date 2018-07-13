@@ -25,7 +25,7 @@
 #ifdef OS_WIN
 #include <windows.h>
 #endif
-#ifdef __APPLE__
+#ifdef OS_MACOSX
 #include <libkern/OSAtomic.h>
 #endif
 
@@ -54,7 +54,7 @@ namespace port {
 #define LEVELDB_HAVE_MEMORY_BARRIER
 
 // Mac OS
-#elif defined(__APPLE__)
+#elif defined(OS_MACOSX)
 inline void MemoryBarrier() {
   OSMemoryBarrier();
 }
