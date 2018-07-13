@@ -21,9 +21,8 @@
 # The PLATFORM_CCFLAGS and PLATFORM_CXXFLAGS might include the following:
 #
 #       -DLEVELDB_ATOMIC_PRESENT     if <atomic> is present
-#       -DLEVELDB_PLATFORM_POSIX=1   for Posix-based platforms
-#       -DHAVE_CRC32C=1              if the CRC32C library is present
-#       -DHAVE_SNAPPY=1              if the Snappy library is present
+#       -DLEVELDB_PLATFORM_POSIX     for Posix-based platforms
+#       -DSNAPPY                     if the Snappy library is present
 #
 
 OUTPUT=$1
@@ -62,7 +61,7 @@ PLATFORM_LDFLAGS=
 PLATFORM_LIBS=
 PLATFORM_SHARED_EXT="so"
 PLATFORM_SHARED_LDFLAGS="-shared -Wl,-soname -Wl,"
-PLATFORM_SHARED_CFLAGS="-fPIC -fvisibility=hidden"
+PLATFORM_SHARED_CFLAGS="-fPIC"
 PLATFORM_SHARED_VERSIONED=true
 
 MEMCMP_FLAG=
@@ -81,7 +80,7 @@ case "$TARGET_OS" in
         ;;
     Darwin)
         PLATFORM=OS_MACOSX
-        COMMON_FLAGS="$MEMCMP_FLAG"
+        COMMON_FLAGS="$MEMCMP_FLAG -DOS_MACOSX"
         PLATFORM_SHARED_EXT=dylib
         [ -z "$INSTALL_PATH" ] && INSTALL_PATH=`pwd`
         PLATFORM_SHARED_LDFLAGS="-dynamiclib -install_name $INSTALL_PATH/"
@@ -125,7 +124,7 @@ case "$TARGET_OS" in
         ;;
     OS_ANDROID_CROSSCOMPILE)
         PLATFORM=OS_ANDROID
-        COMMON_FLAGS="$MEMCMP_FLAG -D_REENTRANT -DOS_ANDROID -DLEVELDB_PLATFORM_POSIX=1"
+        COMMON_FLAGS="$MEMCMP_FLAG -D_REENTRANT -DOS_ANDROID -DLEVELDB_PLATFORM_POSIX"
         PLATFORM_LDFLAGS=""  # All pthread features are in the Android C library
         PORT_FILE=port/port_posix.cc
         CROSS_COMPILE=true
@@ -140,7 +139,7 @@ case "$TARGET_OS" in
         ;;
     IOS)
         PLATFORM=IOS
-        COMMON_FLAGS="$MEMCMP_FLAG"
+        COMMON_FLAGS="$MEMCMP_FLAG -DOS_MACOSX"
         [ -z "$INSTALL_PATH" ] && INSTALL_PATH=`pwd`
         PORT_FILE=port/port_posix.cc
         PLATFORM_SHARED_EXT=
@@ -148,8 +147,15 @@ case "$TARGET_OS" in
         PLATFORM_SHARED_CFLAGS=
         PLATFORM_SHARED_VERSIONED=
         ;;
-    *)
-        echo "Unknown platform!" >&2
+    OS_WINDOWS_CROSSCOMPILE | NATIVE_WINDOWS)
+        PLATFORM=OS_WINDOWS
+        COMMON_FLAGS="-fno-builtin-memcmp -D_REENTRANT -DOS_WINDOWS -DLEVELDB_PLATFORM_WINDOWS -DWINVER=0x0500 -D__USE_MINGW_ANSI_STDIO=1"
+        PLATFORM_SOURCES="util/env_win.cc"
+        PLATFORM_LIBS="-lshlwapi"
+        PORT_FILE=port/port_win.cc
+        CROSS_COMPILE=true
+        ;;
+    *)        echo "Unknown platform!" >&2
         exit 1
 esac
 
@@ -185,32 +191,20 @@ else
       int main() {}
 EOF
     if [ "$?" = 0 ]; then
-        COMMON_FLAGS="$COMMON_FLAGS -DLEVELDB_PLATFORM_POSIX=1 -DLEVELDB_ATOMIC_PRESENT"
+        COMMON_FLAGS="$COMMON_FLAGS -DLEVELDB_PLATFORM_POSIX -DLEVELDB_ATOMIC_PRESENT"
         PLATFORM_CXXFLAGS="-std=c++0x"
     else
-        COMMON_FLAGS="$COMMON_FLAGS -DLEVELDB_PLATFORM_POSIX=1"
+        COMMON_FLAGS="$COMMON_FLAGS -DLEVELDB_PLATFORM_POSIX"
     fi
-
-    # Test whether CRC32C library is installed
-    # https://github.com/google/crc32c
-    $CXX $CXXFLAGS -x c++ - -o $CXXOUTPUT 2>/dev/null  <<EOF
-      #include <crc32c/crc32c.h>
-      int main() {}
-EOF
-    if [ "$?" = 0 ]; then
-        COMMON_FLAGS="$COMMON_FLAGS -DHAVE_CRC32C=1"
-        PLATFORM_LIBS="$PLATFORM_LIBS -lcrc32c"
-    fi
-
 
     # Test whether Snappy library is installed
-    # https://github.com/google/snappy
+    # http://code.google.com/p/snappy/
     $CXX $CXXFLAGS -x c++ - -o $CXXOUTPUT 2>/dev/null  <<EOF
       #include <snappy.h>
       int main() {}
 EOF
     if [ "$?" = 0 ]; then
-        COMMON_FLAGS="$COMMON_FLAGS -DHAVE_SNAPPY=1"
+        COMMON_FLAGS="$COMMON_FLAGS -DSNAPPY"
         PLATFORM_LIBS="$PLATFORM_LIBS -lsnappy"
     fi
 
@@ -221,8 +215,6 @@ EOF
     if [ "$?" = 0 ]; then
         PLATFORM_LIBS="$PLATFORM_LIBS -ltcmalloc"
     fi
-
-    rm -f $CXXOUTPUT 2>/dev/null
 
     rm -f $CXXOUTPUT 2>/dev/null
 fi
