@@ -19,18 +19,17 @@
 #define STORAGE_LEVELDB_INCLUDE_CACHE_H_
 
 #include <stdint.h>
-#include "leveldb/export.h"
 #include "leveldb/slice.h"
 
 namespace leveldb {
 
-class LEVELDB_EXPORT Cache;
+class Cache;
 
 // Create a new cache with a fixed size capacity.  This implementation
 // of Cache uses a least-recently-used eviction policy.
-LEVELDB_EXPORT Cache* NewLRUCache(size_t capacity);
+extern Cache* NewLRUCache(size_t capacity);
 
-class LEVELDB_EXPORT Cache {
+class Cache {
  public:
   Cache() { }
 

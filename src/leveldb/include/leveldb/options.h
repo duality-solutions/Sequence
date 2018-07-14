@@ -6,7 +6,6 @@
 #define STORAGE_LEVELDB_INCLUDE_OPTIONS_H_
 
 #include <stddef.h>
-#include "leveldb/export.h"
 
 namespace leveldb {
 
@@ -29,7 +28,7 @@ enum CompressionType {
 };
 
 // Options to control the behavior of a database (passed to DB::Open)
-struct LEVELDB_EXPORT Options {
+struct Options {
   // -------------------
   // Parameters that affect behavior
 
@@ -159,7 +158,7 @@ struct LEVELDB_EXPORT Options {
 };
 
 // Options that control read operations
-struct LEVELDB_EXPORT ReadOptions {
+struct ReadOptions {
   // If true, all data read from underlying storage will be
   // verified against corresponding checksums.
   // Default: false
@@ -185,7 +184,7 @@ struct LEVELDB_EXPORT ReadOptions {
 };
 
 // Options that control write operations
-struct LEVELDB_EXPORT WriteOptions {
+struct WriteOptions {
   // If true, the write will be flushed from the operating system
   // buffer cache (by calling WritableFile::Sync()) before the write
   // is considered complete.  If this flag is true, writes will be

@@ -17,13 +17,12 @@
 #define STORAGE_LEVELDB_INCLUDE_FILTER_POLICY_H_
 
 #include <string>
-#include "leveldb/export.h"
 
 namespace leveldb {
 
 class Slice;
 
-class LEVELDB_EXPORT FilterPolicy {
+class FilterPolicy {
  public:
   virtual ~FilterPolicy();
 
@@ -64,7 +63,8 @@ class LEVELDB_EXPORT FilterPolicy {
 // ignores trailing spaces, it would be incorrect to use a
 // FilterPolicy (like NewBloomFilterPolicy) that does not ignore
 // trailing spaces in keys.
-LEVELDB_EXPORT const FilterPolicy* NewBloomFilterPolicy(int bits_per_key);
+extern const FilterPolicy* NewBloomFilterPolicy(int bits_per_key);
+
 }
 
 #endif  // STORAGE_LEVELDB_INCLUDE_FILTER_POLICY_H_

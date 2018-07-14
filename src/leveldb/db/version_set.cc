@@ -20,7 +20,7 @@
 
 namespace leveldb {
 
-static int TargetFileSize(const Options* options) {
+static size_t TargetFileSize(const Options* options) {
   return options->max_file_size;
 }
 
@@ -925,10 +925,6 @@ Status VersionSet::Recover(bool *save_manifest) {
   SequentialFile* file;
   s = env_->NewSequentialFile(dscname, &file);
   if (!s.ok()) {
-    if (s.IsNotFound()) {
-      return Status::Corruption(
-            "CURRENT points to a non-existent file", s.ToString());
-    }
     return s;
   }
 
@@ -1397,6 +1393,13 @@ void VersionSet::SetupOtherInputs(Compaction* c) {
   if (level + 2 < config::kNumLevels) {
     current_->GetOverlappingInputs(level + 2, &all_start, &all_limit,
                                    &c->grandparents_);
+  }
+
+  if (false) {
+    Log(options_->info_log, "Compacting %d '%s' .. '%s'",
+        level,
+        smallest.DebugString().c_str(),
+        largest.DebugString().c_str());
   }
 
   // Update the place where we will do the next compaction for this level.
