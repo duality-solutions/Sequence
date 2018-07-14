@@ -47,7 +47,7 @@ class RecoveryTest {
     db_ = NULL;
   }
 
-  Status OpenWithStatus(Options* options = NULL) {
+  void Open(Options* options = NULL) {
     Close();
     Options opts;
     if (options != NULL) {
@@ -59,11 +59,7 @@ class RecoveryTest {
     if (opts.env == NULL) {
       opts.env = env_;
     }
-    return DB::Open(opts, dbname_, &db_);
-  }
-
-  void Open(Options* options = NULL) {
-    ASSERT_OK(OpenWithStatus(options));
+    ASSERT_OK(DB::Open(opts, dbname_, &db_));
     ASSERT_EQ(1, NumLogs());
   }
 
@@ -102,10 +98,6 @@ class RecoveryTest {
       ASSERT_OK(env_->DeleteFile(LogName(logs[i]))) << LogName(logs[i]);
     }
     return logs.size();
-  }
-
-  void DeleteManifestFile() {
-    ASSERT_OK(env_->DeleteFile(ManifestFileName()));
   }
 
   uint64_t FirstLogFile() {
@@ -323,15 +315,6 @@ TEST(RecoveryTest, MultipleLogFiles) {
   ASSERT_EQ("bar2", Get("foo"));
   ASSERT_EQ("world", Get("hello"));
   ASSERT_EQ("there", Get("hi"));
-}
-
-TEST(RecoveryTest, ManifestMissing) {
-  ASSERT_OK(Put("foo", "bar"));
-  Close();
-  DeleteManifestFile();
-
-  Status status = OpenWithStatus();
-  ASSERT_TRUE(status.IsCorruption());
 }
 
 }  // namespace leveldb

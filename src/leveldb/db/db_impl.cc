@@ -414,7 +414,7 @@ Status DBImpl::RecoverLogFile(uint64_t log_number, bool last_log,
          status.ok()) {
     if (record.size() < 12) {
       reporter.Corruption(
-          record.size(), Status::Corruption("log record too small"));
+          record.size(), Status::Corruption("log record too small", fname));
       continue;
     }
     WriteBatchInternal::SetContents(&batch, record);
@@ -1537,15 +1537,15 @@ Snapshot::~Snapshot() {
 Status DestroyDB(const std::string& dbname, const Options& options) {
   Env* env = options.env;
   std::vector<std::string> filenames;
-  Status result = env->GetChildren(dbname, &filenames);
-  if (!result.ok()) {
-    // Ignore error in case directory does not exist
+  // Ignore error in case directory does not exist
+  env->GetChildren(dbname, &filenames);
+  if (filenames.empty()) {
     return Status::OK();
   }
 
   FileLock* lock;
   const std::string lockname = LockFileName(dbname);
-  result = env->LockFile(lockname, &lock);
+  Status result = env->LockFile(lockname, &lock);
   if (result.ok()) {
     uint64_t number;
     FileType type;
