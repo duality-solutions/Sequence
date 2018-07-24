@@ -3,13 +3,20 @@
 
 **Sequence v1.2.0.0**
 
+* Cleanup checkpoint data
+* Add checkpoints
+* Add unsupported-ssl to configure.ac
+* Update BigNum
+* Update timedata/ti/tinyformat
+* Update ntp.cpp/h
+* Removed exec flags where unneeded
 * Fix Send Confirmation Window
 * Bump Proto/Version
 * Copyrights
 * Make fee more for splitblock
 * Remove CLIENT_DATE and cleanup
 * Remove MultiSigUI
-* Update LevelDB to 1.20
+* Update LevelDB to 1.20 + add SSE4.2 flags
 * Update Icons for Sequence
 * Update CHANGELOG
 
