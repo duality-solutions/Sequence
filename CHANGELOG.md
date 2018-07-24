@@ -7,7 +7,7 @@
 * Add checkpoints
 * Add unsupported-ssl to configure.ac
 * Update BigNum
-* Update timedata/ti/tinyformat
+* Update timedata/tinyformat
 * Update ntp.cpp/h
 * Removed exec flags where unneeded
 * Fix Send Confirmation Window
