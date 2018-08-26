@@ -1,6 +1,11 @@
 **Sequence CHANGELOG**
 -------------------------
 
+**Sequence v1.3.0.0**
+
+* Add protocol check for vout structure
+
+
 **Sequence v1.2.0.0**
 
 * Cleanup checkpoint data
