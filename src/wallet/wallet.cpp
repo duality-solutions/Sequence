@@ -2665,27 +2665,27 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
         
         if (PROTOCOL_VERSION >= 70200) // New wallets do not remove the fee.
         {
-        // Set output amount
-        if (txNew.vout.size() == 3)
-        {
-        CAmount vout1 = nCredit / 4 + GetRand(nCredit / 2);
-            txNew.vout[1].nValue = (vout1 / CENT) * CENT;
-            txNew.vout[2].nValue = nCredit - txNew.vout[1].nValue;
+            // Set output amount
+            if (txNew.vout.size() == 3)
+            {
+            CAmount vout1 = nCredit / 4 + GetRand(nCredit / 2);
+                txNew.vout[1].nValue = (vout1 / CENT) * CENT;
+                txNew.vout[2].nValue = nCredit - txNew.vout[1].nValue;
+            }
+            else
+                txNew.vout[1].nValue = nCredit;
         }
-        else
-            txNew.vout[1].nValue = nCredit;
-        }
-        else if PROTOCOL_VERSION <= 70100 // Old wallets still remove the fee
+        else if (PROTOCOL_VERSION <= 70100) // Old wallets still remove the fee
         {
-        // Set output amount
-        if (txNew.vout.size() == 3)
-        {
-        CAmount vout1 = nCredit / 4 + GetRand(nCredit / 2);
-            txNew.vout[1].nValue = (vout1 / CENT) * CENT;
-            txNew.vout[2].nValue = nCredit - nMinFee - txNew.vout[1].nValue;
-        }
-        else
-            txNew.vout[1].nValue = nCredit - nMinFee;
+            // Set output amount
+            if (txNew.vout.size() == 3)
+            {
+            CAmount vout1 = nCredit / 4 + GetRand(nCredit / 2);
+                txNew.vout[1].nValue = (vout1 / CENT) * CENT;
+                txNew.vout[2].nValue = nCredit - nMinFee - txNew.vout[1].nValue;
+            }
+            else
+                txNew.vout[1].nValue = nCredit - nMinFee;
         }
 
         // Sign
