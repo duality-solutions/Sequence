@@ -8,11 +8,11 @@ Graph on Pull Request History
 
 [![Throughput Graph](https://graphs.waffle.io/Duality-Solutions/Sequence/throughput.svg)](https://waffle.io/Duality-Solutions/Sequence/metrics/throughput)
 
-# **Sequence (SEQ) v1.1.0.0**
+# **Sequence (SEQ) v1.2.0.0**
 
 ![SEQ logo](https://github.com/Duality-Solutions/Sequence/blob/master/src/qt/res/icons/sequence-128.png)
 
-**Copyright (c) 2016-2017 Duality Blockchain Solutions**
+**Copyright (c) 2016-2018 Duality Blockchain Solutions**
 
 #### What is Sequence?
 ----------------

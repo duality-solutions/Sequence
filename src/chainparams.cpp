@@ -1,6 +1,6 @@
-// Copyright (c) 2009-2017 Satoshi Nakamoto
-// Copyright (c) 2009-2017 The Bitcoin Developers
-// Copyright (c) 2016-2017 Duality Blockchain Solutions Developers
+// Copyright (c) 2009-2018 Satoshi Nakamoto
+// Copyright (c) 2009-2018 The Bitcoin Developers
+// Copyright (c) 2016-2018 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -180,7 +180,15 @@ public:
 	        { 160000, uint256("0x62cf48b78e93ef09d60c83da6da1c7b3dfa6602126e36d6756706124d2fb730b")},
 	        { 200000, uint256("0xf6c0823bdede95bf0819929aa7ee5df69abccbde96a36211694312af84516b75")},
             { 250000, uint256("0x27169d874b66cd0e04a8aa74266b0da6509cfca7aa33b80178c2873cc6e98a27")},
-            { 300000, uint256("0x4a4d4577efb1c4b8b40ddf1c9f9ae1e5c793ce102ec997772098559ae4beb299")}},
+            { 300000, uint256("0x4a4d4577efb1c4b8b40ddf1c9f9ae1e5c793ce102ec997772098559ae4beb299")},
+            { 300000, uint256("0x4a4d4577efb1c4b8b40ddf1c9f9ae1e5c793ce102ec997772098559ae4beb299")},
+            { 350000, uint256("0x01cb11b24fcd803cb08cad1ef76fa58630bf96cc35b27afff9f7c13ac59d16ba")},
+            { 400000, uint256("0x500b462147e9027e3df7f73fcdceff5e2d69387974d57122206c5d0ac93897bc")},
+            { 450000, uint256("0x8aeed3a0cd730b6a98846814218bc487df8945f32adec1ede5fccf1cea7d13c9")},
+            { 500000, uint256("0xcea3405dcc8c1d1dd8db491e7416a97e7f9307b5e25dc47ff2b3627a87d06f55")},
+            { 600000, uint256("0xe1864e72fcef390582ab20dea399403aacd4421315fbb9e9551ffc8e1d97ff13")},
+            { 700000, uint256("0x158da4c6a3470a468d5990f5189a631ef546f9c9eb434525db4da19ee8d217e4")},
+            { 800000, uint256("0xb4e464c02a962cdc66955d368adb00b97c3ee86bad5026e9c04536049fd8da56")}},
             1486676814, // * UNIX timestamp of last checkpoint block
             0,          // * total number of transactions between genesis and last checkpoint
 						  //   (the tx=... number in the SetBestChain debug.log lines)

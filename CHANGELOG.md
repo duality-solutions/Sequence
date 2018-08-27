@@ -1,7 +1,27 @@
-# **Sequence Changelog**
+**Sequence CHANGELOG**
 -------------------------
 
-**v1.1.0.0**
+**Sequence v1.2.0.0**
+
+* Cleanup checkpoint data
+* Add checkpoints
+* Add unsupported-ssl to configure.ac
+* Update BigNum
+* Update timedata/tinyformat
+* Update ntp.cpp/h
+* Removed exec flags where unneeded
+* Fix Send Confirmation Window
+* Bump Proto/Version
+* Copyrights
+* Make fee more for splitblock
+* Remove CLIENT_DATE and cleanup
+* Remove MultiSigUI
+* Update LevelDB to 1.20 + add SSE4.2 flags
+* Update Icons for Sequence
+* Update CHANGELOG
+
+
+**Sequence v1.1.0.0**
 
 * Fix sequence.conf read on daemon first launch
 * Overall UI Improvements
@@ -47,9 +67,10 @@
 * Make RelayWalletTransaction attempt to AcceptToMemoryPool.
 * Locking for Misbehave() and other cs_main locking fixes
 * Update Stake Icon to show useful accurate information
+* Update CHANGELOG
 
 
-**v1.0.0.0**
+** Sequence v1.0.0.0**
 
 * Fix and re-enable ResetSyncCheckpoint()
 * Fix checkpoint locks
@@ -146,5 +167,6 @@
 * Update Sequence readme.
 * Updates PRT.
 * Adds issue template to repo.
+* Update CHANGELOG
 
 ** Initial Fork from Emercoin 
