@@ -2663,6 +2663,8 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
         if (nCredit >= GetStakeSplitThreshold())
             txNew.vout.push_back(CTxOut(0, txNew.vout[1].scriptPubKey)); //split stake
 
+        const Consensus::Params& consensusParams = Params().GetConsensus();
+
         if (PROTOCOL_VERSION >= 70200 && block.nVersion >= 3 && IsSuperMajority(3, pindex->pprev, consensusParams.nEnforceBlockUpgradeMajority, consensusParams)) // New wallets do not remove the fee
         {
             // Set output amount
