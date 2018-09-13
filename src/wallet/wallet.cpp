@@ -2657,39 +2657,38 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     }
 
     CAmount nMinFee = 0;
+    const Consensus::Params& consensusParams = Params().GetConsensus();
+    const CBlockIndex* pindex = chainActive.Tip();
     while(true)
     {
         // Split Stake
         if (nCredit >= GetStakeSplitThreshold())
             txNew.vout.push_back(CTxOut(0, txNew.vout[1].scriptPubKey)); //split stake
 
-        const Consensus::Params& consensusParams = Params().GetConsensus();
-
-        if (PROTOCOL_VERSION >= 70200 && block.nVersion >= 3 && IsSuperMajority(3, pindex->pprev, consensusParams.nEnforceBlockUpgradeMajority, consensusParams)) // New wallets do not remove the fee
+        if (PROTOCOL_VERSION >= 70200 && pindex->pprev->nVersion >= 3 && IsSuperMajority(3, pindex->pprev, consensusParams.nEnforceBlockUpgradeMajority, consensusParams)) // New wallets do not remove the fee
         {
             // Set output amount
             if (txNew.vout.size() == 3)
             {
-            CAmount vout1 = nCredit / 4 + GetRand(nCredit / 2);
+                CAmount vout1 = nCredit / 4 + GetRand(nCredit / 2);
                 txNew.vout[1].nValue = (vout1 / CENT) * CENT;
                 txNew.vout[2].nValue = nCredit - txNew.vout[1].nValue;
             }
             else
                 txNew.vout[1].nValue = nCredit;
         }
-        else if (PROTOCOL_VERSION <= 70100 && block.nVersion <= 2 && IsSuperMajority(2, pindex->pprev, consensusParams.nEnforceBlockUpgradeMajority, consensusParams)) // Old wallets still remove the fee
+        else if (PROTOCOL_VERSION <= 70100 && pindex->pprev->nVersion <= 2 && IsSuperMajority(2, pindex->pprev, consensusParams.nEnforceBlockUpgradeMajority, consensusParams)) // Old wallets still remove the fee
         {
             // Set output amount
             if (txNew.vout.size() == 3)
             {
-            CAmount vout1 = nCredit / 4 + GetRand(nCredit / 2);
+                CAmount vout1 = nCredit / 4 + GetRand(nCredit / 2);
                 txNew.vout[1].nValue = (vout1 / CENT) * CENT;
                 txNew.vout[2].nValue = nCredit - nMinFee - txNew.vout[1].nValue;
             }
             else
                 txNew.vout[1].nValue = nCredit - nMinFee;
         }
-
         // Sign
         int nIn = 0;
         for(const CWalletTx* pcoin : vwtxPrev)
