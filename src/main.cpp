@@ -92,7 +92,18 @@ void EraseOrphansFor(NodeId peer);
  * Returns true if there are nRequired or more blocks of minVersion or above
  * in the last Consensus::Params::nMajorityWindow blocks, starting at pstart and going backwards.
  */
-static bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned nRequired, const Consensus::Params& consensusParams);
+bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned nRequired, const Consensus::Params& consensusParams)
+{
+    unsigned int nFound = 0;
+    for (int i = 0; i < Params().GetConsensus().nToCheckBlockUpgradeMajority && nFound < nRequired && pstart != NULL; i++)
+    {
+        if (pstart->nVersion >= minVersion)
+            ++nFound;
+        pstart = pstart->pprev;
+    }
+    return (nFound >= nRequired);
+}
+
 static void CheckBlockIndex(const Consensus::Params& consensusParams);
 
 CHooks* hooks = InitHook(); //this adds namecoin hooks which allow splicing of code inside standart sequence functions.
@@ -3142,18 +3153,6 @@ bool AcceptBlock(CBlock& block, CValidationState& state, const CChainParams& cha
     CheckpointsSync::AcceptPendingSyncCheckpoint();
 
     return true;
-}
-
-static bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned nRequired, const Consensus::Params& consensusParams)
-{
-    unsigned int nFound = 0;
-    for (int i = 0; i < Params().GetConsensus().nToCheckBlockUpgradeMajority && nFound < nRequired && pstart != NULL; i++)
-    {
-        if (pstart->nVersion >= minVersion)
-            ++nFound;
-        pstart = pstart->pprev;
-    }
-    return (nFound >= nRequired);
 }
 
 extern CWallet* pwalletMain;

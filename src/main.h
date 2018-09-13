@@ -132,6 +132,7 @@ static const int64_t nMaxClockDrift = 15 * 60; // 15 minute drift
 /** ppcoin values */
 extern std::string strMintWarning;
 
+bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned nRequired, const Consensus::Params& consensusParams);
 
 struct BlockHasher
 {
