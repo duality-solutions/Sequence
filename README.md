@@ -14,7 +14,7 @@ Graph on Pull Request History
 
 **Copyright (c) 2016-2018 Duality Blockchain Solutions**
 
-#### What is Sequence?
+#### What is [Sequence](https://duality.solutions/sequence)?
 ----------------
 * Coin Suffix: SEQ
 * PoW Algorithm: Scrypt
@@ -33,9 +33,9 @@ Graph on Pull Request History
 * Block Size: 4MB
 * Min TX Fee: 0.001 SEQ
 
-Sequence(SEQ) functions in many ways like Bitcoin(BTC) as a true decentralized autonomous currency. While Duality Blockchain Solutions lays claim to the blockchain, they do so to deploy a binary blockchain architecture in order to move price fluctuations away from [Dynamic(DYN)] and to Sequence(SEQ). Duality Blockchain Solutions does not have any control over the circulating supply and holds no pre-mined Sequence(SEQ).
+[Sequence(SEQ)](https://duality.solutions/sequence) functions in many ways like Bitcoin(BTC) as a true decentralized autonomous currency. While [Duality Blockchain Solutions](https://duality.solutions/) lays claim to the blockchain, they do so to deploy a binary blockchain architecture in order to move price fluctuations away from [Dynamic(DYN)](https://duality.solutions/dynamic) and to [Sequence(SEQ)](https://duality.solutions/sequence). [Duality Blockchain Solutions](https://duality.solutions/) does not have any control over the circulating supply and holds no pre-mined [Sequence(SEQ)](https://duality.solutions/sequence).
 
-Sequence is a digital currency that enables instant payments to anyone, anywhere in the world. Sequence uses peer-to-peer technology to operate with no central authority (decentralisation): managing transactions and issuing currency (SEQ) are carried out collectively by the Sequence network. Sequence is the name of open source software which enables the use of the currency SEQ.
+[Sequence(SEQ)](https://duality.solutions/sequence) is a digital currency that enables instant payments to anyone, anywhere in the world. [Sequence(SEQ)](https://duality.solutions/sequence) uses peer-to-peer technology to operate with no central authority (decentralisation): managing transactions and issuing currency [(SEQ)](https://duality.solutions/sequence) are carried out collectively by the [Sequence](https://duality.solutions/sequence) network. [Sequence](https://duality.solutions/sequence) is the name of open source software which enables the use of the currency [SEQ](https://duality.solutions/sequence).
 
 
 
@@ -51,7 +51,7 @@ RPC Port = 16665
 
 UNIX BUILD NOTES
 ====================
-Some notes on how to build Sequence in Unix. 
+Some notes on how to build [Sequence](https://duality.solutions/sequence) in Unix. 
 
 Building requirements for Unix based Systems :  3GB
 
