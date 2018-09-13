@@ -3,11 +3,11 @@
 
 **Sequence v1.3.0.0**
 
-* Add protocol check for vout structure
 * Update ReadMe
 * Add soft-fork via IsSuperMajority for fee indiscrepency 
 * Increase Block Version to 3
 * Remove unneeded sections from the Information tab in Tools Window
+
 
 **Sequence v1.2.0.0**
 
