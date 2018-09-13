@@ -2665,7 +2665,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
         if (nCredit >= GetStakeSplitThreshold())
             txNew.vout.push_back(CTxOut(0, txNew.vout[1].scriptPubKey)); //split stake
 
-        if (pindex->pprev->nVersion >= 3 && IsSuperMajority(3, pindex->pprev, consensusParams.nEnforceBlockUpgradeMajority, consensusParams)) // New wallets do not remove the fee
+        if (pindex->pprev->nVersion >= 3 && IsSuperMajority(3, pindex->pprev, consensusParams.nEnforceBlockUpgradeMajority, consensusParams)) // Once Majority of network is on block version 3 the wallets do not remove the fee
         {
             // Set output amount
             if (txNew.vout.size() == 3)
@@ -2677,7 +2677,7 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
             else
                 txNew.vout[1].nValue = nCredit;
         }
-        else if (pindex->pprev->nVersion <= 2 && IsSuperMajority(2, pindex->pprev, consensusParams.nEnforceBlockUpgradeMajority, consensusParams)) // Old wallets still remove the fee
+        else if (pindex->pprev->nVersion <= 2 && IsSuperMajority(2, pindex->pprev, consensusParams.nEnforceBlockUpgradeMajority, consensusParams)) // Whilst Majority is block version 2 the wallets still remove the fee
         {
             // Set output amount
             if (txNew.vout.size() == 3)
