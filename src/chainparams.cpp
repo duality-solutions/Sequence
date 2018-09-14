@@ -115,9 +115,9 @@ public:
         strNetworkID = "main";
         consensus.bnProofOfWorkLimit = ~uint256(0) >> 26;
         consensus.bnProofOfStakeLimit = ~uint256(0) >> 26;
-        consensus.nEnforceBlockUpgradeMajority = 750;
-        consensus.nRejectBlockOutdatedMajority = 950;
-        consensus.nToCheckBlockUpgradeMajority = 1000;
+        consensus.nEnforceBlockUpgradeMajority = 3544;
+        consensus.nRejectBlockOutdatedMajority = 4489;
+        consensus.nToCheckBlockUpgradeMajority = 4725;
         consensus.nMinerThreads = 0;
         consensus.nTargetSpacingMax = 1 * 64;     // 64 second max spacing target
         consensus.nPoWTargetSpacing = 1 * 60;     // 60 seconds PoW Target
