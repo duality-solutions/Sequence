@@ -3,7 +3,7 @@
 
 **Sequence v1.3.0.0**
 
-* Update ReadMe
+* Update ReadMe to include URL's
 * Add soft-fork via IsSuperMajority for fee indiscrepency 
 * Increase Block Version to 3
 * Remove unneeded sections from the Information tab in Tools Window
