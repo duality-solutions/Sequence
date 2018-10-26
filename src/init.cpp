@@ -1486,7 +1486,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     // Generate coins in the background
     if (pwalletMain)
         GenerateSequences(GetBoolArg("-gen", DEFAULT_GENERATE), pwalletMain, GetArg("-genproclimit", DEFAULT_GENERATE_THREADS), chainparams);
-    if (GetBoolArg("-stakegen", true))
+    if (GetBoolArg("-stakegen", true) && !(GetBoolArg("-disablewallet", false)))
         MintStake(threadGroup, pwalletMain);
 #endif
 
