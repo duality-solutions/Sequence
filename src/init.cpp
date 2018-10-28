@@ -175,8 +175,8 @@ void PrepareShutdown()
     if (pwalletMain)
         bitdb.Flush(false);
     ShutdownRPCMining();
-#endif
     GenerateSequences(false, NULL, 0, Params());
+#endif
     StopNode();
 	StopTorControl();
 
