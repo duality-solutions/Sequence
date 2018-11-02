@@ -188,7 +188,7 @@ public:
             { 500000, uint256("0xcea3405dcc8c1d1dd8db491e7416a97e7f9307b5e25dc47ff2b3627a87d06f55")},
             { 600000, uint256("0xe1864e72fcef390582ab20dea399403aacd4421315fbb9e9551ffc8e1d97ff13")},
             { 700000, uint256("0x158da4c6a3470a468d5990f5189a631ef546f9c9eb434525db4da19ee8d217e4")},
-            { 800000, uint256("0xb4e464c02a962cdc66955d368adb00b97c3ee86bad5026e9c04536049fd8da56")}},
+            { 800000, uint256("0xb4e464c02a962cdc66955d368adb00b97c3ee86bad5026e9c04536049fd8da56")},
             { 1000000, uint256("0xb46ea7186fb30958b641c70c6b4d9084df2090738b2d32ebf38378f61144848d")}},
             1538059657, // * UNIX timestamp of last checkpoint block
             0,          // * total number of transactions between genesis and last checkpoint
