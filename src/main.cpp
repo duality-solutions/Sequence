@@ -2984,13 +2984,8 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, bool fProofOfStake, C
     const Consensus::Params& consensusParams = Params().GetConsensus();
     int nHeight = pindexPrev->nHeight+1;
  
-    if(Params().NetworkIDString() == CBaseChainParams::TESTNET) {
-    if (block.nBits != GetNextTargetRequired(pindexPrev, fProofOfStake, consensusParams))
-        return state.DoS(100, error("%s : incorrect proof of work at %d", __func__, nHeight),
-                            REJECT_INVALID, "bad-diffbits");
-    } else {
-    if (block.nBits != GetNextTargetRequired(pindexPrev, fProofOfStake, consensusParams))
-        return state.DoS(100, error("%s : incorrect proof of work at %d", __func__, nHeight),
+    if (block.nBits != GetNextTargetRequired(pindexPrev, fProofOfStake, consensusParams)) {
+        return state.DoS(100, error("%s : incorrect proof of %s at %d", __func__, fProofOfStake ? "stake" : "work", nHeight),
                         REJECT_INVALID, "bad-diffbits");
     }
  
