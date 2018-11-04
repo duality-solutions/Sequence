@@ -394,8 +394,10 @@ CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProo
         pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
 
         CValidationState state;
-        if (!TestBlockValidity(state, *pblock, pindexPrev, false, false, false)) // Sequence: we do not check block signature here, since we did not sign it yet
-            throw std::runtime_error("CreateNewBlock() : TestBlockValidity failed");
+        if (!TestBlockValidity(state, *pblock, pindexPrev, false, false, false)) { // Sequence: we do not check block signature here, since we did not sign it yet
+            fPoSCancel = true;
+            return NULL;
+        }
     }
 
     return pblocktemplate.release();
