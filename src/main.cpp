@@ -958,6 +958,14 @@ CAmount GetMinRelayFee(const CTransaction& tx, unsigned int nBytes, bool fAllowF
     return nMinFee;
 }
 
+/** Convert CValidationState to a human-readable message for logging */
+std::string FormatStateMessage(const CValidationState &state)
+{
+    return strprintf("%s%s (code %i)",
+        state.GetRejectReason(),
+        state.GetDebugMessage().empty() ? "" : ", "+state.GetDebugMessage(),
+        state.GetRejectCode());
+}
 
 bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransaction &tx, bool fLimitFree,
                         bool* pfMissingInputs, bool fRejectInsaneFee, bool fDryRun)
@@ -1846,13 +1854,14 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     const CChainParams& chainparams = Params();
     const Consensus::Params& consensusParams = Params().GetConsensus();
 
-    if (!ppcoinContextualBlockChecks(block, state, pindex, fJustCheck))
-        return false;
+    // Check PoS and compute stake modifier if we did not do that earlier
+    if (pindex->nStakeModifier == 0 && pindex->nStakeModifierChecksum == 0 && !ppcoinContextualBlockChecks(block, state, pindex, fJustCheck))
+        return error("%s: Consensus::ppcoinContextualBlockChecks failed: %s", __func__, FormatStateMessage(state));
 
     AssertLockHeld(cs_main);
     // Check it again in case a previous version let a bad block in
     if (!CheckBlock(block, state, !fJustCheck, !fJustCheck, !fJustCheck))
-        return false;
+        return error("%s: Consensus::CheckBlock: CheckBlock failed.%s", __func__, FormatStateMessage(state));
 
     // verify that the view's current state corresponds to the previous block
     uint256 hashPrevBlock = pindex->pprev == NULL ? uint256(0) : pindex->pprev->GetBlockHash();
@@ -3094,7 +3103,8 @@ bool AcceptBlockHeader(const CBlockHeader& block, bool fProofOfStake, CValidatio
     return true;
 }
 
-bool AcceptBlock(CBlock& block, CValidationState& state, const CChainParams& chainparams, CBlockIndex** ppindex, CDiskBlockPos* dbp)
+/** Store block on disk. If dbp is non-NULL, the file is known to already reside on disk */
+bool AcceptBlock(CBlock& block, CValidationState& state, const CChainParams& chainparams, CBlockIndex** ppindex, CDiskBlockPos* dbp, bool fLoadFromFile)
 {
     AssertLockHeld(cs_main);
 
@@ -3118,11 +3128,10 @@ bool AcceptBlock(CBlock& block, CValidationState& state, const CChainParams& cha
     }
 
     // ppcoin: check that the block satisfies synchronized checkpoint
-    if (!CheckpointsSync::CheckSync(pindex->GetBlockHash(), pindex->pprev))
+    if (!CheckpointsSync::CheckSync(pindex->GetBlockHash(), pindex->pprev, fLoadFromFile))
         return error("AcceptBlock() : rejected by synchronized checkpoint");
 
     int nHeight = pindex->nHeight;
-
     const Consensus::Params& consensusParams = Params().GetConsensus();
     if (block.IsProofOfWork() && nHeight > consensusParams.nLastPOWBlock)
         return state.DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
@@ -3151,7 +3160,7 @@ bool AcceptBlock(CBlock& block, CValidationState& state, const CChainParams& cha
 }
 
 extern CWallet* pwalletMain;
-bool ProcessNewBlock(CValidationState &state, const CChainParams& chainparams, CNode* pfrom, CBlock* pblock, CDiskBlockPos *dbp)
+bool ProcessNewBlock(CValidationState &state, const CChainParams& chainparams, CNode* pfrom, CBlock* pblock, CDiskBlockPos *dbp, bool fLoadFromFile)
 {
     // Preliminary checks
     //bool checked = CheckBlock(*pblock, state); // Sequence: removed, since this check happens later in AcceptBlock function
@@ -3166,7 +3175,7 @@ bool ProcessNewBlock(CValidationState &state, const CChainParams& chainparams, C
         // Store to disk
         CBlockIndex *pindex = NULL;
 
-        bool ret = AcceptBlock(*pblock, state, chainparams, &pindex, dbp);
+        bool ret = AcceptBlock(*pblock, state, chainparams, &pindex, dbp, fLoadFromFile);
         if (pindex && pfrom) {
             mapBlockSource[pindex->GetBlockHash()] = pfrom->GetId();
         }
@@ -3676,7 +3685,7 @@ bool LoadExternalBlockFile(const CChainParams& chainparams, FILE* fileIn, CDiskB
                 // process in case the block isn't known yet
                 if (mapBlockIndex.count(hash) == 0 || (mapBlockIndex[hash]->nStatus & BLOCK_HAVE_DATA) == 0) {
                     CValidationState state;
-                    if (ProcessNewBlock(state, chainparams, NULL, &block, dbp))
+                    if (ProcessNewBlock(state, chainparams, NULL, &block, dbp, true))
                         nLoaded++;
                     if (state.IsError())
                         break;
@@ -3700,7 +3709,7 @@ bool LoadExternalBlockFile(const CChainParams& chainparams, FILE* fileIn, CDiskB
                             LogPrintf("%s: Processing out of order child %s of %s\n", __func__, block.GetHash().ToString(),
                                     head.ToString());
                             CValidationState dummy;
-                            if (ProcessNewBlock(dummy, chainparams, NULL, &block, &it->second))
+                            if (ProcessNewBlock(dummy, chainparams, NULL, &block, &it->second, true))
                             {
                                 nLoaded++;
                                 queue.push_back(block.GetHash());

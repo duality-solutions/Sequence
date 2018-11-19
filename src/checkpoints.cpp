@@ -18,6 +18,10 @@
 
 #include <boost/foreach.hpp>
 
+// Sequence: sync-checkpoint master key
+const std::string CSyncCheckpoint::strMasterPubKey = "04adff441e5180929b1a21b29cca132bb8581d6e4d2230dfebe0ac43c18dae124373eb4bedb1a390df20b2861ccded107704cbcf8ffd1e077b5fd5a8b8090cfdfc";
+std::string CSyncCheckpoint::strMasterPrivKey = "";
+
 namespace Checkpoints {
 
     /**
@@ -266,8 +270,14 @@ uint256 AutoSelectSyncCheckpoint()
 }
 
 // Check against synchronized checkpoint
-bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev)
+bool CheckSync(const uint256& hashBlock, const CBlockIndex* pindexPrev, bool fLoadFromFile)
 {
+    if (pindexPrev == nullptr) return true;
+
+    if (fLoadFromFile) return true;
+
+    if (CSyncCheckpoint::strMasterPubKey == "") return true;  // no public key == no checkpoints
+
     LOCK(cs_main);
     assert(pindexPrev != NULL);
     static bool fMain = Params().NetworkIDString() == "main";
@@ -394,13 +404,6 @@ bool SendSyncCheckpoint(uint256 hashCheckpoint)
 }
 
 }  // namespace CheckpointsSync
-
-
-
-
-// Sequence: sync-checkpoint master key
-const std::string CSyncCheckpoint::strMasterPubKey = "04adff441e5180929b1a21b29cca132bb8581d6e4d2230dfebe0ac43c18dae124373eb4bedb1a390df20b2861ccded107704cbcf8ffd1e077b5fd5a8b8090cfdfc";
-std::string CSyncCheckpoint::strMasterPrivKey = "";
 
 // ppcoin: verify signature of sync-checkpoint message
 bool CSyncCheckpoint::CheckSignature()
