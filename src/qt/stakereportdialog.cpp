@@ -87,14 +87,15 @@ void StakeReportDialog::setModel(WalletModel *model)
         {
             QTimer *timer = new QTimer(this);
             connect(timer, SIGNAL(timeout()), this, SLOT(updateStakeReportTimer()));
-         	connect(ex_model, SIGNAL(balanceChanged(CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount)), this, SLOT(updateStakeReportbalanceChanged(qint64, qint64, qint64, qint64)));
+         	connect(ex_model, SIGNAL(balanceChanged(int64_t,int64_t,int64_t,int64_t,int64_t,int64_t,int64_t,int64_t,int64_t)), this, SLOT(updateStakeReportbalanceChanged(int64_t,int64_t,int64_t,int64_t,int64_t,int64_t,int64_t,int64_t,int64_t)));
 
             timer->start(MODEL_UPDATE_DELAY*5);
         }
     }
 }
 
-void StakeReportDialog::updateStakeReportbalanceChanged(qint64, qint64, qint64, qint64)
+void StakeReportDialog::updateStakeReportbalanceChanged(const int64_t& balance, const int64_t& total, const int64_t& stake, const int64_t& unconfirmedBalance, const int64_t& immatureBalance,
+               const int64_t& watchOnlyBalance, const int64_t& watchOnlyStake, const int64_t& watchUnconfBalance, const int64_t& watchImmatureBalance)
 {
     StakeReportDialog::updateStakeReportNow();
 }

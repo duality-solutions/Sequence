@@ -34,7 +34,8 @@ private slots:
     void updateStakeReportTimer();
 
 public slots:
-    void updateStakeReportbalanceChanged(qint64, qint64, qint64, qint64);
+    void updateStakeReportbalanceChanged(const int64_t& balance, const int64_t& total, const int64_t& stake, const int64_t& unconfirmedBalance, const int64_t& immatureBalance,
+               const int64_t& watchOnlyBalance, const int64_t& watchOnlyStake, const int64_t& watchUnconfBalance, const int64_t& watchImmatureBalance);
     void updateStakeReportNow();
     void updateDisplayUnit(int);
     void CopyAllToClipboard();
