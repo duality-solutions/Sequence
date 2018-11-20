@@ -207,6 +207,7 @@ int GetNumCores();
 
 void SetThreadPriority(int nPriority);
 void RenameThread(const char* name);
+std::string GetThreadName();
 
 /**
  * Standard wrapper for do-something-forever thread functions.

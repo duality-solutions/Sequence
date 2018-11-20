@@ -116,7 +116,7 @@ uint256 CBlock::CheckMerkleBranch(uint256 hash, const std::vector<uint256>& vMer
 unsigned int CBlock::GetStakeEntropyBit() const
 {
     unsigned int nEntropyBit = (GetHash().GetLow64()) & 1llu;// last bit of block hash
-    LogPrintf("GetStakeEntropyBit: nTime=%u hashBlock=%s entropybit=%d\n", nTime, GetHash().ToString(), nEntropyBit);
+    LogPrint("pos", "GetStakeEntropyBit: nTime=%u hashBlock=%s entropybit=%d\n", nTime, GetHash().ToString(), nEntropyBit);
     return nEntropyBit;
 }
 

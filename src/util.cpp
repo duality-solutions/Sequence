@@ -200,25 +200,44 @@ bool LogAcceptCategory(const char* category)
 {
     if (category != NULL)
     {
-        if (!fDebug)
-            return false;
-
         // Give each thread quick access to -debug settings.
         // This helps prevent issues debugging global destructors,
         // where mapMultiArgs might be deleted before another
         // global destructor calls LogPrint()
-        static boost::thread_specific_ptr<set<string> > ptrCategory;
+        static boost::thread_specific_ptr<std::set<std::string> > ptrCategory;
+
+        if (!fDebug) {
+            if (ptrCategory.get() != NULL) {
+                LogPrintf("debug turned off: thread %s\n", GetThreadName());
+                ptrCategory.release();
+            }
+            return false;
+        }
+
         if (ptrCategory.get() == NULL)
         {
-            const vector<string>& categories = mapMultiArgs["-debug"];
-            ptrCategory.reset(new set<string>(categories.begin(), categories.end()));
-            // thread_specific_ptr automatically deletes the set when the thread ends.
+            if (mapMultiArgs.count("-debug")) {
+                std::string strThreadName = GetThreadName();
+                LogPrintf("debug turned on:\n");
+                for (int i = 0; i < (int)mapMultiArgs.at("-debug").size(); ++i)
+                    LogPrintf("  thread %s category %s\n", strThreadName, mapMultiArgs.at("-debug")[i]);
+                const std::vector<std::string>& categories = mapMultiArgs.at("-debug");
+                ptrCategory.reset(new std::set<std::string>(categories.begin(), categories.end()));
+                // thread_specific_ptr automatically deletes the set when the thread ends.
+                // "dynamic" is a composite category enabling all Sequence-related debug output
+                if(ptrCategory->count(std::string("sequence"))) {
+                    ptrCategory->insert(std::string("pos"));
+                }
+            } else {
+                ptrCategory.reset(new std::set<std::string>());
+            }
         }
-        const set<string>& setCategories = *ptrCategory.get();
+        const std::set<std::string>& setCategories = *ptrCategory.get();
 
         // if not debugging everything and not debugging specific category, LogPrint does nothing.
-        if (setCategories.count(string("")) == 0 &&
-            setCategories.count(string(category)) == 0)
+        if (setCategories.count(std::string("")) == 0 &&
+            setCategories.count(std::string("1")) == 0 &&
+            setCategories.count(std::string(category)) == 0)
             return false;
     }
     return true;
@@ -794,6 +813,21 @@ void RenameThread(const char* name)
     // Prevent warnings for unused parameters...
     (void)name;
 #endif
+}
+
+std::string GetThreadName()
+{
+    char name[16];
+#if defined(PR_GET_NAME)
+    // Only the first 15 characters are used (16 - NUL terminator)
+    ::prctl(PR_GET_NAME, name, 0, 0, 0);
+#elif defined(MAC_OSX)
+    pthread_getname_np(pthread_self(), name, 16);
+// #elif (defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__DragonFly__))
+// #else
+    // no get_name here
+#endif
+    return std::string(name);
 }
 
 void SetupEnvironment()
