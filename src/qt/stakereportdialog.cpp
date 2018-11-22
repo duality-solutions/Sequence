@@ -21,6 +21,7 @@
 
 #include <QWidget>
 #include <QDateTime>
+#include <QObject>
 #include <QTimer>
 #include <QClipboard>
 
@@ -87,14 +88,16 @@ void StakeReportDialog::setModel(WalletModel *model)
         {
             QTimer *timer = new QTimer(this);
             connect(timer, SIGNAL(timeout()), this, SLOT(updateStakeReportTimer()));
-         	connect(ex_model, SIGNAL(balanceChanged(CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount)), this, SLOT(updateStakeReportbalanceChanged(qint64, qint64, qint64, qint64)));
+         	connect(model, SIGNAL(balanceChanged(CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount)), this, SLOT(updateStakeReportbalanceChanged(CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount,CAmount)));
 
             timer->start(MODEL_UPDATE_DELAY*5);
         }
     }
 }
 
-void StakeReportDialog::updateStakeReportbalanceChanged(qint64, qint64, qint64, qint64)
+void StakeReportDialog::updateStakeReportbalanceChanged(const CAmount& balance, const CAmount& total, const CAmount& stake, const CAmount& unconfirmedBalance,
+                              const CAmount& immatureBalance, const CAmount& watchOnlyBalance,const CAmount& watchOnlyStake, 
+                              const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance)
 {
     StakeReportDialog::updateStakeReportNow();
 }
