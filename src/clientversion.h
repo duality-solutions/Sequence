@@ -1,6 +1,6 @@
-// Copyright (c) 2009-2018 Satoshi Nakamoto
-// Copyright (c) 2009-2018 The Bitcoin Developers
-// Copyright (c) 2016-2018 Duality Blockchain Solutions Developers
+// Copyright (c) 2009-2019 Satoshi Nakamoto
+// Copyright (c) 2009-2019 The Bitcoin Developers
+// Copyright (c) 2016-2019 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -28,7 +28,7 @@
  * Copyright year (2009-this)
  * Todo: update this when changing our copyright comments in the source
  */
-#define COPYRIGHT_YEAR 2018
+#define COPYRIGHT_YEAR 2019
 
 #endif //HAVE_CONFIG_H
 
