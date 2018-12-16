@@ -33,10 +33,10 @@ Graph on Pull Request History
 * Block Size: 4MB
 * Min TX Fee: 0.001 SEQ
 
-[Sequence(SEQ)](https://duality.solutions/sequence) functions in many ways like Bitcoin(BTC) as a true decentralized autonomous currency. While [Duality Blockchain Solutions](https://duality.solutions/) lays claim to the blockchain, they do so to deploy a binary blockchain architecture in order to move price fluctuations away from [Dynamic(DYN)](https://duality.solutions/dynamic) and to [Sequence(SEQ)](https://duality.solutions/sequence). [Duality Blockchain Solutions](https://duality.solutions/) does not have any control over the circulating supply and holds no pre-mined [Sequence(SEQ)](https://duality.solutions/sequence).
+
+[Sequence(SEQ)](https://duality.solutions/sequence) was developed to provide data redundancy for the BDAP protocol and support the applications created by Duality & third-party developers. Sequence nodes implement static Proof-of-Stake (PoS) rewards in exchange for supporting  the BDAP protocol, applications, blockchain and network.
 
 [Sequence(SEQ)](https://duality.solutions/sequence) is a digital currency that enables instant payments to anyone, anywhere in the world. [Sequence(SEQ)](https://duality.solutions/sequence) uses peer-to-peer technology to operate with no central authority (decentralisation): managing transactions and issuing currency [(SEQ)](https://duality.solutions/sequence) are carried out collectively by the [Sequence](https://duality.solutions/sequence) network. [Sequence](https://duality.solutions/sequence) is the name of open source software which enables the use of the currency [SEQ](https://duality.solutions/sequence).
-
 
 
 **MainNet Parameters**
