@@ -135,10 +135,9 @@ public:
         assert(consensus.hashGenesisBlock == uint256("0x000000251356c62e0aa14c63e2b0db2a05ac0d3316ea5000c797a281be8c9fd7"));
         assert(genesis.hashMerkleRoot == uint256("0x73d6f8c42dfa8c9175b8bf4bf75ebfd10d22b0b6b1a39a82ce0e408447418e4b"));
 
-        vSeeds.push_back(CDNSSeedData("dnsseeder.io", "seq.dnsseeder.io"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.com", "seq.dnsseeder.com"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.host", "seq.dnsseeder.host"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.net", "seq.dnsseeder.net"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.network", "seq-mainnet01.dnsseeder.network"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.network", "seq-mainnet02.dnsseeder.network"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.network", "seq-mainnet03.dnsseeder.network"));
 
         // Sequence PUBKEY_ADDRESS addresses start with 'S'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);
