@@ -27,6 +27,7 @@
 * Add soft-fork via IsSuperMajority for fee indiscrepency 
 * Increase Block Version to 3
 * Remove unneeded sections from the Information tab in Tools Window
+* Add DNS Seeders
 
 
 **Sequence v1.2.0.0**
