@@ -1,6 +1,6 @@
-// Copyright (c) 2009-2018 Satoshi Nakamoto
-// Copyright (c) 2009-2018 The Bitcoin Developers
-// Copyright (c) 2016-2018 Duality Blockchain Solutions Developers
+// Copyright (c) 2009-2019 Satoshi Nakamoto
+// Copyright (c) 2009-2019 The Bitcoin Developers
+// Copyright (c) 2016-2019 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -175,8 +175,8 @@ void PrepareShutdown()
     if (pwalletMain)
         bitdb.Flush(false);
     ShutdownRPCMining();
-#endif
     GenerateSequences(false, NULL, 0, Params());
+#endif
     StopNode();
 	StopTorControl();
 
@@ -1486,7 +1486,7 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
     // Generate coins in the background
     if (pwalletMain)
         GenerateSequences(GetBoolArg("-gen", DEFAULT_GENERATE), pwalletMain, GetArg("-genproclimit", DEFAULT_GENERATE_THREADS), chainparams);
-    if (GetBoolArg("-stakegen", true))
+    if (GetBoolArg("-stakegen", true) && !(GetBoolArg("-disablewallet", false)))
         MintStake(threadGroup, pwalletMain);
 #endif
 

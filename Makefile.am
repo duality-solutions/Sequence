@@ -10,7 +10,7 @@ SEQUENCE_CLI_BIN=$(top_builddir)/src/sequence-cli$(EXEEXT)
 SEQUENCE_WIN_INSTALLER=$(PACKAGE)-$(PACKAGE_VERSION)-win$(WINDOWS_BITS)-setup$(EXEEXT)
 
 OSX_APP=Sequence-Qt.app
-OSX_DMG=Sequence-Qt.dmg
+OSX_DMG=Sequence.dmg
 OSX_DEPLOY_SCRIPT=$(top_srcdir)/contrib/macdeploy/macdeployqtplus
 OSX_FANCY_PLIST=$(top_srcdir)/contrib/macdeploy/fancy.plist
 OSX_INSTALLER_ICONS=$(top_srcdir)/src/qt/res/icons/sequence.icns

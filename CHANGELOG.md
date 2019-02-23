@@ -1,6 +1,35 @@
 **Sequence CHANGELOG**
 -------------------------
 
+**Sequence v1.3.0.0**
+
+* Fix boost-1.66 incompatibilities
+* Update README.md
+* Update copyrights
+* Fix QObject::connect: No such slot error
+* Fix warning for GenerateRandomString
+* Add LogPrint debug category
+* Fix debug.log error for stake report UI
+* Fix build warning in HD wallet RPC commands
+* Fix Incompatible sender/receiver signal/slot error
+* Fix segfault after running reindex
+* Update Splashscreen and Icons
+* Prevent stake thread from trying to find PoW hash
+* Remove redundant block header check
+* Fix issue that stops the staking thread
+* Change blockchain size to 2GB
+* Fix checkpoint data array in chainparams.cpp
+* Add checkpoint for block 1,000,000
+* Add stake modifiers for blocks 512000 & 1000000
+* Update Splitblock fee amount to reflect real fee.
+* Fix segfault when running daemon with disabled wallet (Issue #131)
+* Update ReadMe to include URL's
+* Add soft-fork via IsSuperMajority for fee indiscrepency 
+* Increase Block Version to 3
+* Remove unneeded sections from the Information tab in Tools Window
+* Add DNS Seeders
+
+
 **Sequence v1.2.0.0**
 
 * Cleanup checkpoint data

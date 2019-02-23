@@ -37,7 +37,9 @@ static std::map<int, unsigned int> mapStakeModifierCheckpoints = {
 		{ 64000, 0xa9ee80a2u },
 		{ 128000, 0xed217450u },
 		{ 196000, 0x29d48eaau },
-		{ 256000, 0xcef3ef4fu }
+		{ 256000, 0xcef3ef4fu },
+		{ 512000, 0x57abd3ffu },
+		{ 1000000, 0x5d89e536u }
 	}
 	;
 
@@ -242,7 +244,7 @@ bool ComputeNextStakeModifier(const CBlockIndex* pindexCurrent, uint64_t& nStake
 			// 'W' indicates selected proof-of-work blocks
 			strSelectionMap.replace(item.second->nHeight - nHeightFirstCandidate, 1, item.second->IsProofOfStake()? "S" : "W");
 		}
-		LogPrintf("ComputeNextStakeModifier: selection height [%d, %d] map %s\n", nHeightFirstCandidate, pindexPrev->nHeight, strSelectionMap);
+		LogPrint("pos", "ComputeNextStakeModifier: selection height [%d, %d] map %s\n", nHeightFirstCandidate, pindexPrev->nHeight, strSelectionMap);
 	//}
 	if (fDebugPoS)
 	{
@@ -428,12 +430,12 @@ bool CheckStakeKernelHash(unsigned int nBits, const CBlock& blockFrom, unsigned 
 	hashProofOfStake = Hash(ss.begin(), ss.end());
 	if (fPrintProofOfStake)
 	{
-		LogPrintf("CheckStakeKernelHash() : using modifier 0x%016x at height=%d timestamp=%s for block from height=%d timestamp=%s\n",
+		LogPrint("pos", "CheckStakeKernelHash() : using modifier 0x%016x at height=%d timestamp=%s for block from height=%d timestamp=%s\n",
 			nStakeModifier, nStakeModifierHeight,
 			DateTimeStrFormat(nStakeModifierTime),
 			mapBlockIndex[blockFrom.GetHash()]->nHeight,
 			DateTimeStrFormat(blockFrom.GetBlockTime()));
-		LogPrintf("CheckStakeKernelHash() : check modifier=0x%016x nTimeBlockFrom=%u nTxPrevOffset=%u nTimeTxPrev=%u nPrevout=%u nTimeTx=%u hashProof=%s\n",
+		LogPrint("pos", "CheckStakeKernelHash() : check modifier=0x%016x nTimeBlockFrom=%u nTxPrevOffset=%u nTimeTxPrev=%u nPrevout=%u nTimeTx=%u hashProof=%s\n",
 			nStakeModifier,
 			nTimeBlockFrom, nTxPrevOffset, txPrev.nTime, prevout.n, nTimeTx,
 			hashProofOfStake.ToString());
@@ -445,13 +447,13 @@ bool CheckStakeKernelHash(unsigned int nBits, const CBlock& blockFrom, unsigned 
 
 	if (fDebug && !fPrintProofOfStake)
 	{
-		LogPrintf("CheckStakeKernelHash() : using modifier 0x%016" PRIx64 " at height=%d timestamp=%s for block from height=%d timestamp=%s\n",
+		LogPrint("pos", "CheckStakeKernelHash() : using modifier 0x%016" PRIx64 " at height=%d timestamp=%s for block from height=%d timestamp=%s\n",
 			nStakeModifier, nStakeModifierHeight,
 			DateTimeStrFormat(nStakeModifierTime),
 			mapBlockIndex[blockFrom.GetHash()]->nHeight,
 			DateTimeStrFormat(blockFrom.GetBlockTime()));
 
-		LogPrintf("CheckStakeKernelHash() : pass protocol=%s modifier=0x%016" PRIx64 " nTimeBlockFrom=%u nTxPrevOffset=%u nTimeTxPrev=%u nPrevout=%u nTimeTx=%u hashProof=%s\n",
+		LogPrint("pos", "CheckStakeKernelHash() : pass protocol=%s modifier=0x%016" PRIx64 " nTimeBlockFrom=%u nTxPrevOffset=%u nTimeTxPrev=%u nPrevout=%u nTimeTx=%u hashProof=%s\n",
 			nStakeModifier,
 			nTimeBlockFrom, nTxPrevOffset, txPrev.nTime, prevout.n, nTimeTx,
 			hashProofOfStake.ToString());

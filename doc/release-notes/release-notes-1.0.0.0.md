@@ -1,6 +1,6 @@
-Sequence version 1.2.0.0 is now available from:
+Sequence version 1.3.0.0 is now available from:
 
-  <https://github.com/Duality-Solutions/Sequence/releases/tag/1.2.0.0>
+  <https://github.com/Duality-Solutions/Sequence/releases/tag/1.3.0.0>
 
 This is the first release.
 

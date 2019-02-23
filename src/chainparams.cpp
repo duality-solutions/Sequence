@@ -1,6 +1,6 @@
-// Copyright (c) 2009-2018 Satoshi Nakamoto
-// Copyright (c) 2009-2018 The Bitcoin Developers
-// Copyright (c) 2016-2018 Duality Blockchain Solutions Developers
+// Copyright (c) 2009-2019 Satoshi Nakamoto
+// Copyright (c) 2009-2019 The Bitcoin Developers
+// Copyright (c) 2016-2019 Duality Blockchain Solutions Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -115,9 +115,9 @@ public:
         strNetworkID = "main";
         consensus.bnProofOfWorkLimit = ~uint256(0) >> 26;
         consensus.bnProofOfStakeLimit = ~uint256(0) >> 26;
-        consensus.nEnforceBlockUpgradeMajority = 750;
-        consensus.nRejectBlockOutdatedMajority = 950;
-        consensus.nToCheckBlockUpgradeMajority = 1000;
+        consensus.nEnforceBlockUpgradeMajority = 3544;
+        consensus.nRejectBlockOutdatedMajority = 4489;
+        consensus.nToCheckBlockUpgradeMajority = 4725;
         consensus.nMinerThreads = 0;
         consensus.nTargetSpacingMax = 1 * 64;     // 64 second max spacing target
         consensus.nPoWTargetSpacing = 1 * 60;     // 60 seconds PoW Target
@@ -135,10 +135,9 @@ public:
         assert(consensus.hashGenesisBlock == uint256("0x000000251356c62e0aa14c63e2b0db2a05ac0d3316ea5000c797a281be8c9fd7"));
         assert(genesis.hashMerkleRoot == uint256("0x73d6f8c42dfa8c9175b8bf4bf75ebfd10d22b0b6b1a39a82ce0e408447418e4b"));
 
-        vSeeds.push_back(CDNSSeedData("dnsseeder.io", "seq.dnsseeder.io"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.com", "seq.dnsseeder.com"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.host", "seq.dnsseeder.host"));
-        vSeeds.push_back(CDNSSeedData("dnsseeder.net", "seq.dnsseeder.net"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.network", "seq-mainnet01.dnsseeder.network"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.network", "seq-mainnet02.dnsseeder.network"));
+        vSeeds.push_back(CDNSSeedData("dnsseeder.network", "seq-mainnet03.dnsseeder.network"));
 
         // Sequence PUBKEY_ADDRESS addresses start with 'S'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);
@@ -188,8 +187,9 @@ public:
             { 500000, uint256("0xcea3405dcc8c1d1dd8db491e7416a97e7f9307b5e25dc47ff2b3627a87d06f55")},
             { 600000, uint256("0xe1864e72fcef390582ab20dea399403aacd4421315fbb9e9551ffc8e1d97ff13")},
             { 700000, uint256("0x158da4c6a3470a468d5990f5189a631ef546f9c9eb434525db4da19ee8d217e4")},
-            { 800000, uint256("0xb4e464c02a962cdc66955d368adb00b97c3ee86bad5026e9c04536049fd8da56")}},
-            1486676814, // * UNIX timestamp of last checkpoint block
+            { 800000, uint256("0xb4e464c02a962cdc66955d368adb00b97c3ee86bad5026e9c04536049fd8da56")},
+            { 1000000, uint256("0xb46ea7186fb30958b641c70c6b4d9084df2090738b2d32ebf38378f61144848d")}},
+            1538059657, // * UNIX timestamp of last checkpoint block
             0,          // * total number of transactions between genesis and last checkpoint
 						  //   (the tx=... number in the SetBestChain debug.log lines)
             2000        // * estimated number of transactions per day after checkpoint

@@ -1,6 +1,8 @@
 #ifndef STAKEREPORTDIALOG_H
 #define STAKEREPORTDIALOG_H
 
+#include "amount.h"
+
 #include <QDialog>
 
 namespace Ui {
@@ -34,7 +36,8 @@ private slots:
     void updateStakeReportTimer();
 
 public slots:
-    void updateStakeReportbalanceChanged(qint64, qint64, qint64, qint64);
+    void updateStakeReportbalanceChanged(const CAmount& balance, const CAmount& total, const CAmount& stake, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
+               const CAmount& watchOnlyBalance, const CAmount& watchOnlyStake, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance);
     void updateStakeReportNow();
     void updateDisplayUnit(int);
     void CopyAllToClipboard();

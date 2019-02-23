@@ -394,8 +394,10 @@ CBlockTemplate* CreateNewBlockInner(const CScript& scriptPubKeyIn, bool fAddProo
         pblocktemplate->vTxSigOps[0] = GetLegacySigOpCount(pblock->vtx[0]);
 
         CValidationState state;
-        if (!TestBlockValidity(state, *pblock, pindexPrev, false, false, false)) // Sequence: we do not check block signature here, since we did not sign it yet
-            throw std::runtime_error("CreateNewBlock() : TestBlockValidity failed");
+        if (!TestBlockValidity(state, *pblock, pindexPrev, false, false, false)) { // Sequence: we do not check block signature here, since we did not sign it yet
+            fPoSCancel = true;
+            return NULL;
+        }
     }
 
     return pblocktemplate.release();
@@ -615,79 +617,81 @@ void SequenceMiner(CWallet *pwallet, bool fProofOfStake)
 
                 continue;
             }
-
-            LogPrintf("Running SequenceMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
+            else {
+                LogPrintf("Running SequenceMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
                 ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
-            //
-            // Search
-            //
-            int64_t nStart = GetTime();
-            uint256 hashTarget = uint256().SetCompact(pblock->nBits);
-            uint256 hash;
-            uint32_t nNonce = 0;
-            uint32_t nOldNonce = 0;
-            while (true) {
-                bool fFound = ScanHash(pblock, nNonce, &hash);
-                uint32_t nHashesDone = nNonce - nOldNonce;
-                nOldNonce = nNonce;
+                //
+                // Search
+                //
+                int64_t nStart = GetTime();
+                uint256 hashTarget = uint256().SetCompact(pblock->nBits);
+                uint256 hash;
+                uint32_t nNonce = 0;
+                uint32_t nOldNonce = 0;
+                while (true) {
+                    bool fFound = ScanHash(pblock, nNonce, &hash);
+                    uint32_t nHashesDone = nNonce - nOldNonce;
+                    nOldNonce = nNonce;
 
-                // Check if something found
-                if (fFound)
-                {
-                    if (hash <= hashTarget)
+                    // Check if something found
+                    if (fFound)
                     {
-                        // Found a solution
-                        pblock->nNonce = nNonce;
-                        assert(hash == pblock->GetHash());
-                        if (!SignBlock(*pblock, *pwallet))
+                        if (hash <= hashTarget)
                         {
-                            strMintWarning = strMintMessage;
+                            // Found a solution
+                            pblock->nNonce = nNonce;
+                            assert(hash == pblock->GetHash());
+                            if (!SignBlock(*pblock, *pwallet))
+                            {
+                                strMintWarning = strMintMessage;
+                                break;
+                            }
+                            strMintWarning = "";
+
+                            SetThreadPriority(THREAD_PRIORITY_NORMAL);
+                            LogPrintf("CPUMiner:\n");
+                            LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex(), hashTarget.GetHex());
+                            ProcessBlockFound(pblock, *pwallet, reservekey);
+                            SetThreadPriority(THREAD_PRIORITY_LOWEST);
+
+                            // In regression test mode, stop mining after a block is found.
+                            if (Params().MineBlocksOnDemand())
+                                throw boost::thread_interrupted();
+
                             break;
                         }
-                        strMintWarning = "";
-
-                        SetThreadPriority(THREAD_PRIORITY_NORMAL);
-                        LogPrintf("CPUMiner:\n");
-                        LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex(), hashTarget.GetHex());
-                        ProcessBlockFound(pblock, *pwallet, reservekey);
-                        SetThreadPriority(THREAD_PRIORITY_LOWEST);
-
-                        // In regression test mode, stop mining after a block is found.
-                        if (Params().MineBlocksOnDemand())
-                            throw boost::thread_interrupted();
-
-                        break;
                     }
-                }
 
-                // Meter hashes/sec
-                static int64_t nHashCounter;
-                if (nHPSTimerStart == 0)
-                {
-                    nHPSTimerStart = GetTimeMillis();
-                    nHashCounter = 0;
-                }
-                else
-                    nHashCounter += nHashesDone;
-                if (GetTimeMillis() - nHPSTimerStart > 4000)
-                {
-                    static CCriticalSection cs;
+                    // Meter hashes/sec
+                    static int64_t nHashCounter;
+                    if (nHPSTimerStart == 0)
                     {
-                        LOCK(cs);
-                        if (GetTimeMillis() - nHPSTimerStart > 4000)
+                        nHPSTimerStart = GetTimeMillis();
+                        nHashCounter = 0;
+                    }
+                    else
+                        nHashCounter += nHashesDone;
+                    if (GetTimeMillis() - nHPSTimerStart > 4000)
+                    {
+                        static CCriticalSection cs;
                         {
-                            dHashesPerSec = 1000.0 * nHashCounter / (GetTimeMillis() - nHPSTimerStart);
-                            nHPSTimerStart = GetTimeMillis();
-                            nHashCounter = 0;
-                            static int64_t nLogTime;
-                            if (GetTime() - nLogTime > 30 * 60)
+                            LOCK(cs);
+                            if (GetTimeMillis() - nHPSTimerStart > 4000)
                             {
-                                nLogTime = GetTime();
-                                LogPrintf("hashmeter %6.0f khash/s\n", dHashesPerSec/1000.0);
+                                dHashesPerSec = 1000.0 * nHashCounter / (GetTimeMillis() - nHPSTimerStart);
+                                nHPSTimerStart = GetTimeMillis();
+                                nHashCounter = 0;
+                                static int64_t nLogTime;
+                                if (GetTime() - nLogTime > 30 * 60)
+                                {
+                                    nLogTime = GetTime();
+                                    LogPrintf("hashmeter %6.0f khash/s\n", dHashesPerSec/1000.0);
+                                }
                             }
                         }
                     }
+
                 }
 
                 // Check for stop or if block needs to be rebuilt

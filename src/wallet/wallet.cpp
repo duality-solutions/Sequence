@@ -2657,22 +2657,38 @@ bool CWallet::CreateCoinStake(const CKeyStore& keystore, unsigned int nBits, int
     }
 
     CAmount nMinFee = 0;
+    const Consensus::Params& consensusParams = Params().GetConsensus();
+    const CBlockIndex* pindex = chainActive.Tip();
     while(true)
     {
         // Split Stake
         if (nCredit >= GetStakeSplitThreshold())
             txNew.vout.push_back(CTxOut(0, txNew.vout[1].scriptPubKey)); //split stake
-        
-        // Set output amount
-        if (txNew.vout.size() == 3)
-        {
-        CAmount vout1 = nCredit / 4 + GetRand(nCredit / 2);
-            txNew.vout[1].nValue = (vout1 / CENT) * CENT;
-            txNew.vout[2].nValue = nCredit - nMinFee - txNew.vout[1].nValue;
-        }
-        else
-            txNew.vout[1].nValue = nCredit - nMinFee;
 
+        if (IsSuperMajority(3, pindex->pprev, consensusParams.nRejectBlockOutdatedMajority, consensusParams)) // Once Majority of network is on block version 3 the wallets do not remove the fee
+        {
+            // Set output amount
+            if (txNew.vout.size() == 3)
+            {
+                CAmount vout1 = nCredit / 4 + GetRand(nCredit / 2);
+                txNew.vout[1].nValue = (vout1 / CENT) * CENT;
+                txNew.vout[2].nValue = nCredit - txNew.vout[1].nValue;
+            }
+            else
+                txNew.vout[1].nValue = nCredit;
+        }
+        else if (IsSuperMajority(2, pindex->pprev, consensusParams.nRejectBlockOutdatedMajority, consensusParams)) // Whilst Majority is block version 2 the wallets still remove the fee
+        {
+            // Set output amount
+            if (txNew.vout.size() == 3)
+            {
+                CAmount vout1 = nCredit / 4 + GetRand(nCredit / 2);
+                txNew.vout[1].nValue = (vout1 / CENT) * CENT;
+                txNew.vout[2].nValue = nCredit - nMinFee - txNew.vout[1].nValue;
+            }
+            else
+                txNew.vout[1].nValue = nCredit - nMinFee;
+        }
         // Sign
         int nIn = 0;
         for(const CWalletTx* pcoin : vwtxPrev)
