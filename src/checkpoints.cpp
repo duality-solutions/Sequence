@@ -19,7 +19,7 @@
 #include <boost/foreach.hpp>
 
 // Sequence: sync-checkpoint master key
-const std::string CSyncCheckpoint::strMasterPubKey = "04adff441e5180929b1a21b29cca132bb8581d6e4d2230dfebe0ac43c18dae124373eb4bedb1a390df20b2861ccded107704cbcf8ffd1e077b5fd5a8b8090cfdfc";
+const std::string CSyncCheckpoint::strMasterPubKey = "";
 std::string CSyncCheckpoint::strMasterPrivKey = "";
 
 namespace Checkpoints {
