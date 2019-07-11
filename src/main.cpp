@@ -1792,7 +1792,7 @@ bool ppcoinContextualBlockChecks(const CBlock& block, CValidationState& state, C
     if (block.IsProofOfStake())
     {
         // ppcoin: verify hash target and signature of coinstake tx
-        if (!CheckProofOfStake(state, block.vtx[1], block.nBits, hashProofOfStake))
+        if (!CheckProofOfStake(state, pindex, block.vtx[1], block.nBits, hashProofOfStake))
         {
             LogPrintf("WARNING: %s: check proof-of-stake failed for block %s\n", __func__, block.GetHash().ToString());
             return false; // do not error here as we expect this during initial block download

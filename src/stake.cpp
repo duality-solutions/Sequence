@@ -265,110 +265,104 @@ struct StakeMod
 
 // The stake modifier used to hash for a stake kernel is chosen as the stake
 // modifier about a selection interval later than the coin generating the kernel
-static bool GetKernelStakeModifier(uint256 hashBlockFrom, uint64_t& nStakeModifier, int& nStakeModifierHeight, int64_t& nStakeModifierTime, bool fPrintProofOfStake)
+static bool GetKernelStakeModifier(CBlockIndex* pindexPrev, uint256 hashBlockFrom, uint64_t& nStakeModifier, int& nStakeModifierHeight, int64_t& nStakeModifierTime, bool fPrintProofOfStake)
 {
+const Consensus::Params& params = Params().GetConsensus();
 #ifdef ENABLE_WALLET
-	// init internal cache for stake modifiers (this is used only to reduce CPU usage)
-	static uint256HashMap<StakeMod> StakeModCache;
-	static bool initCache = false;
-	if (initCache == false)
-	{
-		std::vector<COutput> vCoins;
-		pwalletMain->AvailableCoins(vCoins, false);
-		StakeModCache.Set(vCoins.size() + 1000);
-		initCache = true;
-	}
+    // init internal cache for stake modifiers (this is used only to reduce CPU usage)
+    static uint256HashMap<StakeMod> StakeModCache;
+    static bool initCache = false;
+    if (initCache == false)
+    {
+        std::vector<COutput> vCoins;
+        pwalletMain->AvailableCoins(vCoins, false);
+        StakeModCache.Set(vCoins.size() + 1000);
+        initCache = true;
+    }
 
-	// Clear cache after every new block.
-	// If cache is not cleared here it will result in blockchain unable to be downloaded.
-	static int nClrHeight = 0;
-	bool fSameBlock;
+    // Clear cache after every new block.
+    // If cache is not cleared here it will result in blockchain unable to be downloaded.
+    static int nClrHeight = 0;
+    bool fSameBlock;
 
-	if (nClrHeight < chainActive.Height())
-	{
-		nClrHeight = chainActive.Height();
-		StakeModCache.clear();
-		fSameBlock = false;
-	}
-	else
-	{
-		uint256HashMap<StakeMod>::Data *pcache = StakeModCache.Search(hashBlockFrom);
-		if (pcache != NULL)
-		{
-			nStakeModifier = pcache->value.nStakeModifier;
-			nStakeModifierHeight = pcache->value.nStakeModifierHeight;
-			nStakeModifierTime = pcache->value.nStakeModifierTime;
-			return true;
-		}
-		fSameBlock = true;
-	}
+    if (nClrHeight < chainActive.Height())
+    {
+        nClrHeight = chainActive.Height();
+        StakeModCache.clear();
+        fSameBlock = false;
+    }
+    else
+    {
+        uint256HashMap<StakeMod>::Data *pcache = StakeModCache.Search(hashBlockFrom);
+        if (pcache != NULL)
+        {
+            nStakeModifier = pcache->value.nStakeModifier;
+            nStakeModifierHeight = pcache->value.nStakeModifierHeight;
+            nStakeModifierTime = pcache->value.nStakeModifierTime;
+            return true;
+        }
+        fSameBlock = true;
+    }
 #endif
+    nStakeModifier = 0;
+    if (!mapBlockIndex.count(hashBlockFrom))
+        return error("%s: block not indexed", __func__);
+    const CBlockIndex* pindexFrom = mapBlockIndex[hashBlockFrom];
+    nStakeModifierHeight = pindexFrom->nHeight;
+    nStakeModifierTime = pindexFrom->GetBlockTime();
+    int64_t nStakeModifierSelectionInterval = GetStakeModifierSelectionInterval();
 
-	nStakeModifier = 0;
-	if (!mapBlockIndex.count(hashBlockFrom))
-		return error("GetKernelStakeModifier() : block not indexed");
-	const CBlockIndex* pindexFrom = mapBlockIndex[hashBlockFrom];
-	nStakeModifierHeight = pindexFrom->nHeight;
-	nStakeModifierTime = pindexFrom->GetBlockTime();
-	int64_t nStakeModifierSelectionInterval = GetStakeModifierSelectionInterval();
+    // We need to iterate index forward but we cannot use chainActive.Next()
+    // because there is no guarantee that we are checking blocks in the active chain.
+    // Instead, we construct a temporary chain that we will iterate over.
+    // pindexFrom - this block contains coins that are used to generate PoS
+    // pindexPrev - this is a block that is previous to PoS block that we are checking, you can think of it as tip of our chain
+    // tmpChain should contain all indexes in [pindexFrom..pindexPrev] (inclusive)
+    // From Emercoin 2019-07-11
+    std::vector<CBlockIndex*> tmpChain;
+    int32_t nDepth = pindexPrev->nHeight - (pindexFrom->nHeight-1); // -1 is used to also include pindexFrom
+    tmpChain.reserve(nDepth);
+    CBlockIndex* it = pindexPrev;
+    for (int i=1; i<=nDepth && !chainActive.Contains(it); i++) {
+        tmpChain.push_back(it);
+        it = it->pprev;
+    }
+    std::reverse(tmpChain.begin(), tmpChain.end());
 
-	if(fDebugPoS)
-		LogPrintf("GetKernelStakeModifier(): nStakeModifierSelectionInterval = %d,nStakeModifierTime=%d, nStakeModifierSelectionInterval=%d\n", 
-			nStakeModifierSelectionInterval, nStakeModifierTime, nStakeModifierSelectionInterval);
-
-	const CBlockIndex* pindex = pindexFrom;
-	// loop to find the stake modifier later by a selection interval
-	while (nStakeModifierTime < pindexFrom->GetBlockTime() + nStakeModifierSelectionInterval)
-	{
-		if(fDebugPoS)
-			LogPrintf("GetKernelStakeModifier(): nStakeModifierTime = %d,pindexFrom->GetBlockTime()=%d, nStakeModifierSelectionInterval=%d, nDiff=%d.\n", 
-				nStakeModifierTime, pindexFrom->GetBlockTime(), nStakeModifierSelectionInterval, nStakeModifierTime - (pindexFrom->GetBlockTime() + nStakeModifierSelectionInterval));
-
-		if (!chainActive.Next(pindex))
-		{   // reached best block; may happen if node is behind on block chain
-
-			if(fDebugPoS)
-			{
-				int64_t nLetfSide = pindex->GetBlockTime() + Params().GetConsensus().nStakeMinAge - nStakeModifierSelectionInterval;
-				LogPrintf("GetKernelStakeModifier(): reached best block but no PoS; GetBlockTime=%d, StakeMinAge=%d, nLetfSide=%d, nRightSide=%d, ndiff=%d\n", 
-					pindex->GetBlockTime(), Params().GetConsensus().nStakeMinAge, nLetfSide, GetAdjustedTime(), nLetfSide - GetAdjustedTime());
-			}
-
-			if (fPrintProofOfStake || (pindex->GetBlockTime() + Params().GetConsensus().nStakeMinAge - nStakeModifierSelectionInterval > GetAdjustedTime()))
-				return error("GetKernelStakeModifier() : reached best block %s at height %d from block %s",
-					pindex->GetBlockHash().ToString(), pindex->nHeight, hashBlockFrom.ToString());
-			else
-			{
-				return false;
-			}
-			
-		}
-		pindex = chainActive.Next(pindex);
-		if (pindex->GeneratedStakeModifier())
-		{
-			nStakeModifierHeight = pindex->nHeight;
-			nStakeModifierTime = pindex->GetBlockTime();
-			if(fDebugPoS)
-				LogPrintf("GetKernelStakeModifier(): GeneratedStakeModifier = true. pindexFrom->GetBlockTime() = %d, nHeight = %d, nStakeModifierHeight = %d, nStakeModifierTime = %d.\n", 
-					pindexFrom->GetBlockTime(), pindex->nHeight, nStakeModifierHeight, nStakeModifierTime);
-		}
-	}
-	nStakeModifier = pindex->nStakeModifier;
-
-	if(fDebugPoS)
-		LogPrintf("GetKernelStakeModifier(): PoS Stake Modifier Good! nStakeModifierTime = %d.\n", nStakeModifier);
+    size_t n = 0;
+    const CBlockIndex* pindex = pindexFrom;
+    // loop to find the stake modifier later by a selection interval
+    while (nStakeModifierTime < pindexFrom->GetBlockTime() + nStakeModifierSelectionInterval)
+    {
+        const CBlockIndex* old_pindex = pindex;
+        pindex = (!tmpChain.empty() && pindex->nHeight >= tmpChain[0]->nHeight - 1)? tmpChain[n++] : chainActive.Next(pindex); 
+        if (n > tmpChain.size() || pindex == NULL) // check if tmpChain[n+1] exists
+        {   // reached best block; may happen if node is behind on block chain
+            if (fPrintProofOfStake || (old_pindex->GetBlockTime() + params.nStakeMinAge - nStakeModifierSelectionInterval > GetAdjustedTime()))
+                return error("%s: reached best block %s at height %d from block %s", __func__,
+                    old_pindex->GetBlockHash().ToString(), old_pindex->nHeight, hashBlockFrom.ToString());
+            else
+                return false;
+        }
+        if (pindex->GeneratedStakeModifier())
+        {
+            nStakeModifierHeight = pindex->nHeight;
+            nStakeModifierTime = pindex->GetBlockTime();
+        }
+    }
+    nStakeModifier = pindex->nStakeModifier;
 
 #ifdef ENABLE_WALLET
-	// Save to cache only at minting phase
-	if (fSameBlock)
-	{
-		struct StakeMod sm;
-		sm.nStakeModifier = nStakeModifier;
-		sm.nStakeModifierHeight = nStakeModifierHeight;
-		sm.nStakeModifierTime = nStakeModifierTime;
-		StakeModCache.Insert(hashBlockFrom, sm);
-	}
-	return true;
+    // Save to cache only at minting phase
+    if (fSameBlock)
+    {
+        struct StakeMod sm;
+        sm.nStakeModifier = nStakeModifier;
+        sm.nStakeModifierHeight = nStakeModifierHeight;
+        sm.nStakeModifierTime = nStakeModifierTime;
+        StakeModCache.Insert(hashBlockFrom, sm);
+    }
+    return true;
 #endif
 }
 
@@ -395,7 +389,7 @@ static bool GetKernelStakeModifier(uint256 hashBlockFrom, uint64_t& nStakeModifi
 //   quantities so as to generate blocks faster, degrading the system back into
 //   a proof-of-work situation.
 //
-bool CheckStakeKernelHash(unsigned int nBits, const CBlock& blockFrom, unsigned int nTxPrevOffset, const CTransaction& txPrev, const COutPoint& prevout, unsigned int nTimeTx, uint256& hashProofOfStake, bool fPrintProofOfStake)
+bool CheckStakeKernelHash(unsigned int nBits, CBlockIndex* pindexPrev, const CBlock& blockFrom, unsigned int nTxPrevOffset, const CTransaction& txPrev, const COutPoint& prevout, unsigned int nTimeTx, uint256& hashProofOfStake, bool fPrintProofOfStake)
 {
 	if(fDebugPoS) 
 		LogPrintf("CheckStakeKernelHash() function called.\n");
@@ -421,7 +415,7 @@ bool CheckStakeKernelHash(unsigned int nBits, const CBlock& blockFrom, unsigned 
 	int nStakeModifierHeight = 0;
 	int64_t nStakeModifierTime = 0;
 
-	if (!GetKernelStakeModifier(blockFrom.GetHash(), nStakeModifier, nStakeModifierHeight, nStakeModifierTime, fPrintProofOfStake))
+	if (!GetKernelStakeModifier(pindexPrev, blockFrom.GetHash(), nStakeModifier, nStakeModifierHeight, nStakeModifierTime, fPrintProofOfStake))
 		return false;
 	ss << nStakeModifier;
 
@@ -462,7 +456,7 @@ bool CheckStakeKernelHash(unsigned int nBits, const CBlock& blockFrom, unsigned 
 }
 
 // Check stake.hash target and coinstake signature
-bool CheckProofOfStake(CValidationState& state,const CTransaction& tx, unsigned int nBits, uint256& hashProofOfStake)
+bool CheckProofOfStake(CValidationState& state, CBlockIndex* pindexPrev, const CTransaction& tx, unsigned int nBits, uint256& hashProofOfStake)
 {
 	if (!tx.IsCoinStake())
 		return error("CheckProofOfStake() : called on non-coinstake %s", tx.GetHash().ToString());
@@ -507,7 +501,7 @@ bool CheckProofOfStake(CValidationState& state,const CTransaction& tx, unsigned 
 	}
 
 	//if (!CheckStakeKernelHash(nBits, block, txindex.pos.nTxPos - txindex.pos.nBlockPos, txPrev, txin.prevout, tx.nTime, hashProofOfStake, fDebug))
-	if (!CheckStakeKernelHash(nBits, header, postx.nTxOffset + CBlockHeader::NORMAL_SERIALIZE_SIZE, txPrev, txin.prevout, tx.nTime, hashProofOfStake, true))
+	if (!CheckStakeKernelHash(nBits, pindexPrev, header, postx.nTxOffset + CBlockHeader::NORMAL_SERIALIZE_SIZE, txPrev, txin.prevout, tx.nTime, hashProofOfStake, true))
 		return state.DoS(1, error("CheckProofOfStake() : INFO: check kernel failed on coinstake %s, hashProof=%s", tx.GetHash().ToString(), hashProofOfStake.ToString())); // may occur during initial download or if behind on block chain sync
 
 	return true;
