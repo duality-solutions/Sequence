@@ -1,5 +1,5 @@
 ---
-name: "sequence-linux-1.3.1.0"
+name: "sequence-linux-1.3.2.0"
 enable_cache: true
 suites:
 - "trusty"
