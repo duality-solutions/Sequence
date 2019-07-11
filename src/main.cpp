@@ -1854,6 +1854,12 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     const CChainParams& chainparams = Params();
     const Consensus::Params& consensusParams = Params().GetConsensus();
 
+    if (pindex->nStakeModifierChecksum == 0) {
+        unsigned int nStakeModifierChecksum = GetStakeModifierChecksum(pindex);
+        if (CheckStakeModifierCheckpoints(pindex->nHeight, nStakeModifierChecksum))
+            pindex->nStakeModifierChecksum = nStakeModifierChecksum; // ppcoin: calculate stake modifier checksum
+    }
+
     // Check PoS and compute stake modifier if we did not do that earlier
     if (pindex->nStakeModifier == 0 && pindex->nStakeModifierChecksum == 0 && !ppcoinContextualBlockChecks(block, state, pindex, fJustCheck))
         return error("%s: Consensus::ppcoinContextualBlockChecks failed: %s", __func__, FormatStateMessage(state));
