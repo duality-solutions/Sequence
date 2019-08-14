@@ -7,6 +7,7 @@
 #ifndef SEQUENCE_TXMEMPOOL_H
 #define SEQUENCE_TXMEMPOOL_H
 
+#include "addressindex.h"
 #include "amount.h"
 #include "coins.h"
 #include "indirectmap.h"

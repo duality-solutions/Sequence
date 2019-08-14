@@ -435,6 +435,7 @@ HEADERS += \
     src/base58.h \
     src/amount.h \
     src/alert.h \
+    src/addressindex.h \
     src/addrman.h \
     src/torcontrol.h \
     src/reverselock.h \
