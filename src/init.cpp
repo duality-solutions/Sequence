@@ -650,6 +650,15 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 #endif
 #endif
 
+    // Make sure additional indexes are recalculated correctly in VerifyDB
+    // (we must reconnect blocks whenever we disconnect them for these indexes to work)
+    bool fAdditionalIndexes =
+        GetBoolArg("-addressindex", DEFAULT_ADDRESSINDEX) ||
+        GetBoolArg("-spentindex", DEFAULT_SPENTINDEX) ||
+        GetBoolArg("-timestampindex", DEFAULT_TIMESTAMPINDEX);
+
+
+
     // ********************************************************* Step 2: parameter interactions
     const CChainParams& chainparams = Params();
     // Set this early so that parameter interactions go to console
