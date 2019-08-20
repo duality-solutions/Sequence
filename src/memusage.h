@@ -91,6 +91,12 @@ static inline size_t IncrementalDynamicUsage(const std::set<X, Y>& s)
     return MallocUsage(sizeof(stl_tree_node<X>));
 }
 
+template <unsigned int N, typename X, typename S, typename D>
+static inline size_t DynamicUsage(const prevector<N, X, S, D>& v)
+{
+    return MallocUsage(v.allocated_memory());
+}
+
 template<typename X, typename Y>
 static inline size_t DynamicUsage(const std::map<X, Y>& m)
 {

@@ -295,7 +295,7 @@ public:
     size_t DynamicMemoryUsage() const {
         size_t ret = memusage::DynamicUsage(vout);
         for(const CTxOut &out : vout) {
-            const std::vector<unsigned char> *script = &out.scriptPubKey;
+            const CScriptBase *script = &out.scriptPubKey;
             ret += memusage::DynamicUsage(*script);
         }
         return ret;
