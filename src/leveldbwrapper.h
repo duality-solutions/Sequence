@@ -268,37 +268,16 @@ public:
         return pdb->NewIterator(iteroptions);
     }
 
-    CDBIterator* NewIterator2()
-    {
-        return new CDBIterator(*this, pdb->NewIterator2(iteroptions));
-    }    
+    // CDBIterator* NewIterator2()
+    // {
+    //     return new CDBIterator(*this, pdb->NewIterator2(iteroptions));
+    // }    
 };
 
 
 
 
 
-namespace dbwrapper_private
-{
-// void HandleError(const leveldb::Status& status)
-// {
-//     if (status.ok())
-//         return;
-//     LogPrintf("%s\n", status.ToString());
-//     if (status.IsCorruption())
-//         throw dbwrapper_error("Database corrupted");
-//     if (status.IsIOError())
-//         throw dbwrapper_error("Database I/O error");
-//     if (status.IsNotFound())
-//         throw dbwrapper_error("Database entry missing");
-//     throw dbwrapper_error("Unknown database error");
-// }
 
-const std::vector<unsigned char>& GetObfuscateKey(const CLevelDBWrapper& w)
-{
-    return w.obfuscate_key;
-}
-
-}; // namespace dbwrapper_private
 
 #endif // SEQUENCE_LEVELDBWRAPPER_H
