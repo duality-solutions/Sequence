@@ -4,14 +4,19 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+
 #include "txdb.h"
 
+#include "spentindex.h"
 #include "work.h"
 #include "uint256.h"
 
 #include <stdint.h>
 
 #include <boost/thread.hpp>
+
+static const char DB_ADDRESSINDEX = 'a';
+
 
 using namespace std;
 
@@ -175,6 +180,62 @@ bool CBlockTreeDB::ReadFlag(const std::string &name, bool &fValue) {
     fValue = ch == '1';
     return true;
 }
+
+// bool CBlockTreeDB::WriteAddressIndex(const std::vector<std::pair<CAddressIndexKey, CAmount> >& vect)
+// {
+//     //CDBBatch batch(*this);
+//     CLevelDBBatch batch;
+//     for (std::vector<std::pair<CAddressIndexKey, CAmount> >::const_iterator it = vect.begin(); it != vect.end(); it++)
+//         batch.Write(std::make_pair(DB_ADDRESSINDEX, it->first), it->second);
+//     return WriteBatch(batch);
+// }
+
+// bool CBlockTreeDB::EraseAddressIndex(const std::vector<std::pair<CAddressIndexKey, CAmount> >& vect)
+// {
+//     //CDBBatch batch(*this);
+//     CLevelDBBatch batch;
+//     for (std::vector<std::pair<CAddressIndexKey, CAmount> >::const_iterator it = vect.begin(); it != vect.end(); it++)
+//         batch.Erase(std::make_pair(DB_ADDRESSINDEX, it->first));
+//     return WriteBatch(batch);
+// }
+
+// bool CBlockTreeDB::ReadAddressIndex(uint160 addressHash, int type, std::vector<std::pair<CAddressIndexKey, CAmount> >& addressIndex, int start, int end)
+// {
+//     std::unique_ptr<CDBIterator> pcursor(NewIterator2());
+//     //std::unique_ptr<leveldb::Iterator> pcursor(NewIterator());
+
+//     if (start > 0 && end > 0) {
+//         pcursor->Seek(std::make_pair(DB_ADDRESSINDEX, CAddressIndexIteratorHeightKey(type, addressHash, start)));
+//     } else {
+//         pcursor->Seek(std::make_pair(DB_ADDRESSINDEX, CAddressIndexIteratorKey(type, addressHash)));
+//     }
+
+//     while (pcursor->Valid()) {
+//         boost::this_thread::interruption_point();
+//         std::pair<char, CAddressIndexKey> key;
+//         if (pcursor->GetKey(key) && key.first == DB_ADDRESSINDEX && key.second.hashBytes == addressHash) {
+//             if (end > 0 && key.second.blockHeight > end) {
+//                 break;
+//             }
+//             CAmount nValue;
+//             if (pcursor->GetValue(nValue)) {
+//                 addressIndex.push_back(std::make_pair(key.second, nValue));
+//                 pcursor->Next();
+//             } else {
+//                 return error("failed to get address index value");
+//             }
+//         } else {
+//             break;
+//         }
+//     }
+
+//     return true;
+// }
+
+
+
+
+
 
 bool CBlockTreeDB::LoadBlockIndexGuts()
 {

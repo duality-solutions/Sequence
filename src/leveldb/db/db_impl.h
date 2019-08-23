@@ -36,6 +36,7 @@ class DBImpl : public DB {
                      const Slice& key,
                      std::string* value);
   virtual Iterator* NewIterator(const ReadOptions&);
+  virtual Iterator* NewIterator2(const ReadOptions&);
   virtual const Snapshot* GetSnapshot();
   virtual void ReleaseSnapshot(const Snapshot* snapshot);
   virtual bool GetProperty(const Slice& property, std::string* value);

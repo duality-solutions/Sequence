@@ -114,12 +114,12 @@ struct CTimestampIndexIteratorKey {
         return 4;
     }
     template <typename Stream>
-    void Serialize(Stream& s) const
+    void Serialize(Stream& s, int nType, int nVersion) const
     {
         ser_writedata32be(s, timestamp);
     }
     template <typename Stream>
-    void Unserialize(Stream& s)
+    void Unserialize(Stream& s, int nType, int nVersion)
     {
         timestamp = ser_readdata32be(s);
     }
@@ -149,16 +149,16 @@ struct CTimestampIndexKey {
         return 36;
     }
     template <typename Stream>
-    void Serialize(Stream& s) const
+    void Serialize(Stream& s, int nType, int nVersion) const
     {
         ser_writedata32be(s, timestamp);
-        blockHash.Serialize(s);
+        blockHash.Serialize(s, nType, nVersion);
     }
     template <typename Stream>
-    void Unserialize(Stream& s)
+    void Unserialize(Stream& s, int nType, int nVersion)
     {
         timestamp = ser_readdata32be(s);
-        blockHash.Unserialize(s);
+        blockHash.Unserialize(s, nType, nVersion);
     }
 
     CTimestampIndexKey(unsigned int time, uint256 hash)
@@ -190,19 +190,19 @@ struct CAddressUnspentKey {
         return 57;
     }
     template <typename Stream>
-    void Serialize(Stream& s) const
+    void Serialize(Stream& s, int nType, int nVersion) const
     {
         ser_writedata8(s, type);
-        hashBytes.Serialize(s);
-        txhash.Serialize(s);
+        hashBytes.Serialize(s, nType, nVersion);
+        txhash.Serialize(s, nType, nVersion);
         ser_writedata32(s, index);
     }
     template <typename Stream>
-    void Unserialize(Stream& s)
+    void Unserialize(Stream& s, int nType, int nVersion)
     {
         type = ser_readdata8(s);
-        hashBytes.Unserialize(s);
-        txhash.Unserialize(s);
+        hashBytes.Unserialize(s, nType, nVersion);
+        txhash.Unserialize(s, nType, nVersion);
         index = ser_readdata32(s);
     }
 
@@ -283,26 +283,26 @@ struct CAddressIndexKey {
         return 66;
     }
     template <typename Stream>
-    void Serialize(Stream& s) const
+    void Serialize(Stream& s, int nType, int nVersion) const
     {
         ser_writedata8(s, type);
-        hashBytes.Serialize(s);
+        hashBytes.Serialize(s, nType, nVersion);
         // Heights are stored big-endian for key sorting in LevelDB
         ser_writedata32be(s, blockHeight);
         ser_writedata32be(s, txindex);
-        txhash.Serialize(s);
+        txhash.Serialize(s, nType, nVersion);
         ser_writedata32(s, index);
         char f = spending;
         ser_writedata8(s, f);
     }
     template <typename Stream>
-    void Unserialize(Stream& s)
+    void Unserialize(Stream& s, int nType, int nVersion)
     {
         type = ser_readdata8(s);
-        hashBytes.Unserialize(s);
+        hashBytes.Unserialize(s, nType, nVersion);
         blockHeight = ser_readdata32be(s);
         txindex = ser_readdata32be(s);
-        txhash.Unserialize(s);
+        txhash.Unserialize(s, nType, nVersion);
         index = ser_readdata32(s);
         char f = ser_readdata8(s);
         spending = f;
@@ -345,16 +345,16 @@ struct CAddressIndexIteratorKey {
         return 21;
     }
     template <typename Stream>
-    void Serialize(Stream& s) const
+    void Serialize(Stream& s, int nType, int nVersion) const
     {
         ser_writedata8(s, type);
-        hashBytes.Serialize(s);
+        hashBytes.Serialize(s, nType, nVersion);
     }
     template <typename Stream>
-    void Unserialize(Stream& s)
+    void Unserialize(Stream& s, int nType, int nVersion)
     {
         type = ser_readdata8(s);
-        hashBytes.Unserialize(s);
+        hashBytes.Unserialize(s, nType, nVersion);
     }
 
     CAddressIndexIteratorKey(unsigned int addressType, uint160 addressHash)
@@ -385,17 +385,17 @@ struct CAddressIndexIteratorHeightKey {
         return 25;
     }
     template <typename Stream>
-    void Serialize(Stream& s) const
+    void Serialize(Stream& s, int nType, int nVersion) const
     {
         ser_writedata8(s, type);
-        hashBytes.Serialize(s);
+        hashBytes.Serialize(s, nType, nVersion);
         ser_writedata32be(s, blockHeight);
     }
     template <typename Stream>
-    void Unserialize(Stream& s)
+    void Unserialize(Stream& s, int nType, int nVersion)
     {
         type = ser_readdata8(s);
-        hashBytes.Unserialize(s);
+        hashBytes.Unserialize(s, nType, nVersion);
         blockHeight = ser_readdata32be(s);
     }
 

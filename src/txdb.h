@@ -19,6 +19,8 @@
 class CCoins;
 class uint256;
 
+struct CAddressIndexKey;
+
 //! -dbcache default (MiB)
 static const int64_t nDefaultDbCache = 100;
 //! max. -dbcache in (MiB)
@@ -66,6 +68,11 @@ public:
     bool WriteSyncCheckpoint(uint256 hashCheckpoint);
     bool ReadCheckpointPubKey(std::string& strPubKey);
     bool WriteCheckpointPubKey(const std::string& strPubKey);
+
+    bool WriteAddressIndex(const std::vector<std::pair<CAddressIndexKey, CAmount> >& vect);
+    bool EraseAddressIndex(const std::vector<std::pair<CAddressIndexKey, CAmount> >& vect);
+    bool ReadAddressIndex(uint160 addressHash, int type, std::vector<std::pair<CAddressIndexKey, CAmount> >& addressIndex, int start = 0, int end = 0);
+
 };
 
 #endif // SEQUENCE_TXDB_H

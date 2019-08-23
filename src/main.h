@@ -24,6 +24,7 @@
 #include "sync.h"
 #include "tinyformat.h"
 #include "primitives/transaction.h"
+#include "spentindex.h"
 #include "txmempool.h"
 #include "uint256.h"
 #include "undo.h"
