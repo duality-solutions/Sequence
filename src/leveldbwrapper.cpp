@@ -90,19 +90,19 @@ bool CLevelDBWrapper::WriteBatch(CLevelDBBatch& batch, bool fSync) throw(leveldb
 
 namespace dbwrapper_private
 {
-// void HandleError(const leveldb::Status& status)
-// {
-//     if (status.ok())
-//         return;
-//     LogPrintf("%s\n", status.ToString());
-//     if (status.IsCorruption())
-//         throw dbwrapper_error("Database corrupted");
-//     if (status.IsIOError())
-//         throw dbwrapper_error("Database I/O error");
-//     if (status.IsNotFound())
-//         throw dbwrapper_error("Database entry missing");
-//     throw dbwrapper_error("Unknown database error");
-// }
+void HandleError(const leveldb::Status& status)
+{
+    if (status.ok())
+         return;
+     LogPrintf("%s\n", status.ToString());
+     if (status.IsCorruption())
+         throw dbwrapper_error("Database corrupted");
+     if (status.IsIOError())
+         throw dbwrapper_error("Database I/O error");
+     if (status.IsNotFound())
+         throw dbwrapper_error("Database entry missing");
+     throw dbwrapper_error("Unknown database error");
+}
 
 const std::vector<unsigned char>& GetObfuscateKey(const CLevelDBWrapper& w)
 {
@@ -110,3 +110,9 @@ const std::vector<unsigned char>& GetObfuscateKey(const CLevelDBWrapper& w)
 }
 
 }; // namespace dbwrapper_private
+
+CDBIterator::~CDBIterator() { delete piter; }
+bool CDBIterator::Valid() { return piter->Valid(); }
+void CDBIterator::SeekToFirst() { piter->SeekToFirst(); }
+void CDBIterator::SeekToLast() { piter->SeekToLast(); }
+void CDBIterator::Next() { piter->Next(); }

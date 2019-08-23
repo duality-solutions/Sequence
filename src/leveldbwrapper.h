@@ -263,21 +263,15 @@ public:
     }
 
     // not exactly clean encapsulation, but it's easiest for now
-    leveldb::Iterator* NewIterator()
+    leveldb::Iterator* NewIterator_Old()
     {
         return pdb->NewIterator(iteroptions);
     }
 
-    // CDBIterator* NewIterator2()
-    // {
-    //     return new CDBIterator(*this, pdb->NewIterator2(iteroptions));
-    // }    
+    CDBIterator* NewIterator()
+    {
+        return new CDBIterator(*this, pdb->NewIterator(iteroptions));
+    }    
 };
-
-
-
-
-
-
 
 #endif // SEQUENCE_LEVELDBWRAPPER_H
