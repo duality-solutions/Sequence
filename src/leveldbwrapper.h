@@ -262,12 +262,6 @@ public:
         return WriteBatch(batch, true);
     }
 
-    // not exactly clean encapsulation, but it's easiest for now
-    leveldb::Iterator* NewIterator_Old()
-    {
-        return pdb->NewIterator(iteroptions);
-    }
-
     CDBIterator* NewIterator()
     {
         return new CDBIterator(*this, pdb->NewIterator(iteroptions));

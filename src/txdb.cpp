@@ -17,6 +17,7 @@
 
 static const char DB_ADDRESSINDEX = 'a';
 static const char DB_BLOCK_INDEX = 'b';
+static const char DB_COINS = 'c';
 
 using namespace std;
 
@@ -109,7 +110,8 @@ bool CCoinsViewDB::GetStats(CCoinsStats &stats) const {
     /* It seems that there are no "const iterators" for LevelDB.  Since we
        only need read operations on it, use a const-cast to get around
        that restriction.  */
-    std::unique_ptr<leveldb::Iterator> pcursor(const_cast<CLevelDBWrapper*>(&db)->NewIterator_Old());
+    std::unique_ptr<CDBIterator> pcursor(const_cast<CLevelDBWrapper*>(&db)->NewIterator());
+
     pcursor->SeekToFirst();
 
     CHashWriter ss(SER_GETHASH, PROTOCOL_VERSION);
@@ -119,33 +121,27 @@ bool CCoinsViewDB::GetStats(CCoinsStats &stats) const {
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
         try {
-            leveldb::Slice slKey = pcursor->key();
-            CDataStream ssKey(slKey.data(), slKey.data()+slKey.size(), SER_DISK, CLIENT_VERSION);
-            char chType;
-            ssKey >> chType;
-            if (chType == 'c') {
-                leveldb::Slice slValue = pcursor->value();
-                CDataStream ssValue(slValue.data(), slValue.data()+slValue.size(), SER_DISK, CLIENT_VERSION);
+            std::pair<char, uint256> key;
+            if (pcursor->GetKey(key) && key.first == DB_COINS) {
                 CCoins coins;
-                ssValue >> coins;
-                uint256 txhash;
-                ssKey >> txhash;
-                ss << txhash;
-                ss << VARINT(coins.nVersion);
-                ss << (coins.fCoinBase ? 'c' : 'n');
-                ss << VARINT(coins.nHeight);
-                stats.nTransactions++;
-                for (unsigned int i=0; i<coins.vout.size(); i++) {
-                    const CTxOut &out = coins.vout[i];
-                    if (!out.IsNull()) {
-                        stats.nTransactionOutputs++;
-                        ss << VARINT(i+1);
-                        ss << out;
-                        nTotalAmount += out.nValue;
+                if (pcursor->GetValue(coins)) {
+                    ss << key.second;
+                    ss << VARINT(coins.nVersion);
+                    ss << (coins.fCoinBase ? 'c' : 'n');
+                    ss << VARINT(coins.nHeight);
+                    stats.nTransactions++;
+                    for (unsigned int i=0; i<coins.vout.size(); i++) {
+                        const CTxOut &out = coins.vout[i];
+                        if (!out.IsNull()) {
+                            stats.nTransactionOutputs++;
+                            ss << VARINT(i+1);
+                            ss << out;
+                            nTotalAmount += out.nValue;
+                        }
                     }
+                    stats.nSerializedSize += 32 + pcursor->GetValueSize();
+                    ss << VARINT(0);
                 }
-                stats.nSerializedSize += 32 + slValue.size();
-                ss << VARINT(0);
             }
             pcursor->Next();
         } catch (const std::exception& e) {
@@ -201,7 +197,7 @@ bool CBlockTreeDB::ReadAddressIndex(uint160 addressHash, int type, std::vector<s
 {
     std::unique_ptr<CDBIterator> pcursor(NewIterator());
     if (start > 0 && end > 0) {
-      pcursor->Seek(std::make_pair(DB_ADDRESSINDEX, CAddressIndexIteratorHeightKey(type, addressHash, start)));
+        pcursor->Seek(std::make_pair(DB_ADDRESSINDEX, CAddressIndexIteratorHeightKey(type, addressHash, start)));
     } else {
         pcursor->Seek(std::make_pair(DB_ADDRESSINDEX, CAddressIndexIteratorKey(type, addressHash)));
     }
