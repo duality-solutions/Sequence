@@ -75,6 +75,11 @@ bool fAddressIndex = false;
 bool fTimestampIndex = false;
 bool fSpentIndex = false;
 
+enum DisconnectResult {
+    DISCONNECT_OK,      // All good.
+    DISCONNECT_UNCLEAN, // Rolled back, but UTXO set was inconsistent with block.
+    DISCONNECT_FAILED   // Something else went wrong.
+};
 
 // ppcoin values
 string strMintWarning;
@@ -1176,16 +1181,16 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
     return true;
 }
 
-// bool GetAddressIndex(uint160 addressHash, int type, std::vector<std::pair<CAddressIndexKey, CAmount> >& addressIndex, int start, int end)
-// {
-//     if (!fAddressIndex)
-//         return error("address index not enabled");
+bool GetAddressIndex(uint160 addressHash, int type, std::vector<std::pair<CAddressIndexKey, CAmount> >& addressIndex, int start, int end)
+{
+    if (!fAddressIndex)
+        return error("address index not enabled");
 
-//     if (!pblocktree->ReadAddressIndex(addressHash, type, addressIndex, start, end))
-//         return error("unable to get txids for address");
+    if (!pblocktree->ReadAddressIndex(addressHash, type, addressIndex, start, end))
+        return error("unable to get txids for address");
 
-//     return true;
-// }
+    return true;
+}
 
 
 
@@ -1685,6 +1690,10 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
     if (blockUndo.vtxundo.size() + 1 != block.vtx.size())
         return error("DisconnectBlock() : block and undo data inconsistent");
 
+    std::vector<std::pair<CAddressIndexKey, CAmount> > addressIndex;
+    std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> > addressUnspentIndex;
+
+
     // undo transactions in reverse order
     for (int i = block.vtx.size() - 1; i >= 0; i--) {
         const CTransaction &tx = block.vtx[i];
@@ -1712,6 +1721,56 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
         outs->Clear();
         }
 
+
+        if (fAddressIndex) {
+            for (unsigned int k = tx.vout.size(); k-- > 0;) {
+                const CTxOut& out = tx.vout[k];
+
+                if (out.scriptPubKey.IsPayToScriptHash()) {
+                    // Remove BDAP portion of the script
+                     CScript scriptPubKey;
+                     CScript scriptPubKeyOut;
+                    // if (RemoveBDAPScript(out.scriptPubKey, scriptPubKeyOut)) {
+                    //     scriptPubKey = scriptPubKeyOut;
+                    // } else {
+                         scriptPubKey = out.scriptPubKey;
+                    // }
+
+                    std::vector<unsigned char> hashBytes(scriptPubKey.begin() + 2, scriptPubKey.begin() + 22);
+
+                    // undo receiving activity
+                    addressIndex.push_back(std::make_pair(CAddressIndexKey(2, uint160(hashBytes), pindex->nHeight, i, hash, k, false), out.nValue));
+
+                    // undo unspent index
+                    addressUnspentIndex.push_back(std::make_pair(CAddressUnspentKey(2, uint160(hashBytes), hash, k), CAddressUnspentValue()));
+
+                } else if (out.scriptPubKey.IsPayToPublicKeyHash()) {
+                    // Remove BDAP portion of the script
+                     CScript scriptPubKey;
+                     CScript scriptPubKeyOut;
+                    // if (RemoveBDAPScript(out.scriptPubKey, scriptPubKeyOut)) {
+                    //     scriptPubKey = scriptPubKeyOut;
+                    // } else {
+                         scriptPubKey = out.scriptPubKey;
+                    // }
+
+                    std::vector<unsigned char> hashBytes(scriptPubKey.begin() + 3, scriptPubKey.begin() + 23);
+
+                    // undo receiving activity
+                    addressIndex.push_back(std::make_pair(CAddressIndexKey(1, uint160(hashBytes), pindex->nHeight, i, hash, k, false), out.nValue));
+
+                    // undo unspent index
+                    addressUnspentIndex.push_back(std::make_pair(CAddressUnspentKey(1, uint160(hashBytes), hash, k), CAddressUnspentValue()));
+
+                } else {
+                    continue;
+                }
+            }
+        } //if (fAddressIndex)
+
+
+
+
         // restore inputs
         if (i > 0) { // not coinbases
             const CTxUndo &txundo = blockUndo.vtxundo[i-1];
@@ -1720,6 +1779,7 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
             for (unsigned int j = tx.vin.size(); j-- > 0;) {
                 const COutPoint &out = tx.vin[j].prevout;
                 const CTxInUndo &undo = txundo.vprevout[j];
+                int undoHeight = txundo.vprevout[j].nHeight;
                 CCoinsModifier coins = view.ModifyCoins(out.hash);
                 if (undo.nHeight != 0) {
                     // undo data contains height: this is the last output of the prevout tx being spent
@@ -1740,9 +1800,60 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
                 if (coins->vout.size() < out.n+1)
                     coins->vout.resize(out.n+1);
                 coins->vout[out.n] = undo.txout;
+
+                const CTxIn input = tx.vin[j];
+
+                if (fAddressIndex) {
+                    //const Coin& coin = view.AccessCoin(tx.vin[j].prevout);
+                    //const CTxOut& prevout = coin.out;
+                    //const CTxOut& prevout = view.GetOutputFor(tx.vin[i]);
+                    CCoinsViewCache viewcache(pcoinsTip);
+                    const CTxOut& prevout = viewcache.GetOutputFor(tx.vin[j]);
+                    if (prevout.scriptPubKey.IsPayToScriptHash()) {
+                        // Remove BDAP portion of the script
+                        CScript scriptPubKey;
+                        CScript scriptPubKeyOut;
+                        // if (RemoveBDAPScript(prevout.scriptPubKey, scriptPubKeyOut)) {
+                        //     scriptPubKey = scriptPubKeyOut;
+                        // } else {
+                             scriptPubKey = prevout.scriptPubKey;
+                        // }
+
+                        std::vector<unsigned char> hashBytes(scriptPubKey.begin() + 2, scriptPubKey.begin() + 22);
+                        // undo spending activity
+                        addressIndex.push_back(std::make_pair(CAddressIndexKey(2, uint160(hashBytes), pindex->nHeight, i, hash, j, true), prevout.nValue * -1));
+                        // restore unspent index
+                        addressUnspentIndex.push_back(std::make_pair(CAddressUnspentKey(2, uint160(hashBytes), input.prevout.hash, input.prevout.n), CAddressUnspentValue(prevout.nValue, scriptPubKey, undoHeight)));
+
+                    } else if (prevout.scriptPubKey.IsPayToPublicKeyHash()) {
+                        // Remove BDAP portion of the script
+                        CScript scriptPubKey;
+                        CScript scriptPubKeyOut;
+                        // if (RemoveBDAPScript(prevout.scriptPubKey, scriptPubKeyOut)) {
+                        //     scriptPubKey = scriptPubKeyOut;
+                        // } else {
+                             scriptPubKey = prevout.scriptPubKey;
+                        // }
+
+                        std::vector<unsigned char> hashBytes(scriptPubKey.begin() + 3, scriptPubKey.begin() + 23);
+                        // undo spending activity
+                        addressIndex.push_back(std::make_pair(CAddressIndexKey(1, uint160(hashBytes), pindex->nHeight, i, hash, j, true), prevout.nValue * -1));
+                        // restore unspent index
+                        addressUnspentIndex.push_back(std::make_pair(CAddressUnspentKey(1, uint160(hashBytes), input.prevout.hash, input.prevout.n), CAddressUnspentValue(prevout.nValue, scriptPubKey, undoHeight)));
+                    } else {
+                        continue;
+                    }
+                } //if (fAddressIndex)
             }
         }
-    }
+
+
+
+
+
+    } //for for (int i = block.vtx.size() - 1; i >= 0; i--)
+
+
 
     // Sequence: undo name transactions in reverse order
     if (fWriteNames)
@@ -1755,6 +1866,21 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
 //ppcoin    // ppcoin: clean up wallet after disconnecting coinstake
 //    for(CTransaction& tx : block.vtx)
 //        SyncWithWallets(tx, &block, true);
+
+
+    if (fAddressIndex) {
+        if (!pblocktree->EraseAddressIndex(addressIndex)) {
+            //AbortNode(state, "Failed to delete address index");
+            return false; //DISCONNECT_FAILED;
+        }
+        if (!pblocktree->UpdateAddressUnspentIndex(addressUnspentIndex)) {
+            //AbortNode(state, "Failed to write address unspent index");
+            return false; //DISCONNECT_FAILED;
+        }
+    }
+
+
+
 
     if (pfClean) {
         *pfClean = fClean;
@@ -1959,9 +2085,14 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     if(trustdepth < 0)
        GetArg("-trustdepth", 0);
 
+    std::vector<std::pair<CAddressIndexKey, CAmount> > addressIndex;
+    std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> > addressUnspentIndex;
+    std::vector<std::pair<CSpentIndexKey, CSpentIndexValue> > spentIndex;
+
     for (unsigned int i = 0; i < block.vtx.size(); i++)
     {
         const CTransaction &tx = block.vtx[i];
+        const uint256 txhash = tx.GetHash();
 
         nInputs += tx.vin.size();
         nSigOps += GetLegacySigOpCount(tx);
@@ -1976,6 +2107,43 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
             if (!view.HaveInputs(tx))
                 return state.DoS(100, error("ConnectBlock() : inputs missing/spent"),
                                  REJECT_INVALID, "bad-txns-inputs-missingorspent");
+
+            if (fAddressIndex || fSpentIndex) {
+                for (size_t j = 0; j < tx.vin.size(); j++) {
+                    const CTxIn input = tx.vin[j];
+                    //const Coin& coin = view.AccessCoin(tx.vin[j].prevout);
+                    //const CTxOut& prevout = coin.out;
+                    CCoinsViewCache viewcache(pcoinsTip);
+                    const CTxOut& prevout = viewcache.GetOutputFor(tx.vin[j]);
+                    uint160 hashBytes;
+                    int addressType;
+
+                    if (prevout.scriptPubKey.IsPayToScriptHash()) {
+                        hashBytes = uint160(std::vector<unsigned char>(prevout.scriptPubKey.begin() + 2, prevout.scriptPubKey.begin() + 22));
+                        addressType = 2;
+                    } else if (prevout.scriptPubKey.IsPayToPublicKeyHash()) {
+                        hashBytes = uint160(std::vector<unsigned char>(prevout.scriptPubKey.begin() + 3, prevout.scriptPubKey.begin() + 23));
+                        addressType = 1;
+                    } else {
+                        hashBytes.SetNull();
+                        addressType = 0;
+                    }
+
+                    if (fAddressIndex && addressType > 0) {
+                        // record spending activity
+                        addressIndex.push_back(std::make_pair(CAddressIndexKey(addressType, hashBytes, pindex->nHeight, i, txhash, j, true), prevout.nValue * -1));
+
+                        // remove address from unspent index
+                        addressUnspentIndex.push_back(std::make_pair(CAddressUnspentKey(addressType, hashBytes, input.prevout.hash, input.prevout.n), CAddressUnspentValue()));
+                    }
+
+                    if (fSpentIndex) {
+                        // add the spent index to determine the txid and input that spent an output
+                        // and to find the amount and address from an input
+                        spentIndex.push_back(std::make_pair(CSpentIndexKey(input.prevout.hash, input.prevout.n), CSpentIndexValue(txhash, j, pindex->nHeight, prevout.nValue, addressType, hashBytes)));
+                    }
+                }
+            } //(fAddressIndex || fSpentIndex)
 
             if (fStrictPayToScriptHash)
             {
@@ -2004,6 +2172,48 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
 
             control.Add(vChecks);
         }
+
+        if (fAddressIndex) {
+            for (unsigned int k = 0; k < tx.vout.size(); k++) {
+                const CTxOut& out = tx.vout[k];
+
+                if (out.scriptPubKey.IsPayToScriptHash()) {
+                    // Remove BDAP portion of the script
+                    CScript scriptPubKey;
+                    CScript scriptPubKeyOut;
+                    // if (RemoveBDAPScript(out.scriptPubKey, scriptPubKeyOut)) {
+                    //     scriptPubKey = scriptPubKeyOut;
+                    // } else {
+                         scriptPubKey = out.scriptPubKey;
+                    // }
+
+                    std::vector<unsigned char> hashBytes(scriptPubKey.begin() + 2, scriptPubKey.begin() + 22);
+                    // record receiving activity
+                    addressIndex.push_back(std::make_pair(CAddressIndexKey(2, uint160(hashBytes), pindex->nHeight, i, txhash, k, false), out.nValue));
+                    // record unspent output
+                    addressUnspentIndex.push_back(std::make_pair(CAddressUnspentKey(2, uint160(hashBytes), txhash, k), CAddressUnspentValue(out.nValue, scriptPubKey, pindex->nHeight)));
+                } else if (out.scriptPubKey.IsPayToPublicKeyHash()) {
+                    // Remove BDAP portion of the script
+                    CScript scriptPubKey;
+                    CScript scriptPubKeyOut;
+                    // if (RemoveBDAPScript(out.scriptPubKey, scriptPubKeyOut)) {
+                    //     scriptPubKey = scriptPubKeyOut;
+                    // } else {
+                         scriptPubKey = out.scriptPubKey;
+                    // }
+
+                    std::vector<unsigned char> hashBytes(scriptPubKey.begin() + 3, scriptPubKey.begin() + 23);
+                    // record receiving activity
+                    addressIndex.push_back(std::make_pair(CAddressIndexKey(1, uint160(hashBytes), pindex->nHeight, i, txhash, k, false), out.nValue));
+                    // record unspent output
+                    addressUnspentIndex.push_back(std::make_pair(CAddressUnspentKey(1, uint160(hashBytes), txhash, k), CAddressUnspentValue(out.nValue, scriptPubKey, pindex->nHeight)));
+                } else {
+                    continue;
+                }
+            }
+        }  //if (fAddressIndex)
+
+
 
         CTxUndo undoDummy;
         if (i > 0) {
@@ -2062,6 +2272,19 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     if (fTxIndex)
         if (!pblocktree->WriteTxIndex(vPos))
             return state.Abort("Failed to write transaction index");
+
+    if (fAddressIndex) {
+        if (!pblocktree->WriteAddressIndex(addressIndex)) {
+            //return AbortNode(state, "Failed to write address index");
+            return state.Abort("Failed to write address index");
+        }
+
+        if (!pblocktree->UpdateAddressUnspentIndex(addressUnspentIndex)) {
+            //return AbortNode(state, "Failed to write address unspent index");
+            return state.Abort("Failed to write address unspent index");
+        }
+    } //if (fAddressIndex)
+
 
     // add this block to the view's block chain
     view.SetBestBlock(pindex->GetBlockHash());
@@ -3296,6 +3519,14 @@ bool AbortNode(const std::string &strMessage, const std::string &userMessage)
     StartShutdown();
     return false;
 }
+
+bool AbortNode(CValidationState& state, const std::string& strMessage, const std::string& userMessage = "")
+{
+    AbortNode(strMessage, userMessage);
+    return state.Error(strMessage);
+}
+
+
 
 bool CheckDiskSpace(uint64_t nAdditionalBytes)
 {

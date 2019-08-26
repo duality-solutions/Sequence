@@ -16,6 +16,7 @@
 #include <boost/thread.hpp>
 
 static const char DB_ADDRESSINDEX = 'a';
+static const char DB_ADDRESSUNSPENTINDEX = 'u';
 static const char DB_BLOCK_INDEX = 'b';
 static const char DB_COINS = 'c';
 
@@ -176,6 +177,21 @@ bool CBlockTreeDB::ReadFlag(const std::string &name, bool &fValue) {
     fValue = ch == '1';
     return true;
 }
+
+bool CBlockTreeDB::UpdateAddressUnspentIndex(const std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> >& vect)
+{
+    //CDBBatch batch(*this);
+    CLevelDBBatch batch;
+    for (std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> >::const_iterator it = vect.begin(); it != vect.end(); it++) {
+        if (it->second.IsNull()) {
+            batch.Erase(std::make_pair(DB_ADDRESSUNSPENTINDEX, it->first));
+        } else {
+            batch.Write(std::make_pair(DB_ADDRESSUNSPENTINDEX, it->first), it->second);
+        }
+    }
+    return WriteBatch(batch);
+}
+
 
 bool CBlockTreeDB::WriteAddressIndex(const std::vector<std::pair<CAddressIndexKey, CAmount> >& vect)
 {

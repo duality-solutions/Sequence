@@ -210,6 +210,29 @@ unsigned int CScript::GetSigOpCount(const CScript& scriptSig) const
     return subscript.GetSigOpCount(true);
 }
 
+
+bool CScript::IsPayToPublicKeyHash() const
+{
+    // Remove BDAP portion of the script
+    CScript scriptPubKey;
+    CScript scriptPubKeyOut;
+    // if (RemoveBDAPScript(*this, scriptPubKeyOut)) {
+    //     scriptPubKey = scriptPubKeyOut;
+    // } else {
+         scriptPubKey = *this; //review
+    // }
+
+    //review
+    // Extra-fast test for pay-to-pubkey-hash CScripts:
+    return (this->size() == 25 &&
+            this->at(0) == OP_DUP &&
+            this->at(1) == OP_HASH160 &&
+            this->at(2) == 0x14 &&
+            this->at(23) == OP_EQUALVERIFY &&
+            this->at(24) == OP_CHECKSIG);
+}
+
+
 bool CScript::IsPayToScriptHash() const
 {
     // Extra-fast test for pay-to-script-hash CScripts:
