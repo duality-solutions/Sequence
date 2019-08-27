@@ -242,6 +242,29 @@ bool CScript::IsPayToScriptHash() const
             this->at(22) == OP_EQUAL);
 }
 
+bool CScript::IsPayToPublicKey() const
+{
+    // Remove BDAP portion of the script
+    CScript scriptPubKey;
+    CScript scriptPubKeyOut;
+    // if (RemoveBDAPScript(*this, scriptPubKeyOut)) {
+    //     scriptPubKey = scriptPubKeyOut;
+    // } else {
+         scriptPubKey = *this;
+    // }
+    // Test for pay-to-pubkey CScript with both
+    // compressed or uncompressed pubkey
+    if (this->size() == 35) {
+        return (this->at(1) == 0x02 || this->at(1) == 0x03) &&
+               this->at(34) == OP_CHECKSIG;
+    }
+    if (this->size() == 67) {
+        return this->at(1) == 0x04 &&
+               this->at(66) == OP_CHECKSIG;
+    }
+    return false;
+}
+
 bool CScript::IsPushOnly() const
 {
     const_iterator pc = begin();

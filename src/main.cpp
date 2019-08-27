@@ -1174,6 +1174,12 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
         // Store transaction in memory
         pool.addUnchecked(hash, entry, setAncestors);
         hooks->AddToPendingNames(tx);
+
+        // Add memory address index
+        if (fAddressIndex) {
+            pool.addAddressIndex(entry, view);
+        }
+
     }
 
     if(!fDryRun) SyncWithWallets(tx, NULL);
@@ -1871,10 +1877,12 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
     if (fAddressIndex) {
         if (!pblocktree->EraseAddressIndex(addressIndex)) {
             //AbortNode(state, "Failed to delete address index");
+            return state.Abort("Failed to delete address index");
             return false; //DISCONNECT_FAILED;
         }
         if (!pblocktree->UpdateAddressUnspentIndex(addressUnspentIndex)) {
             //AbortNode(state, "Failed to write address unspent index");
+            return state.Abort("Failed to write address unspent index");
             return false; //DISCONNECT_FAILED;
         }
     }
@@ -3696,6 +3704,10 @@ bool static LoadBlockIndexDB()
     // Check whether we have a transaction index
     pblocktree->ReadFlag("txindex", fTxIndex);
     LogPrintf("LoadBlockIndexDB(): transaction index %s\n", fTxIndex ? "enabled" : "disabled");
+
+    // Check whether we have an address index
+    pblocktree->ReadFlag("addressindex", fAddressIndex);
+    LogPrintf("%s: address index %s\n", __func__, fAddressIndex ? "enabled" : "disabled");
 
     // Load pointer to end of best chain
     BlockMap::iterator it = mapBlockIndex.find(pcoinsTip->GetBestBlock());
