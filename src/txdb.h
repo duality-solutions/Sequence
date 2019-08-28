@@ -77,6 +77,9 @@ public:
     bool ReadSpentIndex(CSpentIndexKey& key, CSpentIndexValue& value);
     bool UpdateSpentIndex(const std::vector<std::pair<CSpentIndexKey, CSpentIndexValue> >& vect);
 
+    bool ReadTimestampIndex(const unsigned int& high, const unsigned int& low, std::vector<uint256>& vect);
+    bool WriteTimestampIndex(const CTimestampIndexKey& timestampIndex);
+
 };
 
 #endif // SEQUENCE_TXDB_H
