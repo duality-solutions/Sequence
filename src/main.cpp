@@ -1180,6 +1180,11 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
             pool.addAddressIndex(entry, view);
         }
 
+        // Add memory spent index
+        if (fSpentIndex) {
+            pool.addSpentIndex(entry, view);
+        }
+
     }
 
     if(!fDryRun) SyncWithWallets(tx, NULL);
@@ -1198,6 +1203,19 @@ bool GetAddressIndex(uint160 addressHash, int type, std::vector<std::pair<CAddre
     return true;
 }
 
+bool GetSpentIndex(CSpentIndexKey& key, CSpentIndexValue& value)
+{
+    if (!fSpentIndex)
+        return false;
+
+    if (mempool.getSpentIndex(key, value))
+        return true;
+
+    if (!pblocktree->ReadSpentIndex(key, value))
+        return false;
+
+    return true;
+}
 
 
 /** Return transaction in tx, and if it was found inside a block, its hash is placed in hashBlock */
@@ -1698,6 +1716,7 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
 
     std::vector<std::pair<CAddressIndexKey, CAmount> > addressIndex;
     std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> > addressUnspentIndex;
+    std::vector<std::pair<CSpentIndexKey, CSpentIndexValue> > spentIndex;
 
 
     // undo transactions in reverse order
@@ -1808,6 +1827,11 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
                 coins->vout[out.n] = undo.txout;
 
                 const CTxIn input = tx.vin[j];
+
+                if (fSpentIndex) {
+                    // undo and delete the spent index
+                    spentIndex.push_back(std::make_pair(CSpentIndexKey(input.prevout.hash, input.prevout.n), CSpentIndexValue()));
+                }
 
                 if (fAddressIndex) {
                     //const Coin& coin = view.AccessCoin(tx.vin[j].prevout);
@@ -2292,6 +2316,11 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
             return state.Abort("Failed to write address unspent index");
         }
     } //if (fAddressIndex)
+
+    if (fSpentIndex)
+        if (!pblocktree->UpdateSpentIndex(spentIndex))
+            //return AbortNode(state, "Failed to write transaction index");    
+            return state.Abort("Failed to write transaction index");
 
 
     // add this block to the view's block chain
@@ -3708,6 +3737,10 @@ bool static LoadBlockIndexDB()
     // Check whether we have an address index
     pblocktree->ReadFlag("addressindex", fAddressIndex);
     LogPrintf("%s: address index %s\n", __func__, fAddressIndex ? "enabled" : "disabled");
+
+    // Check whether we have a spent index
+    pblocktree->ReadFlag("spentindex", fSpentIndex);
+    LogPrintf("%s: spent index %s\n", __func__, fSpentIndex ? "enabled" : "disabled");
 
     // Load pointer to end of best chain
     BlockMap::iterator it = mapBlockIndex.find(pcoinsTip->GetBestBlock());

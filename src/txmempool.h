@@ -316,7 +316,14 @@ private:
 
     typedef std::map<uint256, std::vector<CMempoolAddressDeltaKey> > addressDeltaMapInserted;
     addressDeltaMapInserted mapAddressInserted;
-    
+
+    typedef std::map<CSpentIndexKey, CSpentIndexValue, CSpentIndexKeyCompare> mapSpentIndex;
+    mapSpentIndex mapSpent;
+
+    typedef std::map<uint256, std::vector<CSpentIndexKey> > mapSpentIndexInserted;
+    mapSpentIndexInserted mapSpentInserted;
+
+
     const setEntries & GetMemPoolParents(txiter entry) const;
     const setEntries & GetMemPoolChildren(txiter entry) const;
     void UpdateParent(txiter entry, txiter parent, bool add);
@@ -346,6 +353,9 @@ public:
     bool addUnchecked(const uint256& hash, const CTxMemPoolEntry &entry, setEntries &setAncestors, bool fCurrentEstimate = true);
 
     void addAddressIndex(const CTxMemPoolEntry& entry, const CCoinsViewCache& view);
+
+    void addSpentIndex(const CTxMemPoolEntry& entry, const CCoinsViewCache& view);
+    bool getSpentIndex(CSpentIndexKey& key, CSpentIndexValue& value);
 
 
     void remove(const CTransaction &tx, std::list<CTransaction>& removed, bool fRecursive = false);

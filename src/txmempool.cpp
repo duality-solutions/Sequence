@@ -854,6 +854,87 @@ void CTxMemPool::addAddressIndex(const CTxMemPoolEntry& entry, const CCoinsViewC
     mapAddressInserted.insert(std::make_pair(txhash, inserted));
 } //addAddressIndex
 
+
+void CTxMemPool::addSpentIndex(const CTxMemPoolEntry& entry, const CCoinsViewCache& view)
+{
+    //LOCK(cs);
+
+    const CTransaction& tx = entry.GetTx();
+    std::vector<CSpentIndexKey> inserted;
+
+    uint256 txhash = tx.GetHash();
+    for (unsigned int j = 0; j < tx.vin.size(); j++) {
+        const CTxIn input = tx.vin[j];
+        //const Coin& coin = view.AccessCoin(input.prevout);
+        //const CTxOut& prevout = coin.out;
+        CCoinsViewCache viewcache(pcoinsTip);
+        const CTxOut& prevout = viewcache.GetOutputFor(tx.vin[j]);
+        uint160 addressHash;
+        int addressType;
+
+        if (prevout.scriptPubKey.IsPayToScriptHash()) {
+            // Remove BDAP portion of the script
+            CScript scriptPubKey;
+            CScript scriptPubKeyOut;
+            // if (RemoveBDAPScript(prevout.scriptPubKey, scriptPubKeyOut)) {
+            //     scriptPubKey = scriptPubKeyOut;
+            // } else {
+                 scriptPubKey = prevout.scriptPubKey;
+            // }
+
+            addressHash = uint160(std::vector<unsigned char>(scriptPubKey.begin() + 2, scriptPubKey.begin() + 22));
+            addressType = 2;
+        } else if (prevout.scriptPubKey.IsPayToPublicKeyHash()) {
+            // Remove BDAP portion of the script
+            CScript scriptPubKey;
+            CScript scriptPubKeyOut;
+            // if (RemoveBDAPScript(prevout.scriptPubKey, scriptPubKeyOut)) {
+            //     scriptPubKey = scriptPubKeyOut;
+            // } else {
+                 scriptPubKey = prevout.scriptPubKey;
+            // }
+
+            addressHash = uint160(std::vector<unsigned char>(scriptPubKey.begin() + 3, scriptPubKey.begin() + 23));
+            addressType = 1;
+        } else if (prevout.scriptPubKey.IsPayToPublicKey()) {
+            CScript scriptPubKey;
+            CScript scriptPubKeyOut;
+            // if (RemoveBDAPScript(prevout.scriptPubKey, scriptPubKeyOut)) {
+            //     scriptPubKey = scriptPubKeyOut;
+            // } else {
+                 scriptPubKey = prevout.scriptPubKey;
+            // }
+
+            addressHash = Hash160(scriptPubKey.begin() + 1, scriptPubKey.end() - 1);
+            addressType = 1;
+        } else {
+            addressHash.SetNull();
+            addressType = 0;
+        }
+
+        CSpentIndexKey key = CSpentIndexKey(input.prevout.hash, input.prevout.n);
+        CSpentIndexValue value = CSpentIndexValue(txhash, j, -1, prevout.nValue, addressType, addressHash);
+
+        mapSpent.insert(std::make_pair(key, value));
+        inserted.push_back(key);
+    }
+
+    mapSpentInserted.insert(make_pair(txhash, inserted));
+} //addSpentIndex
+
+bool CTxMemPool::getSpentIndex(CSpentIndexKey& key, CSpentIndexValue& value)
+{
+    //LOCK(cs);
+    mapSpentIndex::iterator it;
+
+    it = mapSpent.find(key);
+    if (it != mapSpent.end()) {
+        value = it->second;
+        return true;
+    }
+    return false;
+} //getSpentIndex
+
 // Calculates descendants of entry that are not already in setDescendants, and adds to
 // setDescendants. Assumes entryit is already a tx in the mempool and setMemPoolChildren
 // is correct for tx and all descendants.
