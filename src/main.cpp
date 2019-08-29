@@ -1330,21 +1330,26 @@ bool IsInitialBlockDownload()
 {
     static bool rc = true; // Default - we're in the Initial Download
     do {
-      if(rc == false)
-    break; // ret false
+        if(rc == false)
+            break; // ret false
 
-      const CChainParams& chainParams = Params();
-      LOCK(cs_main);
+        const CChainParams& chainParams = Params();
+        LOCK(cs_main);
  
-      if (fImporting || fReindex)
-        break; // ret true
+        if (fImporting || fReindex)
+            break; // ret true
  
-      int cah = chainActive.Height();
+        int nChainHeight = chainActive.Height();
+        int nBlocksEstimate = Checkpoints::GetTotalBlocksEstimate(chainParams.Checkpoints());
+        if(nChainHeight < nBlocksEstimate || nChainHeight < pindexBestHeader->nHeight - 24 * 6)
+            break; // ret true
 
-      if(cah < Checkpoints::GetTotalBlocksEstimate(chainParams.Checkpoints()) || cah < pindexBestHeader->nHeight - 24 * 6)
-        break; // ret true
+        if (nChainHeight == 0 && nBlocksEstimate == 0 && pindexBestHeader->nHeight == 0) {
+            rc = false;
+            break; // ret false
+        }
 
-      rc = pindexBestHeader->GetBlockTime() < GetTime() - chainParams.MaxTipAge();
+        rc = pindexBestHeader->GetBlockTime() < GetTime() - chainParams.MaxTipAge();
 
     } while(false);
 
