@@ -657,6 +657,12 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         GetBoolArg("-spentindex", DEFAULT_SPENTINDEX) ||
         GetBoolArg("-timestampindex", DEFAULT_TIMESTAMPINDEX);
 
+    if (fAdditionalIndexes && GetArg("-checklevel", DEFAULT_CHECKLEVEL) < 4) {
+        //ForceSetArg("-checklevel", "4");
+        LogPrintf("DEBUGGER INSIGHTAPI additionalindex %s - made it here!\n",__func__);
+        SoftSetArg("-checklevel", "4");
+        LogPrintf("%s: parameter interaction: additional indexes -> setting -checklevel=4\n", __func__);
+    }
 
 
     // ********************************************************* Step 2: parameter interactions

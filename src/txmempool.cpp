@@ -752,6 +752,12 @@ void CTxMemPool::addAddressIndex(const CTxMemPoolEntry& entry, const CCoinsViewC
         const CTxIn input = tx.vin[j];
         //const Coin& coin = view.AccessCoin(input.prevout);
         //const CTxOut& prevout = coin.out;
+        //NEED TO REVIEW: See if we're skipping UTXOs that are required
+        CCoins coins;
+        if (!pcoinsTip->GetCoins(txhash, coins)) {
+            LogPrintf("DEBUGGER INSIGHT %s --could not find UTXO %s \n", __func__, input.prevout.ToString());
+            continue;
+        }
         CCoinsViewCache viewcache(pcoinsTip);
         const CTxOut& prevout = viewcache.GetOutputFor(tx.vin[j]);
         if (prevout.scriptPubKey.IsPayToScriptHash()) {
@@ -867,6 +873,12 @@ void CTxMemPool::addSpentIndex(const CTxMemPoolEntry& entry, const CCoinsViewCac
         const CTxIn input = tx.vin[j];
         //const Coin& coin = view.AccessCoin(input.prevout);
         //const CTxOut& prevout = coin.out;
+        //NEED TO REVIEW: See if we're skipping UTXOs that are required
+        CCoins coins;
+        if (!pcoinsTip->GetCoins(txhash, coins)) {
+            LogPrintf("DEBUGGER INSIGHT %s --could not find UTXO %s \n", __func__, input.prevout.ToString());
+            continue;
+        }
         CCoinsViewCache viewcache(pcoinsTip);
         const CTxOut& prevout = viewcache.GetOutputFor(tx.vin[j]);
         uint160 addressHash;
