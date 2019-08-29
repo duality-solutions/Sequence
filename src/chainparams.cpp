@@ -211,10 +211,14 @@ public:
         consensus.nRejectBlockOutdatedMajority = 75;
         consensus.nToCheckBlockUpgradeMajority = 100;
         consensus.nMinerThreads = 0;
+        consensus.nTargetSpacingMax = 1 * 64;     // 64 second max spacing target
+        consensus.nPoWTargetSpacing = 1 * 60;     // 60 seconds PoW Target
         consensus.fAllowMinDifficultyBlocks = false;
+        consensus.nPoSTargetSpacing = 1 * 64;     // 64 seconds PoS Target
         consensus.nStakeMinAge = 30 * 60;         // 30 minute minimum stake age
+        consensus.nStakeMaxAge = std::numeric_limits<int64_t>::max(); // Unlimited stake age
         consensus.nModifierInterval = 15 * 60;    // 15 minutes to elapse before new modifier is computed
-        consensus.nLastPOWBlock = 100000;         // Proof of Work finishes on block 300000
+        consensus.nLastPOWBlock = 100;         // Proof of Work finishes on block 300000
         bool startNewChain = false;
 
         genesis = CreateTestNetGenesisBlock(1478107000, 82131309, consensus.bnProofOfWorkLimit.GetCompact(), 1, (0 * COIN));
