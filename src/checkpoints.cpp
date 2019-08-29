@@ -76,7 +76,7 @@ namespace Checkpoints {
     {
         const MapCheckpoints& checkpoints = data.mapCheckpoints;
 
-        if (checkpoints.empty())
+        if (checkpoints.empty() || checkpoints.size() == 1)
             return 0;
 
         return checkpoints.rbegin()->first;
