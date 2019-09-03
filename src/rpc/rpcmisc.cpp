@@ -498,6 +498,129 @@ UniValue sendalert(const UniValue& params, bool fHelp)
     return result;
 }
 
+bool heightSort(std::pair<CAddressUnspentKey, CAddressUnspentValue> a,
+    std::pair<CAddressUnspentKey, CAddressUnspentValue> b)
+{
+    return a.second.blockHeight < b.second.blockHeight;
+}
+
+bool getAddressFromIndex(const int& type, const uint160& hash, std::string& address)
+{
+    if (type == 2) {
+        address = CSequenceAddress(CScriptID(hash)).ToString();
+    } else if (type == 1) {
+        address = CSequenceAddress(CKeyID(hash)).ToString();
+    } else {
+        return false;
+    }
+    return true;
+}
+
+bool getAddressesFromParams(const UniValue& params, std::vector<std::pair<uint160, int> >& addresses)
+{
+    if (params[0].isStr()) {
+        CSequenceAddress address(params[0].get_str());
+        uint160 hashBytes;
+        int type = 0;
+        if (!address.GetIndexKey(hashBytes, type)) {
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
+        }
+        addresses.push_back(std::make_pair(hashBytes, type));
+    } else if (params[0].isObject()) {
+        UniValue addressValues = find_value(params[0].get_obj(), "addresses");
+        if (!addressValues.isArray()) {
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Addresses is expected to be an array");
+        }
+
+        std::vector<UniValue> values = addressValues.getValues();
+
+        for (std::vector<UniValue>::iterator it = values.begin(); it != values.end(); ++it) {
+            CSequenceAddress address(it->get_str());
+            uint160 hashBytes;
+            int type = 0;
+            if (!address.GetIndexKey(hashBytes, type)) {
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
+            }
+            addresses.push_back(std::make_pair(hashBytes, type));
+        }
+    } else {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
+    }
+
+    return true;
+}
+
+
+//UniValue getaddressutxos(const JSONRPCRequest& request)
+UniValue getaddressutxos(const UniValue& params, bool fHelp)
+{
+    //if (request.fHelp || request.params.size() != 1)
+    if (fHelp || params.size() != 1)
+        throw std::runtime_error(
+            "getaddressutxos\n"
+            "\nReturns all unspent outputs for an address (requires addressindex to be enabled).\n"
+            "\nArguments:\n"
+            "{\n"
+            "  \"addresses\"\n"
+            "    [\n"
+            "      \"address\"  (string) The base58check encoded address\n"
+            "      ,...\n"
+            "    ]\n"
+            "}\n"
+            "\nResult\n"
+            "[\n"
+            "  {\n"
+            "    \"address\"  (string) The address base58check encoded\n"
+            "    \"txid\"  (string) The output txid\n"
+            "    \"outputIndex\"  (number) The output index\n"
+            "    \"script\"  (string) The script hex encoded\n"
+            "    \"satoshis\"  (number) The number of satoshis of the output\n"
+            "    \"height\"  (number) The block height\n"
+            "  }\n"
+            "]\n"
+            "\nExamples:\n" +
+            HelpExampleCli("getaddressutxos", "'{\"addresses\": [\"D5nRy9Tf7Zsef8gMGL2fhWA9ZslrP4K5tf\"]}'") + HelpExampleRpc("getaddressutxos", "{\"addresses\": [\"D5nRy9Tf7Zsef8gMGL2fhWA9ZslrP4K5tf\"]}"));
+
+    std::vector<std::pair<uint160, int> > addresses;
+
+    if (!getAddressesFromParams(params, addresses)) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
+    }
+
+    std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> > unspentOutputs;
+
+    for (std::vector<std::pair<uint160, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
+        if (!GetAddressUnspent((*it).first, (*it).second, unspentOutputs)) {
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");
+        }
+    }
+
+    std::sort(unspentOutputs.begin(), unspentOutputs.end(), heightSort);
+
+    UniValue result(UniValue::VARR);
+
+    for (std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> >::const_iterator it = unspentOutputs.begin(); it != unspentOutputs.end(); it++) {
+        UniValue output(UniValue::VOBJ);
+        std::string address;
+        if (!getAddressFromIndex(it->first.type, it->first.hashBytes, address)) {
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Unknown address type");
+        }
+
+        output.push_back(Pair("address", address));
+        output.push_back(Pair("txid", it->first.txhash.GetHex()));
+        output.push_back(Pair("outputIndex", (int)it->first.index));
+        output.push_back(Pair("script", HexStr(it->second.script.begin(), it->second.script.end())));
+        output.push_back(Pair("satoshis", it->second.satoshis));
+        output.push_back(Pair("height", it->second.blockHeight));
+        result.push_back(output);
+    }
+
+    return result;
+} //getaddressutxos
+
+
+
+
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         okSafeMode threadSafe reqWallet
   //  --------------------- ------------------------  -----------------------  ---------- ---------- ---------
@@ -509,6 +632,11 @@ static const CRPCCommand commands[] =
     { "util",               "createmultisig",         &createmultisig,         true,      true ,      false },
     { "util",               "validateaddress",        &validateaddress,        true,      false,      false }, /* uses wallet if enabled */
     { "util",               "verifymessage",          &verifymessage,          true,      false,      false },
+
+    /* Address index */
+    //{"addressindex",        "getaddressutxos",       &getaddressutxos, false, {"addresses"}},
+    {"addressindex",        "getaddressutxos",       &getaddressutxos,         false,      false,     false },
+
 
     /* Not shown in help */
     { "hidden",             "sendalert",              &sendalert,              false,     false,      false },
