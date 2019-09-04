@@ -618,7 +618,143 @@ UniValue getaddressutxos(const UniValue& params, bool fHelp)
     return result;
 } //getaddressutxos
 
+//UniValue getaddressbalance(const JSONRPCRequest& request)
+UniValue getaddressbalance(const UniValue& params, bool fHelp)
+{
+    //if (request.fHelp || request.params.size() != 1)
+    if (fHelp || params.size() != 1)
+        throw std::runtime_error(
+            "getaddressbalance\n"
+            "\nReturns the balance for an address(es) (requires addressindex to be enabled).\n"
+            "\nArguments:\n"
+            "{\n"
+            "  \"addresses\"\n"
+            "    [\n"
+            "      \"address\"  (string) The base58check encoded address\n"
+            "      ,...\n"
+            "    ]\n"
+            "}\n"
+            "\nResult:\n"
+            "{\n"
+            "  \"balance\"  (string) The current balance in satoshis\n"
+            "  \"received\"  (string) The total number of satoshis received (including change)\n"
+            "}\n"
+            "\nExamples:\n" +
+            HelpExampleCli("getaddressbalance", "'{\"addresses\": [\"D5nRy9Tf7Zsef8gMGL2fhWA9ZslrP4K5tf\"]}'") + HelpExampleRpc("getaddressbalance", "{\"addresses\": [\"D5nRy9Tf7Zsef8gMGL2fhWA9ZslrP4K5tf\"]}"));
 
+    std::vector<std::pair<uint160, int> > addresses;
+
+    if (!getAddressesFromParams(params, addresses)) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
+    }
+
+    std::vector<std::pair<CAddressIndexKey, CAmount> > addressIndex;
+
+    for (std::vector<std::pair<uint160, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
+        if (!GetAddressIndex((*it).first, (*it).second, addressIndex)) {
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");
+        }
+    }
+
+    CAmount balance = 0;
+    CAmount received = 0;
+
+    for (std::vector<std::pair<CAddressIndexKey, CAmount> >::const_iterator it = addressIndex.begin(); it != addressIndex.end(); it++) {
+        if (it->second > 0) {
+            received += it->second;
+        }
+        balance += it->second;
+    }
+
+    UniValue result(UniValue::VOBJ);
+    result.push_back(Pair("balance", balance));
+    result.push_back(Pair("received", received));
+
+    return result;
+} //getaddressbalance
+
+
+//UniValue getaddresstxids(const JSONRPCRequest& request)
+UniValue getaddresstxids(const UniValue& params, bool fHelp)
+{
+    //if (request.fHelp || request.params.size() != 1)
+    if (fHelp || params.size() != 1)
+        throw std::runtime_error(
+            "getaddresstxids\n"
+            "\nReturns the txids for an address(es) (requires addressindex to be enabled).\n"
+            "\nArguments:\n"
+            "{\n"
+            "  \"addresses\"\n"
+            "    [\n"
+            "      \"address\"  (string) The base58check encoded address\n"
+            "      ,...\n"
+            "    ]\n"
+            "  \"start\" (number) The start block height\n"
+            "  \"end\" (number) The end block height\n"
+            "}\n"
+            "\nResult:\n"
+            "[\n"
+            "  \"transactionid\"  (string) The transaction id\n"
+            "  ,...\n"
+            "]\n"
+            "\nExamples:\n" +
+            HelpExampleCli("getaddresstxids", "'{\"addresses\": [\"D5nRy9Tf7Zsef8gMGL2fhWA9ZslrP4K5tf\"]}'") + HelpExampleRpc("getaddresstxids", "{\"addresses\": [\"D5nRy9Tf7Zsef8gMGL2fhWA9ZslrP4K5tf\"]}"));
+
+    std::vector<std::pair<uint160, int> > addresses;
+
+    if (!getAddressesFromParams(params, addresses)) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
+    }
+
+    int start = 0;
+    int end = 0;
+    if (params[0].isObject()) {
+        UniValue startValue = find_value(params[0].get_obj(), "start");
+        UniValue endValue = find_value(params[0].get_obj(), "end");
+        if (startValue.isNum() && endValue.isNum()) {
+            start = startValue.get_int();
+            end = endValue.get_int();
+        }
+    }
+
+    std::vector<std::pair<CAddressIndexKey, CAmount> > addressIndex;
+
+    for (std::vector<std::pair<uint160, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
+        if (start > 0 && end > 0) {
+            if (!GetAddressIndex((*it).first, (*it).second, addressIndex, start, end)) {
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");
+            }
+        } else {
+            if (!GetAddressIndex((*it).first, (*it).second, addressIndex)) {
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");
+            }
+        }
+    }
+
+    std::set<std::pair<int, std::string> > txids;
+    UniValue result(UniValue::VARR);
+
+    for (std::vector<std::pair<CAddressIndexKey, CAmount> >::const_iterator it = addressIndex.begin(); it != addressIndex.end(); it++) {
+        int height = it->first.blockHeight;
+        std::string txid = it->first.txhash.GetHex();
+
+        if (addresses.size() > 1) {
+            txids.insert(std::make_pair(height, txid));
+        } else {
+            if (txids.insert(std::make_pair(height, txid)).second) {
+                result.push_back(txid);
+            }
+        }
+    }
+
+    if (addresses.size() > 1) {
+        for (std::set<std::pair<int, std::string> >::const_iterator it = txids.begin(); it != txids.end(); it++) {
+            result.push_back(it->second);
+        }
+    }
+
+    return result;
+} //getaddresstxids
 
 
 static const CRPCCommand commands[] =
@@ -635,8 +771,11 @@ static const CRPCCommand commands[] =
 
     /* Address index */
     //{"addressindex",        "getaddressutxos",       &getaddressutxos, false, {"addresses"}},
+    //{"addressindex", "getaddresstxids", &getaddresstxids, false, {"addresses"}},
+    //{"addressindex", "getaddressbalance", &getaddressbalance, false, {"addresses"}},
     {"addressindex",        "getaddressutxos",       &getaddressutxos,         false,      false,     false },
-
+    {"addressindex",        "getaddresstxids",       &getaddresstxids,         false,      false,     false },
+    {"addressindex",        "getaddressbalance",     &getaddressbalance,       false,      false,     false },
 
     /* Not shown in help */
     { "hidden",             "sendalert",              &sendalert,              false,     false,      false },
