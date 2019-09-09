@@ -1177,13 +1177,11 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
 
         // Add memory address index
         if (fAddressIndex) {
-            //LogPrintf("DEBUGGER INSIGHTAPI addressindex %s - made it here!\n",__func__);
             pool.addAddressIndex(entry, view);
         }
 
         // Add memory spent index
         if (fSpentIndex) {
-            //LogPrintf("DEBUGGER INSIGHTAPI spentindex %s - made it here!\n",__func__);
             pool.addSpentIndex(entry, view);
         }
 
@@ -1776,21 +1774,15 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
         outs->Clear();
         }
 
-
         if (fAddressIndex) {
-            //LogPrintf("DEBUGGER INSIGHTAPI addressindex %s - made it here!\n",__func__);
             for (unsigned int k = tx.vout.size(); k-- > 0;) {
                 const CTxOut& out = tx.vout[k];
 
                 if (out.scriptPubKey.IsPayToScriptHash()) {
-                    // Remove BDAP portion of the script
-                     CScript scriptPubKey;
-                     CScript scriptPubKeyOut;
-                    // if (RemoveBDAPScript(out.scriptPubKey, scriptPubKeyOut)) {
-                    //     scriptPubKey = scriptPubKeyOut;
-                    // } else {
-                         scriptPubKey = out.scriptPubKey;
-                    // }
+                    CScript scriptPubKey;
+                    CScript scriptPubKeyOut;
+
+                    scriptPubKey = out.scriptPubKey;
 
                     std::vector<unsigned char> hashBytes(scriptPubKey.begin() + 2, scriptPubKey.begin() + 22);
 
@@ -1801,14 +1793,10 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
                     addressUnspentIndex.push_back(std::make_pair(CAddressUnspentKey(2, uint160(hashBytes), hash, k), CAddressUnspentValue()));
 
                 } else if (out.scriptPubKey.IsPayToPublicKeyHash()) {
-                    // Remove BDAP portion of the script
-                     CScript scriptPubKey;
-                     CScript scriptPubKeyOut;
-                    // if (RemoveBDAPScript(out.scriptPubKey, scriptPubKeyOut)) {
-                    //     scriptPubKey = scriptPubKeyOut;
-                    // } else {
-                         scriptPubKey = out.scriptPubKey;
-                    // }
+                    CScript scriptPubKey;
+                    CScript scriptPubKeyOut;
+
+                    scriptPubKey = out.scriptPubKey;
 
                     std::vector<unsigned char> hashBytes(scriptPubKey.begin() + 3, scriptPubKey.begin() + 23);
 
@@ -1823,9 +1811,6 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
                 }
             }
         } //if (fAddressIndex)
-
-
-
 
         // restore inputs
         if (i > 0) { // not coinbases
@@ -1861,16 +1846,11 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
                 const uint256 txhash = tx.GetHash();
 
                 if (fSpentIndex) {
-                    //LogPrintf("DEBUGGER INSIGHTAPI spentindex %s - made it here!\n",__func__);
                     // undo and delete the spent index
                     spentIndex.push_back(std::make_pair(CSpentIndexKey(input.prevout.hash, input.prevout.n), CSpentIndexValue()));
                 }
 
                 if (fAddressIndex) {
-                    //LogPrintf("DEBUGGER INSIGHTAPI addressindex %s - made it here!\n",__func__);
-                    //const Coin& coin = view.AccessCoin(tx.vin[j].prevout);
-                    //const CTxOut& prevout = coin.out;
-                    //const CTxOut& prevout = view.GetOutputFor(tx.vin[i]);
                     //NEED TO REVIEW: See if we're skipping UTXOs that are required
                     CCoins coins;
                     if (!pcoinsTip->GetCoins(txhash, coins)) {
@@ -1880,14 +1860,10 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
                     CCoinsViewCache viewcache(pcoinsTip);
                     const CTxOut& prevout = viewcache.GetOutputFor(tx.vin[j]);
                     if (prevout.scriptPubKey.IsPayToScriptHash()) {
-                        // Remove BDAP portion of the script
                         CScript scriptPubKey;
                         CScript scriptPubKeyOut;
-                        // if (RemoveBDAPScript(prevout.scriptPubKey, scriptPubKeyOut)) {
-                        //     scriptPubKey = scriptPubKeyOut;
-                        // } else {
-                             scriptPubKey = prevout.scriptPubKey;
-                        // }
+
+                        scriptPubKey = prevout.scriptPubKey;
 
                         std::vector<unsigned char> hashBytes(scriptPubKey.begin() + 2, scriptPubKey.begin() + 22);
                         // undo spending activity
@@ -1896,14 +1872,10 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
                         addressUnspentIndex.push_back(std::make_pair(CAddressUnspentKey(2, uint160(hashBytes), input.prevout.hash, input.prevout.n), CAddressUnspentValue(prevout.nValue, scriptPubKey, undoHeight)));
 
                     } else if (prevout.scriptPubKey.IsPayToPublicKeyHash()) {
-                        // Remove BDAP portion of the script
                         CScript scriptPubKey;
                         CScript scriptPubKeyOut;
-                        // if (RemoveBDAPScript(prevout.scriptPubKey, scriptPubKeyOut)) {
-                        //     scriptPubKey = scriptPubKeyOut;
-                        // } else {
-                             scriptPubKey = prevout.scriptPubKey;
-                        // }
+
+                        scriptPubKey = prevout.scriptPubKey;
 
                         std::vector<unsigned char> hashBytes(scriptPubKey.begin() + 3, scriptPubKey.begin() + 23);
                         // undo spending activity
@@ -1916,14 +1888,7 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
                 } //if (fAddressIndex)
             }
         }
-
-
-
-
-
     } //for for (int i = block.vtx.size() - 1; i >= 0; i--)
-
-
 
     // Sequence: undo name transactions in reverse order
     if (fWriteNames)
@@ -1937,23 +1902,16 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
 //    for(CTransaction& tx : block.vtx)
 //        SyncWithWallets(tx, &block, true);
 
-
     if (fAddressIndex) {
-            //LogPrintf("DEBUGGER INSIGHTAPI addressindex %s - made it here!\n",__func__);
         if (!pblocktree->EraseAddressIndex(addressIndex)) {
-            //AbortNode(state, "Failed to delete address index");
             return state.Abort("Failed to delete address index");
             return false; //DISCONNECT_FAILED;
         }
         if (!pblocktree->UpdateAddressUnspentIndex(addressUnspentIndex)) {
-            //AbortNode(state, "Failed to write address unspent index");
             return state.Abort("Failed to write address unspent index");
             return false; //DISCONNECT_FAILED;
         }
     }
-
-
-
 
     if (pfClean) {
         *pfClean = fClean;
@@ -2182,14 +2140,8 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                                  REJECT_INVALID, "bad-txns-inputs-missingorspent");
 
             if (fAddressIndex || fSpentIndex) {
-                //LogPrintf("DEBUGGER INSIGHTAPI addressindex %s - made it here!\n",__func__);
-                //LogPrintf("DEBUGGER INSIGHTAPI spentindex %s - made it here!\n",__func__);
-                //LogPrintf("DEBUGGER INSIGHTAPI %s - made it here 1\n",__func__);
                 for (size_t j = 0; j < tx.vin.size(); j++) {
-                    //LogPrintf("DEBUGGER INSIGHTAPI %s - made it here 2\n",__func__);
                     const CTxIn input = tx.vin[j];
-                    //const Coin& coin = view.AccessCoin(tx.vin[j].prevout);
-                    //const CTxOut& prevout = coin.out;
                     //NEED TO REVIEW: See if we're skipping UTXOs that are required
                     CCoins coins;
                     if (!pcoinsTip->GetCoins(txhash, coins)) {
@@ -2200,8 +2152,6 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                     const CTxOut& prevout = viewcache.GetOutputFor(tx.vin[j]);
                     uint160 hashBytes;
                     int addressType;
-
-                    //LogPrintf("DEBUGGER INSIGHTAPI %s - made it here 3\n",__func__);
 
                     if (prevout.scriptPubKey.IsPayToScriptHash()) {
                         hashBytes = uint160(std::vector<unsigned char>(prevout.scriptPubKey.begin() + 2, prevout.scriptPubKey.begin() + 22));
@@ -2214,10 +2164,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                         addressType = 0;
                     }
 
-                    //LogPrintf("DEBUGGER INSIGHTAPI %s - made it here 4\n",__func__);
-
                     if (fAddressIndex && addressType > 0) {
-                        //LogPrintf("DEBUGGER INSIGHTAPI addressindex %s - made it here!\n",__func__);
                         // record spending activity
                         addressIndex.push_back(std::make_pair(CAddressIndexKey(addressType, hashBytes, pindex->nHeight, i, txhash, j, true), prevout.nValue * -1));
 
@@ -2225,16 +2172,11 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                         addressUnspentIndex.push_back(std::make_pair(CAddressUnspentKey(addressType, hashBytes, input.prevout.hash, input.prevout.n), CAddressUnspentValue()));
                     }
 
-                    //LogPrintf("DEBUGGER INSIGHTAPI %s - made it here 5\n",__func__);
-
                     if (fSpentIndex) {
-                        //LogPrintf("DEBUGGER INSIGHTAPI spentindex %s - made it here!\n",__func__);
                         // add the spent index to determine the txid and input that spent an output
                         // and to find the amount and address from an input
                         spentIndex.push_back(std::make_pair(CSpentIndexKey(input.prevout.hash, input.prevout.n), CSpentIndexValue(txhash, j, pindex->nHeight, prevout.nValue, addressType, hashBytes)));
                     }
-
-                    //LogPrintf("DEBUGGER INSIGHTAPI %s - made it here 6\n",__func__);
 
                 }
             } //(fAddressIndex || fSpentIndex)
@@ -2268,19 +2210,14 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
         }
 
         if (fAddressIndex) {
-            //LogPrintf("DEBUGGER INSIGHTAPI addressindex %s - made it here!\n",__func__);
             for (unsigned int k = 0; k < tx.vout.size(); k++) {
                 const CTxOut& out = tx.vout[k];
 
                 if (out.scriptPubKey.IsPayToScriptHash()) {
-                    // Remove BDAP portion of the script
                     CScript scriptPubKey;
                     CScript scriptPubKeyOut;
-                    // if (RemoveBDAPScript(out.scriptPubKey, scriptPubKeyOut)) {
-                    //     scriptPubKey = scriptPubKeyOut;
-                    // } else {
-                         scriptPubKey = out.scriptPubKey;
-                    // }
+
+                    scriptPubKey = out.scriptPubKey;
 
                     std::vector<unsigned char> hashBytes(scriptPubKey.begin() + 2, scriptPubKey.begin() + 22);
                     // record receiving activity
@@ -2288,14 +2225,10 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                     // record unspent output
                     addressUnspentIndex.push_back(std::make_pair(CAddressUnspentKey(2, uint160(hashBytes), txhash, k), CAddressUnspentValue(out.nValue, scriptPubKey, pindex->nHeight)));
                 } else if (out.scriptPubKey.IsPayToPublicKeyHash()) {
-                    // Remove BDAP portion of the script
                     CScript scriptPubKey;
                     CScript scriptPubKeyOut;
-                    // if (RemoveBDAPScript(out.scriptPubKey, scriptPubKeyOut)) {
-                    //     scriptPubKey = scriptPubKeyOut;
-                    // } else {
-                         scriptPubKey = out.scriptPubKey;
-                    // }
+
+                    scriptPubKey = out.scriptPubKey;
 
                     std::vector<unsigned char> hashBytes(scriptPubKey.begin() + 3, scriptPubKey.begin() + 23);
                     // record receiving activity
@@ -2307,8 +2240,6 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                 }
             }
         }  //if (fAddressIndex)
-
-
 
         CTxUndo undoDummy;
         if (i > 0) {
@@ -2369,30 +2300,22 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
             return state.Abort("Failed to write transaction index");
 
     if (fAddressIndex) {
-            //LogPrintf("DEBUGGER INSIGHTAPI addressindex %s - made it here!\n",__func__);
         if (!pblocktree->WriteAddressIndex(addressIndex)) {
-            //return AbortNode(state, "Failed to write address index");
             return state.Abort("Failed to write address index");
         }
 
         if (!pblocktree->UpdateAddressUnspentIndex(addressUnspentIndex)) {
-            //return AbortNode(state, "Failed to write address unspent index");
             return state.Abort("Failed to write address unspent index");
         }
     } //if (fAddressIndex)
 
     if (fSpentIndex)
-        //LogPrintf("DEBUGGER INSIGHTAPI spentindex %s - made it here!\n",__func__);
         if (!pblocktree->UpdateSpentIndex(spentIndex))
-            //return AbortNode(state, "Failed to write transaction index");
             return state.Abort("Failed to write transaction index");
 
     if (fTimestampIndex)
-        //LogPrintf("DEBUGGER INSIGHTAPI timestampindex %s - made it here!\n",__func__);
         if (!pblocktree->WriteTimestampIndex(CTimestampIndexKey(pindex->nTime, pindex->GetBlockHash())))
-            //return AbortNode(state, "Failed to write timestamp index");
             return state.Abort("Failed to write timestamp index");
-
 
     // add this block to the view's block chain
     view.SetBestBlock(pindex->GetBlockHash());
@@ -2526,17 +2449,11 @@ void static UpdateTip(CBlockIndex *pindexNew) {
       DateTimeStrFormat("%Y-%m-%d %H:%M:%S", chainActive.Tip()->GetBlockTime()),
       Checkpoints::GuessVerificationProgress(chainParams.Checkpoints(), chainActive.Tip()), pcoinsTip->DynamicMemoryUsage() * (1.0 / (1<<20)), pcoinsTip->GetCacheSize(), FormatMoney(chainActive.Tip()->nMoneySupply));
 
-            //LogPrintf("DEBUGGER INSIGHTAPI %s - made it here 1\n",__func__);
-
     cvBlockChange.notify_all();
 
-            //LogPrintf("DEBUGGER INSIGHTAPI %s - made it here 1a\n",__func__);
-
-
-    // Check the version of the last 100 blocks to see if we need to upgrade:
+     // Check the version of the last 100 blocks to see if we need to upgrade:
     static bool fWarned = false;
     if (!IsInitialBlockDownload() && !fWarned)
-            //LogPrintf("DEBUGGER INSIGHTAPI %s - made it here 2\n",__func__);
     {
         int nUpgraded = 0;
         const CBlockIndex* pindex = chainActive.Tip();
@@ -2558,9 +2475,7 @@ void static UpdateTip(CBlockIndex *pindexNew) {
             }
         }
     }
-            //LogPrintf("DEBUGGER INSIGHTAPI %s - made it here 3\n",__func__);
-
-}
+ }
 
 /** Disconnect chainActive's tip. */
 bool static DisconnectTip(CValidationState &state, const Consensus::Params& consensusParams) {

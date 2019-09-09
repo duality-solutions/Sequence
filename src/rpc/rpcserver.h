@@ -24,25 +24,6 @@ class CBlockIndex;
 class CNetAddr;
 class CWallet;
 
-class SeqJSONRPCRequest
-{
-public:
-    UniValue id;
-    std::string strMethod;
-    UniValue params;
-    bool fHelp;
-    std::string URI;
-    std::string authUser;
-
-    SeqJSONRPCRequest()
-    {
-        id = NullUniValue;
-        params = NullUniValue;
-        fHelp = false;
-    }
-    void parse(const UniValue& valRequest);
-};
-
 class AcceptedConnection
 {
 public:
@@ -108,7 +89,6 @@ void RPCRunLater(const std::string& name, boost::function<void(void)> func, int6
 extern CNetAddr BoostAsioToCNetAddr(boost::asio::ip::address address);
 
 typedef UniValue(*rpcfn_type)(const UniValue& params, bool fHelp);
-//typedef UniValue (*rpcfn_type)(const SeqJSONRPCRequest& jsonRequest);
 
 class CRPCCommand
 {

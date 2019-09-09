@@ -239,7 +239,6 @@ struct CAddressUnspentValue {
     inline void SerializationOp(Stream& s, Operation ser_action, int nType, int nVersion)
     {
         READWRITE(satoshis);
-        //READWRITE(*(CScriptBase*)(&script));
         READWRITE(script);
         READWRITE(blockHeight);
     }

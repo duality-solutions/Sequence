@@ -750,8 +750,6 @@ void CTxMemPool::addAddressIndex(const CTxMemPoolEntry& entry, const CCoinsViewC
     uint256 txhash = tx.GetHash();
     for (unsigned int j = 0; j < tx.vin.size(); j++) {
         const CTxIn input = tx.vin[j];
-        //const Coin& coin = view.AccessCoin(input.prevout);
-        //const CTxOut& prevout = coin.out;
         //NEED TO REVIEW: See if we're skipping UTXOs that are required
         CCoins coins;
         if (!pcoinsTip->GetCoins(txhash, coins)) {
@@ -761,14 +759,10 @@ void CTxMemPool::addAddressIndex(const CTxMemPoolEntry& entry, const CCoinsViewC
         CCoinsViewCache viewcache(pcoinsTip);
         const CTxOut& prevout = viewcache.GetOutputFor(tx.vin[j]);
         if (prevout.scriptPubKey.IsPayToScriptHash()) {
-            // Remove BDAP portion of the script
             CScript scriptPubKey;
             CScript scriptPubKeyOut;
-            // if (RemoveBDAPScript(prevout.scriptPubKey, scriptPubKeyOut)) {
-            //     scriptPubKey = scriptPubKeyOut;
-            // } else {
-                 scriptPubKey = prevout.scriptPubKey;
-            // }
+
+            scriptPubKey = prevout.scriptPubKey;
 
             std::vector<unsigned char> hashBytes(prevout.scriptPubKey.begin() + 2, prevout.scriptPubKey.begin() + 22);
             CMempoolAddressDeltaKey key(2, uint160(hashBytes), txhash, j, 1);
@@ -776,14 +770,10 @@ void CTxMemPool::addAddressIndex(const CTxMemPoolEntry& entry, const CCoinsViewC
             mapAddress.insert(std::make_pair(key, delta));
             inserted.push_back(key);
         } else if (prevout.scriptPubKey.IsPayToPublicKeyHash()) {
-            // Remove BDAP portion of the script
             CScript scriptPubKey;
             CScript scriptPubKeyOut;
-            // if (RemoveBDAPScript(prevout.scriptPubKey, scriptPubKeyOut)) {
-            //     scriptPubKey = scriptPubKeyOut;
-            // } else {
-                 scriptPubKey = prevout.scriptPubKey;
-            // }
+
+            scriptPubKey = prevout.scriptPubKey;
 
             std::vector<unsigned char> hashBytes(prevout.scriptPubKey.begin() + 3, prevout.scriptPubKey.begin() + 23);
             CMempoolAddressDeltaKey key(1, uint160(hashBytes), txhash, j, 1);
@@ -791,14 +781,10 @@ void CTxMemPool::addAddressIndex(const CTxMemPoolEntry& entry, const CCoinsViewC
             mapAddress.insert(std::make_pair(key, delta));
             inserted.push_back(key);
         } else if (prevout.scriptPubKey.IsPayToPublicKey()) {
-            // Remove BDAP portion of the script
             CScript scriptPubKey;
             CScript scriptPubKeyOut;
-            // if (RemoveBDAPScript(prevout.scriptPubKey, scriptPubKeyOut)) {
-            //     scriptPubKey = scriptPubKeyOut;
-            // } else {
-                 scriptPubKey = prevout.scriptPubKey;
-            // }
+
+            scriptPubKey = prevout.scriptPubKey;
 
             uint160 hashBytes(Hash160(prevout.scriptPubKey.begin() + 1, prevout.scriptPubKey.end() - 1));
             CMempoolAddressDeltaKey key(1, hashBytes, txhash, j, 1);
@@ -811,28 +797,20 @@ void CTxMemPool::addAddressIndex(const CTxMemPoolEntry& entry, const CCoinsViewC
     for (unsigned int k = 0; k < tx.vout.size(); k++) {
         const CTxOut& out = tx.vout[k];
         if (out.scriptPubKey.IsPayToScriptHash()) {
-            // Remove BDAP portion of the script
             CScript scriptPubKey;
             CScript scriptPubKeyOut;
-            // if (RemoveBDAPScript(out.scriptPubKey, scriptPubKeyOut)) {
-            //     scriptPubKey = scriptPubKeyOut;
-            // } else {
-                 scriptPubKey = out.scriptPubKey;
-            // }
+
+            scriptPubKey = out.scriptPubKey;
 
             std::vector<unsigned char> hashBytes(out.scriptPubKey.begin() + 2, out.scriptPubKey.begin() + 22);
             CMempoolAddressDeltaKey key(2, uint160(hashBytes), txhash, k, 0);
             mapAddress.insert(std::make_pair(key, CMempoolAddressDelta(entry.GetTime(), out.nValue)));
             inserted.push_back(key);
         } else if (out.scriptPubKey.IsPayToPublicKeyHash()) {
-            // Remove BDAP portion of the script
             CScript scriptPubKey;
             CScript scriptPubKeyOut;
-            // if (RemoveBDAPScript(out.scriptPubKey, scriptPubKeyOut)) {
-            //     scriptPubKey = scriptPubKeyOut;
-            // } else {
-                 scriptPubKey = out.scriptPubKey;
-            // }
+
+            scriptPubKey = out.scriptPubKey;
 
             std::vector<unsigned char> hashBytes(out.scriptPubKey.begin() + 3, out.scriptPubKey.begin() + 23);
             std::pair<addressDeltaMap::iterator, bool> ret;
@@ -840,14 +818,10 @@ void CTxMemPool::addAddressIndex(const CTxMemPoolEntry& entry, const CCoinsViewC
             mapAddress.insert(std::make_pair(key, CMempoolAddressDelta(entry.GetTime(), out.nValue)));
             inserted.push_back(key);
         } else if (out.scriptPubKey.IsPayToPublicKey()) {
-            // Remove BDAP portion of the script
             CScript scriptPubKey;
             CScript scriptPubKeyOut;
-            // if (RemoveBDAPScript(out.scriptPubKey, scriptPubKeyOut)) {
-            //     scriptPubKey = scriptPubKeyOut;
-            // } else {
-                 scriptPubKey = out.scriptPubKey;
-            // }
+
+            scriptPubKey = out.scriptPubKey;
 
             uint160 hashBytes(Hash160(out.scriptPubKey.begin() + 1, out.scriptPubKey.end() - 1));
             std::pair<addressDeltaMap::iterator, bool> ret;
@@ -899,37 +873,26 @@ void CTxMemPool::addSpentIndex(const CTxMemPoolEntry& entry, const CCoinsViewCac
         int addressType;
 
         if (prevout.scriptPubKey.IsPayToScriptHash()) {
-            // Remove BDAP portion of the script
             CScript scriptPubKey;
             CScript scriptPubKeyOut;
-            // if (RemoveBDAPScript(prevout.scriptPubKey, scriptPubKeyOut)) {
-            //     scriptPubKey = scriptPubKeyOut;
-            // } else {
-                 scriptPubKey = prevout.scriptPubKey;
-            // }
+
+            scriptPubKey = prevout.scriptPubKey;
 
             addressHash = uint160(std::vector<unsigned char>(scriptPubKey.begin() + 2, scriptPubKey.begin() + 22));
             addressType = 2;
         } else if (prevout.scriptPubKey.IsPayToPublicKeyHash()) {
-            // Remove BDAP portion of the script
             CScript scriptPubKey;
             CScript scriptPubKeyOut;
-            // if (RemoveBDAPScript(prevout.scriptPubKey, scriptPubKeyOut)) {
-            //     scriptPubKey = scriptPubKeyOut;
-            // } else {
-                 scriptPubKey = prevout.scriptPubKey;
-            // }
+
+            scriptPubKey = prevout.scriptPubKey;
 
             addressHash = uint160(std::vector<unsigned char>(scriptPubKey.begin() + 3, scriptPubKey.begin() + 23));
             addressType = 1;
         } else if (prevout.scriptPubKey.IsPayToPublicKey()) {
             CScript scriptPubKey;
             CScript scriptPubKeyOut;
-            // if (RemoveBDAPScript(prevout.scriptPubKey, scriptPubKeyOut)) {
-            //     scriptPubKey = scriptPubKeyOut;
-            // } else {
-                 scriptPubKey = prevout.scriptPubKey;
-            // }
+
+            scriptPubKey = prevout.scriptPubKey;
 
             addressHash = Hash160(scriptPubKey.begin() + 1, scriptPubKey.end() - 1);
             addressType = 1;

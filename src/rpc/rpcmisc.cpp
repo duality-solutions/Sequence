@@ -556,7 +556,6 @@ bool getAddressesFromParams(const UniValue& params, std::vector<std::pair<uint16
     return true;
 }
 
-//UniValue getaddressmempool(const JSONRPCRequest& request)
 UniValue getaddressmempool(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
@@ -625,11 +624,9 @@ UniValue getaddressmempool(const UniValue& params, bool fHelp)
     return result;
 } //getaddressmempool
 
-//UniValue getaddressutxos(const SeqJSONRPCRequest& request)
 UniValue getaddressutxos(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
-    //if (fHelp || params.size() != 1)
         throw std::runtime_error(
             "getaddressutxos\n"
             "\nReturns all unspent outputs for an address (requires addressindex to be enabled).\n"
@@ -692,10 +689,8 @@ UniValue getaddressutxos(const UniValue& params, bool fHelp)
     return result;
 } //getaddressutxos
 
-//UniValue getaddressdeltas(const JSONRPCRequest& request)
 UniValue getaddressdeltas(const UniValue& params, bool fHelp)
 {
-    //if (request.fHelp || request.params.size() != 1 || !request.params[0].isObject())
     if (fHelp || params.size() != 1 ) //|| !params[0].isObject())
         throw std::runtime_error(
             "getaddressdeltas\n"
@@ -780,7 +775,6 @@ UniValue getaddressdeltas(const UniValue& params, bool fHelp)
     return result;
 } //getaddressdeltas
 
-//UniValue getaddressbalance(const JSONRPCRequest& request)
 UniValue getaddressbalance(const UniValue& params, bool fHelp)
 {
     //if (request.fHelp || request.params.size() != 1)
@@ -835,11 +829,8 @@ UniValue getaddressbalance(const UniValue& params, bool fHelp)
     return result;
 } //getaddressbalance
 
-
-//UniValue getaddresstxids(const JSONRPCRequest& request)
 UniValue getaddresstxids(const UniValue& params, bool fHelp)
 {
-    //if (request.fHelp || request.params.size() != 1)
     if (fHelp || params.size() != 1)
         throw std::runtime_error(
             "getaddresstxids\n"
@@ -918,10 +909,8 @@ UniValue getaddresstxids(const UniValue& params, bool fHelp)
     return result;
 } //getaddresstxids
 
-//UniValue getspentinfo(const JSONRPCRequest& request)
 UniValue getspentinfo(const UniValue& params, bool fHelp)
 {
-    //if (request.fHelp || request.params.size() != 1 || !request.params[0].isObject())
     if (fHelp || params.size() != 1 || !params[0].isObject())
         throw std::runtime_error(
             "getspentinfo\n"
@@ -977,15 +966,9 @@ static const CRPCCommand commands[] =
     { "util",               "validateaddress",        &validateaddress,        true,      false,      false }, /* uses wallet if enabled */
     { "util",               "verifymessage",          &verifymessage,          true,      false,      false },
 
-    //{"blockchain", "getspentinfo", &getspentinfo, false, {"json"}},
     {"blockchain",          "getspentinfo",           &getspentinfo,           false,     false,     false },
 
     /* Address index */
-    //{"addressindex",        "getaddressutxos",       &getaddressutxos, false, {"addresses"}},
-    //{"addressindex", "getaddresstxids", &getaddresstxids, false, {"addresses"}},
-    //{"addressindex", "getaddressbalance", &getaddressbalance, false, {"addresses"}},
-    //{"addressindex", "getaddressdeltas", &getaddressdeltas, false, {"addresses"}},
-    //{"addressindex", "getaddressmempool", &getaddressmempool, true, {"addresses"}},
     {"addressindex",        "getaddressutxos",       &getaddressutxos,         false,      false,     false },
     {"addressindex",        "getaddresstxids",       &getaddresstxids,         false,      false,     false },
     {"addressindex",        "getaddressbalance",     &getaddressbalance,       false,      false,     false },

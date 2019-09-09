@@ -659,7 +659,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 
     if (fAdditionalIndexes && GetArg("-checklevel", DEFAULT_CHECKLEVEL) < 4) {
         //ForceSetArg("-checklevel", "4");
-        LogPrintf("DEBUGGER INSIGHTAPI additionalindex %s - made it here!\n",__func__);
         SoftSetArg("-checklevel", "4");
         LogPrintf("%s: parameter interaction: additional indexes -> setting -checklevel=4\n", __func__);
     }

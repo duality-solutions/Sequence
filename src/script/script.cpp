@@ -210,17 +210,12 @@ unsigned int CScript::GetSigOpCount(const CScript& scriptSig) const
     return subscript.GetSigOpCount(true);
 }
 
-
 bool CScript::IsPayToPublicKeyHash() const
 {
-    // Remove BDAP portion of the script
     CScript scriptPubKey;
     CScript scriptPubKeyOut;
-    // if (RemoveBDAPScript(*this, scriptPubKeyOut)) {
-    //     scriptPubKey = scriptPubKeyOut;
-    // } else {
-         scriptPubKey = *this; //review
-    // }
+
+    scriptPubKey = *this; //review
 
     //review
     // Extra-fast test for pay-to-pubkey-hash CScripts:
@@ -231,7 +226,6 @@ bool CScript::IsPayToPublicKeyHash() const
             this->at(23) == OP_EQUALVERIFY &&
             this->at(24) == OP_CHECKSIG);
 }
-
 
 bool CScript::IsPayToScriptHash() const
 {
@@ -244,14 +238,11 @@ bool CScript::IsPayToScriptHash() const
 
 bool CScript::IsPayToPublicKey() const
 {
-    // Remove BDAP portion of the script
     CScript scriptPubKey;
     CScript scriptPubKeyOut;
-    // if (RemoveBDAPScript(*this, scriptPubKeyOut)) {
-    //     scriptPubKey = scriptPubKeyOut;
-    // } else {
-         scriptPubKey = *this;
-    // }
+
+    scriptPubKey = *this;
+
     // Test for pay-to-pubkey CScript with both
     // compressed or uncompressed pubkey
     if (this->size() == 35) {

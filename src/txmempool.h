@@ -323,7 +323,6 @@ private:
     typedef std::map<uint256, std::vector<CSpentIndexKey> > mapSpentIndexInserted;
     mapSpentIndexInserted mapSpentInserted;
 
-
     const setEntries & GetMemPoolParents(txiter entry) const;
     const setEntries & GetMemPoolChildren(txiter entry) const;
     void UpdateParent(txiter entry, txiter parent, bool add);
@@ -358,7 +357,6 @@ public:
 
     void addSpentIndex(const CTxMemPoolEntry& entry, const CCoinsViewCache& view);
     bool getSpentIndex(CSpentIndexKey& key, CSpentIndexValue& value);
-
 
     void remove(const CTransaction &tx, std::list<CTransaction>& removed, bool fRecursive = false);
     void removeCoinbaseSpends(const CCoinsViewCache *pcoins, unsigned int nMemPoolHeight);

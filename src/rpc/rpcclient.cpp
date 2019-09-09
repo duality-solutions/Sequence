@@ -123,7 +123,6 @@ static const CRPCConvertParam vRPCConvertParams[] =
     {"getaddresstxids", 0},
     {"getspentinfo", 0},
     {"getaddressdeltas", 0},
-
 };
 
 class CRPCConvertTable
