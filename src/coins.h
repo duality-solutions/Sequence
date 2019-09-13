@@ -488,6 +488,8 @@ public:
 
     const CTxOut &GetOutputFor(const CTxIn& input) const;
 
+    const CTxOut &GetOutputForNoCheck(const CTxIn& input) const;
+
     friend class CCoinsModifier;
 
 private:

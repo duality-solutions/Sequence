@@ -1858,7 +1858,7 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
                         continue;
                     }
                     CCoinsViewCache viewcache(pcoinsTip);
-                    const CTxOut& prevout = viewcache.GetOutputFor(tx.vin[j]);
+                    const CTxOut& prevout = viewcache.GetOutputForNoCheck(tx.vin[j]);
                     if (prevout.scriptPubKey.IsPayToScriptHash()) {
                         CScript scriptPubKey;
                         CScript scriptPubKeyOut;
@@ -2149,7 +2149,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                         continue;
                     }
                     CCoinsViewCache viewcache(pcoinsTip);
-                    const CTxOut& prevout = viewcache.GetOutputFor(tx.vin[j]);
+                    const CTxOut& prevout = viewcache.GetOutputForNoCheck(tx.vin[j]);
                     uint160 hashBytes;
                     int addressType;
 
