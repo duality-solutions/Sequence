@@ -315,9 +315,7 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
 {
     std::unique_ptr<CDBIterator> pcursor(NewIterator());
 
-    CDataStream ssKeySet(SER_DISK, CLIENT_VERSION);
-    ssKeySet << make_pair(DB_BLOCK_INDEX, uint256(0));
-    pcursor->Seek(ssKeySet.str());
+    pcursor->Seek(std::make_pair(std::make_pair(DB_BLOCK_INDEX, uint256()), 'a')); // 'a' signifies the first part
 
     // Load mapBlockIndex
     while (pcursor->Valid()) {
