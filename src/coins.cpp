@@ -221,7 +221,8 @@ const CTxOut &CCoinsViewCache::GetOutputFor(const CTxIn& input) const
 bool CCoinsViewCache::GetOutputForNoCheck(const CTxIn& input, CTxOut& output) const
 {
     const CCoins* coins = AccessCoins(input.prevout.hash);
-    assert(coins);
+    if (!coins)
+        return false;
     if (coins->IsAvailable(input.prevout.n)) {
         output = coins->vout[input.prevout.n];
         return true;

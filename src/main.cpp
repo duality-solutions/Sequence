@@ -2404,14 +2404,18 @@ bool static FlushStateToDisk(CValidationState &state, FlushStateMode mode) {
         if (fileschanged && !pblocktree->WriteLastBlockFile(nLastBlockFile)) {
             return state.Abort("Failed to write to block index");
         }
+
         for (set<CBlockIndex*>::iterator it = setDirtyBlockIndex.begin(); it != setDirtyBlockIndex.end(); ) {
-             CDiskBlockIndex pindexFlush(*it);
-             LogPrintf("%s -- pindexFlush %s\n", __func__, pindexFlush.ToString());
-             if (!pblocktree->WriteBlockIndex(CDiskBlockIndex(*it))) {
-                 return state.Abort("Failed to write to block index");
-             }
-             setDirtyBlockIndex.erase(it++);
+            CDiskBlockIndex pindexFlush(*it);
+            //Don't write blockindex if we only have the header
+            if (chainActive.Tip()->nHeight >= pindexFlush.nHeight) {
+                if (!pblocktree->WriteBlockIndex(CDiskBlockIndex(*it))) {
+                    return state.Abort("Failed to write to block index");
+                }
+            }
+            setDirtyBlockIndex.erase(it++);
         }
+
         pblocktree->Sync();
         nLastWrite = nNow;
     }
