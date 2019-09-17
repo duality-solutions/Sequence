@@ -1858,7 +1858,11 @@ bool DisconnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex
                         continue;
                     }
                     CCoinsViewCache viewcache(pcoinsTip);
-                    const CTxOut& prevout = viewcache.GetOutputForNoCheck(tx.vin[j]);
+                    CTxOut prevout;
+
+                    if (!viewcache.GetOutputForNoCheck(tx.vin[j], prevout))
+                        continue;
+
                     if (prevout.scriptPubKey.IsPayToScriptHash()) {
                         CScript scriptPubKey;
                         CScript scriptPubKeyOut;
@@ -2149,7 +2153,11 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
                         continue;
                     }
                     CCoinsViewCache viewcache(pcoinsTip);
-                    const CTxOut& prevout = viewcache.GetOutputForNoCheck(tx.vin[j]);
+                    CTxOut prevout;
+
+                    if (!viewcache.GetOutputForNoCheck(tx.vin[j], prevout))
+                        continue;
+
                     uint160 hashBytes;
                     int addressType;
 
@@ -2397,6 +2405,8 @@ bool static FlushStateToDisk(CValidationState &state, FlushStateMode mode) {
             return state.Abort("Failed to write to block index");
         }
         for (set<CBlockIndex*>::iterator it = setDirtyBlockIndex.begin(); it != setDirtyBlockIndex.end(); ) {
+             CDiskBlockIndex pindexFlush(*it);
+             LogPrintf("%s -- pindexFlush %s\n", __func__, pindexFlush.ToString());
              if (!pblocktree->WriteBlockIndex(CDiskBlockIndex(*it))) {
                  return state.Abort("Failed to write to block index");
              }

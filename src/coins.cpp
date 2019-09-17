@@ -218,11 +218,15 @@ const CTxOut &CCoinsViewCache::GetOutputFor(const CTxIn& input) const
     return coins->vout[input.prevout.n];
 }
 
-const CTxOut &CCoinsViewCache::GetOutputForNoCheck(const CTxIn& input) const
+bool CCoinsViewCache::GetOutputForNoCheck(const CTxIn& input, CTxOut& output) const
 {
     const CCoins* coins = AccessCoins(input.prevout.hash);
     assert(coins);
-    return coins->vout[input.prevout.n];
+    if (coins->IsAvailable(input.prevout.n)) {
+        output = coins->vout[input.prevout.n];
+        return true;
+    }
+    return false;
 }
 
 CAmount CCoinsViewCache::GetValueIn(const CTransaction& tx) const
