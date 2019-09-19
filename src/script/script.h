@@ -17,7 +17,6 @@
 #include <vector>
 
 #include "crypto/common.h"
-#include "prevector.h"
 
 
 typedef std::vector<unsigned char> valtype;
@@ -359,8 +358,6 @@ private:
     int64_t m_value;
 };
 
-
-typedef prevector<28, unsigned char> CScriptBase;
 
 /** Serialized script, used inside transaction inputs and outputs */
 class CScript : public std::vector<unsigned char>

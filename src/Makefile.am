@@ -259,7 +259,6 @@ libsequence_common_a_SOURCES = \
 	key.cpp \
 	keystore.cpp \
 	netbase.cpp \
-	prevector.h \
 	primitives/block.cpp \
 	primitives/transaction.cpp \
 	protocol.cpp \
