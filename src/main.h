@@ -24,6 +24,7 @@
 #include "sync.h"
 #include "tinyformat.h"
 #include "primitives/transaction.h"
+#include "spentindex.h"
 #include "txmempool.h"
 #include "uint256.h"
 #include "undo.h"
@@ -119,6 +120,10 @@ static const int64_t BLOCK_DOWNLOAD_TIMEOUT_PER_PEER = 125000;
 static const bool DEFAULT_PERMIT_BAREMULTISIG = true;
 static const unsigned int DEFAULT_BYTES_PER_SIGOP = 20;
 static const bool DEFAULT_CHECKPOINTS_ENABLED = true;
+static const bool DEFAULT_ADDRESSINDEX = false;
+static const bool DEFAULT_TIMESTAMPINDEX = false;
+static const bool DEFAULT_SPENTINDEX = false;
+
 
 /** Maximum number of headers to announce when relaying blocks with headers message.*/
 static const unsigned int MAX_BLOCKS_TO_ANNOUNCE = 12;
@@ -395,6 +400,11 @@ public:
 
     ScriptError GetScriptError() const { return error; }
 };
+
+bool GetTimestampIndex(const unsigned int& high, const unsigned int& low, std::vector<uint256>& hashes);
+bool GetSpentIndex(CSpentIndexKey& key, CSpentIndexValue& value);
+bool GetAddressIndex(uint160 addressHash, int type, std::vector<std::pair<CAddressIndexKey, CAmount> >& addressIndex, int start = 0, int end = 0);
+bool GetAddressUnspent(uint160 addressHash, int type, std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> >& unspentOutputs);
 
 /** Functions for disk access for blocks */
 bool WriteBlockToDisk(CBlock& block, CDiskBlockPos& pos, const CMessageHeader::MessageStartChars& messageStart);

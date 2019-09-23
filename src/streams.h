@@ -122,6 +122,8 @@ public:
     void clear()                                     { vch.clear(); nReadPos = 0; }
     iterator insert(iterator it, const char& x=char()) { return vch.insert(it, x); }
     void insert(iterator it, size_type n, const char& x) { vch.insert(it, n, x); }
+    value_type* data() { return vch.data() + nReadPos; }
+    const value_type* data() const { return vch.data() + nReadPos; }
 
     void insert(iterator it, std::vector<char>::const_iterator first, std::vector<char>::const_iterator last)
     {
@@ -297,6 +299,31 @@ public:
         data.insert(data.end(), begin(), end());
         clear();
     }
+
+    /**
+     * XOR the contents of this stream with a certain key.
+     *
+     * @param[in] key    The key used to XOR the data in this stream.
+     */
+    void Xor(const std::vector<unsigned char>& key)
+    {
+        if (key.size() == 0) {
+            return;
+        }
+
+        for (size_type i = 0, j = 0; i != size(); i++) {
+            vch[i] ^= key[j++];
+
+            // This potentially acts on very many bytes of data, so it's
+            // important that we calculate `j`, i.e. the `key` index in this
+            // way instead of doing a %, which would effectively be a division
+            // for each byte Xor'd -- much slower than need be.
+            if (j == key.size())
+                j = 0;
+        }
+    }
+
+
 };
 
 

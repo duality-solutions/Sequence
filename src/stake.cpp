@@ -27,20 +27,24 @@ static const bool fDebugPoS = false;
 
 // Hard checkpoints of stake modifiers to ensure they are deterministic
 static std::map<int, unsigned int> mapStakeModifierCheckpoints = {
-		{ 0, 0x0e00670bu },
-		{ 100, 0x153b2c3au },
-		{ 500, 0xe311f3e5u },
-		{ 2000, 0xf1bc2587u },
-		{ 8000, 0x481e05e4u },
-		{ 16000, 0xd6f5eccbu },
-		{ 32000, 0x7f331195u },
-		{ 64000, 0xa9ee80a2u },
-		{ 128000, 0xed217450u },
-		{ 196000, 0x29d48eaau },
-		{ 256000, 0xcef3ef4fu },
-		{ 512000, 0x57abd3ffu },
-		{ 1000000, 0x5d89e536u }
-	}
+		{       0, 0x0e00670bu },
+		{     100, 0x153b2c3au },
+		{     500, 0xe311f3e5u },
+		{    2000, 0xf1bc2587u },
+		{    8000, 0x481e05e4u },
+		{   16000, 0xd6f5eccbu },
+		{   32000, 0x7f331195u },
+		{   64000, 0xa9ee80a2u },
+		{  128000, 0xed217450u },
+		{  196000, 0x29d48eaau },
+		{  256000, 0xcef3ef4fu },
+		{  512000, 0x57abd3ffu },
+		{ 1000000, 0x5d89e536u },
+		{ 1100000, 0xe5e66746u },
+		{ 1200000, 0x5d9375dbu },
+		{ 1300000, 0x8411bf42u },
+		{ 1400000, 0x0ba3df86u },
+		{ 1450000, 0x6f834e12u }}
 	;
 
 // Get time weight

@@ -18,6 +18,14 @@
 #include <leveldb/db.h>
 #include <leveldb/write_batch.h>
 
+static const size_t DBWRAPPER_PREALLOC_KEY_SIZE = 64;
+
+class dbwrapper_error : public std::runtime_error
+{
+public:
+    dbwrapper_error(const std::string& msg) : std::runtime_error(msg) {}
+};
+
 class leveldb_error : public std::runtime_error
 {
 public:
@@ -25,6 +33,25 @@ public:
 };
 
 void HandleError(const leveldb::Status& status) throw(leveldb_error);
+
+class CLevelDBWrapper;
+//class CDBIterator;
+
+/** These should be considered an implementation detail of the specific database.
+ */
+namespace dbwrapper_private
+{
+/** Handle database error by throwing dbwrapper_error exception.
+ */
+//void HandleError(const leveldb::Status& status);
+
+/** Work around circular dependency, as well as for testing in dbwrapper_tests.
+ * Database obfuscation should be considered an implementation detail of the
+ * specific database.
+ */
+const std::vector<unsigned char>& GetObfuscateKey(const CLevelDBWrapper& w);
+
+}; // namespace dbwrapper_private
 
 /** Batch of changes queued to be written to a CLevelDBWrapper */
 class CLevelDBBatch
@@ -63,6 +90,71 @@ public:
     }
 };
 
+class CDBIterator
+{
+private:
+    const CLevelDBWrapper& parent;
+    leveldb::Iterator* piter;
+
+public:
+    /**
+     * @param[in] parent           Parent CDBWrapper instance.
+     */
+    CDBIterator(const CLevelDBWrapper& parent, leveldb::Iterator* piterIn) : parent(parent), piter(piterIn){};
+    ~CDBIterator();
+
+    bool Valid();
+
+    void SeekToFirst();
+    void SeekToLast();
+
+    template <typename K>
+    void Seek(const K& key)
+    {
+        CDataStream ssKey(SER_DISK, CLIENT_VERSION);
+        ssKey.reserve(DBWRAPPER_PREALLOC_KEY_SIZE);
+        ssKey << key;
+        leveldb::Slice slKey(ssKey.data(), ssKey.size());
+        piter->Seek(slKey);
+    }
+
+    void Next();
+
+    template <typename K>
+    bool GetKey(K& key)
+    {
+        leveldb::Slice slKey = piter->key();
+        try {
+            CDataStream ssKey(slKey.data(), slKey.data() + slKey.size(), SER_DISK, CLIENT_VERSION);
+            ssKey >> key;
+        } catch (const std::exception&) {
+            return false;
+        }
+        return true;
+    }
+
+    template <typename V>
+    bool GetValue(V& value)
+    {
+        leveldb::Slice slValue = piter->value();
+        try {
+            CDataStream ssValue(slValue.data(), slValue.data() + slValue.size(), SER_DISK, CLIENT_VERSION);
+            ssValue.Xor(dbwrapper_private::GetObfuscateKey(parent));
+            ssValue >> value;
+        } catch (const std::exception&) {
+            return false;
+        }
+        return true;
+    }
+
+    unsigned int GetValueSize()
+    {
+        return piter->value().size();
+    }
+};
+
+
+
 class CLevelDBWrapper
 {
 private:
@@ -90,6 +182,11 @@ private:
 public:
     CLevelDBWrapper(const boost::filesystem::path& path, size_t nCacheSize, bool fMemory = false, bool fWipe = false);
     ~CLevelDBWrapper();
+
+    //! a key used for optional XOR-obfuscation of the database
+    std::vector<unsigned char> obfuscate_key;
+
+
 
     template <typename K, typename V>
     bool Read(const K& key, V& value) const throw(leveldb_error)
@@ -165,11 +262,10 @@ public:
         return WriteBatch(batch, true);
     }
 
-    // not exactly clean encapsulation, but it's easiest for now
-    leveldb::Iterator* NewIterator()
+    CDBIterator* NewIterator()
     {
-        return pdb->NewIterator(iteroptions);
-    }
+        return new CDBIterator(*this, pdb->NewIterator(iteroptions));
+    }    
 };
 
 #endif // SEQUENCE_LEVELDBWRAPPER_H

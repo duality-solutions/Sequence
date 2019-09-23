@@ -114,6 +114,15 @@ static const CRPCConvertParam vRPCConvertParams[] =
 //    { "gettxlistfor", 1 },
 //    { "gettxlistfor", 3 },
 //    { "gettxlistfor", 4 },
+
+    //Insight API
+    {"getaddressutxos", 0},
+    {"getblockhashes", 1},
+    {"getaddressmempool", 0},
+    {"getaddressbalance", 0},
+    {"getaddresstxids", 0},
+    {"getspentinfo", 0},
+    {"getaddressdeltas", 0},
 };
 
 class CRPCConvertTable
