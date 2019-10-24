@@ -61,6 +61,7 @@ endif
 .PHONY: FORCE
 # Sequence #
 SEQUENCE_CORE_H = \
+	addressindex.h \
 	addrman.h \
 	alert.h \
 	amount.h \
@@ -127,6 +128,7 @@ SEQUENCE_CORE_H = \
 	script/standard.h \
 	script/script_error.h \
 	serialize.h \
+	spentindex.h \
 	stake.h \
 	streams.h \
 	support/allocators/secure.h \

@@ -210,13 +210,51 @@ unsigned int CScript::GetSigOpCount(const CScript& scriptSig) const
     return subscript.GetSigOpCount(true);
 }
 
+bool CScript::IsPayToPublicKeyHash() const
+{
+
+    //review
+    // Extra-fast test for pay-to-pubkey-hash CScripts:
+    return (this->size() == 25 &&
+            this->at(0) == OP_DUP &&
+            this->at(1) == OP_HASH160 &&
+            this->at(2) == 0x14 &&
+            this->at(23) == OP_EQUALVERIFY &&
+            this->at(24) == OP_CHECKSIG);
+}
+
 bool CScript::IsPayToScriptHash() const
 {
     // Extra-fast test for pay-to-script-hash CScripts:
-    return (this->size() == 23 &&
-            this->at(0) == OP_HASH160 &&
-            this->at(1) == 0x14 &&
-            this->at(22) == OP_EQUAL);
+    if ((!empty()) && (this != nullptr) && this->size() == 23) {
+        return (this->size() == 23 &&
+                this->at(0) == OP_HASH160 &&
+                this->at(1) == 0x14 &&
+                this->at(22) == OP_EQUAL);
+    }
+    else {
+        return false;
+    }
+}
+
+bool CScript::IsPayToPublicKey() const
+{
+    CScript scriptPubKey;
+    CScript scriptPubKeyOut;
+
+    scriptPubKey = *this;
+
+    // Test for pay-to-pubkey CScript with both
+    // compressed or uncompressed pubkey
+    if (this->size() == 35) {
+        return (this->at(1) == 0x02 || this->at(1) == 0x03) &&
+               this->at(34) == OP_CHECKSIG;
+    }
+    if (this->size() == 67) {
+        return this->at(1) == 0x04 &&
+               this->at(66) == OP_CHECKSIG;
+    }
+    return false;
 }
 
 bool CScript::IsPushOnly() const
